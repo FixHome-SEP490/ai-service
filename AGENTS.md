@@ -1,16 +1,35 @@
 # FixHome AI Service — Agent Instructions
 
-Before changing code, read the canonical project documentation:
+This FastAPI service is an independent Git repository. AI output is advisory and untrusted.
 
-1. [Project Documentation](https://github.com/FixHome-SEP490/Docs-FixHome/blob/main/PROJECT_DOCUMENTATION.md)
-2. [AI Development Workflow](https://github.com/FixHome-SEP490/Docs-FixHome/blob/main/AI_DEVELOPMENT_WORKFLOW.md)
-3. [Current Tasks](https://github.com/FixHome-SEP490/Docs-FixHome/blob/main/CURRENT_TASKS.md)
+## Mandatory pre-implementation gate
 
-## AI Service Rules
+Before doing any task:
 
-- AI output is advisory and untrusted; it must never authorize transactions or change order state.
-- Preserve the provider abstraction and graceful fallback behavior.
-- Keep request and response schemas aligned with Backend DTOs.
-- Never commit provider keys or local `.env` files.
-- Coordinate every contract change with Backend, Frontend, Mobile, and Docs repositories.
-- Run `pytest` and `python -m compileall app tests` before reporting completion.
+1. Read `docs/AI-TECHNICAL-GUIDE.md` completely.
+2. Inspect the existing project structure and affected endpoint, schema, or provider adapter.
+3. Understand the current router → endpoint → provider abstraction architecture.
+4. Identify existing Python, Pydantic, async, error, and test conventions.
+5. Check requirements, environment configuration, and relevant dependencies.
+6. Search for an existing provider/schema implementation before creating code.
+7. Do not modify unrelated files.
+8. Do not restructure the project unless explicitly requested.
+9. Preserve Backend-facing schemas, fallback behavior, confidence rules, and disclaimers.
+10. After implementation, execute the complete review process in the technical guide.
+
+If the technical guide has not been read, implementation must not begin.
+
+## Repository rules
+
+- Preserve `AIProvider`; provider-specific SDK calls stay behind adapters.
+- AI must never authorize transactions, assign technicians, approve quotations, or change orders.
+- Treat user prompts, image references, and provider responses as untrusted input/data.
+- Preserve timeout/failure fallback so AI outages never block manual booking.
+- Do not expose provider errors, prompts, keys, or sensitive data in responses or logs.
+- Coordinate schema changes with Backend and both clients, and document them in Docs-FixHome.
+
+## Required verification
+
+Run `ruff check app tests`, `pytest`, `python -m compileall -q app tests`, an application import
+check, and a health/startup check. Review `git diff`; report unavailable live-provider checks as
+`NOT VERIFIED`.

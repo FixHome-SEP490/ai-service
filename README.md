@@ -83,8 +83,10 @@ See [.env.example](.env.example) for all required variables.
 ## Verification
 
 ```bash
+pip install -r requirements-dev.txt
+ruff check app tests
 pytest
-python -m compileall app tests
+python -m compileall -q app tests
 ```
 
 ## Related Repositories
@@ -93,3 +95,9 @@ python -m compileall app tests
 - [Frontend](https://github.com/FixHome-SEP490/Frontend-FixHome)
 - [Mobile](https://github.com/FixHome-SEP490/Mobi-FixHome)
 - [Project Documentation](https://github.com/FixHome-SEP490/Docs-FixHome)
+
+## Engineering Governance
+
+Before any change, read [AGENTS.md](AGENTS.md) and the repository-specific
+[AI Technical Guide](docs/AI-TECHNICAL-GUIDE.md). The independent CI workflow enforces lint, unit
+tests, import/compile checks, and an actual FastAPI health startup check using the mock provider.
