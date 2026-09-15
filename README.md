@@ -2,7 +2,7 @@
 
 <p align="center">
   <strong>FastAPI AI Diagnosis Service cho nền tảng sửa chữa & bảo trì tại nhà FixHome</strong><br>
-  <em>Hỗ trợ chẩn đoán sự cố thông minh bằng Gemini / OpenAI API</em>
+  <em>Chẩn đoán sơ bộ bằng pipeline tự host: YOLOv8n phát hiện thiết bị, Qwen2.5-VL đọc ảnh và mô tả, tri thức có kiểm duyệt ràng buộc đầu ra</em>
 </p>
 
 ---
@@ -13,7 +13,9 @@
 |-----------|-----------|
 | Framework | FastAPI |
 | Language | Python 3.11+ |
-| AI Provider | Gemini / OpenAI API |
+| Detector | YOLOv8n (Ultralytics) |
+| Vision-language | Qwen2.5-VL-3B-Instruct AWQ qua vLLM |
+| Grounding | Retrieval trên bảng tri thức có kiểm duyệt |
 | Testing | Pytest |
 
 ## Prerequisites
@@ -63,13 +65,25 @@ curl http://localhost:8000/health
 │   ├── schemas/
 │   │   ├── diagnosis.py     # Request/response schemas
 │   │   └── health.py        # Health check schema
-│   └── services/
-│       ├── ai_provider.py       # Abstract AI provider
-│       ├── gemini_provider.py   # Google Gemini implementation
-│       └── openai_provider.py   # OpenAI implementation
+│   ├── services/
+│   │   ├── ai_provider.py       # Contract, factory, mock engine
+│   │   └── pipeline/
+│   │       ├── detector.py         # YOLOv8n stage
+│   │       ├── retriever.py        # Retrieval over the knowledge base
+│   │       ├── vlm.py              # Qwen2.5-VL stage
+│   │       ├── knowledge_base.py   # Curated catalog loader
+│   │       └── local_pipeline.py   # Orchestrator
+│   └── data/
+│       ├── device_catalog.json         # 15 lớp detector + mã tình trạng bề mặt
+│       ├── fault_knowledge_base.json   # Bệnh, triệu chứng, giá, policy
+│       └── service_mapping.json        # Mã dịch vụ của Backend, để rỗng tới khi chốt
+├── tools/
+│   ├── demo_app.py          # Trang Gradio: ảnh + mô tả, vẽ bbox lên ảnh
+│   └── build_dataset.py     # Dựng dataset YOLO từ Open Images V7
 ├── tests/
 │   ├── test_health.py
-│   └── test_provider_abstraction.py
+│   ├── test_provider_abstraction.py
+│   └── test_pipeline.py
 ├── requirements.txt
 └── .env.example
 ```
@@ -79,6 +93,38 @@ curl http://localhost:8000/health
 See [.env.example](.env.example) for all required variables.
 
 > **Note:** AI Service is **advisory only** — it must never control transactions, approve quotations, or change order state.
+
+Chạy mặc định không cần GPU hay weights: detector và VLM có bản stub tất định. Đặt `YOLO_WEIGHTS_PATH`
+và `VLM_BASE_URL` để chuyển sang mô hình thật, cài thêm `requirements-model.txt`.
+
+### Gửi ảnh
+
+Ảnh đi thẳng từ client, không lấy từ storage và service không bao giờ tự đi tải URL.
+
+| Cách | Endpoint | Khi nào dùng |
+|------|----------|--------------|
+| multipart | `POST /api/v1/diagnosis/analyze-upload` | Mặc định. Gửi file thô, không phình dung lượng. |
+| base64 | `POST /api/v1/diagnosis/analyze` | Tiện cho client đã có sẵn data URI. Phình khoảng 33%. |
+
+Giới hạn: tối đa 3 ảnh, mỗi ảnh 8MB, chỉ nhận jpeg/png/webp. Định dạng được xác định từ bytes chứ
+không tin content type khai báo. Ảnh lớn hơn 1024px được thu nhỏ ngay khi nhận, nên **client nên
+resize về 1024px trước khi gửi** — detector train ở 640px nên gửi ảnh 4000px chỉ tốn băng thông.
+
+### Demo
+
+```bash
+pip install -r requirements-tools.txt
+uvicorn app.main:app --port 8000
+python tools/demo_app.py          # http://127.0.0.1:7860
+```
+
+### Dataset
+
+```bash
+python tools/build_dataset.py report                        # lớp nào có sẵn, lớp nào phải tự thu
+python tools/build_dataset.py download --limit-per-class 400
+python tools/build_dataset.py export --out datasets/fixhome
+```
 
 ## Verification
 

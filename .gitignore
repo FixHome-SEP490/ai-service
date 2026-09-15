@@ -37,3 +37,10 @@ build/
 
 # OS
 *.log
+
+# Image data and trained weights stay out of git, but the fixed split does not:
+# it is what makes reported numbers reproducible across machines and runs.
+datasets/*
+!datasets/split.json
+weights/
+*.pt

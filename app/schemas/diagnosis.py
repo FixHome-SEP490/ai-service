@@ -1,7 +1,18 @@
 # app/schemas/diagnosis.py
-from pydantic import BaseModel, Field, ConfigDict
-from typing import Optional, List
+"""Backend-facing diagnosis contract.
+
+Field names are snake_case in Python and camelCase on the wire via aliases.
+Any change here is a cross-repository API change (Backend, Mobile, Docs).
+
+Images are sent inline by the caller, base64 in JSON or multipart upload. The
+service never dereferences a URL, which keeps it free of SSRF exposure.
+"""
+
 from enum import Enum
+from typing import Annotated, List, Optional
+
+from pydantic import BaseModel, ConfigDict, Field, model_validator
+from pydantic.alias_generators import to_camel
 
 
 class UrgencyLevel(str, Enum):
@@ -10,80 +21,143 @@ class UrgencyLevel(str, Enum):
     HIGH = "HIGH"
 
 
+class DiagnosisStatus(str, Enum):
+    OK = "ok"
+    NEEDS_CLARIFICATION = "needs_clarification"
+
+
+class EvidenceSource(str, Enum):
+    """Which stage produced a conclusion, so clients can weight it honestly."""
+
+    IMAGE = "image"
+    DESCRIPTION = "description"
+    KNOWLEDGE_BASE = "knowledge_base"
+
+
+class Engine(str, Enum):
+    LOCAL_PIPELINE = "local_pipeline"
+    KEYWORD_FALLBACK = "keyword_fallback"
+    MOCK = "mock"
+
+
 class AIErrorCode(str, Enum):
-    AI_PROVIDER_UNAVAILABLE = "AI_PROVIDER_UNAVAILABLE"
+    AI_UNAVAILABLE = "AI_UNAVAILABLE"
     AI_TIMEOUT = "AI_TIMEOUT"
-    AI_RATE_LIMIT = "AI_RATE_LIMIT"
     INVALID_IMAGE = "INVALID_IMAGE"
     UNSUPPORTED_IMAGE = "UNSUPPORTED_IMAGE"
+    IMAGE_FETCH_FAILED = "IMAGE_FETCH_FAILED"
     INSUFFICIENT_INFORMATION = "INSUFFICIENT_INFORMATION"
-    LOW_CONFIDENCE = "LOW_CONFIDENCE"
-    AI_PROVIDER_ERROR = "AI_PROVIDER_ERROR"
+    DETECTOR_ERROR = "DETECTOR_ERROR"
+    VLM_ERROR = "VLM_ERROR"
+    KNOWLEDGE_BASE_ERROR = "KNOWLEDGE_BASE_ERROR"
 
 
-class EstimatedCost(BaseModel):
-    min: float = 0.0
-    max: float = 0.0
+class BoundingBox(BaseModel):
+    """Detector crop in absolute pixels of the source image."""
+
+    x: int = Field(ge=0)
+    y: int = Field(ge=0)
+    width: int = Field(gt=0)
+    height: int = Field(gt=0)
+
+
+class DetectedDevice(BaseModel):
+    device_type: str
+    name_vi: str
+    confidence: float = Field(ge=0.0, le=1.0)
+    source: EvidenceSource = EvidenceSource.IMAGE
+    bounding_box: Optional[BoundingBox] = Field(default=None)
+
+    model_config = ConfigDict(alias_generator=to_camel, populate_by_name=True)
+
+
+class VisibleCondition(BaseModel):
+    """Surface damage the VLM reads off the cropped device region."""
+
+    code: str
+    name_vi: str
+    confidence: float = Field(ge=0.0, le=1.0)
+    source: EvidenceSource = EvidenceSource.IMAGE
+
+    model_config = ConfigDict(alias_generator=to_camel, populate_by_name=True)
+
+
+class SuspectedFault(BaseModel):
+    fault_code: str
+    name_vi: str
+    confidence: float = Field(ge=0.0, le=1.0)
+    source: EvidenceSource = EvidenceSource.DESCRIPTION
+
+    model_config = ConfigDict(alias_generator=to_camel, populate_by_name=True)
+
+
+class RecommendedService(BaseModel):
+    service_code: str
+    name_vi: str
+
+    model_config = ConfigDict(alias_generator=to_camel, populate_by_name=True)
+
+
+class PriceEstimate(BaseModel):
+    """Indicative only. Never a quotation and never a customer approval."""
+
+    min: int = Field(ge=0)
+    max: int = Field(ge=0)
     currency: str = "VND"
+
+    @model_validator(mode="after")
+    def check_order(self) -> "PriceEstimate":
+        if self.min > self.max:
+            raise ValueError("price_estimate.min must not exceed price_estimate.max")
+        return self
+
+
+class Clarification(BaseModel):
+    """Returned instead of a guess when confidence is too low."""
+
+    questions_vi: List[str] = Field(default_factory=list)
+    service_group_codes: List[str] = Field(default_factory=list)
+
+    model_config = ConfigDict(alias_generator=to_camel, populate_by_name=True)
 
 
 class DiagnosisRequest(BaseModel):
-    description: str = Field(..., description="User description of the home repair issue")
-    image_url: Optional[str] = Field(None, description="Optional image URL of the issue")
-    category_hint: Optional[str] = Field(None, description="Optional category hint from user")
+    request_id: Annotated[Optional[str], Field(max_length=64)] = None
+    description: Annotated[str, Field(min_length=1, max_length=2000)]
+    images: Annotated[
+        List[str],
+        Field(max_length=3, description="Inline images, base64 or data URI."),
+    ] = []
+    category_hint: Annotated[Optional[str], Field(max_length=64)] = None
+
+    model_config = ConfigDict(alias_generator=to_camel, populate_by_name=True, extra="forbid")
 
 
 class DiagnosisResponse(BaseModel):
-    possible_issues: List[str] = Field(
-        default_factory=list,
-        description="List of detected potential issues",
-        alias="possibleIssues",
-    )
-    possible_causes: List[str] = Field(
-        default_factory=list,
-        description="List of possible root causes",
-        alias="possibleCauses",
-    )
-    urgency: UrgencyLevel = Field(
-        default=UrgencyLevel.LOW,
-        description="Assessed urgency level",
-    )
-    estimated_cost: EstimatedCost = Field(
-        default_factory=EstimatedCost,
-        description="Preliminary cost estimation range",
-        alias="estimatedCost",
-    )
-    suggested_actions: List[str] = Field(
-        default_factory=list,
-        description="Safe immediate troubleshooting or mitigation actions",
-        alias="suggestedActions",
-    )
-    recommended_service_id: Optional[str] = Field(
-        default=None,
-        description="Suggested service category or service id",
-        alias="recommendedServiceId",
-    )
-    confidence: float = Field(
-        default=0.0,
-        ge=0.0,
-        le=1.0,
-        description="AI confidence score from 0.0 to 1.0",
-    )
-    is_low_confidence: bool = Field(
-        default=False,
-        description="True if confidence is below threshold",
-        alias="isLowConfidence",
-    )
-    disclaimer: str = Field(
-        default="Kết quả AI chỉ mang tính tham khảo sơ bộ, không phải kết luận kỹ thuật tuyệt đối.",
-        description="Advisory disclaimer",
-    )
+    request_id: Optional[str] = None
+    status: DiagnosisStatus = DiagnosisStatus.OK
+    engine: Engine = Engine.LOCAL_PIPELINE
+    device: Optional[DetectedDevice] = None
+    visible_conditions: List[VisibleCondition] = Field(default_factory=list)
+    suspected_faults: List[SuspectedFault] = Field(default_factory=list)
+    recommended_services: List[RecommendedService] = Field(default_factory=list)
+    suggested_actions_vi: List[str] = Field(default_factory=list)
+    price_estimate: Optional[PriceEstimate] = None
+    urgency: UrgencyLevel = UrgencyLevel.LOW
+    confidence: float = Field(default=0.0, ge=0.0, le=1.0)
+    is_low_confidence: bool = Field(default=False)
+    clarification: Optional[Clarification] = None
+    disclaimer_vi: str
 
-    model_config = ConfigDict(populate_by_name=True)
+    model_config = ConfigDict(alias_generator=to_camel, populate_by_name=True)
 
 
 class DiagnosisErrorResponse(BaseModel):
+    """Every failure still tells Backend that manual booking may proceed."""
+
     code: AIErrorCode
     message: str
-    fallback_allowed: bool = True
-    suggested_action: str = "Vui lòng chọn dịch vụ thủ công để tiếp tục đặt lịch."
+    fallback_allowed: bool = Field(default=True)
+    suggested_action_vi: str = Field(default="Vui lòng chọn dịch vụ thủ công để tiếp tục đặt lịch.")
+
+    model_config = ConfigDict(alias_generator=to_camel, populate_by_name=True)

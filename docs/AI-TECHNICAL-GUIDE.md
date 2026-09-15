@@ -5,9 +5,10 @@ advisory: probabilistic output is never an authoritative FixHome business decisi
 
 ## 1. Repository Purpose
 
-AI-FixHome owns the preliminary home-repair diagnosis API, Pydantic request/response contract,
-confidence/disclaimer behavior, provider selection, Gemini/OpenAI adapters, mock provider, and safe
-fallback signaling consumed by Backend-FixHome.
+AI-FixHome owns the preliminary home-repair diagnosis API, the grounded advisory chatbot, the
+Pydantic request/response contract, confidence/clarification behavior, the self-hosted inference
+pipeline, the curated knowledge base, the mock engine, and safe fallback signaling consumed by
+Backend-FixHome.
 
 It does not authenticate FixHome users, authorize actions, assign technicians, approve quotations,
 write the FixHome database, or transition Service Orders. Backend-FixHome owns those responsibilities.
@@ -18,13 +19,16 @@ Frontend and Mobile must call providers only through Backend/the approved AI ser
 - Python 3.11, pinned by `.python-version`
 - FastAPI 0.115 and Uvicorn 0.32
 - Pydantic 2 and pydantic-settings 2
-- HTTPX plus Gemini and OpenAI provider SDKs
+- HTTPX for outbound calls to the model server
+- YOLOv8n via Ultralytics for device detection, Qwen2.5-VL-3B-Instruct AWQ served by vLLM
+- Pillow for image handling
 - python-dotenv and multipart support
 - Pytest and pytest-asyncio
 - Ruff for static linting and Python `compileall`/import checks
 
 Runtime packages stay in `requirements.txt`; development/CI tools stay in `requirements-dev.txt`.
-Do not upgrade provider SDKs or FastAPI as part of unrelated work.
+Do not upgrade model runtimes or FastAPI as part of unrelated work. Pin model versions
+(weights, HuggingFace revision, vLLM, CUDA) so results stay reproducible across rentals.
 
 ## 3. Existing Architecture
 
@@ -36,16 +40,32 @@ Uvicorn
   -> Pydantic request validation
   -> `get_ai_provider()` factory
   -> `AIProvider` contract
-     -> GeminiProvider | OpenAIProvider | MockAIProvider
-  -> normalized DiagnosisResponse or structured fallback error
+     -> LocalPipelineProvider | MockAIProvider
+        -> Detector (YOLOv8n): locate and classify the appliance, crop the region
+        -> Retriever: rank candidate faults for that device from the knowledge base
+        -> VLM (Qwen2.5-VL): read surface damage on the crop, reason over the Vietnamese
+           description, choose fault codes from the shortlist
+        -> KnowledgeBase: resolve codes to Vietnamese names, service codes, price, urgency
+  -> normalized DiagnosisResponse, clarification response, or structured error
   -> Backend-FixHome
 ```
 
-`app/core/config.py` loads environment settings. Provider adapters translate external SDK behavior
-into the stable internal schema. `MockAIProvider` makes unit CI deterministic. The health endpoint
-exposes only non-sensitive operational metadata.
+Why the stages are split this way. The detector is a small model trained on the team's own photos
+and identifies Vietnamese household appliances more reliably than a general 3B model; cropping also
+lets the VLM spend its attention on the device rather than the room. Retrieval narrows the candidate
+faults before generation, which is what keeps output inside the catalog. The VLM contributes the two
+things neither of the other stages can: reading surface damage off the image, and understanding a
+Vietnamese description in context rather than by keyword.
 
-Preserve this provider abstraction. Do not put provider conditionals or raw SDK results into routes.
+Every Vietnamese string, service code and price returned to customers is looked up from
+`app/data/`, never generated. A code the model produces that is absent from the catalog is dropped.
+Changing wording or pricing means editing JSON, not retraining.
+
+`app/core/config.py` loads environment settings. `MockAIProvider` makes unit CI deterministic, and
+the stub detector and stub VLM let the real pipeline run without weights or a GPU. The health
+endpoint exposes only non-sensitive operational metadata.
+
+Preserve this abstraction. Do not put engine conditionals or raw model output into routes.
 
 ## 4. Folder Structure
 
@@ -53,10 +73,15 @@ Preserve this provider abstraction. Do not put provider conditionals or raw SDK 
 - `app/main.py`: FastAPI construction, CORS, handlers, routers, health.
 - `app/api/v1/`: versioned router and endpoint transport logic.
 - `app/schemas/`: Pydantic contracts and enums.
-- `app/services/`: provider interface, factory, and provider adapters.
+- `app/services/`: provider interface, factory, and the mock engine.
+- `app/services/pipeline/`: detector, retriever, VLM adapter, knowledge-base loader, orchestrator.
+- `app/data/`: device catalog, fault knowledge base and service mapping. Curated by the team; the
+  single source of every Vietnamese string, price range and urgency the service returns.
+- `tools/`: Gradio demo and the Open Images dataset builder. Never imported by the service.
 - `app/core/`: configuration and service exception behavior.
 - `tests/`: health and provider-contract unit tests.
 - `requirements.txt`: runtime/test packages currently needed by the service.
+- `requirements-model.txt`: detector/VLM runtime, deliberately excluded from CI.
 - `requirements-dev.txt`: CI lint dependencies layered on runtime requirements.
 - `pyproject.toml`: Ruff governance.
 - `docs/`: repository-local governance.
@@ -66,8 +91,10 @@ Preserve this provider abstraction. Do not put provider conditionals or raw SDK 
 - Modules/functions/variables use snake_case; classes/Pydantic models use PascalCase; constants and
   enum members use UPPER_SNAKE_CASE.
 - Endpoints handle HTTP concerns only. Provider selection and SDK work remain in services/adapters.
-- Every provider implements the async `AIProvider.diagnose` contract and returns the normalized
-  `DiagnosisResponse`; never leak raw provider response shapes to consumers.
+- Every engine implements the async `AIProvider` contract (`diagnose` and `answer`) and returns the
+  normalized schemas; never leak raw model output to consumers.
+- Model runtimes (`ultralytics`, `torch`, vLLM clients) are imported lazily inside the adapter that
+  needs them, so the service starts and the suite runs without weights or a GPU.
 - Request fields need explicit Pydantic constraints appropriate to cost, length, URL/image, and
   category semantics. Preserve camelCase JSON aliases expected by Backend.
 - Catch expected provider timeout/rate-limit/unavailable errors explicitly and map to stable error
@@ -85,7 +112,13 @@ Preserve this provider abstraction. Do not put provider conditionals or raw SDK 
 - Primary actor is Customer through Backend; Technician/Service Manager may consume advisory output
   only through approved flows. System/Backend is the direct API consumer.
 - Diagnosis is preliminary and always includes the approved disclaimer.
-- Confidence is between 0 and 1. Values below `AI_CONFIDENCE_THRESHOLD` set `isLowConfidence`.
+- Fault codes belong to this service; service codes belong to Backend and live in
+  `service_mapping.json`. An empty mapping means `recommendedServices` is empty, which is a valid
+  state and not an error.
+- Confidence is between 0 and 1. Below `AI_CONFIDENCE_THRESHOLD` the service returns
+  `needs_clarification` with suggested questions and manual service groups. It never guesses.
+- The advisory chatbot answers only from retrieved passages and returns citations. With no
+  grounding it declines; it never recommends a service or creates booking intent.
 - Provider failure, timeout, rate limit, unsupported/invalid input, or insufficient information must
   preserve a manual service-selection fallback. AI failure cannot block Booking.
 - Estimated cost is indicative, non-negative, ordered (`min <= max`), and denominated explicitly; it
@@ -99,8 +132,10 @@ Preserve this provider abstraction. Do not put provider conditionals or raw SDK 
 - Treat descriptions, image references, category hints, prompts, and provider responses as untrusted.
   Defend against prompt injection by constraining output schemas and never granting tools/business
   authority based on model text.
-- Validate description length/content and any image source, MIME, size, protocol, redirect, and
-  address policy before server-side retrieval to prevent SSRF and resource exhaustion.
+- Images arrive inline, base64 in JSON or multipart upload. The service never dereferences a URL on
+  a caller's behalf, which removes the SSRF surface entirely; do not add URL fetching back.
+- Decide an image's format from its bytes, never from a declared content type. Enforce the size cap
+  before decoding, and downscale on intake so a large upload cannot exhaust memory.
 - Configure strict outbound timeouts and bounded retries; never retry indefinitely or fan out without
   limits. Avoid sending unnecessary personal data to providers.
 - Never expose API keys, prompt internals, provider exception strings, stack traces, or customer data
@@ -113,8 +148,11 @@ Preserve this provider abstraction. Do not put provider conditionals or raw SDK 
 
 ## 8. Testing Rules
 
-- Unit-test every provider against the normalized contract using mocks; no paid/live provider call in
-  default CI.
+- Unit-test every engine against the normalized contract using stubs; no model download, GPU use or
+  live inference in default CI.
+- Keep a fixed regression set of real cases and run it whenever weights change. Report device
+  classification accuracy against the untrained baseline, and re-measure after AWQ quantization
+  rather than assuming it holds.
 - Test health/import/startup, valid requests, invalid/empty/oversized input, provider selection,
   timeout, rate limit, provider error, low confidence, malformed provider output, and fallback.
 - Assert output bounds, aliases, disclaimer, stable error codes, and absence of secrets/internal text.

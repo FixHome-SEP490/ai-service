@@ -8,7 +8,8 @@ Before doing any task:
 
 1. Read `docs/AI-TECHNICAL-GUIDE.md` completely.
 2. Inspect the existing project structure and affected endpoint, schema, or provider adapter.
-3. Understand the current router → endpoint → provider abstraction architecture.
+3. Understand the current router → endpoint → provider → pipeline (detector, retriever, VLM,
+   knowledge base) architecture.
 4. Identify existing Python, Pydantic, async, error, and test conventions.
 5. Check requirements, environment configuration, and relevant dependencies.
 6. Search for an existing provider/schema implementation before creating code.
@@ -21,7 +22,12 @@ If the technical guide has not been read, implementation must not begin.
 
 ## Repository rules
 
-- Preserve `AIProvider`; provider-specific SDK calls stay behind adapters.
+- Preserve `AIProvider`; engine-specific work stays behind adapters. The service is self-hosted
+  (YOLOv8n detector plus Qwen2.5-VL); hosted Gemini/OpenAI adapters were removed and must not be
+  reintroduced without a documented decision.
+- Vietnamese wording, service codes, prices and urgency come from `app/data/`, never from model free
+  text. A code the model returns that is absent from the catalog must be dropped, not surfaced.
+- Diagnosis and the advisory chatbot stay separate surfaces. The chatbot never recommends a service.
 - AI must never authorize transactions, assign technicians, approve quotations, or change orders.
 - Treat user prompts, image references, and provider responses as untrusted input/data.
 - Preserve timeout/failure fallback so AI outages never block manual booking.

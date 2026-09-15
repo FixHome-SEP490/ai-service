@@ -1,38 +1,83 @@
 # app/core/exceptions.py
+"""Service exceptions and the handler that converts them to safe responses.
+
+Two rules shape this module. Clients get a stable error code they can branch on,
+never provider text, stack traces or configuration detail. And every failure
+still states that manual booking may proceed, because an AI outage must not
+block a customer.
+"""
+
 from fastapi import Request
 from fastapi.responses import JSONResponse
 
+from app.schemas.diagnosis import AIErrorCode, DiagnosisErrorResponse
+
 
 class AIServiceException(Exception):
-    """Base exception for AI service"""
+    """Base exception carrying a stable code and a safe public message."""
 
-    def __init__(self, message: str, status_code: int = 500):
-        self.message = message
-        self.status_code = status_code
-        super().__init__(self.message)
+    code: AIErrorCode = AIErrorCode.AI_UNAVAILABLE
+    status_code: int = 503
+    public_message: str = "Dịch vụ AI tạm thời không khả dụng."
+
+    def __init__(self, internal_detail: str | None = None) -> None:
+        self.internal_detail = internal_detail
+        super().__init__(internal_detail or self.public_message)
 
 
-class AIProviderException(AIServiceException):
-    """Exception raised when AI provider fails"""
+class DetectorException(AIServiceException):
+    code = AIErrorCode.DETECTOR_ERROR
+    status_code = 503
+    public_message = "Không phân tích được hình ảnh thiết bị."
 
-    def __init__(self, message: str = "AI provider request failed"):
-        super().__init__(message=message, status_code=502)
+
+class VlmException(AIServiceException):
+    code = AIErrorCode.VLM_ERROR
+    status_code = 503
+    public_message = "Không hoàn tất được phân tích chẩn đoán."
 
 
 class AITimeoutException(AIServiceException):
-    """Exception raised when AI provider times out"""
+    code = AIErrorCode.AI_TIMEOUT
+    status_code = 504
+    public_message = "Phân tích AI vượt quá thời gian chờ."
 
-    def __init__(self, message: str = "AI provider request timed out"):
-        super().__init__(message=message, status_code=504)
+
+class InvalidImageException(AIServiceException):
+    code = AIErrorCode.INVALID_IMAGE
+    status_code = 422
+    public_message = "Ảnh không hợp lệ hoặc không thể sử dụng."
 
 
-async def ai_exception_handler(request: Request, exc: AIServiceException):
-    """Global exception handler for AI service exceptions"""
+class UnsupportedImageException(AIServiceException):
+    code = AIErrorCode.UNSUPPORTED_IMAGE
+    status_code = 422
+    public_message = "Định dạng ảnh không được hỗ trợ."
+
+
+class ImageFetchException(AIServiceException):
+    code = AIErrorCode.IMAGE_FETCH_FAILED
+    status_code = 422
+    public_message = "Không tải được ảnh từ địa chỉ đã cung cấp."
+
+
+class KnowledgeBaseException(AIServiceException):
+    code = AIErrorCode.KNOWLEDGE_BASE_ERROR
+    status_code = 503
+    public_message = "Không truy cập được bảng tri thức."
+
+
+async def ai_exception_handler(request: Request, exc: AIServiceException) -> JSONResponse:
+    """Render an AIServiceException without leaking internal detail.
+
+    `exc.internal_detail` is intentionally dropped here; it belongs in logs.
+    """
+    body = DiagnosisErrorResponse(
+        code=exc.code,
+        message=exc.public_message,
+        fallback_allowed=True,
+    )
     return JSONResponse(
         status_code=exc.status_code,
-        content={
-            "statusCode": exc.status_code,
-            "message": exc.message,
-            "service": "fixhome-ai-service",
-        },
+        content=body.model_dump(by_alias=True),
     )

@@ -1,0 +1,4 @@
+# Model runtime. Not installed in CI: the stub detector and stub VLM keep the
+# default test suite free of torch, CUDA and downloaded weights.
+ultralytics==8.3.*
+torch>=2.4
