@@ -67,6 +67,7 @@ REPO_ROOT = Path(__file__).resolve().parents[1]
 CATALOG_PATH = REPO_ROOT / "app" / "data" / "device_catalog.json"
 RAW_ROOT = REPO_ROOT / "datasets" / "collected"
 MANIFEST_PATH = RAW_ROOT / "manifest.json"
+FINGERPRINT_PATH = RAW_ROOT / "fingerprints.json"
 
 MIN_EDGE = 300
 """Below this a photo carries too little detail to be worth annotating."""
@@ -187,43 +188,131 @@ def _digest(data: bytes) -> str:
     return hashlib.sha256(data).hexdigest()
 
 
-def _normalise(data: bytes, destination: Path) -> bool:
-    """Re-encode to JPEG, reject anything too small, cap the long edge."""
+PHASH_SIZE = 8
+PHASH_MAX_DISTANCE = 6
+"""How many differing bits still count as the same photograph.
+
+Zero would only catch byte-identical files, which a second shot of the same
+socket never is. Too high starts merging two different sockets of the same
+model. Six out of sixty-four tolerates re-compression, a small crop and a
+slight shift of the hand, which is what repeated shots of one device look like.
+"""
+
+
+def _perceptual_hash(image: "Image.Image") -> int:
+    """Difference hash: each bit says whether a pixel is brighter than its right neighbour.
+
+    Content-based rather than byte-based. Twenty people photographing the same
+    hallway socket produce twenty files that hash differently by SHA-256 and
+    identically here, which is the distinction that matters: near-duplicates
+    split across train and test inflate the reported accuracy, and nothing in
+    the training output looks wrong when they do.
+    """
+    small = image.convert("L").resize((PHASH_SIZE + 1, PHASH_SIZE), Image.LANCZOS)
+    pixels = list(small.getdata())
+    bits = 0
+    for row in range(PHASH_SIZE):
+        offset = row * (PHASH_SIZE + 1)
+        for column in range(PHASH_SIZE):
+            bits <<= 1
+            if pixels[offset + column] > pixels[offset + column + 1]:
+                bits |= 1
+    return bits
+
+
+def _near_duplicate_of(candidate: int, seen: Dict[int, str]) -> Optional[str]:
+    """The stored hash this one is close to, if any."""
+    for known, owner in seen.items():
+        if bin(candidate ^ known).count("1") <= PHASH_MAX_DISTANCE:
+            return owner
+    return None
+
+
+def _normalise(data: bytes, destination: Path) -> Optional[int]:
+    """Re-encode to JPEG and return the perceptual hash, or None if unusable."""
     try:
         from io import BytesIO
 
         with Image.open(BytesIO(data)) as image:
             image = image.convert("RGB")
             if min(image.width, image.height) < MIN_EDGE:
-                return False
+                return None
             if max(image.width, image.height) > MAX_EDGE:
                 image.thumbnail((MAX_EDGE, MAX_EDGE), Image.LANCZOS)
+            fingerprint = _perceptual_hash(image)
             destination.parent.mkdir(parents=True, exist_ok=True)
             image.save(destination, format="JPEG", quality=90)
-            return True
+            return fingerprint
     except (UnidentifiedImageError, OSError, ValueError):
-        return False
+        return None
 
 
-def _ingest(device_type: str, payloads, manifest: Dict[str, str]) -> Counter:
-    """Deduplicate, normalise and file a stream of (name, bytes) pairs."""
+def _load_fingerprints() -> Dict[int, str]:
+    if not FINGERPRINT_PATH.exists():
+        return {}
+    raw = json.loads(FINGERPRINT_PATH.read_text(encoding="utf-8"))
+    return {int(key): value for key, value in raw.items()}
+
+
+def _save_fingerprints(fingerprints: Dict[int, str]) -> None:
+    FINGERPRINT_PATH.parent.mkdir(parents=True, exist_ok=True)
+    FINGERPRINT_PATH.write_text(
+        json.dumps({str(k): v for k, v in fingerprints.items()}, indent=2),
+        encoding="utf-8",
+    )
+
+
+def _ingest(
+    device_type: str,
+    payloads,
+    manifest: Dict[str, str],
+    fingerprints: Optional[Dict[int, str]] = None,
+) -> Counter:
+    """Deduplicate, normalise and file a stream of (name, bytes) pairs.
+
+    Two passes of deduplication. The content hash catches the same file arriving
+    twice. The perceptual hash catches the same photograph arriving twice, which
+    is what happens when several people shoot one device, or one person takes a
+    burst. Those are the expensive ones: they hash differently, so they survive
+    into the dataset and then land in different splits.
+    """
     result: Counter = Counter()
     out_dir = RAW_ROOT / device_type
+    seen = _load_fingerprints() if fingerprints is None else fingerprints
+
     for _name, data in payloads:
         digest = _digest(data)
         if digest in manifest:
             result["duplicate"] += 1
             continue
+
         destination = out_dir / f"{device_type}_{digest[:12]}.jpg"
-        if _normalise(data, destination):
-            manifest[digest] = device_type
-            result["kept"] += 1
-        else:
+        fingerprint = _normalise(data, destination)
+        if fingerprint is None:
             result["rejected"] += 1
+            continue
+
+        owner = _near_duplicate_of(fingerprint, seen)
+        if owner is not None:
+            destination.unlink(missing_ok=True)
+            result["near_duplicate"] += 1
+            continue
+
+        seen[fingerprint] = destination.name
+        manifest[digest] = device_type
+        result["kept"] += 1
+
+    if fingerprints is None:
+        _save_fingerprints(seen)
     return result
 
 
-def _import_folder(device_type: str, source: Path, manifest: Dict[str, str]) -> Counter:
+def _import_folder(
+    device_type: str,
+    source: Path,
+    manifest: Dict[str, str],
+    fingerprints: Optional[Dict[int, str]] = None,
+) -> Counter:
     files = [
         p
         for p in sorted(source.rglob("*"))
@@ -250,12 +339,13 @@ def _import_folder(device_type: str, source: Path, manifest: Dict[str, str]) -> 
             except OSError as exc:
                 print(f"  unreadable {path.name}: {type(exc).__name__}: {exc}")
 
-    counts = _ingest(device_type, payloads(), manifest)
+    counts = _ingest(device_type, payloads(), manifest, fingerprints)
     have = len(list((RAW_ROOT / device_type).glob("*.jpg")))
     target = COLLECTION_PLAN.get(device_type, {}).get("target", 0)
     print(
         f"{device_type}: read {len(files)}, kept {counts['kept']}, "
-        f"duplicates {counts['duplicate']}, rejected {counts['rejected']}"
+        f"exact dupes {counts['duplicate']}, near dupes {counts['near_duplicate']}, "
+        f"rejected {counts['rejected']}"
         f"  -> total {have}" + (f" / {target}" if target else "")
     )
     return counts
@@ -295,15 +385,25 @@ def cmd_import_tree(args: argparse.Namespace) -> None:
         raise SystemExit("No subfolder matched a device type; nothing imported.")
 
     manifest = _load_manifest()
+    # One table across every folder, so the same photograph filed under two
+    # device types is caught rather than counted twice.
+    fingerprints = _load_fingerprints()
     totals: Counter = Counter()
     for folder in recognised:
-        totals.update(_import_folder(folder.name, folder, manifest))
+        totals.update(_import_folder(folder.name, folder, manifest, fingerprints))
     _save_manifest(manifest)
+    _save_fingerprints(fingerprints)
 
     print(
-        f"\nTotal kept {totals['kept']}, duplicates {totals['duplicate']}, "
-        f"rejected {totals['rejected']}"
+        f"\nTotal kept {totals['kept']}, exact dupes {totals['duplicate']}, "
+        f"near dupes {totals['near_duplicate']}, rejected {totals['rejected']}"
     )
+    if totals["near_duplicate"]:
+        print(
+            f"  {totals['near_duplicate']} photographs were repeats of one already"
+            " collected.\n  Left out on purpose: near-duplicates split across train"
+            " and test inflate the score."
+        )
     print("\nNext: python tools/autolabel.py run --all")
 
 
@@ -350,7 +450,8 @@ def cmd_import(args: argparse.Namespace) -> None:
     have = len(list((RAW_ROOT / device_type).glob("*.jpg")))
     target = COLLECTION_PLAN.get(device_type, {}).get("target", 0)
     print(
-        f"  kept {counts['kept']}, duplicates {counts['duplicate']}, "
+        f"  kept {counts['kept']}, exact dupes {counts['duplicate']}, "
+        f"near dupes {counts['near_duplicate']}, "
         f"too small or unreadable {counts['rejected']}"
     )
     print(f"  total now {have}" + (f" / {target}" if target else ""))
@@ -420,8 +521,8 @@ def cmd_fetch(args: argparse.Namespace) -> None:
 
         counts = _ingest(args.device, payloads(), manifest)
         print(
-            f"    kept {counts['kept']}, duplicates {counts['duplicate']}, "
-            f"rejected {counts['rejected']}"
+            f"    kept {counts['kept']}, exact dupes {counts['duplicate']}, "
+            f"near dupes {counts['near_duplicate']}, rejected {counts['rejected']}"
         )
 
     _save_manifest(manifest)
