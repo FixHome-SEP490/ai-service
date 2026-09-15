@@ -17,6 +17,7 @@ import unicodedata
 from dataclasses import dataclass
 from typing import List, Optional
 
+from app.core.config import settings
 from app.services.pipeline.knowledge_base import Fault, KnowledgeBase, Policy
 
 _TOKEN_RE = re.compile(r"[a-z0-9]+")
@@ -112,7 +113,17 @@ class Retriever:
         # guess; an empty shortlist correctly ends in a clarification instead.
         return [s for s in scored[:top_k] if s.score > 0.0]
 
-    def policy_passages(self, question: str, top_k: int = 3) -> List[ScoredPolicy]:
+    def policy_passages(
+        self, question: str, top_k: int = 3, min_score: Optional[float] = None
+    ) -> List[ScoredPolicy]:
+        """Passages that actually cover the question, or nothing.
+
+        The floor is the whole point. Lexical overlap scores every question
+        against every passage, so a question about the weather still retrieves
+        the air-conditioner maintenance policy on the word it shares. Returning
+        that leaves the model as the only thing preventing an invented answer.
+        """
+        threshold = settings.POLICY_MIN_SCORE if min_score is None else min_score
         tokens = _normalize(question)
         scored = [
             ScoredPolicy(
@@ -122,4 +133,4 @@ class Retriever:
             for p in self._kb.policies
         ]
         scored.sort(key=lambda s: s.score, reverse=True)
-        return [s for s in scored[:top_k] if s.score > 0.0]
+        return [s for s in scored[:top_k] if s.score >= threshold]

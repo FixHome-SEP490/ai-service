@@ -2225,7 +2225,7 @@
     {
       "doc_id": "POLICY_WARRANTY",
       "title_vi": "Bảo hành dịch vụ",
-      "content_vi": "Bảo hành chỉ áp dụng cho đúng hạng mục đã được duyệt trong báo giá. Lỗi mới không liên quan tới phạm vi cũ phải báo giá bổ sung và khách hàng quyết định duyệt hay từ chối."
+      "content_vi": "Bảo hành chỉ áp dụng cho đúng hạng mục đã được duyệt trong báo giá. Lỗi mới không liên quan tới phạm vi cũ phải báo giá bổ sung và khách hàng quyết định duyệt hay từ chối. Sửa xong mà phát hiện lỗi khác không nằm trong phạm vi cũ thì lỗi đó không được bảo hành, phải báo giá riêng."
     },
     {
       "doc_id": "POLICY_PAYMENT",
@@ -2245,7 +2245,7 @@
     {
       "doc_id": "POLICY_CANCELLATION",
       "title_vi": "Huỷ đơn",
-      "content_vi": "Khách hàng có thể huỷ trước khi kỹ thuật viên tới. Huỷ sau khi kỹ thuật viên đã tới nơi và xác nhận vị trí sẽ được bộ phận hỗ trợ xem xét theo chính sách."
+      "content_vi": "Khách hàng có thể huỷ trước khi kỹ thuật viên tới. Huỷ sau khi kỹ thuật viên đã tới nơi và xác nhận vị trí sẽ được bộ phận hỗ trợ xem xét theo chính sách. Trường hợp thợ đã tới nơi rồi khách mới huỷ thì bộ phận hỗ trợ sẽ xem xét, vì kỹ thuật viên đã mất công di chuyển."
     },
     {
       "doc_id": "POLICY_SCOPE",
@@ -2260,7 +2260,7 @@
     {
       "doc_id": "POLICY_PRICE_RANGE",
       "title_vi": "Vì sao giá là một khoảng",
-      "content_vi": "Giá hiển thị là khoảng vì chi phí phụ thuộc vào nguyên nhân thật, loại linh kiện và độ khó khi thi công. Ví dụ cùng là máy lạnh không mát, nạp gas và thay máy nén chênh nhau rất nhiều lần."
+      "content_vi": "Giá hiển thị là khoảng vì chi phí phụ thuộc vào nguyên nhân thật, loại linh kiện và độ khó khi thi công. Ví dụ cùng là máy lạnh không mát, nạp gas và thay máy nén chênh nhau rất nhiều lần. Đó là lý do hệ thống hiển thị một khoảng giá thay vì một con số cụ thể ngay từ đầu."
     }
   ]
 }

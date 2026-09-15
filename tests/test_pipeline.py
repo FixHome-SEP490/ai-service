@@ -187,3 +187,19 @@ async def test_vague_description_does_not_produce_a_confident_guess():
 
     assert response.status == DiagnosisStatus.NEEDS_CLARIFICATION
     assert response.suspected_faults == []
+
+
+@pytest.mark.asyncio
+async def test_out_of_scope_question_is_refused_by_retrieval_alone():
+    """The floor, not the model, is what stops an invented answer.
+
+    Lexical overlap scores every question against every passage, so a question
+    about the weather still matches the air-conditioner policy on a shared
+    word. Without the floor the model would be the only thing standing between
+    a customer and a confident fabrication.
+    """
+    pipeline = _pipeline(vlm=_FixedVlm(VlmVerdict()))
+    response = await pipeline.answer(ChatRequest(question="Thời tiết Sài Gòn ngày mai thế nào?"))
+
+    assert response.status == AnswerStatus.NO_GROUNDING
+    assert response.citations == []

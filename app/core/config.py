@@ -23,6 +23,17 @@ class Settings(BaseSettings):
 
     # Retrieval
     RETRIEVAL_TOP_K: int = 5
+    POLICY_MIN_SCORE: float = 0.55
+    """Below this a passage is treated as not covering the question.
+
+    Lexical overlap gives every question some score, so without a floor the
+    chatbot has retrieved 'evidence' for anything at all and the only thing
+    standing between a customer and an invented answer is the model choosing to
+    decline. Measured on the fixed question set, out-of-scope questions peak at
+    0.50 and answerable ones sit at 0.43 and above, so 0.55 refuses all ten
+    out-of-scope questions at the cost of two answerable ones. That trade is
+    deliberate: a missing answer is a gap, a confident wrong one is a defect.
+    """
 
     # Advisory behavior
     AI_CONFIDENCE_THRESHOLD: float = 0.6
