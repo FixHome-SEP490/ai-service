@@ -22,7 +22,6 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
-import random
 import shutil
 import sys
 from collections import Counter, defaultdict
@@ -144,25 +143,30 @@ def _content_hash(path: Path) -> str:
     return digest.hexdigest()
 
 
+def _split_for(digest: str) -> str:
+    """Pick a split from the content hash itself.
+
+    Deciding per item rather than by slicing a shuffled list matters because
+    images arrive in batches. The previous version proportioned a list, so
+    merging a source one image at a time computed int(1 * 0.8) == 0 train and
+    sent every newly added image to test: one run put all 11791 air conditioner
+    images in the test split and left training with none.
+
+    Hashing gives the same answer whether an image arrives alone or among
+    thousands, and the same answer on every machine, so a rerun cannot quietly
+    reshuffle what the previous numbers were measured on.
+    """
+    bucket = int(hashlib.sha256(f"{SPLIT_SEED}:{digest}".encode()).hexdigest()[:8], 16) % 100
+    if bucket < SPLIT_RATIOS["train"] * 100:
+        return "train"
+    if bucket < (SPLIT_RATIOS["train"] + SPLIT_RATIOS["val"]) * 100:
+        return "val"
+    return "test"
+
+
 def _assign_splits(groups: List[str]) -> Dict[str, str]:
     """Assign whole duplicate-groups to a split, never individual images."""
-    rng = random.Random(SPLIT_SEED)
-    shuffled = sorted(groups)
-    rng.shuffle(shuffled)
-
-    total = len(shuffled)
-    n_train = int(total * SPLIT_RATIOS["train"])
-    n_val = int(total * SPLIT_RATIOS["val"])
-
-    assignment: Dict[str, str] = {}
-    for index, group in enumerate(shuffled):
-        if index < n_train:
-            assignment[group] = "train"
-        elif index < n_train + n_val:
-            assignment[group] = "val"
-        else:
-            assignment[group] = "test"
-    return assignment
+    return {group: _split_for(group) for group in sorted(groups)}
 
 
 def cmd_export(args: argparse.Namespace) -> None:
@@ -321,7 +325,7 @@ def _merge_extra(
         digest = _content_hash(image_path)
         split = assignment.get(digest)
         if split is None:
-            split = _assign_splits([digest])[digest]
+            split = _split_for(digest)
             assignment[digest] = split
 
         target_images = out_root / "images" / split
