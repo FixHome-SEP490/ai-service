@@ -3,10 +3,13 @@
 
 Field names are snake_case in Python and camelCase on the wire via aliases.
 Any change here is a cross-repository API change (Backend, Mobile, Docs).
+
+Images are sent inline by the caller, base64 in JSON or multipart upload. The
+service never dereferences a URL, which keeps it free of SSRF exposure.
 """
 
 from enum import Enum
-from typing import List, Optional
+from typing import Annotated, List, Optional
 
 from pydantic import BaseModel, ConfigDict, Field, model_validator
 from pydantic.alias_generators import to_camel
@@ -119,16 +122,19 @@ class Clarification(BaseModel):
 
 
 class DiagnosisRequest(BaseModel):
-    request_id: Optional[str] = Field(default=None, max_length=64)
-    description: str = Field(min_length=1, max_length=2000)
-    image_urls: List[str] = Field(default_factory=list, max_length=3)
-    category_hint: Optional[str] = Field(default=None, max_length=64)
+    request_id: Annotated[Optional[str], Field(max_length=64)] = None
+    description: Annotated[str, Field(min_length=1, max_length=2000)]
+    images: Annotated[
+        List[str],
+        Field(max_length=3, description="Inline images, base64 or data URI."),
+    ] = []
+    category_hint: Annotated[Optional[str], Field(max_length=64)] = None
 
     model_config = ConfigDict(alias_generator=to_camel, populate_by_name=True, extra="forbid")
 
 
 class DiagnosisResponse(BaseModel):
-    request_id: Optional[str] = Field(default=None)
+    request_id: Optional[str] = None
     status: DiagnosisStatus = DiagnosisStatus.OK
     engine: Engine = Engine.LOCAL_PIPELINE
     device: Optional[DetectedDevice] = None
@@ -136,7 +142,7 @@ class DiagnosisResponse(BaseModel):
     suspected_faults: List[SuspectedFault] = Field(default_factory=list)
     recommended_services: List[RecommendedService] = Field(default_factory=list)
     suggested_actions_vi: List[str] = Field(default_factory=list)
-    price_estimate: Optional[PriceEstimate] = Field(default=None)
+    price_estimate: Optional[PriceEstimate] = None
     urgency: UrgencyLevel = UrgencyLevel.LOW
     confidence: float = Field(default=0.0, ge=0.0, le=1.0)
     is_low_confidence: bool = Field(default=False)

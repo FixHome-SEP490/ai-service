@@ -4,11 +4,16 @@ These cover the guarantees the business rules depend on: grounded output only,
 no guessing under low confidence, and no free-text invention.
 """
 
+import base64
+import io
+
 import pytest
+from PIL import Image
 
 from app.schemas.chat import AnswerStatus, ChatRequest
 from app.schemas.diagnosis import DiagnosisRequest, DiagnosisStatus, UrgencyLevel
 from app.services.pipeline.detector import Detection, StubDetector
+from app.services.pipeline.images import ImagePayload
 from app.services.pipeline.knowledge_base import get_knowledge_base
 from app.services.pipeline.local_pipeline import LocalPipeline
 from app.services.pipeline.retriever import Retriever
@@ -27,8 +32,15 @@ class _FixedVlm:
 
 
 class _EmptyDetector:
-    async def detect(self, image_ref: str) -> list[Detection]:
+    async def detect(self, image: ImagePayload) -> list[Detection]:
         return []
+
+
+def _png(width: int = 64, height: int = 48) -> str:
+    """A real in-memory PNG, base64 encoded the way a client would send one."""
+    buffer = io.BytesIO()
+    Image.new("RGB", (width, height), (120, 120, 120)).save(buffer, format="PNG")
+    return base64.b64encode(buffer.getvalue()).decode("ascii")
 
 
 def _pipeline(detector=None, vlm=None) -> LocalPipeline:
@@ -47,7 +59,7 @@ async def test_detected_device_narrows_faults_to_that_device():
     response = await pipeline.diagnose(
         DiagnosisRequest(
             description="Quạt kêu cộc cộc và quay chậm",
-            image_urls=["https://example.test/fan.jpg"],
+            images=[_png()],
         )
     )
 
@@ -64,13 +76,28 @@ async def test_vietnamese_content_comes_from_knowledge_base():
         vlm=_FixedVlm(VlmVerdict(fault_codes=["FAN_WORN_BEARING"], confidence=0.9))
     )
     response = await pipeline.diagnose(
-        DiagnosisRequest(description="Quạt kêu cộc cộc", image_urls=["https://e.test/a.jpg"])
+        DiagnosisRequest(description="Quạt kêu cộc cộc", images=[_png()])
     )
 
     fault = kb.fault("FAN_WORN_BEARING")
     assert response.suspected_faults[0].name_vi == fault.name_vi
-    assert response.recommended_services[0].service_code == fault.service_code
     assert response.price_estimate.min == fault.price_min
+    assert response.price_estimate.max == fault.price_max
+    assert response.urgency == UrgencyLevel(fault.urgency)
+
+
+@pytest.mark.asyncio
+async def test_services_stay_empty_until_backend_supplies_a_mapping():
+    """Service codes are Backend's to define; an empty mapping is not an error."""
+    pipeline = _pipeline(
+        vlm=_FixedVlm(VlmVerdict(fault_codes=["FAN_WORN_BEARING"], confidence=0.9))
+    )
+    response = await pipeline.diagnose(
+        DiagnosisRequest(description="Quạt kêu cộc cộc", images=[_png()])
+    )
+
+    assert response.suspected_faults
+    assert response.recommended_services == []
 
 
 @pytest.mark.asyncio
@@ -80,7 +107,7 @@ async def test_fault_code_outside_catalog_is_dropped():
         vlm=_FixedVlm(VlmVerdict(fault_codes=["MADE_UP_CODE"], confidence=0.95))
     )
     response = await pipeline.diagnose(
-        DiagnosisRequest(description="Quạt kêu cộc cộc", image_urls=["https://e.test/a.jpg"])
+        DiagnosisRequest(description="Quạt kêu cộc cộc", images=[_png()])
     )
 
     assert response.status == DiagnosisStatus.NEEDS_CLARIFICATION
@@ -155,7 +182,7 @@ async def test_vague_description_does_not_produce_a_confident_guess():
     """A detected device plus an uninformative description must still ask."""
     pipeline = _pipeline()
     response = await pipeline.diagnose(
-        DiagnosisRequest(description="hư rồi", image_urls=["https://e.test/a.jpg"])
+        DiagnosisRequest(description="hư rồi", images=[_png()])
     )
 
     assert response.status == DiagnosisStatus.NEEDS_CLARIFICATION

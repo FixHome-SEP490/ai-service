@@ -18,7 +18,12 @@ async def get_catalog() -> dict:
     kb = get_knowledge_base()
     return {
         "deviceTypes": [
-            {"deviceType": d, "nameVi": kb.device_name_vi(d)} for d in kb.device_types
+            {
+                "deviceType": d,
+                "nameVi": kb.device_name_vi(d),
+                "detectorClass": d in kb.detector_classes,
+            }
+            for d in kb.device_types
         ],
         "visibleConditions": [
             {"code": c, "nameVi": kb.condition_name_vi(c)} for c in kb.condition_codes

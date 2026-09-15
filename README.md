@@ -74,8 +74,12 @@ curl http://localhost:8000/health
 │   │       ├── knowledge_base.py   # Curated catalog loader
 │   │       └── local_pipeline.py   # Orchestrator
 │   └── data/
-│       ├── device_catalog.json         # Closed device + condition vocabulary
-│       └── fault_knowledge_base.json   # Faults, services, prices, policies
+│       ├── device_catalog.json         # 15 lớp detector + mã tình trạng bề mặt
+│       ├── fault_knowledge_base.json   # Bệnh, triệu chứng, giá, policy
+│       └── service_mapping.json        # Mã dịch vụ của Backend, để rỗng tới khi chốt
+├── tools/
+│   ├── demo_app.py          # Trang Gradio: ảnh + mô tả, vẽ bbox lên ảnh
+│   └── build_dataset.py     # Dựng dataset YOLO từ Open Images V7
 ├── tests/
 │   ├── test_health.py
 │   ├── test_provider_abstraction.py
@@ -92,6 +96,35 @@ See [.env.example](.env.example) for all required variables.
 
 Chạy mặc định không cần GPU hay weights: detector và VLM có bản stub tất định. Đặt `YOLO_WEIGHTS_PATH`
 và `VLM_BASE_URL` để chuyển sang mô hình thật, cài thêm `requirements-model.txt`.
+
+### Gửi ảnh
+
+Ảnh đi thẳng từ client, không lấy từ storage và service không bao giờ tự đi tải URL.
+
+| Cách | Endpoint | Khi nào dùng |
+|------|----------|--------------|
+| multipart | `POST /api/v1/diagnosis/analyze-upload` | Mặc định. Gửi file thô, không phình dung lượng. |
+| base64 | `POST /api/v1/diagnosis/analyze` | Tiện cho client đã có sẵn data URI. Phình khoảng 33%. |
+
+Giới hạn: tối đa 3 ảnh, mỗi ảnh 8MB, chỉ nhận jpeg/png/webp. Định dạng được xác định từ bytes chứ
+không tin content type khai báo. Ảnh lớn hơn 1024px được thu nhỏ ngay khi nhận, nên **client nên
+resize về 1024px trước khi gửi** — detector train ở 640px nên gửi ảnh 4000px chỉ tốn băng thông.
+
+### Demo
+
+```bash
+pip install -r requirements-tools.txt
+uvicorn app.main:app --port 8000
+python tools/demo_app.py          # http://127.0.0.1:7860
+```
+
+### Dataset
+
+```bash
+python tools/build_dataset.py report                        # lớp nào có sẵn, lớp nào phải tự thu
+python tools/build_dataset.py download --limit-per-class 400
+python tools/build_dataset.py export --out datasets/fixhome
+```
 
 ## Verification
 

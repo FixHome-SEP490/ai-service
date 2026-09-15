@@ -23,6 +23,7 @@ from app.schemas.diagnosis import (
     VisibleCondition,
 )
 from app.services.pipeline.detector import Detection, Detector
+from app.services.pipeline.images import ImagePayload, load_base64_image
 from app.services.pipeline.knowledge_base import KnowledgeBase
 from app.services.pipeline.retriever import Retriever
 from app.services.pipeline.vlm import VisionLanguageModel, VlmVerdict
@@ -51,7 +52,7 @@ class LocalPipeline:
         self._kb = kb
 
     async def diagnose(self, request: DiagnosisRequest) -> DiagnosisResponse:
-        detection = await self._detect_primary(request.image_urls)
+        detection = await self._detect_primary(request.images)
         device_type = detection.device_type if detection else None
 
         candidates = self._retriever.candidate_faults(
@@ -60,7 +61,7 @@ class LocalPipeline:
             top_k=settings.RETRIEVAL_TOP_K,
         )
         verdict = await self._vlm.assess(
-            crop_ref=detection.crop_ref if detection else None,
+            crop=detection.crop if detection else None,
             description=request.description,
             device_type=device_type,
             candidate_fault_codes=[c.fault.fault_code for c in candidates],
@@ -117,10 +118,12 @@ class LocalPipeline:
             disclaimer_vi=settings.AI_DISCLAIMER_VI,
         )
 
-    async def _detect_primary(self, image_urls: List[str]) -> Optional[Detection]:
-        if not image_urls:
+    async def _detect_primary(self, images: List[str]) -> Optional[Detection]:
+        """Only the first image is analysed; extras are accepted but unused."""
+        if not images:
             return None
-        detections = await self._detector.detect(image_urls[0])
+        payload: ImagePayload = load_base64_image(images[0])
+        detections = await self._detector.detect(payload)
         if not detections:
             return None
         best = detections[0]
@@ -182,13 +185,13 @@ class LocalPipeline:
                     source=EvidenceSource.DESCRIPTION,
                 )
             )
-            if all(s.service_code != fault.service_code for s in services):
-                services.append(
-                    RecommendedService(
-                        service_code=fault.service_code,
-                        name_vi=fault.service_name_vi,
+            for ref in self._kb.services_for_fault(fault.fault_code):
+                if all(s.service_code != ref.service_code for s in services):
+                    services.append(
+                        RecommendedService(
+                            service_code=ref.service_code, name_vi=ref.name_vi
+                        )
                     )
-                )
             for action in fault.suggested_actions_vi:
                 if action not in actions:
                     actions.append(action)

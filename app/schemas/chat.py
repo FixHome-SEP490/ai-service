@@ -7,7 +7,7 @@ recommendation and its answers must be grounded in retrieved passages.
 """
 
 from enum import Enum
-from typing import List, Optional
+from typing import Annotated, List, Optional
 
 from pydantic import BaseModel, ConfigDict, Field
 from pydantic.alias_generators import to_camel
@@ -28,15 +28,15 @@ class Citation(BaseModel):
 
 
 class ChatRequest(BaseModel):
-    request_id: Optional[str] = Field(default=None, max_length=64)
-    question: str = Field(min_length=1, max_length=1000)
-    device_type: Optional[str] = Field(default=None, max_length=64)
+    request_id: Annotated[Optional[str], Field(max_length=64)] = None
+    question: Annotated[str, Field(min_length=1, max_length=1000)]
+    device_type: Annotated[Optional[str], Field(max_length=64)] = None
 
     model_config = ConfigDict(alias_generator=to_camel, populate_by_name=True, extra="forbid")
 
 
 class ChatResponse(BaseModel):
-    request_id: Optional[str] = Field(default=None)
+    request_id: Optional[str] = None
     status: AnswerStatus = AnswerStatus.OK
     answer_vi: str
     citations: List[Citation] = Field(default_factory=list)

@@ -5,45 +5,63 @@
       "fault_code": "AC_LOW_REFRIGERANT",
       "device_type": "air_conditioner",
       "name_vi": "Thiếu gas làm lạnh",
-      "symptoms_vi": ["không mát", "kém lạnh", "chạy lâu mới mát", "hơi ra yếu"],
-      "service_code": "SVC_AC_GAS",
-      "service_name_vi": "Kiểm tra và nạp gas máy lạnh",
+      "symptoms_vi": [
+        "không mát",
+        "kém lạnh",
+        "chạy lâu mới mát",
+        "hơi ra yếu"
+      ],
       "price_min": 300000,
       "price_max": 800000,
       "urgency": "MEDIUM",
-      "suggested_actions_vi": ["Tắt máy để tránh chạy quá tải máy nén"]
+      "suggested_actions_vi": [
+        "Tắt máy để tránh chạy quá tải máy nén"
+      ]
     },
     {
       "fault_code": "AC_DIRTY_COIL",
       "device_type": "air_conditioner",
       "name_vi": "Bẩn dàn lạnh, nghẹt lọc gió",
-      "symptoms_vi": ["hôi", "gió yếu", "lâu không vệ sinh", "chảy nước"],
-      "service_code": "SVC_AC_CLEAN",
-      "service_name_vi": "Vệ sinh máy lạnh",
+      "symptoms_vi": [
+        "hôi",
+        "gió yếu",
+        "lâu không vệ sinh",
+        "chảy nước"
+      ],
       "price_min": 150000,
       "price_max": 350000,
       "urgency": "LOW",
-      "suggested_actions_vi": ["Tháo và rửa lưới lọc gió nếu thao tác được an toàn"]
+      "suggested_actions_vi": [
+        "Tháo và rửa lưới lọc gió nếu thao tác được an toàn"
+      ]
     },
     {
       "fault_code": "FAN_WORN_BEARING",
       "device_type": "electric_fan",
       "name_vi": "Khô bạc đạn, mòn bạc trục",
-      "symptoms_vi": ["kêu cộc cộc", "quay chậm", "rít", "nóng thân quạt"],
-      "service_code": "SVC_FAN_BEARING",
-      "service_name_vi": "Tra dầu và thay bạc đạn",
+      "symptoms_vi": [
+        "kêu cộc cộc",
+        "quay chậm",
+        "rít",
+        "nóng thân quạt"
+      ],
       "price_min": 120000,
       "price_max": 250000,
       "urgency": "LOW",
-      "suggested_actions_vi": ["Ngưng dùng để tránh kẹt trục làm cháy mô tơ"]
+      "suggested_actions_vi": [
+        "Ngưng dùng để tránh kẹt trục làm cháy mô tơ"
+      ]
     },
     {
       "fault_code": "OUTLET_SHORT_CIRCUIT",
       "device_type": "power_outlet",
       "name_vi": "Chập cháy ổ cắm",
-      "symptoms_vi": ["cháy khét", "nổ tia lửa", "nóng ổ cắm", "mất điện cục bộ"],
-      "service_code": "SVC_ELEC_OUTLET",
-      "service_name_vi": "Thay thế và đi lại ổ cắm",
+      "symptoms_vi": [
+        "cháy khét",
+        "nổ tia lửa",
+        "nóng ổ cắm",
+        "mất điện cục bộ"
+      ],
       "price_min": 150000,
       "price_max": 400000,
       "urgency": "HIGH",
@@ -56,13 +74,19 @@
       "fault_code": "PIPE_JOINT_LEAK",
       "device_type": "water_pipe",
       "name_vi": "Rò rỉ mối nối đường ống",
-      "symptoms_vi": ["rỉ nước", "ẩm tường", "nhỏ giọt", "đọng nước sàn"],
-      "service_code": "SVC_PLUMB_LEAK",
-      "service_name_vi": "Xử lý rò rỉ đường ống",
+      "symptoms_vi": [
+        "rỉ nước",
+        "ẩm tường",
+        "nhỏ giọt",
+        "đọng nước sàn"
+      ],
       "price_min": 150000,
       "price_max": 500000,
       "urgency": "MEDIUM",
-      "suggested_actions_vi": ["Khoá van cấp nước tổng", "Hứng nước tạm để hạn chế thấm"]
+      "suggested_actions_vi": [
+        "Khoá van cấp nước tổng",
+        "Hứng nước tạm để hạn chế thấm"
+      ]
     }
   ],
   "policies": [

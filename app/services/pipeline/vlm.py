@@ -18,6 +18,8 @@ from __future__ import annotations
 from dataclasses import dataclass, field
 from typing import List, Optional, Protocol
 
+from app.services.pipeline.images import ImagePayload
+
 
 @dataclass(frozen=True)
 class VlmVerdict:
@@ -31,7 +33,7 @@ class VlmVerdict:
 class VisionLanguageModel(Protocol):
     async def assess(
         self,
-        crop_ref: Optional[str],
+        crop: Optional[ImagePayload],
         description: str,
         device_type: Optional[str],
         candidate_fault_codes: List[str],
@@ -49,7 +51,7 @@ class StubVlm:
 
     async def assess(
         self,
-        crop_ref: Optional[str],
+        crop: Optional[ImagePayload],
         description: str,
         device_type: Optional[str],
         candidate_fault_codes: List[str],
@@ -83,7 +85,7 @@ class QwenVlm:
 
     async def assess(
         self,
-        crop_ref: Optional[str],
+        crop: Optional[ImagePayload],
         description: str,
         device_type: Optional[str],
         candidate_fault_codes: List[str],

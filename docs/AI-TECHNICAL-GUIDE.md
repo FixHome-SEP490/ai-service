@@ -75,8 +75,9 @@ Preserve this abstraction. Do not put engine conditionals or raw model output in
 - `app/schemas/`: Pydantic contracts and enums.
 - `app/services/`: provider interface, factory, and the mock engine.
 - `app/services/pipeline/`: detector, retriever, VLM adapter, knowledge-base loader, orchestrator.
-- `app/data/`: device catalog and fault knowledge base. Curated by the team; the single source of
-  every Vietnamese string, service code, price range and urgency the service returns.
+- `app/data/`: device catalog, fault knowledge base and service mapping. Curated by the team; the
+  single source of every Vietnamese string, price range and urgency the service returns.
+- `tools/`: Gradio demo and the Open Images dataset builder. Never imported by the service.
 - `app/core/`: configuration and service exception behavior.
 - `tests/`: health and provider-contract unit tests.
 - `requirements.txt`: runtime/test packages currently needed by the service.
@@ -111,6 +112,9 @@ Preserve this abstraction. Do not put engine conditionals or raw model output in
 - Primary actor is Customer through Backend; Technician/Service Manager may consume advisory output
   only through approved flows. System/Backend is the direct API consumer.
 - Diagnosis is preliminary and always includes the approved disclaimer.
+- Fault codes belong to this service; service codes belong to Backend and live in
+  `service_mapping.json`. An empty mapping means `recommendedServices` is empty, which is a valid
+  state and not an error.
 - Confidence is between 0 and 1. Below `AI_CONFIDENCE_THRESHOLD` the service returns
   `needs_clarification` with suggested questions and manual service groups. It never guesses.
 - The advisory chatbot answers only from retrieved passages and returns citations. With no
@@ -128,8 +132,10 @@ Preserve this abstraction. Do not put engine conditionals or raw model output in
 - Treat descriptions, image references, category hints, prompts, and provider responses as untrusted.
   Defend against prompt injection by constraining output schemas and never granting tools/business
   authority based on model text.
-- Validate description length/content and any image source, MIME, size, protocol, redirect, and
-  address policy before server-side retrieval to prevent SSRF and resource exhaustion.
+- Images arrive inline, base64 in JSON or multipart upload. The service never dereferences a URL on
+  a caller's behalf, which removes the SSRF surface entirely; do not add URL fetching back.
+- Decide an image's format from its bytes, never from a declared content type. Enforce the size cap
+  before decoding, and downscale on intake so a large upload cannot exhaust memory.
 - Configure strict outbound timeouts and bounded retries; never retry indefinitely or fan out without
   limits. Avoid sending unnecessary personal data to providers.
 - Never expose API keys, prompt internals, provider exception strings, stack traces, or customer data

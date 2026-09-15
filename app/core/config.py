@@ -37,10 +37,12 @@ class Settings(BaseSettings):
         "Thiết bị có phát ra tiếng động, mùi lạ hoặc rò rỉ gì không?",
     ]
 
-    # Image intake guardrails, enforced before any server-side fetch.
-    IMAGE_ALLOWED_SCHEMES: List[str] = ["https"]
+    # Image intake. Images arrive inline from the client; the service never
+    # fetches a URL on a caller's behalf, so there is no SSRF surface.
     IMAGE_MAX_BYTES: int = 8 * 1024 * 1024
+    IMAGE_MAX_EDGE: int = 1024
     IMAGE_ALLOWED_MIME: List[str] = ["image/jpeg", "image/png", "image/webp"]
+    MAX_IMAGES_PER_REQUEST: int = 3
 
     # Server
     HOST: str = "0.0.0.0"

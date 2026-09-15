@@ -1,0 +1,3 @@
+# Developer tooling. Not installed in CI and not needed to run the service.
+gradio==5.*
+fiftyone==1.*
