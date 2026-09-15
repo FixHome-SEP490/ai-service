@@ -107,16 +107,29 @@ def cmd_push_dataset(args: argparse.Namespace) -> None:
         repo_id=args.repo,
         repo_type="dataset",
         commit_message=args.message,
+        # Mirror, do not merge. An upload only adds and updates, so re-exporting
+        # into a different layout leaves the old one beside the new one: one run
+        # left 11224 stale unsharded images next to 12513 sharded ones, and
+        # training would have scanned images with no labels beside them.
+        delete_patterns=["**"],
     )
 
-    # The upload can report nothing and still have lost most of the files, so
-    # the count is checked rather than trusted. An earlier run transferred every
-    # image, no labels at all, and exited zero.
-    uploaded = len(api.list_repo_files(args.repo, repo_type="dataset"))
-    if uploaded < count:
+    # Checked rather than trusted. An earlier push moved every image, no labels
+    # at all, and still exited zero.
+    remote = api.list_repo_files(args.repo, repo_type="dataset")
+    uploaded = len([f for f in remote if f != ".gitattributes"])
+    if uploaded != count:
         raise SystemExit(
-            f"\nOnly {uploaded} of {count} files are on the Hub. The push was "
-            "partially rejected.\nCheck the output above for the reason."
+            f"\n{uploaded} files on the Hub but {count} locally. The push did not "
+            "land as expected.\nCheck the output above for the reason."
+        )
+
+    images = sum(1 for f in remote if f.startswith("images/"))
+    labels = sum(1 for f in remote if f.startswith("labels/"))
+    if images != labels:
+        raise SystemExit(
+            f"\n{images} images but {labels} labels on the Hub. Training would "
+            "silently skip the unpaired ones."
         )
 
     print(f"\nDone: {uploaded} files at https://huggingface.co/datasets/{args.repo}")
