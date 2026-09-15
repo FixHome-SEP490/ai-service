@@ -45,6 +45,17 @@ from typing import Dict, List, Optional
 
 from PIL import Image, UnidentifiedImageError
 
+# iPhones save HEIC by default and Pillow cannot read it unaided, so without
+# this a folder of phone photos is silently counted as unreadable — the worst
+# possible failure for someone who just spent an afternoon taking them.
+try:
+    import pillow_heif
+
+    pillow_heif.register_heif_opener()
+    HEIF_AVAILABLE = True
+except ImportError:  # pragma: no cover - optional dependency
+    HEIF_AVAILABLE = False
+
 if hasattr(sys.stdout, "reconfigure"):
     sys.stdout.reconfigure(encoding="utf-8", errors="replace")
 
@@ -224,6 +235,16 @@ def cmd_import(args: argparse.Namespace) -> None:
     ]
     if not files:
         raise SystemExit(f"No images found under {source}")
+
+    heic = sum(1 for p in files if p.suffix.lower() in {".heic", ".heif"})
+    if heic and not HEIF_AVAILABLE:
+        raise SystemExit(
+            f"{heic} of these files are HEIC, which Pillow cannot read on its own.\n"
+            "Without the decoder they would be discarded as unreadable, and the\n"
+            "count would look like the photos were simply bad.\n\n"
+            "  pip install pillow-heif\n\n"
+            "Or set the phone camera to Most Compatible / JPEG and copy again."
+        )
 
     print(f"{device_type}: reading {len(files)} files from {source}")
     manifest = _load_manifest()
