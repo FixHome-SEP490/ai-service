@@ -7,7 +7,7 @@ train a model that looks fine in the logs and is useless in practice. So every
 label is rewritten to this project's `device_type` ids, and anything not in the
 map is dropped.
 
-    set ROBOFLOW_API_KEY=...
+    # put ROBOFLOW_API_KEY in .env (git-ignored), then:
     python tools/fetch_roboflow.py list
     python tools/fetch_roboflow.py download --all
     python tools/fetch_roboflow.py download --device water_heater
@@ -20,7 +20,6 @@ in through one code path.
 from __future__ import annotations
 
 import argparse
-import os
 import shutil
 import sys
 from collections import Counter
@@ -29,6 +28,7 @@ from typing import Dict, List, Optional
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
+from _secrets import describe, get_secret  # noqa: E402
 from roboflow_sources import SOURCES, RoboflowSource, coverage, sources_for  # noqa: E402
 
 if hasattr(sys.stdout, "reconfigure"):
@@ -68,6 +68,8 @@ def cmd_list(args: argparse.Namespace) -> None:
         "  bounds to plan against. Exact figures come from the download step."
     )
     print("\nAll sources are CC BY 4.0 and must be credited in the report.")
+    # Says whether the key was found and where, never what it is.
+    print(describe("ROBOFLOW_API_KEY"))
 
 
 def _download(source: RoboflowSource, api_key: str) -> Optional[Path]:
@@ -173,12 +175,14 @@ def _convert(source: RoboflowSource, dataset_dir: Path, class_index: Dict[str, i
 
 
 def cmd_download(args: argparse.Namespace) -> None:
-    api_key = os.environ.get("ROBOFLOW_API_KEY", "").strip()
-    if not api_key:
-        raise SystemExit(
-            "ROBOFLOW_API_KEY is not set. Create a free Roboflow account, then\n"
-            "copy the key from Settings and export it before running this."
-        )
+    api_key = get_secret(
+        "ROBOFLOW_API_KEY",
+        hint=(
+            "Roboflow issues two keys. This needs the Private API Key from\n"
+            "Settings > API Keys. The Publishable Key is for browser-side\n"
+            "inference widgets and cannot download datasets."
+        ),
+    )
 
     selected = SOURCES if args.all else sources_for(args.device)
     if not selected:

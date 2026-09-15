@@ -34,7 +34,6 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
-import os
 import sys
 import urllib.error
 import urllib.parse
@@ -44,6 +43,10 @@ from pathlib import Path
 from typing import Dict, List, Optional
 
 from PIL import Image, UnidentifiedImageError
+
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+
+from _secrets import get_secret  # noqa: E402
 
 # iPhones save HEIC by default and Pillow cannot read it unaided, so without
 # this a folder of phone photos is silently counted as unreadable — the worst
@@ -297,17 +300,17 @@ def _download(url: str) -> Optional[bytes]:
 
 
 def cmd_fetch(args: argparse.Namespace) -> None:
-    api_key = os.environ.get("SERPER_API_KEY", "").strip()
-    if not api_key:
-        raise SystemExit(
-            "SERPER_API_KEY is not set.\n\n"
+    api_key = get_secret(
+        "SERPER_API_KEY",
+        hint=(
             "Free image search is not usable here: Google's markup no longer\n"
             "parses and Bing serves unrelated results to scripted clients, so\n"
             "what comes back looks like data and is not. A paid search API\n"
             "returns real results; serper.dev has a free allowance.\n\n"
             "Or skip this entirely and photograph the devices:\n"
             "  python tools/collect_images.py import --device <name> --from <folder>"
-        )
+        ),
+    )
 
     entry = COLLECTION_PLAN.get(args.device)
     if entry is None:
