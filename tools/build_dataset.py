@@ -27,7 +27,7 @@ import shutil
 import sys
 from collections import Counter, defaultdict
 from pathlib import Path
-from typing import Dict, List, Optional
+from typing import Dict, List
 
 # Vietnamese class names crash the default Windows console codepage.
 if hasattr(sys.stdout, "reconfigure"):
@@ -85,6 +85,7 @@ def cmd_report(args: argparse.Namespace) -> None:
 def cmd_download(args: argparse.Namespace) -> None:
     """Pull only the needed classes. The full dataset is 1.7M images."""
     try:
+        import fiftyone as fo
         import fiftyone.zoo as foz
     except ImportError:  # pragma: no cover - tooling only
         raise SystemExit(
@@ -94,17 +95,34 @@ def cmd_download(args: argparse.Namespace) -> None:
     catalog = load_catalog()
     mapping = open_images_mapping(catalog)
     classes = sorted(mapping)
-    print(f"Requesting {len(classes)} Open Images classes: {', '.join(classes)}")
+    print(f"Requesting {len(classes)} Open Images classes, up to {args.limit_per_class} each")
 
-    dataset = foz.load_zoo_dataset(
-        "open-images-v7",
-        split="train",
-        label_types=["detections"],
-        classes=classes,
-        max_samples=args.limit_per_class * len(classes),
-        dataset_name=args.dataset_name,
-        overwrite=args.overwrite,
-    )
+    # One class at a time. Asking for all of them under a single max_samples
+    # lets the common classes swallow the budget: a combined request returned
+    # 865 televisions against 71 ovens, and a detector trained on that learns
+    # the prior rather than the object.
+    dataset = None
+    for index, class_name in enumerate(classes, start=1):
+        print(f"  [{index}/{len(classes)}] {class_name}")
+        part = foz.load_zoo_dataset(
+            "open-images-v7",
+            split="train",
+            label_types=["detections"],
+            classes=[class_name],
+            max_samples=args.limit_per_class,
+            dataset_name=f"{args.dataset_name}-{index:02d}",
+            overwrite=True,
+        )
+        if dataset is None:
+            dataset = fo.Dataset(args.dataset_name, overwrite=True)
+        dataset.add_samples(part)
+        part.delete()
+    # Zoo datasets are non-persistent by default, so the registration is dropped
+    # when this process exits and `export` later reports the dataset as missing,
+    # even though every image is still on disk. Re-running then looks like a
+    # second full download. Mark it persistent so the work survives.
+    dataset.persistent = True
+    dataset.save()
     print(f"Downloaded {len(dataset)} samples into FiftyOne dataset {dataset.name!r}")
     print("Next: python tools/build_dataset.py export --out datasets/fixhome")
 
@@ -182,9 +200,8 @@ def cmd_export(args: argparse.Namespace) -> None:
         if split is None:  # new image added after the split was fixed
             split = "train"
         for sample in samples:
-            written = _write_sample(sample, out_root, split, mapping, class_index)
-            if written:
-                counts[(split, written)] += 1
+            for device_type in _write_sample(sample, out_root, split, mapping, class_index):
+                counts[(split, device_type)] += 1
 
     extra_roots: List[Path] = []
     if args.include_reviewed:
@@ -201,18 +218,41 @@ def cmd_export(args: argparse.Namespace) -> None:
     _print_counts(counts, device_types)
 
 
+def _detections_of(sample) -> List:
+    """Find the Detections field whatever the zoo happened to name it.
+
+    Open Images samples arrive under `ground_truth`, other sources use
+    `detections`, and hardcoding either one silently yields an empty dataset
+    rather than an error.
+    """
+    for field in ("ground_truth", "detections", "objects"):
+        try:
+            value = sample[field]
+        except (KeyError, AttributeError):
+            continue
+        inner = getattr(value, "detections", None)
+        if inner:
+            return inner
+    return []
+
+
 def _write_sample(
     sample, out_root: Path, split: str, mapping: Dict[str, str], class_index: Dict[str, int]
-) -> Optional[str]:
-    detections = getattr(sample, "detections", None)
-    labels = getattr(detections, "detections", []) if detections else []
+) -> List[str]:
+    """Returns every project class present in the image, or an empty list."""
+    labels = _detections_of(sample)
+
+    if not labels:
+        return []
 
     lines: List[str] = []
-    device_type: Optional[str] = None
+    present: List[str] = []
     for label in labels:
         device_type = mapping.get(label.label)
         if device_type is None:
             continue  # a class we did not ask for; ignore it
+        if device_type not in present:
+            present.append(device_type)
         # FiftyOne bounding_box is [x, y, w, h] relative to image size,
         # which YOLO wants as centre-x, centre-y, w, h. Same normalisation.
         x, y, w, h = label.bounding_box
@@ -221,7 +261,7 @@ def _write_sample(
         )
 
     if not lines:
-        return None
+        return []
 
     source = Path(sample.filepath)
     image_dir = out_root / "images" / split
@@ -231,7 +271,7 @@ def _write_sample(
 
     shutil.copy2(source, image_dir / source.name)
     (label_dir / f"{source.stem}.txt").write_text("\n".join(lines) + "\n", encoding="utf-8")
-    return device_type
+    return present
 
 
 def _merge_extra(
