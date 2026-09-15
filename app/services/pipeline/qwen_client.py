@@ -25,12 +25,12 @@ from __future__ import annotations
 import json
 import logging
 import re
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, List, Optional, Tuple
 
 import httpx
 
 from app.services.pipeline.images import ImagePayload
-from app.services.pipeline.vlm import VlmVerdict
+from app.services.pipeline.vlm import FaultCandidate, VlmVerdict
 
 logger = logging.getLogger(__name__)
 
@@ -109,10 +109,10 @@ class QwenClient:
         crop: Optional[ImagePayload],
         description: str,
         device_type: Optional[str],
-        candidate_fault_codes: List[str],
-        candidate_condition_codes: List[str],
+        candidates: List[FaultCandidate],
+        candidate_condition_codes: List[Tuple[str, str]],
     ) -> VlmVerdict:
-        if not candidate_fault_codes:
+        if not candidates:
             # Nothing to choose from. Asking anyway invites the model to invent
             # a code, and the answer would be discarded regardless.
             return VlmVerdict()
@@ -127,9 +127,14 @@ class QwenClient:
                     },
                 }
             )
-        content.append({"type": "text", "text": _build_assess_prompt(
-            description, device_type, candidate_fault_codes, candidate_condition_codes
-        )})
+        content.append(
+            {
+                "type": "text",
+                "text": _build_assess_prompt(
+                    description, device_type, candidates, candidate_condition_codes
+                ),
+            }
+        )
 
         raw = await self._chat(
             [
@@ -139,7 +144,11 @@ class QwenClient:
         )
         if raw is None:
             return VlmVerdict()
-        return _parse_verdict(raw, candidate_fault_codes, candidate_condition_codes)
+        return _parse_verdict(
+            raw,
+            [c.code for c in candidates],
+            [code for code, _ in candidate_condition_codes],
+        )
 
     async def answer(self, question: str, passages_vi: List[str]) -> tuple[str, float]:
         if not passages_vi:
@@ -176,23 +185,57 @@ class QwenClient:
 def _build_assess_prompt(
     description: str,
     device_type: Optional[str],
-    fault_codes: List[str],
-    condition_codes: List[str],
+    candidates: List[FaultCandidate],
+    condition_codes: List[Tuple[str, str]],
 ) -> str:
+    """Give the model something to reason with, not a list of identifiers.
+
+    Each candidate arrives with its Vietnamese name and the symptoms customers
+    use to describe it, so the model can compare those against what this
+    customer actually wrote. Retrieval's own score comes too: it says what the
+    text alone suggested, which the photograph is there to confirm or overturn.
+    """
     device_line = (
         f"Thiết bị đã được nhận diện từ ảnh: {device_type}"
         if device_type
-        else "Không có ảnh, chỉ có mô tả."
+        else "Không có ảnh, chỉ có mô tả của khách hàng."
     )
-    return (
-        f"{device_line}\n\n"
-        f"Mô tả của khách hàng: {description}\n\n"
-        f"Danh sách mã bệnh được phép chọn:\n"
-        + "\n".join(f"- {c}" for c in fault_codes)
-        + "\n\nDanh sách mã dấu hiệu nhìn thấy được phép chọn:\n"
-        + "\n".join(f"- {c}" for c in condition_codes)
-        + "\n\nChọn mã phù hợp nhất và trả về JSON."
-    )
+
+    lines = [
+        device_line,
+        "",
+        f'Khách hàng mô tả: "{description}"',
+        "",
+        "Các khả năng hư hỏng đang cân nhắc, kèm những cách khách hàng thường mô tả:",
+        "",
+    ]
+    for index, candidate in enumerate(candidates, start=1):
+        lines.append(f"{index}. {candidate.code} — {candidate.name_vi}")
+        lines.append(f"   Triệu chứng thường gặp: {', '.join(candidate.symptoms_vi)}")
+        if candidate.retrieval_score:
+            lines.append(
+                f"   Mức khớp với mô tả theo từ khoá: {candidate.retrieval_score:.2f}"
+            )
+        lines.append("")
+
+    lines += [
+        "Dấu hiệu hư hại nhìn thấy được, chỉ chọn trong danh sách này:",
+        "",
+    ]
+    lines += [f"- {code} — {name_vi}" for code, name_vi in condition_codes]
+    lines += [
+        "",
+        "Nhiệm vụ:",
+        "1. Nhìn ảnh, ghi lại dấu hiệu hư hại thật sự thấy được. Không thấy gì rõ"
+        " ràng thì để mảng rỗng, đừng suy đoán từ mô tả.",
+        "2. Đối chiếu mô tả của khách với triệu chứng của từng khả năng ở trên,"
+        " chọn tối đa ba mã, xếp theo mức khả năng giảm dần.",
+        "3. Đặt confidence theo mức chắc chắn thật. Mô tả mơ hồ hoặc nhiều khả"
+        " năng ngang nhau thì để thấp, đừng làm tròn lên.",
+        "",
+        "Chỉ trả về JSON, không giải thích thêm.",
+    ]
+    return "\n".join(lines)
 
 
 def _parse_verdict(

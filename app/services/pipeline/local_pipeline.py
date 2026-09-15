@@ -27,7 +27,7 @@ from app.services.pipeline.detector import Detection, Detector
 from app.services.pipeline.images import ImagePayload, load_base64_image
 from app.services.pipeline.knowledge_base import KnowledgeBase
 from app.services.pipeline.retriever import Retriever
-from app.services.pipeline.vlm import VisionLanguageModel, VlmVerdict
+from app.services.pipeline.vlm import FaultCandidate, VisionLanguageModel, VlmVerdict
 
 _URGENCY_RANK = {UrgencyLevel.LOW: 0, UrgencyLevel.MEDIUM: 1, UrgencyLevel.HIGH: 2}
 
@@ -65,8 +65,19 @@ class LocalPipeline:
             crop=detection.crop if detection else None,
             description=request.description,
             device_type=device_type,
-            candidate_fault_codes=[c.fault.fault_code for c in candidates],
-            candidate_condition_codes=self._kb.condition_codes,
+            candidates=[
+                FaultCandidate(
+                    code=c.fault.fault_code,
+                    name_vi=c.fault.name_vi,
+                    symptoms_vi=c.fault.symptoms_vi,
+                    retrieval_score=c.score,
+                )
+                for c in candidates
+            ],
+            candidate_condition_codes=[
+                (code, self._kb.condition_name_vi(code) or code)
+                for code in self._kb.condition_codes
+            ],
         )
 
         confidence = self._combine_confidence(detection, verdict.confidence)
