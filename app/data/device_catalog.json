@@ -1,6 +1,6 @@
 {
   "version": "2026-09-15",
-  "_comment_vi": "detector_class = true nghia la lop nay duoc YOLO nhan dien tu anh. false nghia la chi chan doan duoc qua mo ta bang chu. open_images_class la ten lop tuong ung trong Open Images V7, null nghia la phai tu thu anh.",
+  "_comment_vi": "detector_class = true nghia la lop nay duoc YOLO nhan dien tu anh. false nghia la chi chan doan duoc qua mo ta bang chu. open_images_class la ten lop tuong ung trong Open Images V7, null nghia la phai tu thu anh. water_heater bat detector_class sau khi tim duoc 203 box trong dataset evesyalari.",
   "devices": [
     {
       "device_type": "air_conditioner",
@@ -118,18 +118,43 @@
       "device_type": "water_heater",
       "name_vi": "Máy nước nóng",
       "service_group": "SVG_ELECTRIC",
-      "detector_class": false,
-      "open_images_class": null
+      "detector_class": true,
+      "open_images_class": null,
+      "source_note": "evesyalari household-appliances, class 'hot water shower machine'"
     }
   ],
   "visible_conditions": [
-    { "code": "burn_mark", "name_vi": "Vết cháy xém" },
-    { "code": "crack", "name_vi": "Nứt vỡ" },
-    { "code": "scratch", "name_vi": "Trầy xước" },
-    { "code": "rust", "name_vi": "Rỉ sét" },
-    { "code": "water_leak", "name_vi": "Rò rỉ, đọng nước" },
-    { "code": "ice_buildup", "name_vi": "Đóng tuyết" },
-    { "code": "dust_buildup", "name_vi": "Bám bụi bẩn dày" },
-    { "code": "aged", "name_vi": "Cũ, xuống cấp" }
+    {
+      "code": "burn_mark",
+      "name_vi": "Vết cháy xém"
+    },
+    {
+      "code": "crack",
+      "name_vi": "Nứt vỡ"
+    },
+    {
+      "code": "scratch",
+      "name_vi": "Trầy xước"
+    },
+    {
+      "code": "rust",
+      "name_vi": "Rỉ sét"
+    },
+    {
+      "code": "water_leak",
+      "name_vi": "Rò rỉ, đọng nước"
+    },
+    {
+      "code": "ice_buildup",
+      "name_vi": "Đóng tuyết"
+    },
+    {
+      "code": "dust_buildup",
+      "name_vi": "Bám bụi bẩn dày"
+    },
+    {
+      "code": "aged",
+      "name_vi": "Cũ, xuống cấp"
+    }
   ]
 }

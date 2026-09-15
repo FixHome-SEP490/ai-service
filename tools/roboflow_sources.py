@@ -55,13 +55,9 @@ SOURCES: List[RoboflowSource] = [
         project="air-conditioner-dr0fw",
         version=1,
         images=2314,
-        class_map={
-            "Air-conditioner": "air_conditioner",
-            "air-conditioner": "air_conditioner",
-            "air conditioner": "air_conditioner",
-            "ac": "air_conditioner",
-        },
+        class_map={"conditioner": "air_conditioner"},
         covers=["air_conditioner"],
+        total_classes=1,
         note="Vietnamese team; likely the closest to local hardware",
     ),
     RoboflowSource(
@@ -69,19 +65,20 @@ SOURCES: List[RoboflowSource] = [
         project="ac-08nlv",
         version=1,
         images=888,
-        class_map={"AC": "air_conditioner", "ac": "air_conditioner"},
+        # The export declares a single unnamed class "0"; the dataset is
+        # entirely air conditioners, so class 0 is unambiguous.
+        class_map={"0": "air_conditioner"},
         covers=["air_conditioner"],
+        total_classes=1,
     ),
     RoboflowSource(
         workspace="yolo-uv06o",
         project="air-conditioning-dataset",
         version=1,
         images=164,
-        class_map={
-            "air_conditioning": "air_conditioner",
-            "air conditioning": "air_conditioner",
-        },
+        class_map={"air_conditioning": "air_conditioner"},
         covers=["air_conditioner"],
+        total_classes=1,
     ),
     RoboflowSource(
         workspace="bassam-xhjea",
@@ -90,6 +87,7 @@ SOURCES: List[RoboflowSource] = [
         images=86,
         class_map={"air conditioner": "air_conditioner"},
         covers=["air_conditioner"],
+        total_classes=1,
     ),
     RoboflowSource(
         workspace="house-hold-electronics",
@@ -99,10 +97,13 @@ SOURCES: List[RoboflowSource] = [
         class_map={
             "ac": "air_conditioner",
             "fan": "electric_fan",
+            # "fn" is a duplicate of "fan" left in by the author; dropping it
+            # would discard usable boxes for no reason.
+            "fn": "electric_fan",
             "light": "light_bulb",
         },
         covers=["air_conditioner", "electric_fan", "light_bulb"],
-        total_classes=4,
+        total_classes=5,
         note="count not published; 'objects' class is dropped as meaningless here",
     ),
     RoboflowSource(
@@ -115,6 +116,7 @@ SOURCES: List[RoboflowSource] = [
             "microwave oven": "microwave_oven",
             "super kettle": "kettle",
             "electric cooker": "oven",
+            "electriccooker": "oven",
         },
         covers=["water_heater", "microwave_oven", "kettle", "oven"],
         total_classes=16,
@@ -132,12 +134,15 @@ SOURCES: List[RoboflowSource] = [
         images=318,
         class_map={
             "socket": "power_outlet",
-            "plug": "power_outlet",
-            "plug-socket": "power_outlet",
+            # plug_2pin is the flat two-pin plug used across Vietnam, so this
+            # set is less foreign than its origin suggested.
+            "plug_2pin": "power_outlet",
+            "plug_3pin": "power_outlet",
+            "plug_rectangle": "power_outlet",
         },
         covers=["power_outlet"],
-        total_classes=2,
-        note="Western hardware; use as shape priors, not as the main outlet data",
+        total_classes=4,
+        note="mixed hardware; plug_2pin matches the local standard",
     ),
 ]
 
