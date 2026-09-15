@@ -23,6 +23,7 @@ from app.schemas.diagnosis import (
     VisibleCondition,
 )
 from app.services.pipeline import clarifier
+from app.services.pipeline import device_hint
 from app.services.pipeline.detector import Detection, Detector
 from app.services.pipeline.images import ImagePayload, load_base64_image
 from app.services.pipeline.knowledge_base import KnowledgeBase
@@ -54,7 +55,12 @@ class LocalPipeline:
 
     async def diagnose(self, request: DiagnosisRequest) -> DiagnosisResponse:
         detection = await self._detect_primary(request.images)
-        device_type = detection.device_type if detection else None
+        detected = detection.device_type if detection else None
+        # The photograph is ambiguous between a microwave and an oven; a
+        # sentence saying "lò vi sóng" is not. Believe the words.
+        device_type, _hint = device_hint.resolve(
+            request.description, detected, self._kb
+        )
 
         candidates = self._retriever.candidate_faults(
             description=request.description,
@@ -175,14 +181,26 @@ class LocalPipeline:
         device_name = (
             self._kb.device_name_vi(detection.device_type) if detection else None
         )
-        device_type = detection.device_type if detection else None
         questions = clarifier.texts(
             clarifier.build_questions(
                 shortlist or [],
                 request.description,
-                discriminators=self._kb.discriminators_for_device(device_type),
+                discriminators=self._kb.discriminators_for_device(
+                    detection.device_type if detection else None
+                ),
             )
         ) or clarifier.device_questions(device_name)
+
+        # One question about which device it is, and only when the customer has
+        # not already said. Asking what was just written is how a support bot
+        # starts feeling like it is not listening.
+        confusion = device_hint.confusion_question(
+            detection.device_type if detection else None,
+            request.description,
+            self._kb,
+        )
+        if confusion and confusion not in questions:
+            questions = [confusion, *questions][: clarifier.MAX_QUESTIONS]
 
         return DiagnosisResponse(
             request_id=request.request_id,
