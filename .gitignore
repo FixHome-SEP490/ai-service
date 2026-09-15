@@ -45,3 +45,6 @@ datasets/*
 weights/
 *.pt
 .venv-tools/
+
+# Id of a rented GPU, local to whoever rented it.
+.vast-instance
