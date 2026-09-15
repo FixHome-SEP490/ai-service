@@ -1,6 +1,6 @@
 """Draft bounding boxes for crawled images so they only need correcting.
 
-Drawing 1250 boxes by hand is roughly ten hours of clicking. An open-vocabulary
+Drawing well over a thousand boxes by hand is many hours of clicking. An open-vocabulary
 detector takes text prompts with no training and gets most of those boxes close
 enough that the job becomes review instead of drawing — minutes per hundred
 images rather than minutes per image.
@@ -31,7 +31,7 @@ if hasattr(sys.stdout, "reconfigure"):
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 CATALOG_PATH = REPO_ROOT / "app" / "data" / "device_catalog.json"
-CRAWL_ROOT = REPO_ROOT / "datasets" / "crawled"
+COLLECTED_ROOT = REPO_ROOT / "datasets" / "collected"
 DRAFT_ROOT = REPO_ROOT / "datasets" / "drafts"
 REVIEWED_ROOT = REPO_ROOT / "datasets" / "reviewed"
 
@@ -72,11 +72,11 @@ def detector_class_index() -> Dict[str, int]:
 
 
 def _crawled_devices() -> List[str]:
-    if not CRAWL_ROOT.exists():
+    if not COLLECTED_ROOT.exists():
         return []
     return sorted(
         d.name
-        for d in CRAWL_ROOT.iterdir()
+        for d in COLLECTED_ROOT.iterdir()
         if d.is_dir() and not d.name.startswith("_")
     )
 
@@ -89,7 +89,7 @@ def cmd_run(args: argparse.Namespace) -> None:
 
     devices = _crawled_devices() if args.all else [args.device]
     if not devices:
-        raise SystemExit(f"No crawled images under {CRAWL_ROOT}. Run tools/crawl_images.py first.")
+        raise SystemExit(f"No crawled images under {COLLECTED_ROOT}. Run tools/collect_images.py first.")
 
     class_index = detector_class_index()
     model = YOLOWorld(args.model)
@@ -103,7 +103,7 @@ def cmd_run(args: argparse.Namespace) -> None:
             print(f"{device_type}: not a detector class, skipped")
             continue
 
-        images = sorted((CRAWL_ROOT / device_type).glob("*.jpg"))
+        images = sorted((COLLECTED_ROOT / device_type).glob("*.jpg"))
         if not images:
             print(f"{device_type}: no images")
             continue
@@ -174,7 +174,7 @@ def cmd_review(args: argparse.Namespace) -> None:
         raise SystemExit("fiftyone is not installed. pip install -r requirements-tools.txt")
 
     device_type = args.device
-    images_dir = CRAWL_ROOT / device_type
+    images_dir = COLLECTED_ROOT / device_type
     labels_dir = DRAFT_ROOT / device_type / "labels"
     if not labels_dir.exists():
         raise SystemExit(f"No drafts for {device_type}. Run: autolabel.py run --device {device_type}")

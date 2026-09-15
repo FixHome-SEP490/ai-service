@@ -81,14 +81,32 @@ Các cặp dễ nhầm cần theo dõi riêng trên confusion matrix: lò nướ
 
 Ba cách hạ rủi ro đã có sẵn trong hệ thống. Nhầm trong cùng một nhóm dịch vụ thì hậu quả nhẹ, ví dụ nhầm bồn rửa thành vòi nước vẫn ra thợ nước. Ngưỡng tin cậy thấp thì trả `needs_clarification` chứ không đoán bừa. Và mô tả của khách vẫn dẫn được tới đúng bệnh ngay cả khi detector nhầm, vì truy xuất triệu chứng không phụ thuộc vào ảnh.
 
-### Ảnh tự cào
+### Vì sao không cào ảnh từ công cụ tìm kiếm
 
-Chỉ cào những lớp mà ảnh công khai lệch hẳn so với thực tế Việt Nam. Ổ cắm là ví dụ rõ nhất: ảnh
-quốc tế phần lớn là ổ chân dẹt kiểu Mỹ và ổ tròn kiểu châu Âu, trong khi nhà ở Việt Nam dùng ổ đa
-năng hai chấu. Mô hình train bằng ảnh kia sẽ nhận sai ngay lần đầu gặp ổ thật.
+Đã thử và đã bỏ. Công cụ cào dựng trên `icrawler` chạy trơn tru, báo thành công, và trả về ảnh
+không liên quan. Truy vấn "ổ cắm điện Panasonic" cho ra poster đồ án kiến trúc nhà máy ô tô và một
+đĩa gà rán. Truy vấn đối chứng bằng tiếng Anh "electrical wall socket" cho ra hộp mô hình máy bay
+ném bom Thế chiến II.
 
-Danh sách và số lượng nằm trong `tools/crawl_images.py`, xem bằng `python tools/crawl_images.py plan`.
-Từ khoá tìm kiếm để tiếng Việt, vì tìm bằng tiếng Anh sẽ ra đúng loại phần cứng không nên học.
+Nguyên nhân không nằm ở tiếng Việt. Kiểm tra trực tiếp cho thấy trình phân tích trang của Google
+không còn đọc được kết quả nào, còn Bing thì trả nội dung không liên quan cho client không phải
+trình duyệt. Tiêu đề trang Bing trả về vẫn đúng tiếng Việt, nghĩa là truy vấn tới nơi, nhưng nội
+dung thì không phải thứ đã hỏi.
+
+Điều nguy hiểm là **không có lỗi nào được báo**. Script chạy hết, đếm ra hàng trăm ảnh, ghi vào
+thư mục. Chỉ khi mở ảnh ra xem mới biết. Một công cụ cào âm thầm trả sai dữ liệu còn tệ hơn là
+không có, vì sai lầm chỉ lộ ra sau khi đã train xong.
+
+Còn lại hai đường, và đường thứ nhất mới là đường nên đi.
+
+`tools/collect_images.py import` nạp ảnh tự chụp từ một thư mục. Với các lớp đang thiếu thì đây
+không phải phương án chữa cháy mà là dữ liệu tốt hơn: một cái ổ cắm chụp trong hành lang thật dưới
+ánh sáng thật chính là miền dữ liệu mà detector sẽ phải làm việc, còn ảnh catalogue của đúng cái ổ
+cắm đó thì không.
+
+`tools/collect_images.py fetch` dùng API tìm kiếm trả phí, thứ này trả kết quả thật. Tuỳ chọn, tốn
+tiền, và thứ nó trả về vẫn là ảnh sản phẩm. Cần biến môi trường `SERPER_API_KEY`. Phần này **chưa
+được kiểm chứng** trong repo vì không có khoá.
 
 ### Ảnh tự chụp
 
@@ -128,9 +146,9 @@ python tools/build_dataset.py report
 python tools/build_dataset.py download --limit-per-class 400
 
 # 3. Cào ảnh cho các lớp đặc thù Việt Nam
-python tools/crawl_images.py plan
-python tools/crawl_images.py fetch --all
-python tools/crawl_images.py stats
+python tools/collect_images.py plan
+python tools/collect_images.py import --device power_outlet --from <folder>
+python tools/collect_images.py stats
 
 # 4. Sinh box nháp cho ảnh cào, rồi sửa lại
 python tools/autolabel.py run --all
