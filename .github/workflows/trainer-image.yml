@@ -39,6 +39,13 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      # Registry paths must be lowercase, and this organisation's name is not.
+      # metadata-action lowercases the tags it generates, but any reference
+      # written by hand below has to be lowercased too, or the build fails at
+      # the very end with "repository name must be lowercase".
+      - name: Lowercase the image path
+        run: echo "IMAGE=ghcr.io/$(echo '${{ github.repository_owner }}' | tr '[:upper:]' '[:lower:]')/fixhome-trainer" >> "$GITHUB_ENV"
+
       # The CUDA base image does not fit alongside the runner's preinstalled
       # toolchains. Without this the build fails partway with "no space left on
       # device", which reads like a Docker problem and is not.
@@ -61,7 +68,7 @@ jobs:
       - id: meta
         uses: docker/metadata-action@v5
         with:
-          images: ghcr.io/${{ github.repository_owner }}/fixhome-trainer
+          images: ${{ env.IMAGE }}
           tags: |
             type=raw,value=latest
             type=sha,format=short
@@ -76,13 +83,13 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
           # Layer cache lives in the registry, so a change to the project files
           # rebuilds one thin layer instead of reinstalling the toolchain.
-          cache-from: type=registry,ref=ghcr.io/${{ github.repository_owner }}/fixhome-trainer:buildcache
-          cache-to: type=registry,ref=ghcr.io/${{ github.repository_owner }}/fixhome-trainer:buildcache,mode=max
+          cache-from: type=registry,ref=${{ env.IMAGE }}:buildcache
+          cache-to: type=registry,ref=${{ env.IMAGE }}:buildcache,mode=max
 
       - name: Report how to use it
         run: |
           echo "Pull on a rented GPU box with:"
-          echo "  docker pull ghcr.io/${{ github.repository_owner }}/fixhome-trainer:latest"
+          echo "  docker pull ${IMAGE}:latest"
           echo ""
           echo "Make the package public once, under the repository's Packages"
           echo "settings, so the rented machine can pull without logging in."
