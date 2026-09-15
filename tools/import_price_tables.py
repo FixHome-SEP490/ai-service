@@ -36,7 +36,9 @@ DATA_DIR = REPO_ROOT / "app" / "data"
 PARTS_PATH = DATA_DIR / "parts_catalog.json"
 SERVICES_PATH = DATA_DIR / "labour_catalog.json"
 
-DEFAULT_PARTS_FILE = REPO_ROOT / "FIXHOME-BANG-LINH-KIEN-VA-VAT-TU-500-ITEMS-v3.0.md"
+DEFAULT_PARTS_FILE = (
+    REPO_ROOT / "docs" / "reference" / "FIXHOME-BANG-LINH-KIEN-VA-VAT-TU-791-ITEMS-v4.0.md"
+)
 
 # Section heading in the parts table -> device types it covers. One section can
 # serve several classes: "Đồ điện gia dụng" holds stove, kettle and fan parts.
@@ -45,13 +47,22 @@ SECTION_DEVICES: Dict[str, List[str]] = {
     "Máy giặt": ["washing_machine"],
     "TV / Smart TV": ["television"],
     "Tủ lạnh": ["refrigerator"],
+    "Tủ lạnh — linh kiện bổ sung chi tiết": ["refrigerator"],
+    "Bồn rửa / Chậu rửa": ["sink"],
+    "Vòi nước / Sen vòi": ["faucet"],
+    "Bồn cầu / Thiết bị vệ sinh": ["toilet"],
+    "Ống nước & phụ kiện PVC/PPR": ["water_pipe"],
+    "Lò vi sóng — linh kiện chi tiết": ["microwave_oven"],
+    "Lò nướng — linh kiện chi tiết": ["oven"],
+    "Bếp gas — linh kiện chi tiết": ["gas_stove"],
+    "Ấm đun / Ấm siêu tốc": ["kettle"],
+    # Mixed: induction hob, fan, water heater, rice cooker, water purifier,
+    # plus generic electrical consumables. Only the classes this project models
+    # are listed; parts for the rest simply go unused. The section is a coarse
+    # filter — precision comes from the fault-to-part mapping, not from here.
     "Đồ điện gia dụng": [
-        "gas_stove",
-        "kettle",
         "electric_fan",
         "ceiling_fan",
-        "microwave_oven",
-        "oven",
         "water_heater",
         "light_bulb",
         "power_outlet",

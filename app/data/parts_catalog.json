@@ -1,5 +1,5 @@
 {
-  "version": "FIXHOME-BANG-LINH-KIEN-VA-VAT-TU-500-ITEMS-v3.0",
+  "version": "FIXHOME-BANG-LINH-KIEN-VA-VAT-TU-791-ITEMS-v4.0",
   "_comment_vi": "Bang linh kien do team cung cap. Gia la khoang tham khao vi phu thuoc model. Day la phan day tran gia len; san la tien cong tho trong labour_catalog.json.",
   "parts": [
     {
@@ -5212,12 +5212,8 @@
       "unit_vi": "cái",
       "section_vi": "Đồ điện gia dụng",
       "device_types": [
-        "gas_stove",
-        "kettle",
         "electric_fan",
         "ceiling_fan",
-        "microwave_oven",
-        "oven",
         "water_heater",
         "light_bulb",
         "power_outlet"
@@ -5233,12 +5229,8 @@
       "unit_vi": "cái",
       "section_vi": "Đồ điện gia dụng",
       "device_types": [
-        "gas_stove",
-        "kettle",
         "electric_fan",
         "ceiling_fan",
-        "microwave_oven",
-        "oven",
         "water_heater",
         "light_bulb",
         "power_outlet"
@@ -5254,12 +5246,8 @@
       "unit_vi": "cái",
       "section_vi": "Đồ điện gia dụng",
       "device_types": [
-        "gas_stove",
-        "kettle",
         "electric_fan",
         "ceiling_fan",
-        "microwave_oven",
-        "oven",
         "water_heater",
         "light_bulb",
         "power_outlet"
@@ -5275,12 +5263,8 @@
       "unit_vi": "cái",
       "section_vi": "Đồ điện gia dụng",
       "device_types": [
-        "gas_stove",
-        "kettle",
         "electric_fan",
         "ceiling_fan",
-        "microwave_oven",
-        "oven",
         "water_heater",
         "light_bulb",
         "power_outlet"
@@ -5296,12 +5280,8 @@
       "unit_vi": "cái",
       "section_vi": "Đồ điện gia dụng",
       "device_types": [
-        "gas_stove",
-        "kettle",
         "electric_fan",
         "ceiling_fan",
-        "microwave_oven",
-        "oven",
         "water_heater",
         "light_bulb",
         "power_outlet"
@@ -5317,12 +5297,8 @@
       "unit_vi": "cái",
       "section_vi": "Đồ điện gia dụng",
       "device_types": [
-        "gas_stove",
-        "kettle",
         "electric_fan",
         "ceiling_fan",
-        "microwave_oven",
-        "oven",
         "water_heater",
         "light_bulb",
         "power_outlet"
@@ -5338,12 +5314,8 @@
       "unit_vi": "cái",
       "section_vi": "Đồ điện gia dụng",
       "device_types": [
-        "gas_stove",
-        "kettle",
         "electric_fan",
         "ceiling_fan",
-        "microwave_oven",
-        "oven",
         "water_heater",
         "light_bulb",
         "power_outlet"
@@ -5359,12 +5331,8 @@
       "unit_vi": "cái",
       "section_vi": "Đồ điện gia dụng",
       "device_types": [
-        "gas_stove",
-        "kettle",
         "electric_fan",
         "ceiling_fan",
-        "microwave_oven",
-        "oven",
         "water_heater",
         "light_bulb",
         "power_outlet"
@@ -5380,12 +5348,8 @@
       "unit_vi": "cái",
       "section_vi": "Đồ điện gia dụng",
       "device_types": [
-        "gas_stove",
-        "kettle",
         "electric_fan",
         "ceiling_fan",
-        "microwave_oven",
-        "oven",
         "water_heater",
         "light_bulb",
         "power_outlet"
@@ -5401,12 +5365,8 @@
       "unit_vi": "cái",
       "section_vi": "Đồ điện gia dụng",
       "device_types": [
-        "gas_stove",
-        "kettle",
         "electric_fan",
         "ceiling_fan",
-        "microwave_oven",
-        "oven",
         "water_heater",
         "light_bulb",
         "power_outlet"
@@ -5422,12 +5382,8 @@
       "unit_vi": "bộ",
       "section_vi": "Đồ điện gia dụng",
       "device_types": [
-        "gas_stove",
-        "kettle",
         "electric_fan",
         "ceiling_fan",
-        "microwave_oven",
-        "oven",
         "water_heater",
         "light_bulb",
         "power_outlet"
@@ -5443,12 +5399,8 @@
       "unit_vi": "bộ",
       "section_vi": "Đồ điện gia dụng",
       "device_types": [
-        "gas_stove",
-        "kettle",
         "electric_fan",
         "ceiling_fan",
-        "microwave_oven",
-        "oven",
         "water_heater",
         "light_bulb",
         "power_outlet"
@@ -5464,12 +5416,8 @@
       "unit_vi": "bộ",
       "section_vi": "Đồ điện gia dụng",
       "device_types": [
-        "gas_stove",
-        "kettle",
         "electric_fan",
         "ceiling_fan",
-        "microwave_oven",
-        "oven",
         "water_heater",
         "light_bulb",
         "power_outlet"
@@ -5485,12 +5433,8 @@
       "unit_vi": "tấm",
       "section_vi": "Đồ điện gia dụng",
       "device_types": [
-        "gas_stove",
-        "kettle",
         "electric_fan",
         "ceiling_fan",
-        "microwave_oven",
-        "oven",
         "water_heater",
         "light_bulb",
         "power_outlet"
@@ -5506,12 +5450,8 @@
       "unit_vi": "tấm",
       "section_vi": "Đồ điện gia dụng",
       "device_types": [
-        "gas_stove",
-        "kettle",
         "electric_fan",
         "ceiling_fan",
-        "microwave_oven",
-        "oven",
         "water_heater",
         "light_bulb",
         "power_outlet"
@@ -5527,12 +5467,8 @@
       "unit_vi": "cái",
       "section_vi": "Đồ điện gia dụng",
       "device_types": [
-        "gas_stove",
-        "kettle",
         "electric_fan",
         "ceiling_fan",
-        "microwave_oven",
-        "oven",
         "water_heater",
         "light_bulb",
         "power_outlet"
@@ -5548,12 +5484,8 @@
       "unit_vi": "cái",
       "section_vi": "Đồ điện gia dụng",
       "device_types": [
-        "gas_stove",
-        "kettle",
         "electric_fan",
         "ceiling_fan",
-        "microwave_oven",
-        "oven",
         "water_heater",
         "light_bulb",
         "power_outlet"
@@ -5569,12 +5501,8 @@
       "unit_vi": "cái",
       "section_vi": "Đồ điện gia dụng",
       "device_types": [
-        "gas_stove",
-        "kettle",
         "electric_fan",
         "ceiling_fan",
-        "microwave_oven",
-        "oven",
         "water_heater",
         "light_bulb",
         "power_outlet"
@@ -5590,12 +5518,8 @@
       "unit_vi": "cái",
       "section_vi": "Đồ điện gia dụng",
       "device_types": [
-        "gas_stove",
-        "kettle",
         "electric_fan",
         "ceiling_fan",
-        "microwave_oven",
-        "oven",
         "water_heater",
         "light_bulb",
         "power_outlet"
@@ -5611,12 +5535,8 @@
       "unit_vi": "cái",
       "section_vi": "Đồ điện gia dụng",
       "device_types": [
-        "gas_stove",
-        "kettle",
         "electric_fan",
         "ceiling_fan",
-        "microwave_oven",
-        "oven",
         "water_heater",
         "light_bulb",
         "power_outlet"
@@ -5632,12 +5552,8 @@
       "unit_vi": "bộ",
       "section_vi": "Đồ điện gia dụng",
       "device_types": [
-        "gas_stove",
-        "kettle",
         "electric_fan",
         "ceiling_fan",
-        "microwave_oven",
-        "oven",
         "water_heater",
         "light_bulb",
         "power_outlet"
@@ -5653,12 +5569,8 @@
       "unit_vi": "cái",
       "section_vi": "Đồ điện gia dụng",
       "device_types": [
-        "gas_stove",
-        "kettle",
         "electric_fan",
         "ceiling_fan",
-        "microwave_oven",
-        "oven",
         "water_heater",
         "light_bulb",
         "power_outlet"
@@ -5674,12 +5586,8 @@
       "unit_vi": "cái",
       "section_vi": "Đồ điện gia dụng",
       "device_types": [
-        "gas_stove",
-        "kettle",
         "electric_fan",
         "ceiling_fan",
-        "microwave_oven",
-        "oven",
         "water_heater",
         "light_bulb",
         "power_outlet"
@@ -5695,12 +5603,8 @@
       "unit_vi": "cái",
       "section_vi": "Đồ điện gia dụng",
       "device_types": [
-        "gas_stove",
-        "kettle",
         "electric_fan",
         "ceiling_fan",
-        "microwave_oven",
-        "oven",
         "water_heater",
         "light_bulb",
         "power_outlet"
@@ -5716,12 +5620,8 @@
       "unit_vi": "cái",
       "section_vi": "Đồ điện gia dụng",
       "device_types": [
-        "gas_stove",
-        "kettle",
         "electric_fan",
         "ceiling_fan",
-        "microwave_oven",
-        "oven",
         "water_heater",
         "light_bulb",
         "power_outlet"
@@ -5737,12 +5637,8 @@
       "unit_vi": "bộ",
       "section_vi": "Đồ điện gia dụng",
       "device_types": [
-        "gas_stove",
-        "kettle",
         "electric_fan",
         "ceiling_fan",
-        "microwave_oven",
-        "oven",
         "water_heater",
         "light_bulb",
         "power_outlet"
@@ -5758,12 +5654,8 @@
       "unit_vi": "cái",
       "section_vi": "Đồ điện gia dụng",
       "device_types": [
-        "gas_stove",
-        "kettle",
         "electric_fan",
         "ceiling_fan",
-        "microwave_oven",
-        "oven",
         "water_heater",
         "light_bulb",
         "power_outlet"
@@ -5779,12 +5671,8 @@
       "unit_vi": "cái",
       "section_vi": "Đồ điện gia dụng",
       "device_types": [
-        "gas_stove",
-        "kettle",
         "electric_fan",
         "ceiling_fan",
-        "microwave_oven",
-        "oven",
         "water_heater",
         "light_bulb",
         "power_outlet"
@@ -5800,12 +5688,8 @@
       "unit_vi": "cái",
       "section_vi": "Đồ điện gia dụng",
       "device_types": [
-        "gas_stove",
-        "kettle",
         "electric_fan",
         "ceiling_fan",
-        "microwave_oven",
-        "oven",
         "water_heater",
         "light_bulb",
         "power_outlet"
@@ -5821,12 +5705,8 @@
       "unit_vi": "cái",
       "section_vi": "Đồ điện gia dụng",
       "device_types": [
-        "gas_stove",
-        "kettle",
         "electric_fan",
         "ceiling_fan",
-        "microwave_oven",
-        "oven",
         "water_heater",
         "light_bulb",
         "power_outlet"
@@ -5842,12 +5722,8 @@
       "unit_vi": "bộ",
       "section_vi": "Đồ điện gia dụng",
       "device_types": [
-        "gas_stove",
-        "kettle",
         "electric_fan",
         "ceiling_fan",
-        "microwave_oven",
-        "oven",
         "water_heater",
         "light_bulb",
         "power_outlet"
@@ -5863,12 +5739,8 @@
       "unit_vi": "bộ",
       "section_vi": "Đồ điện gia dụng",
       "device_types": [
-        "gas_stove",
-        "kettle",
         "electric_fan",
         "ceiling_fan",
-        "microwave_oven",
-        "oven",
         "water_heater",
         "light_bulb",
         "power_outlet"
@@ -5884,12 +5756,8 @@
       "unit_vi": "bộ",
       "section_vi": "Đồ điện gia dụng",
       "device_types": [
-        "gas_stove",
-        "kettle",
         "electric_fan",
         "ceiling_fan",
-        "microwave_oven",
-        "oven",
         "water_heater",
         "light_bulb",
         "power_outlet"
@@ -5905,12 +5773,8 @@
       "unit_vi": "cái",
       "section_vi": "Đồ điện gia dụng",
       "device_types": [
-        "gas_stove",
-        "kettle",
         "electric_fan",
         "ceiling_fan",
-        "microwave_oven",
-        "oven",
         "water_heater",
         "light_bulb",
         "power_outlet"
@@ -5926,12 +5790,8 @@
       "unit_vi": "cái",
       "section_vi": "Đồ điện gia dụng",
       "device_types": [
-        "gas_stove",
-        "kettle",
         "electric_fan",
         "ceiling_fan",
-        "microwave_oven",
-        "oven",
         "water_heater",
         "light_bulb",
         "power_outlet"
@@ -5947,12 +5807,8 @@
       "unit_vi": "cái",
       "section_vi": "Đồ điện gia dụng",
       "device_types": [
-        "gas_stove",
-        "kettle",
         "electric_fan",
         "ceiling_fan",
-        "microwave_oven",
-        "oven",
         "water_heater",
         "light_bulb",
         "power_outlet"
@@ -5968,12 +5824,8 @@
       "unit_vi": "cái",
       "section_vi": "Đồ điện gia dụng",
       "device_types": [
-        "gas_stove",
-        "kettle",
         "electric_fan",
         "ceiling_fan",
-        "microwave_oven",
-        "oven",
         "water_heater",
         "light_bulb",
         "power_outlet"
@@ -5989,12 +5841,8 @@
       "unit_vi": "cái",
       "section_vi": "Đồ điện gia dụng",
       "device_types": [
-        "gas_stove",
-        "kettle",
         "electric_fan",
         "ceiling_fan",
-        "microwave_oven",
-        "oven",
         "water_heater",
         "light_bulb",
         "power_outlet"
@@ -6010,12 +5858,8 @@
       "unit_vi": "bộ",
       "section_vi": "Đồ điện gia dụng",
       "device_types": [
-        "gas_stove",
-        "kettle",
         "electric_fan",
         "ceiling_fan",
-        "microwave_oven",
-        "oven",
         "water_heater",
         "light_bulb",
         "power_outlet"
@@ -6031,12 +5875,8 @@
       "unit_vi": "cái",
       "section_vi": "Đồ điện gia dụng",
       "device_types": [
-        "gas_stove",
-        "kettle",
         "electric_fan",
         "ceiling_fan",
-        "microwave_oven",
-        "oven",
         "water_heater",
         "light_bulb",
         "power_outlet"
@@ -6052,12 +5892,8 @@
       "unit_vi": "cái",
       "section_vi": "Đồ điện gia dụng",
       "device_types": [
-        "gas_stove",
-        "kettle",
         "electric_fan",
         "ceiling_fan",
-        "microwave_oven",
-        "oven",
         "water_heater",
         "light_bulb",
         "power_outlet"
@@ -6073,12 +5909,8 @@
       "unit_vi": "cái",
       "section_vi": "Đồ điện gia dụng",
       "device_types": [
-        "gas_stove",
-        "kettle",
         "electric_fan",
         "ceiling_fan",
-        "microwave_oven",
-        "oven",
         "water_heater",
         "light_bulb",
         "power_outlet"
@@ -6094,12 +5926,8 @@
       "unit_vi": "cái",
       "section_vi": "Đồ điện gia dụng",
       "device_types": [
-        "gas_stove",
-        "kettle",
         "electric_fan",
         "ceiling_fan",
-        "microwave_oven",
-        "oven",
         "water_heater",
         "light_bulb",
         "power_outlet"
@@ -6115,12 +5943,8 @@
       "unit_vi": "cái",
       "section_vi": "Đồ điện gia dụng",
       "device_types": [
-        "gas_stove",
-        "kettle",
         "electric_fan",
         "ceiling_fan",
-        "microwave_oven",
-        "oven",
         "water_heater",
         "light_bulb",
         "power_outlet"
@@ -6136,12 +5960,8 @@
       "unit_vi": "cái",
       "section_vi": "Đồ điện gia dụng",
       "device_types": [
-        "gas_stove",
-        "kettle",
         "electric_fan",
         "ceiling_fan",
-        "microwave_oven",
-        "oven",
         "water_heater",
         "light_bulb",
         "power_outlet"
@@ -6157,12 +5977,8 @@
       "unit_vi": "cái",
       "section_vi": "Đồ điện gia dụng",
       "device_types": [
-        "gas_stove",
-        "kettle",
         "electric_fan",
         "ceiling_fan",
-        "microwave_oven",
-        "oven",
         "water_heater",
         "light_bulb",
         "power_outlet"
@@ -6178,12 +5994,8 @@
       "unit_vi": "cái",
       "section_vi": "Đồ điện gia dụng",
       "device_types": [
-        "gas_stove",
-        "kettle",
         "electric_fan",
         "ceiling_fan",
-        "microwave_oven",
-        "oven",
         "water_heater",
         "light_bulb",
         "power_outlet"
@@ -6199,12 +6011,8 @@
       "unit_vi": "bộ",
       "section_vi": "Đồ điện gia dụng",
       "device_types": [
-        "gas_stove",
-        "kettle",
         "electric_fan",
         "ceiling_fan",
-        "microwave_oven",
-        "oven",
         "water_heater",
         "light_bulb",
         "power_outlet"
@@ -6220,12 +6028,8 @@
       "unit_vi": "cái",
       "section_vi": "Đồ điện gia dụng",
       "device_types": [
-        "gas_stove",
-        "kettle",
         "electric_fan",
         "ceiling_fan",
-        "microwave_oven",
-        "oven",
         "water_heater",
         "light_bulb",
         "power_outlet"
@@ -6241,12 +6045,8 @@
       "unit_vi": "cái",
       "section_vi": "Đồ điện gia dụng",
       "device_types": [
-        "gas_stove",
-        "kettle",
         "electric_fan",
         "ceiling_fan",
-        "microwave_oven",
-        "oven",
         "water_heater",
         "light_bulb",
         "power_outlet"
@@ -6262,12 +6062,8 @@
       "unit_vi": "cái",
       "section_vi": "Đồ điện gia dụng",
       "device_types": [
-        "gas_stove",
-        "kettle",
         "electric_fan",
         "ceiling_fan",
-        "microwave_oven",
-        "oven",
         "water_heater",
         "light_bulb",
         "power_outlet"
@@ -6283,12 +6079,8 @@
       "unit_vi": "cái",
       "section_vi": "Đồ điện gia dụng",
       "device_types": [
-        "gas_stove",
-        "kettle",
         "electric_fan",
         "ceiling_fan",
-        "microwave_oven",
-        "oven",
         "water_heater",
         "light_bulb",
         "power_outlet"
@@ -6304,12 +6096,8 @@
       "unit_vi": "cái",
       "section_vi": "Đồ điện gia dụng",
       "device_types": [
-        "gas_stove",
-        "kettle",
         "electric_fan",
         "ceiling_fan",
-        "microwave_oven",
-        "oven",
         "water_heater",
         "light_bulb",
         "power_outlet"
@@ -6325,12 +6113,8 @@
       "unit_vi": "cái",
       "section_vi": "Đồ điện gia dụng",
       "device_types": [
-        "gas_stove",
-        "kettle",
         "electric_fan",
         "ceiling_fan",
-        "microwave_oven",
-        "oven",
         "water_heater",
         "light_bulb",
         "power_outlet"
@@ -6346,12 +6130,8 @@
       "unit_vi": "bình",
       "section_vi": "Đồ điện gia dụng",
       "device_types": [
-        "gas_stove",
-        "kettle",
         "electric_fan",
         "ceiling_fan",
-        "microwave_oven",
-        "oven",
         "water_heater",
         "light_bulb",
         "power_outlet"
@@ -6367,12 +6147,8 @@
       "unit_vi": "lõi",
       "section_vi": "Đồ điện gia dụng",
       "device_types": [
-        "gas_stove",
-        "kettle",
         "electric_fan",
         "ceiling_fan",
-        "microwave_oven",
-        "oven",
         "water_heater",
         "light_bulb",
         "power_outlet"
@@ -6388,12 +6164,8 @@
       "unit_vi": "lõi",
       "section_vi": "Đồ điện gia dụng",
       "device_types": [
-        "gas_stove",
-        "kettle",
         "electric_fan",
         "ceiling_fan",
-        "microwave_oven",
-        "oven",
         "water_heater",
         "light_bulb",
         "power_outlet"
@@ -6409,12 +6181,8 @@
       "unit_vi": "lõi",
       "section_vi": "Đồ điện gia dụng",
       "device_types": [
-        "gas_stove",
-        "kettle",
         "electric_fan",
         "ceiling_fan",
-        "microwave_oven",
-        "oven",
         "water_heater",
         "light_bulb",
         "power_outlet"
@@ -6430,12 +6198,8 @@
       "unit_vi": "lõi",
       "section_vi": "Đồ điện gia dụng",
       "device_types": [
-        "gas_stove",
-        "kettle",
         "electric_fan",
         "ceiling_fan",
-        "microwave_oven",
-        "oven",
         "water_heater",
         "light_bulb",
         "power_outlet"
@@ -6451,12 +6215,8 @@
       "unit_vi": "lõi",
       "section_vi": "Đồ điện gia dụng",
       "device_types": [
-        "gas_stove",
-        "kettle",
         "electric_fan",
         "ceiling_fan",
-        "microwave_oven",
-        "oven",
         "water_heater",
         "light_bulb",
         "power_outlet"
@@ -6472,12 +6232,8 @@
       "unit_vi": "lõi",
       "section_vi": "Đồ điện gia dụng",
       "device_types": [
-        "gas_stove",
-        "kettle",
         "electric_fan",
         "ceiling_fan",
-        "microwave_oven",
-        "oven",
         "water_heater",
         "light_bulb",
         "power_outlet"
@@ -6493,12 +6249,8 @@
       "unit_vi": "cái",
       "section_vi": "Đồ điện gia dụng",
       "device_types": [
-        "gas_stove",
-        "kettle",
         "electric_fan",
         "ceiling_fan",
-        "microwave_oven",
-        "oven",
         "water_heater",
         "light_bulb",
         "power_outlet"
@@ -6514,12 +6266,8 @@
       "unit_vi": "cái",
       "section_vi": "Đồ điện gia dụng",
       "device_types": [
-        "gas_stove",
-        "kettle",
         "electric_fan",
         "ceiling_fan",
-        "microwave_oven",
-        "oven",
         "water_heater",
         "light_bulb",
         "power_outlet"
@@ -6535,12 +6283,8 @@
       "unit_vi": "cái",
       "section_vi": "Đồ điện gia dụng",
       "device_types": [
-        "gas_stove",
-        "kettle",
         "electric_fan",
         "ceiling_fan",
-        "microwave_oven",
-        "oven",
         "water_heater",
         "light_bulb",
         "power_outlet"
@@ -6556,12 +6300,8 @@
       "unit_vi": "bộ",
       "section_vi": "Đồ điện gia dụng",
       "device_types": [
-        "gas_stove",
-        "kettle",
         "electric_fan",
         "ceiling_fan",
-        "microwave_oven",
-        "oven",
         "water_heater",
         "light_bulb",
         "power_outlet"
@@ -6577,12 +6317,8 @@
       "unit_vi": "dây",
       "section_vi": "Đồ điện gia dụng",
       "device_types": [
-        "gas_stove",
-        "kettle",
         "electric_fan",
         "ceiling_fan",
-        "microwave_oven",
-        "oven",
         "water_heater",
         "light_bulb",
         "power_outlet"
@@ -6598,12 +6334,8 @@
       "unit_vi": "dây",
       "section_vi": "Đồ điện gia dụng",
       "device_types": [
-        "gas_stove",
-        "kettle",
         "electric_fan",
         "ceiling_fan",
-        "microwave_oven",
-        "oven",
         "water_heater",
         "light_bulb",
         "power_outlet"
@@ -6619,12 +6351,8 @@
       "unit_vi": "dây",
       "section_vi": "Đồ điện gia dụng",
       "device_types": [
-        "gas_stove",
-        "kettle",
         "electric_fan",
         "ceiling_fan",
-        "microwave_oven",
-        "oven",
         "water_heater",
         "light_bulb",
         "power_outlet"
@@ -6640,12 +6368,8 @@
       "unit_vi": "cái",
       "section_vi": "Đồ điện gia dụng",
       "device_types": [
-        "gas_stove",
-        "kettle",
         "electric_fan",
         "ceiling_fan",
-        "microwave_oven",
-        "oven",
         "water_heater",
         "light_bulb",
         "power_outlet"
@@ -6661,12 +6385,8 @@
       "unit_vi": "cái",
       "section_vi": "Đồ điện gia dụng",
       "device_types": [
-        "gas_stove",
-        "kettle",
         "electric_fan",
         "ceiling_fan",
-        "microwave_oven",
-        "oven",
         "water_heater",
         "light_bulb",
         "power_outlet"
@@ -6682,12 +6402,8 @@
       "unit_vi": "cái",
       "section_vi": "Đồ điện gia dụng",
       "device_types": [
-        "gas_stove",
-        "kettle",
         "electric_fan",
         "ceiling_fan",
-        "microwave_oven",
-        "oven",
         "water_heater",
         "light_bulb",
         "power_outlet"
@@ -6703,12 +6419,8 @@
       "unit_vi": "cái",
       "section_vi": "Đồ điện gia dụng",
       "device_types": [
-        "gas_stove",
-        "kettle",
         "electric_fan",
         "ceiling_fan",
-        "microwave_oven",
-        "oven",
         "water_heater",
         "light_bulb",
         "power_outlet"
@@ -6724,12 +6436,8 @@
       "unit_vi": "cái",
       "section_vi": "Đồ điện gia dụng",
       "device_types": [
-        "gas_stove",
-        "kettle",
         "electric_fan",
         "ceiling_fan",
-        "microwave_oven",
-        "oven",
         "water_heater",
         "light_bulb",
         "power_outlet"
@@ -6745,12 +6453,8 @@
       "unit_vi": "cái",
       "section_vi": "Đồ điện gia dụng",
       "device_types": [
-        "gas_stove",
-        "kettle",
         "electric_fan",
         "ceiling_fan",
-        "microwave_oven",
-        "oven",
         "water_heater",
         "light_bulb",
         "power_outlet"
@@ -6766,12 +6470,8 @@
       "unit_vi": "cái",
       "section_vi": "Đồ điện gia dụng",
       "device_types": [
-        "gas_stove",
-        "kettle",
         "electric_fan",
         "ceiling_fan",
-        "microwave_oven",
-        "oven",
         "water_heater",
         "light_bulb",
         "power_outlet"
@@ -6787,12 +6487,8 @@
       "unit_vi": "cái",
       "section_vi": "Đồ điện gia dụng",
       "device_types": [
-        "gas_stove",
-        "kettle",
         "electric_fan",
         "ceiling_fan",
-        "microwave_oven",
-        "oven",
         "water_heater",
         "light_bulb",
         "power_outlet"
@@ -6808,12 +6504,8 @@
       "unit_vi": "cái",
       "section_vi": "Đồ điện gia dụng",
       "device_types": [
-        "gas_stove",
-        "kettle",
         "electric_fan",
         "ceiling_fan",
-        "microwave_oven",
-        "oven",
         "water_heater",
         "light_bulb",
         "power_outlet"
@@ -6829,12 +6521,8 @@
       "unit_vi": "cái",
       "section_vi": "Đồ điện gia dụng",
       "device_types": [
-        "gas_stove",
-        "kettle",
         "electric_fan",
         "ceiling_fan",
-        "microwave_oven",
-        "oven",
         "water_heater",
         "light_bulb",
         "power_outlet"
@@ -6850,12 +6538,8 @@
       "unit_vi": "cái",
       "section_vi": "Đồ điện gia dụng",
       "device_types": [
-        "gas_stove",
-        "kettle",
         "electric_fan",
         "ceiling_fan",
-        "microwave_oven",
-        "oven",
         "water_heater",
         "light_bulb",
         "power_outlet"
@@ -6871,12 +6555,8 @@
       "unit_vi": "cái",
       "section_vi": "Đồ điện gia dụng",
       "device_types": [
-        "gas_stove",
-        "kettle",
         "electric_fan",
         "ceiling_fan",
-        "microwave_oven",
-        "oven",
         "water_heater",
         "light_bulb",
         "power_outlet"
@@ -6892,12 +6572,8 @@
       "unit_vi": "cái",
       "section_vi": "Đồ điện gia dụng",
       "device_types": [
-        "gas_stove",
-        "kettle",
         "electric_fan",
         "ceiling_fan",
-        "microwave_oven",
-        "oven",
         "water_heater",
         "light_bulb",
         "power_outlet"
@@ -6913,12 +6589,8 @@
       "unit_vi": "cái",
       "section_vi": "Đồ điện gia dụng",
       "device_types": [
-        "gas_stove",
-        "kettle",
         "electric_fan",
         "ceiling_fan",
-        "microwave_oven",
-        "oven",
         "water_heater",
         "light_bulb",
         "power_outlet"
@@ -6934,12 +6606,8 @@
       "unit_vi": "cái",
       "section_vi": "Đồ điện gia dụng",
       "device_types": [
-        "gas_stove",
-        "kettle",
         "electric_fan",
         "ceiling_fan",
-        "microwave_oven",
-        "oven",
         "water_heater",
         "light_bulb",
         "power_outlet"
@@ -6955,12 +6623,8 @@
       "unit_vi": "cái",
       "section_vi": "Đồ điện gia dụng",
       "device_types": [
-        "gas_stove",
-        "kettle",
         "electric_fan",
         "ceiling_fan",
-        "microwave_oven",
-        "oven",
         "water_heater",
         "light_bulb",
         "power_outlet"
@@ -6976,12 +6640,8 @@
       "unit_vi": "cái",
       "section_vi": "Đồ điện gia dụng",
       "device_types": [
-        "gas_stove",
-        "kettle",
         "electric_fan",
         "ceiling_fan",
-        "microwave_oven",
-        "oven",
         "water_heater",
         "light_bulb",
         "power_outlet"
@@ -6997,12 +6657,8 @@
       "unit_vi": "cái",
       "section_vi": "Đồ điện gia dụng",
       "device_types": [
-        "gas_stove",
-        "kettle",
         "electric_fan",
         "ceiling_fan",
-        "microwave_oven",
-        "oven",
         "water_heater",
         "light_bulb",
         "power_outlet"
@@ -7018,12 +6674,8 @@
       "unit_vi": "cái",
       "section_vi": "Đồ điện gia dụng",
       "device_types": [
-        "gas_stove",
-        "kettle",
         "electric_fan",
         "ceiling_fan",
-        "microwave_oven",
-        "oven",
         "water_heater",
         "light_bulb",
         "power_outlet"
@@ -7039,12 +6691,8 @@
       "unit_vi": "cái",
       "section_vi": "Đồ điện gia dụng",
       "device_types": [
-        "gas_stove",
-        "kettle",
         "electric_fan",
         "ceiling_fan",
-        "microwave_oven",
-        "oven",
         "water_heater",
         "light_bulb",
         "power_outlet"
@@ -7060,12 +6708,8 @@
       "unit_vi": "cái",
       "section_vi": "Đồ điện gia dụng",
       "device_types": [
-        "gas_stove",
-        "kettle",
         "electric_fan",
         "ceiling_fan",
-        "microwave_oven",
-        "oven",
         "water_heater",
         "light_bulb",
         "power_outlet"
@@ -7081,12 +6725,8 @@
       "unit_vi": "cái",
       "section_vi": "Đồ điện gia dụng",
       "device_types": [
-        "gas_stove",
-        "kettle",
         "electric_fan",
         "ceiling_fan",
-        "microwave_oven",
-        "oven",
         "water_heater",
         "light_bulb",
         "power_outlet"
@@ -7102,12 +6742,8 @@
       "unit_vi": "cái",
       "section_vi": "Đồ điện gia dụng",
       "device_types": [
-        "gas_stove",
-        "kettle",
         "electric_fan",
         "ceiling_fan",
-        "microwave_oven",
-        "oven",
         "water_heater",
         "light_bulb",
         "power_outlet"
@@ -7123,12 +6759,8 @@
       "unit_vi": "cái",
       "section_vi": "Đồ điện gia dụng",
       "device_types": [
-        "gas_stove",
-        "kettle",
         "electric_fan",
         "ceiling_fan",
-        "microwave_oven",
-        "oven",
         "water_heater",
         "light_bulb",
         "power_outlet"
@@ -7144,12 +6776,8 @@
       "unit_vi": "cái",
       "section_vi": "Đồ điện gia dụng",
       "device_types": [
-        "gas_stove",
-        "kettle",
         "electric_fan",
         "ceiling_fan",
-        "microwave_oven",
-        "oven",
         "water_heater",
         "light_bulb",
         "power_outlet"
@@ -7165,12 +6793,8 @@
       "unit_vi": "mét",
       "section_vi": "Đồ điện gia dụng",
       "device_types": [
-        "gas_stove",
-        "kettle",
         "electric_fan",
         "ceiling_fan",
-        "microwave_oven",
-        "oven",
         "water_heater",
         "light_bulb",
         "power_outlet"
@@ -7186,12 +6810,8 @@
       "unit_vi": "mét",
       "section_vi": "Đồ điện gia dụng",
       "device_types": [
-        "gas_stove",
-        "kettle",
         "electric_fan",
         "ceiling_fan",
-        "microwave_oven",
-        "oven",
         "water_heater",
         "light_bulb",
         "power_outlet"
@@ -7207,12 +6827,8 @@
       "unit_vi": "mét",
       "section_vi": "Đồ điện gia dụng",
       "device_types": [
-        "gas_stove",
-        "kettle",
         "electric_fan",
         "ceiling_fan",
-        "microwave_oven",
-        "oven",
         "water_heater",
         "light_bulb",
         "power_outlet"
@@ -7228,12 +6844,8 @@
       "unit_vi": "sợi",
       "section_vi": "Đồ điện gia dụng",
       "device_types": [
-        "gas_stove",
-        "kettle",
         "electric_fan",
         "ceiling_fan",
-        "microwave_oven",
-        "oven",
         "water_heater",
         "light_bulb",
         "power_outlet"
@@ -7249,12 +6861,8 @@
       "unit_vi": "sợi",
       "section_vi": "Đồ điện gia dụng",
       "device_types": [
-        "gas_stove",
-        "kettle",
         "electric_fan",
         "ceiling_fan",
-        "microwave_oven",
-        "oven",
         "water_heater",
         "light_bulb",
         "power_outlet"
@@ -7270,12 +6878,8 @@
       "unit_vi": "tuýp",
       "section_vi": "Đồ điện gia dụng",
       "device_types": [
-        "gas_stove",
-        "kettle",
         "electric_fan",
         "ceiling_fan",
-        "microwave_oven",
-        "oven",
         "water_heater",
         "light_bulb",
         "power_outlet"
@@ -7291,15 +6895,3794 @@
       "unit_vi": "tuýp",
       "section_vi": "Đồ điện gia dụng",
       "device_types": [
-        "gas_stove",
-        "kettle",
         "electric_fan",
         "ceiling_fan",
-        "microwave_oven",
-        "oven",
         "water_heater",
         "light_bulb",
         "power_outlet"
+      ]
+    },
+    {
+      "code": "SNK001",
+      "name_vi": "Rổ lọc rác Ø90",
+      "group_vi": "Linh kiện nhỏ",
+      "kind": "Sink strainer",
+      "price_min": 80000,
+      "price_max": 250000,
+      "unit_vi": "cái",
+      "section_vi": "Bồn rửa / Chậu rửa",
+      "device_types": [
+        "sink"
+      ]
+    },
+    {
+      "code": "SNK002",
+      "name_vi": "Rổ lọc rác Ø110",
+      "group_vi": "Linh kiện nhỏ",
+      "kind": "Sink strainer",
+      "price_min": 100000,
+      "price_max": 300000,
+      "unit_vi": "cái",
+      "section_vi": "Bồn rửa / Chậu rửa",
+      "device_types": [
+        "sink"
+      ]
+    },
+    {
+      "code": "SNK003",
+      "name_vi": "Nắp lọc rác inox",
+      "group_vi": "Linh kiện nhỏ",
+      "kind": "Strainer cover",
+      "price_min": 30000,
+      "price_max": 100000,
+      "unit_vi": "cái",
+      "section_vi": "Bồn rửa / Chậu rửa",
+      "device_types": [
+        "sink"
+      ]
+    },
+    {
+      "code": "SNK004",
+      "name_vi": "Gioăng rổ lọc",
+      "group_vi": "Linh kiện nhỏ",
+      "kind": "Strainer gasket",
+      "price_min": 20000,
+      "price_max": 80000,
+      "unit_vi": "cái",
+      "section_vi": "Bồn rửa / Chậu rửa",
+      "device_types": [
+        "sink"
+      ]
+    },
+    {
+      "code": "SNK005",
+      "name_vi": "Thân xả chậu rửa inox",
+      "group_vi": "Linh kiện",
+      "kind": "Waste assembly",
+      "price_min": 150000,
+      "price_max": 450000,
+      "unit_vi": "bộ",
+      "section_vi": "Bồn rửa / Chậu rửa",
+      "device_types": [
+        "sink"
+      ]
+    },
+    {
+      "code": "SNK006",
+      "name_vi": "Bộ xả đơn chậu rửa",
+      "group_vi": "Linh kiện",
+      "kind": "Sink waste kit",
+      "price_min": 180000,
+      "price_max": 550000,
+      "unit_vi": "bộ",
+      "section_vi": "Bồn rửa / Chậu rửa",
+      "device_types": [
+        "sink"
+      ]
+    },
+    {
+      "code": "SNK007",
+      "name_vi": "Bộ xả đôi chậu rửa",
+      "group_vi": "Linh kiện",
+      "kind": "Double sink waste kit",
+      "price_min": 250000,
+      "price_max": 750000,
+      "unit_vi": "bộ",
+      "section_vi": "Bồn rửa / Chậu rửa",
+      "device_types": [
+        "sink"
+      ]
+    },
+    {
+      "code": "SNK008",
+      "name_vi": "Ống xả mềm Ø32",
+      "group_vi": "Vật tư nước",
+      "kind": "Flexible waste hose",
+      "price_min": 50000,
+      "price_max": 150000,
+      "unit_vi": "dây",
+      "section_vi": "Bồn rửa / Chậu rửa",
+      "device_types": [
+        "sink"
+      ]
+    },
+    {
+      "code": "SNK009",
+      "name_vi": "Ống xả mềm Ø40",
+      "group_vi": "Vật tư nước",
+      "kind": "Flexible waste hose",
+      "price_min": 60000,
+      "price_max": 180000,
+      "unit_vi": "dây",
+      "section_vi": "Bồn rửa / Chậu rửa",
+      "device_types": [
+        "sink"
+      ]
+    },
+    {
+      "code": "SNK010",
+      "name_vi": "Siphon chữ P Ø32",
+      "group_vi": "Linh kiện",
+      "kind": "P-trap",
+      "price_min": 120000,
+      "price_max": 400000,
+      "unit_vi": "bộ",
+      "section_vi": "Bồn rửa / Chậu rửa",
+      "device_types": [
+        "sink"
+      ]
+    },
+    {
+      "code": "SNK011",
+      "name_vi": "Siphon chữ P Ø40",
+      "group_vi": "Linh kiện",
+      "kind": "P-trap",
+      "price_min": 130000,
+      "price_max": 450000,
+      "unit_vi": "bộ",
+      "section_vi": "Bồn rửa / Chậu rửa",
+      "device_types": [
+        "sink"
+      ]
+    },
+    {
+      "code": "SNK012",
+      "name_vi": "Siphon chữ S Ø32",
+      "group_vi": "Linh kiện",
+      "kind": "S-trap",
+      "price_min": 120000,
+      "price_max": 400000,
+      "unit_vi": "bộ",
+      "section_vi": "Bồn rửa / Chậu rửa",
+      "device_types": [
+        "sink"
+      ]
+    },
+    {
+      "code": "SNK013",
+      "name_vi": "Siphon chai",
+      "group_vi": "Linh kiện",
+      "kind": "Bottle trap",
+      "price_min": 180000,
+      "price_max": 650000,
+      "unit_vi": "bộ",
+      "section_vi": "Bồn rửa / Chậu rửa",
+      "device_types": [
+        "sink"
+      ]
+    },
+    {
+      "code": "SNK014",
+      "name_vi": "Co xả 90° Ø32",
+      "group_vi": "Linh kiện nhỏ",
+      "kind": "Waste elbow",
+      "price_min": 20000,
+      "price_max": 70000,
+      "unit_vi": "cái",
+      "section_vi": "Bồn rửa / Chậu rửa",
+      "device_types": [
+        "sink"
+      ]
+    },
+    {
+      "code": "SNK015",
+      "name_vi": "Co xả 90° Ø40",
+      "group_vi": "Linh kiện nhỏ",
+      "kind": "Waste elbow",
+      "price_min": 25000,
+      "price_max": 80000,
+      "unit_vi": "cái",
+      "section_vi": "Bồn rửa / Chậu rửa",
+      "device_types": [
+        "sink"
+      ]
+    },
+    {
+      "code": "SNK016",
+      "name_vi": "Tê xả Ø32",
+      "group_vi": "Linh kiện nhỏ",
+      "kind": "Waste tee",
+      "price_min": 25000,
+      "price_max": 90000,
+      "unit_vi": "cái",
+      "section_vi": "Bồn rửa / Chậu rửa",
+      "device_types": [
+        "sink"
+      ]
+    },
+    {
+      "code": "SNK017",
+      "name_vi": "Măng sông xả Ø32",
+      "group_vi": "Linh kiện nhỏ",
+      "kind": "Waste coupling",
+      "price_min": 15000,
+      "price_max": 60000,
+      "unit_vi": "cái",
+      "section_vi": "Bồn rửa / Chậu rửa",
+      "device_types": [
+        "sink"
+      ]
+    },
+    {
+      "code": "SNK018",
+      "name_vi": "Đai ốc siphon",
+      "group_vi": "Linh kiện nhỏ",
+      "kind": "Trap nut",
+      "price_min": 10000,
+      "price_max": 40000,
+      "unit_vi": "cái",
+      "section_vi": "Bồn rửa / Chậu rửa",
+      "device_types": [
+        "sink"
+      ]
+    },
+    {
+      "code": "SNK019",
+      "name_vi": "Gioăng côn siphon",
+      "group_vi": "Linh kiện nhỏ",
+      "kind": "Cone washer",
+      "price_min": 10000,
+      "price_max": 40000,
+      "unit_vi": "cái",
+      "section_vi": "Bồn rửa / Chậu rửa",
+      "device_types": [
+        "sink"
+      ]
+    },
+    {
+      "code": "SNK020",
+      "name_vi": "Ống chống tràn",
+      "group_vi": "Linh kiện nhỏ",
+      "kind": "Overflow hose",
+      "price_min": 30000,
+      "price_max": 120000,
+      "unit_vi": "dây",
+      "section_vi": "Bồn rửa / Chậu rửa",
+      "device_types": [
+        "sink"
+      ]
+    },
+    {
+      "code": "SNK021",
+      "name_vi": "Nắp lỗ chống tràn",
+      "group_vi": "Linh kiện nhỏ",
+      "kind": "Overflow cover",
+      "price_min": 20000,
+      "price_max": 80000,
+      "unit_vi": "cái",
+      "section_vi": "Bồn rửa / Chậu rửa",
+      "device_types": [
+        "sink"
+      ]
+    },
+    {
+      "code": "SNK022",
+      "name_vi": "Bộ chống tràn",
+      "group_vi": "Linh kiện",
+      "kind": "Overflow kit",
+      "price_min": 80000,
+      "price_max": 250000,
+      "unit_vi": "bộ",
+      "section_vi": "Bồn rửa / Chậu rửa",
+      "device_types": [
+        "sink"
+      ]
+    },
+    {
+      "code": "SNK023",
+      "name_vi": "Kẹp cố định chậu âm",
+      "group_vi": "Linh kiện nhỏ",
+      "kind": "Sink clip",
+      "price_min": 10000,
+      "price_max": 30000,
+      "unit_vi": "cái",
+      "section_vi": "Bồn rửa / Chậu rửa",
+      "device_types": [
+        "sink"
+      ]
+    },
+    {
+      "code": "SNK024",
+      "name_vi": "Bộ kẹp chậu âm",
+      "group_vi": "Phụ kiện",
+      "kind": "Sink clip set",
+      "price_min": 60000,
+      "price_max": 180000,
+      "unit_vi": "bộ",
+      "section_vi": "Bồn rửa / Chậu rửa",
+      "device_types": [
+        "sink"
+      ]
+    },
+    {
+      "code": "SNK025",
+      "name_vi": "Keo silicone trung tính",
+      "group_vi": "Consumable",
+      "kind": "Silicone sealant",
+      "price_min": 60000,
+      "price_max": 160000,
+      "unit_vi": "tuýp",
+      "section_vi": "Bồn rửa / Chậu rửa",
+      "device_types": [
+        "sink"
+      ]
+    },
+    {
+      "code": "SNK026",
+      "name_vi": "Van góc 1/2",
+      "group_vi": "Linh kiện",
+      "kind": "Angle valve",
+      "price_min": 70000,
+      "price_max": 300000,
+      "unit_vi": "cái",
+      "section_vi": "Bồn rửa / Chậu rửa",
+      "device_types": [
+        "sink"
+      ]
+    },
+    {
+      "code": "SNK027",
+      "name_vi": "Dây cấp inox 40cm",
+      "group_vi": "Vật tư nước",
+      "kind": "Flexible hose",
+      "price_min": 50000,
+      "price_max": 160000,
+      "unit_vi": "dây",
+      "section_vi": "Bồn rửa / Chậu rửa",
+      "device_types": [
+        "sink"
+      ]
+    },
+    {
+      "code": "SNK028",
+      "name_vi": "Dây cấp inox 60cm",
+      "group_vi": "Vật tư nước",
+      "kind": "Flexible hose",
+      "price_min": 60000,
+      "price_max": 180000,
+      "unit_vi": "dây",
+      "section_vi": "Bồn rửa / Chậu rửa",
+      "device_types": [
+        "sink"
+      ]
+    },
+    {
+      "code": "SNK029",
+      "name_vi": "Dây cấp nóng lạnh cặp",
+      "group_vi": "Vật tư nước",
+      "kind": "Mixer hose set",
+      "price_min": 100000,
+      "price_max": 300000,
+      "unit_vi": "cặp",
+      "section_vi": "Bồn rửa / Chậu rửa",
+      "device_types": [
+        "sink"
+      ]
+    },
+    {
+      "code": "SNK030",
+      "name_vi": "Nút bịt lỗ vòi",
+      "group_vi": "Linh kiện nhỏ",
+      "kind": "Sink hole cover",
+      "price_min": 20000,
+      "price_max": 80000,
+      "unit_vi": "cái",
+      "section_vi": "Bồn rửa / Chậu rửa",
+      "device_types": [
+        "sink"
+      ]
+    },
+    {
+      "code": "SNK031",
+      "name_vi": "Long đền cao su chống rò",
+      "group_vi": "Linh kiện nhỏ",
+      "kind": "Rubber washer",
+      "price_min": 5000,
+      "price_max": 25000,
+      "unit_vi": "cái",
+      "section_vi": "Bồn rửa / Chậu rửa",
+      "device_types": [
+        "sink"
+      ]
+    },
+    {
+      "code": "SNK032",
+      "name_vi": "Đầu chia cấp nước 2 nhánh",
+      "group_vi": "Linh kiện",
+      "kind": "Water splitter",
+      "price_min": 90000,
+      "price_max": 300000,
+      "unit_vi": "cái",
+      "section_vi": "Bồn rửa / Chậu rửa",
+      "device_types": [
+        "sink"
+      ]
+    },
+    {
+      "code": "FCT001",
+      "name_vi": "Lõi van ceramic 25mm",
+      "group_vi": "Linh kiện",
+      "kind": "Ceramic cartridge",
+      "price_min": 70000,
+      "price_max": 250000,
+      "unit_vi": "cái",
+      "section_vi": "Vòi nước / Sen vòi",
+      "device_types": [
+        "faucet"
+      ]
+    },
+    {
+      "code": "FCT002",
+      "name_vi": "Lõi van ceramic 35mm",
+      "group_vi": "Linh kiện",
+      "kind": "Ceramic cartridge",
+      "price_min": 80000,
+      "price_max": 300000,
+      "unit_vi": "cái",
+      "section_vi": "Vòi nước / Sen vòi",
+      "device_types": [
+        "faucet"
+      ]
+    },
+    {
+      "code": "FCT003",
+      "name_vi": "Lõi van ceramic 40mm",
+      "group_vi": "Linh kiện",
+      "kind": "Ceramic cartridge",
+      "price_min": 90000,
+      "price_max": 350000,
+      "unit_vi": "cái",
+      "section_vi": "Vòi nước / Sen vòi",
+      "device_types": [
+        "faucet"
+      ]
+    },
+    {
+      "code": "FCT004",
+      "name_vi": "Lõi van vòi lạnh 1/2",
+      "group_vi": "Linh kiện",
+      "kind": "Ceramic valve head",
+      "price_min": 60000,
+      "price_max": 220000,
+      "unit_vi": "cái",
+      "section_vi": "Vòi nước / Sen vòi",
+      "device_types": [
+        "faucet"
+      ]
+    },
+    {
+      "code": "FCT005",
+      "name_vi": "Lõi van nóng trái",
+      "group_vi": "Linh kiện",
+      "kind": "Ceramic valve head",
+      "price_min": 70000,
+      "price_max": 250000,
+      "unit_vi": "cái",
+      "section_vi": "Vòi nước / Sen vòi",
+      "device_types": [
+        "faucet"
+      ]
+    },
+    {
+      "code": "FCT006",
+      "name_vi": "Lõi van lạnh phải",
+      "group_vi": "Linh kiện",
+      "kind": "Ceramic valve head",
+      "price_min": 70000,
+      "price_max": 250000,
+      "unit_vi": "cái",
+      "section_vi": "Vòi nước / Sen vòi",
+      "device_types": [
+        "faucet"
+      ]
+    },
+    {
+      "code": "FCT007",
+      "name_vi": "Đầu tạo bọt M22",
+      "group_vi": "Linh kiện nhỏ",
+      "kind": "Aerator",
+      "price_min": 30000,
+      "price_max": 180000,
+      "unit_vi": "cái",
+      "section_vi": "Vòi nước / Sen vòi",
+      "device_types": [
+        "faucet"
+      ]
+    },
+    {
+      "code": "FCT008",
+      "name_vi": "Đầu tạo bọt M24",
+      "group_vi": "Linh kiện nhỏ",
+      "kind": "Aerator",
+      "price_min": 30000,
+      "price_max": 180000,
+      "unit_vi": "cái",
+      "section_vi": "Vòi nước / Sen vòi",
+      "device_types": [
+        "faucet"
+      ]
+    },
+    {
+      "code": "FCT009",
+      "name_vi": "Lõi lưới aerator",
+      "group_vi": "Linh kiện nhỏ",
+      "kind": "Aerator insert",
+      "price_min": 15000,
+      "price_max": 70000,
+      "unit_vi": "cái",
+      "section_vi": "Vòi nước / Sen vòi",
+      "device_types": [
+        "faucet"
+      ]
+    },
+    {
+      "code": "FCT010",
+      "name_vi": "Gioăng aerator",
+      "group_vi": "Linh kiện nhỏ",
+      "kind": "Aerator gasket",
+      "price_min": 5000,
+      "price_max": 20000,
+      "unit_vi": "cái",
+      "section_vi": "Vòi nước / Sen vòi",
+      "device_types": [
+        "faucet"
+      ]
+    },
+    {
+      "code": "FCT011",
+      "name_vi": "Đầu vòi xoay 360°",
+      "group_vi": "Phụ kiện",
+      "kind": "Swivel aerator",
+      "price_min": 70000,
+      "price_max": 250000,
+      "unit_vi": "cái",
+      "section_vi": "Vòi nước / Sen vòi",
+      "device_types": [
+        "faucet"
+      ]
+    },
+    {
+      "code": "FCT012",
+      "name_vi": "Đầu vòi rút spray",
+      "group_vi": "Linh kiện",
+      "kind": "Pull-out spray head",
+      "price_min": 180000,
+      "price_max": 650000,
+      "unit_vi": "cái",
+      "section_vi": "Vòi nước / Sen vòi",
+      "device_types": [
+        "faucet"
+      ]
+    },
+    {
+      "code": "FCT013",
+      "name_vi": "Dây rút vòi bếp 1.5m",
+      "group_vi": "Linh kiện",
+      "kind": "Pull-out hose",
+      "price_min": 150000,
+      "price_max": 450000,
+      "unit_vi": "dây",
+      "section_vi": "Vòi nước / Sen vòi",
+      "device_types": [
+        "faucet"
+      ]
+    },
+    {
+      "code": "FCT014",
+      "name_vi": "Đối trọng dây rút",
+      "group_vi": "Linh kiện nhỏ",
+      "kind": "Hose weight",
+      "price_min": 50000,
+      "price_max": 180000,
+      "unit_vi": "cái",
+      "section_vi": "Vòi nước / Sen vòi",
+      "device_types": [
+        "faucet"
+      ]
+    },
+    {
+      "code": "FCT015",
+      "name_vi": "Khớp nối nhanh dây rút",
+      "group_vi": "Linh kiện nhỏ",
+      "kind": "Quick coupling",
+      "price_min": 50000,
+      "price_max": 180000,
+      "unit_vi": "cái",
+      "section_vi": "Vòi nước / Sen vòi",
+      "device_types": [
+        "faucet"
+      ]
+    },
+    {
+      "code": "FCT016",
+      "name_vi": "Dây cấp nóng M10",
+      "group_vi": "Vật tư nước",
+      "kind": "Flexible hose",
+      "price_min": 60000,
+      "price_max": 200000,
+      "unit_vi": "dây",
+      "section_vi": "Vòi nước / Sen vòi",
+      "device_types": [
+        "faucet"
+      ]
+    },
+    {
+      "code": "FCT017",
+      "name_vi": "Dây cấp lạnh M10",
+      "group_vi": "Vật tư nước",
+      "kind": "Flexible hose",
+      "price_min": 60000,
+      "price_max": 200000,
+      "unit_vi": "dây",
+      "section_vi": "Vòi nước / Sen vòi",
+      "device_types": [
+        "faucet"
+      ]
+    },
+    {
+      "code": "FCT018",
+      "name_vi": "Dây cấp M8",
+      "group_vi": "Vật tư nước",
+      "kind": "Flexible hose",
+      "price_min": 60000,
+      "price_max": 180000,
+      "unit_vi": "dây",
+      "section_vi": "Vòi nước / Sen vòi",
+      "device_types": [
+        "faucet"
+      ]
+    },
+    {
+      "code": "FCT019",
+      "name_vi": "O-ring thân vòi nhỏ",
+      "group_vi": "Linh kiện nhỏ",
+      "kind": "O-ring",
+      "price_min": 5000,
+      "price_max": 30000,
+      "unit_vi": "cái",
+      "section_vi": "Vòi nước / Sen vòi",
+      "device_types": [
+        "faucet"
+      ]
+    },
+    {
+      "code": "FCT020",
+      "name_vi": "O-ring thân vòi lớn",
+      "group_vi": "Linh kiện nhỏ",
+      "kind": "O-ring",
+      "price_min": 10000,
+      "price_max": 40000,
+      "unit_vi": "cái",
+      "section_vi": "Vòi nước / Sen vòi",
+      "device_types": [
+        "faucet"
+      ]
+    },
+    {
+      "code": "FCT021",
+      "name_vi": "Bộ O-ring vòi xoay",
+      "group_vi": "Linh kiện nhỏ",
+      "kind": "O-ring set",
+      "price_min": 30000,
+      "price_max": 120000,
+      "unit_vi": "bộ",
+      "section_vi": "Vòi nước / Sen vòi",
+      "device_types": [
+        "faucet"
+      ]
+    },
+    {
+      "code": "FCT022",
+      "name_vi": "Đai ốc giữ cartridge",
+      "group_vi": "Linh kiện nhỏ",
+      "kind": "Cartridge nut",
+      "price_min": 30000,
+      "price_max": 120000,
+      "unit_vi": "cái",
+      "section_vi": "Vòi nước / Sen vòi",
+      "device_types": [
+        "faucet"
+      ]
+    },
+    {
+      "code": "FCT023",
+      "name_vi": "Tay gạt vòi",
+      "group_vi": "Linh kiện",
+      "kind": "Faucet handle",
+      "price_min": 100000,
+      "price_max": 450000,
+      "unit_vi": "cái",
+      "section_vi": "Vòi nước / Sen vòi",
+      "device_types": [
+        "faucet"
+      ]
+    },
+    {
+      "code": "FCT024",
+      "name_vi": "Ốc lục giác tay gạt",
+      "group_vi": "Linh kiện nhỏ",
+      "kind": "Set screw",
+      "price_min": 5000,
+      "price_max": 20000,
+      "unit_vi": "cái",
+      "section_vi": "Vòi nước / Sen vòi",
+      "device_types": [
+        "faucet"
+      ]
+    },
+    {
+      "code": "FCT025",
+      "name_vi": "Nút nóng lạnh",
+      "group_vi": "Linh kiện nhỏ",
+      "kind": "Indicator cap",
+      "price_min": 5000,
+      "price_max": 25000,
+      "unit_vi": "cái",
+      "section_vi": "Vòi nước / Sen vòi",
+      "device_types": [
+        "faucet"
+      ]
+    },
+    {
+      "code": "FCT026",
+      "name_vi": "Cổ vòi chữ C",
+      "group_vi": "Linh kiện",
+      "kind": "Faucet spout",
+      "price_min": 180000,
+      "price_max": 650000,
+      "unit_vi": "cái",
+      "section_vi": "Vòi nước / Sen vòi",
+      "device_types": [
+        "faucet"
+      ]
+    },
+    {
+      "code": "FCT027",
+      "name_vi": "Cổ vòi chữ L",
+      "group_vi": "Linh kiện",
+      "kind": "Faucet spout",
+      "price_min": 180000,
+      "price_max": 650000,
+      "unit_vi": "cái",
+      "section_vi": "Vòi nước / Sen vòi",
+      "device_types": [
+        "faucet"
+      ]
+    },
+    {
+      "code": "FCT028",
+      "name_vi": "Cổ vòi mềm silicone",
+      "group_vi": "Linh kiện",
+      "kind": "Flexible spout",
+      "price_min": 150000,
+      "price_max": 500000,
+      "unit_vi": "cái",
+      "section_vi": "Vòi nước / Sen vòi",
+      "device_types": [
+        "faucet"
+      ]
+    },
+    {
+      "code": "FCT029",
+      "name_vi": "Bộ chuyển hướng sen vòi",
+      "group_vi": "Linh kiện",
+      "kind": "Diverter valve",
+      "price_min": 180000,
+      "price_max": 650000,
+      "unit_vi": "cái",
+      "section_vi": "Vòi nước / Sen vòi",
+      "device_types": [
+        "faucet"
+      ]
+    },
+    {
+      "code": "FCT030",
+      "name_vi": "Đế chân vòi",
+      "group_vi": "Linh kiện nhỏ",
+      "kind": "Mounting base",
+      "price_min": 50000,
+      "price_max": 200000,
+      "unit_vi": "cái",
+      "section_vi": "Vòi nước / Sen vòi",
+      "device_types": [
+        "faucet"
+      ]
+    },
+    {
+      "code": "FCT031",
+      "name_vi": "Gioăng đế vòi",
+      "group_vi": "Linh kiện nhỏ",
+      "kind": "Base gasket",
+      "price_min": 10000,
+      "price_max": 50000,
+      "unit_vi": "cái",
+      "section_vi": "Vòi nước / Sen vòi",
+      "device_types": [
+        "faucet"
+      ]
+    },
+    {
+      "code": "FCT032",
+      "name_vi": "Bộ bulong chữ U cố định",
+      "group_vi": "Linh kiện nhỏ",
+      "kind": "Mounting kit",
+      "price_min": 50000,
+      "price_max": 180000,
+      "unit_vi": "bộ",
+      "section_vi": "Vòi nước / Sen vòi",
+      "device_types": [
+        "faucet"
+      ]
+    },
+    {
+      "code": "FCT033",
+      "name_vi": "Van góc 1/2",
+      "group_vi": "Linh kiện",
+      "kind": "Angle cock",
+      "price_min": 70000,
+      "price_max": 300000,
+      "unit_vi": "cái",
+      "section_vi": "Vòi nước / Sen vòi",
+      "device_types": [
+        "faucet"
+      ]
+    },
+    {
+      "code": "FCT034",
+      "name_vi": "Van chia 2 đường",
+      "group_vi": "Linh kiện",
+      "kind": "Dual angle valve",
+      "price_min": 120000,
+      "price_max": 400000,
+      "unit_vi": "cái",
+      "section_vi": "Vòi nước / Sen vòi",
+      "device_types": [
+        "faucet"
+      ]
+    },
+    {
+      "code": "FCT035",
+      "name_vi": "Lưới lọc cặn đầu cấp",
+      "group_vi": "Linh kiện nhỏ",
+      "kind": "Mesh filter",
+      "price_min": 30000,
+      "price_max": 120000,
+      "unit_vi": "cái",
+      "section_vi": "Vòi nước / Sen vòi",
+      "device_types": [
+        "faucet"
+      ]
+    },
+    {
+      "code": "TLC001",
+      "name_vi": "Van cấp nước bồn cầu",
+      "group_vi": "Linh kiện",
+      "kind": "Fill valve",
+      "price_min": 150000,
+      "price_max": 450000,
+      "unit_vi": "bộ",
+      "section_vi": "Bồn cầu / Thiết bị vệ sinh",
+      "device_types": [
+        "toilet"
+      ]
+    },
+    {
+      "code": "TLC002",
+      "name_vi": "Phao cơ bồn cầu",
+      "group_vi": "Linh kiện",
+      "kind": "Float valve",
+      "price_min": 80000,
+      "price_max": 250000,
+      "unit_vi": "bộ",
+      "section_vi": "Bồn cầu / Thiết bị vệ sinh",
+      "device_types": [
+        "toilet"
+      ]
+    },
+    {
+      "code": "TLC003",
+      "name_vi": "Phao cốc bồn cầu",
+      "group_vi": "Linh kiện",
+      "kind": "Fill valve float",
+      "price_min": 100000,
+      "price_max": 300000,
+      "unit_vi": "bộ",
+      "section_vi": "Bồn cầu / Thiết bị vệ sinh",
+      "device_types": [
+        "toilet"
+      ]
+    },
+    {
+      "code": "TLC004",
+      "name_vi": "Van xả 1 nhấn",
+      "group_vi": "Linh kiện",
+      "kind": "Flush valve",
+      "price_min": 180000,
+      "price_max": 500000,
+      "unit_vi": "bộ",
+      "section_vi": "Bồn cầu / Thiết bị vệ sinh",
+      "device_types": [
+        "toilet"
+      ]
+    },
+    {
+      "code": "TLC005",
+      "name_vi": "Van xả 2 nhấn",
+      "group_vi": "Linh kiện",
+      "kind": "Flush valve",
+      "price_min": 220000,
+      "price_max": 650000,
+      "unit_vi": "bộ",
+      "section_vi": "Bồn cầu / Thiết bị vệ sinh",
+      "device_types": [
+        "toilet"
+      ]
+    },
+    {
+      "code": "TLC006",
+      "name_vi": "Flapper cao su 2 inch",
+      "group_vi": "Linh kiện nhỏ",
+      "kind": "Flapper",
+      "price_min": 80000,
+      "price_max": 250000,
+      "unit_vi": "cái",
+      "section_vi": "Bồn cầu / Thiết bị vệ sinh",
+      "device_types": [
+        "toilet"
+      ]
+    },
+    {
+      "code": "TLC007",
+      "name_vi": "Seal van xả silicone",
+      "group_vi": "Linh kiện nhỏ",
+      "kind": "Flush seal",
+      "price_min": 50000,
+      "price_max": 180000,
+      "unit_vi": "cái",
+      "section_vi": "Bồn cầu / Thiết bị vệ sinh",
+      "device_types": [
+        "toilet"
+      ]
+    },
+    {
+      "code": "TLC008",
+      "name_vi": "Gioăng đáy van xả",
+      "group_vi": "Linh kiện nhỏ",
+      "kind": "Flush gasket",
+      "price_min": 50000,
+      "price_max": 180000,
+      "unit_vi": "cái",
+      "section_vi": "Bồn cầu / Thiết bị vệ sinh",
+      "device_types": [
+        "toilet"
+      ]
+    },
+    {
+      "code": "TLC009",
+      "name_vi": "Nút nhấn đơn",
+      "group_vi": "Linh kiện",
+      "kind": "Flush button",
+      "price_min": 100000,
+      "price_max": 350000,
+      "unit_vi": "cái",
+      "section_vi": "Bồn cầu / Thiết bị vệ sinh",
+      "device_types": [
+        "toilet"
+      ]
+    },
+    {
+      "code": "TLC010",
+      "name_vi": "Nút nhấn đôi",
+      "group_vi": "Linh kiện",
+      "kind": "Flush button",
+      "price_min": 120000,
+      "price_max": 450000,
+      "unit_vi": "cái",
+      "section_vi": "Bồn cầu / Thiết bị vệ sinh",
+      "device_types": [
+        "toilet"
+      ]
+    },
+    {
+      "code": "TLC011",
+      "name_vi": "Thanh ty nút nhấn",
+      "group_vi": "Linh kiện nhỏ",
+      "kind": "Push rod",
+      "price_min": 30000,
+      "price_max": 100000,
+      "unit_vi": "bộ",
+      "section_vi": "Bồn cầu / Thiết bị vệ sinh",
+      "device_types": [
+        "toilet"
+      ]
+    },
+    {
+      "code": "TLC012",
+      "name_vi": "Dây giật van xả",
+      "group_vi": "Linh kiện nhỏ",
+      "kind": "Flush chain",
+      "price_min": 30000,
+      "price_max": 100000,
+      "unit_vi": "dây",
+      "section_vi": "Bồn cầu / Thiết bị vệ sinh",
+      "device_types": [
+        "toilet"
+      ]
+    },
+    {
+      "code": "TLC013",
+      "name_vi": "Cần gạt xả bên hông",
+      "group_vi": "Linh kiện",
+      "kind": "Flush lever",
+      "price_min": 80000,
+      "price_max": 250000,
+      "unit_vi": "bộ",
+      "section_vi": "Bồn cầu / Thiết bị vệ sinh",
+      "device_types": [
+        "toilet"
+      ]
+    },
+    {
+      "code": "TLC014",
+      "name_vi": "Ống tràn van xả",
+      "group_vi": "Linh kiện nhỏ",
+      "kind": "Overflow tube",
+      "price_min": 60000,
+      "price_max": 180000,
+      "unit_vi": "cái",
+      "section_vi": "Bồn cầu / Thiết bị vệ sinh",
+      "device_types": [
+        "toilet"
+      ]
+    },
+    {
+      "code": "TLC015",
+      "name_vi": "Ống refill trong két",
+      "group_vi": "Linh kiện nhỏ",
+      "kind": "Refill tube",
+      "price_min": 30000,
+      "price_max": 100000,
+      "unit_vi": "dây",
+      "section_vi": "Bồn cầu / Thiết bị vệ sinh",
+      "device_types": [
+        "toilet"
+      ]
+    },
+    {
+      "code": "TLC016",
+      "name_vi": "Gioăng nối két-thân",
+      "group_vi": "Linh kiện",
+      "kind": "Tank gasket",
+      "price_min": 100000,
+      "price_max": 350000,
+      "unit_vi": "cái",
+      "section_vi": "Bồn cầu / Thiết bị vệ sinh",
+      "device_types": [
+        "toilet"
+      ]
+    },
+    {
+      "code": "TLC017",
+      "name_vi": "Bulong két nước",
+      "group_vi": "Linh kiện nhỏ",
+      "kind": "Tank bolt",
+      "price_min": 30000,
+      "price_max": 120000,
+      "unit_vi": "bộ",
+      "section_vi": "Bồn cầu / Thiết bị vệ sinh",
+      "device_types": [
+        "toilet"
+      ]
+    },
+    {
+      "code": "TLC018",
+      "name_vi": "Gioăng bulong két",
+      "group_vi": "Linh kiện nhỏ",
+      "kind": "Tank washer",
+      "price_min": 10000,
+      "price_max": 50000,
+      "unit_vi": "cái",
+      "section_vi": "Bồn cầu / Thiết bị vệ sinh",
+      "device_types": [
+        "toilet"
+      ]
+    },
+    {
+      "code": "TLC019",
+      "name_vi": "Dây cấp bồn cầu 40cm",
+      "group_vi": "Vật tư nước",
+      "kind": "Supply hose",
+      "price_min": 50000,
+      "price_max": 150000,
+      "unit_vi": "dây",
+      "section_vi": "Bồn cầu / Thiết bị vệ sinh",
+      "device_types": [
+        "toilet"
+      ]
+    },
+    {
+      "code": "TLC020",
+      "name_vi": "Dây cấp bồn cầu 60cm",
+      "group_vi": "Vật tư nước",
+      "kind": "Supply hose",
+      "price_min": 60000,
+      "price_max": 180000,
+      "unit_vi": "dây",
+      "section_vi": "Bồn cầu / Thiết bị vệ sinh",
+      "device_types": [
+        "toilet"
+      ]
+    },
+    {
+      "code": "TLC021",
+      "name_vi": "Van góc bồn cầu",
+      "group_vi": "Linh kiện",
+      "kind": "Angle valve",
+      "price_min": 70000,
+      "price_max": 300000,
+      "unit_vi": "cái",
+      "section_vi": "Bồn cầu / Thiết bị vệ sinh",
+      "device_types": [
+        "toilet"
+      ]
+    },
+    {
+      "code": "TLC022",
+      "name_vi": "Gioăng chân bồn cầu",
+      "group_vi": "Linh kiện",
+      "kind": "Toilet gasket",
+      "price_min": 80000,
+      "price_max": 250000,
+      "unit_vi": "cái",
+      "section_vi": "Bồn cầu / Thiết bị vệ sinh",
+      "device_types": [
+        "toilet"
+      ]
+    },
+    {
+      "code": "TLC023",
+      "name_vi": "Wax ring",
+      "group_vi": "Linh kiện",
+      "kind": "Wax ring",
+      "price_min": 100000,
+      "price_max": 350000,
+      "unit_vi": "cái",
+      "section_vi": "Bồn cầu / Thiết bị vệ sinh",
+      "device_types": [
+        "toilet"
+      ]
+    },
+    {
+      "code": "TLC024",
+      "name_vi": "Phễu nối thoát",
+      "group_vi": "Linh kiện",
+      "kind": "Toilet connector",
+      "price_min": 120000,
+      "price_max": 400000,
+      "unit_vi": "cái",
+      "section_vi": "Bồn cầu / Thiết bị vệ sinh",
+      "device_types": [
+        "toilet"
+      ]
+    },
+    {
+      "code": "TLC025",
+      "name_vi": "Ống nối lệch tâm",
+      "group_vi": "Linh kiện",
+      "kind": "Offset connector",
+      "price_min": 150000,
+      "price_max": 450000,
+      "unit_vi": "cái",
+      "section_vi": "Bồn cầu / Thiết bị vệ sinh",
+      "device_types": [
+        "toilet"
+      ]
+    },
+    {
+      "code": "TLC026",
+      "name_vi": "Gioăng ống thoát 110",
+      "group_vi": "Linh kiện nhỏ",
+      "kind": "Pipe seal",
+      "price_min": 30000,
+      "price_max": 120000,
+      "unit_vi": "cái",
+      "section_vi": "Bồn cầu / Thiết bị vệ sinh",
+      "device_types": [
+        "toilet"
+      ]
+    },
+    {
+      "code": "TLC027",
+      "name_vi": "Mặt bích sàn bồn cầu",
+      "group_vi": "Linh kiện",
+      "kind": "Closet flange",
+      "price_min": 120000,
+      "price_max": 350000,
+      "unit_vi": "cái",
+      "section_vi": "Bồn cầu / Thiết bị vệ sinh",
+      "device_types": [
+        "toilet"
+      ]
+    },
+    {
+      "code": "TLC028",
+      "name_vi": "Bulong cố định chân",
+      "group_vi": "Linh kiện nhỏ",
+      "kind": "Closet bolt",
+      "price_min": 30000,
+      "price_max": 100000,
+      "unit_vi": "bộ",
+      "section_vi": "Bồn cầu / Thiết bị vệ sinh",
+      "device_types": [
+        "toilet"
+      ]
+    },
+    {
+      "code": "TLC029",
+      "name_vi": "Nắp bồn cầu thường",
+      "group_vi": "Phụ kiện",
+      "kind": "Toilet seat",
+      "price_min": 250000,
+      "price_max": 750000,
+      "unit_vi": "bộ",
+      "section_vi": "Bồn cầu / Thiết bị vệ sinh",
+      "device_types": [
+        "toilet"
+      ]
+    },
+    {
+      "code": "TLC030",
+      "name_vi": "Nắp đóng êm",
+      "group_vi": "Phụ kiện",
+      "kind": "Soft-close seat",
+      "price_min": 450000,
+      "price_max": 1400000,
+      "unit_vi": "bộ",
+      "section_vi": "Bồn cầu / Thiết bị vệ sinh",
+      "device_types": [
+        "toilet"
+      ]
+    },
+    {
+      "code": "TLC031",
+      "name_vi": "Bản lề nắp bồn cầu",
+      "group_vi": "Linh kiện",
+      "kind": "Seat hinge",
+      "price_min": 100000,
+      "price_max": 350000,
+      "unit_vi": "bộ",
+      "section_vi": "Bồn cầu / Thiết bị vệ sinh",
+      "device_types": [
+        "toilet"
+      ]
+    },
+    {
+      "code": "TLC032",
+      "name_vi": "Đệm cao su bản lề",
+      "group_vi": "Linh kiện nhỏ",
+      "kind": "Seat bumper",
+      "price_min": 30000,
+      "price_max": 100000,
+      "unit_vi": "bộ",
+      "section_vi": "Bồn cầu / Thiết bị vệ sinh",
+      "device_types": [
+        "toilet"
+      ]
+    },
+    {
+      "code": "TLC033",
+      "name_vi": "Nắp két nước",
+      "group_vi": "Phụ kiện",
+      "kind": "Tank lid",
+      "price_min": 300000,
+      "price_max": 1000000,
+      "unit_vi": "cái",
+      "section_vi": "Bồn cầu / Thiết bị vệ sinh",
+      "device_types": [
+        "toilet"
+      ]
+    },
+    {
+      "code": "TLC034",
+      "name_vi": "Bộ xả két âm",
+      "group_vi": "Linh kiện",
+      "kind": "Flush mechanism",
+      "price_min": 900000,
+      "price_max": 3000000,
+      "unit_vi": "bộ",
+      "section_vi": "Bồn cầu / Thiết bị vệ sinh",
+      "device_types": [
+        "toilet"
+      ]
+    },
+    {
+      "code": "TLC035",
+      "name_vi": "Van cấp két âm",
+      "group_vi": "Linh kiện",
+      "kind": "Fill valve",
+      "price_min": 500000,
+      "price_max": 1600000,
+      "unit_vi": "bộ",
+      "section_vi": "Bồn cầu / Thiết bị vệ sinh",
+      "device_types": [
+        "toilet"
+      ]
+    },
+    {
+      "code": "TLC036",
+      "name_vi": "Nút nhấn két âm",
+      "group_vi": "Phụ kiện",
+      "kind": "Flush plate",
+      "price_min": 800000,
+      "price_max": 3500000,
+      "unit_vi": "bộ",
+      "section_vi": "Bồn cầu / Thiết bị vệ sinh",
+      "device_types": [
+        "toilet"
+      ]
+    },
+    {
+      "code": "TLC037",
+      "name_vi": "Vòi xịt vệ sinh",
+      "group_vi": "Phụ kiện",
+      "kind": "Bidet spray",
+      "price_min": 120000,
+      "price_max": 450000,
+      "unit_vi": "bộ",
+      "section_vi": "Bồn cầu / Thiết bị vệ sinh",
+      "device_types": [
+        "toilet"
+      ]
+    },
+    {
+      "code": "TLC038",
+      "name_vi": "Dây vòi xịt 1.2m",
+      "group_vi": "Vật tư nước",
+      "kind": "Bidet hose",
+      "price_min": 60000,
+      "price_max": 180000,
+      "unit_vi": "dây",
+      "section_vi": "Bồn cầu / Thiết bị vệ sinh",
+      "device_types": [
+        "toilet"
+      ]
+    },
+    {
+      "code": "TLC039",
+      "name_vi": "Van khóa chữ T",
+      "group_vi": "Linh kiện",
+      "kind": "T-valve",
+      "price_min": 90000,
+      "price_max": 300000,
+      "unit_vi": "cái",
+      "section_vi": "Bồn cầu / Thiết bị vệ sinh",
+      "device_types": [
+        "toilet"
+      ]
+    },
+    {
+      "code": "TLC040",
+      "name_vi": "Van một chiều vòi xịt",
+      "group_vi": "Linh kiện nhỏ",
+      "kind": "Check valve",
+      "price_min": 70000,
+      "price_max": 250000,
+      "unit_vi": "cái",
+      "section_vi": "Bồn cầu / Thiết bị vệ sinh",
+      "device_types": [
+        "toilet"
+      ]
+    },
+    {
+      "code": "PIP001",
+      "name_vi": "Ống PVC-U D21",
+      "group_vi": "Vật tư nước",
+      "kind": "PVC-U pipe",
+      "price_min": 12000,
+      "price_max": 30000,
+      "unit_vi": "mét",
+      "section_vi": "Ống nước & phụ kiện PVC/PPR",
+      "device_types": [
+        "water_pipe"
+      ]
+    },
+    {
+      "code": "PIP002",
+      "name_vi": "Ống PVC-U D27",
+      "group_vi": "Vật tư nước",
+      "kind": "PVC-U pipe",
+      "price_min": 16000,
+      "price_max": 40000,
+      "unit_vi": "mét",
+      "section_vi": "Ống nước & phụ kiện PVC/PPR",
+      "device_types": [
+        "water_pipe"
+      ]
+    },
+    {
+      "code": "PIP003",
+      "name_vi": "Ống PVC-U D34",
+      "group_vi": "Vật tư nước",
+      "kind": "PVC-U pipe",
+      "price_min": 22000,
+      "price_max": 55000,
+      "unit_vi": "mét",
+      "section_vi": "Ống nước & phụ kiện PVC/PPR",
+      "device_types": [
+        "water_pipe"
+      ]
+    },
+    {
+      "code": "PIP004",
+      "name_vi": "Ống PVC-U D42",
+      "group_vi": "Vật tư nước",
+      "kind": "PVC-U pipe",
+      "price_min": 30000,
+      "price_max": 70000,
+      "unit_vi": "mét",
+      "section_vi": "Ống nước & phụ kiện PVC/PPR",
+      "device_types": [
+        "water_pipe"
+      ]
+    },
+    {
+      "code": "PIP005",
+      "name_vi": "Ống PVC-U D49",
+      "group_vi": "Vật tư nước",
+      "kind": "PVC-U pipe",
+      "price_min": 40000,
+      "price_max": 90000,
+      "unit_vi": "mét",
+      "section_vi": "Ống nước & phụ kiện PVC/PPR",
+      "device_types": [
+        "water_pipe"
+      ]
+    },
+    {
+      "code": "PIP006",
+      "name_vi": "Ống PVC-U D60",
+      "group_vi": "Vật tư nước",
+      "kind": "PVC-U pipe",
+      "price_min": 55000,
+      "price_max": 120000,
+      "unit_vi": "mét",
+      "section_vi": "Ống nước & phụ kiện PVC/PPR",
+      "device_types": [
+        "water_pipe"
+      ]
+    },
+    {
+      "code": "PIP007",
+      "name_vi": "Ống PVC-U D90",
+      "group_vi": "Vật tư nước",
+      "kind": "PVC-U pipe",
+      "price_min": 90000,
+      "price_max": 200000,
+      "unit_vi": "mét",
+      "section_vi": "Ống nước & phụ kiện PVC/PPR",
+      "device_types": [
+        "water_pipe"
+      ]
+    },
+    {
+      "code": "PIP008",
+      "name_vi": "Ống PVC-U D110",
+      "group_vi": "Vật tư nước",
+      "kind": "PVC-U pipe",
+      "price_min": 120000,
+      "price_max": 280000,
+      "unit_vi": "mét",
+      "section_vi": "Ống nước & phụ kiện PVC/PPR",
+      "device_types": [
+        "water_pipe"
+      ]
+    },
+    {
+      "code": "PIP009",
+      "name_vi": "Ống PVC-U D140",
+      "group_vi": "Vật tư nước",
+      "kind": "PVC-U pipe",
+      "price_min": 190000,
+      "price_max": 420000,
+      "unit_vi": "mét",
+      "section_vi": "Ống nước & phụ kiện PVC/PPR",
+      "device_types": [
+        "water_pipe"
+      ]
+    },
+    {
+      "code": "PIP010",
+      "name_vi": "Ống PVC-U D168",
+      "group_vi": "Vật tư nước",
+      "kind": "PVC-U pipe",
+      "price_min": 260000,
+      "price_max": 550000,
+      "unit_vi": "mét",
+      "section_vi": "Ống nước & phụ kiện PVC/PPR",
+      "device_types": [
+        "water_pipe"
+      ]
+    },
+    {
+      "code": "PIP011",
+      "name_vi": "Ống PPR D20 PN20",
+      "group_vi": "Vật tư nước",
+      "kind": "PPR pipe",
+      "price_min": 25000,
+      "price_max": 55000,
+      "unit_vi": "mét",
+      "section_vi": "Ống nước & phụ kiện PVC/PPR",
+      "device_types": [
+        "water_pipe"
+      ]
+    },
+    {
+      "code": "PIP012",
+      "name_vi": "Ống PPR D25 PN20",
+      "group_vi": "Vật tư nước",
+      "kind": "PPR pipe",
+      "price_min": 35000,
+      "price_max": 75000,
+      "unit_vi": "mét",
+      "section_vi": "Ống nước & phụ kiện PVC/PPR",
+      "device_types": [
+        "water_pipe"
+      ]
+    },
+    {
+      "code": "PIP013",
+      "name_vi": "Ống PPR D32 PN20",
+      "group_vi": "Vật tư nước",
+      "kind": "PPR pipe",
+      "price_min": 55000,
+      "price_max": 110000,
+      "unit_vi": "mét",
+      "section_vi": "Ống nước & phụ kiện PVC/PPR",
+      "device_types": [
+        "water_pipe"
+      ]
+    },
+    {
+      "code": "PIP014",
+      "name_vi": "Ống PPR D40 PN20",
+      "group_vi": "Vật tư nước",
+      "kind": "PPR pipe",
+      "price_min": 75000,
+      "price_max": 150000,
+      "unit_vi": "mét",
+      "section_vi": "Ống nước & phụ kiện PVC/PPR",
+      "device_types": [
+        "water_pipe"
+      ]
+    },
+    {
+      "code": "PIP015",
+      "name_vi": "Ống PPR D50 PN20",
+      "group_vi": "Vật tư nước",
+      "kind": "PPR pipe",
+      "price_min": 110000,
+      "price_max": 220000,
+      "unit_vi": "mét",
+      "section_vi": "Ống nước & phụ kiện PVC/PPR",
+      "device_types": [
+        "water_pipe"
+      ]
+    },
+    {
+      "code": "PIP016",
+      "name_vi": "Ống PPR D63 PN20",
+      "group_vi": "Vật tư nước",
+      "kind": "PPR pipe",
+      "price_min": 160000,
+      "price_max": 320000,
+      "unit_vi": "mét",
+      "section_vi": "Ống nước & phụ kiện PVC/PPR",
+      "device_types": [
+        "water_pipe"
+      ]
+    },
+    {
+      "code": "PIP017",
+      "name_vi": "Co PVC 90° D21",
+      "group_vi": "Vật tư nước",
+      "kind": "PVC elbow",
+      "price_min": 5000,
+      "price_max": 15000,
+      "unit_vi": "cái",
+      "section_vi": "Ống nước & phụ kiện PVC/PPR",
+      "device_types": [
+        "water_pipe"
+      ]
+    },
+    {
+      "code": "PIP018",
+      "name_vi": "Co PVC 90° D27",
+      "group_vi": "Vật tư nước",
+      "kind": "PVC elbow",
+      "price_min": 7000,
+      "price_max": 18000,
+      "unit_vi": "cái",
+      "section_vi": "Ống nước & phụ kiện PVC/PPR",
+      "device_types": [
+        "water_pipe"
+      ]
+    },
+    {
+      "code": "PIP019",
+      "name_vi": "Co PVC 90° D34",
+      "group_vi": "Vật tư nước",
+      "kind": "PVC elbow",
+      "price_min": 9000,
+      "price_max": 25000,
+      "unit_vi": "cái",
+      "section_vi": "Ống nước & phụ kiện PVC/PPR",
+      "device_types": [
+        "water_pipe"
+      ]
+    },
+    {
+      "code": "PIP020",
+      "name_vi": "Co PVC 90° D42",
+      "group_vi": "Vật tư nước",
+      "kind": "PVC elbow",
+      "price_min": 12000,
+      "price_max": 30000,
+      "unit_vi": "cái",
+      "section_vi": "Ống nước & phụ kiện PVC/PPR",
+      "device_types": [
+        "water_pipe"
+      ]
+    },
+    {
+      "code": "PIP021",
+      "name_vi": "Co PVC 45° D21",
+      "group_vi": "Vật tư nước",
+      "kind": "PVC elbow",
+      "price_min": 5000,
+      "price_max": 15000,
+      "unit_vi": "cái",
+      "section_vi": "Ống nước & phụ kiện PVC/PPR",
+      "device_types": [
+        "water_pipe"
+      ]
+    },
+    {
+      "code": "PIP022",
+      "name_vi": "Co PVC 45° D34",
+      "group_vi": "Vật tư nước",
+      "kind": "PVC elbow",
+      "price_min": 9000,
+      "price_max": 25000,
+      "unit_vi": "cái",
+      "section_vi": "Ống nước & phụ kiện PVC/PPR",
+      "device_types": [
+        "water_pipe"
+      ]
+    },
+    {
+      "code": "PIP023",
+      "name_vi": "Tê PVC D21",
+      "group_vi": "Vật tư nước",
+      "kind": "PVC tee",
+      "price_min": 6000,
+      "price_max": 18000,
+      "unit_vi": "cái",
+      "section_vi": "Ống nước & phụ kiện PVC/PPR",
+      "device_types": [
+        "water_pipe"
+      ]
+    },
+    {
+      "code": "PIP024",
+      "name_vi": "Tê PVC D27",
+      "group_vi": "Vật tư nước",
+      "kind": "PVC tee",
+      "price_min": 8000,
+      "price_max": 22000,
+      "unit_vi": "cái",
+      "section_vi": "Ống nước & phụ kiện PVC/PPR",
+      "device_types": [
+        "water_pipe"
+      ]
+    },
+    {
+      "code": "PIP025",
+      "name_vi": "Tê PVC D34",
+      "group_vi": "Vật tư nước",
+      "kind": "PVC tee",
+      "price_min": 12000,
+      "price_max": 30000,
+      "unit_vi": "cái",
+      "section_vi": "Ống nước & phụ kiện PVC/PPR",
+      "device_types": [
+        "water_pipe"
+      ]
+    },
+    {
+      "code": "PIP026",
+      "name_vi": "Tê PVC D42",
+      "group_vi": "Vật tư nước",
+      "kind": "PVC tee",
+      "price_min": 15000,
+      "price_max": 40000,
+      "unit_vi": "cái",
+      "section_vi": "Ống nước & phụ kiện PVC/PPR",
+      "device_types": [
+        "water_pipe"
+      ]
+    },
+    {
+      "code": "PIP027",
+      "name_vi": "Măng sông PVC D21",
+      "group_vi": "Vật tư nước",
+      "kind": "PVC coupling",
+      "price_min": 4000,
+      "price_max": 12000,
+      "unit_vi": "cái",
+      "section_vi": "Ống nước & phụ kiện PVC/PPR",
+      "device_types": [
+        "water_pipe"
+      ]
+    },
+    {
+      "code": "PIP028",
+      "name_vi": "Măng sông PVC D27",
+      "group_vi": "Vật tư nước",
+      "kind": "PVC coupling",
+      "price_min": 5000,
+      "price_max": 15000,
+      "unit_vi": "cái",
+      "section_vi": "Ống nước & phụ kiện PVC/PPR",
+      "device_types": [
+        "water_pipe"
+      ]
+    },
+    {
+      "code": "PIP029",
+      "name_vi": "Măng sông PVC D34",
+      "group_vi": "Vật tư nước",
+      "kind": "PVC coupling",
+      "price_min": 7000,
+      "price_max": 20000,
+      "unit_vi": "cái",
+      "section_vi": "Ống nước & phụ kiện PVC/PPR",
+      "device_types": [
+        "water_pipe"
+      ]
+    },
+    {
+      "code": "PIP030",
+      "name_vi": "Măng sông PVC D42",
+      "group_vi": "Vật tư nước",
+      "kind": "PVC coupling",
+      "price_min": 9000,
+      "price_max": 25000,
+      "unit_vi": "cái",
+      "section_vi": "Ống nước & phụ kiện PVC/PPR",
+      "device_types": [
+        "water_pipe"
+      ]
+    },
+    {
+      "code": "PIP031",
+      "name_vi": "Nối giảm PVC 27/21",
+      "group_vi": "Vật tư nước",
+      "kind": "PVC reducer",
+      "price_min": 6000,
+      "price_max": 18000,
+      "unit_vi": "cái",
+      "section_vi": "Ống nước & phụ kiện PVC/PPR",
+      "device_types": [
+        "water_pipe"
+      ]
+    },
+    {
+      "code": "PIP032",
+      "name_vi": "Nối giảm PVC 34/27",
+      "group_vi": "Vật tư nước",
+      "kind": "PVC reducer",
+      "price_min": 8000,
+      "price_max": 22000,
+      "unit_vi": "cái",
+      "section_vi": "Ống nước & phụ kiện PVC/PPR",
+      "device_types": [
+        "water_pipe"
+      ]
+    },
+    {
+      "code": "PIP033",
+      "name_vi": "Nối giảm PVC 42/34",
+      "group_vi": "Vật tư nước",
+      "kind": "PVC reducer",
+      "price_min": 10000,
+      "price_max": 28000,
+      "unit_vi": "cái",
+      "section_vi": "Ống nước & phụ kiện PVC/PPR",
+      "device_types": [
+        "water_pipe"
+      ]
+    },
+    {
+      "code": "PIP034",
+      "name_vi": "Nắp bịt PVC D21",
+      "group_vi": "Vật tư nước",
+      "kind": "PVC cap",
+      "price_min": 4000,
+      "price_max": 12000,
+      "unit_vi": "cái",
+      "section_vi": "Ống nước & phụ kiện PVC/PPR",
+      "device_types": [
+        "water_pipe"
+      ]
+    },
+    {
+      "code": "PIP035",
+      "name_vi": "Nắp bịt PVC D34",
+      "group_vi": "Vật tư nước",
+      "kind": "PVC cap",
+      "price_min": 6000,
+      "price_max": 18000,
+      "unit_vi": "cái",
+      "section_vi": "Ống nước & phụ kiện PVC/PPR",
+      "device_types": [
+        "water_pipe"
+      ]
+    },
+    {
+      "code": "PIP036",
+      "name_vi": "Tê cong thoát D90",
+      "group_vi": "Vật tư nước",
+      "kind": "Sanitary tee",
+      "price_min": 35000,
+      "price_max": 90000,
+      "unit_vi": "cái",
+      "section_vi": "Ống nước & phụ kiện PVC/PPR",
+      "device_types": [
+        "water_pipe"
+      ]
+    },
+    {
+      "code": "PIP037",
+      "name_vi": "Tê cong thoát D110",
+      "group_vi": "Vật tư nước",
+      "kind": "Sanitary tee",
+      "price_min": 45000,
+      "price_max": 120000,
+      "unit_vi": "cái",
+      "section_vi": "Ống nước & phụ kiện PVC/PPR",
+      "device_types": [
+        "water_pipe"
+      ]
+    },
+    {
+      "code": "PIP038",
+      "name_vi": "Co 90° thoát D90",
+      "group_vi": "Vật tư nước",
+      "kind": "Drain elbow",
+      "price_min": 30000,
+      "price_max": 80000,
+      "unit_vi": "cái",
+      "section_vi": "Ống nước & phụ kiện PVC/PPR",
+      "device_types": [
+        "water_pipe"
+      ]
+    },
+    {
+      "code": "PIP039",
+      "name_vi": "Co 90° thoát D110",
+      "group_vi": "Vật tư nước",
+      "kind": "Drain elbow",
+      "price_min": 40000,
+      "price_max": 100000,
+      "unit_vi": "cái",
+      "section_vi": "Ống nước & phụ kiện PVC/PPR",
+      "device_types": [
+        "water_pipe"
+      ]
+    },
+    {
+      "code": "PIP040",
+      "name_vi": "Co 45° thoát D110",
+      "group_vi": "Vật tư nước",
+      "kind": "Drain elbow",
+      "price_min": 35000,
+      "price_max": 90000,
+      "unit_vi": "cái",
+      "section_vi": "Ống nước & phụ kiện PVC/PPR",
+      "device_types": [
+        "water_pipe"
+      ]
+    },
+    {
+      "code": "PIP041",
+      "name_vi": "Co PPR 90° D20",
+      "group_vi": "Vật tư nước",
+      "kind": "PPR elbow",
+      "price_min": 8000,
+      "price_max": 20000,
+      "unit_vi": "cái",
+      "section_vi": "Ống nước & phụ kiện PVC/PPR",
+      "device_types": [
+        "water_pipe"
+      ]
+    },
+    {
+      "code": "PIP042",
+      "name_vi": "Co PPR 90° D25",
+      "group_vi": "Vật tư nước",
+      "kind": "PPR elbow",
+      "price_min": 10000,
+      "price_max": 25000,
+      "unit_vi": "cái",
+      "section_vi": "Ống nước & phụ kiện PVC/PPR",
+      "device_types": [
+        "water_pipe"
+      ]
+    },
+    {
+      "code": "PIP043",
+      "name_vi": "Co PPR 90° D32",
+      "group_vi": "Vật tư nước",
+      "kind": "PPR elbow",
+      "price_min": 15000,
+      "price_max": 35000,
+      "unit_vi": "cái",
+      "section_vi": "Ống nước & phụ kiện PVC/PPR",
+      "device_types": [
+        "water_pipe"
+      ]
+    },
+    {
+      "code": "PIP044",
+      "name_vi": "Tê PPR D20",
+      "group_vi": "Vật tư nước",
+      "kind": "PPR tee",
+      "price_min": 10000,
+      "price_max": 25000,
+      "unit_vi": "cái",
+      "section_vi": "Ống nước & phụ kiện PVC/PPR",
+      "device_types": [
+        "water_pipe"
+      ]
+    },
+    {
+      "code": "PIP045",
+      "name_vi": "Tê PPR D25",
+      "group_vi": "Vật tư nước",
+      "kind": "PPR tee",
+      "price_min": 15000,
+      "price_max": 35000,
+      "unit_vi": "cái",
+      "section_vi": "Ống nước & phụ kiện PVC/PPR",
+      "device_types": [
+        "water_pipe"
+      ]
+    },
+    {
+      "code": "PIP046",
+      "name_vi": "Tê PPR D32",
+      "group_vi": "Vật tư nước",
+      "kind": "PPR tee",
+      "price_min": 22000,
+      "price_max": 50000,
+      "unit_vi": "cái",
+      "section_vi": "Ống nước & phụ kiện PVC/PPR",
+      "device_types": [
+        "water_pipe"
+      ]
+    },
+    {
+      "code": "PIP047",
+      "name_vi": "Nối trơn PPR D20",
+      "group_vi": "Vật tư nước",
+      "kind": "PPR coupling",
+      "price_min": 5000,
+      "price_max": 15000,
+      "unit_vi": "cái",
+      "section_vi": "Ống nước & phụ kiện PVC/PPR",
+      "device_types": [
+        "water_pipe"
+      ]
+    },
+    {
+      "code": "PIP048",
+      "name_vi": "Nối trơn PPR D25",
+      "group_vi": "Vật tư nước",
+      "kind": "PPR coupling",
+      "price_min": 7000,
+      "price_max": 18000,
+      "unit_vi": "cái",
+      "section_vi": "Ống nước & phụ kiện PVC/PPR",
+      "device_types": [
+        "water_pipe"
+      ]
+    },
+    {
+      "code": "PIP049",
+      "name_vi": "Nối trơn PPR D32",
+      "group_vi": "Vật tư nước",
+      "kind": "PPR coupling",
+      "price_min": 10000,
+      "price_max": 25000,
+      "unit_vi": "cái",
+      "section_vi": "Ống nước & phụ kiện PVC/PPR",
+      "device_types": [
+        "water_pipe"
+      ]
+    },
+    {
+      "code": "PIP050",
+      "name_vi": "Nối ren trong PPR D20x1/2",
+      "group_vi": "Vật tư nước",
+      "kind": "Female adaptor",
+      "price_min": 30000,
+      "price_max": 90000,
+      "unit_vi": "cái",
+      "section_vi": "Ống nước & phụ kiện PVC/PPR",
+      "device_types": [
+        "water_pipe"
+      ]
+    },
+    {
+      "code": "PIP051",
+      "name_vi": "Nối ren ngoài PPR D20x1/2",
+      "group_vi": "Vật tư nước",
+      "kind": "Male adaptor",
+      "price_min": 30000,
+      "price_max": 90000,
+      "unit_vi": "cái",
+      "section_vi": "Ống nước & phụ kiện PVC/PPR",
+      "device_types": [
+        "water_pipe"
+      ]
+    },
+    {
+      "code": "PIP052",
+      "name_vi": "Co ren trong PPR D20x1/2",
+      "group_vi": "Vật tư nước",
+      "kind": "Female elbow",
+      "price_min": 35000,
+      "price_max": 100000,
+      "unit_vi": "cái",
+      "section_vi": "Ống nước & phụ kiện PVC/PPR",
+      "device_types": [
+        "water_pipe"
+      ]
+    },
+    {
+      "code": "PIP053",
+      "name_vi": "Co ren ngoài PPR D20x1/2",
+      "group_vi": "Vật tư nước",
+      "kind": "Male elbow",
+      "price_min": 35000,
+      "price_max": 100000,
+      "unit_vi": "cái",
+      "section_vi": "Ống nước & phụ kiện PVC/PPR",
+      "device_types": [
+        "water_pipe"
+      ]
+    },
+    {
+      "code": "PIP054",
+      "name_vi": "Tê ren trong PPR D20x1/2",
+      "group_vi": "Vật tư nước",
+      "kind": "Female tee",
+      "price_min": 45000,
+      "price_max": 120000,
+      "unit_vi": "cái",
+      "section_vi": "Ống nước & phụ kiện PVC/PPR",
+      "device_types": [
+        "water_pipe"
+      ]
+    },
+    {
+      "code": "PIP055",
+      "name_vi": "Rắc co PPR D20",
+      "group_vi": "Vật tư nước",
+      "kind": "PPR union",
+      "price_min": 50000,
+      "price_max": 120000,
+      "unit_vi": "cái",
+      "section_vi": "Ống nước & phụ kiện PVC/PPR",
+      "device_types": [
+        "water_pipe"
+      ]
+    },
+    {
+      "code": "PIP056",
+      "name_vi": "Rắc co PPR D25",
+      "group_vi": "Vật tư nước",
+      "kind": "PPR union",
+      "price_min": 65000,
+      "price_max": 150000,
+      "unit_vi": "cái",
+      "section_vi": "Ống nước & phụ kiện PVC/PPR",
+      "device_types": [
+        "water_pipe"
+      ]
+    },
+    {
+      "code": "PIP057",
+      "name_vi": "Van cầu PPR D20",
+      "group_vi": "Vật tư nước",
+      "kind": "PPR stop valve",
+      "price_min": 90000,
+      "price_max": 220000,
+      "unit_vi": "cái",
+      "section_vi": "Ống nước & phụ kiện PVC/PPR",
+      "device_types": [
+        "water_pipe"
+      ]
+    },
+    {
+      "code": "PIP058",
+      "name_vi": "Van bi PPR D20",
+      "group_vi": "Vật tư nước",
+      "kind": "PPR ball valve",
+      "price_min": 100000,
+      "price_max": 250000,
+      "unit_vi": "cái",
+      "section_vi": "Ống nước & phụ kiện PVC/PPR",
+      "device_types": [
+        "water_pipe"
+      ]
+    },
+    {
+      "code": "PIP059",
+      "name_vi": "Van bi đồng 1/2",
+      "group_vi": "Vật tư nước",
+      "kind": "Brass ball valve",
+      "price_min": 80000,
+      "price_max": 250000,
+      "unit_vi": "cái",
+      "section_vi": "Ống nước & phụ kiện PVC/PPR",
+      "device_types": [
+        "water_pipe"
+      ]
+    },
+    {
+      "code": "PIP060",
+      "name_vi": "Van bi đồng 3/4",
+      "group_vi": "Vật tư nước",
+      "kind": "Brass ball valve",
+      "price_min": 100000,
+      "price_max": 300000,
+      "unit_vi": "cái",
+      "section_vi": "Ống nước & phụ kiện PVC/PPR",
+      "device_types": [
+        "water_pipe"
+      ]
+    },
+    {
+      "code": "PIP061",
+      "name_vi": "Van một chiều 1/2",
+      "group_vi": "Vật tư nước",
+      "kind": "Check valve",
+      "price_min": 80000,
+      "price_max": 250000,
+      "unit_vi": "cái",
+      "section_vi": "Ống nước & phụ kiện PVC/PPR",
+      "device_types": [
+        "water_pipe"
+      ]
+    },
+    {
+      "code": "PIP062",
+      "name_vi": "Van giảm áp 1/2",
+      "group_vi": "Vật tư nước",
+      "kind": "Pressure reducing valve",
+      "price_min": 250000,
+      "price_max": 800000,
+      "unit_vi": "cái",
+      "section_vi": "Ống nước & phụ kiện PVC/PPR",
+      "device_types": [
+        "water_pipe"
+      ]
+    },
+    {
+      "code": "PIP063",
+      "name_vi": "Lọc Y 1/2",
+      "group_vi": "Vật tư nước",
+      "kind": "Y-strainer",
+      "price_min": 120000,
+      "price_max": 350000,
+      "unit_vi": "cái",
+      "section_vi": "Ống nước & phụ kiện PVC/PPR",
+      "device_types": [
+        "water_pipe"
+      ]
+    },
+    {
+      "code": "PIP064",
+      "name_vi": "Kẹp treo ống D21",
+      "group_vi": "Vật tư nước",
+      "kind": "Pipe clamp",
+      "price_min": 3000,
+      "price_max": 12000,
+      "unit_vi": "cái",
+      "section_vi": "Ống nước & phụ kiện PVC/PPR",
+      "device_types": [
+        "water_pipe"
+      ]
+    },
+    {
+      "code": "PIP065",
+      "name_vi": "Kẹp treo ống D34",
+      "group_vi": "Vật tư nước",
+      "kind": "Pipe clamp",
+      "price_min": 5000,
+      "price_max": 18000,
+      "unit_vi": "cái",
+      "section_vi": "Ống nước & phụ kiện PVC/PPR",
+      "device_types": [
+        "water_pipe"
+      ]
+    },
+    {
+      "code": "PIP066",
+      "name_vi": "Keo dán ống PVC",
+      "group_vi": "Vật tư nước",
+      "kind": "PVC cement",
+      "price_min": 25000,
+      "price_max": 100000,
+      "unit_vi": "chai",
+      "section_vi": "Ống nước & phụ kiện PVC/PPR",
+      "device_types": [
+        "water_pipe"
+      ]
+    },
+    {
+      "code": "PIP067",
+      "name_vi": "Băng tan PTFE",
+      "group_vi": "Vật tư nước",
+      "kind": "PTFE tape",
+      "price_min": 5000,
+      "price_max": 30000,
+      "unit_vi": "cuộn",
+      "section_vi": "Ống nước & phụ kiện PVC/PPR",
+      "device_types": [
+        "water_pipe"
+      ]
+    },
+    {
+      "code": "RFX001",
+      "name_vi": "Điện trở sấy máng xả",
+      "group_vi": "Linh kiện",
+      "kind": "Drain heater",
+      "price_min": 250000,
+      "price_max": 700000,
+      "unit_vi": "cái",
+      "section_vi": "Tủ lạnh — linh kiện bổ sung chi tiết",
+      "device_types": [
+        "refrigerator"
+      ]
+    },
+    {
+      "code": "RFX002",
+      "name_vi": "Bimetal xả đá",
+      "group_vi": "Linh kiện",
+      "kind": "Defrost thermostat",
+      "price_min": 180000,
+      "price_max": 500000,
+      "unit_vi": "cái",
+      "section_vi": "Tủ lạnh — linh kiện bổ sung chi tiết",
+      "device_types": [
+        "refrigerator"
+      ]
+    },
+    {
+      "code": "RFX003",
+      "name_vi": "Cầu chì nhiệt dàn lạnh",
+      "group_vi": "Linh kiện nhỏ",
+      "kind": "Thermal fuse",
+      "price_min": 50000,
+      "price_max": 180000,
+      "unit_vi": "cái",
+      "section_vi": "Tủ lạnh — linh kiện bổ sung chi tiết",
+      "device_types": [
+        "refrigerator"
+      ]
+    },
+    {
+      "code": "RFX004",
+      "name_vi": "Damper điều gió",
+      "group_vi": "Linh kiện",
+      "kind": "Damper",
+      "price_min": 450000,
+      "price_max": 1200000,
+      "unit_vi": "bộ",
+      "section_vi": "Tủ lạnh — linh kiện bổ sung chi tiết",
+      "device_types": [
+        "refrigerator"
+      ]
+    },
+    {
+      "code": "RFX005",
+      "name_vi": "Motor damper",
+      "group_vi": "Linh kiện",
+      "kind": "Damper motor",
+      "price_min": 250000,
+      "price_max": 700000,
+      "unit_vi": "cái",
+      "section_vi": "Tủ lạnh — linh kiện bổ sung chi tiết",
+      "device_types": [
+        "refrigerator"
+      ]
+    },
+    {
+      "code": "RFX006",
+      "name_vi": "Van 3 ngả",
+      "group_vi": "Linh kiện",
+      "kind": "Refrigerant valve",
+      "price_min": 650000,
+      "price_max": 1600000,
+      "unit_vi": "cái",
+      "section_vi": "Tủ lạnh — linh kiện bổ sung chi tiết",
+      "device_types": [
+        "refrigerator"
+      ]
+    },
+    {
+      "code": "RFX007",
+      "name_vi": "Van 4 ngả",
+      "group_vi": "Linh kiện",
+      "kind": "Refrigerant valve",
+      "price_min": 750000,
+      "price_max": 1800000,
+      "unit_vi": "cái",
+      "section_vi": "Tủ lạnh — linh kiện bổ sung chi tiết",
+      "device_types": [
+        "refrigerator"
+      ]
+    },
+    {
+      "code": "RFX008",
+      "name_vi": "Solenoid valve",
+      "group_vi": "Linh kiện",
+      "kind": "Solenoid valve",
+      "price_min": 350000,
+      "price_max": 900000,
+      "unit_vi": "cái",
+      "section_vi": "Tủ lạnh — linh kiện bổ sung chi tiết",
+      "device_types": [
+        "refrigerator"
+      ]
+    },
+    {
+      "code": "RFX009",
+      "name_vi": "Ống nước dispenser 1/4",
+      "group_vi": "Vật tư nước",
+      "kind": "Water tube",
+      "price_min": 20000,
+      "price_max": 60000,
+      "unit_vi": "mét",
+      "section_vi": "Tủ lạnh — linh kiện bổ sung chi tiết",
+      "device_types": [
+        "refrigerator"
+      ]
+    },
+    {
+      "code": "RFX010",
+      "name_vi": "Co nhanh 1/4",
+      "group_vi": "Linh kiện nhỏ",
+      "kind": "Quick fitting",
+      "price_min": 30000,
+      "price_max": 100000,
+      "unit_vi": "cái",
+      "section_vi": "Tủ lạnh — linh kiện bổ sung chi tiết",
+      "device_types": [
+        "refrigerator"
+      ]
+    },
+    {
+      "code": "RFX011",
+      "name_vi": "Tê nhanh 1/4",
+      "group_vi": "Linh kiện nhỏ",
+      "kind": "Quick tee",
+      "price_min": 40000,
+      "price_max": 120000,
+      "unit_vi": "cái",
+      "section_vi": "Tủ lạnh — linh kiện bổ sung chi tiết",
+      "device_types": [
+        "refrigerator"
+      ]
+    },
+    {
+      "code": "RFX012",
+      "name_vi": "Van khóa nhanh 1/4",
+      "group_vi": "Linh kiện",
+      "kind": "Inline valve",
+      "price_min": 50000,
+      "price_max": 160000,
+      "unit_vi": "cái",
+      "section_vi": "Tủ lạnh — linh kiện bổ sung chi tiết",
+      "device_types": [
+        "refrigerator"
+      ]
+    },
+    {
+      "code": "RFX013",
+      "name_vi": "Bình chứa nước dispenser",
+      "group_vi": "Linh kiện",
+      "kind": "Water reservoir",
+      "price_min": 450000,
+      "price_max": 1200000,
+      "unit_vi": "bộ",
+      "section_vi": "Tủ lạnh — linh kiện bổ sung chi tiết",
+      "device_types": [
+        "refrigerator"
+      ]
+    },
+    {
+      "code": "RFX014",
+      "name_vi": "Ống dẫn nước làm đá",
+      "group_vi": "Linh kiện nhỏ",
+      "kind": "Ice maker tube",
+      "price_min": 80000,
+      "price_max": 250000,
+      "unit_vi": "dây",
+      "section_vi": "Tủ lạnh — linh kiện bổ sung chi tiết",
+      "device_types": [
+        "refrigerator"
+      ]
+    },
+    {
+      "code": "RFX015",
+      "name_vi": "Cảm biến khay đá",
+      "group_vi": "Linh kiện",
+      "kind": "Sensor",
+      "price_min": 250000,
+      "price_max": 700000,
+      "unit_vi": "cái",
+      "section_vi": "Tủ lạnh — linh kiện bổ sung chi tiết",
+      "device_types": [
+        "refrigerator"
+      ]
+    },
+    {
+      "code": "RFX016",
+      "name_vi": "Motor đảo khay đá",
+      "group_vi": "Linh kiện",
+      "kind": "Motor",
+      "price_min": 400000,
+      "price_max": 1100000,
+      "unit_vi": "cái",
+      "section_vi": "Tủ lạnh — linh kiện bổ sung chi tiết",
+      "device_types": [
+        "refrigerator"
+      ]
+    },
+    {
+      "code": "RFX017",
+      "name_vi": "Heater khay đá",
+      "group_vi": "Linh kiện",
+      "kind": "Heater",
+      "price_min": 350000,
+      "price_max": 900000,
+      "unit_vi": "cái",
+      "section_vi": "Tủ lạnh — linh kiện bổ sung chi tiết",
+      "device_types": [
+        "refrigerator"
+      ]
+    },
+    {
+      "code": "RFX018",
+      "name_vi": "Công tắc cửa cơ",
+      "group_vi": "Linh kiện nhỏ",
+      "kind": "Door switch",
+      "price_min": 100000,
+      "price_max": 300000,
+      "unit_vi": "cái",
+      "section_vi": "Tủ lạnh — linh kiện bổ sung chi tiết",
+      "device_types": [
+        "refrigerator"
+      ]
+    },
+    {
+      "code": "RFX019",
+      "name_vi": "Cảm biến Hall cửa",
+      "group_vi": "Linh kiện",
+      "kind": "Door sensor",
+      "price_min": 180000,
+      "price_max": 500000,
+      "unit_vi": "cái",
+      "section_vi": "Tủ lạnh — linh kiện bổ sung chi tiết",
+      "device_types": [
+        "refrigerator"
+      ]
+    },
+    {
+      "code": "RFX020",
+      "name_vi": "Bản lề giữa",
+      "group_vi": "Linh kiện",
+      "kind": "Door hinge",
+      "price_min": 250000,
+      "price_max": 700000,
+      "unit_vi": "cái",
+      "section_vi": "Tủ lạnh — linh kiện bổ sung chi tiết",
+      "device_types": [
+        "refrigerator"
+      ]
+    },
+    {
+      "code": "MWV001",
+      "name_vi": "Magnetron 2M214",
+      "group_vi": "Linh kiện chính",
+      "kind": "Magnetron",
+      "price_min": 450000,
+      "price_max": 900000,
+      "unit_vi": "cái",
+      "section_vi": "Lò vi sóng — linh kiện chi tiết",
+      "device_types": [
+        "microwave_oven"
+      ]
+    },
+    {
+      "code": "MWV002",
+      "name_vi": "Magnetron 2M246",
+      "group_vi": "Linh kiện chính",
+      "kind": "Magnetron",
+      "price_min": 500000,
+      "price_max": 950000,
+      "unit_vi": "cái",
+      "section_vi": "Lò vi sóng — linh kiện chi tiết",
+      "device_types": [
+        "microwave_oven"
+      ]
+    },
+    {
+      "code": "MWV003",
+      "name_vi": "Magnetron Inverter",
+      "group_vi": "Linh kiện chính",
+      "kind": "Magnetron",
+      "price_min": 800000,
+      "price_max": 1500000,
+      "unit_vi": "cái",
+      "section_vi": "Lò vi sóng — linh kiện chi tiết",
+      "device_types": [
+        "microwave_oven"
+      ]
+    },
+    {
+      "code": "MWV004",
+      "name_vi": "Tụ cao áp 0.8µF",
+      "group_vi": "Linh kiện",
+      "kind": "HV capacitor",
+      "price_min": 180000,
+      "price_max": 400000,
+      "unit_vi": "cái",
+      "section_vi": "Lò vi sóng — linh kiện chi tiết",
+      "device_types": [
+        "microwave_oven"
+      ]
+    },
+    {
+      "code": "MWV005",
+      "name_vi": "Tụ cao áp 0.9µF",
+      "group_vi": "Linh kiện",
+      "kind": "HV capacitor",
+      "price_min": 180000,
+      "price_max": 420000,
+      "unit_vi": "cái",
+      "section_vi": "Lò vi sóng — linh kiện chi tiết",
+      "device_types": [
+        "microwave_oven"
+      ]
+    },
+    {
+      "code": "MWV006",
+      "name_vi": "Tụ cao áp 1.0µF",
+      "group_vi": "Linh kiện",
+      "kind": "HV capacitor",
+      "price_min": 200000,
+      "price_max": 450000,
+      "unit_vi": "cái",
+      "section_vi": "Lò vi sóng — linh kiện chi tiết",
+      "device_types": [
+        "microwave_oven"
+      ]
+    },
+    {
+      "code": "MWV007",
+      "name_vi": "Diode cao áp",
+      "group_vi": "Linh kiện",
+      "kind": "HV diode",
+      "price_min": 100000,
+      "price_max": 300000,
+      "unit_vi": "cái",
+      "section_vi": "Lò vi sóng — linh kiện chi tiết",
+      "device_types": [
+        "microwave_oven"
+      ]
+    },
+    {
+      "code": "MWV008",
+      "name_vi": "Cầu chì cao áp",
+      "group_vi": "Linh kiện nhỏ",
+      "kind": "HV fuse",
+      "price_min": 80000,
+      "price_max": 220000,
+      "unit_vi": "cái",
+      "section_vi": "Lò vi sóng — linh kiện chi tiết",
+      "device_types": [
+        "microwave_oven"
+      ]
+    },
+    {
+      "code": "MWV009",
+      "name_vi": "Cầu chì nguồn 10A",
+      "group_vi": "Linh kiện nhỏ",
+      "kind": "Fuse",
+      "price_min": 20000,
+      "price_max": 80000,
+      "unit_vi": "cái",
+      "section_vi": "Lò vi sóng — linh kiện chi tiết",
+      "device_types": [
+        "microwave_oven"
+      ]
+    },
+    {
+      "code": "MWV010",
+      "name_vi": "Biến áp cao áp",
+      "group_vi": "Linh kiện chính",
+      "kind": "HV transformer",
+      "price_min": 450000,
+      "price_max": 900000,
+      "unit_vi": "cái",
+      "section_vi": "Lò vi sóng — linh kiện chi tiết",
+      "device_types": [
+        "microwave_oven"
+      ]
+    },
+    {
+      "code": "MWV011",
+      "name_vi": "Board Inverter cao áp",
+      "group_vi": "Linh kiện chính",
+      "kind": "Inverter PCB",
+      "price_min": 800000,
+      "price_max": 2000000,
+      "unit_vi": "bộ",
+      "section_vi": "Lò vi sóng — linh kiện chi tiết",
+      "device_types": [
+        "microwave_oven"
+      ]
+    },
+    {
+      "code": "MWV012",
+      "name_vi": "Motor đĩa quay",
+      "group_vi": "Linh kiện",
+      "kind": "Turntable motor",
+      "price_min": 250000,
+      "price_max": 500000,
+      "unit_vi": "cái",
+      "section_vi": "Lò vi sóng — linh kiện chi tiết",
+      "device_types": [
+        "microwave_oven"
+      ]
+    },
+    {
+      "code": "MWV013",
+      "name_vi": "Khớp nối đĩa quay",
+      "group_vi": "Linh kiện nhỏ",
+      "kind": "Coupler",
+      "price_min": 50000,
+      "price_max": 180000,
+      "unit_vi": "cái",
+      "section_vi": "Lò vi sóng — linh kiện chi tiết",
+      "device_types": [
+        "microwave_oven"
+      ]
+    },
+    {
+      "code": "MWV014",
+      "name_vi": "Vòng bánh xe đĩa",
+      "group_vi": "Linh kiện",
+      "kind": "Roller ring",
+      "price_min": 100000,
+      "price_max": 300000,
+      "unit_vi": "cái",
+      "section_vi": "Lò vi sóng — linh kiện chi tiết",
+      "device_types": [
+        "microwave_oven"
+      ]
+    },
+    {
+      "code": "MWV015",
+      "name_vi": "Đĩa thủy tinh 245mm",
+      "group_vi": "Phụ kiện",
+      "kind": "Glass tray",
+      "price_min": 180000,
+      "price_max": 400000,
+      "unit_vi": "cái",
+      "section_vi": "Lò vi sóng — linh kiện chi tiết",
+      "device_types": [
+        "microwave_oven"
+      ]
+    },
+    {
+      "code": "MWV016",
+      "name_vi": "Đĩa thủy tinh 270mm",
+      "group_vi": "Phụ kiện",
+      "kind": "Glass tray",
+      "price_min": 200000,
+      "price_max": 450000,
+      "unit_vi": "cái",
+      "section_vi": "Lò vi sóng — linh kiện chi tiết",
+      "device_types": [
+        "microwave_oven"
+      ]
+    },
+    {
+      "code": "MWV017",
+      "name_vi": "Motor quạt làm mát",
+      "group_vi": "Linh kiện",
+      "kind": "Cooling fan motor",
+      "price_min": 250000,
+      "price_max": 600000,
+      "unit_vi": "cái",
+      "section_vi": "Lò vi sóng — linh kiện chi tiết",
+      "device_types": [
+        "microwave_oven"
+      ]
+    },
+    {
+      "code": "MWV018",
+      "name_vi": "Microswitch cửa sơ cấp",
+      "group_vi": "Linh kiện nhỏ",
+      "kind": "Door microswitch",
+      "price_min": 50000,
+      "price_max": 180000,
+      "unit_vi": "cái",
+      "section_vi": "Lò vi sóng — linh kiện chi tiết",
+      "device_types": [
+        "microwave_oven"
+      ]
+    },
+    {
+      "code": "MWV019",
+      "name_vi": "Microswitch cửa thứ cấp",
+      "group_vi": "Linh kiện nhỏ",
+      "kind": "Door microswitch",
+      "price_min": 50000,
+      "price_max": 180000,
+      "unit_vi": "cái",
+      "section_vi": "Lò vi sóng — linh kiện chi tiết",
+      "device_types": [
+        "microwave_oven"
+      ]
+    },
+    {
+      "code": "MWV020",
+      "name_vi": "Microswitch monitor",
+      "group_vi": "Linh kiện nhỏ",
+      "kind": "Monitor switch",
+      "price_min": 50000,
+      "price_max": 180000,
+      "unit_vi": "cái",
+      "section_vi": "Lò vi sóng — linh kiện chi tiết",
+      "device_types": [
+        "microwave_oven"
+      ]
+    },
+    {
+      "code": "MWV021",
+      "name_vi": "Lẫy khóa cửa",
+      "group_vi": "Linh kiện nhỏ",
+      "kind": "Door latch",
+      "price_min": 80000,
+      "price_max": 250000,
+      "unit_vi": "cái",
+      "section_vi": "Lò vi sóng — linh kiện chi tiết",
+      "device_types": [
+        "microwave_oven"
+      ]
+    },
+    {
+      "code": "MWV022",
+      "name_vi": "Tay nắm cửa",
+      "group_vi": "Linh kiện",
+      "kind": "Door handle",
+      "price_min": 180000,
+      "price_max": 550000,
+      "unit_vi": "cái",
+      "section_vi": "Lò vi sóng — linh kiện chi tiết",
+      "device_types": [
+        "microwave_oven"
+      ]
+    },
+    {
+      "code": "MWV023",
+      "name_vi": "Tấm mica chắn sóng",
+      "group_vi": "Consumable",
+      "kind": "Mica sheet",
+      "price_min": 50000,
+      "price_max": 180000,
+      "unit_vi": "miếng",
+      "section_vi": "Lò vi sóng — linh kiện chi tiết",
+      "device_types": [
+        "microwave_oven"
+      ]
+    },
+    {
+      "code": "MWV024",
+      "name_vi": "Đèn khoang lò",
+      "group_vi": "Linh kiện nhỏ",
+      "kind": "Oven lamp",
+      "price_min": 80000,
+      "price_max": 250000,
+      "unit_vi": "bóng",
+      "section_vi": "Lò vi sóng — linh kiện chi tiết",
+      "device_types": [
+        "microwave_oven"
+      ]
+    },
+    {
+      "code": "MWV025",
+      "name_vi": "Thermostat bảo vệ nhiệt",
+      "group_vi": "Linh kiện",
+      "kind": "Thermostat",
+      "price_min": 120000,
+      "price_max": 350000,
+      "unit_vi": "cái",
+      "section_vi": "Lò vi sóng — linh kiện chi tiết",
+      "device_types": [
+        "microwave_oven"
+      ]
+    },
+    {
+      "code": "OVN001",
+      "name_vi": "Thanh nhiệt trên 1000W",
+      "group_vi": "Linh kiện chính",
+      "kind": "Heating element",
+      "price_min": 350000,
+      "price_max": 900000,
+      "unit_vi": "cái",
+      "section_vi": "Lò nướng — linh kiện chi tiết",
+      "device_types": [
+        "oven"
+      ]
+    },
+    {
+      "code": "OVN002",
+      "name_vi": "Thanh nhiệt trên 1500W",
+      "group_vi": "Linh kiện chính",
+      "kind": "Heating element",
+      "price_min": 400000,
+      "price_max": 1000000,
+      "unit_vi": "cái",
+      "section_vi": "Lò nướng — linh kiện chi tiết",
+      "device_types": [
+        "oven"
+      ]
+    },
+    {
+      "code": "OVN003",
+      "name_vi": "Thanh nhiệt dưới 1000W",
+      "group_vi": "Linh kiện chính",
+      "kind": "Heating element",
+      "price_min": 350000,
+      "price_max": 900000,
+      "unit_vi": "cái",
+      "section_vi": "Lò nướng — linh kiện chi tiết",
+      "device_types": [
+        "oven"
+      ]
+    },
+    {
+      "code": "OVN004",
+      "name_vi": "Thanh nhiệt dưới 1500W",
+      "group_vi": "Linh kiện chính",
+      "kind": "Heating element",
+      "price_min": 400000,
+      "price_max": 1000000,
+      "unit_vi": "cái",
+      "section_vi": "Lò nướng — linh kiện chi tiết",
+      "device_types": [
+        "oven"
+      ]
+    },
+    {
+      "code": "OVN005",
+      "name_vi": "Thanh nhiệt vòng convection",
+      "group_vi": "Linh kiện chính",
+      "kind": "Ring element",
+      "price_min": 500000,
+      "price_max": 1400000,
+      "unit_vi": "cái",
+      "section_vi": "Lò nướng — linh kiện chi tiết",
+      "device_types": [
+        "oven"
+      ]
+    },
+    {
+      "code": "OVN006",
+      "name_vi": "Quạt convection",
+      "group_vi": "Linh kiện",
+      "kind": "Convection fan motor",
+      "price_min": 450000,
+      "price_max": 1200000,
+      "unit_vi": "cái",
+      "section_vi": "Lò nướng — linh kiện chi tiết",
+      "device_types": [
+        "oven"
+      ]
+    },
+    {
+      "code": "OVN007",
+      "name_vi": "Cánh quạt convection",
+      "group_vi": "Linh kiện nhỏ",
+      "kind": "Fan blade",
+      "price_min": 150000,
+      "price_max": 450000,
+      "unit_vi": "cái",
+      "section_vi": "Lò nướng — linh kiện chi tiết",
+      "device_types": [
+        "oven"
+      ]
+    },
+    {
+      "code": "OVN008",
+      "name_vi": "Quạt làm mát bảng điều khiển",
+      "group_vi": "Linh kiện",
+      "kind": "Cooling fan",
+      "price_min": 350000,
+      "price_max": 900000,
+      "unit_vi": "cái",
+      "section_vi": "Lò nướng — linh kiện chi tiết",
+      "device_types": [
+        "oven"
+      ]
+    },
+    {
+      "code": "OVN009",
+      "name_vi": "Thermostat cơ 50–300°C",
+      "group_vi": "Linh kiện",
+      "kind": "Thermostat",
+      "price_min": 300000,
+      "price_max": 800000,
+      "unit_vi": "cái",
+      "section_vi": "Lò nướng — linh kiện chi tiết",
+      "device_types": [
+        "oven"
+      ]
+    },
+    {
+      "code": "OVN010",
+      "name_vi": "Cảm biến nhiệt PT1000",
+      "group_vi": "Linh kiện",
+      "kind": "Temperature sensor",
+      "price_min": 300000,
+      "price_max": 750000,
+      "unit_vi": "cái",
+      "section_vi": "Lò nướng — linh kiện chi tiết",
+      "device_types": [
+        "oven"
+      ]
+    },
+    {
+      "code": "OVN011",
+      "name_vi": "Cầu chì nhiệt 240°C",
+      "group_vi": "Linh kiện nhỏ",
+      "kind": "Thermal fuse",
+      "price_min": 50000,
+      "price_max": 180000,
+      "unit_vi": "cái",
+      "section_vi": "Lò nướng — linh kiện chi tiết",
+      "device_types": [
+        "oven"
+      ]
+    },
+    {
+      "code": "OVN012",
+      "name_vi": "Thermostat an toàn",
+      "group_vi": "Linh kiện",
+      "kind": "Safety thermostat",
+      "price_min": 180000,
+      "price_max": 500000,
+      "unit_vi": "cái",
+      "section_vi": "Lò nướng — linh kiện chi tiết",
+      "device_types": [
+        "oven"
+      ]
+    },
+    {
+      "code": "OVN013",
+      "name_vi": "Công tắc chọn chế độ",
+      "group_vi": "Linh kiện",
+      "kind": "Selector switch",
+      "price_min": 300000,
+      "price_max": 900000,
+      "unit_vi": "cái",
+      "section_vi": "Lò nướng — linh kiện chi tiết",
+      "device_types": [
+        "oven"
+      ]
+    },
+    {
+      "code": "OVN014",
+      "name_vi": "Encoder núm điều khiển",
+      "group_vi": "Linh kiện nhỏ",
+      "kind": "Encoder",
+      "price_min": 120000,
+      "price_max": 400000,
+      "unit_vi": "cái",
+      "section_vi": "Lò nướng — linh kiện chi tiết",
+      "device_types": [
+        "oven"
+      ]
+    },
+    {
+      "code": "OVN015",
+      "name_vi": "Board điều khiển",
+      "group_vi": "Linh kiện chính",
+      "kind": "Control PCB",
+      "price_min": 900000,
+      "price_max": 3000000,
+      "unit_vi": "bộ",
+      "section_vi": "Lò nướng — linh kiện chi tiết",
+      "device_types": [
+        "oven"
+      ]
+    },
+    {
+      "code": "OVN016",
+      "name_vi": "Board hiển thị",
+      "group_vi": "Linh kiện",
+      "kind": "Display board",
+      "price_min": 600000,
+      "price_max": 1800000,
+      "unit_vi": "bộ",
+      "section_vi": "Lò nướng — linh kiện chi tiết",
+      "device_types": [
+        "oven"
+      ]
+    },
+    {
+      "code": "OVN017",
+      "name_vi": "Relay công suất 16A",
+      "group_vi": "Linh kiện nhỏ",
+      "kind": "Power relay",
+      "price_min": 70000,
+      "price_max": 250000,
+      "unit_vi": "cái",
+      "section_vi": "Lò nướng — linh kiện chi tiết",
+      "device_types": [
+        "oven"
+      ]
+    },
+    {
+      "code": "OVN018",
+      "name_vi": "Triac điều khiển quạt",
+      "group_vi": "Linh kiện nhỏ",
+      "kind": "Triac",
+      "price_min": 50000,
+      "price_max": 180000,
+      "unit_vi": "cái",
+      "section_vi": "Lò nướng — linh kiện chi tiết",
+      "device_types": [
+        "oven"
+      ]
+    },
+    {
+      "code": "OVN019",
+      "name_vi": "Đèn khoang lò 25W",
+      "group_vi": "Linh kiện nhỏ",
+      "kind": "Oven lamp",
+      "price_min": 100000,
+      "price_max": 300000,
+      "unit_vi": "bóng",
+      "section_vi": "Lò nướng — linh kiện chi tiết",
+      "device_types": [
+        "oven"
+      ]
+    },
+    {
+      "code": "OVN020",
+      "name_vi": "Đui đèn chịu nhiệt",
+      "group_vi": "Linh kiện nhỏ",
+      "kind": "Lamp holder",
+      "price_min": 80000,
+      "price_max": 250000,
+      "unit_vi": "cái",
+      "section_vi": "Lò nướng — linh kiện chi tiết",
+      "device_types": [
+        "oven"
+      ]
+    },
+    {
+      "code": "OVN021",
+      "name_vi": "Gioăng cửa lò",
+      "group_vi": "Linh kiện",
+      "kind": "Door gasket",
+      "price_min": 350000,
+      "price_max": 1000000,
+      "unit_vi": "bộ",
+      "section_vi": "Lò nướng — linh kiện chi tiết",
+      "device_types": [
+        "oven"
+      ]
+    },
+    {
+      "code": "OVN022",
+      "name_vi": "Bản lề cửa trái",
+      "group_vi": "Linh kiện",
+      "kind": "Door hinge",
+      "price_min": 350000,
+      "price_max": 900000,
+      "unit_vi": "cái",
+      "section_vi": "Lò nướng — linh kiện chi tiết",
+      "device_types": [
+        "oven"
+      ]
+    },
+    {
+      "code": "OVN023",
+      "name_vi": "Bản lề cửa phải",
+      "group_vi": "Linh kiện",
+      "kind": "Door hinge",
+      "price_min": 350000,
+      "price_max": 900000,
+      "unit_vi": "cái",
+      "section_vi": "Lò nướng — linh kiện chi tiết",
+      "device_types": [
+        "oven"
+      ]
+    },
+    {
+      "code": "OVN024",
+      "name_vi": "Khay nướng men",
+      "group_vi": "Phụ kiện",
+      "kind": "Baking tray",
+      "price_min": 250000,
+      "price_max": 800000,
+      "unit_vi": "khay",
+      "section_vi": "Lò nướng — linh kiện chi tiết",
+      "device_types": [
+        "oven"
+      ]
+    },
+    {
+      "code": "OVN025",
+      "name_vi": "Vỉ nướng inox",
+      "group_vi": "Phụ kiện",
+      "kind": "Wire rack",
+      "price_min": 250000,
+      "price_max": 700000,
+      "unit_vi": "vỉ",
+      "section_vi": "Lò nướng — linh kiện chi tiết",
+      "device_types": [
+        "oven"
+      ]
+    },
+    {
+      "code": "GAS001",
+      "name_vi": "Mâm chia lửa nhỏ",
+      "group_vi": "Linh kiện",
+      "kind": "Burner cap",
+      "price_min": 100000,
+      "price_max": 350000,
+      "unit_vi": "cái",
+      "section_vi": "Bếp gas — linh kiện chi tiết",
+      "device_types": [
+        "gas_stove"
+      ]
+    },
+    {
+      "code": "GAS002",
+      "name_vi": "Mâm chia lửa lớn",
+      "group_vi": "Linh kiện",
+      "kind": "Burner cap",
+      "price_min": 150000,
+      "price_max": 450000,
+      "unit_vi": "cái",
+      "section_vi": "Bếp gas — linh kiện chi tiết",
+      "device_types": [
+        "gas_stove"
+      ]
+    },
+    {
+      "code": "GAS003",
+      "name_vi": "Đầu đốt đồng nhỏ",
+      "group_vi": "Linh kiện",
+      "kind": "Burner head",
+      "price_min": 180000,
+      "price_max": 500000,
+      "unit_vi": "cái",
+      "section_vi": "Bếp gas — linh kiện chi tiết",
+      "device_types": [
+        "gas_stove"
+      ]
+    },
+    {
+      "code": "GAS004",
+      "name_vi": "Đầu đốt đồng lớn",
+      "group_vi": "Linh kiện",
+      "kind": "Burner head",
+      "price_min": 250000,
+      "price_max": 650000,
+      "unit_vi": "cái",
+      "section_vi": "Bếp gas — linh kiện chi tiết",
+      "device_types": [
+        "gas_stove"
+      ]
+    },
+    {
+      "code": "GAS005",
+      "name_vi": "Kim phun LPG",
+      "group_vi": "Linh kiện nhỏ",
+      "kind": "Injector",
+      "price_min": 50000,
+      "price_max": 180000,
+      "unit_vi": "cái",
+      "section_vi": "Bếp gas — linh kiện chi tiết",
+      "device_types": [
+        "gas_stove"
+      ]
+    },
+    {
+      "code": "GAS006",
+      "name_vi": "Kim phun NG",
+      "group_vi": "Linh kiện nhỏ",
+      "kind": "Injector",
+      "price_min": 50000,
+      "price_max": 180000,
+      "unit_vi": "cái",
+      "section_vi": "Bếp gas — linh kiện chi tiết",
+      "device_types": [
+        "gas_stove"
+      ]
+    },
+    {
+      "code": "GAS007",
+      "name_vi": "Bộ đánh lửa IC 1–2 bếp",
+      "group_vi": "Linh kiện",
+      "kind": "Ignition module",
+      "price_min": 180000,
+      "price_max": 550000,
+      "unit_vi": "bộ",
+      "section_vi": "Bếp gas — linh kiện chi tiết",
+      "device_types": [
+        "gas_stove"
+      ]
+    },
+    {
+      "code": "GAS008",
+      "name_vi": "Bộ đánh lửa IC 3–4 bếp",
+      "group_vi": "Linh kiện",
+      "kind": "Ignition module",
+      "price_min": 300000,
+      "price_max": 900000,
+      "unit_vi": "bộ",
+      "section_vi": "Bếp gas — linh kiện chi tiết",
+      "device_types": [
+        "gas_stove"
+      ]
+    },
+    {
+      "code": "GAS009",
+      "name_vi": "Kim sứ đánh lửa",
+      "group_vi": "Linh kiện nhỏ",
+      "kind": "Ignition electrode",
+      "price_min": 70000,
+      "price_max": 250000,
+      "unit_vi": "cái",
+      "section_vi": "Bếp gas — linh kiện chi tiết",
+      "device_types": [
+        "gas_stove"
+      ]
+    },
+    {
+      "code": "GAS010",
+      "name_vi": "Dây cao áp đánh lửa",
+      "group_vi": "Linh kiện nhỏ",
+      "kind": "Ignition wire",
+      "price_min": 50000,
+      "price_max": 180000,
+      "unit_vi": "dây",
+      "section_vi": "Bếp gas — linh kiện chi tiết",
+      "device_types": [
+        "gas_stove"
+      ]
+    },
+    {
+      "code": "GAS011",
+      "name_vi": "Thermocouple ngắt gas",
+      "group_vi": "Linh kiện",
+      "kind": "Thermocouple",
+      "price_min": 120000,
+      "price_max": 400000,
+      "unit_vi": "cái",
+      "section_vi": "Bếp gas — linh kiện chi tiết",
+      "device_types": [
+        "gas_stove"
+      ]
+    },
+    {
+      "code": "GAS012",
+      "name_vi": "Van an toàn điện từ",
+      "group_vi": "Linh kiện",
+      "kind": "Safety valve",
+      "price_min": 150000,
+      "price_max": 500000,
+      "unit_vi": "cái",
+      "section_vi": "Bếp gas — linh kiện chi tiết",
+      "device_types": [
+        "gas_stove"
+      ]
+    },
+    {
+      "code": "GAS013",
+      "name_vi": "Cụm van gas bếp đơn",
+      "group_vi": "Linh kiện",
+      "kind": "Gas tap",
+      "price_min": 200000,
+      "price_max": 600000,
+      "unit_vi": "cái",
+      "section_vi": "Bếp gas — linh kiện chi tiết",
+      "device_types": [
+        "gas_stove"
+      ]
+    },
+    {
+      "code": "GAS014",
+      "name_vi": "Cụm van gas bếp đôi",
+      "group_vi": "Linh kiện",
+      "kind": "Gas valve assembly",
+      "price_min": 350000,
+      "price_max": 900000,
+      "unit_vi": "bộ",
+      "section_vi": "Bếp gas — linh kiện chi tiết",
+      "device_types": [
+        "gas_stove"
+      ]
+    },
+    {
+      "code": "GAS015",
+      "name_vi": "Núm vặn bếp gas",
+      "group_vi": "Linh kiện nhỏ",
+      "kind": "Control knob",
+      "price_min": 30000,
+      "price_max": 150000,
+      "unit_vi": "cái",
+      "section_vi": "Bếp gas — linh kiện chi tiết",
+      "device_types": [
+        "gas_stove"
+      ]
+    },
+    {
+      "code": "GAS016",
+      "name_vi": "Kiềng gang bếp đơn",
+      "group_vi": "Linh kiện",
+      "kind": "Pan support",
+      "price_min": 120000,
+      "price_max": 350000,
+      "unit_vi": "cái",
+      "section_vi": "Bếp gas — linh kiện chi tiết",
+      "device_types": [
+        "gas_stove"
+      ]
+    },
+    {
+      "code": "GAS017",
+      "name_vi": "Kiềng gang bếp đôi",
+      "group_vi": "Linh kiện",
+      "kind": "Pan support",
+      "price_min": 200000,
+      "price_max": 600000,
+      "unit_vi": "bộ",
+      "section_vi": "Bếp gas — linh kiện chi tiết",
+      "device_types": [
+        "gas_stove"
+      ]
+    },
+    {
+      "code": "GAS018",
+      "name_vi": "Kiềng chắn gió",
+      "group_vi": "Phụ kiện",
+      "kind": "Windshield pan support",
+      "price_min": 20000,
+      "price_max": 100000,
+      "unit_vi": "cái",
+      "section_vi": "Bếp gas — linh kiện chi tiết",
+      "device_types": [
+        "gas_stove"
+      ]
+    },
+    {
+      "code": "GAS019",
+      "name_vi": "Khay hứng mỡ inox",
+      "group_vi": "Phụ kiện",
+      "kind": "Drip tray",
+      "price_min": 100000,
+      "price_max": 350000,
+      "unit_vi": "cái",
+      "section_vi": "Bếp gas — linh kiện chi tiết",
+      "device_types": [
+        "gas_stove"
+      ]
+    },
+    {
+      "code": "GAS020",
+      "name_vi": "Mặt kính bếp gas âm",
+      "group_vi": "Linh kiện lớn",
+      "kind": "Glass top",
+      "price_min": 800000,
+      "price_max": 2500000,
+      "unit_vi": "tấm",
+      "section_vi": "Bếp gas — linh kiện chi tiết",
+      "device_types": [
+        "gas_stove"
+      ]
+    },
+    {
+      "code": "GAS021",
+      "name_vi": "Dây gas cao su 1.5m",
+      "group_vi": "Vật tư gas",
+      "kind": "Gas hose",
+      "price_min": 70000,
+      "price_max": 180000,
+      "unit_vi": "dây",
+      "section_vi": "Bếp gas — linh kiện chi tiết",
+      "device_types": [
+        "gas_stove"
+      ]
+    },
+    {
+      "code": "GAS022",
+      "name_vi": "Dây gas inox bọc lưới",
+      "group_vi": "Vật tư gas",
+      "kind": "Stainless gas hose",
+      "price_min": 150000,
+      "price_max": 450000,
+      "unit_vi": "dây",
+      "section_vi": "Bếp gas — linh kiện chi tiết",
+      "device_types": [
+        "gas_stove"
+      ]
+    },
+    {
+      "code": "GAS023",
+      "name_vi": "Van điều áp gas thấp áp",
+      "group_vi": "Vật tư gas",
+      "kind": "Gas regulator",
+      "price_min": 180000,
+      "price_max": 500000,
+      "unit_vi": "cái",
+      "section_vi": "Bếp gas — linh kiện chi tiết",
+      "device_types": [
+        "gas_stove"
+      ]
+    },
+    {
+      "code": "GAS024",
+      "name_vi": "Kẹp dây gas inox",
+      "group_vi": "Linh kiện nhỏ",
+      "kind": "Hose clamp",
+      "price_min": 10000,
+      "price_max": 40000,
+      "unit_vi": "cái",
+      "section_vi": "Bếp gas — linh kiện chi tiết",
+      "device_types": [
+        "gas_stove"
+      ]
+    },
+    {
+      "code": "GAS025",
+      "name_vi": "Đầu nối ren gas 1/2",
+      "group_vi": "Linh kiện nhỏ",
+      "kind": "Gas fitting",
+      "price_min": 30000,
+      "price_max": 120000,
+      "unit_vi": "cái",
+      "section_vi": "Bếp gas — linh kiện chi tiết",
+      "device_types": [
+        "gas_stove"
+      ]
+    },
+    {
+      "code": "GAS026",
+      "name_vi": "Ron cao su đầu van bình gas",
+      "group_vi": "Linh kiện nhỏ",
+      "kind": "Rubber seal",
+      "price_min": 5000,
+      "price_max": 30000,
+      "unit_vi": "cái",
+      "section_vi": "Bếp gas — linh kiện chi tiết",
+      "device_types": [
+        "gas_stove"
+      ]
+    },
+    {
+      "code": "GAS027",
+      "name_vi": "Pin đánh lửa D 1.5V",
+      "group_vi": "Consumable",
+      "kind": "Battery",
+      "price_min": 20000,
+      "price_max": 80000,
+      "unit_vi": "viên",
+      "section_vi": "Bếp gas — linh kiện chi tiết",
+      "device_types": [
+        "gas_stove"
+      ]
+    },
+    {
+      "code": "KTL001",
+      "name_vi": "Mâm nhiệt 1500W",
+      "group_vi": "Linh kiện chính",
+      "kind": "Heating plate",
+      "price_min": 150000,
+      "price_max": 450000,
+      "unit_vi": "bộ",
+      "section_vi": "Ấm đun / Ấm siêu tốc",
+      "device_types": [
+        "kettle"
+      ]
+    },
+    {
+      "code": "KTL002",
+      "name_vi": "Mâm nhiệt 1800W",
+      "group_vi": "Linh kiện chính",
+      "kind": "Heating plate",
+      "price_min": 180000,
+      "price_max": 500000,
+      "unit_vi": "bộ",
+      "section_vi": "Ấm đun / Ấm siêu tốc",
+      "device_types": [
+        "kettle"
+      ]
+    },
+    {
+      "code": "KTL003",
+      "name_vi": "Mâm nhiệt 2000W",
+      "group_vi": "Linh kiện chính",
+      "kind": "Heating plate",
+      "price_min": 200000,
+      "price_max": 550000,
+      "unit_vi": "bộ",
+      "section_vi": "Ấm đun / Ấm siêu tốc",
+      "device_types": [
+        "kettle"
+      ]
+    },
+    {
+      "code": "KTL004",
+      "name_vi": "Bộ điều nhiệt Strix",
+      "group_vi": "Linh kiện",
+      "kind": "Thermostat controller",
+      "price_min": 180000,
+      "price_max": 500000,
+      "unit_vi": "bộ",
+      "section_vi": "Ấm đun / Ấm siêu tốc",
+      "device_types": [
+        "kettle"
+      ]
+    },
+    {
+      "code": "KTL005",
+      "name_vi": "Bộ điều nhiệt Otter",
+      "group_vi": "Linh kiện",
+      "kind": "Thermostat controller",
+      "price_min": 150000,
+      "price_max": 450000,
+      "unit_vi": "bộ",
+      "section_vi": "Ấm đun / Ấm siêu tốc",
+      "device_types": [
+        "kettle"
+      ]
+    },
+    {
+      "code": "KTL006",
+      "name_vi": "Thermostat phổ thông",
+      "group_vi": "Linh kiện",
+      "kind": "Thermostat",
+      "price_min": 80000,
+      "price_max": 250000,
+      "unit_vi": "bộ",
+      "section_vi": "Ấm đun / Ấm siêu tốc",
+      "device_types": [
+        "kettle"
+      ]
+    },
+    {
+      "code": "KTL007",
+      "name_vi": "Cầu chì nhiệt 192°C",
+      "group_vi": "Linh kiện nhỏ",
+      "kind": "Thermal fuse",
+      "price_min": 20000,
+      "price_max": 80000,
+      "unit_vi": "cái",
+      "section_vi": "Ấm đun / Ấm siêu tốc",
+      "device_types": [
+        "kettle"
+      ]
+    },
+    {
+      "code": "KTL008",
+      "name_vi": "Cầu chì nhiệt 216°C",
+      "group_vi": "Linh kiện nhỏ",
+      "kind": "Thermal fuse",
+      "price_min": 20000,
+      "price_max": 90000,
+      "unit_vi": "cái",
+      "section_vi": "Ấm đun / Ấm siêu tốc",
+      "device_types": [
+        "kettle"
+      ]
+    },
+    {
+      "code": "KTL009",
+      "name_vi": "Công tắc bật ấm",
+      "group_vi": "Linh kiện",
+      "kind": "Power switch",
+      "price_min": 50000,
+      "price_max": 180000,
+      "unit_vi": "cái",
+      "section_vi": "Ấm đun / Ấm siêu tốc",
+      "device_types": [
+        "kettle"
+      ]
+    },
+    {
+      "code": "KTL010",
+      "name_vi": "Đèn báo neon 220V",
+      "group_vi": "Linh kiện nhỏ",
+      "kind": "Indicator lamp",
+      "price_min": 20000,
+      "price_max": 70000,
+      "unit_vi": "cái",
+      "section_vi": "Ấm đun / Ấm siêu tốc",
+      "device_types": [
+        "kettle"
+      ]
+    },
+    {
+      "code": "KTL011",
+      "name_vi": "Đế tiếp điện 360°",
+      "group_vi": "Linh kiện",
+      "kind": "Power base",
+      "price_min": 180000,
+      "price_max": 500000,
+      "unit_vi": "bộ",
+      "section_vi": "Ấm đun / Ấm siêu tốc",
+      "device_types": [
+        "kettle"
+      ]
+    },
+    {
+      "code": "KTL012",
+      "name_vi": "Cụm tiếp điểm đáy ấm",
+      "group_vi": "Linh kiện",
+      "kind": "Contact assembly",
+      "price_min": 120000,
+      "price_max": 350000,
+      "unit_vi": "bộ",
+      "section_vi": "Ấm đun / Ấm siêu tốc",
+      "device_types": [
+        "kettle"
+      ]
+    },
+    {
+      "code": "KTL013",
+      "name_vi": "Dây nguồn đế ấm",
+      "group_vi": "Vật tư điện",
+      "kind": "Power cord",
+      "price_min": 80000,
+      "price_max": 220000,
+      "unit_vi": "dây",
+      "section_vi": "Ấm đun / Ấm siêu tốc",
+      "device_types": [
+        "kettle"
+      ]
+    },
+    {
+      "code": "KTL014",
+      "name_vi": "Gioăng silicone đáy ấm",
+      "group_vi": "Linh kiện nhỏ",
+      "kind": "Silicone gasket",
+      "price_min": 30000,
+      "price_max": 120000,
+      "unit_vi": "cái",
+      "section_vi": "Ấm đun / Ấm siêu tốc",
+      "device_types": [
+        "kettle"
+      ]
+    },
+    {
+      "code": "KTL015",
+      "name_vi": "Gioăng nắp ấm",
+      "group_vi": "Linh kiện nhỏ",
+      "kind": "Lid gasket",
+      "price_min": 30000,
+      "price_max": 120000,
+      "unit_vi": "cái",
+      "section_vi": "Ấm đun / Ấm siêu tốc",
+      "device_types": [
+        "kettle"
+      ]
+    },
+    {
+      "code": "KTL016",
+      "name_vi": "Lò xo nắp ấm",
+      "group_vi": "Linh kiện nhỏ",
+      "kind": "Lid spring",
+      "price_min": 20000,
+      "price_max": 80000,
+      "unit_vi": "cái",
+      "section_vi": "Ấm đun / Ấm siêu tốc",
+      "device_types": [
+        "kettle"
+      ]
+    },
+    {
+      "code": "KTL017",
+      "name_vi": "Bản lề nắp ấm",
+      "group_vi": "Linh kiện nhỏ",
+      "kind": "Lid hinge",
+      "price_min": 50000,
+      "price_max": 180000,
+      "unit_vi": "bộ",
+      "section_vi": "Ấm đun / Ấm siêu tốc",
+      "device_types": [
+        "kettle"
+      ]
+    },
+    {
+      "code": "KTL018",
+      "name_vi": "Nút mở nắp",
+      "group_vi": "Linh kiện nhỏ",
+      "kind": "Lid button",
+      "price_min": 50000,
+      "price_max": 180000,
+      "unit_vi": "cái",
+      "section_vi": "Ấm đun / Ấm siêu tốc",
+      "device_types": [
+        "kettle"
+      ]
+    },
+    {
+      "code": "KTL019",
+      "name_vi": "Lưới lọc cặn vòi rót",
+      "group_vi": "Linh kiện nhỏ",
+      "kind": "Limescale filter",
+      "price_min": 30000,
+      "price_max": 120000,
+      "unit_vi": "cái",
+      "section_vi": "Ấm đun / Ấm siêu tốc",
+      "device_types": [
+        "kettle"
+      ]
+    },
+    {
+      "code": "KTL020",
+      "name_vi": "Cảm biến NTC ấm điện tử",
+      "group_vi": "Linh kiện",
+      "kind": "Temperature sensor",
+      "price_min": 80000,
+      "price_max": 250000,
+      "unit_vi": "cái",
+      "section_vi": "Ấm đun / Ấm siêu tốc",
+      "device_types": [
+        "kettle"
       ]
     }
   ]

@@ -20,7 +20,7 @@ trăm nghìn rồi kỹ thuật viên điều chỉnh khi tới nơi.
 một giá cố định do Admin quản lý và được snapshot lúc khách đặt lịch. Thấp nhất
 100.000đ, cao nhất 650.000đ. Nằm ở `app/data/labour_catalog.json`.
 
-**Linh kiện** lấy từ bảng 500 dòng do nhóm dev khác cung cấp. Mỗi dòng là một
+**Linh kiện** lấy từ bảng 791 dòng do nhóm dev khác cung cấp. Mỗi dòng là một
 khoảng vì giá thật phụ thuộc model. Từ 300đ tới 15 triệu. Nằm ở
 `app/data/parts_catalog.json`.
 
@@ -47,19 +47,21 @@ kiểm tra, nên nói vậy vừa đúng quy trình vừa đỡ dọa khách.
 
 ## Khi thiếu dữ liệu
 
-Hai bảng không phủ hết mười bảy lớp.
+Bảng linh kiện bản v4 (791 dòng) **phủ đủ mười bảy lớp**. Bản v3 trước đó bỏ
+trống toàn bộ nhóm nước; bản mới bổ sung bồn rửa, vòi nước, bồn cầu, đường ống,
+và tách riêng lò vi sóng, lò nướng, bếp gas, ấm đun thay vì gộp chung.
 
-Thiếu bảng công: tủ lạnh, lò vi sóng, lò nướng, bếp gas, ấm đun, bồn cầu, ống
-nước.
+Còn thiếu là **bảng tiền công**, hiện chỉ phủ mười trong mười bảy lớp. Không có
+giá công cho: tủ lạnh, lò vi sóng, lò nướng, bếp gas, ấm đun, bồn cầu, đường
+ống nước.
 
-Thiếu bảng linh kiện: bồn rửa, vòi nước, bồn cầu, ống nước — toàn bộ nhóm nước
-không có dòng nào.
+Điều đó lệch về một phía đáng chú ý: bảy lớp này **có linh kiện nhưng không có
+công**, nghĩa là biết được trần mà không biết sàn. Trong khi quy tắc lấy sàn làm
+điểm tựa, vì đó là con số chắc chắn nhất và là con số khách nhìn trước tiên.
 
-Thiếu cả hai: bồn cầu và ống nước.
-
-Khi thiếu, sàn lùi về phí kiểm tra tại nhà 100.000đ và trần để trống kèm ghi chú
-cần kiểm tra. Trung thực, nhưng không giúp khách quyết định được nhiều, nên hai
-nhóm này đáng được bổ sung bảng giá trước khi vận hành thật.
+Khi thiếu công, sàn lùi về phí kiểm tra tại nhà 100.000đ. Trung thực, nhưng nó
+nói rằng sửa tủ lạnh bắt đầu từ 100.000đ, điều đúng về mặt chữ nghĩa và dễ gây
+hiểu nhầm. Bảy dòng bổ sung vào bảng 8.3.1 sẽ xử lý xong chuyện này.
 
 ## Quan hệ với báo giá chính thức
 
