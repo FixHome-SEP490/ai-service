@@ -7,112 +7,255 @@
       "name_vi": "Máy lạnh",
       "service_group": "SVG_AC",
       "detector_class": true,
-      "open_images_class": null
+      "open_images_class": null,
+      "aliases_vi": [
+        "máy lạnh",
+        "điều hòa",
+        "điều hoà",
+        "máy điều hòa",
+        "dàn lạnh",
+        "cục nóng",
+        "máy lanh"
+      ],
+      "confusable_with": []
     },
     {
       "device_type": "ceiling_fan",
       "name_vi": "Quạt trần",
       "service_group": "SVG_APPLIANCE",
       "detector_class": true,
-      "open_images_class": "Ceiling fan"
+      "open_images_class": "Ceiling fan",
+      "aliases_vi": [
+        "quạt trần",
+        "quat tran"
+      ],
+      "confusable_with": [
+        "electric_fan"
+      ]
     },
     {
       "device_type": "electric_fan",
       "name_vi": "Quạt điện",
       "service_group": "SVG_APPLIANCE",
       "detector_class": true,
-      "open_images_class": "Mechanical fan"
+      "open_images_class": "Mechanical fan",
+      "aliases_vi": [
+        "quạt cây",
+        "quạt bàn",
+        "quạt hộp",
+        "quạt đứng",
+        "quạt treo tường",
+        "quạt máy",
+        "cái quạt"
+      ],
+      "confusable_with": [
+        "ceiling_fan"
+      ]
     },
     {
       "device_type": "washing_machine",
       "name_vi": "Máy giặt",
       "service_group": "SVG_APPLIANCE",
       "detector_class": true,
-      "open_images_class": "Washing machine"
+      "open_images_class": "Washing machine",
+      "aliases_vi": [
+        "máy giặt",
+        "may giat",
+        "máy giặt cửa trên",
+        "máy giặt cửa ngang"
+      ],
+      "confusable_with": []
     },
     {
       "device_type": "refrigerator",
       "name_vi": "Tủ lạnh",
       "service_group": "SVG_APPLIANCE",
       "detector_class": true,
-      "open_images_class": "Refrigerator"
+      "open_images_class": "Refrigerator",
+      "aliases_vi": [
+        "tủ lạnh",
+        "tu lanh",
+        "cái tủ lạnh"
+      ],
+      "confusable_with": []
     },
     {
       "device_type": "microwave_oven",
       "name_vi": "Lò vi sóng",
       "service_group": "SVG_APPLIANCE",
       "detector_class": true,
-      "open_images_class": "Microwave oven"
+      "open_images_class": "Microwave oven",
+      "aliases_vi": [
+        "lò vi sóng",
+        "vi sóng",
+        "lo vi song",
+        "microwave"
+      ],
+      "confusable_with": [
+        "oven"
+      ]
     },
     {
       "device_type": "oven",
       "name_vi": "Lò nướng",
       "service_group": "SVG_APPLIANCE",
       "detector_class": true,
-      "open_images_class": "Oven"
+      "open_images_class": "Oven",
+      "aliases_vi": [
+        "lò nướng",
+        "lò nướng thùng",
+        "lo nuong",
+        "lò nướng điện"
+      ],
+      "confusable_with": [
+        "microwave_oven"
+      ]
     },
     {
       "device_type": "gas_stove",
       "name_vi": "Bếp gas",
       "service_group": "SVG_APPLIANCE",
       "detector_class": true,
-      "open_images_class": "Gas stove"
+      "open_images_class": "Gas stove",
+      "aliases_vi": [
+        "bếp gas",
+        "bếp ga",
+        "bep gas",
+        "bếp gas đôi",
+        "bếp gas mini"
+      ],
+      "confusable_with": []
     },
     {
       "device_type": "kettle",
       "name_vi": "Ấm đun nước",
       "service_group": "SVG_APPLIANCE",
       "detector_class": true,
-      "open_images_class": "Kettle"
+      "open_images_class": "Kettle",
+      "aliases_vi": [
+        "ấm siêu tốc",
+        "ấm đun nước",
+        "ấm điện",
+        "am sieu toc",
+        "bình đun nước"
+      ],
+      "confusable_with": []
     },
     {
       "device_type": "television",
       "name_vi": "Tivi",
       "service_group": "SVG_APPLIANCE",
       "detector_class": true,
-      "open_images_class": "Television"
+      "open_images_class": "Television",
+      "aliases_vi": [
+        "tivi",
+        "ti vi",
+        "tv",
+        "màn hình tivi",
+        "smart tivi"
+      ],
+      "confusable_with": []
     },
     {
       "device_type": "sink",
       "name_vi": "Bồn rửa",
       "service_group": "SVG_PLUMBING",
       "detector_class": true,
-      "open_images_class": "Sink"
+      "open_images_class": "Sink",
+      "aliases_vi": [
+        "bồn rửa",
+        "bồn rửa chén",
+        "chậu rửa",
+        "lavabo",
+        "bồn rửa mặt",
+        "bon rua"
+      ],
+      "confusable_with": [
+        "faucet"
+      ]
     },
     {
       "device_type": "faucet",
       "name_vi": "Vòi nước",
       "service_group": "SVG_PLUMBING",
       "detector_class": true,
-      "open_images_class": "Tap"
+      "open_images_class": "Tap",
+      "aliases_vi": [
+        "vòi nước",
+        "vòi rửa",
+        "vòi sen",
+        "sen tắm",
+        "voi nuoc",
+        "cái vòi"
+      ],
+      "confusable_with": [
+        "sink"
+      ]
     },
     {
       "device_type": "toilet",
       "name_vi": "Bồn cầu",
       "service_group": "SVG_PLUMBING",
       "detector_class": true,
-      "open_images_class": "Toilet"
+      "open_images_class": "Toilet",
+      "aliases_vi": [
+        "bồn cầu",
+        "bon cau",
+        "toilet",
+        "cầu tiêu"
+      ],
+      "confusable_with": []
     },
     {
       "device_type": "power_outlet",
       "name_vi": "Ổ cắm điện",
       "service_group": "SVG_ELECTRIC",
       "detector_class": true,
-      "open_images_class": "Power plugs and sockets"
+      "open_images_class": "Power plugs and sockets",
+      "aliases_vi": [
+        "ổ cắm",
+        "ổ điện",
+        "o cam",
+        "ổ cắm điện",
+        "công tắc ổ cắm",
+        "phích cắm"
+      ],
+      "confusable_with": [
+        "light_bulb"
+      ]
     },
     {
       "device_type": "light_bulb",
       "name_vi": "Bóng đèn",
       "service_group": "SVG_ELECTRIC",
       "detector_class": true,
-      "open_images_class": "Light bulb"
+      "open_images_class": "Light bulb",
+      "aliases_vi": [
+        "bóng đèn",
+        "đèn led",
+        "đèn tuýp",
+        "bong den",
+        "cái đèn",
+        "đèn trần"
+      ],
+      "confusable_with": [
+        "power_outlet"
+      ]
     },
     {
       "device_type": "water_pipe",
       "name_vi": "Đường ống nước",
       "service_group": "SVG_PLUMBING",
       "detector_class": false,
-      "open_images_class": null
+      "open_images_class": null,
+      "aliases_vi": [
+        "ống nước",
+        "đường ống",
+        "ong nuoc",
+        "ống dẫn nước",
+        "mối nối ống"
+      ],
+      "confusable_with": []
     },
     {
       "device_type": "water_heater",
@@ -120,7 +263,14 @@
       "service_group": "SVG_ELECTRIC",
       "detector_class": true,
       "open_images_class": null,
-      "source_note": "evesyalari household-appliances, class 'hot water shower machine'"
+      "source_note": "evesyalari household-appliances, class 'hot water shower machine'",
+      "aliases_vi": [
+        "bình nóng lạnh",
+        "máy nước nóng",
+        "binh nong lanh",
+        "bình tắm nóng lạnh"
+      ],
+      "confusable_with": []
     }
   ],
   "visible_conditions": [
@@ -156,5 +306,6 @@
       "code": "aged",
       "name_vi": "Cũ, xuống cấp"
     }
-  ]
+  ],
+  "_comment_aliases_vi": "aliases_vi la cach khach hang goi thiet bi. Neu mo ta da nhac ten thiet bi thi tin theo do, khong hoi lai. confusable_with la cac lop nguoi nhin cung de nham, chi hoi khi detector chon mot trong hai ma mo ta khong nhac ten nao."
 }

@@ -88,6 +88,12 @@ class KnowledgeBase:
         self._open_images_classes: Dict[str, Optional[str]] = {
             d["device_type"]: d.get("open_images_class") for d in catalog["devices"]
         }
+        self._aliases: Dict[str, List[str]] = {
+            d["device_type"]: d.get("aliases_vi", []) for d in catalog["devices"]
+        }
+        self._confusable: Dict[str, List[str]] = {
+            d["device_type"]: d.get("confusable_with", []) for d in catalog["devices"]
+        }
         self._faults: List[Fault] = [Fault(**f) for f in kb["faults"]]
         self._policies: List[Policy] = [Policy(**p) for p in kb["policies"]]
         self._discriminators: List[Discriminator] = [
@@ -120,6 +126,14 @@ class KnowledgeBase:
     @property
     def policies(self) -> List[Policy]:
         return list(self._policies)
+
+    def aliases_vi(self, device_type: str) -> List[str]:
+        """What customers call this device, so a description can be believed."""
+        return self._aliases.get(device_type, [])
+
+    def confusable_with(self, device_type: str) -> List[str]:
+        """Classes a person looking at a photograph would also struggle with."""
+        return self._confusable.get(device_type, [])
 
     def device_name_vi(self, device_type: str) -> Optional[str]:
         return self._device_names.get(device_type)
