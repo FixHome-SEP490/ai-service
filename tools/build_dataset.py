@@ -26,7 +26,7 @@ import shutil
 import sys
 from collections import Counter, defaultdict
 from pathlib import Path
-from typing import Dict, List
+from typing import Dict, List, Tuple
 
 # Vietnamese class names crash the default Windows console codepage.
 if hasattr(sys.stdout, "reconfigure"):
@@ -37,6 +37,13 @@ CATALOG_PATH = REPO_ROOT / "app" / "data" / "device_catalog.json"
 SPLIT_PATH = REPO_ROOT / "datasets" / "split.json"
 REVIEWED_ROOT = REPO_ROOT / "datasets" / "reviewed"
 ROBOFLOW_ROOT = REPO_ROOT / "datasets" / "roboflow"
+SOURCES_PATH_NAME = "sources.json"
+
+SOURCE_LABELS = {
+    "open_images": "Open Images V7, hand-drawn boxes",
+    "roboflow": "Roboflow Universe, hand-drawn boxes",
+    "collected": "collected for this project, boxes drawn automatically",
+}
 
 SPLIT_RATIOS = {"train": 0.8, "val": 0.1, "test": 0.1}
 SPLIT_SEED = 20260915
@@ -245,25 +252,33 @@ def cmd_export(args: argparse.Namespace) -> None:
         print(f"Wrote split to {SPLIT_PATH}")
 
     counts: Counter = Counter()
+    sources: Dict[str, str] = {}
     for digest, samples in by_hash.items():
         split = assignment.get(digest)
         if split is None:  # new image added after the split was fixed
             split = "train"
         for sample in samples:
-            for device_type in _write_sample(sample, out_root, split, mapping, class_index):
+            for device_type in _write_sample(
+                sample, out_root, split, mapping, class_index, sources
+            ):
                 counts[(split, device_type)] += 1
 
-    extra_roots: List[Path] = []
+    extra_roots: List[Tuple[Path, str]] = []
     if args.include_reviewed:
-        extra_roots.append(REVIEWED_ROOT)
+        extra_roots.append((REVIEWED_ROOT, "collected"))
     if args.include_roboflow:
         # datasets/roboflow is one folder per class, each with images/ labels/
         extra_roots.extend(
-            sorted(d for d in ROBOFLOW_ROOT.glob("*") if (d / "images").is_dir())
+            (d, "roboflow")
+            for d in sorted(ROBOFLOW_ROOT.glob("*"))
+            if (d / "images").is_dir()
         )
-    for root in extra_roots:
-        _merge_extra(root, out_root, assignment, counts, device_types)
+    for root, source_name in extra_roots:
+        _merge_extra(
+            root, out_root, assignment, counts, device_types, sources, source_name
+        )
 
+    _write_sources(out_root, sources, device_types)
     _write_data_yaml(out_root, device_types)
     _print_counts(counts, device_types)
 
@@ -287,7 +302,12 @@ def _detections_of(sample) -> List:
 
 
 def _write_sample(
-    sample, out_root: Path, split: str, mapping: Dict[str, str], class_index: Dict[str, int]
+    sample,
+    out_root: Path,
+    split: str,
+    mapping: Dict[str, str],
+    class_index: Dict[str, int],
+    sources: Dict[str, str],
 ) -> List[str]:
     """Returns every project class present in the image, or an empty list."""
     labels = _detections_of(sample)
@@ -317,6 +337,7 @@ def _write_sample(
     image_dir, label_dir = _shard_dirs(out_root, split, source.stem)
     shutil.copy2(source, image_dir / source.name)
     (label_dir / f"{source.stem}.txt").write_text("\n".join(lines) + "\n", encoding="utf-8")
+    sources[source.name] = "open_images"
     return present
 
 
@@ -326,6 +347,8 @@ def _merge_extra(
     assignment: Dict[str, str],
     counts: Counter,
     device_types: List[str],
+    sources: Dict[str, str],
+    source_name: str,
 ) -> None:
     """Fold another images/labels pair into the dataset under the same split.
 
@@ -355,6 +378,7 @@ def _merge_extra(
         target_images, target_labels = _shard_dirs(out_root, split, image_path.stem)
         shutil.copy2(image_path, target_images / image_path.name)
         shutil.copy2(label_path, target_labels / label_path.name)
+        sources[image_path.name] = source_name
 
         for line in label_path.read_text(encoding="utf-8").splitlines():
             parts = line.split()
@@ -369,6 +393,41 @@ def _merge_extra(
         encoding="utf-8",
     )
     print(f"Merged {added} images from {source_root}")
+
+
+def _write_sources(out_root: Path, sources: Dict[str, str], device_types: List[str]) -> None:
+    """Record provenance, and emit a test list per source.
+
+    One training run, several numbers. Evaluating the same weights separately on
+    marketplace photographs and on photographs taken in real rooms is what shows
+    the domain gap, and it costs an evaluation pass rather than a second rental.
+
+    Ultralytics accepts a file of image paths wherever it accepts a directory,
+    so each list here is directly usable as `val:` in a data.yaml.
+    """
+    (out_root / SOURCES_PATH_NAME).write_text(
+        json.dumps(
+            {"labels": SOURCE_LABELS, "images": sources}, ensure_ascii=False, indent=2
+        ),
+        encoding="utf-8",
+    )
+
+    lists_dir = out_root / "splits"
+    lists_dir.mkdir(parents=True, exist_ok=True)
+
+    per_source: Dict[str, List[str]] = defaultdict(list)
+    for split_dir in (out_root / "images" / "test").glob("*"):
+        if not split_dir.is_dir():
+            continue
+        for image in split_dir.glob("*"):
+            source = sources.get(image.name)
+            if source:
+                per_source[source].append(f"./images/test/{split_dir.name}/{image.name}")
+
+    for source, paths in sorted(per_source.items()):
+        target = lists_dir / f"test_{source}.txt"
+        target.write_text("\n".join(sorted(paths)) + "\n", encoding="utf-8")
+        print(f"  test split for {source}: {len(paths)} images -> {target.name}")
 
 
 def _write_data_yaml(out_root: Path, device_types: List[str]) -> None:
