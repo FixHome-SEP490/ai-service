@@ -22,7 +22,6 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
-import random
 import shutil
 import sys
 from collections import Counter, defaultdict
@@ -104,17 +103,25 @@ def cmd_download(args: argparse.Namespace) -> None:
     dataset = None
     for index, class_name in enumerate(classes, start=1):
         print(f"  [{index}/{len(classes)}] {class_name}")
+        part_name = f"{args.dataset_name}-{index:02d}"
+        if part_name in fo.list_datasets():
+            fo.delete_dataset(part_name)
+        # No overwrite= here. The zoo treats it as "delete the downloaded
+        # split", so passing it per class wipes the images the previous classes
+        # just fetched: one run left 326 files on disk for 5273 samples, and the
+        # failure only appears later as missing-file errors during export.
         part = foz.load_zoo_dataset(
             "open-images-v7",
             split="train",
             label_types=["detections"],
             classes=[class_name],
             max_samples=args.limit_per_class,
-            dataset_name=f"{args.dataset_name}-{index:02d}",
-            overwrite=True,
+            dataset_name=part_name,
         )
         if dataset is None:
-            dataset = fo.Dataset(args.dataset_name, overwrite=True)
+            if args.dataset_name in fo.list_datasets():
+                fo.delete_dataset(args.dataset_name)
+            dataset = fo.Dataset(args.dataset_name)
         dataset.add_samples(part)
         part.delete()
     # Zoo datasets are non-persistent by default, so the registration is dropped
@@ -136,25 +143,30 @@ def _content_hash(path: Path) -> str:
     return digest.hexdigest()
 
 
+def _split_for(digest: str) -> str:
+    """Pick a split from the content hash itself.
+
+    Deciding per item rather than by slicing a shuffled list matters because
+    images arrive in batches. The previous version proportioned a list, so
+    merging a source one image at a time computed int(1 * 0.8) == 0 train and
+    sent every newly added image to test: one run put all 11791 air conditioner
+    images in the test split and left training with none.
+
+    Hashing gives the same answer whether an image arrives alone or among
+    thousands, and the same answer on every machine, so a rerun cannot quietly
+    reshuffle what the previous numbers were measured on.
+    """
+    bucket = int(hashlib.sha256(f"{SPLIT_SEED}:{digest}".encode()).hexdigest()[:8], 16) % 100
+    if bucket < SPLIT_RATIOS["train"] * 100:
+        return "train"
+    if bucket < (SPLIT_RATIOS["train"] + SPLIT_RATIOS["val"]) * 100:
+        return "val"
+    return "test"
+
+
 def _assign_splits(groups: List[str]) -> Dict[str, str]:
     """Assign whole duplicate-groups to a split, never individual images."""
-    rng = random.Random(SPLIT_SEED)
-    shuffled = sorted(groups)
-    rng.shuffle(shuffled)
-
-    total = len(shuffled)
-    n_train = int(total * SPLIT_RATIOS["train"])
-    n_val = int(total * SPLIT_RATIOS["val"])
-
-    assignment: Dict[str, str] = {}
-    for index, group in enumerate(shuffled):
-        if index < n_train:
-            assignment[group] = "train"
-        elif index < n_train + n_val:
-            assignment[group] = "val"
-        else:
-            assignment[group] = "test"
-    return assignment
+    return {group: _split_for(group) for group in sorted(groups)}
 
 
 def cmd_export(args: argparse.Namespace) -> None:
@@ -175,8 +187,18 @@ def cmd_export(args: argparse.Namespace) -> None:
 
     # Group by content hash first so duplicates cannot straddle two splits.
     by_hash: Dict[str, List] = defaultdict(list)
+    missing = 0
     for sample in dataset:
-        by_hash[_content_hash(Path(sample.filepath))].append(sample)
+        path = Path(sample.filepath)
+        if not path.exists():
+            missing += 1
+            continue
+        by_hash[_content_hash(path)].append(sample)
+    if missing:
+        print(
+            f"{missing} samples reference files no longer on disk and were skipped.\n"
+            "  Re-run: build_dataset.py download --limit-per-class N"
+        )
 
     reuse = SPLIT_PATH.exists() and not args.resplit
     if reuse:
@@ -303,7 +325,7 @@ def _merge_extra(
         digest = _content_hash(image_path)
         split = assignment.get(digest)
         if split is None:
-            split = _assign_splits([digest])[digest]
+            split = _split_for(digest)
             assignment[digest] = split
 
         target_images = out_root / "images" / split

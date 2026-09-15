@@ -14,6 +14,7 @@ Two paths remain, and the first is the one to use.
 
     python tools/collect_images.py plan
     python tools/collect_images.py import --device power_outlet --from D:/photos/sockets
+    python tools/collect_images.py import-tree --from D:/photos
     python tools/collect_images.py fetch --device power_outlet   # needs SERPER_API_KEY
     python tools/collect_images.py stats
 
@@ -222,6 +223,90 @@ def _ingest(device_type: str, payloads, manifest: Dict[str, str]) -> Counter:
     return result
 
 
+def _import_folder(device_type: str, source: Path, manifest: Dict[str, str]) -> Counter:
+    files = [
+        p
+        for p in sorted(source.rglob("*"))
+        if p.is_file() and p.suffix.lower() in IMAGE_SUFFIXES
+    ]
+    if not files:
+        print(f"{device_type}: no images under {source}")
+        return Counter()
+
+    heic = sum(1 for p in files if p.suffix.lower() in {".heic", ".heif"})
+    if heic and not HEIF_AVAILABLE:
+        raise SystemExit(
+            f"{heic} of these files are HEIC, which Pillow cannot read on its own.\n"
+            "Without the decoder they would be discarded as unreadable, and the\n"
+            "count would look like the photos were simply bad.\n\n"
+            "  pip install pillow-heif\n\n"
+            "Or set the phone camera to Most Compatible / JPEG and copy again."
+        )
+
+    def payloads():
+        for path in files:
+            try:
+                yield path.name, path.read_bytes()
+            except OSError as exc:
+                print(f"  unreadable {path.name}: {type(exc).__name__}: {exc}")
+
+    counts = _ingest(device_type, payloads(), manifest)
+    have = len(list((RAW_ROOT / device_type).glob("*.jpg")))
+    target = COLLECTION_PLAN.get(device_type, {}).get("target", 0)
+    print(
+        f"{device_type}: read {len(files)}, kept {counts['kept']}, "
+        f"duplicates {counts['duplicate']}, rejected {counts['rejected']}"
+        f"  -> total {have}" + (f" / {target}" if target else "")
+    )
+    return counts
+
+
+def cmd_import_tree(args: argparse.Namespace) -> None:
+    """Import a folder of folders, each named after a device type.
+
+    Photographs get taken device by device anyway, so one command per shoot is
+    friction for no reason. A folder named `power_outlet` is unambiguous; a
+    folder named anything else is reported rather than guessed at, because
+    filing photographs under the wrong class is not a mistake that shows up
+    until the detector is already trained on it.
+    """
+    root = Path(args.source).expanduser()
+    if not root.is_dir():
+        raise SystemExit(f"Not a directory: {root}")
+
+    known = _device_names()
+    folders = sorted(d for d in root.iterdir() if d.is_dir())
+    if not folders:
+        raise SystemExit(
+            f"{root} has no subfolders. Either make one per device type, or use\n"
+            "  collect_images.py import --device <name> --from <folder>"
+        )
+
+    recognised = [d for d in folders if d.name in known]
+    unknown = [d for d in folders if d.name not in known]
+
+    if unknown:
+        print("Skipped, name is not a device type:")
+        for d in unknown:
+            print(f"  {d.name}")
+        print(f"\nValid names: {', '.join(sorted(known))}\n")
+
+    if not recognised:
+        raise SystemExit("No subfolder matched a device type; nothing imported.")
+
+    manifest = _load_manifest()
+    totals: Counter = Counter()
+    for folder in recognised:
+        totals.update(_import_folder(folder.name, folder, manifest))
+    _save_manifest(manifest)
+
+    print(
+        f"\nTotal kept {totals['kept']}, duplicates {totals['duplicate']}, "
+        f"rejected {totals['rejected']}"
+    )
+    print("\nNext: python tools/autolabel.py run --all")
+
+
 def cmd_import(args: argparse.Namespace) -> None:
     device_type = args.device
     if device_type not in _device_names():
@@ -380,6 +465,12 @@ def main() -> None:
     importer.add_argument("--device", required=True)
     importer.add_argument("--from", dest="source", required=True)
 
+    tree = sub.add_parser(
+        "import-tree",
+        help="ingest a folder whose subfolders are named after device types",
+    )
+    tree.add_argument("--from", dest="source", required=True)
+
     fetch = sub.add_parser("fetch", help="paid search API; requires SERPER_API_KEY")
     fetch.add_argument("--device", required=True)
 
@@ -389,6 +480,7 @@ def main() -> None:
     {
         "plan": cmd_plan,
         "import": cmd_import,
+        "import-tree": cmd_import_tree,
         "fetch": cmd_fetch,
         "stats": cmd_stats,
     }[args.command](args)
