@@ -127,6 +127,12 @@ class PriceEstimate(BaseModel):
             )
         return self
 
+    # Every other model carries this; PriceEstimate did not need it while all
+    # three of its fields were single words. The new one is two, and without the
+    # generator it went out as requires_assessment among camelCase neighbours,
+    # which a caller reads as absent rather than as a naming slip.
+    model_config = ConfigDict(alias_generator=to_camel, populate_by_name=True)
+
 
 class Clarification(BaseModel):
     """Returned instead of a guess when confidence is too low."""
