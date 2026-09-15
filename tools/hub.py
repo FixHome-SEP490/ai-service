@@ -31,6 +31,20 @@ REPO_ROOT = Path(__file__).resolve().parents[1]
 DATASET_DIR = REPO_ROOT / "datasets" / "fixhome"
 WEIGHTS_DIR = REPO_ROOT / "weights"
 
+_HUB_DIR_LIMIT = 10000
+"""Files per directory the Hub accepts. Exceeding it rejects the entire push."""
+
+
+def _overfull_directories(root: Path) -> list[tuple[Path, int]]:
+    counts: dict[Path, int] = {}
+    for path in root.rglob("*"):
+        if path.is_file():
+            counts[path.parent] = counts.get(path.parent, 0) + 1
+    return sorted(
+        ((d.relative_to(root), n) for d, n in counts.items() if n > _HUB_DIR_LIMIT),
+        key=lambda item: -item[1],
+    )
+
 _TOKEN_HINT = (
     "Create a token at huggingface.co/settings/tokens with the Write role.\n"
     "A Read token can download but cannot upload, and the error it produces\n"
@@ -77,13 +91,48 @@ def cmd_push_dataset(args: argparse.Namespace) -> None:
     print(f"Uploading {count} files, {size_mb:.0f} MB, from {source}")
     print("This is one upload; every later training run pulls it in seconds.")
 
+    crowded = _overfull_directories(source)
+    if crowded:
+        raise SystemExit(
+            "The Hub refuses a push where any directory holds more than "
+            f"{_HUB_DIR_LIMIT} files, and it rejects the whole push rather than\n"
+            "the offending directory. These are over the limit:\n"
+            + "".join(f"  {path}  ({count} files)\n" for path, count in crowded)
+            + "\nRe-export to shard them:\n"
+            "  python tools/build_dataset.py export --include-roboflow"
+        )
+
     api.upload_folder(
         folder_path=str(source),
         repo_id=args.repo,
         repo_type="dataset",
         commit_message=args.message,
+        # Mirror, do not merge. An upload only adds and updates, so re-exporting
+        # into a different layout leaves the old one beside the new one: one run
+        # left 11224 stale unsharded images next to 12513 sharded ones, and
+        # training would have scanned images with no labels beside them.
+        delete_patterns=["**"],
     )
-    print(f"\nDone: https://huggingface.co/datasets/{args.repo}")
+
+    # Checked rather than trusted. An earlier push moved every image, no labels
+    # at all, and still exited zero.
+    remote = api.list_repo_files(args.repo, repo_type="dataset")
+    uploaded = len([f for f in remote if f != ".gitattributes"])
+    if uploaded != count:
+        raise SystemExit(
+            f"\n{uploaded} files on the Hub but {count} locally. The push did not "
+            "land as expected.\nCheck the output above for the reason."
+        )
+
+    images = sum(1 for f in remote if f.startswith("images/"))
+    labels = sum(1 for f in remote if f.startswith("labels/"))
+    if images != labels:
+        raise SystemExit(
+            f"\n{images} images but {labels} labels on the Hub. Training would "
+            "silently skip the unpaired ones."
+        )
+
+    print(f"\nDone: {uploaded} files at https://huggingface.co/datasets/{args.repo}")
     print(f"Set HF_DATASET_REPO={args.repo} when running the trainer.")
 
 

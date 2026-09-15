@@ -54,6 +54,29 @@ fetch_dataset() {
     --repo-type dataset --local-dir "${DATA_DIR}"
 }
 
+fix_dataset_root() {
+  # data.yaml ships with a relative root, because the machine that exports the
+  # dataset is not the machine that trains on it. Ultralytics resolves a
+  # relative `path` against its own configured datasets directory rather than
+  # against the yaml, so leaving it alone fails with a "dataset not found" that
+  # names a directory nobody chose. Point it at where the files actually landed.
+  local yaml="${DATA_DIR}/data.yaml"
+  [[ -f "${yaml}" ]] || { echo "No data.yaml in ${DATA_DIR}" >&2; exit 1; }
+
+  python - "${yaml}" "${DATA_DIR}" <<'PYEOF'
+import sys
+from pathlib import Path
+
+yaml_path, root = Path(sys.argv[1]), sys.argv[2]
+lines = yaml_path.read_text(encoding="utf-8").splitlines()
+out = [f"path: {root}" if line.startswith("path:") else line for line in lines]
+if not any(line.startswith("path: ") for line in out):
+    out.insert(0, f"path: {root}")
+yaml_path.write_text("\n".join(out) + "\n", encoding="utf-8")
+print(f"dataset root set to {root}")
+PYEOF
+}
+
 publish_weights() {
   local run_dir="$1"
   if [[ -z "${HF_WEIGHTS_REPO:-}" || -z "${HF_TOKEN:-}" ]]; then
@@ -69,6 +92,7 @@ publish_weights() {
 cmd_train() {
   require_gpu
   fetch_dataset
+  fix_dataset_root
   log "Training ${MODEL} for ${EPOCHS} epochs at ${IMAGE_SIZE}px, batch ${BATCH}"
   yolo detect train \
     model="${MODEL}" \
@@ -103,6 +127,7 @@ cmd_train() {
 cmd_evaluate() {
   require_gpu
   fetch_dataset
+  fix_dataset_root
   local weights="${WEIGHTS:-${RUNS_DIR}/${RUN_NAME}/weights/best.pt}"
   log "Evaluating ${weights} on the test split"
   yolo detect val \

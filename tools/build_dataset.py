@@ -143,6 +143,34 @@ def _content_hash(path: Path) -> str:
     return digest.hexdigest()
 
 
+SHARD_COUNT = 64
+"""Subdirectories per split.
+
+The Hugging Face Hub refuses a push where any single directory holds more than
+ten thousand files, and it refuses the whole push rather than the offending
+directory: one export put 10064 training images in one folder and the upload
+died after transferring every image but no labels, while still exiting zero.
+
+Ultralytics finds a label by swapping `/images/` for `/labels/` in the image
+path, so nesting is safe as long as both sides are sharded identically.
+"""
+
+
+def _shard_of(stem: str) -> str:
+    """Stable bucket from the filename, so a re-export lands files identically."""
+    value = int(hashlib.sha256(stem.encode()).hexdigest()[:8], 16) % SHARD_COUNT
+    return f"{value:02d}"
+
+
+def _shard_dirs(out_root: Path, split: str, stem: str) -> tuple[Path, Path]:
+    shard = _shard_of(stem)
+    images = out_root / "images" / split / shard
+    labels = out_root / "labels" / split / shard
+    images.mkdir(parents=True, exist_ok=True)
+    labels.mkdir(parents=True, exist_ok=True)
+    return images, labels
+
+
 def _split_for(digest: str) -> str:
     """Pick a split from the content hash itself.
 
@@ -286,11 +314,7 @@ def _write_sample(
         return []
 
     source = Path(sample.filepath)
-    image_dir = out_root / "images" / split
-    label_dir = out_root / "labels" / split
-    image_dir.mkdir(parents=True, exist_ok=True)
-    label_dir.mkdir(parents=True, exist_ok=True)
-
+    image_dir, label_dir = _shard_dirs(out_root, split, source.stem)
     shutil.copy2(source, image_dir / source.name)
     (label_dir / f"{source.stem}.txt").write_text("\n".join(lines) + "\n", encoding="utf-8")
     return present
@@ -328,10 +352,7 @@ def _merge_extra(
             split = _split_for(digest)
             assignment[digest] = split
 
-        target_images = out_root / "images" / split
-        target_labels = out_root / "labels" / split
-        target_images.mkdir(parents=True, exist_ok=True)
-        target_labels.mkdir(parents=True, exist_ok=True)
+        target_images, target_labels = _shard_dirs(out_root, split, image_path.stem)
         shutil.copy2(image_path, target_images / image_path.name)
         shutil.copy2(label_path, target_labels / label_path.name)
 
@@ -354,7 +375,12 @@ def _write_data_yaml(out_root: Path, device_types: List[str]) -> None:
     out_root.mkdir(parents=True, exist_ok=True)
     names = "\n".join(f"  {i}: {name}" for i, name in enumerate(device_types))
     (out_root / "data.yaml").write_text(
-        f"path: {out_root.resolve().as_posix()}\n"
+        # Deliberately not absolute. This dataset is uploaded and unpacked
+        # somewhere else, where a path from this machine names nothing -- and
+        # here it would carry a Windows drive letter, spaces and Vietnamese
+        # diacritics into a Linux container. The training entry point rewrites
+        # this line to wherever the files actually landed.
+        "path: .\n"
         "train: images/train\n"
         "val: images/val\n"
         "test: images/test\n\n"
