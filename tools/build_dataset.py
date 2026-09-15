@@ -37,6 +37,7 @@ REPO_ROOT = Path(__file__).resolve().parents[1]
 CATALOG_PATH = REPO_ROOT / "app" / "data" / "device_catalog.json"
 SPLIT_PATH = REPO_ROOT / "datasets" / "split.json"
 REVIEWED_ROOT = REPO_ROOT / "datasets" / "reviewed"
+ROBOFLOW_ROOT = REPO_ROOT / "datasets" / "roboflow"
 
 SPLIT_RATIOS = {"train": 0.8, "val": 0.1, "test": 0.1}
 SPLIT_SEED = 20260915
@@ -185,8 +186,16 @@ def cmd_export(args: argparse.Namespace) -> None:
             if written:
                 counts[(split, written)] += 1
 
+    extra_roots: List[Path] = []
     if args.include_reviewed:
-        _merge_reviewed(out_root, assignment, counts, device_types)
+        extra_roots.append(REVIEWED_ROOT)
+    if args.include_roboflow:
+        # datasets/roboflow is one folder per class, each with images/ labels/
+        extra_roots.extend(
+            sorted(d for d in ROBOFLOW_ROOT.glob("*") if (d / "images").is_dir())
+        )
+    for root in extra_roots:
+        _merge_extra(root, out_root, assignment, counts, device_types)
 
     _write_data_yaml(out_root, device_types)
     _print_counts(counts, device_types)
@@ -225,24 +234,29 @@ def _write_sample(
     return device_type
 
 
-def _merge_reviewed(
-    out_root: Path, assignment: Dict[str, str], counts: Counter, device_types: List[str]
+def _merge_extra(
+    source_root: Path,
+    out_root: Path,
+    assignment: Dict[str, str],
+    counts: Counter,
+    device_types: List[str],
 ) -> None:
-    """Fold in hand-reviewed crawled images alongside the Open Images samples.
+    """Fold another images/labels pair into the dataset under the same split.
 
-    These carry the Vietnam-specific hardware the public sets lack, so they are
-    the part of the training data that decides whether the detector works on a
-    real customer photo. They go through the same hash-based split as everything
-    else, so a crawled duplicate cannot leak across splits either.
+    Used for hand-reviewed crawled images and for imported Roboflow sets. Both
+    carry hardware the public sets lack, so they are the part of the training
+    data that decides whether the detector works on a real customer photo.
+    Everything goes through the same content-hash split, so a duplicate arriving
+    from a second source cannot leak across train and test.
     """
-    images_dir = REVIEWED_ROOT / "images"
-    labels_dir = REVIEWED_ROOT / "labels"
+    images_dir = source_root / "images"
+    labels_dir = source_root / "labels"
     if not images_dir.exists():
-        print(f"No reviewed images at {REVIEWED_ROOT}; skipping")
+        print(f"No images at {source_root}; skipping")
         return
 
     added = 0
-    for image_path in sorted(images_dir.glob("*.jpg")):
+    for image_path in sorted(p for p in images_dir.iterdir() if p.is_file()):
         label_path = labels_dir / f"{image_path.stem}.txt"
         if not label_path.exists():
             continue
@@ -271,7 +285,7 @@ def _merge_reviewed(
         ),
         encoding="utf-8",
     )
-    print(f"Merged {added} reviewed images from {REVIEWED_ROOT}")
+    print(f"Merged {added} images from {source_root}")
 
 
 def _write_data_yaml(out_root: Path, device_types: List[str]) -> None:
@@ -326,6 +340,11 @@ def main() -> None:
         "--include-reviewed",
         action="store_true",
         help="also fold in hand-reviewed crawled images from datasets/reviewed",
+    )
+    export.add_argument(
+        "--include-roboflow",
+        action="store_true",
+        help="also fold in imported Roboflow sets from datasets/roboflow",
     )
     export.add_argument(
         "--resplit",
