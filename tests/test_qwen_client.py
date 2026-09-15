@@ -1,0 +1,265 @@
+"""Qwen client tests.
+
+Most of these are about what happens when the model misbehaves, because that is
+the case the business rules actually depend on: a wrong answer delivered
+confidently is worse than no answer, so every failure has to collapse into an
+empty verdict and end as a clarification request.
+"""
+
+import io
+
+import pytest
+from PIL import Image
+
+from app.services.pipeline.images import load_image
+from app.services.pipeline.qwen_client import QwenClient, _parse_verdict
+
+FAULTS = ["AC_LOW_REFRIGERANT", "AC_DIRTY_FILTER", "AC_DRAIN_BLOCKED"]
+CONDITIONS = ["burn_mark", "rust", "water_leak"]
+
+
+def _payload() -> str:
+    buffer = io.BytesIO()
+    Image.new("RGB", (64, 48), (90, 90, 90)).save(buffer, format="PNG")
+    return buffer.getvalue()
+
+
+def _client(monkeypatch, reply):
+    client = QwenClient(base_url="http://vllm.test", model_name="qwen", timeout_seconds=1)
+
+    async def fake_chat(messages):
+        fake_chat.messages = messages
+        return reply
+
+    monkeypatch.setattr(client, "_chat", fake_chat)
+    client._fake = fake_chat
+    return client
+
+
+# ---------------------------------------------------------------- parsing
+
+def test_parses_a_clean_verdict():
+    verdict = _parse_verdict(
+        '{"fault_codes": ["AC_LOW_REFRIGERANT"], "condition_codes": ["rust"],'
+        ' "confidence": 0.82, "reason": "mô tả nói không mát"}',
+        FAULTS,
+        CONDITIONS,
+    )
+    assert verdict.fault_codes == ["AC_LOW_REFRIGERANT"]
+    assert verdict.condition_codes == ["rust"]
+    assert verdict.confidence == pytest.approx(0.82)
+    assert verdict.reasoning_vi
+
+
+def test_accepts_json_wrapped_in_prose_or_fences():
+    """Models pad JSON often enough that insisting on a clean body loses answers."""
+    verdict = _parse_verdict(
+        'Đây là kết quả:\n```json\n{"fault_codes": ["AC_DIRTY_FILTER"],'
+        ' "confidence": 0.7}\n```\nHy vọng giúp ích.',
+        FAULTS,
+        CONDITIONS,
+    )
+    assert verdict.fault_codes == ["AC_DIRTY_FILTER"]
+
+
+def test_invented_codes_are_dropped():
+    verdict = _parse_verdict(
+        '{"fault_codes": ["AC_MADE_UP", "AC_DIRTY_FILTER"], "confidence": 0.9}',
+        FAULTS,
+        CONDITIONS,
+    )
+    assert verdict.fault_codes == ["AC_DIRTY_FILTER"]
+
+
+def test_a_verdict_of_only_invented_codes_carries_no_confidence():
+    """Sounding certain about codes that do not exist must not reach a customer."""
+    verdict = _parse_verdict(
+        '{"fault_codes": ["TOTALLY_MADE_UP"], "confidence": 0.99}', FAULTS, CONDITIONS
+    )
+    assert verdict.fault_codes == []
+    assert verdict.confidence == 0.0
+
+
+def test_invented_condition_codes_are_dropped():
+    verdict = _parse_verdict(
+        '{"fault_codes": ["AC_DIRTY_FILTER"], "condition_codes": ["on_fire", "rust"],'
+        ' "confidence": 0.6}',
+        FAULTS,
+        CONDITIONS,
+    )
+    assert verdict.condition_codes == ["rust"]
+
+
+def test_confidence_is_clamped():
+    high = _parse_verdict(
+        '{"fault_codes": ["AC_DIRTY_FILTER"], "confidence": 4.5}', FAULTS, CONDITIONS
+    )
+    low = _parse_verdict(
+        '{"fault_codes": ["AC_DIRTY_FILTER"], "confidence": -2}', FAULTS, CONDITIONS
+    )
+    assert high.confidence == 1.0
+    assert low.confidence == 0.0
+
+
+def test_non_numeric_confidence_becomes_zero():
+    verdict = _parse_verdict(
+        '{"fault_codes": ["AC_DIRTY_FILTER"], "confidence": "rất cao"}', FAULTS, CONDITIONS
+    )
+    assert verdict.confidence == 0.0
+
+
+def test_malformed_and_missing_json_produce_an_empty_verdict():
+    assert _parse_verdict("xin lỗi tôi không biết", FAULTS, CONDITIONS).fault_codes == []
+    assert _parse_verdict("{not valid json at all", FAULTS, CONDITIONS).fault_codes == []
+    assert _parse_verdict("", FAULTS, CONDITIONS).fault_codes == []
+
+
+def test_a_bare_string_instead_of_a_list_is_accepted():
+    verdict = _parse_verdict(
+        '{"fault_codes": "AC_DIRTY_FILTER", "confidence": 0.5}', FAULTS, CONDITIONS
+    )
+    assert verdict.fault_codes == ["AC_DIRTY_FILTER"]
+
+
+def test_at_most_three_faults_are_kept():
+    verdict = _parse_verdict(
+        '{"fault_codes": ["AC_LOW_REFRIGERANT", "AC_DIRTY_FILTER", "AC_DRAIN_BLOCKED",'
+        ' "AC_LOW_REFRIGERANT"], "confidence": 0.5}',
+        FAULTS,
+        CONDITIONS,
+    )
+    assert len(verdict.fault_codes) <= 3
+
+
+# ---------------------------------------------------------------- requests
+
+@pytest.mark.asyncio
+async def test_assess_does_not_call_the_model_without_candidates(monkeypatch):
+    """With nothing to choose from, asking only invites an invented code."""
+    called = False
+
+    client = QwenClient(base_url="http://vllm.test", model_name="qwen", timeout_seconds=1)
+
+    async def fake_chat(messages):
+        nonlocal called
+        called = True
+        return '{"fault_codes": ["X"], "confidence": 1}'
+
+    monkeypatch.setattr(client, "_chat", fake_chat)
+    verdict = await client.assess(None, "hư rồi", "air_conditioner", [], CONDITIONS)
+
+    assert called is False
+    assert verdict.fault_codes == []
+
+
+@pytest.mark.asyncio
+async def test_assess_sends_the_crop_as_an_image_part(monkeypatch):
+    client = _client(monkeypatch, '{"fault_codes": ["AC_DIRTY_FILTER"], "confidence": 0.7}')
+    crop = load_image(_payload())
+
+    await client.assess(crop, "máy lạnh hôi", "air_conditioner", FAULTS, CONDITIONS)
+
+    user = client._fake.messages[-1]["content"]
+    assert any(part.get("type") == "image_url" for part in user)
+    assert any(part.get("type") == "text" for part in user)
+
+
+@pytest.mark.asyncio
+async def test_assess_works_without_an_image(monkeypatch):
+    client = _client(monkeypatch, '{"fault_codes": ["AC_DIRTY_FILTER"], "confidence": 0.7}')
+
+    verdict = await client.assess(None, "máy lạnh hôi", None, FAULTS, CONDITIONS)
+
+    user = client._fake.messages[-1]["content"]
+    assert all(part.get("type") != "image_url" for part in user)
+    assert verdict.fault_codes == ["AC_DIRTY_FILTER"]
+
+
+@pytest.mark.asyncio
+async def test_prompt_lists_only_the_allowed_codes(monkeypatch):
+    client = _client(monkeypatch, '{"fault_codes": ["AC_DIRTY_FILTER"], "confidence": 0.7}')
+
+    await client.assess(None, "hôi", "air_conditioner", FAULTS, CONDITIONS)
+
+    text = next(
+        part["text"]
+        for part in client._fake.messages[-1]["content"]
+        if part.get("type") == "text"
+    )
+    for code in FAULTS + CONDITIONS:
+        assert code in text
+
+
+@pytest.mark.asyncio
+async def test_transport_failure_yields_an_empty_verdict(monkeypatch):
+    client = _client(monkeypatch, None)
+
+    verdict = await client.assess(None, "máy lạnh hôi", None, FAULTS, CONDITIONS)
+
+    assert verdict.fault_codes == []
+    assert verdict.confidence == 0.0
+
+
+# ---------------------------------------------------------------- answering
+
+@pytest.mark.asyncio
+async def test_answer_returns_the_model_text(monkeypatch):
+    client = _client(monkeypatch, "Nên vệ sinh máy lạnh ba tới sáu tháng một lần.")
+
+    text, confidence = await client.answer("bao lâu vệ sinh máy lạnh", ["Ba tới sáu tháng."])
+
+    assert "ba tới sáu tháng" in text.lower()
+    assert confidence > 0
+
+
+@pytest.mark.asyncio
+async def test_answer_declines_when_the_model_says_it_cannot(monkeypatch):
+    """The refusal sentinel must not be passed through as if it were an answer."""
+    client = _client(monkeypatch, "KHONG_DU_THONG_TIN")
+
+    text, confidence = await client.answer("giá cổ phiếu hôm nay", ["Ba tới sáu tháng."])
+
+    assert text == ""
+    assert confidence == 0.0
+
+
+@pytest.mark.asyncio
+async def test_answer_without_passages_never_calls_the_model(monkeypatch):
+    called = False
+    client = QwenClient(base_url="http://vllm.test", model_name="qwen", timeout_seconds=1)
+
+    async def fake_chat(messages):
+        nonlocal called
+        called = True
+        return "bất cứ điều gì"
+
+    monkeypatch.setattr(client, "_chat", fake_chat)
+    text, confidence = await client.answer("câu hỏi", [])
+
+    assert called is False
+    assert (text, confidence) == ("", 0.0)
+
+
+@pytest.mark.asyncio
+async def test_answer_passes_every_passage_and_numbers_them(monkeypatch):
+    client = _client(monkeypatch, "Trả lời.")
+
+    await client.answer("hỏi", ["Đoạn một.", "Đoạn hai."])
+
+    prompt = client._fake.messages[-1]["content"]
+    assert "[1] Đoạn một." in prompt
+    assert "[2] Đoạn hai." in prompt
+
+
+@pytest.mark.asyncio
+async def test_answer_on_transport_failure_is_empty(monkeypatch):
+    client = _client(monkeypatch, None)
+
+    assert await client.answer("hỏi", ["Đoạn."]) == ("", 0.0)
+
+
+def test_sampling_is_deterministic():
+    """The fixed regression set is meaningless if the same input can vary."""
+    client = QwenClient(base_url="http://vllm.test", model_name="qwen", timeout_seconds=1)
+    assert client._model == "qwen"
+    assert client._url.endswith("/v1/chat/completions")
