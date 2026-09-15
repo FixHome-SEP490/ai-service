@@ -21,13 +21,19 @@
         "điện tăng mà phòng không mát",
         "đường ống đồng bám tuyết"
       ],
-      "price_min": 300000,
-      "price_max": 800000,
-      "price_reviewed": false,
+      "price_min": 100000,
+      "price_max": 400000,
+      "price_reviewed": true,
       "urgency": "MEDIUM",
       "suggested_actions_vi": [
         "Tắt máy để tránh máy nén chạy quá tải trong tình trạng thiếu gas"
-      ]
+      ],
+      "requires_assessment": false,
+      "labour_code": "DIAGNOSE_ONSITE",
+      "part_codes": [
+        "AC051"
+      ],
+      "price_note_vi": "Gia nap gas tuy luong va loai gas, tho bao sau khi do ap."
     },
     {
       "fault_code": "AC_DIRTY_FILTER",
@@ -47,13 +53,16 @@
         "gió ra ít hơn trước",
         "cả năm chưa vệ sinh"
       ],
-      "price_min": 150000,
-      "price_max": 350000,
-      "price_reviewed": false,
+      "price_min": 180000,
+      "price_max": 180000,
+      "price_reviewed": true,
       "urgency": "LOW",
       "suggested_actions_vi": [
         "Tháo và rửa lưới lọc gió nếu thao tác được an toàn"
-      ]
+      ],
+      "requires_assessment": false,
+      "labour_code": "AC_CLEAN_WALL_SMALL",
+      "part_codes": []
     },
     {
       "fault_code": "AC_DRAIN_BLOCKED",
@@ -71,13 +80,16 @@
         "đọng nước dưới máy lạnh",
         "nước tràn ra mặt nạ"
       ],
-      "price_min": 200000,
-      "price_max": 450000,
-      "price_reviewed": false,
+      "price_min": 180000,
+      "price_max": 180000,
+      "price_reviewed": true,
       "urgency": "MEDIUM",
       "suggested_actions_vi": [
         "Hứng nước tạm và tắt máy để tránh thấm tường và chập điện"
-      ]
+      ],
+      "requires_assessment": false,
+      "labour_code": "AC_CLEAN_WALL_SMALL",
+      "part_codes": []
     },
     {
       "fault_code": "AC_COMPRESSOR_FAULT",
@@ -95,13 +107,18 @@
         "chạy vài phút rồi ngắt",
         "cục nóng rung mạnh"
       ],
-      "price_min": 2000000,
-      "price_max": 5000000,
-      "price_reviewed": false,
+      "price_min": 100000,
+      "price_max": 0,
+      "price_reviewed": true,
       "urgency": "HIGH",
       "suggested_actions_vi": [
         "Ngắt nguồn máy lạnh",
         "Không bật lại để tránh hỏng lan sang bo mạch"
+      ],
+      "requires_assessment": true,
+      "labour_code": "DIAGNOSE_ONSITE",
+      "part_codes": [
+        "AC002"
       ]
     },
     {
@@ -121,12 +138,17 @@
         "màn hình hiện chữ lạ",
         "máy không phản hồi"
       ],
-      "price_min": 800000,
-      "price_max": 2500000,
-      "price_reviewed": false,
+      "price_min": 100000,
+      "price_max": 1400000,
+      "price_reviewed": true,
       "urgency": "MEDIUM",
       "suggested_actions_vi": [
         "Ngắt nguồn và ghi lại mã lỗi hoặc kiểu nháy đèn để báo kỹ thuật viên"
+      ],
+      "requires_assessment": false,
+      "labour_code": "DIAGNOSE_ONSITE",
+      "part_codes": [
+        "AC009"
       ]
     },
     {
@@ -143,12 +165,17 @@
         "cánh quạt lồng sóc không quay",
         "bật lên không có gió"
       ],
-      "price_min": 500000,
-      "price_max": 1200000,
-      "price_reviewed": false,
+      "price_min": 100000,
+      "price_max": 1050000,
+      "price_reviewed": true,
       "urgency": "MEDIUM",
       "suggested_actions_vi": [
         "Tắt máy để tránh dàn lạnh đóng băng do thiếu lưu lượng gió"
+      ],
+      "requires_assessment": false,
+      "labour_code": "DIAGNOSE_ONSITE",
+      "part_codes": [
+        "AC029"
       ]
     },
     {
@@ -163,12 +190,17 @@
         "cánh quạt cục nóng đứng yên",
         "máy chạy một lúc thì ngắt"
       ],
-      "price_min": 400000,
-      "price_max": 1000000,
-      "price_reviewed": false,
+      "price_min": 100000,
+      "price_max": 1350000,
+      "price_reviewed": true,
       "urgency": "MEDIUM",
       "suggested_actions_vi": [
         "Tắt máy vì cục nóng không tản nhiệt sẽ làm hỏng máy nén"
+      ],
+      "requires_assessment": false,
+      "labour_code": "DIAGNOSE_ONSITE",
+      "part_codes": [
+        "AC031"
       ]
     },
     {
@@ -181,12 +213,17 @@
         "bật lên nghe ù rồi tắt",
         "máy nén không khởi động được"
       ],
-      "price_min": 250000,
-      "price_max": 600000,
-      "price_reviewed": false,
+      "price_min": 100000,
+      "price_max": 480000,
+      "price_reviewed": true,
       "urgency": "MEDIUM",
       "suggested_actions_vi": [
         "Ngắt nguồn, không dùng vật gì tác động vào cánh quạt"
+      ],
+      "requires_assessment": false,
+      "labour_code": "DIAGNOSE_ONSITE",
+      "part_codes": [
+        "AC022"
       ]
     },
     {
@@ -201,12 +238,17 @@
         "chảy nước nhiều sau khi tắt",
         "đóng đá ở ống đồng"
       ],
-      "price_min": 250000,
-      "price_max": 700000,
-      "price_reviewed": false,
+      "price_min": 180000,
+      "price_max": 550000,
+      "price_reviewed": true,
       "urgency": "MEDIUM",
       "suggested_actions_vi": [
         "Tắt máy và để tuyết tan hết trước khi bật lại"
+      ],
+      "requires_assessment": false,
+      "labour_code": "AC_CLEAN_WALL_SMALL",
+      "part_codes": [
+        "AC040"
       ]
     },
     {
@@ -221,11 +263,16 @@
         "remote loạn nút"
       ],
       "price_min": 100000,
-      "price_max": 300000,
-      "price_reviewed": false,
+      "price_max": 550000,
+      "price_reviewed": true,
       "urgency": "LOW",
       "suggested_actions_vi": [
         "Thử thay pin mới trước khi gọi thợ"
+      ],
+      "requires_assessment": false,
+      "labour_code": "DIAGNOSE_ONSITE",
+      "part_codes": [
+        "AC016"
       ]
     },
     {
@@ -241,12 +288,17 @@
         "kêu như máy cày",
         "chạy không êm"
       ],
-      "price_min": 200000,
-      "price_max": 600000,
-      "price_reviewed": false,
+      "price_min": 180000,
+      "price_max": 1210000,
+      "price_reviewed": true,
       "urgency": "LOW",
       "suggested_actions_vi": [
         "Kiểm tra xem có vật lạ rơi vào dàn lạnh không"
+      ],
+      "requires_assessment": false,
+      "labour_code": "AC_CLEAN_WALL_SMALL",
+      "part_codes": [
+        "AC033"
       ]
     },
     {
@@ -259,13 +311,18 @@
         "khói ra từ máy lạnh",
         "mùi cháy khi bật máy"
       ],
-      "price_min": 400000,
-      "price_max": 1500000,
-      "price_reviewed": false,
+      "price_min": 100000,
+      "price_max": 0,
+      "price_reviewed": true,
       "urgency": "HIGH",
       "suggested_actions_vi": [
         "Ngắt cầu dao máy lạnh ngay",
         "Không bật lại để thử"
+      ],
+      "requires_assessment": true,
+      "labour_code": "DIAGNOSE_ONSITE",
+      "part_codes": [
+        "AC019"
       ]
     },
     {
@@ -281,11 +338,16 @@
         "quạt trần yếu gió"
       ],
       "price_min": 100000,
-      "price_max": 250000,
-      "price_reviewed": false,
+      "price_max": 220000,
+      "price_reviewed": true,
       "urgency": "LOW",
       "suggested_actions_vi": [
         "Ngưng dùng để tránh cháy cuộn dây mô tơ"
+      ],
+      "requires_assessment": false,
+      "labour_code": "DIAGNOSE_ONSITE",
+      "part_codes": [
+        "HA037"
       ]
     },
     {
@@ -301,13 +363,16 @@
         "tiếng kêu nghe khó chịu",
         "quạt trần kêu to về đêm"
       ],
-      "price_min": 150000,
-      "price_max": 350000,
-      "price_reviewed": false,
+      "price_min": 250000,
+      "price_max": 250000,
+      "price_reviewed": true,
       "urgency": "MEDIUM",
       "suggested_actions_vi": [
         "Ngưng dùng vì rung lắc kéo dài có thể làm lỏng chỗ treo"
-      ]
+      ],
+      "requires_assessment": false,
+      "labour_code": "ELEC_CEILING_FAN",
+      "part_codes": []
     },
     {
       "fault_code": "CEILFAN_MOUNT_LOOSE",
@@ -322,13 +387,16 @@
         "sợ rơi",
         "quạt trần lắc lư"
       ],
-      "price_min": 150000,
-      "price_max": 400000,
-      "price_reviewed": false,
+      "price_min": 250000,
+      "price_max": 250000,
+      "price_reviewed": true,
       "urgency": "HIGH",
       "suggested_actions_vi": [
         "Tắt quạt và không đứng bên dưới cho tới khi kiểm tra xong"
-      ]
+      ],
+      "requires_assessment": false,
+      "labour_code": "ELEC_CEILING_FAN",
+      "part_codes": []
     },
     {
       "fault_code": "CEILFAN_SPEED_SWITCH",
@@ -341,12 +409,17 @@
         "hộp số nóng",
         "chiết áp kêu rè"
       ],
-      "price_min": 120000,
-      "price_max": 300000,
-      "price_reviewed": false,
+      "price_min": 100000,
+      "price_max": 170000,
+      "price_reviewed": true,
       "urgency": "MEDIUM",
       "suggested_actions_vi": [
         "Ngắt cầu dao nếu hộp số nóng hoặc có mùi khét"
+      ],
+      "requires_assessment": false,
+      "labour_code": "ELEC_SWITCH_REPLACE",
+      "part_codes": [
+        "HAS024"
       ]
     },
     {
@@ -359,12 +432,17 @@
         "chạy được lát rồi dừng",
         "khói"
       ],
-      "price_min": 400000,
-      "price_max": 900000,
-      "price_reviewed": false,
+      "price_min": 250000,
+      "price_max": 800000,
+      "price_reviewed": true,
       "urgency": "HIGH",
       "suggested_actions_vi": [
         "Ngắt cầu dao khu vực ngay"
+      ],
+      "requires_assessment": false,
+      "labour_code": "ELEC_CEILING_FAN",
+      "part_codes": [
+        "HA035"
       ]
     },
     {
@@ -382,13 +460,16 @@
         "trục quạt rơ",
         "kêu lạch cạch khi quay"
       ],
-      "price_min": 120000,
-      "price_max": 250000,
-      "price_reviewed": false,
+      "price_min": 100000,
+      "price_max": 0,
+      "price_reviewed": true,
       "urgency": "LOW",
       "suggested_actions_vi": [
         "Ngưng dùng để tránh kẹt trục làm cháy mô tơ"
-      ]
+      ],
+      "requires_assessment": true,
+      "labour_code": "DIAGNOSE_ONSITE",
+      "part_codes": []
     },
     {
       "fault_code": "FAN_CAPACITOR",
@@ -402,12 +483,17 @@
         "quay yếu hẳn",
         "quạt kêu ù ù mà đứng im"
       ],
-      "price_min": 80000,
-      "price_max": 180000,
-      "price_reviewed": false,
+      "price_min": 100000,
+      "price_max": 200000,
+      "price_reviewed": true,
       "urgency": "LOW",
       "suggested_actions_vi": [
         "Ngưng dùng, không đẩy cánh bằng tay khi đang cấp điện"
+      ],
+      "requires_assessment": false,
+      "labour_code": "DIAGNOSE_ONSITE",
+      "part_codes": [
+        "HA036"
       ]
     },
     {
@@ -422,13 +508,18 @@
         "mùi nhựa cháy",
         "sờ vào nóng bỏng tay"
       ],
-      "price_min": 200000,
-      "price_max": 450000,
-      "price_reviewed": false,
+      "price_min": 100000,
+      "price_max": 650000,
+      "price_reviewed": true,
       "urgency": "HIGH",
       "suggested_actions_vi": [
         "Rút phích cắm ngay",
         "Không cắm lại để thử"
+      ],
+      "requires_assessment": false,
+      "labour_code": "DIAGNOSE_ONSITE",
+      "part_codes": [
+        "HA035"
       ]
     },
     {
@@ -442,12 +533,17 @@
         "nút bị kẹt",
         "bấm nút không bật được"
       ],
-      "price_min": 80000,
-      "price_max": 200000,
-      "price_reviewed": false,
+      "price_min": 100000,
+      "price_max": 170000,
+      "price_reviewed": true,
       "urgency": "LOW",
       "suggested_actions_vi": [
         "Rút phích cắm trước khi tháo bất kỳ bộ phận nào"
+      ],
+      "requires_assessment": false,
+      "labour_code": "DIAGNOSE_ONSITE",
+      "part_codes": [
+        "HAS024"
       ]
     },
     {
@@ -462,11 +558,16 @@
         "đảo được một bên"
       ],
       "price_min": 100000,
-      "price_max": 250000,
-      "price_reviewed": false,
+      "price_max": 420000,
+      "price_reviewed": true,
       "urgency": "LOW",
       "suggested_actions_vi": [
         "Vẫn dùng tạm được, chỉ mất chức năng đảo gió"
+      ],
+      "requires_assessment": false,
+      "labour_code": "DIAGNOSE_ONSITE",
+      "part_codes": [
+        "HA040"
       ]
     },
     {
@@ -482,11 +583,17 @@
         "dây bị chuột cắn"
       ],
       "price_min": 100000,
-      "price_max": 250000,
-      "price_reviewed": false,
+      "price_max": 270000,
+      "price_reviewed": true,
       "urgency": "HIGH",
       "suggested_actions_vi": [
         "Rút phích cắm và không dùng cho tới khi thay dây"
+      ],
+      "requires_assessment": false,
+      "labour_code": "DIAGNOSE_ONSITE",
+      "part_codes": [
+        "HAS001",
+        "HAS004"
       ]
     },
     {
@@ -500,13 +607,16 @@
         "cánh cọ vào lồng",
         "chạy bị lệch"
       ],
-      "price_min": 80000,
-      "price_max": 200000,
-      "price_reviewed": false,
+      "price_min": 100000,
+      "price_max": 0,
+      "price_reviewed": true,
       "urgency": "LOW",
       "suggested_actions_vi": [
         "Đặt quạt trên mặt phẳng và kiểm tra ốc khoá cánh"
-      ]
+      ],
+      "requires_assessment": true,
+      "labour_code": "DIAGNOSE_ONSITE",
+      "part_codes": []
     },
     {
       "fault_code": "WM_DRAIN_PUMP",
@@ -522,13 +632,18 @@
         "còn nước trong lồng sau khi giặt",
         "bơm kêu to khi xả"
       ],
-      "price_min": 350000,
-      "price_max": 800000,
-      "price_reviewed": false,
+      "price_min": 100000,
+      "price_max": 900000,
+      "price_reviewed": true,
       "urgency": "MEDIUM",
       "suggested_actions_vi": [
         "Khoá van cấp nước",
         "Không mở cửa máy cửa ngang khi còn nước trong lồng"
+      ],
+      "requires_assessment": false,
+      "labour_code": "DIAGNOSE_ONSITE",
+      "part_codes": [
+        "WM007"
       ]
     },
     {
@@ -544,12 +659,17 @@
         "lồng không quay khi vắt",
         "máy rung mạnh rồi dừng"
       ],
-      "price_min": 150000,
-      "price_max": 400000,
-      "price_reviewed": false,
+      "price_min": 100000,
+      "price_max": 490000,
+      "price_reviewed": true,
       "urgency": "MEDIUM",
       "suggested_actions_vi": [
         "Chia nhỏ mẻ giặt để loại trừ nguyên nhân lệch tải"
+      ],
+      "requires_assessment": false,
+      "labour_code": "DIAGNOSE_ONSITE",
+      "part_codes": [
+        "WM023"
       ]
     },
     {
@@ -564,12 +684,17 @@
         "nước vào nhỏ giọt",
         "chờ nước mãi không đầy"
       ],
-      "price_min": 200000,
-      "price_max": 500000,
-      "price_reviewed": false,
+      "price_min": 100000,
+      "price_max": 600000,
+      "price_reviewed": true,
       "urgency": "MEDIUM",
       "suggested_actions_vi": [
         "Kiểm tra van nước tổng đã mở chưa và vòi có bị gập không"
+      ],
+      "requires_assessment": false,
+      "labour_code": "DIAGNOSE_ONSITE",
+      "part_codes": [
+        "WM001"
       ]
     },
     {
@@ -585,12 +710,17 @@
         "lồng bị rơ",
         "ồn kinh khủng khi vắt"
       ],
-      "price_min": 800000,
-      "price_max": 2000000,
-      "price_reviewed": false,
+      "price_min": 100000,
+      "price_max": 0,
+      "price_reviewed": true,
       "urgency": "MEDIUM",
       "suggested_actions_vi": [
         "Giảm tải mỗi mẻ giặt cho tới khi sửa"
+      ],
+      "requires_assessment": true,
+      "labour_code": "DIAGNOSE_ONSITE",
+      "part_codes": [
+        "WM035"
       ]
     },
     {
@@ -606,13 +736,18 @@
         "không chọn được chế độ",
         "máy treo giữa chừng"
       ],
-      "price_min": 600000,
-      "price_max": 1500000,
-      "price_reviewed": false,
+      "price_min": 100000,
+      "price_max": 1480000,
+      "price_reviewed": true,
       "urgency": "MEDIUM",
       "suggested_actions_vi": [
         "Rút điện khoảng mười phút rồi thử lại một lần",
         "Ghi lại mã lỗi hiển thị"
+      ],
+      "requires_assessment": false,
+      "labour_code": "DIAGNOSE_ONSITE",
+      "part_codes": [
+        "WM047"
       ]
     },
     {
@@ -627,13 +762,18 @@
         "nước tràn khi giặt",
         "ẩm sàn chỗ để máy giặt"
       ],
-      "price_min": 400000,
-      "price_max": 900000,
-      "price_reviewed": false,
+      "price_min": 100000,
+      "price_max": 1080000,
+      "price_reviewed": true,
       "urgency": "MEDIUM",
       "suggested_actions_vi": [
         "Khoá van cấp nước",
         "Lau khô sàn để tránh trơn trượt và chập điện"
+      ],
+      "requires_assessment": false,
+      "labour_code": "DIAGNOSE_ONSITE",
+      "part_codes": [
+        "WM045"
       ]
     },
     {
@@ -647,12 +787,17 @@
         "cửa kẹt không bung",
         "máy không chạy vì báo chưa đóng cửa"
       ],
-      "price_min": 250000,
-      "price_max": 600000,
-      "price_reviewed": false,
+      "price_min": 100000,
+      "price_max": 830000,
+      "price_reviewed": true,
       "urgency": "MEDIUM",
       "suggested_actions_vi": [
         "Không cạy cửa bằng tay khi trong lồng còn nước"
+      ],
+      "requires_assessment": false,
+      "labour_code": "DIAGNOSE_ONSITE",
+      "part_codes": [
+        "WM041"
       ]
     },
     {
@@ -667,13 +812,16 @@
         "giặt xong vẫn hôi",
         "có rong rêu trong lồng"
       ],
-      "price_min": 200000,
-      "price_max": 500000,
-      "price_reviewed": false,
+      "price_min": 350000,
+      "price_max": 350000,
+      "price_reviewed": true,
       "urgency": "LOW",
       "suggested_actions_vi": [
         "Mở cửa máy sau khi giặt để lồng khô thoáng"
-      ]
+      ],
+      "requires_assessment": false,
+      "labour_code": "WM_CLEAN_TOP_SMALL",
+      "part_codes": []
     },
     {
       "fault_code": "WM_MOTOR_FAULT",
@@ -686,12 +834,17 @@
         "quay được một chiều",
         "máy nóng bất thường"
       ],
-      "price_min": 800000,
-      "price_max": 2000000,
-      "price_reviewed": false,
+      "price_min": 100000,
+      "price_max": 0,
+      "price_reviewed": true,
       "urgency": "MEDIUM",
       "suggested_actions_vi": [
         "Rút điện và ngưng sử dụng"
+      ],
+      "requires_assessment": true,
+      "labour_code": "DIAGNOSE_ONSITE",
+      "part_codes": [
+        "WM012"
       ]
     },
     {
@@ -704,13 +857,18 @@
         "nước đầy tới miệng lồng",
         "rút điện rồi nước vẫn vào"
       ],
-      "price_min": 300000,
-      "price_max": 700000,
-      "price_reviewed": false,
+      "price_min": 100000,
+      "price_max": 600000,
+      "price_reviewed": true,
       "urgency": "HIGH",
       "suggested_actions_vi": [
         "Khoá van cấp nước ngay",
         "Ngắt điện khu vực nếu nước đã lan ra sàn"
+      ],
+      "requires_assessment": false,
+      "labour_code": "DIAGNOSE_ONSITE",
+      "part_codes": [
+        "WM009"
       ]
     },
     {
@@ -727,12 +885,18 @@
         "để đồ vẫn hư",
         "lạnh kém hẳn"
       ],
-      "price_min": 400000,
-      "price_max": 900000,
-      "price_reviewed": false,
+      "price_min": 100000,
+      "price_max": 440000,
+      "price_reviewed": true,
       "urgency": "MEDIUM",
       "suggested_actions_vi": [
         "Chuyển thực phẩm dễ hỏng sang nơi khác"
+      ],
+      "requires_assessment": false,
+      "labour_code": "DIAGNOSE_ONSITE",
+      "part_codes": [
+        "RFS007",
+        "RFS004"
       ]
     },
     {
@@ -748,12 +912,18 @@
         "phải xả đá thủ công hoài",
         "đá bám thành mảng"
       ],
-      "price_min": 300000,
-      "price_max": 700000,
-      "price_reviewed": false,
+      "price_min": 100000,
+      "price_max": 910000,
+      "price_reviewed": true,
       "urgency": "MEDIUM",
       "suggested_actions_vi": [
         "Rút điện và xả đá tự nhiên, không dùng vật nhọn cạy đá"
+      ],
+      "requires_assessment": false,
+      "labour_code": "DIAGNOSE_ONSITE",
+      "part_codes": [
+        "RF020",
+        "RF021"
       ]
     },
     {
@@ -769,13 +939,18 @@
         "không nghe tiếng máy chạy",
         "im re không hoạt động"
       ],
-      "price_min": 1500000,
-      "price_max": 3500000,
-      "price_reviewed": false,
+      "price_min": 100000,
+      "price_max": 0,
+      "price_reviewed": true,
       "urgency": "HIGH",
       "suggested_actions_vi": [
         "Rút điện tủ lạnh",
         "Chuyển thực phẩm đi nơi khác"
+      ],
+      "requires_assessment": true,
+      "labour_code": "DIAGNOSE_ONSITE",
+      "part_codes": [
+        "RF002"
       ]
     },
     {
@@ -791,12 +966,17 @@
         "cửa tự bung ra",
         "đọng sương quanh cửa"
       ],
-      "price_min": 300000,
-      "price_max": 800000,
-      "price_reviewed": false,
+      "price_min": 100000,
+      "price_max": 830000,
+      "price_reviewed": true,
       "urgency": "LOW",
       "suggested_actions_vi": [
         "Kiểm tra xem có vật cản làm kênh cửa không"
+      ],
+      "requires_assessment": false,
+      "labour_code": "DIAGNOSE_ONSITE",
+      "part_codes": [
+        "RF030"
       ]
     },
     {
@@ -810,12 +990,17 @@
         "nghe tiếng rẹt rẹt trong tủ",
         "quạt kêu rồi im"
       ],
-      "price_min": 250000,
-      "price_max": 600000,
-      "price_reviewed": false,
+      "price_min": 100000,
+      "price_max": 750000,
+      "price_reviewed": true,
       "urgency": "MEDIUM",
       "suggested_actions_vi": [
         "Giảm lượng thực phẩm để không chắn đường gió"
+      ],
+      "requires_assessment": false,
+      "labour_code": "DIAGNOSE_ONSITE",
+      "part_codes": [
+        "RF011"
       ]
     },
     {
@@ -828,12 +1013,17 @@
         "ngăn rau đọng nước",
         "nước đóng băng dưới khay rau"
       ],
-      "price_min": 200000,
-      "price_max": 450000,
-      "price_reviewed": false,
+      "price_min": 100000,
+      "price_max": 300000,
+      "price_reviewed": true,
       "urgency": "LOW",
       "suggested_actions_vi": [
         "Lấy hết nước đọng và thực phẩm ở ngăn dưới ra"
+      ],
+      "requires_assessment": false,
+      "labour_code": "DIAGNOSE_ONSITE",
+      "part_codes": [
+        "RF045"
       ]
     },
     {
@@ -846,11 +1036,16 @@
         "đèn cháy"
       ],
       "price_min": 100000,
-      "price_max": 300000,
-      "price_reviewed": false,
+      "price_max": 440000,
+      "price_reviewed": true,
       "urgency": "LOW",
       "suggested_actions_vi": [
         "Không ảnh hưởng làm lạnh, có thể dùng bình thường"
+      ],
+      "requires_assessment": false,
+      "labour_code": "DIAGNOSE_ONSITE",
+      "part_codes": [
+        "RF034"
       ]
     },
     {
@@ -864,12 +1059,17 @@
         "kêu lạch cạch",
         "ồn hơn lúc mới mua"
       ],
-      "price_min": 200000,
-      "price_max": 500000,
-      "price_reviewed": false,
+      "price_min": 100000,
+      "price_max": 380000,
+      "price_reviewed": true,
       "urgency": "LOW",
       "suggested_actions_vi": [
         "Kiểm tra tủ có kê cân bằng và cách tường đủ xa không"
+      ],
+      "requires_assessment": false,
+      "labour_code": "DIAGNOSE_ONSITE",
+      "part_codes": [
+        "RFS019"
       ]
     },
     {
@@ -884,12 +1084,17 @@
         "quay đủ thời gian vẫn lạnh",
         "mất nhiệt hoàn toàn"
       ],
-      "price_min": 400000,
-      "price_max": 900000,
-      "price_reviewed": false,
+      "price_min": 100000,
+      "price_max": 780000,
+      "price_reviewed": true,
       "urgency": "MEDIUM",
       "suggested_actions_vi": [
         "Ngưng dùng và rút điện"
+      ],
+      "requires_assessment": false,
+      "labour_code": "DIAGNOSE_ONSITE",
+      "part_codes": [
+        "MWV001"
       ]
     },
     {
@@ -903,12 +1108,17 @@
         "phải ấn cửa mới chạy",
         "cửa đóng rồi máy vẫn không nhận"
       ],
-      "price_min": 150000,
-      "price_max": 350000,
-      "price_reviewed": false,
+      "price_min": 100000,
+      "price_max": 220000,
+      "price_reviewed": true,
       "urgency": "MEDIUM",
       "suggested_actions_vi": [
         "Rút điện, không cố chèn cửa để máy chạy"
+      ],
+      "requires_assessment": false,
+      "labour_code": "DIAGNOSE_ONSITE",
+      "part_codes": [
+        "MWV018"
       ]
     },
     {
@@ -921,12 +1131,17 @@
         "kêu lạch cạch khi quay",
         "đĩa đứng yên"
       ],
-      "price_min": 150000,
-      "price_max": 300000,
-      "price_reviewed": false,
+      "price_min": 100000,
+      "price_max": 480000,
+      "price_reviewed": true,
       "urgency": "LOW",
       "suggested_actions_vi": [
         "Vẫn dùng tạm được nhưng thức ăn sẽ nóng không đều"
+      ],
+      "requires_assessment": false,
+      "labour_code": "DIAGNOSE_ONSITE",
+      "part_codes": [
+        "MWV012"
       ]
     },
     {
@@ -941,13 +1156,18 @@
         "nghe tiếng nổ nhỏ khi chạy",
         "loé sáng trong lò"
       ],
-      "price_min": 250000,
-      "price_max": 700000,
-      "price_reviewed": false,
+      "price_min": 100000,
+      "price_max": 220000,
+      "price_reviewed": true,
       "urgency": "HIGH",
       "suggested_actions_vi": [
         "Tắt và rút điện ngay",
         "Không dùng lại cho tới khi kiểm tra"
+      ],
+      "requires_assessment": false,
+      "labour_code": "DIAGNOSE_ONSITE",
+      "part_codes": [
+        "MWV023"
       ]
     },
     {
@@ -961,12 +1181,18 @@
         "cắm điện không thấy gì",
         "nhảy aptomat khi cắm"
       ],
-      "price_min": 200000,
-      "price_max": 500000,
-      "price_reviewed": false,
+      "price_min": 100000,
+      "price_max": 440000,
+      "price_reviewed": true,
       "urgency": "MEDIUM",
       "suggested_actions_vi": [
         "Thử ổ cắm khác để loại trừ nguyên nhân nguồn điện"
+      ],
+      "requires_assessment": false,
+      "labour_code": "DIAGNOSE_ONSITE",
+      "part_codes": [
+        "MWV009",
+        "MWV004"
       ]
     },
     {
@@ -979,12 +1205,17 @@
         "nóng vỏ ngoài",
         "có mùi khét nhẹ"
       ],
-      "price_min": 150000,
-      "price_max": 400000,
-      "price_reviewed": false,
+      "price_min": 100000,
+      "price_max": 530000,
+      "price_reviewed": true,
       "urgency": "MEDIUM",
       "suggested_actions_vi": [
         "Ngưng dùng nếu vỏ máy nóng bất thường"
+      ],
+      "requires_assessment": false,
+      "labour_code": "DIAGNOSE_ONSITE",
+      "part_codes": [
+        "MWV017"
       ]
     },
     {
@@ -999,12 +1230,17 @@
         "nướng lâu vẫn sống",
         "chỉ thanh trên đỏ"
       ],
-      "price_min": 250000,
-      "price_max": 600000,
-      "price_reviewed": false,
+      "price_min": 100000,
+      "price_max": 730000,
+      "price_reviewed": true,
       "urgency": "MEDIUM",
       "suggested_actions_vi": [
         "Rút điện trước khi kiểm tra"
+      ],
+      "requires_assessment": false,
+      "labour_code": "DIAGNOSE_ONSITE",
+      "part_codes": [
+        "OVN001"
       ]
     },
     {
@@ -1019,12 +1255,17 @@
         "vặn 180 độ mà nóng như 250",
         "nhiệt lên xuống thất thường"
       ],
-      "price_min": 200000,
-      "price_max": 500000,
-      "price_reviewed": false,
+      "price_min": 100000,
+      "price_max": 650000,
+      "price_reviewed": true,
       "urgency": "MEDIUM",
       "suggested_actions_vi": [
         "Không để lò chạy khi không có người trông"
+      ],
+      "requires_assessment": false,
+      "labour_code": "DIAGNOSE_ONSITE",
+      "part_codes": [
+        "OVN009"
       ]
     },
     {
@@ -1038,12 +1279,17 @@
         "chuông không kêu",
         "hẹn giờ chạy sai"
       ],
-      "price_min": 200000,
-      "price_max": 450000,
-      "price_reviewed": false,
+      "price_min": 100000,
+      "price_max": 700000,
+      "price_reviewed": true,
       "urgency": "MEDIUM",
       "suggested_actions_vi": [
         "Rút điện khi dùng xong thay vì dựa vào hẹn giờ"
+      ],
+      "requires_assessment": false,
+      "labour_code": "DIAGNOSE_ONSITE",
+      "part_codes": [
+        "OVN013"
       ]
     },
     {
@@ -1057,12 +1303,18 @@
         "nhiệt thoát ra ngoài",
         "cửa lò bị xệ"
       ],
-      "price_min": 300000,
-      "price_max": 800000,
-      "price_reviewed": false,
+      "price_min": 100000,
+      "price_max": 1400000,
+      "price_reviewed": true,
       "urgency": "MEDIUM",
       "suggested_actions_vi": [
         "Ngưng dùng nếu kính đã nứt vì có thể vỡ khi gặp nhiệt"
+      ],
+      "requires_assessment": false,
+      "labour_code": "DIAGNOSE_ONSITE",
+      "part_codes": [
+        "OVN022",
+        "OVN021"
       ]
     },
     {
@@ -1074,12 +1326,17 @@
         "nướng không đều",
         "kêu to khi bật quạt"
       ],
-      "price_min": 250000,
-      "price_max": 600000,
-      "price_reviewed": false,
+      "price_min": 100000,
+      "price_max": 930000,
+      "price_reviewed": true,
       "urgency": "LOW",
       "suggested_actions_vi": [
         "Có thể dùng chế độ không quạt tạm thời"
+      ],
+      "requires_assessment": false,
+      "labour_code": "DIAGNOSE_ONSITE",
+      "part_codes": [
+        "OVN006"
       ]
     },
     {
@@ -1095,12 +1352,17 @@
         "đánh lửa liên tục không ngừng",
         "một bên không lên lửa"
       ],
-      "price_min": 80000,
-      "price_max": 200000,
-      "price_reviewed": false,
+      "price_min": 100000,
+      "price_max": 470000,
+      "price_reviewed": true,
       "urgency": "MEDIUM",
       "suggested_actions_vi": [
         "Khoá van bình gas nếu đã xả gas nhiều lần mà không cháy"
+      ],
+      "requires_assessment": false,
+      "labour_code": "DIAGNOSE_ONSITE",
+      "part_codes": [
+        "GAS007"
       ]
     },
     {
@@ -1117,12 +1379,17 @@
         "nấu lâu chín",
         "lửa vàng khè"
       ],
-      "price_min": 80000,
-      "price_max": 200000,
-      "price_reviewed": false,
+      "price_min": 100000,
+      "price_max": 330000,
+      "price_reviewed": true,
       "urgency": "LOW",
       "suggested_actions_vi": [
         "Vệ sinh mặt bếp và họng lửa khi bếp đã nguội hẳn"
+      ],
+      "requires_assessment": false,
+      "labour_code": "DIAGNOSE_ONSITE",
+      "part_codes": [
+        "GAS001"
       ]
     },
     {
@@ -1139,14 +1406,20 @@
         "mùi gas nồng trong bếp",
         "dây dẫn gas cũ nứt nẻ"
       ],
-      "price_min": 150000,
-      "price_max": 400000,
-      "price_reviewed": false,
+      "price_min": 100000,
+      "price_max": 250000,
+      "price_reviewed": true,
       "urgency": "HIGH",
       "suggested_actions_vi": [
         "Khoá van bình gas ngay lập tức",
         "Mở cửa thông thoáng",
         "Tuyệt đối không bật công tắc điện hay đánh lửa"
+      ],
+      "requires_assessment": false,
+      "labour_code": "DIAGNOSE_ONSITE",
+      "part_codes": [
+        "GAS021",
+        "GAS026"
       ]
     },
     {
@@ -1161,12 +1434,17 @@
         "núm bị rít",
         "vặn hết cỡ lửa vẫn to"
       ],
-      "price_min": 150000,
-      "price_max": 400000,
-      "price_reviewed": false,
+      "price_min": 100000,
+      "price_max": 500000,
+      "price_reviewed": true,
       "urgency": "HIGH",
       "suggested_actions_vi": [
         "Khoá van bình gas để tắt bếp"
+      ],
+      "requires_assessment": false,
+      "labour_code": "DIAGNOSE_ONSITE",
+      "part_codes": [
+        "GAS013"
       ]
     },
     {
@@ -1180,12 +1458,17 @@
         "lửa yếu dần rồi tắt",
         "cảm ứng nhiệt hỏng"
       ],
-      "price_min": 150000,
-      "price_max": 400000,
-      "price_reviewed": false,
+      "price_min": 100000,
+      "price_max": 360000,
+      "price_reviewed": true,
       "urgency": "HIGH",
       "suggested_actions_vi": [
         "Khoá van bình gas ngay vì lửa tắt mà gas vẫn ra rất nguy hiểm"
+      ],
+      "requires_assessment": false,
+      "labour_code": "DIAGNOSE_ONSITE",
+      "part_codes": [
+        "GAS011"
       ]
     },
     {
@@ -1199,12 +1482,17 @@
         "bình còn gas mà lửa nhỏ",
         "van điều áp cũ"
       ],
-      "price_min": 150000,
-      "price_max": 350000,
-      "price_reviewed": false,
+      "price_min": 100000,
+      "price_max": 440000,
+      "price_reviewed": true,
       "urgency": "HIGH",
       "suggested_actions_vi": [
         "Khoá van bình và không tự tháo lắp van điều áp"
+      ],
+      "requires_assessment": false,
+      "labour_code": "DIAGNOSE_ONSITE",
+      "part_codes": [
+        "GAS023"
       ]
     },
     {
@@ -1218,12 +1506,17 @@
         "phải rút điện thủ công",
         "nước trào ra ngoài"
       ],
-      "price_min": 80000,
-      "price_max": 180000,
-      "price_reviewed": false,
+      "price_min": 100000,
+      "price_max": 440000,
+      "price_reviewed": true,
       "urgency": "MEDIUM",
       "suggested_actions_vi": [
         "Rút phích cắm ngay sau khi dùng"
+      ],
+      "requires_assessment": false,
+      "labour_code": "DIAGNOSE_ONSITE",
+      "part_codes": [
+        "KTL004"
       ]
     },
     {
@@ -1237,11 +1530,16 @@
         "nước chỉ ấm"
       ],
       "price_min": 100000,
-      "price_max": 250000,
-      "price_reviewed": false,
+      "price_max": 400000,
+      "price_reviewed": true,
       "urgency": "LOW",
       "suggested_actions_vi": [
         "Rút phích cắm và ngưng sử dụng"
+      ],
+      "requires_assessment": false,
+      "labour_code": "DIAGNOSE_ONSITE",
+      "part_codes": [
+        "KTL001"
       ]
     },
     {
@@ -1255,11 +1553,16 @@
         "nước chảy ra chân đế"
       ],
       "price_min": 100000,
-      "price_max": 300000,
-      "price_reviewed": false,
+      "price_max": 180000,
+      "price_reviewed": true,
       "urgency": "HIGH",
       "suggested_actions_vi": [
         "Ngưng dùng ngay vì nước rò xuống phần điện rất nguy hiểm"
+      ],
+      "requires_assessment": false,
+      "labour_code": "DIAGNOSE_ONSITE",
+      "part_codes": [
+        "KTL014"
       ]
     },
     {
@@ -1272,13 +1575,16 @@
         "đáy bình đóng cặn",
         "đun lâu sôi hơn trước"
       ],
-      "price_min": 50000,
-      "price_max": 150000,
-      "price_reviewed": false,
+      "price_min": 100000,
+      "price_max": 0,
+      "price_reviewed": true,
       "urgency": "LOW",
       "suggested_actions_vi": [
         "Có thể tự khử cặn bằng giấm hoặc chanh loãng"
-      ]
+      ],
+      "requires_assessment": true,
+      "labour_code": "DIAGNOSE_ONSITE",
+      "part_codes": []
     },
     {
       "fault_code": "KETTLE_SWITCH",
@@ -1290,12 +1596,17 @@
         "phải đè mới chạy",
         "đặt lên đế không ăn điện"
       ],
-      "price_min": 80000,
-      "price_max": 200000,
-      "price_reviewed": false,
+      "price_min": 100000,
+      "price_max": 220000,
+      "price_reviewed": true,
       "urgency": "MEDIUM",
       "suggested_actions_vi": [
         "Rút phích cắm, không dùng vật chèn giữ công tắc"
+      ],
+      "requires_assessment": false,
+      "labour_code": "DIAGNOSE_ONSITE",
+      "part_codes": [
+        "KTL009"
       ]
     },
     {
@@ -1310,12 +1621,17 @@
         "màn hình đen thui nhưng có âm thanh",
         "sáng một góc"
       ],
-      "price_min": 500000,
-      "price_max": 1500000,
-      "price_reviewed": false,
+      "price_min": 100000,
+      "price_max": 1100000,
+      "price_reviewed": true,
       "urgency": "LOW",
       "suggested_actions_vi": [
         "Tắt nguồn, không cần xử lý gấp"
+      ],
+      "requires_assessment": false,
+      "labour_code": "DIAGNOSE_ONSITE",
+      "part_codes": [
+        "TV020"
       ]
     },
     {
@@ -1330,12 +1646,17 @@
         "đèn đỏ nhấp nháy",
         "cắm điện không có phản ứng"
       ],
-      "price_min": 400000,
-      "price_max": 900000,
-      "price_reviewed": false,
+      "price_min": 100000,
+      "price_max": 1080000,
+      "price_reviewed": true,
       "urgency": "LOW",
       "suggested_actions_vi": [
         "Rút phích cắm và thử ổ cắm khác để loại trừ nguyên nhân nguồn điện"
+      ],
+      "requires_assessment": false,
+      "labour_code": "DIAGNOSE_ONSITE",
+      "part_codes": [
+        "TV002"
       ]
     },
     {
@@ -1351,12 +1672,17 @@
         "đứng ở màn hình khởi động",
         "không vào được menu"
       ],
-      "price_min": 600000,
+      "price_min": 100000,
       "price_max": 1800000,
-      "price_reviewed": false,
+      "price_reviewed": true,
       "urgency": "LOW",
       "suggested_actions_vi": [
         "Rút điện khoảng năm phút rồi thử khởi động lại một lần"
+      ],
+      "requires_assessment": false,
+      "labour_code": "DIAGNOSE_ONSITE",
+      "part_codes": [
+        "TV007"
       ]
     },
     {
@@ -1372,13 +1698,19 @@
         "một vùng màn hình đen",
         "hình bị nhoè một góc"
       ],
-      "price_min": 0,
+      "price_min": 100000,
       "price_max": 0,
-      "price_reviewed": false,
+      "price_reviewed": true,
       "urgency": "LOW",
       "suggested_actions_vi": [
         "Thay tấm nền thường không kinh tế, kỹ thuật viên sẽ tư vấn cụ thể"
-      ]
+      ],
+      "requires_assessment": true,
+      "labour_code": "DIAGNOSE_ONSITE",
+      "part_codes": [
+        "TV043"
+      ],
+      "price_note_vi": "Thay tam nen thuong gan bang gia mua TV moi, nen can tho xac nhan truoc khi quyet dinh."
     },
     {
       "fault_code": "TV_NO_SOUND",
@@ -1390,12 +1722,17 @@
         "tiếng nhỏ dù đã tăng",
         "tiếng lúc có lúc không"
       ],
-      "price_min": 300000,
-      "price_max": 800000,
-      "price_reviewed": false,
+      "price_min": 100000,
+      "price_max": 630000,
+      "price_reviewed": true,
       "urgency": "LOW",
       "suggested_actions_vi": [
         "Thử tai nghe hoặc loa ngoài để xác định lỗi ở loa hay ở bo"
+      ],
+      "requires_assessment": false,
+      "labour_code": "DIAGNOSE_ONSITE",
+      "part_codes": [
+        "TV033"
       ]
     },
     {
@@ -1409,11 +1746,16 @@
         "một số nút không ăn"
       ],
       "price_min": 100000,
-      "price_max": 350000,
-      "price_reviewed": false,
+      "price_max": 390000,
+      "price_reviewed": true,
       "urgency": "LOW",
       "suggested_actions_vi": [
         "Thử thay pin và lau sạch mắt nhận trên tivi"
+      ],
+      "requires_assessment": false,
+      "labour_code": "DIAGNOSE_ONSITE",
+      "part_codes": [
+        "TV047"
       ]
     },
     {
@@ -1430,13 +1772,16 @@
         "đổ nước xuống bị dâng lên",
         "bồn rửa bị tắc"
       ],
-      "price_min": 150000,
-      "price_max": 400000,
-      "price_reviewed": false,
+      "price_min": 100000,
+      "price_max": 0,
+      "price_reviewed": true,
       "urgency": "MEDIUM",
       "suggested_actions_vi": [
         "Ngưng đổ dầu mỡ và thức ăn thừa xuống bồn"
-      ]
+      ],
+      "requires_assessment": true,
+      "labour_code": "DIAGNOSE_ONSITE",
+      "part_codes": []
     },
     {
       "fault_code": "SINK_TRAP_LEAK",
@@ -1450,11 +1795,16 @@
         "tủ bếp bị mục vì nước"
       ],
       "price_min": 150000,
-      "price_max": 350000,
-      "price_reviewed": false,
+      "price_max": 440000,
+      "price_reviewed": true,
       "urgency": "MEDIUM",
       "suggested_actions_vi": [
         "Hứng chậu dưới chỗ rò và hạn chế dùng bồn rửa"
+      ],
+      "requires_assessment": false,
+      "labour_code": "PLUMB_SIPHON_REPLACE",
+      "part_codes": [
+        "SNK011"
       ]
     },
     {
@@ -1466,13 +1816,16 @@
         "mùi hôi từ bồn rửa",
         "mùi thối ở bếp"
       ],
-      "price_min": 150000,
-      "price_max": 350000,
-      "price_reviewed": false,
+      "price_min": 100000,
+      "price_max": 0,
+      "price_reviewed": true,
       "urgency": "LOW",
       "suggested_actions_vi": [
         "Xả nước vài phút để làm đầy lại bẫy nước"
-      ]
+      ],
+      "requires_assessment": true,
+      "labour_code": "DIAGNOSE_ONSITE",
+      "part_codes": []
     },
     {
       "fault_code": "SINK_DRAIN_CORRODED",
@@ -1483,12 +1836,17 @@
         "nước rỉ quanh lỗ thoát",
         "ron bồn bị mục"
       ],
-      "price_min": 200000,
-      "price_max": 450000,
-      "price_reviewed": false,
+      "price_min": 150000,
+      "price_max": 520000,
+      "price_reviewed": true,
       "urgency": "LOW",
       "suggested_actions_vi": [
         "Hạn chế đọng nước lâu trong bồn"
+      ],
+      "requires_assessment": false,
+      "labour_code": "PLUMB_SIPHON_REPLACE",
+      "part_codes": [
+        "SNK006"
       ]
     },
     {
@@ -1503,12 +1861,17 @@
         "vòi nước nhỏ nước cả đêm",
         "khoá chặt vẫn rỉ"
       ],
-      "price_min": 100000,
-      "price_max": 300000,
-      "price_reviewed": false,
+      "price_min": 120000,
+      "price_max": 200000,
+      "price_reviewed": true,
       "urgency": "LOW",
       "suggested_actions_vi": [
         "Khoá van chặn dưới bồn nếu có"
+      ],
+      "requires_assessment": false,
+      "labour_code": "PLUMB_FAUCET_REPLACE",
+      "part_codes": [
+        "FCT021"
       ]
     },
     {
@@ -1523,12 +1886,17 @@
         "gạt cần thấy rít",
         "chỉ ra nước lạnh"
       ],
-      "price_min": 150000,
-      "price_max": 400000,
-      "price_reviewed": false,
+      "price_min": 120000,
+      "price_max": 310000,
+      "price_reviewed": true,
       "urgency": "LOW",
       "suggested_actions_vi": [
         "Khoá van chặn trước khi tháo"
+      ],
+      "requires_assessment": false,
+      "labour_code": "PLUMB_FAUCET_REPLACE",
+      "part_codes": [
+        "FCT002"
       ]
     },
     {
@@ -1542,11 +1910,16 @@
         "nước ra không đều"
       ],
       "price_min": 100000,
-      "price_max": 250000,
-      "price_reviewed": false,
+      "price_max": 150000,
+      "price_reviewed": true,
       "urgency": "LOW",
       "suggested_actions_vi": [
         "Tháo đầu lọc ở miệng vòi và rửa cặn nếu thao tác được"
+      ],
+      "requires_assessment": false,
+      "labour_code": "DIAGNOSE_ONSITE",
+      "part_codes": [
+        "FCT009"
       ]
     },
     {
@@ -1559,12 +1932,18 @@
         "rò ở dây cấp nước",
         "dây cấp nước phồng"
       ],
-      "price_min": 150000,
-      "price_max": 400000,
-      "price_reviewed": false,
+      "price_min": 120000,
+      "price_max": 280000,
+      "price_reviewed": true,
       "urgency": "MEDIUM",
       "suggested_actions_vi": [
         "Khoá van chặn và lau khô để theo dõi chỗ rò"
+      ],
+      "requires_assessment": false,
+      "labour_code": "PLUMB_FAUCET_REPLACE",
+      "part_codes": [
+        "FCT031",
+        "FCT016"
       ]
     },
     {
@@ -1580,13 +1959,16 @@
         "xả nước trào ngược",
         "rút rất chậm"
       ],
-      "price_min": 200000,
-      "price_max": 500000,
-      "price_reviewed": false,
+      "price_min": 100000,
+      "price_max": 0,
+      "price_reviewed": true,
       "urgency": "HIGH",
       "suggested_actions_vi": [
         "Ngưng xả nước thêm để tránh tràn"
-      ]
+      ],
+      "requires_assessment": true,
+      "labour_code": "DIAGNOSE_ONSITE",
+      "part_codes": []
     },
     {
       "fault_code": "TOILET_FILL_VALVE",
@@ -1599,12 +1981,17 @@
         "phải chờ lâu mới xả được lần nữa",
         "két nước không lên"
       ],
-      "price_min": 150000,
+      "price_min": 100000,
       "price_max": 400000,
-      "price_reviewed": false,
+      "price_reviewed": true,
       "urgency": "MEDIUM",
       "suggested_actions_vi": [
         "Khoá van chặn sau bồn cầu"
+      ],
+      "requires_assessment": false,
+      "labour_code": "DIAGNOSE_ONSITE",
+      "part_codes": [
+        "TLC001"
       ]
     },
     {
@@ -1619,11 +2006,16 @@
         "két nước tự đầy rồi lại cạn"
       ],
       "price_min": 100000,
-      "price_max": 250000,
-      "price_reviewed": false,
+      "price_max": 270000,
+      "price_reviewed": true,
       "urgency": "MEDIUM",
       "suggested_actions_vi": [
         "Khoá van chặn giữa các lần dùng để đỡ thất thoát nước"
+      ],
+      "requires_assessment": false,
+      "labour_code": "DIAGNOSE_ONSITE",
+      "part_codes": [
+        "TLC006"
       ]
     },
     {
@@ -1637,12 +2029,18 @@
         "nền quanh bồn cầu luôn ướt",
         "bồn cầu bị lung lay"
       ],
-      "price_min": 300000,
-      "price_max": 800000,
-      "price_reviewed": false,
+      "price_min": 100000,
+      "price_max": 0,
+      "price_reviewed": true,
       "urgency": "HIGH",
       "suggested_actions_vi": [
         "Hạn chế sử dụng cho tới khi xử lý vì nước thải thấm nền"
+      ],
+      "requires_assessment": true,
+      "labour_code": "DIAGNOSE_ONSITE",
+      "part_codes": [
+        "TLC023",
+        "TLC022"
       ]
     },
     {
@@ -1655,12 +2053,17 @@
         "phải xả hai ba lần",
         "nước không xoáy"
       ],
-      "price_min": 150000,
-      "price_max": 400000,
-      "price_reviewed": false,
+      "price_min": 100000,
+      "price_max": 440000,
+      "price_reviewed": true,
       "urgency": "LOW",
       "suggested_actions_vi": [
         "Kiểm tra mực nước trong két đã đủ chưa"
+      ],
+      "requires_assessment": false,
+      "labour_code": "DIAGNOSE_ONSITE",
+      "part_codes": [
+        "TLC004"
       ]
     },
     {
@@ -1673,12 +2076,17 @@
         "bản lề nắp hỏng",
         "nắp trượt khi ngồi"
       ],
-      "price_min": 150000,
-      "price_max": 450000,
-      "price_reviewed": false,
+      "price_min": 100000,
+      "price_max": 600000,
+      "price_reviewed": true,
       "urgency": "LOW",
       "suggested_actions_vi": [
         "Thay nắp là xử lý đơn giản, không ảnh hưởng hệ thống nước"
+      ],
+      "requires_assessment": false,
+      "labour_code": "DIAGNOSE_ONSITE",
+      "part_codes": [
+        "TLC029"
       ]
     },
     {
@@ -1695,14 +2103,17 @@
         "nghe tiếng nổ ở ổ cắm",
         "ổ cắm bị chảy nhựa"
       ],
-      "price_min": 150000,
-      "price_max": 400000,
-      "price_reviewed": false,
+      "price_min": 100000,
+      "price_max": 100000,
+      "price_reviewed": true,
       "urgency": "HIGH",
       "suggested_actions_vi": [
         "Ngắt cầu dao khu vực ngay lập tức",
         "Không cắm thêm thiết bị nào vào ổ này"
-      ]
+      ],
+      "requires_assessment": false,
+      "labour_code": "ELEC_OUTLET_REPLACE",
+      "part_codes": []
     },
     {
       "fault_code": "OUTLET_LOOSE_CONTACT",
@@ -1718,12 +2129,15 @@
         "lúc có điện lúc không"
       ],
       "price_min": 100000,
-      "price_max": 300000,
-      "price_reviewed": false,
+      "price_max": 100000,
+      "price_reviewed": true,
       "urgency": "MEDIUM",
       "suggested_actions_vi": [
         "Ngưng dùng ổ này vì tiếp xúc kém sinh nhiệt và dễ gây cháy"
-      ]
+      ],
+      "requires_assessment": false,
+      "labour_code": "ELEC_OUTLET_REPLACE",
+      "part_codes": []
     },
     {
       "fault_code": "OUTLET_NO_POWER",
@@ -1736,12 +2150,17 @@
         "cắm vào không chạy",
         "bút thử điện không sáng"
       ],
-      "price_min": 150000,
-      "price_max": 450000,
-      "price_reviewed": false,
+      "price_min": 100000,
+      "price_max": 270000,
+      "price_reviewed": true,
       "urgency": "MEDIUM",
       "suggested_actions_vi": [
         "Kiểm tra aptomat khu vực đã nhảy chưa"
+      ],
+      "requires_assessment": false,
+      "labour_code": "ELEC_OUTLET_REPLACE",
+      "part_codes": [
+        "HAS002"
       ]
     },
     {
@@ -1756,14 +2175,17 @@
         "cầu dao nhảy liên tục",
         "chống giật nhảy hoài"
       ],
-      "price_min": 200000,
-      "price_max": 600000,
-      "price_reviewed": false,
+      "price_min": 100000,
+      "price_max": 0,
+      "price_reviewed": true,
       "urgency": "HIGH",
       "suggested_actions_vi": [
         "Ngắt cầu dao và không tự đóng lại nhiều lần",
         "Không chạm vào thiết bị nghi rò điện"
-      ]
+      ],
+      "requires_assessment": true,
+      "labour_code": "DIAGNOSE_ONSITE",
+      "part_codes": []
     },
     {
       "fault_code": "OUTLET_OVERLOAD",
@@ -1776,12 +2198,17 @@
         "ổ chia nóng ran",
         "dùng nồi cơm với ấm siêu tốc là nhảy điện"
       ],
-      "price_min": 200000,
-      "price_max": 600000,
-      "price_reviewed": false,
+      "price_min": 100000,
+      "price_max": 340000,
+      "price_reviewed": true,
       "urgency": "HIGH",
       "suggested_actions_vi": [
         "Rút bớt thiết bị khỏi ổ này ngay"
+      ],
+      "requires_assessment": false,
+      "labour_code": "ELEC_OUTLET_REPLACE",
+      "part_codes": [
+        "HAS003"
       ]
     },
     {
@@ -1795,12 +2222,15 @@
         "ổ cắm bị gãy"
       ],
       "price_min": 100000,
-      "price_max": 300000,
-      "price_reviewed": false,
+      "price_max": 100000,
+      "price_reviewed": true,
       "urgency": "HIGH",
       "suggested_actions_vi": [
         "Ngắt cầu dao vì phần mang điện đang hở"
-      ]
+      ],
+      "requires_assessment": false,
+      "labour_code": "ELEC_OUTLET_REPLACE",
+      "part_codes": []
     },
     {
       "fault_code": "LIGHT_BULB_DEAD",
@@ -1812,13 +2242,16 @@
         "đèn tắt hẳn",
         "thay bóng mới vẫn không sáng"
       ],
-      "price_min": 50000,
-      "price_max": 200000,
-      "price_reviewed": false,
+      "price_min": 120000,
+      "price_max": 120000,
+      "price_reviewed": true,
       "urgency": "LOW",
       "suggested_actions_vi": [
         "Tắt công tắc trước khi thay bóng"
-      ]
+      ],
+      "requires_assessment": false,
+      "labour_code": "ELEC_CEILING_LIGHT",
+      "part_codes": []
     },
     {
       "fault_code": "LIGHT_FLICKERING",
@@ -1832,13 +2265,16 @@
         "đèn nháy như đèn disco",
         "sáng mờ rồi tắt"
       ],
-      "price_min": 150000,
-      "price_max": 400000,
-      "price_reviewed": false,
+      "price_min": 120000,
+      "price_max": 120000,
+      "price_reviewed": true,
       "urgency": "MEDIUM",
       "suggested_actions_vi": [
         "Tắt đèn để tránh hỏng lan sang mạch điện"
-      ]
+      ],
+      "requires_assessment": false,
+      "labour_code": "ELEC_CEILING_LIGHT",
+      "part_codes": []
     },
     {
       "fault_code": "LIGHT_SWITCH_FAULT",
@@ -1853,11 +2289,16 @@
         "công tắc bị lỏng"
       ],
       "price_min": 100000,
-      "price_max": 250000,
-      "price_reviewed": false,
+      "price_max": 170000,
+      "price_reviewed": true,
       "urgency": "MEDIUM",
       "suggested_actions_vi": [
         "Ngắt cầu dao khu vực nếu công tắc nóng hoặc có mùi khét"
+      ],
+      "requires_assessment": false,
+      "labour_code": "ELEC_SWITCH_REPLACE",
+      "part_codes": [
+        "HAS024"
       ]
     },
     {
@@ -1870,13 +2311,16 @@
         "đèn vàng hơn trước",
         "cả nhà đèn đều yếu"
       ],
-      "price_min": 150000,
-      "price_max": 400000,
-      "price_reviewed": false,
+      "price_min": 100000,
+      "price_max": 0,
+      "price_reviewed": true,
       "urgency": "LOW",
       "suggested_actions_vi": [
         "Kiểm tra xem có đang dùng nhiều thiết bị công suất lớn cùng lúc không"
-      ]
+      ],
+      "requires_assessment": true,
+      "labour_code": "DIAGNOSE_ONSITE",
+      "part_codes": []
     },
     {
       "fault_code": "LIGHT_FIXTURE_LEAK",
@@ -1888,13 +2332,16 @@
         "đèn ngoài trời bị vào nước",
         "đèn nhà tắm bị đọng hơi"
       ],
-      "price_min": 200000,
-      "price_max": 500000,
-      "price_reviewed": false,
+      "price_min": 120000,
+      "price_max": 120000,
+      "price_reviewed": true,
       "urgency": "HIGH",
       "suggested_actions_vi": [
         "Ngắt cầu dao khu vực vì nước tiếp xúc phần mang điện"
-      ]
+      ],
+      "requires_assessment": false,
+      "labour_code": "ELEC_CEILING_LIGHT",
+      "part_codes": []
     },
     {
       "fault_code": "WH_HEATING_ELEMENT",
@@ -1908,12 +2355,18 @@
         "bật cả tiếng vẫn không nóng",
         "nước chỉ hơi ấm"
       ],
-      "price_min": 300000,
-      "price_max": 800000,
-      "price_reviewed": false,
+      "price_min": 250000,
+      "price_max": 900000,
+      "price_reviewed": true,
       "urgency": "MEDIUM",
       "suggested_actions_vi": [
         "Tắt nguồn bình nóng lạnh"
+      ],
+      "requires_assessment": false,
+      "labour_code": "WH_CLEAN",
+      "part_codes": [
+        "HA042",
+        "HA047"
       ]
     },
     {
@@ -1927,12 +2380,17 @@
         "nước sôi bốc hơi",
         "lúc nóng lúc lạnh"
       ],
-      "price_min": 250000,
-      "price_max": 600000,
-      "price_reviewed": false,
+      "price_min": 100000,
+      "price_max": 550000,
+      "price_reviewed": true,
       "urgency": "HIGH",
       "suggested_actions_vi": [
         "Tắt nguồn ngay vì nước quá nóng có thể gây bỏng"
+      ],
+      "requires_assessment": false,
+      "labour_code": "DIAGNOSE_ONSITE",
+      "part_codes": [
+        "HA044"
       ]
     },
     {
@@ -1947,12 +2405,17 @@
         "cầu dao nhảy mỗi lần bật bình",
         "chống giật tự ngắt"
       ],
-      "price_min": 300000,
-      "price_max": 700000,
-      "price_reviewed": false,
+      "price_min": 100000,
+      "price_max": 680000,
+      "price_reviewed": true,
       "urgency": "HIGH",
       "suggested_actions_vi": [
         "Ngắt nguồn ngay và tuyệt đối không tắm cho tới khi kiểm tra xong"
+      ],
+      "requires_assessment": false,
+      "labour_code": "DIAGNOSE_ONSITE",
+      "part_codes": [
+        "HA045"
       ]
     },
     {
@@ -1967,13 +2430,16 @@
         "nước đục",
         "nước ra có mùi tanh"
       ],
-      "price_min": 200000,
-      "price_max": 500000,
-      "price_reviewed": false,
+      "price_min": 250000,
+      "price_max": 250000,
+      "price_reviewed": true,
       "urgency": "LOW",
       "suggested_actions_vi": [
         "Đặt lịch vệ sinh bình, thường một tới hai năm một lần"
-      ]
+      ],
+      "requires_assessment": false,
+      "labour_code": "WH_CLEAN",
+      "part_codes": []
     },
     {
       "fault_code": "WH_TANK_LEAK",
@@ -1986,13 +2452,17 @@
         "nước rỉ ở đáy bình",
         "trần nhà tắm bị thấm"
       ],
-      "price_min": 2000000,
-      "price_max": 5000000,
-      "price_reviewed": false,
+      "price_min": 100000,
+      "price_max": 0,
+      "price_reviewed": true,
       "urgency": "HIGH",
       "suggested_actions_vi": [
         "Ngắt nguồn điện và khoá van cấp nước vào bình"
-      ]
+      ],
+      "requires_assessment": true,
+      "labour_code": "DIAGNOSE_ONSITE",
+      "part_codes": [],
+      "price_note_vi": "Binh thung thi han hay ve lai deu khong ben, thuong phai thay binh moi."
     },
     {
       "fault_code": "WH_LOW_PRESSURE",
@@ -2003,12 +2473,17 @@
         "sen nước nóng rất nhỏ",
         "nước lạnh mạnh mà nóng yếu"
       ],
-      "price_min": 200000,
-      "price_max": 500000,
-      "price_reviewed": false,
+      "price_min": 100000,
+      "price_max": 420000,
+      "price_reviewed": true,
       "urgency": "LOW",
       "suggested_actions_vi": [
         "Kiểm tra van cấp vào bình đã mở hết chưa"
+      ],
+      "requires_assessment": false,
+      "labour_code": "DIAGNOSE_ONSITE",
+      "part_codes": [
+        "HA046"
       ]
     },
     {
@@ -2021,12 +2496,17 @@
         "nước yếu nên máy không kích",
         "mở nhỏ thì nóng mở lớn thì lạnh"
       ],
-      "price_min": 300000,
-      "price_max": 700000,
-      "price_reviewed": false,
+      "price_min": 100000,
+      "price_max": 600000,
+      "price_reviewed": true,
       "urgency": "MEDIUM",
       "suggested_actions_vi": [
         "Tắt nguồn và kiểm tra áp lực nước đầu vào"
+      ],
+      "requires_assessment": false,
+      "labour_code": "DIAGNOSE_ONSITE",
+      "part_codes": [
+        "HA042"
       ]
     },
     {
@@ -2043,13 +2523,19 @@
         "nước rỉ ở khớp nối",
         "sơn tường bong vì ẩm"
       ],
-      "price_min": 150000,
-      "price_max": 500000,
-      "price_reviewed": false,
+      "price_min": 100000,
+      "price_max": 210000,
+      "price_reviewed": true,
       "urgency": "MEDIUM",
       "suggested_actions_vi": [
         "Khoá van cấp nước tổng",
         "Hứng nước tạm để hạn chế thấm"
+      ],
+      "requires_assessment": false,
+      "labour_code": "DIAGNOSE_ONSITE",
+      "part_codes": [
+        "PIP055",
+        "PIP067"
       ]
     },
     {
@@ -2065,13 +2551,20 @@
         "vỡ ống nước",
         "nước tràn khắp nhà"
       ],
-      "price_min": 300000,
-      "price_max": 900000,
-      "price_reviewed": false,
+      "price_min": 100000,
+      "price_max": 240000,
+      "price_reviewed": true,
       "urgency": "HIGH",
       "suggested_actions_vi": [
         "Khoá van cấp nước tổng ngay",
         "Ngắt điện khu vực bị ngập"
+      ],
+      "requires_assessment": false,
+      "labour_code": "DIAGNOSE_ONSITE",
+      "part_codes": [
+        "PIP012",
+        "PIP042",
+        "PIP066"
       ]
     },
     {
@@ -2086,13 +2579,16 @@
         "cống bị tắc",
         "nước dâng ngược lên sàn"
       ],
-      "price_min": 200000,
-      "price_max": 600000,
-      "price_reviewed": false,
+      "price_min": 100000,
+      "price_max": 0,
+      "price_reviewed": true,
       "urgency": "MEDIUM",
       "suggested_actions_vi": [
         "Ngưng xả nước xuống đường ống đang nghẹt"
-      ]
+      ],
+      "requires_assessment": true,
+      "labour_code": "DIAGNOSE_ONSITE",
+      "part_codes": []
     },
     {
       "fault_code": "PIPE_LOW_PRESSURE",
@@ -2105,12 +2601,17 @@
         "giờ cao điểm không có nước",
         "bơm chạy mà nước vẫn yếu"
       ],
-      "price_min": 200000,
-      "price_max": 700000,
-      "price_reviewed": false,
+      "price_min": 100000,
+      "price_max": 340000,
+      "price_reviewed": true,
       "urgency": "LOW",
       "suggested_actions_vi": [
         "Kiểm tra bồn chứa còn nước và van tổng đã mở hết chưa"
+      ],
+      "requires_assessment": false,
+      "labour_code": "DIAGNOSE_ONSITE",
+      "part_codes": [
+        "PIP063"
       ]
     },
     {
@@ -2123,12 +2624,17 @@
         "đường ống rung",
         "kêu ù ù trong tường khi mở nước"
       ],
-      "price_min": 200000,
-      "price_max": 600000,
-      "price_reviewed": false,
+      "price_min": 100000,
+      "price_max": 110000,
+      "price_reviewed": true,
       "urgency": "LOW",
       "suggested_actions_vi": [
         "Khoá vòi từ từ thay vì đóng đột ngột"
+      ],
+      "requires_assessment": false,
+      "labour_code": "DIAGNOSE_ONSITE",
+      "part_codes": [
+        "PIP064"
       ]
     },
     {
@@ -2142,13 +2648,19 @@
         "nước tanh mùi sắt",
         "mở vòi ra nước đỏ"
       ],
-      "price_min": 300000,
-      "price_max": 900000,
-      "price_reviewed": false,
+      "price_min": 100000,
+      "price_max": 0,
+      "price_reviewed": true,
       "urgency": "MEDIUM",
       "suggested_actions_vi": [
         "Xả bỏ phần nước đầu và không dùng để ăn uống cho tới khi kiểm tra"
-      ]
+      ],
+      "requires_assessment": true,
+      "labour_code": "DIAGNOSE_ONSITE",
+      "part_codes": [
+        "PIP013"
+      ],
+      "price_note_vi": "Chi phi tuy chieu dai doan ong phai thay va viec duc tuong, tho khao sat moi bao duoc."
     }
   ],
   "policies": [

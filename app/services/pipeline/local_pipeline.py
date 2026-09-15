@@ -231,6 +231,7 @@ class LocalPipeline:
         actions: List[str] = []
         price_min: Optional[int] = None
         price_max: Optional[int] = None
+        needs_assessment = False
         urgency = UrgencyLevel.LOW
 
         for code in verdict.fault_codes:
@@ -261,6 +262,7 @@ class LocalPipeline:
             price_max = (
                 fault.price_max if price_max is None else max(price_max, fault.price_max)
             )
+            needs_assessment = needs_assessment or fault.requires_assessment
             fault_urgency = UrgencyLevel(fault.urgency)
             if _URGENCY_RANK[fault_urgency] > _URGENCY_RANK[urgency]:
                 urgency = fault_urgency
@@ -279,7 +281,16 @@ class LocalPipeline:
             suspected_faults=faults,
             recommended_services=services,
             suggested_actions_vi=actions,
-            price_estimate=PriceEstimate(min=price_min or 0, max=price_max or 0),
+            # A ceiling is only worth showing when every suspected fault has one.
+            # If any of them needs a technician to look, taking the highest
+            # ceiling among the others would put a firm number on a case nobody
+            # can price yet, and it is the low one that the customer would read
+            # as the whole cost.
+            price_estimate=PriceEstimate(
+                min=price_min or 0,
+                max=None if needs_assessment else (price_max or 0),
+                requires_assessment=needs_assessment,
+            ),
             urgency=urgency,
             confidence=confidence,
             is_low_confidence=False,
