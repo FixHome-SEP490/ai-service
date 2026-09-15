@@ -45,59 +45,190 @@ MIN_EDGE = 300
 
 MAX_EDGE = 1600
 
-# Vietnamese queries, plus the quantity each class needs. Classes absent here
-# are adequately covered by Open Images.
+# Vietnamese queries and the quantity each class needs.
+#
+# Brand names are in the queries on purpose. A generic Vietnamese noun still
+# returns a lot of international stock photography, but "o cam Panasonic" or
+# "binh nong lanh Ferroli" returns the hardware actually sold and installed in
+# Vietnamese homes, which is the hardware this detector will be shown.
+#
+# Two tiers. CRITICAL classes are the ones where public datasets are actively
+# misleading: the photos exist, but they are of different hardware. SUPPLEMENT
+# classes are adequately covered by Open Images; a smaller Vietnamese sample
+# just narrows the gap between training photos and customer photos.
 CRAWL_PLAN: Dict[str, dict] = {
     "power_outlet": {
-        "target": 400,
+        "target": 600,
+        "tier": "critical",
         "queries": [
-            "ổ cắm điện",
+            "ổ cắm điện Panasonic",
+            "ổ cắm điện Sino",
+            "công tắc ổ cắm Điện Quang",
             "ổ cắm điện âm tường",
-            "công tắc ổ cắm Panasonic",
-            "ổ cắm điện bị cháy",
-            "ổ điện kéo dài",
+            "mặt công tắc ổ cắm gia đình",
+            "ổ cắm điện đôi 3 chấu",
+            "ổ cắm kéo dài Lioa",
+            "ổ cắm điện bị cháy đen",
+            "ổ cắm điện trong nhà",
         ],
-        "why": "Open Images is mostly US NEMA and EU Schuko sockets",
+        "why": "Open Images is mostly US NEMA and EU Schuko; Vietnam uses 2-pin universal",
     },
     "gas_stove": {
-        "target": 250,
+        "target": 400,
+        "tier": "critical",
         "queries": [
-            "bếp gas đôi",
+            "bếp gas đôi Rinnai",
+            "bếp gas Namilux",
             "bếp gas mini để bàn",
-            "bếp gas âm",
-            "bếp gas bị hỏng",
+            "bếp gas Sunhouse",
+            "bếp gas âm Malloca",
+            "bếp gas hồng ngoại",
+            "bếp gas bị nghẹt lửa",
         ],
-        "why": "Open Images is mostly Western built-in ranges",
+        "why": "Open Images is Western built-in ranges; Vietnam uses countertop twin burners",
     },
     "water_heater": {
-        "target": 250,
+        "target": 400,
+        "tier": "critical",
         "queries": [
-            "bình nóng lạnh",
-            "máy nước nóng trực tiếp",
-            "bình nóng lạnh treo tường",
+            "bình nóng lạnh Ariston",
+            "bình nóng lạnh Ferroli",
+            "bình nóng lạnh Rossi treo tường",
+            "máy nước nóng trực tiếp Panasonic",
+            "máy nước nóng Centon",
             "máy nước nóng năng lượng mặt trời",
         ],
         "why": "no Open Images class at all",
     },
     "air_conditioner": {
-        "target": 200,
+        "target": 400,
+        "tier": "critical",
         "queries": [
-            "máy lạnh treo tường",
-            "dàn lạnh máy lạnh",
-            "cục nóng máy lạnh",
+            "máy lạnh Daikin treo tường",
+            "điều hòa Panasonic trong nhà",
+            "máy lạnh Casper",
+            "máy lạnh Aqua treo tường",
+            "dàn lạnh điều hòa gia đình",
+            "cục nóng điều hòa",
             "máy lạnh bị chảy nước",
         ],
-        "why": "supplements the Roboflow sets with Vietnamese wall units",
+        "why": "no Open Images class; supplements the Roboflow sets with Vietnamese wall units",
     },
     "washing_machine": {
-        "target": 150,
-        "queries": ["máy giặt cửa trên", "máy giặt lồng đứng"],
-        "why": "Open Images leans front-loading",
+        "target": 300,
+        "tier": "critical",
+        "queries": [
+            "máy giặt Aqua cửa trên",
+            "máy giặt Toshiba lồng đứng",
+            "máy giặt Sanyo cửa trên",
+            "máy giặt LG cửa trên",
+            "máy giặt cửa trên gia đình",
+        ],
+        "why": "Open Images leans front-loading; Vietnam is largely top-loading",
     },
     "water_pipe": {
+        "target": 250,
+        "tier": "critical",
+        "queries": [
+            "ống nước PPR Bình Minh",
+            "đường ống nước trong nhà",
+            "ống nước bị rò rỉ",
+            "mối nối ống nước bị rỉ sét",
+        ],
+        "why": "no Open Images class; feeds the VLM stage even without detection",
+    },
+    "electric_fan": {
         "target": 150,
-        "queries": ["ống nước bị rò rỉ", "đường ống nước gia đình", "ống nước bị rỉ sét"],
-        "why": "no Open Images class; useful even if only for the VLM stage",
+        "tier": "supplement",
+        "queries": [
+            "quạt cây Asia",
+            "quạt bàn Senko",
+            "quạt hộp gia đình",
+        ],
+        "why": "covered by Open Images; Vietnamese brands narrow the domain gap",
+    },
+    "ceiling_fan": {
+        "target": 150,
+        "tier": "supplement",
+        "queries": [
+            "quạt trần Panasonic",
+            "quạt trần gia đình Việt Nam",
+        ],
+        "why": "covered by Open Images; adds local ceiling mounts",
+    },
+    "kettle": {
+        "target": 150,
+        "tier": "supplement",
+        "queries": [
+            "ấm siêu tốc Sunhouse",
+            "ấm đun nước điện gia đình",
+        ],
+        "why": "covered by Open Images; adds the local kettle shapes",
+    },
+    "faucet": {
+        "target": 150,
+        "tier": "supplement",
+        "queries": [
+            "vòi nước lavabo",
+            "vòi rửa chén inox",
+            "vòi nước bị rò rỉ",
+        ],
+        "why": "covered by Open Images; adds local fittings",
+    },
+    "light_bulb": {
+        "target": 150,
+        "tier": "supplement",
+        "queries": [
+            "bóng đèn LED Điện Quang",
+            "bóng đèn LED âm trần",
+            "đèn tuýp LED",
+        ],
+        "why": "covered by Open Images; adds local fixtures",
+    },
+    "refrigerator": {
+        "target": 120,
+        "tier": "supplement",
+        "queries": ["tủ lạnh Aqua", "tủ lạnh Sanyo gia đình"],
+        "why": "covered by Open Images; adds local models",
+    },
+    "microwave_oven": {
+        "target": 120,
+        "tier": "supplement",
+        "queries": [
+            "lò vi sóng Sharp",
+            "lò vi sóng gia đình Việt Nam",
+        ],
+        "why": "covered by Open Images; also helps separate it from oven",
+    },
+    "oven": {
+        "target": 120,
+        "tier": "supplement",
+        "queries": [
+            "lò nướng điện Sunhouse",
+            "lò nướng thùng gia đình",
+        ],
+        "why": "covered by Open Images; the oven and microwave pair confuses most easily",
+    },
+    "television": {
+        "target": 120,
+        "tier": "supplement",
+        "queries": [
+            "tivi treo tường phòng khách",
+            "smart tivi gia đình",
+        ],
+        "why": "covered by Open Images; adds in-situ rather than product shots",
+    },
+    "sink": {
+        "target": 120,
+        "tier": "supplement",
+        "queries": ["bồn rửa chén inox", "lavabo rửa mặt"],
+        "why": "covered by Open Images; adds local fittings",
+    },
+    "toilet": {
+        "target": 120,
+        "tier": "supplement",
+        "queries": ["bồn cầu Inax", "bồn cầu Viglacera"],
+        "why": "covered by Open Images; adds local models",
     },
 }
 
@@ -114,8 +245,11 @@ def cmd_plan(args: argparse.Namespace) -> None:
     names = _device_names()
     total = sum(entry["target"] for entry in CRAWL_PLAN.values())
     print(f"Classes needing crawled images: {len(CRAWL_PLAN)}   total target: {total}\n")
-    for device_type, entry in CRAWL_PLAN.items():
-        print(f"{device_type} ({names.get(device_type, '?')}) — {entry['target']} images")
+    for device_type, entry in sorted(
+        CRAWL_PLAN.items(), key=lambda kv: (kv[1]["tier"] != "critical", kv[0])
+    ):
+        tier = entry["tier"].upper()
+        print(f"[{tier}] {device_type} ({names.get(device_type, '?')}) — {entry['target']} images")
         print(f"  reason: {entry['why']}")
         print(f"  queries: {', '.join(entry['queries'])}\n")
     print(
@@ -181,8 +315,13 @@ def _crawl_one(device_type: str, entry: dict, engine: str, staging: Path) -> Non
 
 
 def cmd_fetch(args: argparse.Namespace) -> None:
-    devices = list(CRAWL_PLAN) if args.all else [args.device]
-    if not args.all and args.device not in CRAWL_PLAN:
+    if args.tier:
+        devices = [d for d, e in CRAWL_PLAN.items() if e["tier"] == args.tier]
+    elif args.all:
+        devices = list(CRAWL_PLAN)
+    else:
+        devices = [args.device]
+    if args.device and args.device not in CRAWL_PLAN:
         raise SystemExit(
             f"{args.device!r} is not in the crawl plan. Options: {', '.join(CRAWL_PLAN)}"
         )
@@ -235,11 +374,12 @@ def cmd_stats(args: argparse.Namespace) -> None:
             if directory.is_dir() and not directory.name.startswith("_"):
                 counts[directory.name] = sum(1 for _ in directory.glob("*.jpg"))
 
-    print(f"{'class':<20}{'have':>8}{'target':>8}{'short':>8}")
+    print(f"{'class':<20}{'have':>8}{'target':>8}{'short':>8}   (* = critical)")
     for device_type, entry in CRAWL_PLAN.items():
         have = counts.get(device_type, 0)
         short = max(0, entry["target"] - have)
-        print(f"{device_type:<20}{have:>8}{entry['target']:>8}{short:>8}")
+        mark = "*" if entry["tier"] == "critical" else " "
+        print(f"{mark}{device_type:<19}{have:>8}{entry['target']:>8}{short:>8}")
 
     extra = set(counts) - set(CRAWL_PLAN)
     for device_type in sorted(extra):
@@ -260,6 +400,11 @@ def main() -> None:
     group = fetch.add_mutually_exclusive_group(required=True)
     group.add_argument("--device", help="one class from the plan")
     group.add_argument("--all", action="store_true", help="every class in the plan")
+    group.add_argument(
+        "--tier",
+        choices=["critical", "supplement"],
+        help="critical is where public data is actively misleading; do it first",
+    )
     fetch.add_argument(
         "--engines",
         default="google,bing",

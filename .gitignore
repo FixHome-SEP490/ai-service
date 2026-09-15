@@ -44,3 +44,4 @@ datasets/*
 !datasets/split.json
 weights/
 *.pt
+.venv-tools/

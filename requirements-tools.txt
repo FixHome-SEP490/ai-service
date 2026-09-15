@@ -3,3 +3,4 @@ gradio==5.*
 fiftyone==1.*
 icrawler==0.6.*
 pillow==11.*
+roboflow==1.1.*

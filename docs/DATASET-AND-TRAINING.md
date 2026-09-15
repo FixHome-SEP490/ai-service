@@ -17,20 +17,69 @@ Không có lớp máy lạnh, máy nước nóng, nồi cơm điện, cây nư�
 
 ### Roboflow Universe
 
-Bù đúng chỗ Open Images thiếu, đều đã có box sẵn và đều CC BY 4.0:
+Bù đúng chỗ Open Images thiếu, đều đã có box sẵn và đều CC BY 4.0. Danh sách đầy đủ kèm
+số liệu ở bảng dưới, và được khai báo trong `tools/roboflow_sources.py` để tải bằng script.
 
-| Dataset | Ảnh | Lớp dùng được |
+Tải xuống cần API key Roboflow (miễn phí):
+
+```bash
+set ROBOFLOW_API_KEY=...
+.venv-tools/Scripts/python tools/fetch_roboflow.py list
+.venv-tools/Scripts/python tools/fetch_roboflow.py download --all
+```
+
+Gộp nhiều nguồn thì phải đổi tên lớp về đúng `device_type` trong catalog. Mỗi người đặt tên
+một kiểu (`ac`, `air`, `Air-conditioner`), để nguyên là dataset có mấy lớp cùng nghĩa và mô hình
+học lẫn lộn. Script đã làm sẵn việc đổi tên này.
+
+### Kho dữ liệu đã khảo sát
+
+Bảng này ghi lại những gì đã tìm được, để không phải đi tìm lại và để trích dẫn trong báo cáo.
+
+| Nguồn | Ảnh | Lớp dùng được | Ghi chú |
+| --- | --- | --- | --- |
+| Open Images V7 | ~400/lớp lấy về | 14 lớp | box vẽ tay, CC-BY, nguồn chính |
+| `hcmus-38m1y/air-conditioner-dr0fw` | 2314 | máy lạnh | nhóm Việt Nam |
+| `leeji9689-gmail-com/ac-08nlv` | 888 | máy lạnh | |
+| `yolo-uv06o/air-conditioning-dataset` | 164 | máy lạnh | |
+| `bassam-xhjea/air-conditioner` | 86 | máy lạnh | |
+| `rattapon-san-gmail-com/air-conditioner` | 20 | máy lạnh | quá nhỏ, chỉ gộp thêm |
+| `house-hold-electronics/household-electronics-alry3` | — | ac, fan, light | |
+| `evesyalari/household-appliances-3zh8e-e9y5g` | 3695 | máy nước nóng, lò vi sóng, ấm đun | 16 lớp, 13 lớp còn lại để dành future scope |
+| `yolov5-dtypd/plug-socket-detect` | 318 | ổ cắm | phần cứng phương Tây |
+
+Tất cả dataset Roboflow trên đều CC BY 4.0.
+
+**Hai kết luận rút ra từ bảng này.**
+
+Máy lạnh không còn là vấn đề. Cộng các nguồn lại được hơn 3400 ảnh có box sẵn, nhiều hơn mức cần. Ảnh cào thêm chỉ còn vai trò thu hẹp domain gap chứ không phải để đủ số lượng.
+
+Ổ cắm điện thì ngược lại, và đây là lớp đáng lo nhất. Ngoài Open Images ra chỉ tìm được một dataset 318 ảnh, mà cả hai đều là phần cứng phương Tây. Vừa ít vừa lệch. Toàn bộ phần ổ cắm kiểu Việt Nam phải tự cào và tự chụp, nên mục tiêu 600 ảnh cho lớp này là có lý do chứ không phải tùy tiện.
+
+### Dự kiến độ chính xác
+
+Những con số dưới đây là **ước lượng để biết khi nào nên lo**, không phải kết quả đo được. Số thật chỉ có sau khi train và đo trên test split.
+
+Với YOLOv8n, 15 lớp, khoảng 300-500 ảnh mỗi lớp:
+
+| Đo trên | mAP50 | Top-1 loại thiết bị |
 | --- | --- | --- |
-| `hcmus-38m1y/air-conditioner-dr0fw` | 2314 | máy lạnh |
-| `house-hold-electronics/household-electronics-alry3` | — | `ac`, `fan`, `light` |
-| `evesyalari/household-appliances-3zh8e-e9y5g` | 3695 | `hot water shower machine` (máy nước nóng), `microwave oven`, `super kettle` |
+| Ảnh cùng nguồn với tập train | 0.75 – 0.90 | 0.85 – 0.95 |
+| Ảnh khách hàng chụp thật | 0.55 – 0.75 | 0.70 – 0.85 |
 
-Dataset `evesyalari` đáng chú ý vì lớp `hot water shower machine` lấp được máy nước nóng, lớp duy
-nhất trước đó không có nguồn nào. Nó còn 13 lớp khác nằm ngoài phạm vi hiện tại, giữ lại cho
-future scope khi mở rộng lên 20-30 lớp.
+Chên lệch giữa hai dòng chính là domain gap. Nếu số trên test set tự chụp tụt quá 15 điểm so với val thì vấn đề nằm ở dữ liệu chứ không phải ở mô hình, và cách sửa là bổ sung ảnh thật chứ không phải tăng epoch.
 
-Gộp nhiều nguồn thì phải đổi tên lớp về đúng `device_type` trong catalog. Mỗi người đặt tên một
-kiểu, để nguyên là dataset có hai lớp cùng nghĩa và mô hình học lẫn lộn.
+Top-1 luôn cao hơn mAP vì pipeline chỉ cần biết đó là thiết bị gì, không cần khung thật khít. Box hơi lệch vẫn crop ra đúng thiết bị cho Qwen đọc.
+
+Dự đoán theo từng lớp:
+
+Lên cao nhất là tủ lạnh, máy giặt, bồn cầu, tivi, máy lạnh. Vật to, hình dạng đặc trưng, khó nhầm với thứ khác.
+
+Thấp hơn là ổ cắm, bóng đèn, vòi nước. Vật nhỏ, chiếm ít pixel, hình dạng đa dạng.
+
+Các cặp dễ nhầm cần theo dõi riêng trên confusion matrix: lò nướng với lò vi sóng là cặp nặng nhất, sau đó là bồn rửa với vòi nước (thường nằm chung một khung hình), quạt trần với quạt cây.
+
+Ba cách hạ rủi ro đã có sẵn trong hệ thống. Nhầm trong cùng một nhóm dịch vụ thì hậu quả nhẹ, ví dụ nhầm bồn rửa thành vòi nước vẫn ra thợ nước. Ngưỡng tin cậy thấp thì trả `needs_clarification` chứ không đoán bừa. Và mô tả của khách vẫn dẫn được tới đúng bệnh ngay cả khi detector nhầm, vì truy xuất triệu chứng không phụ thuộc vào ảnh.
 
 ### Ảnh tự cào
 
@@ -50,10 +99,27 @@ gap và là nguyên nhân phổ biến nhất khiến mô hình đẹp trên gi�
 Mỗi lớp 30-40 tấm chụp trong nhà thật. **Toàn bộ test set phải là ảnh tự chụp.** Trộn ảnh studio vào
 test thì con số accuracy báo cáo là con số ảo, và người chấm có kinh nghiệm sẽ hỏi đúng câu đó.
 
-## 2. Quy trình dựng dataset
+## 2. Môi trường
+
+**Phải dùng hai virtualenv riêng.** FiftyOne kéo theo `starlette` phiên bản mới hơn nhiều so
+với phạm vi FastAPI cho phép, nên cài chung một chỗ là service hỏng ngay. Đây không phải
+lỗi của ai cả, chỉ là hai thứ phụ thuộc vào cùng một thư viện ở hai mốc khác nhau.
 
 ```bash
-pip install -r requirements-tools.txt -r requirements-model.txt
+# venv cua service, dung de chay va test
+python -m venv .venv
+.venv/Scripts/pip install -r requirements.txt -r requirements-dev.txt
+
+# venv rieng cho tooling: fiftyone, gradio, icrawler
+python -m venv .venv-tools
+.venv-tools/Scripts/pip install -r requirements-tools.txt
+```
+
+Cả hai thư mục đều nằm trong `.gitignore`. Mọi lệnh ở mục dưới chạy bằng `.venv-tools`.
+
+## 3. Quy trình dựng dataset
+
+```bash
 
 # 1. Xem lớp nào có sẵn, lớp nào phải tự thu
 python tools/build_dataset.py report
@@ -96,7 +162,7 @@ lọt sang cả train lẫn test thì accuracy báo cáo bị thổi phồng mà
 Split được ghi ra `datasets/split.json` và dùng lại ở các lần sau. Nhờ vậy số đo giữa hai lần train
 mới so sánh được với nhau. File này được commit, còn ảnh thì không.
 
-## 3. Thuê máy và train
+## 4. Thuê máy và train
 
 Ý tưởng: máy thuê là thứ dùng một lần. Nó xuất hiện, làm đúng một việc, rồi bị huỷ. Cho nên mọi thứ
 tốn thời gian cài đặt nằm trong Docker image, còn dữ liệu và kết quả thì kéo vào lúc chạy và đẩy ra
@@ -150,7 +216,7 @@ phần nhận diện và bảng tri thức lo phần ngôn từ, nên fine-tune 
 Image ghim cứng torch, CUDA và ultralytics. Một image tự nâng cấp torch giữa hai lần thuê sẽ cho ra
 số đo không so sánh được với lần trước, đúng thứ mà một thí nghiệm có thể tái lập phải tránh.
 
-## 4. Báo cáo kết quả
+## 5. Báo cáo kết quả
 
 Luôn chạy baseline YOLOv8n chưa fine-tune trước để có mốc so sánh. Nếu bản train không hơn baseline
 thì đừng deploy, và bản thân kết quả đó cũng đáng viết vào báo cáo.
