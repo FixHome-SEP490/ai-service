@@ -1,0 +1,8 @@
+# Training image contents. Pinned so two rentals weeks apart produce numbers
+# that can be compared; a floating torch or ultralytics silently invalidates an
+# experiment. Installed only inside docker/train, never in the service.
+-r requirements-model.txt
+huggingface-hub==0.26.*
+pandas==2.*
+matplotlib==3.*
+seaborn==0.13.*

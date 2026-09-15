@@ -36,6 +36,7 @@ if hasattr(sys.stdout, "reconfigure"):
 REPO_ROOT = Path(__file__).resolve().parents[1]
 CATALOG_PATH = REPO_ROOT / "app" / "data" / "device_catalog.json"
 SPLIT_PATH = REPO_ROOT / "datasets" / "split.json"
+REVIEWED_ROOT = REPO_ROOT / "datasets" / "reviewed"
 
 SPLIT_RATIOS = {"train": 0.8, "val": 0.1, "test": 0.1}
 SPLIT_SEED = 20260915
@@ -184,6 +185,9 @@ def cmd_export(args: argparse.Namespace) -> None:
             if written:
                 counts[(split, written)] += 1
 
+    if args.include_reviewed:
+        _merge_reviewed(out_root, assignment, counts, device_types)
+
     _write_data_yaml(out_root, device_types)
     _print_counts(counts, device_types)
 
@@ -219,6 +223,55 @@ def _write_sample(
     shutil.copy2(source, image_dir / source.name)
     (label_dir / f"{source.stem}.txt").write_text("\n".join(lines) + "\n", encoding="utf-8")
     return device_type
+
+
+def _merge_reviewed(
+    out_root: Path, assignment: Dict[str, str], counts: Counter, device_types: List[str]
+) -> None:
+    """Fold in hand-reviewed crawled images alongside the Open Images samples.
+
+    These carry the Vietnam-specific hardware the public sets lack, so they are
+    the part of the training data that decides whether the detector works on a
+    real customer photo. They go through the same hash-based split as everything
+    else, so a crawled duplicate cannot leak across splits either.
+    """
+    images_dir = REVIEWED_ROOT / "images"
+    labels_dir = REVIEWED_ROOT / "labels"
+    if not images_dir.exists():
+        print(f"No reviewed images at {REVIEWED_ROOT}; skipping")
+        return
+
+    added = 0
+    for image_path in sorted(images_dir.glob("*.jpg")):
+        label_path = labels_dir / f"{image_path.stem}.txt"
+        if not label_path.exists():
+            continue
+        digest = _content_hash(image_path)
+        split = assignment.get(digest)
+        if split is None:
+            split = _assign_splits([digest])[digest]
+            assignment[digest] = split
+
+        target_images = out_root / "images" / split
+        target_labels = out_root / "labels" / split
+        target_images.mkdir(parents=True, exist_ok=True)
+        target_labels.mkdir(parents=True, exist_ok=True)
+        shutil.copy2(image_path, target_images / image_path.name)
+        shutil.copy2(label_path, target_labels / label_path.name)
+
+        for line in label_path.read_text(encoding="utf-8").splitlines():
+            parts = line.split()
+            if parts:
+                counts[(split, device_types[int(parts[0])])] += 1
+        added += 1
+
+    SPLIT_PATH.write_text(
+        json.dumps(
+            {"seed": SPLIT_SEED, "ratios": SPLIT_RATIOS, "assignment": assignment}, indent=2
+        ),
+        encoding="utf-8",
+    )
+    print(f"Merged {added} reviewed images from {REVIEWED_ROOT}")
 
 
 def _write_data_yaml(out_root: Path, device_types: List[str]) -> None:
@@ -269,6 +322,11 @@ def main() -> None:
     export = sub.add_parser("export", help="write a YOLO dataset with a fixed split")
     export.add_argument("--out", default="datasets/fixhome")
     export.add_argument("--dataset-name", default="fixhome-openimages")
+    export.add_argument(
+        "--include-reviewed",
+        action="store_true",
+        help="also fold in hand-reviewed crawled images from datasets/reviewed",
+    )
     export.add_argument(
         "--resplit",
         action="store_true",
