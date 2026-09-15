@@ -8,8 +8,15 @@ name: Trainer image
 # the result is reproducible, built from a clean checkout every time instead of
 # from whatever happened to be in a developer's build cache.
 #
-# The image is pushed to GHCR using the token GitHub provides to the job, so no
-# registry credentials are stored anywhere.
+# The image goes to GHCR using the token GitHub provides to the job, so no
+# credentials are stored for it. GHCR is private here because this organisation
+# forbids public packages and only an organisation owner can lift that, which
+# means a rented machine would have to log in with a GitHub token to pull.
+#
+# So the image is also pushed to Docker Hub when DOCKERHUB_USERNAME and
+# DOCKERHUB_TOKEN are present as repository secrets. A public Docker Hub
+# repository needs no credentials on the rented box at all. Without those
+# secrets the step is skipped and GHCR still works.
 
 on:
   workflow_dispatch:
@@ -59,16 +66,32 @@ jobs:
 
       - uses: docker/setup-buildx-action@v3
 
-      - uses: docker/login-action@v3
+      - name: Log in to GHCR
+        uses: docker/login-action@v3
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Log in to Docker Hub
+        if: ${{ vars.DOCKERHUB_ENABLED == 'true' }}
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Note the Docker Hub image path
+        if: ${{ vars.DOCKERHUB_ENABLED == 'true' }}
+        run: echo "HUB_IMAGE=docker.io/${{ secrets.DOCKERHUB_USERNAME }}/fixhome-trainer" >> "$GITHUB_ENV"
+
       - id: meta
         uses: docker/metadata-action@v5
         with:
-          images: ${{ env.IMAGE }}
+          # metadata-action tolerates a blank line, so one images list covers
+          # both the always-on registry and the optional one.
+          images: |
+            ${{ env.IMAGE }}
+            ${{ env.HUB_IMAGE }}
           tags: |
             type=raw,value=latest
             type=sha,format=short
@@ -88,8 +111,18 @@ jobs:
 
       - name: Report how to use it
         run: |
-          echo "Pull on a rented GPU box with:"
-          echo "  docker pull ${IMAGE}:latest"
-          echo ""
-          echo "Make the package public once, under the repository's Packages"
-          echo "settings, so the rented machine can pull without logging in."
+          echo "Images pushed:"
+          echo "  ${IMAGE}:latest   (GHCR, private in this organisation)"
+          if [ -n "${HUB_IMAGE:-}" ]; then
+            echo "  ${HUB_IMAGE}:latest   (Docker Hub)"
+            echo ""
+            echo "Pull on a rented GPU box with:"
+            echo "  docker pull ${HUB_IMAGE}:latest"
+            echo "Make that Docker Hub repository public once, so no login is needed."
+          else
+            echo ""
+            echo "Docker Hub is not configured, so the only image is on GHCR and"
+            echo "it is private. A rented box would have to log in to pull it."
+            echo "Set the DOCKERHUB_USERNAME and DOCKERHUB_TOKEN secrets and the"
+            echo "DOCKERHUB_ENABLED variable to 'true' to publish there as well."
+          fi
