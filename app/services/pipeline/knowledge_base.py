@@ -49,6 +49,22 @@ class ServiceRef:
 
 
 @dataclass(frozen=True)
+class Discriminator:
+    """A question whose answer removes candidates.
+
+    Written by hand because the most useful ones ask about something no symptom
+    mentions: whether the unit was cleaned recently, whether the breaker trips,
+    whether other lights in the house do the same. Those separate faults that
+    share every listed symptom.
+    """
+
+    device_type: str
+    question_vi: str
+    favours_if_yes: List[str]
+    favours_if_no: List[str]
+
+
+@dataclass(frozen=True)
 class Policy:
     doc_id: str
     title_vi: str
@@ -74,6 +90,9 @@ class KnowledgeBase:
         }
         self._faults: List[Fault] = [Fault(**f) for f in kb["faults"]]
         self._policies: List[Policy] = [Policy(**p) for p in kb["policies"]]
+        self._discriminators: List[Discriminator] = [
+            Discriminator(**d) for d in kb.get("discriminators", [])
+        ]
         self._services: Dict[str, List[ServiceRef]] = {}
         for entry in mapping.get("mappings", []):
             self._services[entry["fault_code"]] = [
@@ -110,6 +129,12 @@ class KnowledgeBase:
 
     def condition_name_vi(self, code: str) -> Optional[str]:
         return self._condition_names.get(code)
+
+    def discriminators_for_device(self, device_type: Optional[str]) -> List[Discriminator]:
+        """Questions for one device, or every question when none is known."""
+        if device_type is None:
+            return list(self._discriminators)
+        return [d for d in self._discriminators if d.device_type == device_type]
 
     def faults_for_device(self, device_type: str) -> List[Fault]:
         return [f for f in self._faults if f.device_type == device_type]

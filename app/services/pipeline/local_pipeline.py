@@ -22,6 +22,7 @@ from app.schemas.diagnosis import (
     UrgencyLevel,
     VisibleCondition,
 )
+from app.services.pipeline import clarifier
 from app.services.pipeline.detector import Detection, Detector
 from app.services.pipeline.images import ImagePayload, load_base64_image
 from app.services.pipeline.knowledge_base import KnowledgeBase
@@ -69,10 +70,15 @@ class LocalPipeline:
         )
 
         confidence = self._combine_confidence(detection, verdict.confidence)
+        shortlist = [c.fault for c in candidates]
         if confidence < settings.AI_CONFIDENCE_THRESHOLD:
-            return self._clarification_response(request, confidence)
+            return self._clarification_response(
+                request, confidence, shortlist, detection
+            )
 
-        return self._build_response(request, detection, verdict, confidence)
+        return self._build_response(
+            request, detection, verdict, confidence, shortlist
+        )
 
     async def answer(self, request: ChatRequest) -> ChatResponse:
         """Advisory Q&A, grounded in retrieved policy passages.
@@ -141,17 +147,41 @@ class LocalPipeline:
         return round((detection.confidence + vlm_confidence) / 2, 4)
 
     def _clarification_response(
-        self, request: DiagnosisRequest, confidence: float
+        self,
+        request: DiagnosisRequest,
+        confidence: float,
+        shortlist: Optional[List] = None,
+        detection: Optional[Detection] = None,
     ) -> DiagnosisResponse:
-        """Never guess. Ask, and offer manual service groups instead."""
+        """Never guess. Ask the question that narrows it down.
+
+        Questions come from the shortlist when there is one, so they separate
+        the candidates actually under consideration rather than restating a
+        form. Only when nothing was retrieved do they fall back to generic
+        ones, and even then knowing the device from the photo removes the
+        pointless question about what the device is.
+        """
+        device_name = (
+            self._kb.device_name_vi(detection.device_type) if detection else None
+        )
+        device_type = detection.device_type if detection else None
+        questions = clarifier.texts(
+            clarifier.build_questions(
+                shortlist or [],
+                request.description,
+                discriminators=self._kb.discriminators_for_device(device_type),
+            )
+        ) or clarifier.device_questions(device_name)
+
         return DiagnosisResponse(
             request_id=request.request_id,
             status=DiagnosisStatus.NEEDS_CLARIFICATION,
             engine=Engine.LOCAL_PIPELINE,
+            device=self._resolve_device(detection),
             confidence=confidence,
             is_low_confidence=True,
             clarification=Clarification(
-                questions_vi=list(settings.CLARIFICATION_QUESTIONS_VI),
+                questions_vi=questions,
                 service_group_codes=self._kb.all_service_groups(),
             ),
             disclaimer_vi=settings.AI_DISCLAIMER_VI,
@@ -163,6 +193,7 @@ class LocalPipeline:
         detection: Optional[Detection],
         verdict: VlmVerdict,
         confidence: float,
+        shortlist: Optional[List] = None,
     ) -> DiagnosisResponse:
         device = self._resolve_device(detection)
 
@@ -206,7 +237,9 @@ class LocalPipeline:
                 urgency = fault_urgency
 
         if not faults:
-            return self._clarification_response(request, confidence)
+            return self._clarification_response(
+                request, confidence, shortlist, detection
+            )
 
         return DiagnosisResponse(
             request_id=request.request_id,

@@ -2262,5 +2262,636 @@
       "title_vi": "Vì sao giá là một khoảng",
       "content_vi": "Giá hiển thị là khoảng vì chi phí phụ thuộc vào nguyên nhân thật, loại linh kiện và độ khó khi thi công. Ví dụ cùng là máy lạnh không mát, nạp gas và thay máy nén chênh nhau rất nhiều lần. Đó là lý do hệ thống hiển thị một khoảng giá thay vì một con số cụ thể ngay từ đầu."
     }
-  ]
+  ],
+  "discriminators": [
+    {
+      "device_type": "air_conditioner",
+      "question_vi": "Máy lạnh có được vệ sinh trong vòng ba tháng gần đây không?",
+      "favours_if_yes": [
+        "AC_LOW_REFRIGERANT",
+        "AC_COMPRESSOR_FAULT"
+      ],
+      "favours_if_no": [
+        "AC_DIRTY_FILTER",
+        "AC_ICING"
+      ]
+    },
+    {
+      "device_type": "air_conditioner",
+      "question_vi": "Cục nóng ngoài trời có chạy không?",
+      "favours_if_yes": [
+        "AC_LOW_REFRIGERANT",
+        "AC_DIRTY_FILTER"
+      ],
+      "favours_if_no": [
+        "AC_COMPRESSOR_FAULT",
+        "AC_CAPACITOR",
+        "AC_OUTDOOR_FAN_MOTOR"
+      ]
+    },
+    {
+      "device_type": "air_conditioner",
+      "question_vi": "Quạt trong dàn lạnh có thổi ra gió không?",
+      "favours_if_yes": [
+        "AC_LOW_REFRIGERANT",
+        "AC_DIRTY_FILTER"
+      ],
+      "favours_if_no": [
+        "AC_INDOOR_FAN_MOTOR",
+        "AC_PCB_FAULT"
+      ]
+    },
+    {
+      "device_type": "air_conditioner",
+      "question_vi": "Máy có nhảy aptomat khi bật không?",
+      "favours_if_yes": [
+        "AC_COMPRESSOR_FAULT",
+        "AC_SMELL_BURNT"
+      ],
+      "favours_if_no": [
+        "AC_LOW_REFRIGERANT",
+        "AC_DIRTY_FILTER"
+      ]
+    },
+    {
+      "device_type": "air_conditioner",
+      "question_vi": "Có thấy nước nhỏ giọt hoặc tường ẩm dưới dàn lạnh không?",
+      "favours_if_yes": [
+        "AC_DRAIN_BLOCKED",
+        "AC_ICING"
+      ],
+      "favours_if_no": [
+        "AC_LOW_REFRIGERANT",
+        "AC_PCB_FAULT"
+      ]
+    },
+    {
+      "device_type": "air_conditioner",
+      "question_vi": "Đèn trên dàn lạnh có nhấp nháy báo lỗi không?",
+      "favours_if_yes": [
+        "AC_PCB_FAULT"
+      ],
+      "favours_if_no": [
+        "AC_LOW_REFRIGERANT",
+        "AC_DIRTY_FILTER",
+        "AC_DRAIN_BLOCKED"
+      ]
+    },
+    {
+      "device_type": "electric_fan",
+      "question_vi": "Đẩy nhẹ cánh quạt bằng tay khi đã rút điện thì cánh có quay trơn không?",
+      "favours_if_yes": [
+        "FAN_CAPACITOR",
+        "FAN_MOTOR_BURNT"
+      ],
+      "favours_if_no": [
+        "FAN_WORN_BEARING"
+      ]
+    },
+    {
+      "device_type": "electric_fan",
+      "question_vi": "Quạt có mùi khét hoặc nóng bất thường không?",
+      "favours_if_yes": [
+        "FAN_MOTOR_BURNT",
+        "FAN_CORD_DAMAGE"
+      ],
+      "favours_if_no": [
+        "FAN_WORN_BEARING",
+        "FAN_CAPACITOR",
+        "FAN_SWITCH_FAULT"
+      ]
+    },
+    {
+      "device_type": "electric_fan",
+      "question_vi": "Chỉnh sang số khác thì quạt có đổi tốc độ không?",
+      "favours_if_yes": [
+        "FAN_WORN_BEARING",
+        "FAN_CAPACITOR"
+      ],
+      "favours_if_no": [
+        "FAN_SWITCH_FAULT"
+      ]
+    },
+    {
+      "device_type": "electric_fan",
+      "question_vi": "Phải lắc dây điện thì quạt mới chạy phải không?",
+      "favours_if_yes": [
+        "FAN_CORD_DAMAGE"
+      ],
+      "favours_if_no": [
+        "FAN_WORN_BEARING",
+        "FAN_CAPACITOR",
+        "FAN_MOTOR_BURNT"
+      ]
+    },
+    {
+      "device_type": "ceiling_fan",
+      "question_vi": "Quạt trần có lắc lư hoặc nghe lục cục trên trần không?",
+      "favours_if_yes": [
+        "CEILFAN_MOUNT_LOOSE"
+      ],
+      "favours_if_no": [
+        "CEILFAN_CAPACITOR",
+        "CEILFAN_SPEED_SWITCH"
+      ]
+    },
+    {
+      "device_type": "ceiling_fan",
+      "question_vi": "Hộp số hoặc chiết áp có nóng lên khi dùng không?",
+      "favours_if_yes": [
+        "CEILFAN_SPEED_SWITCH",
+        "CEILFAN_MOTOR_BURNT"
+      ],
+      "favours_if_no": [
+        "CEILFAN_CAPACITOR",
+        "CEILFAN_BEARING"
+      ]
+    },
+    {
+      "device_type": "washing_machine",
+      "question_vi": "Máy có xả hết nước ra khỏi lồng không?",
+      "favours_if_yes": [
+        "WM_NO_SPIN",
+        "WM_BEARING_NOISE"
+      ],
+      "favours_if_no": [
+        "WM_DRAIN_PUMP"
+      ]
+    },
+    {
+      "device_type": "washing_machine",
+      "question_vi": "Tiếng ồn có to hơn hẳn khi máy vắt không?",
+      "favours_if_yes": [
+        "WM_BEARING_NOISE"
+      ],
+      "favours_if_no": [
+        "WM_DRAIN_PUMP",
+        "WM_MOTOR_FAULT"
+      ]
+    },
+    {
+      "device_type": "washing_machine",
+      "question_vi": "Máy có hiển thị mã lỗi trên bảng điều khiển không?",
+      "favours_if_yes": [
+        "WM_PCB_FAULT",
+        "WM_DOOR_LOCK"
+      ],
+      "favours_if_no": [
+        "WM_BEARING_NOISE",
+        "WM_NO_SPIN"
+      ]
+    },
+    {
+      "device_type": "washing_machine",
+      "question_vi": "Có thấy nước chảy ra sàn quanh chân máy không?",
+      "favours_if_yes": [
+        "WM_DOOR_SEAL_LEAK",
+        "WM_OVERFLOW"
+      ],
+      "favours_if_no": [
+        "WM_NO_SPIN",
+        "WM_BEARING_NOISE",
+        "WM_PCB_FAULT"
+      ]
+    },
+    {
+      "device_type": "washing_machine",
+      "question_vi": "Giặt mẻ ít quần áo hơn thì máy có vắt được không?",
+      "favours_if_yes": [
+        "WM_NO_SPIN"
+      ],
+      "favours_if_no": [
+        "WM_MOTOR_FAULT",
+        "WM_PCB_FAULT"
+      ]
+    },
+    {
+      "device_type": "refrigerator",
+      "question_vi": "Ngăn đá có còn đông đá không?",
+      "favours_if_yes": [
+        "FRIDGE_FAN_FAULT",
+        "FRIDGE_DEFROST_FAULT"
+      ],
+      "favours_if_no": [
+        "FRIDGE_LOW_GAS",
+        "FRIDGE_COMPRESSOR"
+      ]
+    },
+    {
+      "device_type": "refrigerator",
+      "question_vi": "Có nghe tiếng máy chạy ù ù phía sau tủ không?",
+      "favours_if_yes": [
+        "FRIDGE_LOW_GAS",
+        "FRIDGE_DEFROST_FAULT"
+      ],
+      "favours_if_no": [
+        "FRIDGE_COMPRESSOR"
+      ]
+    },
+    {
+      "device_type": "refrigerator",
+      "question_vi": "Có thấy tuyết hoặc đá bám dày trong ngăn đá không?",
+      "favours_if_yes": [
+        "FRIDGE_DEFROST_FAULT"
+      ],
+      "favours_if_no": [
+        "FRIDGE_LOW_GAS",
+        "FRIDGE_DOOR_GASKET"
+      ]
+    },
+    {
+      "device_type": "refrigerator",
+      "question_vi": "Cửa tủ có tự hít chặt khi đóng lại không?",
+      "favours_if_yes": [
+        "FRIDGE_LOW_GAS",
+        "FRIDGE_FAN_FAULT"
+      ],
+      "favours_if_no": [
+        "FRIDGE_DOOR_GASKET"
+      ]
+    },
+    {
+      "device_type": "microwave_oven",
+      "question_vi": "Mâm xoay bên trong có quay không?",
+      "favours_if_yes": [
+        "MW_MAGNETRON"
+      ],
+      "favours_if_no": [
+        "MW_TURNTABLE_MOTOR",
+        "MW_NO_POWER"
+      ]
+    },
+    {
+      "device_type": "microwave_oven",
+      "question_vi": "Màn hình và đèn bên trong lò có sáng không?",
+      "favours_if_yes": [
+        "MW_MAGNETRON",
+        "MW_DOOR_SWITCH"
+      ],
+      "favours_if_no": [
+        "MW_NO_POWER"
+      ]
+    },
+    {
+      "device_type": "microwave_oven",
+      "question_vi": "Có thấy tia lửa hoặc nghe tiếng nổ lẹt đẹt bên trong không?",
+      "favours_if_yes": [
+        "MW_SPARKING"
+      ],
+      "favours_if_no": [
+        "MW_MAGNETRON",
+        "MW_TURNTABLE_MOTOR"
+      ]
+    },
+    {
+      "device_type": "oven",
+      "question_vi": "Thanh nhiệt bên trong lò có đỏ lên không?",
+      "favours_if_yes": [
+        "OVEN_THERMOSTAT",
+        "OVEN_TIMER_FAULT"
+      ],
+      "favours_if_no": [
+        "OVEN_HEATING_ELEMENT"
+      ]
+    },
+    {
+      "device_type": "oven",
+      "question_vi": "Lò có nóng nhưng nhiệt độ sai so với mức đã chỉnh không?",
+      "favours_if_yes": [
+        "OVEN_THERMOSTAT"
+      ],
+      "favours_if_no": [
+        "OVEN_HEATING_ELEMENT",
+        "OVEN_FAN_FAULT"
+      ]
+    },
+    {
+      "device_type": "gas_stove",
+      "question_vi": "Có ngửi thấy mùi gas không?",
+      "favours_if_yes": [
+        "STOVE_GAS_LEAK",
+        "STOVE_REGULATOR"
+      ],
+      "favours_if_no": [
+        "STOVE_IGNITER",
+        "STOVE_BURNER_CLOGGED"
+      ]
+    },
+    {
+      "device_type": "gas_stove",
+      "question_vi": "Bếp có đánh lửa được không?",
+      "favours_if_yes": [
+        "STOVE_BURNER_CLOGGED",
+        "STOVE_FLAME_OUT"
+      ],
+      "favours_if_no": [
+        "STOVE_IGNITER"
+      ]
+    },
+    {
+      "device_type": "gas_stove",
+      "question_vi": "Cả hai bên bếp đều bị hay chỉ một bên?",
+      "favours_if_yes": [
+        "STOVE_REGULATOR",
+        "STOVE_GAS_LEAK"
+      ],
+      "favours_if_no": [
+        "STOVE_IGNITER",
+        "STOVE_BURNER_CLOGGED"
+      ]
+    },
+    {
+      "device_type": "gas_stove",
+      "question_vi": "Lửa cháy màu đỏ hoặc vàng thay vì xanh phải không?",
+      "favours_if_yes": [
+        "STOVE_BURNER_CLOGGED"
+      ],
+      "favours_if_no": [
+        "STOVE_IGNITER",
+        "STOVE_FLAME_OUT"
+      ]
+    },
+    {
+      "device_type": "water_heater",
+      "question_vi": "Aptomat hoặc thiết bị chống giật có nhảy khi bật bình không?",
+      "favours_if_yes": [
+        "WH_ELCB_TRIPS"
+      ],
+      "favours_if_no": [
+        "WH_HEATING_ELEMENT",
+        "WH_SCALE_BUILDUP"
+      ]
+    },
+    {
+      "device_type": "water_heater",
+      "question_vi": "Nước có nóng nhưng lâu hơn trước phải không?",
+      "favours_if_yes": [
+        "WH_SCALE_BUILDUP"
+      ],
+      "favours_if_no": [
+        "WH_HEATING_ELEMENT",
+        "WH_THERMOSTAT"
+      ]
+    },
+    {
+      "device_type": "water_heater",
+      "question_vi": "Có thấy nước rỉ ra từ bình hoặc tường dưới bình bị ố không?",
+      "favours_if_yes": [
+        "WH_TANK_LEAK"
+      ],
+      "favours_if_no": [
+        "WH_HEATING_ELEMENT",
+        "WH_THERMOSTAT",
+        "WH_SCALE_BUILDUP"
+      ]
+    },
+    {
+      "device_type": "water_heater",
+      "question_vi": "Đây là bình treo tường có bình chứa hay máy nước nóng trực tiếp gắn trong phòng tắm?",
+      "favours_if_yes": [
+        "WH_HEATING_ELEMENT",
+        "WH_TANK_LEAK",
+        "WH_SCALE_BUILDUP"
+      ],
+      "favours_if_no": [
+        "WH_INSTANT_NO_HOT"
+      ]
+    },
+    {
+      "device_type": "power_outlet",
+      "question_vi": "Có mùi khét hoặc thấy vết cháy đen ở ổ cắm không?",
+      "favours_if_yes": [
+        "OUTLET_SHORT_CIRCUIT"
+      ],
+      "favours_if_no": [
+        "OUTLET_LOOSE_CONTACT",
+        "OUTLET_NO_POWER"
+      ]
+    },
+    {
+      "device_type": "power_outlet",
+      "question_vi": "Aptomat có nhảy khi cắm thiết bị vào không?",
+      "favours_if_yes": [
+        "OUTLET_TRIPS_BREAKER",
+        "OUTLET_OVERLOAD"
+      ],
+      "favours_if_no": [
+        "OUTLET_LOOSE_CONTACT",
+        "OUTLET_NO_POWER"
+      ]
+    },
+    {
+      "device_type": "power_outlet",
+      "question_vi": "Chỉ riêng ổ này mất điện hay cả khu vực đều mất?",
+      "favours_if_yes": [
+        "OUTLET_NO_POWER",
+        "OUTLET_LOOSE_CONTACT"
+      ],
+      "favours_if_no": [
+        "OUTLET_TRIPS_BREAKER"
+      ]
+    },
+    {
+      "device_type": "power_outlet",
+      "question_vi": "Có đang cắm nhiều thiết bị công suất lớn vào cùng một ổ không?",
+      "favours_if_yes": [
+        "OUTLET_OVERLOAD"
+      ],
+      "favours_if_no": [
+        "OUTLET_SHORT_CIRCUIT",
+        "OUTLET_NO_POWER"
+      ]
+    },
+    {
+      "device_type": "light_bulb",
+      "question_vi": "Thay bóng mới thì đèn có sáng không?",
+      "favours_if_yes": [
+        "LIGHT_BULB_DEAD"
+      ],
+      "favours_if_no": [
+        "LIGHT_FLICKERING",
+        "LIGHT_SWITCH_FAULT"
+      ]
+    },
+    {
+      "device_type": "light_bulb",
+      "question_vi": "Các đèn khác trong nhà có bị tương tự không?",
+      "favours_if_yes": [
+        "LIGHT_DIM"
+      ],
+      "favours_if_no": [
+        "LIGHT_BULB_DEAD",
+        "LIGHT_SWITCH_FAULT"
+      ]
+    },
+    {
+      "device_type": "light_bulb",
+      "question_vi": "Công tắc có nóng hoặc phải bật nhiều lần mới lên không?",
+      "favours_if_yes": [
+        "LIGHT_SWITCH_FAULT"
+      ],
+      "favours_if_no": [
+        "LIGHT_BULB_DEAD",
+        "LIGHT_FLICKERING"
+      ]
+    },
+    {
+      "device_type": "television",
+      "question_vi": "Soi đèn pin sát màn hình thì có thấy hình mờ mờ không?",
+      "favours_if_yes": [
+        "TV_BACKLIGHT"
+      ],
+      "favours_if_no": [
+        "TV_POWER_BOARD",
+        "TV_MAIN_BOARD"
+      ]
+    },
+    {
+      "device_type": "television",
+      "question_vi": "Tivi có lên đèn nguồn hoặc phát ra âm thanh không?",
+      "favours_if_yes": [
+        "TV_BACKLIGHT",
+        "TV_MAIN_BOARD"
+      ],
+      "favours_if_no": [
+        "TV_POWER_BOARD"
+      ]
+    },
+    {
+      "device_type": "television",
+      "question_vi": "Màn hình có vệt sọc hoặc vùng loang màu cố định không?",
+      "favours_if_yes": [
+        "TV_PANEL_DAMAGE"
+      ],
+      "favours_if_no": [
+        "TV_BACKLIGHT",
+        "TV_MAIN_BOARD"
+      ]
+    },
+    {
+      "device_type": "sink",
+      "question_vi": "Nước có rút chậm dần hay dừng hẳn không rút?",
+      "favours_if_yes": [
+        "SINK_CLOGGED"
+      ],
+      "favours_if_no": [
+        "SINK_TRAP_LEAK",
+        "SINK_SMELL"
+      ]
+    },
+    {
+      "device_type": "sink",
+      "question_vi": "Có thấy nước đọng trong tủ bếp bên dưới bồn không?",
+      "favours_if_yes": [
+        "SINK_TRAP_LEAK",
+        "SINK_DRAIN_CORRODED"
+      ],
+      "favours_if_no": [
+        "SINK_CLOGGED",
+        "SINK_SMELL"
+      ]
+    },
+    {
+      "device_type": "faucet",
+      "question_vi": "Khoá vòi lại rồi mà nước vẫn nhỏ giọt phải không?",
+      "favours_if_yes": [
+        "FAUCET_DRIP"
+      ],
+      "favours_if_no": [
+        "FAUCET_LOW_FLOW",
+        "FAUCET_BASE_LEAK"
+      ]
+    },
+    {
+      "device_type": "faucet",
+      "question_vi": "Nước chảy yếu ở tất cả các vòi trong nhà hay chỉ vòi này?",
+      "favours_if_yes": [
+        "FAUCET_LOW_FLOW"
+      ],
+      "favours_if_no": [
+        "FAUCET_CARTRIDGE",
+        "FAUCET_DRIP"
+      ]
+    },
+    {
+      "device_type": "toilet",
+      "question_vi": "Nước trong bồn có dâng lên khi xả không?",
+      "favours_if_yes": [
+        "TOILET_CLOGGED"
+      ],
+      "favours_if_no": [
+        "TOILET_WEAK_FLUSH",
+        "TOILET_FILL_VALVE"
+      ]
+    },
+    {
+      "device_type": "toilet",
+      "question_vi": "Có nghe tiếng nước chảy róc rách kể cả khi không xả không?",
+      "favours_if_yes": [
+        "TOILET_FLAPPER_LEAK",
+        "TOILET_FILL_VALVE"
+      ],
+      "favours_if_no": [
+        "TOILET_CLOGGED",
+        "TOILET_BASE_LEAK"
+      ]
+    },
+    {
+      "device_type": "toilet",
+      "question_vi": "Có thấy nước rỉ quanh chân bồn cầu hoặc sàn luôn ẩm không?",
+      "favours_if_yes": [
+        "TOILET_BASE_LEAK"
+      ],
+      "favours_if_no": [
+        "TOILET_CLOGGED",
+        "TOILET_FLAPPER_LEAK"
+      ]
+    },
+    {
+      "device_type": "water_pipe",
+      "question_vi": "Nước yếu ở cả nhà hay chỉ một chỗ?",
+      "favours_if_yes": [
+        "PIPE_LOW_PRESSURE"
+      ],
+      "favours_if_no": [
+        "PIPE_JOINT_LEAK",
+        "PIPE_CLOGGED"
+      ]
+    },
+    {
+      "device_type": "water_pipe",
+      "question_vi": "Có nghe tiếng nước chảy trong tường khi đã khoá hết vòi không?",
+      "favours_if_yes": [
+        "PIPE_BURST",
+        "PIPE_JOINT_LEAK"
+      ],
+      "favours_if_no": [
+        "PIPE_CLOGGED",
+        "PIPE_LOW_PRESSURE"
+      ]
+    },
+    {
+      "device_type": "kettle",
+      "question_vi": "Ấm có tự ngắt khi nước sôi không?",
+      "favours_if_yes": [
+        "KETTLE_HEATING_BASE",
+        "KETTLE_SCALE"
+      ],
+      "favours_if_no": [
+        "KETTLE_THERMOSTAT"
+      ]
+    },
+    {
+      "device_type": "kettle",
+      "question_vi": "Có thấy nước đọng dưới đế ấm không?",
+      "favours_if_yes": [
+        "KETTLE_LEAK"
+      ],
+      "favours_if_no": [
+        "KETTLE_THERMOSTAT",
+        "KETTLE_HEATING_BASE"
+      ]
+    }
+  ],
+  "_comment_discriminators_vi": "Cau hoi phan biet, viet tay. Chi hoi khi cau tra loi loai bo duoc bot kha nang. favours_if_yes va favours_if_no la cac ma benh moi ben duoc cung co. Cau hoi tot nhat la cau ma ca hai ben deu giao voi danh sach dang can nhac."
 }
