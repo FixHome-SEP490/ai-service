@@ -1,0 +1,88 @@
+name: Trainer image
+
+# Builds the training image in CI rather than on a laptop.
+#
+# Three reasons this is not a local docker build. The image is around seven
+# gigabytes because of the CUDA base, so pushing it from a home connection takes
+# far longer than building it; nobody needs Docker installed to produce it; and
+# the result is reproducible, built from a clean checkout every time instead of
+# from whatever happened to be in a developer's build cache.
+#
+# The image is pushed to GHCR using the token GitHub provides to the job, so no
+# registry credentials are stored anywhere.
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - 'docker/train/**'
+      - 'requirements-model.txt'
+      - 'requirements-train.txt'
+      - 'tools/**'
+      - 'app/data/**'
+      - '.github/workflows/trainer-image.yml'
+
+permissions:
+  contents: read
+  packages: write
+
+concurrency:
+  group: trainer-image
+  cancel-in-progress: true
+
+jobs:
+  build:
+    name: Build and push trainer image
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+
+      # The CUDA base image does not fit alongside the runner's preinstalled
+      # toolchains. Without this the build fails partway with "no space left on
+      # device", which reads like a Docker problem and is not.
+      - name: Reclaim runner disk
+        run: |
+          echo "before:"; df -h / | tail -1
+          sudo rm -rf /usr/share/dotnet /usr/local/lib/android /opt/ghc
+          sudo rm -rf /usr/local/share/boost "$AGENT_TOOLSDIRECTORY"
+          sudo docker image prune -af
+          echo "after:"; df -h / | tail -1
+
+      - uses: docker/setup-buildx-action@v3
+
+      - uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ghcr.io/${{ github.repository_owner }}/fixhome-trainer
+          tags: |
+            type=raw,value=latest
+            type=sha,format=short
+
+      - name: Build and push
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: docker/train/Dockerfile
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          # Layer cache lives in the registry, so a change to the project files
+          # rebuilds one thin layer instead of reinstalling the toolchain.
+          cache-from: type=registry,ref=ghcr.io/${{ github.repository_owner }}/fixhome-trainer:buildcache
+          cache-to: type=registry,ref=ghcr.io/${{ github.repository_owner }}/fixhome-trainer:buildcache,mode=max
+
+      - name: Report how to use it
+        run: |
+          echo "Pull on a rented GPU box with:"
+          echo "  docker pull ghcr.io/${{ github.repository_owner }}/fixhome-trainer:latest"
+          echo ""
+          echo "Make the package public once, under the repository's Packages"
+          echo "settings, so the rented machine can pull without logging in."

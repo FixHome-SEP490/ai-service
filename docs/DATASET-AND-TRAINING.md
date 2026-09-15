@@ -188,17 +188,32 @@ lúc xong. Mất máy chỉ mất vài phút gần nhất.
 
 ### Chuẩn bị một lần duy nhất
 
-```bash
-docker build -f docker/train/Dockerfile -t <user>/fixhome-trainer:1.0 .
-docker push <user>/fixhome-trainer:1.0
+**Image được build trên GitHub, không build trên máy cá nhân.** Ba lý do: image khoảng bảy
+gigabyte vì nền CUDA, nên đẩy lên từ mạng nhà lâu hơn build rất nhiều; không ai cần cài Docker
+để tạo ra nó; và kết quả tái lập được vì luôn build từ bản checkout sạch.
 
-# Dataset để trên HuggingFace Hub, miễn phí, kéo về bằng một lệnh
-huggingface-cli upload <user>/fixhome-devices datasets/fixhome --repo-type dataset
+Workflow `.github/workflows/trainer-image.yml` tự chạy khi `docker/train/` hoặc danh sách thư
+viện thay đổi, và có thể bấm chạy tay từ tab Actions. Nó đẩy image vào GHCR bằng token
+GitHub cấp sẵn cho job, nên **không cần lưu credential của registry ở bất kỳ đâu**, và cũng
+không cần tài khoản Docker Hub.
+
+Sau lần build đầu, vào phần Packages của repository để đặt package thành public một lần.
+Máy thuê sau đó kéo về được mà không phải đăng nhập.
+
+Dataset đưa lên Hugging Face Hub, một lần:
+
+```bash
+.venv-tools/Scripts/python tools/hub.py whoami
+.venv-tools/Scripts/python tools/hub.py push-dataset --repo <user>/fixhome-devices
 ```
+
+GitHub không dùng được cho dataset: chặn file trên 100 MB, khuyến nghị repo dưới một
+gigabyte, và Git LFS bản miễn phí chỉ có một gigabyte lưu trữ cùng một gigabyte băng thông mỗi
+tháng, một lần clone là hết. Hub sinh ra cho việc này và miễn phí.
 
 ### Mỗi lần thuê máy
 
-Thuê máy trên vast.ai, chọn image `<user>/fixhome-trainer:1.0`, rồi:
+Thuê máy trên vast.ai, chọn image `ghcr.io/fixhome-sep490/fixhome-trainer:latest`, rồi:
 
 ```bash
 docker run --gpus all --rm \
@@ -206,14 +221,21 @@ docker run --gpus all --rm \
   -e HF_DATASET_REPO=<user>/fixhome-devices \
   -e HF_WEIGHTS_REPO=<user>/fixhome-detector \
   -e EPOCHS=100 -e BATCH=16 \
-  <user>/fixhome-trainer:1.0 train
+  ghcr.io/fixhome-sep490/fixhome-trainer:latest train
 ```
 
 Container tự kéo dataset, train, đánh giá trên test split, rồi đẩy weights và biểu đồ lên
-HuggingFace. Xong thì huỷ máy, không cần giữ lại gì.
+Hugging Face. Xong thì huỷ máy, không cần giữ lại gì.
 
-Nếu quên đặt `HF_WEIGHTS_REPO`, script báo rõ là weights chỉ nằm trong máy và phải tự copy ra trước
-khi huỷ.
+Nếu quên đặt `HF_WEIGHTS_REPO`, script báo rõ là weights chỉ nằm trong máy và phải tự
+copy ra trước khi huỷ.
+
+Kéo weights về máy mình sau khi train:
+
+```bash
+.venv-tools/Scripts/python tools/hub.py list-runs --repo <user>/fixhome-detector
+.venv-tools/Scripts/python tools/hub.py pull-weights --repo <user>/fixhome-detector --run <ten-run>
+```
 
 ### Cấu hình nên thuê
 
