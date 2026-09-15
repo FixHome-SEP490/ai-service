@@ -1,0 +1,7306 @@
+{
+  "version": "FIXHOME-BANG-LINH-KIEN-VA-VAT-TU-500-ITEMS-v3.0",
+  "_comment_vi": "Bang linh kien do team cung cap. Gia la khoang tham khao vi phu thuoc model. Day la phan day tran gia len; san la tien cong tho trong labour_catalog.json.",
+  "parts": [
+    {
+      "code": "AC001",
+      "name_vi": "Block máy nén Mono 9.000 BTU",
+      "group_vi": "Linh kiện",
+      "kind": "Compressor",
+      "price_min": 1800000,
+      "price_max": 3000000,
+      "unit_vi": "cái",
+      "section_vi": "Điều hòa / Máy lạnh",
+      "device_types": [
+        "air_conditioner"
+      ]
+    },
+    {
+      "code": "AC002",
+      "name_vi": "Block máy nén Mono 12.000 BTU",
+      "group_vi": "Linh kiện",
+      "kind": "Compressor",
+      "price_min": 2000000,
+      "price_max": 3400000,
+      "unit_vi": "cái",
+      "section_vi": "Điều hòa / Máy lạnh",
+      "device_types": [
+        "air_conditioner"
+      ]
+    },
+    {
+      "code": "AC003",
+      "name_vi": "Block máy nén Mono 18.000 BTU",
+      "group_vi": "Linh kiện",
+      "kind": "Compressor",
+      "price_min": 2800000,
+      "price_max": 4500000,
+      "unit_vi": "cái",
+      "section_vi": "Điều hòa / Máy lạnh",
+      "device_types": [
+        "air_conditioner"
+      ]
+    },
+    {
+      "code": "AC004",
+      "name_vi": "Block máy nén Mono 24.000 BTU",
+      "group_vi": "Linh kiện",
+      "kind": "Compressor",
+      "price_min": 3500000,
+      "price_max": 5500000,
+      "unit_vi": "cái",
+      "section_vi": "Điều hòa / Máy lạnh",
+      "device_types": [
+        "air_conditioner"
+      ]
+    },
+    {
+      "code": "AC005",
+      "name_vi": "Block máy nén Inverter 9.000 BTU",
+      "group_vi": "Linh kiện",
+      "kind": "Inverter Compressor",
+      "price_min": 2500000,
+      "price_max": 4200000,
+      "unit_vi": "cái",
+      "section_vi": "Điều hòa / Máy lạnh",
+      "device_types": [
+        "air_conditioner"
+      ]
+    },
+    {
+      "code": "AC006",
+      "name_vi": "Block máy nén Inverter 12.000 BTU",
+      "group_vi": "Linh kiện",
+      "kind": "Inverter Compressor",
+      "price_min": 2800000,
+      "price_max": 4800000,
+      "unit_vi": "cái",
+      "section_vi": "Điều hòa / Máy lạnh",
+      "device_types": [
+        "air_conditioner"
+      ]
+    },
+    {
+      "code": "AC007",
+      "name_vi": "Block máy nén Inverter 18.000 BTU",
+      "group_vi": "Linh kiện",
+      "kind": "Inverter Compressor",
+      "price_min": 3800000,
+      "price_max": 6200000,
+      "unit_vi": "cái",
+      "section_vi": "Điều hòa / Máy lạnh",
+      "device_types": [
+        "air_conditioner"
+      ]
+    },
+    {
+      "code": "AC008",
+      "name_vi": "Block máy nén Inverter 24.000 BTU",
+      "group_vi": "Linh kiện",
+      "kind": "Inverter Compressor",
+      "price_min": 4500000,
+      "price_max": 7500000,
+      "unit_vi": "cái",
+      "section_vi": "Điều hòa / Máy lạnh",
+      "device_types": [
+        "air_conditioner"
+      ]
+    },
+    {
+      "code": "AC009",
+      "name_vi": "Bo mạch dàn lạnh Mono",
+      "group_vi": "Linh kiện",
+      "kind": "Indoor PCB",
+      "price_min": 800000,
+      "price_max": 1800000,
+      "unit_vi": "bộ",
+      "section_vi": "Điều hòa / Máy lạnh",
+      "device_types": [
+        "air_conditioner"
+      ]
+    },
+    {
+      "code": "AC010",
+      "name_vi": "Bo mạch dàn lạnh Inverter",
+      "group_vi": "Linh kiện",
+      "kind": "Indoor PCB",
+      "price_min": 1200000,
+      "price_max": 2800000,
+      "unit_vi": "bộ",
+      "section_vi": "Điều hòa / Máy lạnh",
+      "device_types": [
+        "air_conditioner"
+      ]
+    },
+    {
+      "code": "AC011",
+      "name_vi": "Bo mạch dàn nóng Inverter 9K",
+      "group_vi": "Linh kiện",
+      "kind": "Outdoor PCB",
+      "price_min": 1800000,
+      "price_max": 3500000,
+      "unit_vi": "bộ",
+      "section_vi": "Điều hòa / Máy lạnh",
+      "device_types": [
+        "air_conditioner"
+      ]
+    },
+    {
+      "code": "AC012",
+      "name_vi": "Bo mạch dàn nóng Inverter 12K",
+      "group_vi": "Linh kiện",
+      "kind": "Outdoor PCB",
+      "price_min": 2200000,
+      "price_max": 4000000,
+      "unit_vi": "bộ",
+      "section_vi": "Điều hòa / Máy lạnh",
+      "device_types": [
+        "air_conditioner"
+      ]
+    },
+    {
+      "code": "AC013",
+      "name_vi": "Bo mạch dàn nóng Inverter 18K",
+      "group_vi": "Linh kiện",
+      "kind": "Outdoor PCB",
+      "price_min": 3000000,
+      "price_max": 5200000,
+      "unit_vi": "bộ",
+      "section_vi": "Điều hòa / Máy lạnh",
+      "device_types": [
+        "air_conditioner"
+      ]
+    },
+    {
+      "code": "AC014",
+      "name_vi": "Bo mạch dàn nóng Inverter 24K",
+      "group_vi": "Linh kiện",
+      "kind": "Outdoor PCB",
+      "price_min": 3800000,
+      "price_max": 6500000,
+      "unit_vi": "bộ",
+      "section_vi": "Điều hòa / Máy lạnh",
+      "device_types": [
+        "air_conditioner"
+      ]
+    },
+    {
+      "code": "AC015",
+      "name_vi": "Bo hiển thị dàn lạnh",
+      "group_vi": "Linh kiện",
+      "kind": "Display PCB",
+      "price_min": 300000,
+      "price_max": 850000,
+      "unit_vi": "bộ",
+      "section_vi": "Điều hòa / Máy lạnh",
+      "device_types": [
+        "air_conditioner"
+      ]
+    },
+    {
+      "code": "AC016",
+      "name_vi": "Bo mắt nhận remote",
+      "group_vi": "Linh kiện",
+      "kind": "IR Receiver PCB",
+      "price_min": 250000,
+      "price_max": 650000,
+      "unit_vi": "bộ",
+      "section_vi": "Điều hòa / Máy lạnh",
+      "device_types": [
+        "air_conditioner"
+      ]
+    },
+    {
+      "code": "AC017",
+      "name_vi": "Module công suất IPM",
+      "group_vi": "Linh kiện",
+      "kind": "Power Module",
+      "price_min": 500000,
+      "price_max": 1800000,
+      "unit_vi": "cái",
+      "section_vi": "Điều hòa / Máy lạnh",
+      "device_types": [
+        "air_conditioner"
+      ]
+    },
+    {
+      "code": "AC018",
+      "name_vi": "IC nguồn bo điều hòa",
+      "group_vi": "Linh kiện",
+      "kind": "Power IC",
+      "price_min": 180000,
+      "price_max": 650000,
+      "unit_vi": "cái",
+      "section_vi": "Điều hòa / Máy lạnh",
+      "device_types": [
+        "air_conditioner"
+      ]
+    },
+    {
+      "code": "AC019",
+      "name_vi": "Relay máy nén",
+      "group_vi": "Linh kiện",
+      "kind": "Relay",
+      "price_min": 150000,
+      "price_max": 450000,
+      "unit_vi": "cái",
+      "section_vi": "Điều hòa / Máy lạnh",
+      "device_types": [
+        "air_conditioner"
+      ]
+    },
+    {
+      "code": "AC020",
+      "name_vi": "Relay quạt",
+      "group_vi": "Linh kiện",
+      "kind": "Relay",
+      "price_min": 120000,
+      "price_max": 350000,
+      "unit_vi": "cái",
+      "section_vi": "Điều hòa / Máy lạnh",
+      "device_types": [
+        "air_conditioner"
+      ]
+    },
+    {
+      "code": "AC021",
+      "name_vi": "Tụ block 25µF",
+      "group_vi": "Linh kiện",
+      "kind": "Capacitor",
+      "price_min": 250000,
+      "price_max": 450000,
+      "unit_vi": "cái",
+      "section_vi": "Điều hòa / Máy lạnh",
+      "device_types": [
+        "air_conditioner"
+      ]
+    },
+    {
+      "code": "AC022",
+      "name_vi": "Tụ block 30µF",
+      "group_vi": "Linh kiện",
+      "kind": "Capacitor",
+      "price_min": 280000,
+      "price_max": 480000,
+      "unit_vi": "cái",
+      "section_vi": "Điều hòa / Máy lạnh",
+      "device_types": [
+        "air_conditioner"
+      ]
+    },
+    {
+      "code": "AC023",
+      "name_vi": "Tụ block 35µF",
+      "group_vi": "Linh kiện",
+      "kind": "Capacitor",
+      "price_min": 300000,
+      "price_max": 520000,
+      "unit_vi": "cái",
+      "section_vi": "Điều hòa / Máy lạnh",
+      "device_types": [
+        "air_conditioner"
+      ]
+    },
+    {
+      "code": "AC024",
+      "name_vi": "Tụ block 40µF",
+      "group_vi": "Linh kiện",
+      "kind": "Capacitor",
+      "price_min": 320000,
+      "price_max": 550000,
+      "unit_vi": "cái",
+      "section_vi": "Điều hòa / Máy lạnh",
+      "device_types": [
+        "air_conditioner"
+      ]
+    },
+    {
+      "code": "AC025",
+      "name_vi": "Tụ block 45µF",
+      "group_vi": "Linh kiện",
+      "kind": "Capacitor",
+      "price_min": 350000,
+      "price_max": 600000,
+      "unit_vi": "cái",
+      "section_vi": "Điều hòa / Máy lạnh",
+      "device_types": [
+        "air_conditioner"
+      ]
+    },
+    {
+      "code": "AC026",
+      "name_vi": "Tụ block 50µF",
+      "group_vi": "Linh kiện",
+      "kind": "Capacitor",
+      "price_min": 380000,
+      "price_max": 650000,
+      "unit_vi": "cái",
+      "section_vi": "Điều hòa / Máy lạnh",
+      "device_types": [
+        "air_conditioner"
+      ]
+    },
+    {
+      "code": "AC027",
+      "name_vi": "Tụ quạt dàn lạnh",
+      "group_vi": "Linh kiện",
+      "kind": "Fan Capacitor",
+      "price_min": 180000,
+      "price_max": 400000,
+      "unit_vi": "cái",
+      "section_vi": "Điều hòa / Máy lạnh",
+      "device_types": [
+        "air_conditioner"
+      ]
+    },
+    {
+      "code": "AC028",
+      "name_vi": "Tụ quạt dàn nóng",
+      "group_vi": "Linh kiện",
+      "kind": "Fan Capacitor",
+      "price_min": 220000,
+      "price_max": 500000,
+      "unit_vi": "cái",
+      "section_vi": "Điều hòa / Máy lạnh",
+      "device_types": [
+        "air_conditioner"
+      ]
+    },
+    {
+      "code": "AC029",
+      "name_vi": "Motor quạt dàn lạnh AC",
+      "group_vi": "Linh kiện",
+      "kind": "Indoor Fan Motor",
+      "price_min": 550000,
+      "price_max": 1350000,
+      "unit_vi": "cái",
+      "section_vi": "Điều hòa / Máy lạnh",
+      "device_types": [
+        "air_conditioner"
+      ]
+    },
+    {
+      "code": "AC030",
+      "name_vi": "Motor quạt dàn lạnh DC",
+      "group_vi": "Linh kiện",
+      "kind": "BLDC Motor",
+      "price_min": 900000,
+      "price_max": 2300000,
+      "unit_vi": "cái",
+      "section_vi": "Điều hòa / Máy lạnh",
+      "device_types": [
+        "air_conditioner"
+      ]
+    },
+    {
+      "code": "AC031",
+      "name_vi": "Motor quạt dàn nóng AC",
+      "group_vi": "Linh kiện",
+      "kind": "Outdoor Fan Motor",
+      "price_min": 700000,
+      "price_max": 1800000,
+      "unit_vi": "cái",
+      "section_vi": "Điều hòa / Máy lạnh",
+      "device_types": [
+        "air_conditioner"
+      ]
+    },
+    {
+      "code": "AC032",
+      "name_vi": "Motor quạt dàn nóng DC",
+      "group_vi": "Linh kiện",
+      "kind": "BLDC Motor",
+      "price_min": 1100000,
+      "price_max": 2500000,
+      "unit_vi": "cái",
+      "section_vi": "Điều hòa / Máy lạnh",
+      "device_types": [
+        "air_conditioner"
+      ]
+    },
+    {
+      "code": "AC033",
+      "name_vi": "Lồng sóc dàn lạnh",
+      "group_vi": "Linh kiện",
+      "kind": "Cross Flow Fan",
+      "price_min": 650000,
+      "price_max": 1400000,
+      "unit_vi": "cái",
+      "section_vi": "Điều hòa / Máy lạnh",
+      "device_types": [
+        "air_conditioner"
+      ]
+    },
+    {
+      "code": "AC034",
+      "name_vi": "Cánh quạt dàn nóng",
+      "group_vi": "Linh kiện",
+      "kind": "Outdoor Fan Blade",
+      "price_min": 350000,
+      "price_max": 800000,
+      "unit_vi": "cái",
+      "section_vi": "Điều hòa / Máy lạnh",
+      "device_types": [
+        "air_conditioner"
+      ]
+    },
+    {
+      "code": "AC035",
+      "name_vi": "Motor đảo gió ngang",
+      "group_vi": "Linh kiện",
+      "kind": "Swing Motor",
+      "price_min": 250000,
+      "price_max": 650000,
+      "unit_vi": "cái",
+      "section_vi": "Điều hòa / Máy lạnh",
+      "device_types": [
+        "air_conditioner"
+      ]
+    },
+    {
+      "code": "AC036",
+      "name_vi": "Motor đảo gió dọc",
+      "group_vi": "Linh kiện",
+      "kind": "Swing Motor",
+      "price_min": 250000,
+      "price_max": 700000,
+      "unit_vi": "cái",
+      "section_vi": "Điều hòa / Máy lạnh",
+      "device_types": [
+        "air_conditioner"
+      ]
+    },
+    {
+      "code": "AC037",
+      "name_vi": "Cánh đảo gió ngang",
+      "group_vi": "Linh kiện",
+      "kind": "Louver",
+      "price_min": 180000,
+      "price_max": 500000,
+      "unit_vi": "cái",
+      "section_vi": "Điều hòa / Máy lạnh",
+      "device_types": [
+        "air_conditioner"
+      ]
+    },
+    {
+      "code": "AC038",
+      "name_vi": "Cánh đảo gió dọc",
+      "group_vi": "Linh kiện",
+      "kind": "Louver",
+      "price_min": 180000,
+      "price_max": 500000,
+      "unit_vi": "bộ",
+      "section_vi": "Điều hòa / Máy lạnh",
+      "device_types": [
+        "air_conditioner"
+      ]
+    },
+    {
+      "code": "AC039",
+      "name_vi": "Cảm biến nhiệt phòng",
+      "group_vi": "Linh kiện",
+      "kind": "Room Thermistor",
+      "price_min": 180000,
+      "price_max": 500000,
+      "unit_vi": "cái",
+      "section_vi": "Điều hòa / Máy lạnh",
+      "device_types": [
+        "air_conditioner"
+      ]
+    },
+    {
+      "code": "AC040",
+      "name_vi": "Cảm biến dàn lạnh",
+      "group_vi": "Linh kiện",
+      "kind": "Coil Thermistor",
+      "price_min": 180000,
+      "price_max": 550000,
+      "unit_vi": "cái",
+      "section_vi": "Điều hòa / Máy lạnh",
+      "device_types": [
+        "air_conditioner"
+      ]
+    },
+    {
+      "code": "AC041",
+      "name_vi": "Cảm biến nhiệt dàn nóng",
+      "group_vi": "Linh kiện",
+      "kind": "Outdoor Thermistor",
+      "price_min": 250000,
+      "price_max": 700000,
+      "unit_vi": "cái",
+      "section_vi": "Điều hòa / Máy lạnh",
+      "device_types": [
+        "air_conditioner"
+      ]
+    },
+    {
+      "code": "AC042",
+      "name_vi": "Cảm biến nhiệt đầu đẩy block",
+      "group_vi": "Linh kiện",
+      "kind": "Discharge Thermistor",
+      "price_min": 300000,
+      "price_max": 850000,
+      "unit_vi": "cái",
+      "section_vi": "Điều hòa / Máy lạnh",
+      "device_types": [
+        "air_conditioner"
+      ]
+    },
+    {
+      "code": "AC043",
+      "name_vi": "Cảm biến nhiệt ống hút",
+      "group_vi": "Linh kiện",
+      "kind": "Suction Thermistor",
+      "price_min": 250000,
+      "price_max": 750000,
+      "unit_vi": "cái",
+      "section_vi": "Điều hòa / Máy lạnh",
+      "device_types": [
+        "air_conditioner"
+      ]
+    },
+    {
+      "code": "AC044",
+      "name_vi": "Van tiết lưu điện tử EXV",
+      "group_vi": "Linh kiện",
+      "kind": "Electronic Expansion Valve",
+      "price_min": 850000,
+      "price_max": 2800000,
+      "unit_vi": "bộ",
+      "section_vi": "Điều hòa / Máy lạnh",
+      "device_types": [
+        "air_conditioner"
+      ]
+    },
+    {
+      "code": "AC045",
+      "name_vi": "Cuộn coil van tiết lưu",
+      "group_vi": "Linh kiện",
+      "kind": "EXV Coil",
+      "price_min": 350000,
+      "price_max": 900000,
+      "unit_vi": "cái",
+      "section_vi": "Điều hòa / Máy lạnh",
+      "device_types": [
+        "air_conditioner"
+      ]
+    },
+    {
+      "code": "AC046",
+      "name_vi": "Van đảo chiều 4 ngả",
+      "group_vi": "Linh kiện",
+      "kind": "4-way Valve",
+      "price_min": 700000,
+      "price_max": 1800000,
+      "unit_vi": "cái",
+      "section_vi": "Điều hòa / Máy lạnh",
+      "device_types": [
+        "air_conditioner"
+      ]
+    },
+    {
+      "code": "AC047",
+      "name_vi": "Cuộn coil van đảo chiều",
+      "group_vi": "Linh kiện",
+      "kind": "Solenoid Coil",
+      "price_min": 250000,
+      "price_max": 650000,
+      "unit_vi": "cái",
+      "section_vi": "Điều hòa / Máy lạnh",
+      "device_types": [
+        "air_conditioner"
+      ]
+    },
+    {
+      "code": "AC048",
+      "name_vi": "Van service đường gas",
+      "group_vi": "Linh kiện",
+      "kind": "Service Valve",
+      "price_min": 300000,
+      "price_max": 850000,
+      "unit_vi": "cái",
+      "section_vi": "Điều hòa / Máy lạnh",
+      "device_types": [
+        "air_conditioner"
+      ]
+    },
+    {
+      "code": "AC049",
+      "name_vi": "Van service đường lỏng",
+      "group_vi": "Linh kiện",
+      "kind": "Service Valve",
+      "price_min": 250000,
+      "price_max": 700000,
+      "unit_vi": "cái",
+      "section_vi": "Điều hòa / Máy lạnh",
+      "device_types": [
+        "air_conditioner"
+      ]
+    },
+    {
+      "code": "AC050",
+      "name_vi": "Ống mao",
+      "group_vi": "Linh kiện",
+      "kind": "Capillary Tube",
+      "price_min": 120000,
+      "price_max": 450000,
+      "unit_vi": "bộ",
+      "section_vi": "Điều hòa / Máy lạnh",
+      "device_types": [
+        "air_conditioner"
+      ]
+    },
+    {
+      "code": "AC051",
+      "name_vi": "Phin lọc gas",
+      "group_vi": "Linh kiện",
+      "kind": "Filter Drier",
+      "price_min": 150000,
+      "price_max": 450000,
+      "unit_vi": "cái",
+      "section_vi": "Điều hòa / Máy lạnh",
+      "device_types": [
+        "air_conditioner"
+      ]
+    },
+    {
+      "code": "AC052",
+      "name_vi": "Bình tách lỏng",
+      "group_vi": "Linh kiện",
+      "kind": "Accumulator",
+      "price_min": 450000,
+      "price_max": 1200000,
+      "unit_vi": "cái",
+      "section_vi": "Điều hòa / Máy lạnh",
+      "device_types": [
+        "air_conditioner"
+      ]
+    },
+    {
+      "code": "AC053",
+      "name_vi": "Bơm thoát nước điều hòa",
+      "group_vi": "Linh kiện",
+      "kind": "Drain Pump",
+      "price_min": 750000,
+      "price_max": 2200000,
+      "unit_vi": "bộ",
+      "section_vi": "Điều hòa / Máy lạnh",
+      "device_types": [
+        "air_conditioner"
+      ]
+    },
+    {
+      "code": "AC054",
+      "name_vi": "Ống thoát nước mềm",
+      "group_vi": "Linh kiện",
+      "kind": "Drain Hose",
+      "price_min": 25000,
+      "price_max": 80000,
+      "unit_vi": "mét",
+      "section_vi": "Điều hòa / Máy lạnh",
+      "device_types": [
+        "air_conditioner"
+      ]
+    },
+    {
+      "code": "AC055",
+      "name_vi": "Ống đồng 6/10 mm",
+      "group_vi": "Linh kiện",
+      "kind": "Copper Pipe",
+      "price_min": 120000,
+      "price_max": 230000,
+      "unit_vi": "mét",
+      "section_vi": "Điều hòa / Máy lạnh",
+      "device_types": [
+        "air_conditioner"
+      ]
+    },
+    {
+      "code": "AC056",
+      "name_vi": "Ống đồng 6/12 mm",
+      "group_vi": "Linh kiện",
+      "kind": "Copper Pipe",
+      "price_min": 150000,
+      "price_max": 280000,
+      "unit_vi": "mét",
+      "section_vi": "Điều hòa / Máy lạnh",
+      "device_types": [
+        "air_conditioner"
+      ]
+    },
+    {
+      "code": "AC057",
+      "name_vi": "Ống đồng 6/16 mm",
+      "group_vi": "Linh kiện",
+      "kind": "Copper Pipe",
+      "price_min": 180000,
+      "price_max": 350000,
+      "unit_vi": "mét",
+      "section_vi": "Điều hòa / Máy lạnh",
+      "device_types": [
+        "air_conditioner"
+      ]
+    },
+    {
+      "code": "AC058",
+      "name_vi": "Dây nguồn điều hòa",
+      "group_vi": "Linh kiện",
+      "kind": "Power Cable",
+      "price_min": 30000,
+      "price_max": 90000,
+      "unit_vi": "mét",
+      "section_vi": "Điều hòa / Máy lạnh",
+      "device_types": [
+        "air_conditioner"
+      ]
+    },
+    {
+      "code": "AC059",
+      "name_vi": "Remote điều hòa chính hãng",
+      "group_vi": "Linh kiện",
+      "kind": "Remote Control",
+      "price_min": 300000,
+      "price_max": 900000,
+      "unit_vi": "cái",
+      "section_vi": "Điều hòa / Máy lạnh",
+      "device_types": [
+        "air_conditioner"
+      ]
+    },
+    {
+      "code": "AC060",
+      "name_vi": "Remote điều hòa đa năng",
+      "group_vi": "Linh kiện",
+      "kind": "Universal Remote",
+      "price_min": 100000,
+      "price_max": 300000,
+      "unit_vi": "cái",
+      "section_vi": "Điều hòa / Máy lạnh",
+      "device_types": [
+        "air_conditioner"
+      ]
+    },
+    {
+      "code": "ACV001",
+      "name_vi": "Ống đồng đơn Φ6.35 mm",
+      "group_vi": "Vật tư lắp đặt",
+      "kind": "Copper tube",
+      "price_min": 70000,
+      "price_max": 120000,
+      "unit_vi": "mét",
+      "section_vi": "Điều hòa / Máy lạnh",
+      "device_types": [
+        "air_conditioner"
+      ]
+    },
+    {
+      "code": "ACV002",
+      "name_vi": "Ống đồng đơn Φ9.52 mm",
+      "group_vi": "Vật tư lắp đặt",
+      "kind": "Copper tube",
+      "price_min": 95000,
+      "price_max": 150000,
+      "unit_vi": "mét",
+      "section_vi": "Điều hòa / Máy lạnh",
+      "device_types": [
+        "air_conditioner"
+      ]
+    },
+    {
+      "code": "ACV003",
+      "name_vi": "Ống đồng đơn Φ12.7 mm",
+      "group_vi": "Vật tư lắp đặt",
+      "kind": "Copper tube",
+      "price_min": 120000,
+      "price_max": 185000,
+      "unit_vi": "mét",
+      "section_vi": "Điều hòa / Máy lạnh",
+      "device_types": [
+        "air_conditioner"
+      ]
+    },
+    {
+      "code": "ACV004",
+      "name_vi": "Ống đồng đơn Φ15.88 mm",
+      "group_vi": "Vật tư lắp đặt",
+      "kind": "Copper tube",
+      "price_min": 150000,
+      "price_max": 230000,
+      "unit_vi": "mét",
+      "section_vi": "Điều hòa / Máy lạnh",
+      "device_types": [
+        "air_conditioner"
+      ]
+    },
+    {
+      "code": "ACV005",
+      "name_vi": "Ống đồng đơn Φ19.05 mm",
+      "group_vi": "Vật tư lắp đặt",
+      "kind": "Copper tube",
+      "price_min": 190000,
+      "price_max": 300000,
+      "unit_vi": "mét",
+      "section_vi": "Điều hòa / Máy lạnh",
+      "device_types": [
+        "air_conditioner"
+      ]
+    },
+    {
+      "code": "ACV006",
+      "name_vi": "Combo ống đồng 6/10",
+      "group_vi": "Vật tư lắp đặt",
+      "kind": "Copper line set",
+      "price_min": 170000,
+      "price_max": 260000,
+      "unit_vi": "mét",
+      "section_vi": "Điều hòa / Máy lạnh",
+      "device_types": [
+        "air_conditioner"
+      ]
+    },
+    {
+      "code": "ACV007",
+      "name_vi": "Combo ống đồng 6/12",
+      "group_vi": "Vật tư lắp đặt",
+      "kind": "Copper line set",
+      "price_min": 190000,
+      "price_max": 290000,
+      "unit_vi": "mét",
+      "section_vi": "Điều hòa / Máy lạnh",
+      "device_types": [
+        "air_conditioner"
+      ]
+    },
+    {
+      "code": "ACV008",
+      "name_vi": "Combo ống đồng 6/16",
+      "group_vi": "Vật tư lắp đặt",
+      "kind": "Copper line set",
+      "price_min": 220000,
+      "price_max": 340000,
+      "unit_vi": "mét",
+      "section_vi": "Điều hòa / Máy lạnh",
+      "device_types": [
+        "air_conditioner"
+      ]
+    },
+    {
+      "code": "ACV009",
+      "name_vi": "Combo ống đồng 10/16",
+      "group_vi": "Vật tư lắp đặt",
+      "kind": "Copper line set",
+      "price_min": 300000,
+      "price_max": 430000,
+      "unit_vi": "mét",
+      "section_vi": "Điều hòa / Máy lạnh",
+      "device_types": [
+        "air_conditioner"
+      ]
+    },
+    {
+      "code": "ACV010",
+      "name_vi": "Combo ống đồng 10/19",
+      "group_vi": "Vật tư lắp đặt",
+      "kind": "Copper line set",
+      "price_min": 360000,
+      "price_max": 520000,
+      "unit_vi": "mét",
+      "section_vi": "Điều hòa / Máy lạnh",
+      "device_types": [
+        "air_conditioner"
+      ]
+    },
+    {
+      "code": "ACV011",
+      "name_vi": "Rắc co đồng Φ6",
+      "group_vi": "Linh kiện nhỏ",
+      "kind": "Flare nut",
+      "price_min": 20000,
+      "price_max": 60000,
+      "unit_vi": "cái",
+      "section_vi": "Điều hòa / Máy lạnh",
+      "device_types": [
+        "air_conditioner"
+      ]
+    },
+    {
+      "code": "ACV012",
+      "name_vi": "Rắc co đồng Φ10",
+      "group_vi": "Linh kiện nhỏ",
+      "kind": "Flare nut",
+      "price_min": 25000,
+      "price_max": 70000,
+      "unit_vi": "cái",
+      "section_vi": "Điều hòa / Máy lạnh",
+      "device_types": [
+        "air_conditioner"
+      ]
+    },
+    {
+      "code": "ACV013",
+      "name_vi": "Rắc co đồng Φ12",
+      "group_vi": "Linh kiện nhỏ",
+      "kind": "Flare nut",
+      "price_min": 30000,
+      "price_max": 80000,
+      "unit_vi": "cái",
+      "section_vi": "Điều hòa / Máy lạnh",
+      "device_types": [
+        "air_conditioner"
+      ]
+    },
+    {
+      "code": "ACV014",
+      "name_vi": "Rắc co đồng Φ16",
+      "group_vi": "Linh kiện nhỏ",
+      "kind": "Flare nut",
+      "price_min": 40000,
+      "price_max": 100000,
+      "unit_vi": "cái",
+      "section_vi": "Điều hòa / Máy lạnh",
+      "device_types": [
+        "air_conditioner"
+      ]
+    },
+    {
+      "code": "ACV015",
+      "name_vi": "Rắc co đồng Φ19",
+      "group_vi": "Linh kiện nhỏ",
+      "kind": "Flare nut",
+      "price_min": 50000,
+      "price_max": 120000,
+      "unit_vi": "cái",
+      "section_vi": "Điều hòa / Máy lạnh",
+      "device_types": [
+        "air_conditioner"
+      ]
+    },
+    {
+      "code": "ACV016",
+      "name_vi": "Nối thẳng đồng Φ6",
+      "group_vi": "Linh kiện nhỏ",
+      "kind": "Copper union",
+      "price_min": 25000,
+      "price_max": 70000,
+      "unit_vi": "cái",
+      "section_vi": "Điều hòa / Máy lạnh",
+      "device_types": [
+        "air_conditioner"
+      ]
+    },
+    {
+      "code": "ACV017",
+      "name_vi": "Nối thẳng đồng Φ10",
+      "group_vi": "Linh kiện nhỏ",
+      "kind": "Copper union",
+      "price_min": 30000,
+      "price_max": 80000,
+      "unit_vi": "cái",
+      "section_vi": "Điều hòa / Máy lạnh",
+      "device_types": [
+        "air_conditioner"
+      ]
+    },
+    {
+      "code": "ACV018",
+      "name_vi": "Nối thẳng đồng Φ12",
+      "group_vi": "Linh kiện nhỏ",
+      "kind": "Copper union",
+      "price_min": 35000,
+      "price_max": 90000,
+      "unit_vi": "cái",
+      "section_vi": "Điều hòa / Máy lạnh",
+      "device_types": [
+        "air_conditioner"
+      ]
+    },
+    {
+      "code": "ACV019",
+      "name_vi": "Nối thẳng đồng Φ16",
+      "group_vi": "Linh kiện nhỏ",
+      "kind": "Copper union",
+      "price_min": 45000,
+      "price_max": 120000,
+      "unit_vi": "cái",
+      "section_vi": "Điều hòa / Máy lạnh",
+      "device_types": [
+        "air_conditioner"
+      ]
+    },
+    {
+      "code": "ACV020",
+      "name_vi": "Nối thẳng đồng Φ19",
+      "group_vi": "Linh kiện nhỏ",
+      "kind": "Copper union",
+      "price_min": 60000,
+      "price_max": 150000,
+      "unit_vi": "cái",
+      "section_vi": "Điều hòa / Máy lạnh",
+      "device_types": [
+        "air_conditioner"
+      ]
+    },
+    {
+      "code": "ACV021",
+      "name_vi": "Co đồng 90° Φ6",
+      "group_vi": "Linh kiện nhỏ",
+      "kind": "Copper elbow",
+      "price_min": 20000,
+      "price_max": 60000,
+      "unit_vi": "cái",
+      "section_vi": "Điều hòa / Máy lạnh",
+      "device_types": [
+        "air_conditioner"
+      ]
+    },
+    {
+      "code": "ACV022",
+      "name_vi": "Co đồng 90° Φ10",
+      "group_vi": "Linh kiện nhỏ",
+      "kind": "Copper elbow",
+      "price_min": 25000,
+      "price_max": 70000,
+      "unit_vi": "cái",
+      "section_vi": "Điều hòa / Máy lạnh",
+      "device_types": [
+        "air_conditioner"
+      ]
+    },
+    {
+      "code": "ACV023",
+      "name_vi": "Co đồng 90° Φ12",
+      "group_vi": "Linh kiện nhỏ",
+      "kind": "Copper elbow",
+      "price_min": 30000,
+      "price_max": 80000,
+      "unit_vi": "cái",
+      "section_vi": "Điều hòa / Máy lạnh",
+      "device_types": [
+        "air_conditioner"
+      ]
+    },
+    {
+      "code": "ACV024",
+      "name_vi": "Co đồng 90° Φ16",
+      "group_vi": "Linh kiện nhỏ",
+      "kind": "Copper elbow",
+      "price_min": 40000,
+      "price_max": 110000,
+      "unit_vi": "cái",
+      "section_vi": "Điều hòa / Máy lạnh",
+      "device_types": [
+        "air_conditioner"
+      ]
+    },
+    {
+      "code": "ACV025",
+      "name_vi": "Co đồng 90° Φ19",
+      "group_vi": "Linh kiện nhỏ",
+      "kind": "Copper elbow",
+      "price_min": 50000,
+      "price_max": 140000,
+      "unit_vi": "cái",
+      "section_vi": "Điều hòa / Máy lạnh",
+      "device_types": [
+        "air_conditioner"
+      ]
+    },
+    {
+      "code": "ACV026",
+      "name_vi": "Bảo ôn ống Φ6",
+      "group_vi": "Vật tư lắp đặt",
+      "kind": "Pipe insulation",
+      "price_min": 12000,
+      "price_max": 35000,
+      "unit_vi": "mét",
+      "section_vi": "Điều hòa / Máy lạnh",
+      "device_types": [
+        "air_conditioner"
+      ]
+    },
+    {
+      "code": "ACV027",
+      "name_vi": "Bảo ôn ống Φ10",
+      "group_vi": "Vật tư lắp đặt",
+      "kind": "Pipe insulation",
+      "price_min": 15000,
+      "price_max": 40000,
+      "unit_vi": "mét",
+      "section_vi": "Điều hòa / Máy lạnh",
+      "device_types": [
+        "air_conditioner"
+      ]
+    },
+    {
+      "code": "ACV028",
+      "name_vi": "Bảo ôn ống Φ12",
+      "group_vi": "Vật tư lắp đặt",
+      "kind": "Pipe insulation",
+      "price_min": 18000,
+      "price_max": 45000,
+      "unit_vi": "mét",
+      "section_vi": "Điều hòa / Máy lạnh",
+      "device_types": [
+        "air_conditioner"
+      ]
+    },
+    {
+      "code": "ACV029",
+      "name_vi": "Bảo ôn ống Φ16",
+      "group_vi": "Vật tư lắp đặt",
+      "kind": "Pipe insulation",
+      "price_min": 22000,
+      "price_max": 55000,
+      "unit_vi": "mét",
+      "section_vi": "Điều hòa / Máy lạnh",
+      "device_types": [
+        "air_conditioner"
+      ]
+    },
+    {
+      "code": "ACV030",
+      "name_vi": "Bảo ôn ống Φ19",
+      "group_vi": "Vật tư lắp đặt",
+      "kind": "Pipe insulation",
+      "price_min": 25000,
+      "price_max": 65000,
+      "unit_vi": "mét",
+      "section_vi": "Điều hòa / Máy lạnh",
+      "device_types": [
+        "air_conditioner"
+      ]
+    },
+    {
+      "code": "ACV031",
+      "name_vi": "Băng quấn simili trắng",
+      "group_vi": "Consumable",
+      "kind": "Wrapping tape",
+      "price_min": 10000,
+      "price_max": 25000,
+      "unit_vi": "cuộn",
+      "section_vi": "Điều hòa / Máy lạnh",
+      "device_types": [
+        "air_conditioner"
+      ]
+    },
+    {
+      "code": "ACV032",
+      "name_vi": "Băng quấn simili đen",
+      "group_vi": "Consumable",
+      "kind": "Wrapping tape",
+      "price_min": 10000,
+      "price_max": 25000,
+      "unit_vi": "cuộn",
+      "section_vi": "Điều hòa / Máy lạnh",
+      "device_types": [
+        "air_conditioner"
+      ]
+    },
+    {
+      "code": "ACV033",
+      "name_vi": "Băng keo điện PVC",
+      "group_vi": "Consumable",
+      "kind": "Electrical tape",
+      "price_min": 8000,
+      "price_max": 25000,
+      "unit_vi": "cuộn",
+      "section_vi": "Điều hòa / Máy lạnh",
+      "device_types": [
+        "air_conditioner"
+      ]
+    },
+    {
+      "code": "ACV034",
+      "name_vi": "Băng cao su non",
+      "group_vi": "Consumable",
+      "kind": "Seal tape",
+      "price_min": 5000,
+      "price_max": 20000,
+      "unit_vi": "cuộn",
+      "section_vi": "Điều hòa / Máy lạnh",
+      "device_types": [
+        "air_conditioner"
+      ]
+    },
+    {
+      "code": "ACV035",
+      "name_vi": "Băng keo nhôm",
+      "group_vi": "Consumable",
+      "kind": "Aluminum tape",
+      "price_min": 25000,
+      "price_max": 90000,
+      "unit_vi": "cuộn",
+      "section_vi": "Điều hòa / Máy lạnh",
+      "device_types": [
+        "air_conditioner"
+      ]
+    },
+    {
+      "code": "ACV036",
+      "name_vi": "Ống thoát nước mềm Φ16",
+      "group_vi": "Vật tư lắp đặt",
+      "kind": "Drain hose",
+      "price_min": 6000,
+      "price_max": 20000,
+      "unit_vi": "mét",
+      "section_vi": "Điều hòa / Máy lạnh",
+      "device_types": [
+        "air_conditioner"
+      ]
+    },
+    {
+      "code": "ACV037",
+      "name_vi": "Ống thoát nước mềm Φ20",
+      "group_vi": "Vật tư lắp đặt",
+      "kind": "Drain hose",
+      "price_min": 8000,
+      "price_max": 25000,
+      "unit_vi": "mét",
+      "section_vi": "Điều hòa / Máy lạnh",
+      "device_types": [
+        "air_conditioner"
+      ]
+    },
+    {
+      "code": "ACV038",
+      "name_vi": "Ống PVC thoát nước Φ21",
+      "group_vi": "Vật tư lắp đặt",
+      "kind": "PVC drain pipe",
+      "price_min": 10000,
+      "price_max": 30000,
+      "unit_vi": "mét",
+      "section_vi": "Điều hòa / Máy lạnh",
+      "device_types": [
+        "air_conditioner"
+      ]
+    },
+    {
+      "code": "ACV039",
+      "name_vi": "Ống PVC thoát nước Φ27",
+      "group_vi": "Vật tư lắp đặt",
+      "kind": "PVC drain pipe",
+      "price_min": 15000,
+      "price_max": 40000,
+      "unit_vi": "mét",
+      "section_vi": "Điều hòa / Máy lạnh",
+      "device_types": [
+        "air_conditioner"
+      ]
+    },
+    {
+      "code": "ACV040",
+      "name_vi": "Co PVC thoát nước Φ21",
+      "group_vi": "Linh kiện nhỏ",
+      "kind": "PVC elbow",
+      "price_min": 3000,
+      "price_max": 12000,
+      "unit_vi": "cái",
+      "section_vi": "Điều hòa / Máy lạnh",
+      "device_types": [
+        "air_conditioner"
+      ]
+    },
+    {
+      "code": "ACV041",
+      "name_vi": "Co PVC thoát nước Φ27",
+      "group_vi": "Linh kiện nhỏ",
+      "kind": "PVC elbow",
+      "price_min": 5000,
+      "price_max": 15000,
+      "unit_vi": "cái",
+      "section_vi": "Điều hòa / Máy lạnh",
+      "device_types": [
+        "air_conditioner"
+      ]
+    },
+    {
+      "code": "ACV042",
+      "name_vi": "Tê PVC thoát nước Φ21",
+      "group_vi": "Linh kiện nhỏ",
+      "kind": "PVC tee",
+      "price_min": 4000,
+      "price_max": 15000,
+      "unit_vi": "cái",
+      "section_vi": "Điều hòa / Máy lạnh",
+      "device_types": [
+        "air_conditioner"
+      ]
+    },
+    {
+      "code": "ACV043",
+      "name_vi": "Măng sông PVC Φ21",
+      "group_vi": "Linh kiện nhỏ",
+      "kind": "PVC coupling",
+      "price_min": 3000,
+      "price_max": 10000,
+      "unit_vi": "cái",
+      "section_vi": "Điều hòa / Máy lạnh",
+      "device_types": [
+        "air_conditioner"
+      ]
+    },
+    {
+      "code": "ACV044",
+      "name_vi": "Keo dán ống PVC",
+      "group_vi": "Consumable",
+      "kind": "PVC adhesive",
+      "price_min": 20000,
+      "price_max": 70000,
+      "unit_vi": "chai",
+      "section_vi": "Điều hòa / Máy lạnh",
+      "device_types": [
+        "air_conditioner"
+      ]
+    },
+    {
+      "code": "ACV045",
+      "name_vi": "Móc ống nước",
+      "group_vi": "Linh kiện nhỏ",
+      "kind": "Drain clamp",
+      "price_min": 1000,
+      "price_max": 5000,
+      "unit_vi": "cái",
+      "section_vi": "Điều hòa / Máy lạnh",
+      "device_types": [
+        "air_conditioner"
+      ]
+    },
+    {
+      "code": "ACV046",
+      "name_vi": "Dây điện CV 1.0 mm²",
+      "group_vi": "Vật tư lắp đặt",
+      "kind": "Electrical wire",
+      "price_min": 7000,
+      "price_max": 15000,
+      "unit_vi": "mét",
+      "section_vi": "Điều hòa / Máy lạnh",
+      "device_types": [
+        "air_conditioner"
+      ]
+    },
+    {
+      "code": "ACV047",
+      "name_vi": "Dây điện CV 1.5 mm²",
+      "group_vi": "Vật tư lắp đặt",
+      "kind": "Electrical wire",
+      "price_min": 9000,
+      "price_max": 18000,
+      "unit_vi": "mét",
+      "section_vi": "Điều hòa / Máy lạnh",
+      "device_types": [
+        "air_conditioner"
+      ]
+    },
+    {
+      "code": "ACV048",
+      "name_vi": "Dây điện CV 2.5 mm²",
+      "group_vi": "Vật tư lắp đặt",
+      "kind": "Electrical wire",
+      "price_min": 15000,
+      "price_max": 30000,
+      "unit_vi": "mét",
+      "section_vi": "Điều hòa / Máy lạnh",
+      "device_types": [
+        "air_conditioner"
+      ]
+    },
+    {
+      "code": "ACV049",
+      "name_vi": "Dây điện CV 4.0 mm²",
+      "group_vi": "Vật tư lắp đặt",
+      "kind": "Electrical wire",
+      "price_min": 25000,
+      "price_max": 45000,
+      "unit_vi": "mét",
+      "section_vi": "Điều hòa / Máy lạnh",
+      "device_types": [
+        "air_conditioner"
+      ]
+    },
+    {
+      "code": "ACV050",
+      "name_vi": "Cáp điện 2x1.5 mm²",
+      "group_vi": "Vật tư lắp đặt",
+      "kind": "Electrical cable",
+      "price_min": 15000,
+      "price_max": 25000,
+      "unit_vi": "mét",
+      "section_vi": "Điều hòa / Máy lạnh",
+      "device_types": [
+        "air_conditioner"
+      ]
+    },
+    {
+      "code": "ACV051",
+      "name_vi": "Cáp điện 2x2.5 mm²",
+      "group_vi": "Vật tư lắp đặt",
+      "kind": "Electrical cable",
+      "price_min": 22000,
+      "price_max": 40000,
+      "unit_vi": "mét",
+      "section_vi": "Điều hòa / Máy lạnh",
+      "device_types": [
+        "air_conditioner"
+      ]
+    },
+    {
+      "code": "ACV052",
+      "name_vi": "Cáp điện 3x1.5 mm²",
+      "group_vi": "Vật tư lắp đặt",
+      "kind": "Control cable",
+      "price_min": 22000,
+      "price_max": 40000,
+      "unit_vi": "mét",
+      "section_vi": "Điều hòa / Máy lạnh",
+      "device_types": [
+        "air_conditioner"
+      ]
+    },
+    {
+      "code": "ACV053",
+      "name_vi": "Cáp điện 3x2.5 mm²",
+      "group_vi": "Vật tư lắp đặt",
+      "kind": "Power cable",
+      "price_min": 32000,
+      "price_max": 55000,
+      "unit_vi": "mét",
+      "section_vi": "Điều hòa / Máy lạnh",
+      "device_types": [
+        "air_conditioner"
+      ]
+    },
+    {
+      "code": "ACV054",
+      "name_vi": "Cáp điều khiển 4x1.5 mm²",
+      "group_vi": "Vật tư lắp đặt",
+      "kind": "Control cable",
+      "price_min": 30000,
+      "price_max": 55000,
+      "unit_vi": "mét",
+      "section_vi": "Điều hòa / Máy lạnh",
+      "device_types": [
+        "air_conditioner"
+      ]
+    },
+    {
+      "code": "ACV055",
+      "name_vi": "Cáp điều khiển 5x1.5 mm²",
+      "group_vi": "Vật tư lắp đặt",
+      "kind": "Control cable",
+      "price_min": 35000,
+      "price_max": 65000,
+      "unit_vi": "mét",
+      "section_vi": "Điều hòa / Máy lạnh",
+      "device_types": [
+        "air_conditioner"
+      ]
+    },
+    {
+      "code": "ACV056",
+      "name_vi": "Đầu cos tròn 1.5–2.5 mm²",
+      "group_vi": "Linh kiện nhỏ",
+      "kind": "Cable lug",
+      "price_min": 1000,
+      "price_max": 5000,
+      "unit_vi": "cái",
+      "section_vi": "Điều hòa / Máy lạnh",
+      "device_types": [
+        "air_conditioner"
+      ]
+    },
+    {
+      "code": "ACV057",
+      "name_vi": "Đầu cos càng cua",
+      "group_vi": "Linh kiện nhỏ",
+      "kind": "Fork terminal",
+      "price_min": 1000,
+      "price_max": 5000,
+      "unit_vi": "cái",
+      "section_vi": "Điều hòa / Máy lạnh",
+      "device_types": [
+        "air_conditioner"
+      ]
+    },
+    {
+      "code": "ACV058",
+      "name_vi": "Domino điện 15A",
+      "group_vi": "Linh kiện nhỏ",
+      "kind": "Terminal block",
+      "price_min": 10000,
+      "price_max": 35000,
+      "unit_vi": "thanh",
+      "section_vi": "Điều hòa / Máy lạnh",
+      "device_types": [
+        "air_conditioner"
+      ]
+    },
+    {
+      "code": "ACV059",
+      "name_vi": "Domino điện 30A",
+      "group_vi": "Linh kiện nhỏ",
+      "kind": "Terminal block",
+      "price_min": 15000,
+      "price_max": 50000,
+      "unit_vi": "thanh",
+      "section_vi": "Điều hòa / Máy lạnh",
+      "device_types": [
+        "air_conditioner"
+      ]
+    },
+    {
+      "code": "ACV060",
+      "name_vi": "CB 20A 1P",
+      "group_vi": "Vật tư điện",
+      "kind": "Circuit breaker",
+      "price_min": 60000,
+      "price_max": 180000,
+      "unit_vi": "cái",
+      "section_vi": "Điều hòa / Máy lạnh",
+      "device_types": [
+        "air_conditioner"
+      ]
+    },
+    {
+      "code": "ACV061",
+      "name_vi": "CB 25A 1P",
+      "group_vi": "Vật tư điện",
+      "kind": "Circuit breaker",
+      "price_min": 70000,
+      "price_max": 200000,
+      "unit_vi": "cái",
+      "section_vi": "Điều hòa / Máy lạnh",
+      "device_types": [
+        "air_conditioner"
+      ]
+    },
+    {
+      "code": "ACV062",
+      "name_vi": "CB 30–32A 1P",
+      "group_vi": "Vật tư điện",
+      "kind": "Circuit breaker",
+      "price_min": 80000,
+      "price_max": 220000,
+      "unit_vi": "cái",
+      "section_vi": "Điều hòa / Máy lạnh",
+      "device_types": [
+        "air_conditioner"
+      ]
+    },
+    {
+      "code": "ACV063",
+      "name_vi": "CB chống giật RCBO 20A",
+      "group_vi": "Vật tư điện",
+      "kind": "RCBO",
+      "price_min": 220000,
+      "price_max": 650000,
+      "unit_vi": "cái",
+      "section_vi": "Điều hòa / Máy lạnh",
+      "device_types": [
+        "air_conditioner"
+      ]
+    },
+    {
+      "code": "ACV064",
+      "name_vi": "CB chống giật RCBO 32A",
+      "group_vi": "Vật tư điện",
+      "kind": "RCBO",
+      "price_min": 250000,
+      "price_max": 750000,
+      "unit_vi": "cái",
+      "section_vi": "Điều hòa / Máy lạnh",
+      "device_types": [
+        "air_conditioner"
+      ]
+    },
+    {
+      "code": "ACV065",
+      "name_vi": "Eke dàn nóng 350 mm",
+      "group_vi": "Vật tư lắp đặt",
+      "kind": "Outdoor bracket",
+      "price_min": 80000,
+      "price_max": 150000,
+      "unit_vi": "cặp",
+      "section_vi": "Điều hòa / Máy lạnh",
+      "device_types": [
+        "air_conditioner"
+      ]
+    },
+    {
+      "code": "ACV066",
+      "name_vi": "Eke dàn nóng 400 mm",
+      "group_vi": "Vật tư lắp đặt",
+      "kind": "Outdoor bracket",
+      "price_min": 90000,
+      "price_max": 180000,
+      "unit_vi": "cặp",
+      "section_vi": "Điều hòa / Máy lạnh",
+      "device_types": [
+        "air_conditioner"
+      ]
+    },
+    {
+      "code": "ACV067",
+      "name_vi": "Eke dàn nóng 450 mm",
+      "group_vi": "Vật tư lắp đặt",
+      "kind": "Outdoor bracket",
+      "price_min": 100000,
+      "price_max": 200000,
+      "unit_vi": "cặp",
+      "section_vi": "Điều hòa / Máy lạnh",
+      "device_types": [
+        "air_conditioner"
+      ]
+    },
+    {
+      "code": "ACV068",
+      "name_vi": "Eke dàn nóng 500 mm",
+      "group_vi": "Vật tư lắp đặt",
+      "kind": "Outdoor bracket",
+      "price_min": 130000,
+      "price_max": 260000,
+      "unit_vi": "cặp",
+      "section_vi": "Điều hòa / Máy lạnh",
+      "device_types": [
+        "air_conditioner"
+      ]
+    },
+    {
+      "code": "ACV069",
+      "name_vi": "Chân đế cao su dàn nóng",
+      "group_vi": "Linh kiện nhỏ",
+      "kind": "Rubber foot",
+      "price_min": 20000,
+      "price_max": 60000,
+      "unit_vi": "cái",
+      "section_vi": "Điều hòa / Máy lạnh",
+      "device_types": [
+        "air_conditioner"
+      ]
+    },
+    {
+      "code": "ACV070",
+      "name_vi": "Bộ 4 chân cao su chống rung",
+      "group_vi": "Vật tư lắp đặt",
+      "kind": "Anti-vibration set",
+      "price_min": 70000,
+      "price_max": 180000,
+      "unit_vi": "bộ",
+      "section_vi": "Điều hòa / Máy lạnh",
+      "device_types": [
+        "air_conditioner"
+      ]
+    },
+    {
+      "code": "ACV071",
+      "name_vi": "Cao su giảm chấn treo dàn nóng",
+      "group_vi": "Linh kiện nhỏ",
+      "kind": "Vibration mount",
+      "price_min": 20000,
+      "price_max": 70000,
+      "unit_vi": "cái",
+      "section_vi": "Điều hòa / Máy lạnh",
+      "device_types": [
+        "air_conditioner"
+      ]
+    },
+    {
+      "code": "ACV072",
+      "name_vi": "Tắc kê sắt M8",
+      "group_vi": "Linh kiện nhỏ",
+      "kind": "Anchor bolt",
+      "price_min": 3000,
+      "price_max": 10000,
+      "unit_vi": "cái",
+      "section_vi": "Điều hòa / Máy lạnh",
+      "device_types": [
+        "air_conditioner"
+      ]
+    },
+    {
+      "code": "ACV073",
+      "name_vi": "Tắc kê sắt M10",
+      "group_vi": "Linh kiện nhỏ",
+      "kind": "Anchor bolt",
+      "price_min": 5000,
+      "price_max": 15000,
+      "unit_vi": "cái",
+      "section_vi": "Điều hòa / Máy lạnh",
+      "device_types": [
+        "air_conditioner"
+      ]
+    },
+    {
+      "code": "ACV074",
+      "name_vi": "Bulong M8x60",
+      "group_vi": "Linh kiện nhỏ",
+      "kind": "Bolt",
+      "price_min": 2000,
+      "price_max": 8000,
+      "unit_vi": "cái",
+      "section_vi": "Điều hòa / Máy lạnh",
+      "device_types": [
+        "air_conditioner"
+      ]
+    },
+    {
+      "code": "ACV075",
+      "name_vi": "Bulong M10x80",
+      "group_vi": "Linh kiện nhỏ",
+      "kind": "Bolt",
+      "price_min": 3000,
+      "price_max": 10000,
+      "unit_vi": "cái",
+      "section_vi": "Điều hòa / Máy lạnh",
+      "device_types": [
+        "air_conditioner"
+      ]
+    },
+    {
+      "code": "ACV076",
+      "name_vi": "Long đền phẳng M8/M10",
+      "group_vi": "Linh kiện nhỏ",
+      "kind": "Washer",
+      "price_min": 500,
+      "price_max": 3000,
+      "unit_vi": "cái",
+      "section_vi": "Điều hòa / Máy lạnh",
+      "device_types": [
+        "air_conditioner"
+      ]
+    },
+    {
+      "code": "ACV077",
+      "name_vi": "Dây rút nhựa 20 cm",
+      "group_vi": "Consumable",
+      "kind": "Cable tie",
+      "price_min": 500,
+      "price_max": 2000,
+      "unit_vi": "sợi",
+      "section_vi": "Điều hòa / Máy lạnh",
+      "device_types": [
+        "air_conditioner"
+      ]
+    },
+    {
+      "code": "ACV078",
+      "name_vi": "Dây rút nhựa 30 cm",
+      "group_vi": "Consumable",
+      "kind": "Cable tie",
+      "price_min": 800,
+      "price_max": 3000,
+      "unit_vi": "sợi",
+      "section_vi": "Điều hòa / Máy lạnh",
+      "device_types": [
+        "air_conditioner"
+      ]
+    },
+    {
+      "code": "ACV079",
+      "name_vi": "Móc ống đồng",
+      "group_vi": "Linh kiện nhỏ",
+      "kind": "Pipe clip",
+      "price_min": 2000,
+      "price_max": 6000,
+      "unit_vi": "cái",
+      "section_vi": "Điều hòa / Máy lạnh",
+      "device_types": [
+        "air_conditioner"
+      ]
+    },
+    {
+      "code": "ACV080",
+      "name_vi": "Nẹp điện PVC 24x14",
+      "group_vi": "Vật tư lắp đặt",
+      "kind": "Cable trunking",
+      "price_min": 25000,
+      "price_max": 55000,
+      "unit_vi": "thanh",
+      "section_vi": "Điều hòa / Máy lạnh",
+      "device_types": [
+        "air_conditioner"
+      ]
+    },
+    {
+      "code": "ACV081",
+      "name_vi": "Gas lạnh R32 bình 3 kg",
+      "group_vi": "Consumable",
+      "kind": "Refrigerant",
+      "price_min": 520000,
+      "price_max": 1000000,
+      "unit_vi": "bình",
+      "section_vi": "Điều hòa / Máy lạnh",
+      "device_types": [
+        "air_conditioner"
+      ]
+    },
+    {
+      "code": "ACV082",
+      "name_vi": "Gas lạnh R410A bình 2.8–3 kg",
+      "group_vi": "Consumable",
+      "kind": "Refrigerant",
+      "price_min": 600000,
+      "price_max": 950000,
+      "unit_vi": "bình",
+      "section_vi": "Điều hòa / Máy lạnh",
+      "device_types": [
+        "air_conditioner"
+      ]
+    },
+    {
+      "code": "ACV083",
+      "name_vi": "Gas lạnh R22 bình 3 kg",
+      "group_vi": "Consumable",
+      "kind": "Refrigerant",
+      "price_min": 550000,
+      "price_max": 1000000,
+      "unit_vi": "bình",
+      "section_vi": "Điều hòa / Máy lạnh",
+      "device_types": [
+        "air_conditioner"
+      ]
+    },
+    {
+      "code": "ACV084",
+      "name_vi": "Dầu lạnh POE",
+      "group_vi": "Consumable",
+      "kind": "Refrigeration oil",
+      "price_min": 180000,
+      "price_max": 550000,
+      "unit_vi": "chai",
+      "section_vi": "Điều hòa / Máy lạnh",
+      "device_types": [
+        "air_conditioner"
+      ]
+    },
+    {
+      "code": "ACV085",
+      "name_vi": "Dầu lạnh khoáng",
+      "group_vi": "Consumable",
+      "kind": "Refrigeration oil",
+      "price_min": 150000,
+      "price_max": 450000,
+      "unit_vi": "chai",
+      "section_vi": "Điều hòa / Máy lạnh",
+      "device_types": [
+        "air_conditioner"
+      ]
+    },
+    {
+      "code": "ACV086",
+      "name_vi": "Que hàn đồng-phốt pho",
+      "group_vi": "Consumable",
+      "kind": "Brazing rod",
+      "price_min": 15000,
+      "price_max": 50000,
+      "unit_vi": "que",
+      "section_vi": "Điều hòa / Máy lạnh",
+      "device_types": [
+        "air_conditioner"
+      ]
+    },
+    {
+      "code": "ACV087",
+      "name_vi": "Que hàn bạc",
+      "group_vi": "Consumable",
+      "kind": "Silver brazing rod",
+      "price_min": 30000,
+      "price_max": 150000,
+      "unit_vi": "que",
+      "section_vi": "Điều hòa / Máy lạnh",
+      "device_types": [
+        "air_conditioner"
+      ]
+    },
+    {
+      "code": "ACV088",
+      "name_vi": "Bột trợ hàn bạc",
+      "group_vi": "Consumable",
+      "kind": "Brazing flux",
+      "price_min": 50000,
+      "price_max": 180000,
+      "unit_vi": "hộp",
+      "section_vi": "Điều hòa / Máy lạnh",
+      "device_types": [
+        "air_conditioner"
+      ]
+    },
+    {
+      "code": "ACV089",
+      "name_vi": "Phin lọc 1/4 inch",
+      "group_vi": "Linh kiện nhỏ",
+      "kind": "Filter drier",
+      "price_min": 120000,
+      "price_max": 300000,
+      "unit_vi": "cái",
+      "section_vi": "Điều hòa / Máy lạnh",
+      "device_types": [
+        "air_conditioner"
+      ]
+    },
+    {
+      "code": "ACV090",
+      "name_vi": "Phin lọc 3/8 inch",
+      "group_vi": "Linh kiện nhỏ",
+      "kind": "Filter drier",
+      "price_min": 150000,
+      "price_max": 350000,
+      "unit_vi": "cái",
+      "section_vi": "Điều hòa / Máy lạnh",
+      "device_types": [
+        "air_conditioner"
+      ]
+    },
+    {
+      "code": "ACV091",
+      "name_vi": "Nắp van service 1/4",
+      "group_vi": "Linh kiện nhỏ",
+      "kind": "Service cap",
+      "price_min": 20000,
+      "price_max": 60000,
+      "unit_vi": "cái",
+      "section_vi": "Điều hòa / Máy lạnh",
+      "device_types": [
+        "air_conditioner"
+      ]
+    },
+    {
+      "code": "ACV092",
+      "name_vi": "Nắp van service 3/8",
+      "group_vi": "Linh kiện nhỏ",
+      "kind": "Service cap",
+      "price_min": 25000,
+      "price_max": 70000,
+      "unit_vi": "cái",
+      "section_vi": "Điều hòa / Máy lạnh",
+      "device_types": [
+        "air_conditioner"
+      ]
+    },
+    {
+      "code": "ACV093",
+      "name_vi": "Lõi van Schrader",
+      "group_vi": "Linh kiện nhỏ",
+      "kind": "Schrader core",
+      "price_min": 15000,
+      "price_max": 50000,
+      "unit_vi": "cái",
+      "section_vi": "Điều hòa / Máy lạnh",
+      "device_types": [
+        "air_conditioner"
+      ]
+    },
+    {
+      "code": "ACV094",
+      "name_vi": "Nắp chụp đầu van Schrader",
+      "group_vi": "Linh kiện nhỏ",
+      "kind": "Valve cap",
+      "price_min": 10000,
+      "price_max": 30000,
+      "unit_vi": "cái",
+      "section_vi": "Điều hòa / Máy lạnh",
+      "device_types": [
+        "air_conditioner"
+      ]
+    },
+    {
+      "code": "ACV095",
+      "name_vi": "Gioăng cao su rắc co",
+      "group_vi": "Linh kiện nhỏ",
+      "kind": "Rubber seal",
+      "price_min": 5000,
+      "price_max": 25000,
+      "unit_vi": "cái",
+      "section_vi": "Điều hòa / Máy lạnh",
+      "device_types": [
+        "air_conditioner"
+      ]
+    },
+    {
+      "code": "ACV096",
+      "name_vi": "Ống gen xoắn bảo vệ dây",
+      "group_vi": "Vật tư lắp đặt",
+      "kind": "Spiral conduit",
+      "price_min": 8000,
+      "price_max": 25000,
+      "unit_vi": "mét",
+      "section_vi": "Điều hòa / Máy lạnh",
+      "device_types": [
+        "air_conditioner"
+      ]
+    },
+    {
+      "code": "ACV097",
+      "name_vi": "Ống ruột gà điện",
+      "group_vi": "Vật tư lắp đặt",
+      "kind": "Flexible conduit",
+      "price_min": 10000,
+      "price_max": 30000,
+      "unit_vi": "mét",
+      "section_vi": "Điều hòa / Máy lạnh",
+      "device_types": [
+        "air_conditioner"
+      ]
+    },
+    {
+      "code": "ACV098",
+      "name_vi": "Hộp điện nổi chống nước",
+      "group_vi": "Vật tư điện",
+      "kind": "Junction box",
+      "price_min": 30000,
+      "price_max": 120000,
+      "unit_vi": "cái",
+      "section_vi": "Điều hòa / Máy lạnh",
+      "device_types": [
+        "air_conditioner"
+      ]
+    },
+    {
+      "code": "ACV099",
+      "name_vi": "Keo silicone trung tính",
+      "group_vi": "Consumable",
+      "kind": "Silicone sealant",
+      "price_min": 50000,
+      "price_max": 120000,
+      "unit_vi": "tuýp",
+      "section_vi": "Điều hòa / Máy lạnh",
+      "device_types": [
+        "air_conditioner"
+      ]
+    },
+    {
+      "code": "ACV100",
+      "name_vi": "Xi măng/keo trám lỗ xuyên tường",
+      "group_vi": "Consumable",
+      "kind": "Wall sealant",
+      "price_min": 30000,
+      "price_max": 100000,
+      "unit_vi": "phần",
+      "section_vi": "Điều hòa / Máy lạnh",
+      "device_types": [
+        "air_conditioner"
+      ]
+    },
+    {
+      "code": "WM001",
+      "name_vi": "Van cấp nước đơn",
+      "group_vi": "Linh kiện",
+      "kind": "Water Inlet Valve",
+      "price_min": 350000,
+      "price_max": 650000,
+      "unit_vi": "cái",
+      "section_vi": "Máy giặt",
+      "device_types": [
+        "washing_machine"
+      ]
+    },
+    {
+      "code": "WM002",
+      "name_vi": "Van cấp nước đôi",
+      "group_vi": "Linh kiện",
+      "kind": "Water Inlet Valve",
+      "price_min": 450000,
+      "price_max": 850000,
+      "unit_vi": "cái",
+      "section_vi": "Máy giặt",
+      "device_types": [
+        "washing_machine"
+      ]
+    },
+    {
+      "code": "WM003",
+      "name_vi": "Van cấp nước 3 ngõ",
+      "group_vi": "Linh kiện",
+      "kind": "Water Inlet Valve",
+      "price_min": 550000,
+      "price_max": 950000,
+      "unit_vi": "cái",
+      "section_vi": "Máy giặt",
+      "device_types": [
+        "washing_machine"
+      ]
+    },
+    {
+      "code": "WM004",
+      "name_vi": "Van cấp nước 4 ngõ",
+      "group_vi": "Linh kiện",
+      "kind": "Water Inlet Valve",
+      "price_min": 650000,
+      "price_max": 1100000,
+      "unit_vi": "cái",
+      "section_vi": "Máy giặt",
+      "device_types": [
+        "washing_machine"
+      ]
+    },
+    {
+      "code": "WM005",
+      "name_vi": "Van cấp nước 6 ngõ",
+      "group_vi": "Linh kiện",
+      "kind": "Water Inlet Valve",
+      "price_min": 750000,
+      "price_max": 1300000,
+      "unit_vi": "cái",
+      "section_vi": "Máy giặt",
+      "device_types": [
+        "washing_machine"
+      ]
+    },
+    {
+      "code": "WM006",
+      "name_vi": "Motor xả máy cửa trên",
+      "group_vi": "Linh kiện",
+      "kind": "Drain Actuator",
+      "price_min": 450000,
+      "price_max": 750000,
+      "unit_vi": "cái",
+      "section_vi": "Máy giặt",
+      "device_types": [
+        "washing_machine"
+      ]
+    },
+    {
+      "code": "WM007",
+      "name_vi": "Bơm xả máy cửa ngang",
+      "group_vi": "Linh kiện",
+      "kind": "Drain Pump",
+      "price_min": 500000,
+      "price_max": 1100000,
+      "unit_vi": "cái",
+      "section_vi": "Máy giặt",
+      "device_types": [
+        "washing_machine"
+      ]
+    },
+    {
+      "code": "WM008",
+      "name_vi": "Bơm tuần hoàn nước",
+      "group_vi": "Linh kiện",
+      "kind": "Circulation Pump",
+      "price_min": 650000,
+      "price_max": 1300000,
+      "unit_vi": "cái",
+      "section_vi": "Máy giặt",
+      "device_types": [
+        "washing_machine"
+      ]
+    },
+    {
+      "code": "WM009",
+      "name_vi": "Phao áp lực cơ",
+      "group_vi": "Linh kiện",
+      "kind": "Pressure Switch",
+      "price_min": 350000,
+      "price_max": 650000,
+      "unit_vi": "cái",
+      "section_vi": "Máy giặt",
+      "device_types": [
+        "washing_machine"
+      ]
+    },
+    {
+      "code": "WM010",
+      "name_vi": "Cảm biến mực nước điện tử",
+      "group_vi": "Linh kiện",
+      "kind": "Water Level Sensor",
+      "price_min": 450000,
+      "price_max": 850000,
+      "unit_vi": "cái",
+      "section_vi": "Máy giặt",
+      "device_types": [
+        "washing_machine"
+      ]
+    },
+    {
+      "code": "WM011",
+      "name_vi": "Ống hơi phao áp lực",
+      "group_vi": "Linh kiện",
+      "kind": "Pressure Hose",
+      "price_min": 80000,
+      "price_max": 250000,
+      "unit_vi": "dây",
+      "section_vi": "Máy giặt",
+      "device_types": [
+        "washing_machine"
+      ]
+    },
+    {
+      "code": "WM012",
+      "name_vi": "Motor máy giặt thường cửa trên",
+      "group_vi": "Linh kiện",
+      "kind": "Drive Motor",
+      "price_min": 750000,
+      "price_max": 1500000,
+      "unit_vi": "cái",
+      "section_vi": "Máy giặt",
+      "device_types": [
+        "washing_machine"
+      ]
+    },
+    {
+      "code": "WM013",
+      "name_vi": "Motor Inverter cửa trên",
+      "group_vi": "Linh kiện",
+      "kind": "Inverter Motor",
+      "price_min": 1000000,
+      "price_max": 2400000,
+      "unit_vi": "cái",
+      "section_vi": "Máy giặt",
+      "device_types": [
+        "washing_machine"
+      ]
+    },
+    {
+      "code": "WM014",
+      "name_vi": "Motor Direct Drive cửa ngang",
+      "group_vi": "Linh kiện",
+      "kind": "Direct Drive Motor",
+      "price_min": 1300000,
+      "price_max": 3200000,
+      "unit_vi": "bộ",
+      "section_vi": "Máy giặt",
+      "device_types": [
+        "washing_machine"
+      ]
+    },
+    {
+      "code": "WM015",
+      "name_vi": "Stator motor Direct Drive",
+      "group_vi": "Linh kiện",
+      "kind": "Motor Stator",
+      "price_min": 900000,
+      "price_max": 2200000,
+      "unit_vi": "cái",
+      "section_vi": "Máy giặt",
+      "device_types": [
+        "washing_machine"
+      ]
+    },
+    {
+      "code": "WM016",
+      "name_vi": "Rotor motor Direct Drive",
+      "group_vi": "Linh kiện",
+      "kind": "Motor Rotor",
+      "price_min": 900000,
+      "price_max": 2200000,
+      "unit_vi": "cái",
+      "section_vi": "Máy giặt",
+      "device_types": [
+        "washing_machine"
+      ]
+    },
+    {
+      "code": "WM017",
+      "name_vi": "Hall sensor motor",
+      "group_vi": "Linh kiện",
+      "kind": "Hall Sensor",
+      "price_min": 250000,
+      "price_max": 650000,
+      "unit_vi": "cái",
+      "section_vi": "Máy giặt",
+      "device_types": [
+        "washing_machine"
+      ]
+    },
+    {
+      "code": "WM018",
+      "name_vi": "Tụ motor 8µF",
+      "group_vi": "Linh kiện",
+      "kind": "Motor Capacitor",
+      "price_min": 180000,
+      "price_max": 350000,
+      "unit_vi": "cái",
+      "section_vi": "Máy giặt",
+      "device_types": [
+        "washing_machine"
+      ]
+    },
+    {
+      "code": "WM019",
+      "name_vi": "Tụ motor 10µF",
+      "group_vi": "Linh kiện",
+      "kind": "Motor Capacitor",
+      "price_min": 200000,
+      "price_max": 380000,
+      "unit_vi": "cái",
+      "section_vi": "Máy giặt",
+      "device_types": [
+        "washing_machine"
+      ]
+    },
+    {
+      "code": "WM020",
+      "name_vi": "Tụ motor 12µF",
+      "group_vi": "Linh kiện",
+      "kind": "Motor Capacitor",
+      "price_min": 220000,
+      "price_max": 420000,
+      "unit_vi": "cái",
+      "section_vi": "Máy giặt",
+      "device_types": [
+        "washing_machine"
+      ]
+    },
+    {
+      "code": "WM021",
+      "name_vi": "Tụ motor 14µF",
+      "group_vi": "Linh kiện",
+      "kind": "Motor Capacitor",
+      "price_min": 250000,
+      "price_max": 450000,
+      "unit_vi": "cái",
+      "section_vi": "Máy giặt",
+      "device_types": [
+        "washing_machine"
+      ]
+    },
+    {
+      "code": "WM022",
+      "name_vi": "Dây curoa 5PJ",
+      "group_vi": "Linh kiện",
+      "kind": "Drive Belt",
+      "price_min": 250000,
+      "price_max": 450000,
+      "unit_vi": "dây",
+      "section_vi": "Máy giặt",
+      "device_types": [
+        "washing_machine"
+      ]
+    },
+    {
+      "code": "WM023",
+      "name_vi": "Dây curoa 6PJ",
+      "group_vi": "Linh kiện",
+      "kind": "Drive Belt",
+      "price_min": 280000,
+      "price_max": 500000,
+      "unit_vi": "dây",
+      "section_vi": "Máy giặt",
+      "device_types": [
+        "washing_machine"
+      ]
+    },
+    {
+      "code": "WM024",
+      "name_vi": "Dây curoa 7PJ",
+      "group_vi": "Linh kiện",
+      "kind": "Drive Belt",
+      "price_min": 300000,
+      "price_max": 550000,
+      "unit_vi": "dây",
+      "section_vi": "Máy giặt",
+      "device_types": [
+        "washing_machine"
+      ]
+    },
+    {
+      "code": "WM025",
+      "name_vi": "Hộp số máy giặt 5–8kg",
+      "group_vi": "Linh kiện",
+      "kind": "Gearbox / Clutch",
+      "price_min": 650000,
+      "price_max": 1200000,
+      "unit_vi": "bộ",
+      "section_vi": "Máy giặt",
+      "device_types": [
+        "washing_machine"
+      ]
+    },
+    {
+      "code": "WM026",
+      "name_vi": "Hộp số máy giặt 8.5–10kg",
+      "group_vi": "Linh kiện",
+      "kind": "Gearbox / Clutch",
+      "price_min": 850000,
+      "price_max": 1500000,
+      "unit_vi": "bộ",
+      "section_vi": "Máy giặt",
+      "device_types": [
+        "washing_machine"
+      ]
+    },
+    {
+      "code": "WM027",
+      "name_vi": "Hộp số máy giặt 10.5–12kg",
+      "group_vi": "Linh kiện",
+      "kind": "Gearbox / Clutch",
+      "price_min": 1000000,
+      "price_max": 1800000,
+      "unit_vi": "bộ",
+      "section_vi": "Máy giặt",
+      "device_types": [
+        "washing_machine"
+      ]
+    },
+    {
+      "code": "WM028",
+      "name_vi": "Chảng ba máy giặt cửa trên",
+      "group_vi": "Linh kiện",
+      "kind": "Clutch Spider",
+      "price_min": 450000,
+      "price_max": 950000,
+      "unit_vi": "bộ",
+      "section_vi": "Máy giặt",
+      "device_types": [
+        "washing_machine"
+      ]
+    },
+    {
+      "code": "WM029",
+      "name_vi": "Trục lồng máy cửa ngang",
+      "group_vi": "Linh kiện",
+      "kind": "Drum Shaft",
+      "price_min": 700000,
+      "price_max": 1800000,
+      "unit_vi": "bộ",
+      "section_vi": "Máy giặt",
+      "device_types": [
+        "washing_machine"
+      ]
+    },
+    {
+      "code": "WM030",
+      "name_vi": "Chảng ba lồng giặt cửa ngang",
+      "group_vi": "Linh kiện",
+      "kind": "Drum Spider",
+      "price_min": 800000,
+      "price_max": 2200000,
+      "unit_vi": "bộ",
+      "section_vi": "Máy giặt",
+      "device_types": [
+        "washing_machine"
+      ]
+    },
+    {
+      "code": "WM031",
+      "name_vi": "Bạc đạn 6204",
+      "group_vi": "Linh kiện",
+      "kind": "Bearing",
+      "price_min": 150000,
+      "price_max": 400000,
+      "unit_vi": "cái",
+      "section_vi": "Máy giặt",
+      "device_types": [
+        "washing_machine"
+      ]
+    },
+    {
+      "code": "WM032",
+      "name_vi": "Bạc đạn 6205",
+      "group_vi": "Linh kiện",
+      "kind": "Bearing",
+      "price_min": 180000,
+      "price_max": 450000,
+      "unit_vi": "cái",
+      "section_vi": "Máy giặt",
+      "device_types": [
+        "washing_machine"
+      ]
+    },
+    {
+      "code": "WM033",
+      "name_vi": "Bạc đạn 6206",
+      "group_vi": "Linh kiện",
+      "kind": "Bearing",
+      "price_min": 200000,
+      "price_max": 500000,
+      "unit_vi": "cái",
+      "section_vi": "Máy giặt",
+      "device_types": [
+        "washing_machine"
+      ]
+    },
+    {
+      "code": "WM034",
+      "name_vi": "Phớt chặn nước",
+      "group_vi": "Linh kiện",
+      "kind": "Oil Seal",
+      "price_min": 180000,
+      "price_max": 500000,
+      "unit_vi": "cái",
+      "section_vi": "Máy giặt",
+      "device_types": [
+        "washing_machine"
+      ]
+    },
+    {
+      "code": "WM035",
+      "name_vi": "Bộ bạc đạn + phớt",
+      "group_vi": "Linh kiện",
+      "kind": "Bearing & Seal Kit",
+      "price_min": 650000,
+      "price_max": 1600000,
+      "unit_vi": "bộ",
+      "section_vi": "Máy giặt",
+      "device_types": [
+        "washing_machine"
+      ]
+    },
+    {
+      "code": "WM036",
+      "name_vi": "Ty treo máy giặt cửa trên",
+      "group_vi": "Linh kiện",
+      "kind": "Suspension Rod",
+      "price_min": 200000,
+      "price_max": 450000,
+      "unit_vi": "cái",
+      "section_vi": "Máy giặt",
+      "device_types": [
+        "washing_machine"
+      ]
+    },
+    {
+      "code": "WM037",
+      "name_vi": "Bộ 4 ty treo",
+      "group_vi": "Linh kiện",
+      "kind": "Suspension Rod Set",
+      "price_min": 750000,
+      "price_max": 1400000,
+      "unit_vi": "bộ",
+      "section_vi": "Máy giặt",
+      "device_types": [
+        "washing_machine"
+      ]
+    },
+    {
+      "code": "WM038",
+      "name_vi": "Giảm xóc máy cửa ngang",
+      "group_vi": "Linh kiện",
+      "kind": "Shock Absorber",
+      "price_min": 250000,
+      "price_max": 600000,
+      "unit_vi": "cái",
+      "section_vi": "Máy giặt",
+      "device_types": [
+        "washing_machine"
+      ]
+    },
+    {
+      "code": "WM039",
+      "name_vi": "Bộ giảm xóc cửa ngang",
+      "group_vi": "Linh kiện",
+      "kind": "Shock Absorber Set",
+      "price_min": 700000,
+      "price_max": 1500000,
+      "unit_vi": "bộ",
+      "section_vi": "Máy giặt",
+      "device_types": [
+        "washing_machine"
+      ]
+    },
+    {
+      "code": "WM040",
+      "name_vi": "Lò xo treo lồng",
+      "group_vi": "Linh kiện",
+      "kind": "Suspension Spring",
+      "price_min": 150000,
+      "price_max": 400000,
+      "unit_vi": "cái",
+      "section_vi": "Máy giặt",
+      "device_types": [
+        "washing_machine"
+      ]
+    },
+    {
+      "code": "WM041",
+      "name_vi": "Khóa cửa điện từ",
+      "group_vi": "Linh kiện",
+      "kind": "Door Interlock",
+      "price_min": 450000,
+      "price_max": 1000000,
+      "unit_vi": "cái",
+      "section_vi": "Máy giặt",
+      "device_types": [
+        "washing_machine"
+      ]
+    },
+    {
+      "code": "WM042",
+      "name_vi": "Khóa cửa cơ",
+      "group_vi": "Linh kiện",
+      "kind": "Mechanical Door Lock",
+      "price_min": 300000,
+      "price_max": 700000,
+      "unit_vi": "cái",
+      "section_vi": "Máy giặt",
+      "device_types": [
+        "washing_machine"
+      ]
+    },
+    {
+      "code": "WM043",
+      "name_vi": "Tay nắm cửa máy giặt",
+      "group_vi": "Linh kiện",
+      "kind": "Door Handle",
+      "price_min": 200000,
+      "price_max": 700000,
+      "unit_vi": "bộ",
+      "section_vi": "Máy giặt",
+      "device_types": [
+        "washing_machine"
+      ]
+    },
+    {
+      "code": "WM044",
+      "name_vi": "Bản lề cửa",
+      "group_vi": "Linh kiện",
+      "kind": "Door Hinge",
+      "price_min": 250000,
+      "price_max": 800000,
+      "unit_vi": "cái",
+      "section_vi": "Máy giặt",
+      "device_types": [
+        "washing_machine"
+      ]
+    },
+    {
+      "code": "WM045",
+      "name_vi": "Gioăng cửa máy giặt cửa ngang",
+      "group_vi": "Linh kiện",
+      "kind": "Door Gasket",
+      "price_min": 550000,
+      "price_max": 1400000,
+      "unit_vi": "cái",
+      "section_vi": "Máy giặt",
+      "device_types": [
+        "washing_machine"
+      ]
+    },
+    {
+      "code": "WM046",
+      "name_vi": "Kính cửa máy giặt",
+      "group_vi": "Linh kiện",
+      "kind": "Door Glass",
+      "price_min": 500000,
+      "price_max": 1200000,
+      "unit_vi": "cái",
+      "section_vi": "Máy giặt",
+      "device_types": [
+        "washing_machine"
+      ]
+    },
+    {
+      "code": "WM047",
+      "name_vi": "Bo điều khiển cửa trên",
+      "group_vi": "Linh kiện",
+      "kind": "Control PCB",
+      "price_min": 750000,
+      "price_max": 2000000,
+      "unit_vi": "bộ",
+      "section_vi": "Máy giặt",
+      "device_types": [
+        "washing_machine"
+      ]
+    },
+    {
+      "code": "WM048",
+      "name_vi": "Bo điều khiển cửa ngang",
+      "group_vi": "Linh kiện",
+      "kind": "Control PCB",
+      "price_min": 1000000,
+      "price_max": 2800000,
+      "unit_vi": "bộ",
+      "section_vi": "Máy giặt",
+      "device_types": [
+        "washing_machine"
+      ]
+    },
+    {
+      "code": "WM049",
+      "name_vi": "Bo công suất Inverter",
+      "group_vi": "Linh kiện",
+      "kind": "Power PCB",
+      "price_min": 1200000,
+      "price_max": 3000000,
+      "unit_vi": "bộ",
+      "section_vi": "Máy giặt",
+      "device_types": [
+        "washing_machine"
+      ]
+    },
+    {
+      "code": "WM050",
+      "name_vi": "Bo hiển thị",
+      "group_vi": "Linh kiện",
+      "kind": "Display PCB",
+      "price_min": 500000,
+      "price_max": 1400000,
+      "unit_vi": "bộ",
+      "section_vi": "Máy giặt",
+      "device_types": [
+        "washing_machine"
+      ]
+    },
+    {
+      "code": "WM051",
+      "name_vi": "IC nguồn bo máy giặt",
+      "group_vi": "Linh kiện",
+      "kind": "Power IC",
+      "price_min": 250000,
+      "price_max": 700000,
+      "unit_vi": "cái",
+      "section_vi": "Máy giặt",
+      "device_types": [
+        "washing_machine"
+      ]
+    },
+    {
+      "code": "WM052",
+      "name_vi": "Cảm biến nhiệt NTC",
+      "group_vi": "Linh kiện",
+      "kind": "Temperature Sensor",
+      "price_min": 250000,
+      "price_max": 600000,
+      "unit_vi": "cái",
+      "section_vi": "Máy giặt",
+      "device_types": [
+        "washing_machine"
+      ]
+    },
+    {
+      "code": "WM053",
+      "name_vi": "Cảm biến rung",
+      "group_vi": "Linh kiện",
+      "kind": "Vibration Sensor",
+      "price_min": 300000,
+      "price_max": 750000,
+      "unit_vi": "cái",
+      "section_vi": "Máy giặt",
+      "device_types": [
+        "washing_machine"
+      ]
+    },
+    {
+      "code": "WM054",
+      "name_vi": "Cảm biến vị trí lồng",
+      "group_vi": "Linh kiện",
+      "kind": "Position Sensor",
+      "price_min": 350000,
+      "price_max": 850000,
+      "unit_vi": "cái",
+      "section_vi": "Máy giặt",
+      "device_types": [
+        "washing_machine"
+      ]
+    },
+    {
+      "code": "WM055",
+      "name_vi": "Dây nguồn máy giặt",
+      "group_vi": "Linh kiện",
+      "kind": "Power Cord",
+      "price_min": 180000,
+      "price_max": 400000,
+      "unit_vi": "dây",
+      "section_vi": "Máy giặt",
+      "device_types": [
+        "washing_machine"
+      ]
+    },
+    {
+      "code": "WM056",
+      "name_vi": "Dây cấp nước thường",
+      "group_vi": "Linh kiện",
+      "kind": "Inlet Hose",
+      "price_min": 120000,
+      "price_max": 350000,
+      "unit_vi": "dây",
+      "section_vi": "Máy giặt",
+      "device_types": [
+        "washing_machine"
+      ]
+    },
+    {
+      "code": "WM057",
+      "name_vi": "Dây cấp nước Aquastop",
+      "group_vi": "Linh kiện",
+      "kind": "Aquastop Hose",
+      "price_min": 450000,
+      "price_max": 1200000,
+      "unit_vi": "dây",
+      "section_vi": "Máy giặt",
+      "device_types": [
+        "washing_machine"
+      ]
+    },
+    {
+      "code": "WM058",
+      "name_vi": "Ống xả nước",
+      "group_vi": "Linh kiện",
+      "kind": "Drain Hose",
+      "price_min": 120000,
+      "price_max": 350000,
+      "unit_vi": "dây",
+      "section_vi": "Máy giặt",
+      "device_types": [
+        "washing_machine"
+      ]
+    },
+    {
+      "code": "WM059",
+      "name_vi": "Lưới lọc bơm xả",
+      "group_vi": "Linh kiện",
+      "kind": "Pump Filter",
+      "price_min": 150000,
+      "price_max": 450000,
+      "unit_vi": "cái",
+      "section_vi": "Máy giặt",
+      "device_types": [
+        "washing_machine"
+      ]
+    },
+    {
+      "code": "WM060",
+      "name_vi": "Ngăn chứa bột giặt/nước xả",
+      "group_vi": "Linh kiện",
+      "kind": "Detergent Drawer",
+      "price_min": 250000,
+      "price_max": 750000,
+      "unit_vi": "bộ",
+      "section_vi": "Máy giặt",
+      "device_types": [
+        "washing_machine"
+      ]
+    },
+    {
+      "code": "WMS001",
+      "name_vi": "Lưới lọc van cấp nước",
+      "group_vi": "Linh kiện nhỏ",
+      "kind": "Inlet filter",
+      "price_min": 30000,
+      "price_max": 120000,
+      "unit_vi": "cái",
+      "section_vi": "Máy giặt",
+      "device_types": [
+        "washing_machine"
+      ]
+    },
+    {
+      "code": "WMS002",
+      "name_vi": "Kẹp ống cấp nước",
+      "group_vi": "Linh kiện nhỏ",
+      "kind": "Hose clamp",
+      "price_min": 10000,
+      "price_max": 40000,
+      "unit_vi": "cái",
+      "section_vi": "Máy giặt",
+      "device_types": [
+        "washing_machine"
+      ]
+    },
+    {
+      "code": "WMS003",
+      "name_vi": "Cổ dê ống xả",
+      "group_vi": "Linh kiện nhỏ",
+      "kind": "Hose clamp",
+      "price_min": 10000,
+      "price_max": 40000,
+      "unit_vi": "cái",
+      "section_vi": "Máy giặt",
+      "device_types": [
+        "washing_machine"
+      ]
+    },
+    {
+      "code": "WMS004",
+      "name_vi": "Ống nối van cấp nước bên trong",
+      "group_vi": "Linh kiện nhỏ",
+      "kind": "Internal hose",
+      "price_min": 80000,
+      "price_max": 250000,
+      "unit_vi": "đoạn",
+      "section_vi": "Máy giặt",
+      "device_types": [
+        "washing_machine"
+      ]
+    },
+    {
+      "code": "WMS005",
+      "name_vi": "Ống từ lồng đến bơm xả",
+      "group_vi": "Linh kiện nhỏ",
+      "kind": "Sump hose",
+      "price_min": 180000,
+      "price_max": 500000,
+      "unit_vi": "cái",
+      "section_vi": "Máy giặt",
+      "device_types": [
+        "washing_machine"
+      ]
+    },
+    {
+      "code": "WMS006",
+      "name_vi": "Ống phao áp lực",
+      "group_vi": "Linh kiện nhỏ",
+      "kind": "Pressure hose",
+      "price_min": 50000,
+      "price_max": 180000,
+      "unit_vi": "dây",
+      "section_vi": "Máy giặt",
+      "device_types": [
+        "washing_machine"
+      ]
+    },
+    {
+      "code": "WMS007",
+      "name_vi": "Pulley lồng giặt",
+      "group_vi": "Linh kiện",
+      "kind": "Drum pulley",
+      "price_min": 350000,
+      "price_max": 900000,
+      "unit_vi": "cái",
+      "section_vi": "Máy giặt",
+      "device_types": [
+        "washing_machine"
+      ]
+    },
+    {
+      "code": "WMS008",
+      "name_vi": "Bulong pulley",
+      "group_vi": "Linh kiện nhỏ",
+      "kind": "Pulley bolt",
+      "price_min": 30000,
+      "price_max": 120000,
+      "unit_vi": "cái",
+      "section_vi": "Máy giặt",
+      "device_types": [
+        "washing_machine"
+      ]
+    },
+    {
+      "code": "WMS009",
+      "name_vi": "Khớp nối motor",
+      "group_vi": "Linh kiện",
+      "kind": "Motor coupling",
+      "price_min": 250000,
+      "price_max": 650000,
+      "unit_vi": "bộ",
+      "section_vi": "Máy giặt",
+      "device_types": [
+        "washing_machine"
+      ]
+    },
+    {
+      "code": "WMS010",
+      "name_vi": "Chổi than motor",
+      "group_vi": "Consumable",
+      "kind": "Carbon brush",
+      "price_min": 180000,
+      "price_max": 500000,
+      "unit_vi": "cặp",
+      "section_vi": "Máy giặt",
+      "device_types": [
+        "washing_machine"
+      ]
+    },
+    {
+      "code": "WMS011",
+      "name_vi": "Lò xo chổi than",
+      "group_vi": "Linh kiện nhỏ",
+      "kind": "Brush spring",
+      "price_min": 30000,
+      "price_max": 100000,
+      "unit_vi": "cái",
+      "section_vi": "Máy giặt",
+      "device_types": [
+        "washing_machine"
+      ]
+    },
+    {
+      "code": "WMS012",
+      "name_vi": "Gioăng van cấp nước",
+      "group_vi": "Linh kiện nhỏ",
+      "kind": "Valve seal",
+      "price_min": 30000,
+      "price_max": 100000,
+      "unit_vi": "cái",
+      "section_vi": "Máy giặt",
+      "device_types": [
+        "washing_machine"
+      ]
+    },
+    {
+      "code": "WMS013",
+      "name_vi": "Gioăng bơm xả",
+      "group_vi": "Linh kiện nhỏ",
+      "kind": "Pump seal",
+      "price_min": 50000,
+      "price_max": 150000,
+      "unit_vi": "cái",
+      "section_vi": "Máy giặt",
+      "device_types": [
+        "washing_machine"
+      ]
+    },
+    {
+      "code": "WMS014",
+      "name_vi": "Nắp lọc bơm xả",
+      "group_vi": "Linh kiện nhỏ",
+      "kind": "Filter cap",
+      "price_min": 120000,
+      "price_max": 350000,
+      "unit_vi": "cái",
+      "section_vi": "Máy giặt",
+      "device_types": [
+        "washing_machine"
+      ]
+    },
+    {
+      "code": "WMS015",
+      "name_vi": "Kẹp ngoài gioăng cửa",
+      "group_vi": "Linh kiện nhỏ",
+      "kind": "Door boot clamp",
+      "price_min": 120000,
+      "price_max": 350000,
+      "unit_vi": "cái",
+      "section_vi": "Máy giặt",
+      "device_types": [
+        "washing_machine"
+      ]
+    },
+    {
+      "code": "WMS016",
+      "name_vi": "Kẹp trong gioăng cửa",
+      "group_vi": "Linh kiện nhỏ",
+      "kind": "Door boot clamp",
+      "price_min": 120000,
+      "price_max": 350000,
+      "unit_vi": "cái",
+      "section_vi": "Máy giặt",
+      "device_types": [
+        "washing_machine"
+      ]
+    },
+    {
+      "code": "WMS017",
+      "name_vi": "Công tắc nắp máy cửa trên",
+      "group_vi": "Linh kiện nhỏ",
+      "kind": "Lid switch",
+      "price_min": 180000,
+      "price_max": 450000,
+      "unit_vi": "cái",
+      "section_vi": "Máy giặt",
+      "device_types": [
+        "washing_machine"
+      ]
+    },
+    {
+      "code": "WMS018",
+      "name_vi": "Cảm biến từ nắp",
+      "group_vi": "Linh kiện nhỏ",
+      "kind": "Lid sensor",
+      "price_min": 180000,
+      "price_max": 500000,
+      "unit_vi": "cái",
+      "section_vi": "Máy giặt",
+      "device_types": [
+        "washing_machine"
+      ]
+    },
+    {
+      "code": "WMS019",
+      "name_vi": "Nam châm cửa/nắp",
+      "group_vi": "Linh kiện nhỏ",
+      "kind": "Door magnet",
+      "price_min": 50000,
+      "price_max": 180000,
+      "unit_vi": "cái",
+      "section_vi": "Máy giặt",
+      "device_types": [
+        "washing_machine"
+      ]
+    },
+    {
+      "code": "WMS020",
+      "name_vi": "Dây harness khóa cửa",
+      "group_vi": "Linh kiện nhỏ",
+      "kind": "Harness",
+      "price_min": 150000,
+      "price_max": 450000,
+      "unit_vi": "bộ",
+      "section_vi": "Máy giặt",
+      "device_types": [
+        "washing_machine"
+      ]
+    },
+    {
+      "code": "WMS021",
+      "name_vi": "Dây harness motor",
+      "group_vi": "Linh kiện nhỏ",
+      "kind": "Harness",
+      "price_min": 200000,
+      "price_max": 600000,
+      "unit_vi": "bộ",
+      "section_vi": "Máy giặt",
+      "device_types": [
+        "washing_machine"
+      ]
+    },
+    {
+      "code": "WMS022",
+      "name_vi": "Dây harness van cấp nước",
+      "group_vi": "Linh kiện nhỏ",
+      "kind": "Harness",
+      "price_min": 150000,
+      "price_max": 450000,
+      "unit_vi": "bộ",
+      "section_vi": "Máy giặt",
+      "device_types": [
+        "washing_machine"
+      ]
+    },
+    {
+      "code": "WMS023",
+      "name_vi": "Đầu jack điện 2P",
+      "group_vi": "Linh kiện nhỏ",
+      "kind": "Connector",
+      "price_min": 10000,
+      "price_max": 50000,
+      "unit_vi": "cái",
+      "section_vi": "Máy giặt",
+      "device_types": [
+        "washing_machine"
+      ]
+    },
+    {
+      "code": "WMS024",
+      "name_vi": "Đầu jack điện 3P",
+      "group_vi": "Linh kiện nhỏ",
+      "kind": "Connector",
+      "price_min": 15000,
+      "price_max": 60000,
+      "unit_vi": "cái",
+      "section_vi": "Máy giặt",
+      "device_types": [
+        "washing_machine"
+      ]
+    },
+    {
+      "code": "WMS025",
+      "name_vi": "Cầu chì bo mạch",
+      "group_vi": "Linh kiện nhỏ",
+      "kind": "Fuse",
+      "price_min": 20000,
+      "price_max": 80000,
+      "unit_vi": "cái",
+      "section_vi": "Máy giặt",
+      "device_types": [
+        "washing_machine"
+      ]
+    },
+    {
+      "code": "WMS026",
+      "name_vi": "Relay bo máy giặt",
+      "group_vi": "Linh kiện nhỏ",
+      "kind": "PCB relay",
+      "price_min": 50000,
+      "price_max": 180000,
+      "unit_vi": "cái",
+      "section_vi": "Máy giặt",
+      "device_types": [
+        "washing_machine"
+      ]
+    },
+    {
+      "code": "WMS027",
+      "name_vi": "Triac điều khiển tải",
+      "group_vi": "Linh kiện nhỏ",
+      "kind": "Triac",
+      "price_min": 50000,
+      "price_max": 250000,
+      "unit_vi": "cái",
+      "section_vi": "Máy giặt",
+      "device_types": [
+        "washing_machine"
+      ]
+    },
+    {
+      "code": "WMS028",
+      "name_vi": "MOSFET công suất",
+      "group_vi": "Linh kiện nhỏ",
+      "kind": "MOSFET",
+      "price_min": 60000,
+      "price_max": 300000,
+      "unit_vi": "cái",
+      "section_vi": "Máy giặt",
+      "device_types": [
+        "washing_machine"
+      ]
+    },
+    {
+      "code": "WMS029",
+      "name_vi": "Cầu diode bo nguồn",
+      "group_vi": "Linh kiện nhỏ",
+      "kind": "Bridge rectifier",
+      "price_min": 40000,
+      "price_max": 180000,
+      "unit_vi": "cái",
+      "section_vi": "Máy giặt",
+      "device_types": [
+        "washing_machine"
+      ]
+    },
+    {
+      "code": "WMS030",
+      "name_vi": "Tụ nguồn bo mạch",
+      "group_vi": "Linh kiện nhỏ",
+      "kind": "Capacitor",
+      "price_min": 20000,
+      "price_max": 120000,
+      "unit_vi": "cái",
+      "section_vi": "Máy giặt",
+      "device_types": [
+        "washing_machine"
+      ]
+    },
+    {
+      "code": "WMS031",
+      "name_vi": "Nút nhấn bảng điều khiển",
+      "group_vi": "Linh kiện nhỏ",
+      "kind": "Tact switch",
+      "price_min": 20000,
+      "price_max": 80000,
+      "unit_vi": "cái",
+      "section_vi": "Máy giặt",
+      "device_types": [
+        "washing_machine"
+      ]
+    },
+    {
+      "code": "WMS032",
+      "name_vi": "Núm xoay chọn chương trình",
+      "group_vi": "Linh kiện nhỏ",
+      "kind": "Selector knob",
+      "price_min": 100000,
+      "price_max": 300000,
+      "unit_vi": "cái",
+      "section_vi": "Máy giặt",
+      "device_types": [
+        "washing_machine"
+      ]
+    },
+    {
+      "code": "WMS033",
+      "name_vi": "Encoder núm xoay",
+      "group_vi": "Linh kiện nhỏ",
+      "kind": "Encoder",
+      "price_min": 100000,
+      "price_max": 350000,
+      "unit_vi": "cái",
+      "section_vi": "Máy giặt",
+      "device_types": [
+        "washing_machine"
+      ]
+    },
+    {
+      "code": "WMS034",
+      "name_vi": "Chân cao su máy giặt",
+      "group_vi": "Linh kiện nhỏ",
+      "kind": "Leveling foot",
+      "price_min": 80000,
+      "price_max": 250000,
+      "unit_vi": "cái",
+      "section_vi": "Máy giặt",
+      "device_types": [
+        "washing_machine"
+      ]
+    },
+    {
+      "code": "WMS035",
+      "name_vi": "Tấm chống chuột đáy máy",
+      "group_vi": "Phụ kiện",
+      "kind": "Bottom cover",
+      "price_min": 150000,
+      "price_max": 400000,
+      "unit_vi": "tấm",
+      "section_vi": "Máy giặt",
+      "device_types": [
+        "washing_machine"
+      ]
+    },
+    {
+      "code": "TV001",
+      "name_vi": "Bo nguồn TV 24–32 inch",
+      "group_vi": "Linh kiện",
+      "kind": "Power Board",
+      "price_min": 450000,
+      "price_max": 1000000,
+      "unit_vi": "bộ",
+      "section_vi": "TV / Smart TV",
+      "device_types": [
+        "television"
+      ]
+    },
+    {
+      "code": "TV002",
+      "name_vi": "Bo nguồn TV 40–43 inch",
+      "group_vi": "Linh kiện",
+      "kind": "Power Board",
+      "price_min": 550000,
+      "price_max": 1400000,
+      "unit_vi": "bộ",
+      "section_vi": "TV / Smart TV",
+      "device_types": [
+        "television"
+      ]
+    },
+    {
+      "code": "TV003",
+      "name_vi": "Bo nguồn TV 49–50 inch",
+      "group_vi": "Linh kiện",
+      "kind": "Power Board",
+      "price_min": 700000,
+      "price_max": 1700000,
+      "unit_vi": "bộ",
+      "section_vi": "TV / Smart TV",
+      "device_types": [
+        "television"
+      ]
+    },
+    {
+      "code": "TV004",
+      "name_vi": "Bo nguồn TV 55 inch",
+      "group_vi": "Linh kiện",
+      "kind": "Power Board",
+      "price_min": 800000,
+      "price_max": 2000000,
+      "unit_vi": "bộ",
+      "section_vi": "TV / Smart TV",
+      "device_types": [
+        "television"
+      ]
+    },
+    {
+      "code": "TV005",
+      "name_vi": "Bo nguồn TV 65 inch",
+      "group_vi": "Linh kiện",
+      "kind": "Power Board",
+      "price_min": 1000000,
+      "price_max": 2500000,
+      "unit_vi": "bộ",
+      "section_vi": "TV / Smart TV",
+      "device_types": [
+        "television"
+      ]
+    },
+    {
+      "code": "TV006",
+      "name_vi": "Mainboard TV 24–32 inch",
+      "group_vi": "Linh kiện",
+      "kind": "Main Board",
+      "price_min": 700000,
+      "price_max": 1800000,
+      "unit_vi": "bộ",
+      "section_vi": "TV / Smart TV",
+      "device_types": [
+        "television"
+      ]
+    },
+    {
+      "code": "TV007",
+      "name_vi": "Mainboard TV 40–43 inch",
+      "group_vi": "Linh kiện",
+      "kind": "Main Board",
+      "price_min": 900000,
+      "price_max": 2500000,
+      "unit_vi": "bộ",
+      "section_vi": "TV / Smart TV",
+      "device_types": [
+        "television"
+      ]
+    },
+    {
+      "code": "TV008",
+      "name_vi": "Mainboard TV 49–50 inch",
+      "group_vi": "Linh kiện",
+      "kind": "Main Board",
+      "price_min": 1100000,
+      "price_max": 3200000,
+      "unit_vi": "bộ",
+      "section_vi": "TV / Smart TV",
+      "device_types": [
+        "television"
+      ]
+    },
+    {
+      "code": "TV009",
+      "name_vi": "Mainboard TV 55 inch",
+      "group_vi": "Linh kiện",
+      "kind": "Main Board",
+      "price_min": 1300000,
+      "price_max": 3800000,
+      "unit_vi": "bộ",
+      "section_vi": "TV / Smart TV",
+      "device_types": [
+        "television"
+      ]
+    },
+    {
+      "code": "TV010",
+      "name_vi": "Mainboard TV 65 inch",
+      "group_vi": "Linh kiện",
+      "kind": "Main Board",
+      "price_min": 1600000,
+      "price_max": 4500000,
+      "unit_vi": "bộ",
+      "section_vi": "TV / Smart TV",
+      "device_types": [
+        "television"
+      ]
+    },
+    {
+      "code": "TV011",
+      "name_vi": "Bo T-CON TV 32 inch",
+      "group_vi": "Linh kiện",
+      "kind": "T-CON Board",
+      "price_min": 400000,
+      "price_max": 900000,
+      "unit_vi": "bộ",
+      "section_vi": "TV / Smart TV",
+      "device_types": [
+        "television"
+      ]
+    },
+    {
+      "code": "TV012",
+      "name_vi": "Bo T-CON TV 43 inch",
+      "group_vi": "Linh kiện",
+      "kind": "T-CON Board",
+      "price_min": 450000,
+      "price_max": 1000000,
+      "unit_vi": "bộ",
+      "section_vi": "TV / Smart TV",
+      "device_types": [
+        "television"
+      ]
+    },
+    {
+      "code": "TV013",
+      "name_vi": "Bo T-CON TV 50–55 inch",
+      "group_vi": "Linh kiện",
+      "kind": "T-CON Board",
+      "price_min": 500000,
+      "price_max": 1200000,
+      "unit_vi": "bộ",
+      "section_vi": "TV / Smart TV",
+      "device_types": [
+        "television"
+      ]
+    },
+    {
+      "code": "TV014",
+      "name_vi": "Bo T-CON TV 65 inch",
+      "group_vi": "Linh kiện",
+      "kind": "T-CON Board",
+      "price_min": 650000,
+      "price_max": 1500000,
+      "unit_vi": "bộ",
+      "section_vi": "TV / Smart TV",
+      "device_types": [
+        "television"
+      ]
+    },
+    {
+      "code": "TV015",
+      "name_vi": "Bo LED Driver TV",
+      "group_vi": "Linh kiện",
+      "kind": "LED Driver",
+      "price_min": 450000,
+      "price_max": 1200000,
+      "unit_vi": "bộ",
+      "section_vi": "TV / Smart TV",
+      "device_types": [
+        "television"
+      ]
+    },
+    {
+      "code": "TV016",
+      "name_vi": "Bo cao áp CCFL TV đời cũ",
+      "group_vi": "Linh kiện",
+      "kind": "Inverter Board",
+      "price_min": 350000,
+      "price_max": 900000,
+      "unit_vi": "bộ",
+      "section_vi": "TV / Smart TV",
+      "device_types": [
+        "television"
+      ]
+    },
+    {
+      "code": "TV017",
+      "name_vi": "Bộ LED backlight TV 24 inch",
+      "group_vi": "Linh kiện",
+      "kind": "LED Backlight",
+      "price_min": 350000,
+      "price_max": 750000,
+      "unit_vi": "bộ",
+      "section_vi": "TV / Smart TV",
+      "device_types": [
+        "television"
+      ]
+    },
+    {
+      "code": "TV018",
+      "name_vi": "Bộ LED backlight TV 32 inch",
+      "group_vi": "Linh kiện",
+      "kind": "LED Backlight",
+      "price_min": 450000,
+      "price_max": 1000000,
+      "unit_vi": "bộ",
+      "section_vi": "TV / Smart TV",
+      "device_types": [
+        "television"
+      ]
+    },
+    {
+      "code": "TV019",
+      "name_vi": "Bộ LED backlight TV 40 inch",
+      "group_vi": "Linh kiện",
+      "kind": "LED Backlight",
+      "price_min": 550000,
+      "price_max": 1200000,
+      "unit_vi": "bộ",
+      "section_vi": "TV / Smart TV",
+      "device_types": [
+        "television"
+      ]
+    },
+    {
+      "code": "TV020",
+      "name_vi": "Bộ LED backlight TV 43 inch",
+      "group_vi": "Linh kiện",
+      "kind": "LED Backlight",
+      "price_min": 600000,
+      "price_max": 1400000,
+      "unit_vi": "bộ",
+      "section_vi": "TV / Smart TV",
+      "device_types": [
+        "television"
+      ]
+    },
+    {
+      "code": "TV021",
+      "name_vi": "Bộ LED backlight TV 49 inch",
+      "group_vi": "Linh kiện",
+      "kind": "LED Backlight",
+      "price_min": 700000,
+      "price_max": 1600000,
+      "unit_vi": "bộ",
+      "section_vi": "TV / Smart TV",
+      "device_types": [
+        "television"
+      ]
+    },
+    {
+      "code": "TV022",
+      "name_vi": "Bộ LED backlight TV 50 inch",
+      "group_vi": "Linh kiện",
+      "kind": "LED Backlight",
+      "price_min": 750000,
+      "price_max": 1700000,
+      "unit_vi": "bộ",
+      "section_vi": "TV / Smart TV",
+      "device_types": [
+        "television"
+      ]
+    },
+    {
+      "code": "TV023",
+      "name_vi": "Bộ LED backlight TV 55 inch",
+      "group_vi": "Linh kiện",
+      "kind": "LED Backlight",
+      "price_min": 800000,
+      "price_max": 1900000,
+      "unit_vi": "bộ",
+      "section_vi": "TV / Smart TV",
+      "device_types": [
+        "television"
+      ]
+    },
+    {
+      "code": "TV024",
+      "name_vi": "Bộ LED backlight TV 65 inch",
+      "group_vi": "Linh kiện",
+      "kind": "LED Backlight",
+      "price_min": 1100000,
+      "price_max": 2500000,
+      "unit_vi": "bộ",
+      "section_vi": "TV / Smart TV",
+      "device_types": [
+        "television"
+      ]
+    },
+    {
+      "code": "TV025",
+      "name_vi": "Thanh LED backlight đơn",
+      "group_vi": "Linh kiện",
+      "kind": "LED Strip",
+      "price_min": 120000,
+      "price_max": 400000,
+      "unit_vi": "thanh",
+      "section_vi": "TV / Smart TV",
+      "device_types": [
+        "television"
+      ]
+    },
+    {
+      "code": "TV026",
+      "name_vi": "Bo Wi‑Fi TV",
+      "group_vi": "Linh kiện",
+      "kind": "Wi-Fi Module",
+      "price_min": 350000,
+      "price_max": 900000,
+      "unit_vi": "cái",
+      "section_vi": "TV / Smart TV",
+      "device_types": [
+        "television"
+      ]
+    },
+    {
+      "code": "TV027",
+      "name_vi": "Bo Bluetooth TV",
+      "group_vi": "Linh kiện",
+      "kind": "Bluetooth Module",
+      "price_min": 350000,
+      "price_max": 900000,
+      "unit_vi": "cái",
+      "section_vi": "TV / Smart TV",
+      "device_types": [
+        "television"
+      ]
+    },
+    {
+      "code": "TV028",
+      "name_vi": "Bo Wi‑Fi/Bluetooth tích hợp",
+      "group_vi": "Linh kiện",
+      "kind": "Wireless Module",
+      "price_min": 450000,
+      "price_max": 1100000,
+      "unit_vi": "cái",
+      "section_vi": "TV / Smart TV",
+      "device_types": [
+        "television"
+      ]
+    },
+    {
+      "code": "TV029",
+      "name_vi": "Mắt nhận remote",
+      "group_vi": "Linh kiện",
+      "kind": "IR Receiver",
+      "price_min": 180000,
+      "price_max": 500000,
+      "unit_vi": "cái",
+      "section_vi": "TV / Smart TV",
+      "device_types": [
+        "television"
+      ]
+    },
+    {
+      "code": "TV030",
+      "name_vi": "Board phím nguồn",
+      "group_vi": "Linh kiện",
+      "kind": "Key Board",
+      "price_min": 180000,
+      "price_max": 500000,
+      "unit_vi": "bộ",
+      "section_vi": "TV / Smart TV",
+      "device_types": [
+        "television"
+      ]
+    },
+    {
+      "code": "TV031",
+      "name_vi": "Board joystick điều khiển",
+      "group_vi": "Linh kiện",
+      "kind": "Joystick Board",
+      "price_min": 200000,
+      "price_max": 550000,
+      "unit_vi": "bộ",
+      "section_vi": "TV / Smart TV",
+      "device_types": [
+        "television"
+      ]
+    },
+    {
+      "code": "TV032",
+      "name_vi": "Loa TV 32 inch",
+      "group_vi": "Linh kiện",
+      "kind": "Speaker Set",
+      "price_min": 250000,
+      "price_max": 650000,
+      "unit_vi": "bộ",
+      "section_vi": "TV / Smart TV",
+      "device_types": [
+        "television"
+      ]
+    },
+    {
+      "code": "TV033",
+      "name_vi": "Loa TV 43 inch",
+      "group_vi": "Linh kiện",
+      "kind": "Speaker Set",
+      "price_min": 300000,
+      "price_max": 750000,
+      "unit_vi": "bộ",
+      "section_vi": "TV / Smart TV",
+      "device_types": [
+        "television"
+      ]
+    },
+    {
+      "code": "TV034",
+      "name_vi": "Loa TV 55 inch",
+      "group_vi": "Linh kiện",
+      "kind": "Speaker Set",
+      "price_min": 350000,
+      "price_max": 900000,
+      "unit_vi": "bộ",
+      "section_vi": "TV / Smart TV",
+      "device_types": [
+        "television"
+      ]
+    },
+    {
+      "code": "TV035",
+      "name_vi": "Loa TV 65 inch",
+      "group_vi": "Linh kiện",
+      "kind": "Speaker Set",
+      "price_min": 450000,
+      "price_max": 1100000,
+      "unit_vi": "bộ",
+      "section_vi": "TV / Smart TV",
+      "device_types": [
+        "television"
+      ]
+    },
+    {
+      "code": "TV036",
+      "name_vi": "Cáp LVDS",
+      "group_vi": "Linh kiện",
+      "kind": "LVDS Cable",
+      "price_min": 150000,
+      "price_max": 450000,
+      "unit_vi": "dây",
+      "section_vi": "TV / Smart TV",
+      "device_types": [
+        "television"
+      ]
+    },
+    {
+      "code": "TV037",
+      "name_vi": "Cáp FFC panel",
+      "group_vi": "Linh kiện",
+      "kind": "FFC Cable",
+      "price_min": 100000,
+      "price_max": 350000,
+      "unit_vi": "dây",
+      "section_vi": "TV / Smart TV",
+      "device_types": [
+        "television"
+      ]
+    },
+    {
+      "code": "TV038",
+      "name_vi": "Cổng HDMI thay thế",
+      "group_vi": "Linh kiện",
+      "kind": "HDMI Connector",
+      "price_min": 100000,
+      "price_max": 300000,
+      "unit_vi": "cái",
+      "section_vi": "TV / Smart TV",
+      "device_types": [
+        "television"
+      ]
+    },
+    {
+      "code": "TV039",
+      "name_vi": "Cổng USB thay thế",
+      "group_vi": "Linh kiện",
+      "kind": "USB Connector",
+      "price_min": 80000,
+      "price_max": 250000,
+      "unit_vi": "cái",
+      "section_vi": "TV / Smart TV",
+      "device_types": [
+        "television"
+      ]
+    },
+    {
+      "code": "TV040",
+      "name_vi": "Jack anten RF",
+      "group_vi": "Linh kiện",
+      "kind": "RF Connector",
+      "price_min": 80000,
+      "price_max": 250000,
+      "unit_vi": "cái",
+      "section_vi": "TV / Smart TV",
+      "device_types": [
+        "television"
+      ]
+    },
+    {
+      "code": "TV041",
+      "name_vi": "Panel TV 24 inch",
+      "group_vi": "Linh kiện",
+      "kind": "LCD/LED Panel",
+      "price_min": 1300000,
+      "price_max": 2500000,
+      "unit_vi": "tấm",
+      "section_vi": "TV / Smart TV",
+      "device_types": [
+        "television"
+      ]
+    },
+    {
+      "code": "TV042",
+      "name_vi": "Panel TV 32 inch",
+      "group_vi": "Linh kiện",
+      "kind": "LCD/LED Panel",
+      "price_min": 1800000,
+      "price_max": 3500000,
+      "unit_vi": "tấm",
+      "section_vi": "TV / Smart TV",
+      "device_types": [
+        "television"
+      ]
+    },
+    {
+      "code": "TV043",
+      "name_vi": "Panel TV 40–43 inch",
+      "group_vi": "Linh kiện",
+      "kind": "LCD/LED Panel",
+      "price_min": 2800000,
+      "price_max": 6500000,
+      "unit_vi": "tấm",
+      "section_vi": "TV / Smart TV",
+      "device_types": [
+        "television"
+      ]
+    },
+    {
+      "code": "TV044",
+      "name_vi": "Panel TV 49–50 inch",
+      "group_vi": "Linh kiện",
+      "kind": "LCD/LED Panel",
+      "price_min": 3800000,
+      "price_max": 8000000,
+      "unit_vi": "tấm",
+      "section_vi": "TV / Smart TV",
+      "device_types": [
+        "television"
+      ]
+    },
+    {
+      "code": "TV045",
+      "name_vi": "Panel TV 55 inch",
+      "group_vi": "Linh kiện",
+      "kind": "LCD/LED Panel",
+      "price_min": 4500000,
+      "price_max": 10000000,
+      "unit_vi": "tấm",
+      "section_vi": "TV / Smart TV",
+      "device_types": [
+        "television"
+      ]
+    },
+    {
+      "code": "TV046",
+      "name_vi": "Panel TV 65 inch",
+      "group_vi": "Linh kiện",
+      "kind": "LCD/LED Panel",
+      "price_min": 7000000,
+      "price_max": 15000000,
+      "unit_vi": "tấm",
+      "section_vi": "TV / Smart TV",
+      "device_types": [
+        "television"
+      ]
+    },
+    {
+      "code": "TV047",
+      "name_vi": "Remote TV thường",
+      "group_vi": "Linh kiện",
+      "kind": "Remote Control",
+      "price_min": 120000,
+      "price_max": 450000,
+      "unit_vi": "cái",
+      "section_vi": "TV / Smart TV",
+      "device_types": [
+        "television"
+      ]
+    },
+    {
+      "code": "TV048",
+      "name_vi": "Remote TV voice",
+      "group_vi": "Linh kiện",
+      "kind": "Voice Remote",
+      "price_min": 350000,
+      "price_max": 900000,
+      "unit_vi": "cái",
+      "section_vi": "TV / Smart TV",
+      "device_types": [
+        "television"
+      ]
+    },
+    {
+      "code": "TV049",
+      "name_vi": "LG Magic Remote",
+      "group_vi": "Linh kiện",
+      "kind": "Smart Remote",
+      "price_min": 550000,
+      "price_max": 1200000,
+      "unit_vi": "cái",
+      "section_vi": "TV / Smart TV",
+      "device_types": [
+        "television"
+      ]
+    },
+    {
+      "code": "TV050",
+      "name_vi": "Samsung Smart Remote",
+      "group_vi": "Linh kiện",
+      "kind": "Smart Remote",
+      "price_min": 450000,
+      "price_max": 1200000,
+      "unit_vi": "cái",
+      "section_vi": "TV / Smart TV",
+      "device_types": [
+        "television"
+      ]
+    },
+    {
+      "code": "TVS001",
+      "name_vi": "Cầu chì bo nguồn TV",
+      "group_vi": "Linh kiện nhỏ",
+      "kind": "Fuse",
+      "price_min": 20000,
+      "price_max": 80000,
+      "unit_vi": "cái",
+      "section_vi": "TV / Smart TV",
+      "device_types": [
+        "television"
+      ]
+    },
+    {
+      "code": "TVS002",
+      "name_vi": "Varistor chống sét",
+      "group_vi": "Linh kiện nhỏ",
+      "kind": "Varistor",
+      "price_min": 20000,
+      "price_max": 100000,
+      "unit_vi": "cái",
+      "section_vi": "TV / Smart TV",
+      "device_types": [
+        "television"
+      ]
+    },
+    {
+      "code": "TVS003",
+      "name_vi": "NTC hạn dòng",
+      "group_vi": "Linh kiện nhỏ",
+      "kind": "NTC",
+      "price_min": 20000,
+      "price_max": 100000,
+      "unit_vi": "cái",
+      "section_vi": "TV / Smart TV",
+      "device_types": [
+        "television"
+      ]
+    },
+    {
+      "code": "TVS004",
+      "name_vi": "Cầu diode bo nguồn",
+      "group_vi": "Linh kiện nhỏ",
+      "kind": "Bridge rectifier",
+      "price_min": 40000,
+      "price_max": 180000,
+      "unit_vi": "cái",
+      "section_vi": "TV / Smart TV",
+      "device_types": [
+        "television"
+      ]
+    },
+    {
+      "code": "TVS005",
+      "name_vi": "MOSFET nguồn sơ cấp",
+      "group_vi": "Linh kiện nhỏ",
+      "kind": "MOSFET",
+      "price_min": 50000,
+      "price_max": 250000,
+      "unit_vi": "cái",
+      "section_vi": "TV / Smart TV",
+      "device_types": [
+        "television"
+      ]
+    },
+    {
+      "code": "TVS006",
+      "name_vi": "IC PWM nguồn",
+      "group_vi": "Linh kiện nhỏ",
+      "kind": "PWM IC",
+      "price_min": 60000,
+      "price_max": 300000,
+      "unit_vi": "cái",
+      "section_vi": "TV / Smart TV",
+      "device_types": [
+        "television"
+      ]
+    },
+    {
+      "code": "TVS007",
+      "name_vi": "Optocoupler nguồn",
+      "group_vi": "Linh kiện nhỏ",
+      "kind": "Optocoupler",
+      "price_min": 15000,
+      "price_max": 70000,
+      "unit_vi": "cái",
+      "section_vi": "TV / Smart TV",
+      "device_types": [
+        "television"
+      ]
+    },
+    {
+      "code": "TVS008",
+      "name_vi": "TL431 reference",
+      "group_vi": "Linh kiện nhỏ",
+      "kind": "Reference IC",
+      "price_min": 10000,
+      "price_max": 50000,
+      "unit_vi": "cái",
+      "section_vi": "TV / Smart TV",
+      "device_types": [
+        "television"
+      ]
+    },
+    {
+      "code": "TVS009",
+      "name_vi": "Tụ nguồn 450V",
+      "group_vi": "Linh kiện nhỏ",
+      "kind": "Electrolytic capacitor",
+      "price_min": 50000,
+      "price_max": 180000,
+      "unit_vi": "cái",
+      "section_vi": "TV / Smart TV",
+      "device_types": [
+        "television"
+      ]
+    },
+    {
+      "code": "TVS010",
+      "name_vi": "Tụ lọc thứ cấp",
+      "group_vi": "Linh kiện nhỏ",
+      "kind": "Electrolytic capacitor",
+      "price_min": 20000,
+      "price_max": 100000,
+      "unit_vi": "cái",
+      "section_vi": "TV / Smart TV",
+      "device_types": [
+        "television"
+      ]
+    },
+    {
+      "code": "TVS011",
+      "name_vi": "IC LED driver",
+      "group_vi": "Linh kiện nhỏ",
+      "kind": "LED driver IC",
+      "price_min": 60000,
+      "price_max": 300000,
+      "unit_vi": "cái",
+      "section_vi": "TV / Smart TV",
+      "device_types": [
+        "television"
+      ]
+    },
+    {
+      "code": "TVS012",
+      "name_vi": "MOSFET LED driver",
+      "group_vi": "Linh kiện nhỏ",
+      "kind": "MOSFET",
+      "price_min": 50000,
+      "price_max": 250000,
+      "unit_vi": "cái",
+      "section_vi": "TV / Smart TV",
+      "device_types": [
+        "television"
+      ]
+    },
+    {
+      "code": "TVS013",
+      "name_vi": "LED đơn backlight 3V",
+      "group_vi": "Linh kiện nhỏ",
+      "kind": "LED diode",
+      "price_min": 10000,
+      "price_max": 40000,
+      "unit_vi": "LED",
+      "section_vi": "TV / Smart TV",
+      "device_types": [
+        "television"
+      ]
+    },
+    {
+      "code": "TVS014",
+      "name_vi": "LED đơn backlight 6V",
+      "group_vi": "Linh kiện nhỏ",
+      "kind": "LED diode",
+      "price_min": 10000,
+      "price_max": 50000,
+      "unit_vi": "LED",
+      "section_vi": "TV / Smart TV",
+      "device_types": [
+        "television"
+      ]
+    },
+    {
+      "code": "TVS015",
+      "name_vi": "Lens tán sáng LED",
+      "group_vi": "Linh kiện nhỏ",
+      "kind": "LED lens",
+      "price_min": 5000,
+      "price_max": 20000,
+      "unit_vi": "cái",
+      "section_vi": "TV / Smart TV",
+      "device_types": [
+        "television"
+      ]
+    },
+    {
+      "code": "TVS016",
+      "name_vi": "Keo dán lens LED",
+      "group_vi": "Consumable",
+      "kind": "Adhesive",
+      "price_min": 30000,
+      "price_max": 100000,
+      "unit_vi": "tuýp",
+      "section_vi": "TV / Smart TV",
+      "device_types": [
+        "television"
+      ]
+    },
+    {
+      "code": "TVS017",
+      "name_vi": "Pad tản nhiệt IC",
+      "group_vi": "Consumable",
+      "kind": "Thermal pad",
+      "price_min": 20000,
+      "price_max": 100000,
+      "unit_vi": "miếng",
+      "section_vi": "TV / Smart TV",
+      "device_types": [
+        "television"
+      ]
+    },
+    {
+      "code": "TVS018",
+      "name_vi": "Keo tản nhiệt",
+      "group_vi": "Consumable",
+      "kind": "Thermal paste",
+      "price_min": 30000,
+      "price_max": 150000,
+      "unit_vi": "tuýp",
+      "section_vi": "TV / Smart TV",
+      "device_types": [
+        "television"
+      ]
+    },
+    {
+      "code": "TVS019",
+      "name_vi": "Jack nguồn AC TV",
+      "group_vi": "Linh kiện nhỏ",
+      "kind": "AC socket",
+      "price_min": 80000,
+      "price_max": 250000,
+      "unit_vi": "cái",
+      "section_vi": "TV / Smart TV",
+      "device_types": [
+        "television"
+      ]
+    },
+    {
+      "code": "TVS020",
+      "name_vi": "Jack tai nghe 3.5mm",
+      "group_vi": "Linh kiện nhỏ",
+      "kind": "Audio connector",
+      "price_min": 50000,
+      "price_max": 180000,
+      "unit_vi": "cái",
+      "section_vi": "TV / Smart TV",
+      "device_types": [
+        "television"
+      ]
+    },
+    {
+      "code": "TVS021",
+      "name_vi": "Jack AV composite",
+      "group_vi": "Linh kiện nhỏ",
+      "kind": "AV connector",
+      "price_min": 50000,
+      "price_max": 180000,
+      "unit_vi": "cái",
+      "section_vi": "TV / Smart TV",
+      "device_types": [
+        "television"
+      ]
+    },
+    {
+      "code": "TVS022",
+      "name_vi": "Jack LAN RJ45",
+      "group_vi": "Linh kiện nhỏ",
+      "kind": "RJ45 connector",
+      "price_min": 80000,
+      "price_max": 250000,
+      "unit_vi": "cái",
+      "section_vi": "TV / Smart TV",
+      "device_types": [
+        "television"
+      ]
+    },
+    {
+      "code": "TVS023",
+      "name_vi": "Cáp anten Wi‑Fi nội bộ",
+      "group_vi": "Linh kiện nhỏ",
+      "kind": "Wi-Fi antenna cable",
+      "price_min": 80000,
+      "price_max": 250000,
+      "unit_vi": "dây",
+      "section_vi": "TV / Smart TV",
+      "device_types": [
+        "television"
+      ]
+    },
+    {
+      "code": "TVS024",
+      "name_vi": "Loa tweeter TV",
+      "group_vi": "Linh kiện nhỏ",
+      "kind": "Tweeter",
+      "price_min": 180000,
+      "price_max": 500000,
+      "unit_vi": "cái",
+      "section_vi": "TV / Smart TV",
+      "device_types": [
+        "television"
+      ]
+    },
+    {
+      "code": "TVS025",
+      "name_vi": "Loa woofer TV",
+      "group_vi": "Linh kiện",
+      "kind": "Woofer",
+      "price_min": 250000,
+      "price_max": 700000,
+      "unit_vi": "cái",
+      "section_vi": "TV / Smart TV",
+      "device_types": [
+        "television"
+      ]
+    },
+    {
+      "code": "RF001",
+      "name_vi": "Block tủ lạnh R134a mini",
+      "group_vi": "Linh kiện",
+      "kind": "Compressor",
+      "price_min": 1200000,
+      "price_max": 2200000,
+      "unit_vi": "cái",
+      "section_vi": "Tủ lạnh",
+      "device_types": [
+        "refrigerator"
+      ]
+    },
+    {
+      "code": "RF002",
+      "name_vi": "Block tủ lạnh R134a 150–300L",
+      "group_vi": "Linh kiện",
+      "kind": "Compressor",
+      "price_min": 1500000,
+      "price_max": 2800000,
+      "unit_vi": "cái",
+      "section_vi": "Tủ lạnh",
+      "device_types": [
+        "refrigerator"
+      ]
+    },
+    {
+      "code": "RF003",
+      "name_vi": "Block tủ lạnh R600a 150–300L",
+      "group_vi": "Linh kiện",
+      "kind": "Compressor",
+      "price_min": 1500000,
+      "price_max": 3000000,
+      "unit_vi": "cái",
+      "section_vi": "Tủ lạnh",
+      "device_types": [
+        "refrigerator"
+      ]
+    },
+    {
+      "code": "RF004",
+      "name_vi": "Block tủ lạnh Inverter 200–400L",
+      "group_vi": "Linh kiện",
+      "kind": "Inverter Compressor",
+      "price_min": 2200000,
+      "price_max": 4200000,
+      "unit_vi": "cái",
+      "section_vi": "Tủ lạnh",
+      "device_types": [
+        "refrigerator"
+      ]
+    },
+    {
+      "code": "RF005",
+      "name_vi": "Block tủ lạnh Side-by-Side Inverter",
+      "group_vi": "Linh kiện",
+      "kind": "Inverter Compressor",
+      "price_min": 3000000,
+      "price_max": 5500000,
+      "unit_vi": "cái",
+      "section_vi": "Tủ lạnh",
+      "device_types": [
+        "refrigerator"
+      ]
+    },
+    {
+      "code": "RF006",
+      "name_vi": "Bo điều khiển tủ lạnh thường",
+      "group_vi": "Linh kiện",
+      "kind": "Control PCB",
+      "price_min": 650000,
+      "price_max": 1500000,
+      "unit_vi": "bộ",
+      "section_vi": "Tủ lạnh",
+      "device_types": [
+        "refrigerator"
+      ]
+    },
+    {
+      "code": "RF007",
+      "name_vi": "Bo chính tủ lạnh Inverter",
+      "group_vi": "Linh kiện",
+      "kind": "Main PCB",
+      "price_min": 900000,
+      "price_max": 2500000,
+      "unit_vi": "bộ",
+      "section_vi": "Tủ lạnh",
+      "device_types": [
+        "refrigerator"
+      ]
+    },
+    {
+      "code": "RF008",
+      "name_vi": "Bo Inverter block",
+      "group_vi": "Linh kiện",
+      "kind": "Inverter PCB",
+      "price_min": 900000,
+      "price_max": 2500000,
+      "unit_vi": "bộ",
+      "section_vi": "Tủ lạnh",
+      "device_types": [
+        "refrigerator"
+      ]
+    },
+    {
+      "code": "RF009",
+      "name_vi": "Bo hiển thị cửa",
+      "group_vi": "Linh kiện",
+      "kind": "Display PCB",
+      "price_min": 600000,
+      "price_max": 1600000,
+      "unit_vi": "bộ",
+      "section_vi": "Tủ lạnh",
+      "device_types": [
+        "refrigerator"
+      ]
+    },
+    {
+      "code": "RF010",
+      "name_vi": "Bo làm đá tự động",
+      "group_vi": "Linh kiện",
+      "kind": "Ice Maker PCB",
+      "price_min": 700000,
+      "price_max": 1800000,
+      "unit_vi": "bộ",
+      "section_vi": "Tủ lạnh",
+      "device_types": [
+        "refrigerator"
+      ]
+    },
+    {
+      "code": "RF011",
+      "name_vi": "Quạt dàn lạnh DC",
+      "group_vi": "Linh kiện",
+      "kind": "Evaporator Fan",
+      "price_min": 350000,
+      "price_max": 950000,
+      "unit_vi": "cái",
+      "section_vi": "Tủ lạnh",
+      "device_types": [
+        "refrigerator"
+      ]
+    },
+    {
+      "code": "RF012",
+      "name_vi": "Quạt dàn lạnh AC",
+      "group_vi": "Linh kiện",
+      "kind": "Evaporator Fan",
+      "price_min": 300000,
+      "price_max": 800000,
+      "unit_vi": "cái",
+      "section_vi": "Tủ lạnh",
+      "device_types": [
+        "refrigerator"
+      ]
+    },
+    {
+      "code": "RF013",
+      "name_vi": "Quạt dàn nóng",
+      "group_vi": "Linh kiện",
+      "kind": "Condenser Fan",
+      "price_min": 350000,
+      "price_max": 900000,
+      "unit_vi": "cái",
+      "section_vi": "Tủ lạnh",
+      "device_types": [
+        "refrigerator"
+      ]
+    },
+    {
+      "code": "RF014",
+      "name_vi": "Motor quạt ngăn đá",
+      "group_vi": "Linh kiện",
+      "kind": "Freezer Fan Motor",
+      "price_min": 350000,
+      "price_max": 900000,
+      "unit_vi": "cái",
+      "section_vi": "Tủ lạnh",
+      "device_types": [
+        "refrigerator"
+      ]
+    },
+    {
+      "code": "RF015",
+      "name_vi": "Cảm biến nhiệt ngăn mát",
+      "group_vi": "Linh kiện",
+      "kind": "Thermistor",
+      "price_min": 180000,
+      "price_max": 500000,
+      "unit_vi": "cái",
+      "section_vi": "Tủ lạnh",
+      "device_types": [
+        "refrigerator"
+      ]
+    },
+    {
+      "code": "RF016",
+      "name_vi": "Cảm biến nhiệt ngăn đá",
+      "group_vi": "Linh kiện",
+      "kind": "Thermistor",
+      "price_min": 180000,
+      "price_max": 500000,
+      "unit_vi": "cái",
+      "section_vi": "Tủ lạnh",
+      "device_types": [
+        "refrigerator"
+      ]
+    },
+    {
+      "code": "RF017",
+      "name_vi": "Cảm biến nhiệt dàn lạnh",
+      "group_vi": "Linh kiện",
+      "kind": "Evaporator Sensor",
+      "price_min": 200000,
+      "price_max": 550000,
+      "unit_vi": "cái",
+      "section_vi": "Tủ lạnh",
+      "device_types": [
+        "refrigerator"
+      ]
+    },
+    {
+      "code": "RF018",
+      "name_vi": "Cảm biến nhiệt môi trường",
+      "group_vi": "Linh kiện",
+      "kind": "Ambient Sensor",
+      "price_min": 200000,
+      "price_max": 550000,
+      "unit_vi": "cái",
+      "section_vi": "Tủ lạnh",
+      "device_types": [
+        "refrigerator"
+      ]
+    },
+    {
+      "code": "RF019",
+      "name_vi": "Cảm biến cửa",
+      "group_vi": "Linh kiện",
+      "kind": "Door Sensor",
+      "price_min": 180000,
+      "price_max": 450000,
+      "unit_vi": "cái",
+      "section_vi": "Tủ lạnh",
+      "device_types": [
+        "refrigerator"
+      ]
+    },
+    {
+      "code": "RF020",
+      "name_vi": "Điện trở xả đá",
+      "group_vi": "Linh kiện",
+      "kind": "Defrost Heater",
+      "price_min": 300000,
+      "price_max": 850000,
+      "unit_vi": "cái",
+      "section_vi": "Tủ lạnh",
+      "device_types": [
+        "refrigerator"
+      ]
+    },
+    {
+      "code": "RF021",
+      "name_vi": "Cầu chì nhiệt xả đá",
+      "group_vi": "Linh kiện",
+      "kind": "Thermal Fuse",
+      "price_min": 120000,
+      "price_max": 350000,
+      "unit_vi": "cái",
+      "section_vi": "Tủ lạnh",
+      "device_types": [
+        "refrigerator"
+      ]
+    },
+    {
+      "code": "RF022",
+      "name_vi": "Thermostat xả đá",
+      "group_vi": "Linh kiện",
+      "kind": "Defrost Thermostat",
+      "price_min": 180000,
+      "price_max": 450000,
+      "unit_vi": "cái",
+      "section_vi": "Tủ lạnh",
+      "device_types": [
+        "refrigerator"
+      ]
+    },
+    {
+      "code": "RF023",
+      "name_vi": "Timer xả đá",
+      "group_vi": "Linh kiện",
+      "kind": "Defrost Timer",
+      "price_min": 220000,
+      "price_max": 550000,
+      "unit_vi": "cái",
+      "section_vi": "Tủ lạnh",
+      "device_types": [
+        "refrigerator"
+      ]
+    },
+    {
+      "code": "RF024",
+      "name_vi": "Van điện từ đảo gas",
+      "group_vi": "Linh kiện",
+      "kind": "Solenoid Valve",
+      "price_min": 450000,
+      "price_max": 1100000,
+      "unit_vi": "cái",
+      "section_vi": "Tủ lạnh",
+      "device_types": [
+        "refrigerator"
+      ]
+    },
+    {
+      "code": "RF025",
+      "name_vi": "Van tiết lưu / ống mao",
+      "group_vi": "Linh kiện",
+      "kind": "Capillary Tube",
+      "price_min": 150000,
+      "price_max": 450000,
+      "unit_vi": "bộ",
+      "section_vi": "Tủ lạnh",
+      "device_types": [
+        "refrigerator"
+      ]
+    },
+    {
+      "code": "RF026",
+      "name_vi": "Phin lọc gas",
+      "group_vi": "Linh kiện",
+      "kind": "Filter Drier",
+      "price_min": 120000,
+      "price_max": 350000,
+      "unit_vi": "cái",
+      "section_vi": "Tủ lạnh",
+      "device_types": [
+        "refrigerator"
+      ]
+    },
+    {
+      "code": "RF027",
+      "name_vi": "Rơ-le khởi động block",
+      "group_vi": "Linh kiện",
+      "kind": "Start Relay",
+      "price_min": 150000,
+      "price_max": 400000,
+      "unit_vi": "cái",
+      "section_vi": "Tủ lạnh",
+      "device_types": [
+        "refrigerator"
+      ]
+    },
+    {
+      "code": "RF028",
+      "name_vi": "Bảo vệ quá tải block",
+      "group_vi": "Linh kiện",
+      "kind": "Overload Protector",
+      "price_min": 120000,
+      "price_max": 350000,
+      "unit_vi": "cái",
+      "section_vi": "Tủ lạnh",
+      "device_types": [
+        "refrigerator"
+      ]
+    },
+    {
+      "code": "RF029",
+      "name_vi": "Tụ khởi động block",
+      "group_vi": "Linh kiện",
+      "kind": "Start Capacitor",
+      "price_min": 180000,
+      "price_max": 450000,
+      "unit_vi": "cái",
+      "section_vi": "Tủ lạnh",
+      "device_types": [
+        "refrigerator"
+      ]
+    },
+    {
+      "code": "RF030",
+      "name_vi": "Gioăng cửa ngăn mát",
+      "group_vi": "Linh kiện",
+      "kind": "Door Gasket",
+      "price_min": 450000,
+      "price_max": 1000000,
+      "unit_vi": "cái",
+      "section_vi": "Tủ lạnh",
+      "device_types": [
+        "refrigerator"
+      ]
+    },
+    {
+      "code": "RF031",
+      "name_vi": "Gioăng cửa ngăn đá",
+      "group_vi": "Linh kiện",
+      "kind": "Door Gasket",
+      "price_min": 450000,
+      "price_max": 1000000,
+      "unit_vi": "cái",
+      "section_vi": "Tủ lạnh",
+      "device_types": [
+        "refrigerator"
+      ]
+    },
+    {
+      "code": "RF032",
+      "name_vi": "Bản lề cửa tủ lạnh",
+      "group_vi": "Linh kiện",
+      "kind": "Door Hinge",
+      "price_min": 250000,
+      "price_max": 700000,
+      "unit_vi": "cái",
+      "section_vi": "Tủ lạnh",
+      "device_types": [
+        "refrigerator"
+      ]
+    },
+    {
+      "code": "RF033",
+      "name_vi": "Công tắc cửa",
+      "group_vi": "Linh kiện",
+      "kind": "Door Switch",
+      "price_min": 120000,
+      "price_max": 350000,
+      "unit_vi": "cái",
+      "section_vi": "Tủ lạnh",
+      "device_types": [
+        "refrigerator"
+      ]
+    },
+    {
+      "code": "RF034",
+      "name_vi": "Đèn LED ngăn mát",
+      "group_vi": "Linh kiện",
+      "kind": "Interior LED",
+      "price_min": 180000,
+      "price_max": 500000,
+      "unit_vi": "bộ",
+      "section_vi": "Tủ lạnh",
+      "device_types": [
+        "refrigerator"
+      ]
+    },
+    {
+      "code": "RF035",
+      "name_vi": "Khay kính ngăn mát",
+      "group_vi": "Linh kiện",
+      "kind": "Glass Shelf",
+      "price_min": 300000,
+      "price_max": 900000,
+      "unit_vi": "tấm",
+      "section_vi": "Tủ lạnh",
+      "device_types": [
+        "refrigerator"
+      ]
+    },
+    {
+      "code": "RF036",
+      "name_vi": "Ngăn kéo rau củ",
+      "group_vi": "Linh kiện",
+      "kind": "Crisper Drawer",
+      "price_min": 350000,
+      "price_max": 950000,
+      "unit_vi": "cái",
+      "section_vi": "Tủ lạnh",
+      "device_types": [
+        "refrigerator"
+      ]
+    },
+    {
+      "code": "RF037",
+      "name_vi": "Khay đá",
+      "group_vi": "Linh kiện",
+      "kind": "Ice Tray",
+      "price_min": 150000,
+      "price_max": 450000,
+      "unit_vi": "cái",
+      "section_vi": "Tủ lạnh",
+      "device_types": [
+        "refrigerator"
+      ]
+    },
+    {
+      "code": "RF038",
+      "name_vi": "Motor làm đá",
+      "group_vi": "Linh kiện",
+      "kind": "Ice Maker Motor",
+      "price_min": 500000,
+      "price_max": 1200000,
+      "unit_vi": "cái",
+      "section_vi": "Tủ lạnh",
+      "device_types": [
+        "refrigerator"
+      ]
+    },
+    {
+      "code": "RF039",
+      "name_vi": "Cụm làm đá tự động",
+      "group_vi": "Linh kiện",
+      "kind": "Ice Maker Assembly",
+      "price_min": 1000000,
+      "price_max": 2800000,
+      "unit_vi": "bộ",
+      "section_vi": "Tủ lạnh",
+      "device_types": [
+        "refrigerator"
+      ]
+    },
+    {
+      "code": "RF040",
+      "name_vi": "Van cấp nước tủ lạnh",
+      "group_vi": "Linh kiện",
+      "kind": "Water Inlet Valve",
+      "price_min": 450000,
+      "price_max": 1000000,
+      "unit_vi": "cái",
+      "section_vi": "Tủ lạnh",
+      "device_types": [
+        "refrigerator"
+      ]
+    },
+    {
+      "code": "RF041",
+      "name_vi": "Bơm nước dispenser",
+      "group_vi": "Linh kiện",
+      "kind": "Water Pump",
+      "price_min": 500000,
+      "price_max": 1200000,
+      "unit_vi": "cái",
+      "section_vi": "Tủ lạnh",
+      "device_types": [
+        "refrigerator"
+      ]
+    },
+    {
+      "code": "RF042",
+      "name_vi": "Lọc nước tủ lạnh",
+      "group_vi": "Linh kiện",
+      "kind": "Water Filter",
+      "price_min": 350000,
+      "price_max": 1200000,
+      "unit_vi": "lõi",
+      "section_vi": "Tủ lạnh",
+      "device_types": [
+        "refrigerator"
+      ]
+    },
+    {
+      "code": "RF043",
+      "name_vi": "Dây sưởi cửa",
+      "group_vi": "Linh kiện",
+      "kind": "Door Heater",
+      "price_min": 250000,
+      "price_max": 700000,
+      "unit_vi": "bộ",
+      "section_vi": "Tủ lạnh",
+      "device_types": [
+        "refrigerator"
+      ]
+    },
+    {
+      "code": "RF044",
+      "name_vi": "Dây sưởi khay nước",
+      "group_vi": "Linh kiện",
+      "kind": "Drain Heater",
+      "price_min": 250000,
+      "price_max": 700000,
+      "unit_vi": "bộ",
+      "section_vi": "Tủ lạnh",
+      "device_types": [
+        "refrigerator"
+      ]
+    },
+    {
+      "code": "RF045",
+      "name_vi": "Ống thoát nước xả đá",
+      "group_vi": "Linh kiện",
+      "kind": "Drain Tube",
+      "price_min": 100000,
+      "price_max": 300000,
+      "unit_vi": "dây",
+      "section_vi": "Tủ lạnh",
+      "device_types": [
+        "refrigerator"
+      ]
+    },
+    {
+      "code": "RFS001",
+      "name_vi": "Ống đồng Φ6 tủ lạnh",
+      "group_vi": "Vật tư sửa chữa",
+      "kind": "Copper tube",
+      "price_min": 70000,
+      "price_max": 120000,
+      "unit_vi": "mét",
+      "section_vi": "Tủ lạnh",
+      "device_types": [
+        "refrigerator"
+      ]
+    },
+    {
+      "code": "RFS002",
+      "name_vi": "Ống đồng mao 0.8 mm",
+      "group_vi": "Vật tư sửa chữa",
+      "kind": "Capillary tube",
+      "price_min": 30000,
+      "price_max": 80000,
+      "unit_vi": "mét",
+      "section_vi": "Tủ lạnh",
+      "device_types": [
+        "refrigerator"
+      ]
+    },
+    {
+      "code": "RFS003",
+      "name_vi": "Ống đồng mao 1.0 mm",
+      "group_vi": "Vật tư sửa chữa",
+      "kind": "Capillary tube",
+      "price_min": 35000,
+      "price_max": 90000,
+      "unit_vi": "mét",
+      "section_vi": "Tủ lạnh",
+      "device_types": [
+        "refrigerator"
+      ]
+    },
+    {
+      "code": "RFS004",
+      "name_vi": "Phin lọc 15g",
+      "group_vi": "Linh kiện nhỏ",
+      "kind": "Filter drier",
+      "price_min": 80000,
+      "price_max": 180000,
+      "unit_vi": "cái",
+      "section_vi": "Tủ lạnh",
+      "device_types": [
+        "refrigerator"
+      ]
+    },
+    {
+      "code": "RFS005",
+      "name_vi": "Phin lọc 20g",
+      "group_vi": "Linh kiện nhỏ",
+      "kind": "Filter drier",
+      "price_min": 90000,
+      "price_max": 220000,
+      "unit_vi": "cái",
+      "section_vi": "Tủ lạnh",
+      "device_types": [
+        "refrigerator"
+      ]
+    },
+    {
+      "code": "RFS006",
+      "name_vi": "Van nạp gas Schrader",
+      "group_vi": "Linh kiện nhỏ",
+      "kind": "Schrader valve",
+      "price_min": 80000,
+      "price_max": 220000,
+      "unit_vi": "cái",
+      "section_vi": "Tủ lạnh",
+      "device_types": [
+        "refrigerator"
+      ]
+    },
+    {
+      "code": "RFS007",
+      "name_vi": "Gas R134a lon nhỏ",
+      "group_vi": "Consumable",
+      "kind": "Refrigerant",
+      "price_min": 120000,
+      "price_max": 300000,
+      "unit_vi": "lon",
+      "section_vi": "Tủ lạnh",
+      "device_types": [
+        "refrigerator"
+      ]
+    },
+    {
+      "code": "RFS008",
+      "name_vi": "Gas R600a lon nhỏ",
+      "group_vi": "Consumable",
+      "kind": "Refrigerant",
+      "price_min": 120000,
+      "price_max": 300000,
+      "unit_vi": "lon",
+      "section_vi": "Tủ lạnh",
+      "device_types": [
+        "refrigerator"
+      ]
+    },
+    {
+      "code": "RFS009",
+      "name_vi": "Dầu lạnh tủ lạnh",
+      "group_vi": "Consumable",
+      "kind": "Refrigeration oil",
+      "price_min": 120000,
+      "price_max": 350000,
+      "unit_vi": "chai",
+      "section_vi": "Tủ lạnh",
+      "device_types": [
+        "refrigerator"
+      ]
+    },
+    {
+      "code": "RFS010",
+      "name_vi": "Relay PTC 1 chân",
+      "group_vi": "Linh kiện nhỏ",
+      "kind": "PTC relay",
+      "price_min": 100000,
+      "price_max": 280000,
+      "unit_vi": "cái",
+      "section_vi": "Tủ lạnh",
+      "device_types": [
+        "refrigerator"
+      ]
+    },
+    {
+      "code": "RFS011",
+      "name_vi": "Relay PTC 2 chân",
+      "group_vi": "Linh kiện nhỏ",
+      "kind": "PTC relay",
+      "price_min": 120000,
+      "price_max": 320000,
+      "unit_vi": "cái",
+      "section_vi": "Tủ lạnh",
+      "device_types": [
+        "refrigerator"
+      ]
+    },
+    {
+      "code": "RFS012",
+      "name_vi": "Overload 1/8 HP",
+      "group_vi": "Linh kiện nhỏ",
+      "kind": "Overload",
+      "price_min": 100000,
+      "price_max": 250000,
+      "unit_vi": "cái",
+      "section_vi": "Tủ lạnh",
+      "device_types": [
+        "refrigerator"
+      ]
+    },
+    {
+      "code": "RFS013",
+      "name_vi": "Overload 1/6 HP",
+      "group_vi": "Linh kiện nhỏ",
+      "kind": "Overload",
+      "price_min": 100000,
+      "price_max": 280000,
+      "unit_vi": "cái",
+      "section_vi": "Tủ lạnh",
+      "device_types": [
+        "refrigerator"
+      ]
+    },
+    {
+      "code": "RFS014",
+      "name_vi": "Overload 1/4 HP",
+      "group_vi": "Linh kiện nhỏ",
+      "kind": "Overload",
+      "price_min": 120000,
+      "price_max": 320000,
+      "unit_vi": "cái",
+      "section_vi": "Tủ lạnh",
+      "device_types": [
+        "refrigerator"
+      ]
+    },
+    {
+      "code": "RFS015",
+      "name_vi": "Tụ đề block",
+      "group_vi": "Linh kiện nhỏ",
+      "kind": "Start capacitor",
+      "price_min": 150000,
+      "price_max": 400000,
+      "unit_vi": "cái",
+      "section_vi": "Tủ lạnh",
+      "device_types": [
+        "refrigerator"
+      ]
+    },
+    {
+      "code": "RFS016",
+      "name_vi": "Tụ ngậm block",
+      "group_vi": "Linh kiện nhỏ",
+      "kind": "Run capacitor",
+      "price_min": 150000,
+      "price_max": 400000,
+      "unit_vi": "cái",
+      "section_vi": "Tủ lạnh",
+      "device_types": [
+        "refrigerator"
+      ]
+    },
+    {
+      "code": "RFS017",
+      "name_vi": "Quạt 12V DC",
+      "group_vi": "Linh kiện nhỏ",
+      "kind": "DC fan",
+      "price_min": 180000,
+      "price_max": 500000,
+      "unit_vi": "cái",
+      "section_vi": "Tủ lạnh",
+      "device_types": [
+        "refrigerator"
+      ]
+    },
+    {
+      "code": "RFS018",
+      "name_vi": "Quạt 220V AC",
+      "group_vi": "Linh kiện nhỏ",
+      "kind": "AC fan",
+      "price_min": 200000,
+      "price_max": 550000,
+      "unit_vi": "cái",
+      "section_vi": "Tủ lạnh",
+      "device_types": [
+        "refrigerator"
+      ]
+    },
+    {
+      "code": "RFS019",
+      "name_vi": "Cánh quạt dàn lạnh",
+      "group_vi": "Linh kiện nhỏ",
+      "kind": "Fan blade",
+      "price_min": 150000,
+      "price_max": 400000,
+      "unit_vi": "cái",
+      "section_vi": "Tủ lạnh",
+      "device_types": [
+        "refrigerator"
+      ]
+    },
+    {
+      "code": "RFS020",
+      "name_vi": "Cánh quạt dàn nóng",
+      "group_vi": "Linh kiện nhỏ",
+      "kind": "Fan blade",
+      "price_min": 180000,
+      "price_max": 450000,
+      "unit_vi": "cái",
+      "section_vi": "Tủ lạnh",
+      "device_types": [
+        "refrigerator"
+      ]
+    },
+    {
+      "code": "RFS021",
+      "name_vi": "Khay nước xả đá",
+      "group_vi": "Linh kiện nhỏ",
+      "kind": "Drain pan",
+      "price_min": 250000,
+      "price_max": 650000,
+      "unit_vi": "cái",
+      "section_vi": "Tủ lạnh",
+      "device_types": [
+        "refrigerator"
+      ]
+    },
+    {
+      "code": "RFS022",
+      "name_vi": "Ống dẫn nước xả đá",
+      "group_vi": "Linh kiện nhỏ",
+      "kind": "Drain hose",
+      "price_min": 100000,
+      "price_max": 300000,
+      "unit_vi": "dây",
+      "section_vi": "Tủ lạnh",
+      "device_types": [
+        "refrigerator"
+      ]
+    },
+    {
+      "code": "RFS023",
+      "name_vi": "Nút cao su thoát nước",
+      "group_vi": "Linh kiện nhỏ",
+      "kind": "Rubber plug",
+      "price_min": 30000,
+      "price_max": 100000,
+      "unit_vi": "cái",
+      "section_vi": "Tủ lạnh",
+      "device_types": [
+        "refrigerator"
+      ]
+    },
+    {
+      "code": "RFS024",
+      "name_vi": "Keo silicone thực phẩm",
+      "group_vi": "Consumable",
+      "kind": "Silicone sealant",
+      "price_min": 50000,
+      "price_max": 150000,
+      "unit_vi": "tuýp",
+      "section_vi": "Tủ lạnh",
+      "device_types": [
+        "refrigerator"
+      ]
+    },
+    {
+      "code": "RFS025",
+      "name_vi": "Băng nhôm dán dàn lạnh",
+      "group_vi": "Consumable",
+      "kind": "Aluminum tape",
+      "price_min": 30000,
+      "price_max": 100000,
+      "unit_vi": "cuộn",
+      "section_vi": "Tủ lạnh",
+      "device_types": [
+        "refrigerator"
+      ]
+    },
+    {
+      "code": "HA001",
+      "name_vi": "IGBT bếp từ 20A",
+      "group_vi": "Linh kiện",
+      "kind": "IGBT",
+      "price_min": 120000,
+      "price_max": 400000,
+      "unit_vi": "cái",
+      "section_vi": "Đồ điện gia dụng",
+      "device_types": [
+        "gas_stove",
+        "kettle",
+        "electric_fan",
+        "ceiling_fan",
+        "microwave_oven",
+        "oven",
+        "water_heater",
+        "light_bulb",
+        "power_outlet"
+      ]
+    },
+    {
+      "code": "HA002",
+      "name_vi": "IGBT bếp từ 30A",
+      "group_vi": "Linh kiện",
+      "kind": "IGBT",
+      "price_min": 150000,
+      "price_max": 500000,
+      "unit_vi": "cái",
+      "section_vi": "Đồ điện gia dụng",
+      "device_types": [
+        "gas_stove",
+        "kettle",
+        "electric_fan",
+        "ceiling_fan",
+        "microwave_oven",
+        "oven",
+        "water_heater",
+        "light_bulb",
+        "power_outlet"
+      ]
+    },
+    {
+      "code": "HA003",
+      "name_vi": "IGBT bếp từ công suất cao",
+      "group_vi": "Linh kiện",
+      "kind": "IGBT",
+      "price_min": 250000,
+      "price_max": 900000,
+      "unit_vi": "cái",
+      "section_vi": "Đồ điện gia dụng",
+      "device_types": [
+        "gas_stove",
+        "kettle",
+        "electric_fan",
+        "ceiling_fan",
+        "microwave_oven",
+        "oven",
+        "water_heater",
+        "light_bulb",
+        "power_outlet"
+      ]
+    },
+    {
+      "code": "HA004",
+      "name_vi": "Cầu diode bếp từ",
+      "group_vi": "Linh kiện",
+      "kind": "Bridge Rectifier",
+      "price_min": 100000,
+      "price_max": 350000,
+      "unit_vi": "cái",
+      "section_vi": "Đồ điện gia dụng",
+      "device_types": [
+        "gas_stove",
+        "kettle",
+        "electric_fan",
+        "ceiling_fan",
+        "microwave_oven",
+        "oven",
+        "water_heater",
+        "light_bulb",
+        "power_outlet"
+      ]
+    },
+    {
+      "code": "HA005",
+      "name_vi": "Tụ cộng hưởng bếp từ",
+      "group_vi": "Linh kiện",
+      "kind": "Resonant Capacitor",
+      "price_min": 100000,
+      "price_max": 400000,
+      "unit_vi": "cái",
+      "section_vi": "Đồ điện gia dụng",
+      "device_types": [
+        "gas_stove",
+        "kettle",
+        "electric_fan",
+        "ceiling_fan",
+        "microwave_oven",
+        "oven",
+        "water_heater",
+        "light_bulb",
+        "power_outlet"
+      ]
+    },
+    {
+      "code": "HA006",
+      "name_vi": "Tụ lọc nguồn bếp từ",
+      "group_vi": "Linh kiện",
+      "kind": "Filter Capacitor",
+      "price_min": 80000,
+      "price_max": 300000,
+      "unit_vi": "cái",
+      "section_vi": "Đồ điện gia dụng",
+      "device_types": [
+        "gas_stove",
+        "kettle",
+        "electric_fan",
+        "ceiling_fan",
+        "microwave_oven",
+        "oven",
+        "water_heater",
+        "light_bulb",
+        "power_outlet"
+      ]
+    },
+    {
+      "code": "HA007",
+      "name_vi": "Cuộn dây mâm từ đơn",
+      "group_vi": "Linh kiện",
+      "kind": "Induction Coil",
+      "price_min": 400000,
+      "price_max": 1200000,
+      "unit_vi": "cái",
+      "section_vi": "Đồ điện gia dụng",
+      "device_types": [
+        "gas_stove",
+        "kettle",
+        "electric_fan",
+        "ceiling_fan",
+        "microwave_oven",
+        "oven",
+        "water_heater",
+        "light_bulb",
+        "power_outlet"
+      ]
+    },
+    {
+      "code": "HA008",
+      "name_vi": "Mâm từ bếp đôi",
+      "group_vi": "Linh kiện",
+      "kind": "Induction Coil",
+      "price_min": 600000,
+      "price_max": 1800000,
+      "unit_vi": "cái",
+      "section_vi": "Đồ điện gia dụng",
+      "device_types": [
+        "gas_stove",
+        "kettle",
+        "electric_fan",
+        "ceiling_fan",
+        "microwave_oven",
+        "oven",
+        "water_heater",
+        "light_bulb",
+        "power_outlet"
+      ]
+    },
+    {
+      "code": "HA009",
+      "name_vi": "Quạt tản nhiệt bếp từ",
+      "group_vi": "Linh kiện",
+      "kind": "Cooling Fan",
+      "price_min": 200000,
+      "price_max": 700000,
+      "unit_vi": "cái",
+      "section_vi": "Đồ điện gia dụng",
+      "device_types": [
+        "gas_stove",
+        "kettle",
+        "electric_fan",
+        "ceiling_fan",
+        "microwave_oven",
+        "oven",
+        "water_heater",
+        "light_bulb",
+        "power_outlet"
+      ]
+    },
+    {
+      "code": "HA010",
+      "name_vi": "Cảm biến nhiệt bếp từ",
+      "group_vi": "Linh kiện",
+      "kind": "NTC Sensor",
+      "price_min": 120000,
+      "price_max": 450000,
+      "unit_vi": "cái",
+      "section_vi": "Đồ điện gia dụng",
+      "device_types": [
+        "gas_stove",
+        "kettle",
+        "electric_fan",
+        "ceiling_fan",
+        "microwave_oven",
+        "oven",
+        "water_heater",
+        "light_bulb",
+        "power_outlet"
+      ]
+    },
+    {
+      "code": "HA011",
+      "name_vi": "Bo nguồn bếp từ đơn",
+      "group_vi": "Linh kiện",
+      "kind": "Power PCB",
+      "price_min": 500000,
+      "price_max": 1500000,
+      "unit_vi": "bộ",
+      "section_vi": "Đồ điện gia dụng",
+      "device_types": [
+        "gas_stove",
+        "kettle",
+        "electric_fan",
+        "ceiling_fan",
+        "microwave_oven",
+        "oven",
+        "water_heater",
+        "light_bulb",
+        "power_outlet"
+      ]
+    },
+    {
+      "code": "HA012",
+      "name_vi": "Bo công suất bếp từ đôi",
+      "group_vi": "Linh kiện",
+      "kind": "Power PCB",
+      "price_min": 1000000,
+      "price_max": 3500000,
+      "unit_vi": "bộ",
+      "section_vi": "Đồ điện gia dụng",
+      "device_types": [
+        "gas_stove",
+        "kettle",
+        "electric_fan",
+        "ceiling_fan",
+        "microwave_oven",
+        "oven",
+        "water_heater",
+        "light_bulb",
+        "power_outlet"
+      ]
+    },
+    {
+      "code": "HA013",
+      "name_vi": "Bo cảm ứng bếp từ",
+      "group_vi": "Linh kiện",
+      "kind": "Touch PCB",
+      "price_min": 700000,
+      "price_max": 2500000,
+      "unit_vi": "bộ",
+      "section_vi": "Đồ điện gia dụng",
+      "device_types": [
+        "gas_stove",
+        "kettle",
+        "electric_fan",
+        "ceiling_fan",
+        "microwave_oven",
+        "oven",
+        "water_heater",
+        "light_bulb",
+        "power_outlet"
+      ]
+    },
+    {
+      "code": "HA014",
+      "name_vi": "Mặt kính bếp từ đơn",
+      "group_vi": "Linh kiện",
+      "kind": "Ceramic Glass",
+      "price_min": 500000,
+      "price_max": 1500000,
+      "unit_vi": "tấm",
+      "section_vi": "Đồ điện gia dụng",
+      "device_types": [
+        "gas_stove",
+        "kettle",
+        "electric_fan",
+        "ceiling_fan",
+        "microwave_oven",
+        "oven",
+        "water_heater",
+        "light_bulb",
+        "power_outlet"
+      ]
+    },
+    {
+      "code": "HA015",
+      "name_vi": "Mặt kính bếp từ đôi",
+      "group_vi": "Linh kiện",
+      "kind": "Ceramic Glass",
+      "price_min": 1200000,
+      "price_max": 4500000,
+      "unit_vi": "tấm",
+      "section_vi": "Đồ điện gia dụng",
+      "device_types": [
+        "gas_stove",
+        "kettle",
+        "electric_fan",
+        "ceiling_fan",
+        "microwave_oven",
+        "oven",
+        "water_heater",
+        "light_bulb",
+        "power_outlet"
+      ]
+    },
+    {
+      "code": "HA016",
+      "name_vi": "Magnetron lò vi sóng thường",
+      "group_vi": "Linh kiện",
+      "kind": "Magnetron",
+      "price_min": 450000,
+      "price_max": 850000,
+      "unit_vi": "cái",
+      "section_vi": "Đồ điện gia dụng",
+      "device_types": [
+        "gas_stove",
+        "kettle",
+        "electric_fan",
+        "ceiling_fan",
+        "microwave_oven",
+        "oven",
+        "water_heater",
+        "light_bulb",
+        "power_outlet"
+      ]
+    },
+    {
+      "code": "HA017",
+      "name_vi": "Magnetron lò vi sóng Inverter",
+      "group_vi": "Linh kiện",
+      "kind": "Magnetron",
+      "price_min": 750000,
+      "price_max": 1400000,
+      "unit_vi": "cái",
+      "section_vi": "Đồ điện gia dụng",
+      "device_types": [
+        "gas_stove",
+        "kettle",
+        "electric_fan",
+        "ceiling_fan",
+        "microwave_oven",
+        "oven",
+        "water_heater",
+        "light_bulb",
+        "power_outlet"
+      ]
+    },
+    {
+      "code": "HA018",
+      "name_vi": "Tụ cao áp lò vi sóng",
+      "group_vi": "Linh kiện",
+      "kind": "HV Capacitor",
+      "price_min": 180000,
+      "price_max": 450000,
+      "unit_vi": "cái",
+      "section_vi": "Đồ điện gia dụng",
+      "device_types": [
+        "gas_stove",
+        "kettle",
+        "electric_fan",
+        "ceiling_fan",
+        "microwave_oven",
+        "oven",
+        "water_heater",
+        "light_bulb",
+        "power_outlet"
+      ]
+    },
+    {
+      "code": "HA019",
+      "name_vi": "Diode cao áp lò vi sóng",
+      "group_vi": "Linh kiện",
+      "kind": "HV Diode",
+      "price_min": 100000,
+      "price_max": 300000,
+      "unit_vi": "cái",
+      "section_vi": "Đồ điện gia dụng",
+      "device_types": [
+        "gas_stove",
+        "kettle",
+        "electric_fan",
+        "ceiling_fan",
+        "microwave_oven",
+        "oven",
+        "water_heater",
+        "light_bulb",
+        "power_outlet"
+      ]
+    },
+    {
+      "code": "HA020",
+      "name_vi": "Biến áp cao áp lò vi sóng",
+      "group_vi": "Linh kiện",
+      "kind": "HV Transformer",
+      "price_min": 450000,
+      "price_max": 850000,
+      "unit_vi": "cái",
+      "section_vi": "Đồ điện gia dụng",
+      "device_types": [
+        "gas_stove",
+        "kettle",
+        "electric_fan",
+        "ceiling_fan",
+        "microwave_oven",
+        "oven",
+        "water_heater",
+        "light_bulb",
+        "power_outlet"
+      ]
+    },
+    {
+      "code": "HA021",
+      "name_vi": "Board Inverter lò vi sóng",
+      "group_vi": "Linh kiện",
+      "kind": "Inverter PCB",
+      "price_min": 800000,
+      "price_max": 1800000,
+      "unit_vi": "bộ",
+      "section_vi": "Đồ điện gia dụng",
+      "device_types": [
+        "gas_stove",
+        "kettle",
+        "electric_fan",
+        "ceiling_fan",
+        "microwave_oven",
+        "oven",
+        "water_heater",
+        "light_bulb",
+        "power_outlet"
+      ]
+    },
+    {
+      "code": "HA022",
+      "name_vi": "Motor đĩa quay",
+      "group_vi": "Linh kiện",
+      "kind": "Turntable Motor",
+      "price_min": 250000,
+      "price_max": 500000,
+      "unit_vi": "cái",
+      "section_vi": "Đồ điện gia dụng",
+      "device_types": [
+        "gas_stove",
+        "kettle",
+        "electric_fan",
+        "ceiling_fan",
+        "microwave_oven",
+        "oven",
+        "water_heater",
+        "light_bulb",
+        "power_outlet"
+      ]
+    },
+    {
+      "code": "HA023",
+      "name_vi": "Motor quạt lò vi sóng",
+      "group_vi": "Linh kiện",
+      "kind": "Cooling Fan Motor",
+      "price_min": 300000,
+      "price_max": 650000,
+      "unit_vi": "cái",
+      "section_vi": "Đồ điện gia dụng",
+      "device_types": [
+        "gas_stove",
+        "kettle",
+        "electric_fan",
+        "ceiling_fan",
+        "microwave_oven",
+        "oven",
+        "water_heater",
+        "light_bulb",
+        "power_outlet"
+      ]
+    },
+    {
+      "code": "HA024",
+      "name_vi": "Công tắc cửa lò vi sóng",
+      "group_vi": "Linh kiện",
+      "kind": "Door Microswitch",
+      "price_min": 100000,
+      "price_max": 300000,
+      "unit_vi": "cái",
+      "section_vi": "Đồ điện gia dụng",
+      "device_types": [
+        "gas_stove",
+        "kettle",
+        "electric_fan",
+        "ceiling_fan",
+        "microwave_oven",
+        "oven",
+        "water_heater",
+        "light_bulb",
+        "power_outlet"
+      ]
+    },
+    {
+      "code": "HA025",
+      "name_vi": "Đĩa thủy tinh lò vi sóng",
+      "group_vi": "Linh kiện",
+      "kind": "Glass Tray",
+      "price_min": 200000,
+      "price_max": 500000,
+      "unit_vi": "cái",
+      "section_vi": "Đồ điện gia dụng",
+      "device_types": [
+        "gas_stove",
+        "kettle",
+        "electric_fan",
+        "ceiling_fan",
+        "microwave_oven",
+        "oven",
+        "water_heater",
+        "light_bulb",
+        "power_outlet"
+      ]
+    },
+    {
+      "code": "HA026",
+      "name_vi": "Bo điều khiển lò vi sóng",
+      "group_vi": "Linh kiện",
+      "kind": "Control PCB",
+      "price_min": 500000,
+      "price_max": 1500000,
+      "unit_vi": "bộ",
+      "section_vi": "Đồ điện gia dụng",
+      "device_types": [
+        "gas_stove",
+        "kettle",
+        "electric_fan",
+        "ceiling_fan",
+        "microwave_oven",
+        "oven",
+        "water_heater",
+        "light_bulb",
+        "power_outlet"
+      ]
+    },
+    {
+      "code": "HA027",
+      "name_vi": "Mâm nhiệt nồi cơm",
+      "group_vi": "Linh kiện",
+      "kind": "Heating Plate",
+      "price_min": 200000,
+      "price_max": 650000,
+      "unit_vi": "cái",
+      "section_vi": "Đồ điện gia dụng",
+      "device_types": [
+        "gas_stove",
+        "kettle",
+        "electric_fan",
+        "ceiling_fan",
+        "microwave_oven",
+        "oven",
+        "water_heater",
+        "light_bulb",
+        "power_outlet"
+      ]
+    },
+    {
+      "code": "HA028",
+      "name_vi": "Cảm biến nhiệt nồi cơm",
+      "group_vi": "Linh kiện",
+      "kind": "Thermal Sensor",
+      "price_min": 100000,
+      "price_max": 350000,
+      "unit_vi": "cái",
+      "section_vi": "Đồ điện gia dụng",
+      "device_types": [
+        "gas_stove",
+        "kettle",
+        "electric_fan",
+        "ceiling_fan",
+        "microwave_oven",
+        "oven",
+        "water_heater",
+        "light_bulb",
+        "power_outlet"
+      ]
+    },
+    {
+      "code": "HA029",
+      "name_vi": "Cầu chì nhiệt nồi cơm",
+      "group_vi": "Linh kiện",
+      "kind": "Thermal Fuse",
+      "price_min": 50000,
+      "price_max": 180000,
+      "unit_vi": "cái",
+      "section_vi": "Đồ điện gia dụng",
+      "device_types": [
+        "gas_stove",
+        "kettle",
+        "electric_fan",
+        "ceiling_fan",
+        "microwave_oven",
+        "oven",
+        "water_heater",
+        "light_bulb",
+        "power_outlet"
+      ]
+    },
+    {
+      "code": "HA030",
+      "name_vi": "Thermostat nồi cơm cơ",
+      "group_vi": "Linh kiện",
+      "kind": "Thermostat",
+      "price_min": 100000,
+      "price_max": 300000,
+      "unit_vi": "cái",
+      "section_vi": "Đồ điện gia dụng",
+      "device_types": [
+        "gas_stove",
+        "kettle",
+        "electric_fan",
+        "ceiling_fan",
+        "microwave_oven",
+        "oven",
+        "water_heater",
+        "light_bulb",
+        "power_outlet"
+      ]
+    },
+    {
+      "code": "HA031",
+      "name_vi": "Bo nguồn nồi cơm điện tử",
+      "group_vi": "Linh kiện",
+      "kind": "Power PCB",
+      "price_min": 300000,
+      "price_max": 900000,
+      "unit_vi": "bộ",
+      "section_vi": "Đồ điện gia dụng",
+      "device_types": [
+        "gas_stove",
+        "kettle",
+        "electric_fan",
+        "ceiling_fan",
+        "microwave_oven",
+        "oven",
+        "water_heater",
+        "light_bulb",
+        "power_outlet"
+      ]
+    },
+    {
+      "code": "HA032",
+      "name_vi": "Bo hiển thị nồi cơm",
+      "group_vi": "Linh kiện",
+      "kind": "Display PCB",
+      "price_min": 250000,
+      "price_max": 800000,
+      "unit_vi": "bộ",
+      "section_vi": "Đồ điện gia dụng",
+      "device_types": [
+        "gas_stove",
+        "kettle",
+        "electric_fan",
+        "ceiling_fan",
+        "microwave_oven",
+        "oven",
+        "water_heater",
+        "light_bulb",
+        "power_outlet"
+      ]
+    },
+    {
+      "code": "HA033",
+      "name_vi": "Mâm từ nồi cơm IH",
+      "group_vi": "Linh kiện",
+      "kind": "IH Coil",
+      "price_min": 600000,
+      "price_max": 1800000,
+      "unit_vi": "bộ",
+      "section_vi": "Đồ điện gia dụng",
+      "device_types": [
+        "gas_stove",
+        "kettle",
+        "electric_fan",
+        "ceiling_fan",
+        "microwave_oven",
+        "oven",
+        "water_heater",
+        "light_bulb",
+        "power_outlet"
+      ]
+    },
+    {
+      "code": "HA034",
+      "name_vi": "Quạt làm mát nồi cơm IH",
+      "group_vi": "Linh kiện",
+      "kind": "Cooling Fan",
+      "price_min": 180000,
+      "price_max": 500000,
+      "unit_vi": "cái",
+      "section_vi": "Đồ điện gia dụng",
+      "device_types": [
+        "gas_stove",
+        "kettle",
+        "electric_fan",
+        "ceiling_fan",
+        "microwave_oven",
+        "oven",
+        "water_heater",
+        "light_bulb",
+        "power_outlet"
+      ]
+    },
+    {
+      "code": "HA035",
+      "name_vi": "Motor quạt điện",
+      "group_vi": "Linh kiện",
+      "kind": "Fan Motor",
+      "price_min": 250000,
+      "price_max": 850000,
+      "unit_vi": "cái",
+      "section_vi": "Đồ điện gia dụng",
+      "device_types": [
+        "gas_stove",
+        "kettle",
+        "electric_fan",
+        "ceiling_fan",
+        "microwave_oven",
+        "oven",
+        "water_heater",
+        "light_bulb",
+        "power_outlet"
+      ]
+    },
+    {
+      "code": "HA036",
+      "name_vi": "Tụ quạt 1.5µF",
+      "group_vi": "Linh kiện",
+      "kind": "Fan Capacitor",
+      "price_min": 50000,
+      "price_max": 150000,
+      "unit_vi": "cái",
+      "section_vi": "Đồ điện gia dụng",
+      "device_types": [
+        "gas_stove",
+        "kettle",
+        "electric_fan",
+        "ceiling_fan",
+        "microwave_oven",
+        "oven",
+        "water_heater",
+        "light_bulb",
+        "power_outlet"
+      ]
+    },
+    {
+      "code": "HA037",
+      "name_vi": "Tụ quạt 2µF",
+      "group_vi": "Linh kiện",
+      "kind": "Fan Capacitor",
+      "price_min": 50000,
+      "price_max": 180000,
+      "unit_vi": "cái",
+      "section_vi": "Đồ điện gia dụng",
+      "device_types": [
+        "gas_stove",
+        "kettle",
+        "electric_fan",
+        "ceiling_fan",
+        "microwave_oven",
+        "oven",
+        "water_heater",
+        "light_bulb",
+        "power_outlet"
+      ]
+    },
+    {
+      "code": "HA038",
+      "name_vi": "Tụ quạt 2.5µF",
+      "group_vi": "Linh kiện",
+      "kind": "Fan Capacitor",
+      "price_min": 60000,
+      "price_max": 180000,
+      "unit_vi": "cái",
+      "section_vi": "Đồ điện gia dụng",
+      "device_types": [
+        "gas_stove",
+        "kettle",
+        "electric_fan",
+        "ceiling_fan",
+        "microwave_oven",
+        "oven",
+        "water_heater",
+        "light_bulb",
+        "power_outlet"
+      ]
+    },
+    {
+      "code": "HA039",
+      "name_vi": "Bo điều khiển quạt remote",
+      "group_vi": "Linh kiện",
+      "kind": "Fan Control PCB",
+      "price_min": 200000,
+      "price_max": 750000,
+      "unit_vi": "bộ",
+      "section_vi": "Đồ điện gia dụng",
+      "device_types": [
+        "gas_stove",
+        "kettle",
+        "electric_fan",
+        "ceiling_fan",
+        "microwave_oven",
+        "oven",
+        "water_heater",
+        "light_bulb",
+        "power_outlet"
+      ]
+    },
+    {
+      "code": "HA040",
+      "name_vi": "Motor đảo quạt",
+      "group_vi": "Linh kiện",
+      "kind": "Oscillation Motor",
+      "price_min": 180000,
+      "price_max": 450000,
+      "unit_vi": "cái",
+      "section_vi": "Đồ điện gia dụng",
+      "device_types": [
+        "gas_stove",
+        "kettle",
+        "electric_fan",
+        "ceiling_fan",
+        "microwave_oven",
+        "oven",
+        "water_heater",
+        "light_bulb",
+        "power_outlet"
+      ]
+    },
+    {
+      "code": "HA041",
+      "name_vi": "Remote quạt",
+      "group_vi": "Linh kiện",
+      "kind": "Remote Control",
+      "price_min": 100000,
+      "price_max": 300000,
+      "unit_vi": "cái",
+      "section_vi": "Đồ điện gia dụng",
+      "device_types": [
+        "gas_stove",
+        "kettle",
+        "electric_fan",
+        "ceiling_fan",
+        "microwave_oven",
+        "oven",
+        "water_heater",
+        "light_bulb",
+        "power_outlet"
+      ]
+    },
+    {
+      "code": "HA042",
+      "name_vi": "Thanh đốt bình nóng lạnh 1500W",
+      "group_vi": "Linh kiện",
+      "kind": "Heating Element",
+      "price_min": 300000,
+      "price_max": 700000,
+      "unit_vi": "cái",
+      "section_vi": "Đồ điện gia dụng",
+      "device_types": [
+        "gas_stove",
+        "kettle",
+        "electric_fan",
+        "ceiling_fan",
+        "microwave_oven",
+        "oven",
+        "water_heater",
+        "light_bulb",
+        "power_outlet"
+      ]
+    },
+    {
+      "code": "HA043",
+      "name_vi": "Thanh đốt bình nóng lạnh 2500W",
+      "group_vi": "Linh kiện",
+      "kind": "Heating Element",
+      "price_min": 350000,
+      "price_max": 900000,
+      "unit_vi": "cái",
+      "section_vi": "Đồ điện gia dụng",
+      "device_types": [
+        "gas_stove",
+        "kettle",
+        "electric_fan",
+        "ceiling_fan",
+        "microwave_oven",
+        "oven",
+        "water_heater",
+        "light_bulb",
+        "power_outlet"
+      ]
+    },
+    {
+      "code": "HA044",
+      "name_vi": "Thermostat bình nóng lạnh",
+      "group_vi": "Linh kiện",
+      "kind": "Thermostat",
+      "price_min": 250000,
+      "price_max": 650000,
+      "unit_vi": "cái",
+      "section_vi": "Đồ điện gia dụng",
+      "device_types": [
+        "gas_stove",
+        "kettle",
+        "electric_fan",
+        "ceiling_fan",
+        "microwave_oven",
+        "oven",
+        "water_heater",
+        "light_bulb",
+        "power_outlet"
+      ]
+    },
+    {
+      "code": "HA045",
+      "name_vi": "ELCB chống giật",
+      "group_vi": "Linh kiện",
+      "kind": "ELCB/RCD",
+      "price_min": 300000,
+      "price_max": 850000,
+      "unit_vi": "cái",
+      "section_vi": "Đồ điện gia dụng",
+      "device_types": [
+        "gas_stove",
+        "kettle",
+        "electric_fan",
+        "ceiling_fan",
+        "microwave_oven",
+        "oven",
+        "water_heater",
+        "light_bulb",
+        "power_outlet"
+      ]
+    },
+    {
+      "code": "HA046",
+      "name_vi": "Van một chiều bình nóng lạnh",
+      "group_vi": "Linh kiện",
+      "kind": "Check Valve",
+      "price_min": 180000,
+      "price_max": 450000,
+      "unit_vi": "cái",
+      "section_vi": "Đồ điện gia dụng",
+      "device_types": [
+        "gas_stove",
+        "kettle",
+        "electric_fan",
+        "ceiling_fan",
+        "microwave_oven",
+        "oven",
+        "water_heater",
+        "light_bulb",
+        "power_outlet"
+      ]
+    },
+    {
+      "code": "HA047",
+      "name_vi": "Gioăng thanh đốt",
+      "group_vi": "Linh kiện",
+      "kind": "Heating Gasket",
+      "price_min": 80000,
+      "price_max": 220000,
+      "unit_vi": "cái",
+      "section_vi": "Đồ điện gia dụng",
+      "device_types": [
+        "gas_stove",
+        "kettle",
+        "electric_fan",
+        "ceiling_fan",
+        "microwave_oven",
+        "oven",
+        "water_heater",
+        "light_bulb",
+        "power_outlet"
+      ]
+    },
+    {
+      "code": "HA048",
+      "name_vi": "Bo nguồn máy lọc nước RO",
+      "group_vi": "Linh kiện",
+      "kind": "Power Supply",
+      "price_min": 250000,
+      "price_max": 700000,
+      "unit_vi": "bộ",
+      "section_vi": "Đồ điện gia dụng",
+      "device_types": [
+        "gas_stove",
+        "kettle",
+        "electric_fan",
+        "ceiling_fan",
+        "microwave_oven",
+        "oven",
+        "water_heater",
+        "light_bulb",
+        "power_outlet"
+      ]
+    },
+    {
+      "code": "HA049",
+      "name_vi": "Bơm RO 24V 50G",
+      "group_vi": "Linh kiện",
+      "kind": "RO Pump",
+      "price_min": 350000,
+      "price_max": 750000,
+      "unit_vi": "cái",
+      "section_vi": "Đồ điện gia dụng",
+      "device_types": [
+        "gas_stove",
+        "kettle",
+        "electric_fan",
+        "ceiling_fan",
+        "microwave_oven",
+        "oven",
+        "water_heater",
+        "light_bulb",
+        "power_outlet"
+      ]
+    },
+    {
+      "code": "HA050",
+      "name_vi": "Bơm RO 24V 100G",
+      "group_vi": "Linh kiện",
+      "kind": "RO Pump",
+      "price_min": 450000,
+      "price_max": 900000,
+      "unit_vi": "cái",
+      "section_vi": "Đồ điện gia dụng",
+      "device_types": [
+        "gas_stove",
+        "kettle",
+        "electric_fan",
+        "ceiling_fan",
+        "microwave_oven",
+        "oven",
+        "water_heater",
+        "light_bulb",
+        "power_outlet"
+      ]
+    },
+    {
+      "code": "HA051",
+      "name_vi": "Van điện từ RO",
+      "group_vi": "Linh kiện",
+      "kind": "Solenoid Valve",
+      "price_min": 150000,
+      "price_max": 400000,
+      "unit_vi": "cái",
+      "section_vi": "Đồ điện gia dụng",
+      "device_types": [
+        "gas_stove",
+        "kettle",
+        "electric_fan",
+        "ceiling_fan",
+        "microwave_oven",
+        "oven",
+        "water_heater",
+        "light_bulb",
+        "power_outlet"
+      ]
+    },
+    {
+      "code": "HA052",
+      "name_vi": "Van áp thấp RO",
+      "group_vi": "Linh kiện",
+      "kind": "Low Pressure Switch",
+      "price_min": 120000,
+      "price_max": 300000,
+      "unit_vi": "cái",
+      "section_vi": "Đồ điện gia dụng",
+      "device_types": [
+        "gas_stove",
+        "kettle",
+        "electric_fan",
+        "ceiling_fan",
+        "microwave_oven",
+        "oven",
+        "water_heater",
+        "light_bulb",
+        "power_outlet"
+      ]
+    },
+    {
+      "code": "HA053",
+      "name_vi": "Van áp cao RO",
+      "group_vi": "Linh kiện",
+      "kind": "High Pressure Switch",
+      "price_min": 120000,
+      "price_max": 300000,
+      "unit_vi": "cái",
+      "section_vi": "Đồ điện gia dụng",
+      "device_types": [
+        "gas_stove",
+        "kettle",
+        "electric_fan",
+        "ceiling_fan",
+        "microwave_oven",
+        "oven",
+        "water_heater",
+        "light_bulb",
+        "power_outlet"
+      ]
+    },
+    {
+      "code": "HA054",
+      "name_vi": "Van Flow RO",
+      "group_vi": "Linh kiện",
+      "kind": "Flow Restrictor",
+      "price_min": 80000,
+      "price_max": 250000,
+      "unit_vi": "cái",
+      "section_vi": "Đồ điện gia dụng",
+      "device_types": [
+        "gas_stove",
+        "kettle",
+        "electric_fan",
+        "ceiling_fan",
+        "microwave_oven",
+        "oven",
+        "water_heater",
+        "light_bulb",
+        "power_outlet"
+      ]
+    },
+    {
+      "code": "HA055",
+      "name_vi": "Bình áp RO 10L",
+      "group_vi": "Linh kiện",
+      "kind": "Pressure Tank",
+      "price_min": 450000,
+      "price_max": 850000,
+      "unit_vi": "bình",
+      "section_vi": "Đồ điện gia dụng",
+      "device_types": [
+        "gas_stove",
+        "kettle",
+        "electric_fan",
+        "ceiling_fan",
+        "microwave_oven",
+        "oven",
+        "water_heater",
+        "light_bulb",
+        "power_outlet"
+      ]
+    },
+    {
+      "code": "HA056",
+      "name_vi": "Lõi PP 5 micron",
+      "group_vi": "Linh kiện",
+      "kind": "Filter Cartridge",
+      "price_min": 50000,
+      "price_max": 150000,
+      "unit_vi": "lõi",
+      "section_vi": "Đồ điện gia dụng",
+      "device_types": [
+        "gas_stove",
+        "kettle",
+        "electric_fan",
+        "ceiling_fan",
+        "microwave_oven",
+        "oven",
+        "water_heater",
+        "light_bulb",
+        "power_outlet"
+      ]
+    },
+    {
+      "code": "HA057",
+      "name_vi": "Lõi CTO carbon",
+      "group_vi": "Linh kiện",
+      "kind": "Carbon Filter",
+      "price_min": 80000,
+      "price_max": 220000,
+      "unit_vi": "lõi",
+      "section_vi": "Đồ điện gia dụng",
+      "device_types": [
+        "gas_stove",
+        "kettle",
+        "electric_fan",
+        "ceiling_fan",
+        "microwave_oven",
+        "oven",
+        "water_heater",
+        "light_bulb",
+        "power_outlet"
+      ]
+    },
+    {
+      "code": "HA058",
+      "name_vi": "Lõi UDF/GAC",
+      "group_vi": "Linh kiện",
+      "kind": "Carbon Filter",
+      "price_min": 80000,
+      "price_max": 220000,
+      "unit_vi": "lõi",
+      "section_vi": "Đồ điện gia dụng",
+      "device_types": [
+        "gas_stove",
+        "kettle",
+        "electric_fan",
+        "ceiling_fan",
+        "microwave_oven",
+        "oven",
+        "water_heater",
+        "light_bulb",
+        "power_outlet"
+      ]
+    },
+    {
+      "code": "HA059",
+      "name_vi": "Màng RO 50GPD",
+      "group_vi": "Linh kiện",
+      "kind": "RO Membrane",
+      "price_min": 350000,
+      "price_max": 750000,
+      "unit_vi": "lõi",
+      "section_vi": "Đồ điện gia dụng",
+      "device_types": [
+        "gas_stove",
+        "kettle",
+        "electric_fan",
+        "ceiling_fan",
+        "microwave_oven",
+        "oven",
+        "water_heater",
+        "light_bulb",
+        "power_outlet"
+      ]
+    },
+    {
+      "code": "HA060",
+      "name_vi": "Màng RO 75GPD",
+      "group_vi": "Linh kiện",
+      "kind": "RO Membrane",
+      "price_min": 450000,
+      "price_max": 900000,
+      "unit_vi": "lõi",
+      "section_vi": "Đồ điện gia dụng",
+      "device_types": [
+        "gas_stove",
+        "kettle",
+        "electric_fan",
+        "ceiling_fan",
+        "microwave_oven",
+        "oven",
+        "water_heater",
+        "light_bulb",
+        "power_outlet"
+      ]
+    },
+    {
+      "code": "HA061",
+      "name_vi": "Màng RO 100GPD",
+      "group_vi": "Linh kiện",
+      "kind": "RO Membrane",
+      "price_min": 550000,
+      "price_max": 1200000,
+      "unit_vi": "lõi",
+      "section_vi": "Đồ điện gia dụng",
+      "device_types": [
+        "gas_stove",
+        "kettle",
+        "electric_fan",
+        "ceiling_fan",
+        "microwave_oven",
+        "oven",
+        "water_heater",
+        "light_bulb",
+        "power_outlet"
+      ]
+    },
+    {
+      "code": "HA062",
+      "name_vi": "Vòi máy lọc nước",
+      "group_vi": "Linh kiện",
+      "kind": "RO Faucet",
+      "price_min": 180000,
+      "price_max": 550000,
+      "unit_vi": "cái",
+      "section_vi": "Đồ điện gia dụng",
+      "device_types": [
+        "gas_stove",
+        "kettle",
+        "electric_fan",
+        "ceiling_fan",
+        "microwave_oven",
+        "oven",
+        "water_heater",
+        "light_bulb",
+        "power_outlet"
+      ]
+    },
+    {
+      "code": "HA063",
+      "name_vi": "Adapter máy lọc nước 24V",
+      "group_vi": "Linh kiện",
+      "kind": "Power Adapter",
+      "price_min": 200000,
+      "price_max": 500000,
+      "unit_vi": "cái",
+      "section_vi": "Đồ điện gia dụng",
+      "device_types": [
+        "gas_stove",
+        "kettle",
+        "electric_fan",
+        "ceiling_fan",
+        "microwave_oven",
+        "oven",
+        "water_heater",
+        "light_bulb",
+        "power_outlet"
+      ]
+    },
+    {
+      "code": "HA064",
+      "name_vi": "Cảm biến chống tràn RO",
+      "group_vi": "Linh kiện",
+      "kind": "Leak Sensor",
+      "price_min": 180000,
+      "price_max": 450000,
+      "unit_vi": "cái",
+      "section_vi": "Đồ điện gia dụng",
+      "device_types": [
+        "gas_stove",
+        "kettle",
+        "electric_fan",
+        "ceiling_fan",
+        "microwave_oven",
+        "oven",
+        "water_heater",
+        "light_bulb",
+        "power_outlet"
+      ]
+    },
+    {
+      "code": "HA065",
+      "name_vi": "Bo điều khiển nóng lạnh cây nước",
+      "group_vi": "Linh kiện",
+      "kind": "Control PCB",
+      "price_min": 350000,
+      "price_max": 950000,
+      "unit_vi": "bộ",
+      "section_vi": "Đồ điện gia dụng",
+      "device_types": [
+        "gas_stove",
+        "kettle",
+        "electric_fan",
+        "ceiling_fan",
+        "microwave_oven",
+        "oven",
+        "water_heater",
+        "light_bulb",
+        "power_outlet"
+      ]
+    },
+    {
+      "code": "HAS001",
+      "name_vi": "Dây nguồn 2x0.75 mm²",
+      "group_vi": "Vật tư điện",
+      "kind": "Power cord",
+      "price_min": 50000,
+      "price_max": 180000,
+      "unit_vi": "dây",
+      "section_vi": "Đồ điện gia dụng",
+      "device_types": [
+        "gas_stove",
+        "kettle",
+        "electric_fan",
+        "ceiling_fan",
+        "microwave_oven",
+        "oven",
+        "water_heater",
+        "light_bulb",
+        "power_outlet"
+      ]
+    },
+    {
+      "code": "HAS002",
+      "name_vi": "Dây nguồn 3x1.0 mm²",
+      "group_vi": "Vật tư điện",
+      "kind": "Power cord",
+      "price_min": 80000,
+      "price_max": 250000,
+      "unit_vi": "dây",
+      "section_vi": "Đồ điện gia dụng",
+      "device_types": [
+        "gas_stove",
+        "kettle",
+        "electric_fan",
+        "ceiling_fan",
+        "microwave_oven",
+        "oven",
+        "water_heater",
+        "light_bulb",
+        "power_outlet"
+      ]
+    },
+    {
+      "code": "HAS003",
+      "name_vi": "Dây nguồn 3x1.5 mm²",
+      "group_vi": "Vật tư điện",
+      "kind": "Power cord",
+      "price_min": 120000,
+      "price_max": 350000,
+      "unit_vi": "dây",
+      "section_vi": "Đồ điện gia dụng",
+      "device_types": [
+        "gas_stove",
+        "kettle",
+        "electric_fan",
+        "ceiling_fan",
+        "microwave_oven",
+        "oven",
+        "water_heater",
+        "light_bulb",
+        "power_outlet"
+      ]
+    },
+    {
+      "code": "HAS004",
+      "name_vi": "Phích cắm 2 chấu",
+      "group_vi": "Linh kiện nhỏ",
+      "kind": "Power plug",
+      "price_min": 20000,
+      "price_max": 80000,
+      "unit_vi": "cái",
+      "section_vi": "Đồ điện gia dụng",
+      "device_types": [
+        "gas_stove",
+        "kettle",
+        "electric_fan",
+        "ceiling_fan",
+        "microwave_oven",
+        "oven",
+        "water_heater",
+        "light_bulb",
+        "power_outlet"
+      ]
+    },
+    {
+      "code": "HAS005",
+      "name_vi": "Phích cắm 3 chấu",
+      "group_vi": "Linh kiện nhỏ",
+      "kind": "Power plug",
+      "price_min": 30000,
+      "price_max": 120000,
+      "unit_vi": "cái",
+      "section_vi": "Đồ điện gia dụng",
+      "device_types": [
+        "gas_stove",
+        "kettle",
+        "electric_fan",
+        "ceiling_fan",
+        "microwave_oven",
+        "oven",
+        "water_heater",
+        "light_bulb",
+        "power_outlet"
+      ]
+    },
+    {
+      "code": "HAS006",
+      "name_vi": "Cầu chì 5A",
+      "group_vi": "Linh kiện nhỏ",
+      "kind": "Fuse",
+      "price_min": 10000,
+      "price_max": 40000,
+      "unit_vi": "cái",
+      "section_vi": "Đồ điện gia dụng",
+      "device_types": [
+        "gas_stove",
+        "kettle",
+        "electric_fan",
+        "ceiling_fan",
+        "microwave_oven",
+        "oven",
+        "water_heater",
+        "light_bulb",
+        "power_outlet"
+      ]
+    },
+    {
+      "code": "HAS007",
+      "name_vi": "Cầu chì 10A",
+      "group_vi": "Linh kiện nhỏ",
+      "kind": "Fuse",
+      "price_min": 10000,
+      "price_max": 50000,
+      "unit_vi": "cái",
+      "section_vi": "Đồ điện gia dụng",
+      "device_types": [
+        "gas_stove",
+        "kettle",
+        "electric_fan",
+        "ceiling_fan",
+        "microwave_oven",
+        "oven",
+        "water_heater",
+        "light_bulb",
+        "power_outlet"
+      ]
+    },
+    {
+      "code": "HAS008",
+      "name_vi": "Cầu chì 15A",
+      "group_vi": "Linh kiện nhỏ",
+      "kind": "Fuse",
+      "price_min": 15000,
+      "price_max": 60000,
+      "unit_vi": "cái",
+      "section_vi": "Đồ điện gia dụng",
+      "device_types": [
+        "gas_stove",
+        "kettle",
+        "electric_fan",
+        "ceiling_fan",
+        "microwave_oven",
+        "oven",
+        "water_heater",
+        "light_bulb",
+        "power_outlet"
+      ]
+    },
+    {
+      "code": "HAS009",
+      "name_vi": "Cầu chì nhiệt 130°C",
+      "group_vi": "Linh kiện nhỏ",
+      "kind": "Thermal fuse",
+      "price_min": 20000,
+      "price_max": 80000,
+      "unit_vi": "cái",
+      "section_vi": "Đồ điện gia dụng",
+      "device_types": [
+        "gas_stove",
+        "kettle",
+        "electric_fan",
+        "ceiling_fan",
+        "microwave_oven",
+        "oven",
+        "water_heater",
+        "light_bulb",
+        "power_outlet"
+      ]
+    },
+    {
+      "code": "HAS010",
+      "name_vi": "Cầu chì nhiệt 184°C",
+      "group_vi": "Linh kiện nhỏ",
+      "kind": "Thermal fuse",
+      "price_min": 20000,
+      "price_max": 80000,
+      "unit_vi": "cái",
+      "section_vi": "Đồ điện gia dụng",
+      "device_types": [
+        "gas_stove",
+        "kettle",
+        "electric_fan",
+        "ceiling_fan",
+        "microwave_oven",
+        "oven",
+        "water_heater",
+        "light_bulb",
+        "power_outlet"
+      ]
+    },
+    {
+      "code": "HAS011",
+      "name_vi": "Cầu chì nhiệt 216°C",
+      "group_vi": "Linh kiện nhỏ",
+      "kind": "Thermal fuse",
+      "price_min": 20000,
+      "price_max": 90000,
+      "unit_vi": "cái",
+      "section_vi": "Đồ điện gia dụng",
+      "device_types": [
+        "gas_stove",
+        "kettle",
+        "electric_fan",
+        "ceiling_fan",
+        "microwave_oven",
+        "oven",
+        "water_heater",
+        "light_bulb",
+        "power_outlet"
+      ]
+    },
+    {
+      "code": "HAS012",
+      "name_vi": "Relay 5V PCB",
+      "group_vi": "Linh kiện nhỏ",
+      "kind": "PCB relay",
+      "price_min": 30000,
+      "price_max": 120000,
+      "unit_vi": "cái",
+      "section_vi": "Đồ điện gia dụng",
+      "device_types": [
+        "gas_stove",
+        "kettle",
+        "electric_fan",
+        "ceiling_fan",
+        "microwave_oven",
+        "oven",
+        "water_heater",
+        "light_bulb",
+        "power_outlet"
+      ]
+    },
+    {
+      "code": "HAS013",
+      "name_vi": "Relay 12V PCB",
+      "group_vi": "Linh kiện nhỏ",
+      "kind": "PCB relay",
+      "price_min": 40000,
+      "price_max": 150000,
+      "unit_vi": "cái",
+      "section_vi": "Đồ điện gia dụng",
+      "device_types": [
+        "gas_stove",
+        "kettle",
+        "electric_fan",
+        "ceiling_fan",
+        "microwave_oven",
+        "oven",
+        "water_heater",
+        "light_bulb",
+        "power_outlet"
+      ]
+    },
+    {
+      "code": "HAS014",
+      "name_vi": "Triac BT136",
+      "group_vi": "Linh kiện nhỏ",
+      "kind": "Triac",
+      "price_min": 20000,
+      "price_max": 70000,
+      "unit_vi": "cái",
+      "section_vi": "Đồ điện gia dụng",
+      "device_types": [
+        "gas_stove",
+        "kettle",
+        "electric_fan",
+        "ceiling_fan",
+        "microwave_oven",
+        "oven",
+        "water_heater",
+        "light_bulb",
+        "power_outlet"
+      ]
+    },
+    {
+      "code": "HAS015",
+      "name_vi": "Triac BTA16",
+      "group_vi": "Linh kiện nhỏ",
+      "kind": "Triac",
+      "price_min": 30000,
+      "price_max": 100000,
+      "unit_vi": "cái",
+      "section_vi": "Đồ điện gia dụng",
+      "device_types": [
+        "gas_stove",
+        "kettle",
+        "electric_fan",
+        "ceiling_fan",
+        "microwave_oven",
+        "oven",
+        "water_heater",
+        "light_bulb",
+        "power_outlet"
+      ]
+    },
+    {
+      "code": "HAS016",
+      "name_vi": "Triac BTA41",
+      "group_vi": "Linh kiện nhỏ",
+      "kind": "Triac",
+      "price_min": 60000,
+      "price_max": 180000,
+      "unit_vi": "cái",
+      "section_vi": "Đồ điện gia dụng",
+      "device_types": [
+        "gas_stove",
+        "kettle",
+        "electric_fan",
+        "ceiling_fan",
+        "microwave_oven",
+        "oven",
+        "water_heater",
+        "light_bulb",
+        "power_outlet"
+      ]
+    },
+    {
+      "code": "HAS017",
+      "name_vi": "Cầu diode KBPC",
+      "group_vi": "Linh kiện nhỏ",
+      "kind": "Bridge rectifier",
+      "price_min": 30000,
+      "price_max": 120000,
+      "unit_vi": "cái",
+      "section_vi": "Đồ điện gia dụng",
+      "device_types": [
+        "gas_stove",
+        "kettle",
+        "electric_fan",
+        "ceiling_fan",
+        "microwave_oven",
+        "oven",
+        "water_heater",
+        "light_bulb",
+        "power_outlet"
+      ]
+    },
+    {
+      "code": "HAS018",
+      "name_vi": "Tụ X2 chống nhiễu",
+      "group_vi": "Linh kiện nhỏ",
+      "kind": "Safety capacitor",
+      "price_min": 20000,
+      "price_max": 80000,
+      "unit_vi": "cái",
+      "section_vi": "Đồ điện gia dụng",
+      "device_types": [
+        "gas_stove",
+        "kettle",
+        "electric_fan",
+        "ceiling_fan",
+        "microwave_oven",
+        "oven",
+        "water_heater",
+        "light_bulb",
+        "power_outlet"
+      ]
+    },
+    {
+      "code": "HAS019",
+      "name_vi": "Tụ điện phân 400V",
+      "group_vi": "Linh kiện nhỏ",
+      "kind": "Electrolytic capacitor",
+      "price_min": 30000,
+      "price_max": 150000,
+      "unit_vi": "cái",
+      "section_vi": "Đồ điện gia dụng",
+      "device_types": [
+        "gas_stove",
+        "kettle",
+        "electric_fan",
+        "ceiling_fan",
+        "microwave_oven",
+        "oven",
+        "water_heater",
+        "light_bulb",
+        "power_outlet"
+      ]
+    },
+    {
+      "code": "HAS020",
+      "name_vi": "MOV chống sét",
+      "group_vi": "Linh kiện nhỏ",
+      "kind": "MOV",
+      "price_min": 15000,
+      "price_max": 70000,
+      "unit_vi": "cái",
+      "section_vi": "Đồ điện gia dụng",
+      "device_types": [
+        "gas_stove",
+        "kettle",
+        "electric_fan",
+        "ceiling_fan",
+        "microwave_oven",
+        "oven",
+        "water_heater",
+        "light_bulb",
+        "power_outlet"
+      ]
+    },
+    {
+      "code": "HAS021",
+      "name_vi": "NTC hạn dòng",
+      "group_vi": "Linh kiện nhỏ",
+      "kind": "NTC",
+      "price_min": 15000,
+      "price_max": 70000,
+      "unit_vi": "cái",
+      "section_vi": "Đồ điện gia dụng",
+      "device_types": [
+        "gas_stove",
+        "kettle",
+        "electric_fan",
+        "ceiling_fan",
+        "microwave_oven",
+        "oven",
+        "water_heater",
+        "light_bulb",
+        "power_outlet"
+      ]
+    },
+    {
+      "code": "HAS022",
+      "name_vi": "Microswitch 10A",
+      "group_vi": "Linh kiện nhỏ",
+      "kind": "Microswitch",
+      "price_min": 30000,
+      "price_max": 100000,
+      "unit_vi": "cái",
+      "section_vi": "Đồ điện gia dụng",
+      "device_types": [
+        "gas_stove",
+        "kettle",
+        "electric_fan",
+        "ceiling_fan",
+        "microwave_oven",
+        "oven",
+        "water_heater",
+        "light_bulb",
+        "power_outlet"
+      ]
+    },
+    {
+      "code": "HAS023",
+      "name_vi": "Microswitch 16A",
+      "group_vi": "Linh kiện nhỏ",
+      "kind": "Microswitch",
+      "price_min": 40000,
+      "price_max": 120000,
+      "unit_vi": "cái",
+      "section_vi": "Đồ điện gia dụng",
+      "device_types": [
+        "gas_stove",
+        "kettle",
+        "electric_fan",
+        "ceiling_fan",
+        "microwave_oven",
+        "oven",
+        "water_heater",
+        "light_bulb",
+        "power_outlet"
+      ]
+    },
+    {
+      "code": "HAS024",
+      "name_vi": "Công tắc rocker",
+      "group_vi": "Linh kiện nhỏ",
+      "kind": "Rocker switch",
+      "price_min": 30000,
+      "price_max": 100000,
+      "unit_vi": "cái",
+      "section_vi": "Đồ điện gia dụng",
+      "device_types": [
+        "gas_stove",
+        "kettle",
+        "electric_fan",
+        "ceiling_fan",
+        "microwave_oven",
+        "oven",
+        "water_heater",
+        "light_bulb",
+        "power_outlet"
+      ]
+    },
+    {
+      "code": "HAS025",
+      "name_vi": "Đèn báo neon 220V",
+      "group_vi": "Linh kiện nhỏ",
+      "kind": "Indicator lamp",
+      "price_min": 20000,
+      "price_max": 70000,
+      "unit_vi": "cái",
+      "section_vi": "Đồ điện gia dụng",
+      "device_types": [
+        "gas_stove",
+        "kettle",
+        "electric_fan",
+        "ceiling_fan",
+        "microwave_oven",
+        "oven",
+        "water_heater",
+        "light_bulb",
+        "power_outlet"
+      ]
+    },
+    {
+      "code": "HAS026",
+      "name_vi": "LED báo nguồn",
+      "group_vi": "Linh kiện nhỏ",
+      "kind": "Indicator LED",
+      "price_min": 5000,
+      "price_max": 30000,
+      "unit_vi": "cái",
+      "section_vi": "Đồ điện gia dụng",
+      "device_types": [
+        "gas_stove",
+        "kettle",
+        "electric_fan",
+        "ceiling_fan",
+        "microwave_oven",
+        "oven",
+        "water_heater",
+        "light_bulb",
+        "power_outlet"
+      ]
+    },
+    {
+      "code": "HAS027",
+      "name_vi": "Đầu cos Faston 4.8 mm",
+      "group_vi": "Linh kiện nhỏ",
+      "kind": "Faston terminal",
+      "price_min": 1000,
+      "price_max": 5000,
+      "unit_vi": "cái",
+      "section_vi": "Đồ điện gia dụng",
+      "device_types": [
+        "gas_stove",
+        "kettle",
+        "electric_fan",
+        "ceiling_fan",
+        "microwave_oven",
+        "oven",
+        "water_heater",
+        "light_bulb",
+        "power_outlet"
+      ]
+    },
+    {
+      "code": "HAS028",
+      "name_vi": "Đầu cos Faston 6.3 mm",
+      "group_vi": "Linh kiện nhỏ",
+      "kind": "Faston terminal",
+      "price_min": 1000,
+      "price_max": 6000,
+      "unit_vi": "cái",
+      "section_vi": "Đồ điện gia dụng",
+      "device_types": [
+        "gas_stove",
+        "kettle",
+        "electric_fan",
+        "ceiling_fan",
+        "microwave_oven",
+        "oven",
+        "water_heater",
+        "light_bulb",
+        "power_outlet"
+      ]
+    },
+    {
+      "code": "HAS029",
+      "name_vi": "Ống co nhiệt Φ3",
+      "group_vi": "Consumable",
+      "kind": "Heat shrink tube",
+      "price_min": 3000,
+      "price_max": 10000,
+      "unit_vi": "mét",
+      "section_vi": "Đồ điện gia dụng",
+      "device_types": [
+        "gas_stove",
+        "kettle",
+        "electric_fan",
+        "ceiling_fan",
+        "microwave_oven",
+        "oven",
+        "water_heater",
+        "light_bulb",
+        "power_outlet"
+      ]
+    },
+    {
+      "code": "HAS030",
+      "name_vi": "Ống co nhiệt Φ6",
+      "group_vi": "Consumable",
+      "kind": "Heat shrink tube",
+      "price_min": 5000,
+      "price_max": 15000,
+      "unit_vi": "mét",
+      "section_vi": "Đồ điện gia dụng",
+      "device_types": [
+        "gas_stove",
+        "kettle",
+        "electric_fan",
+        "ceiling_fan",
+        "microwave_oven",
+        "oven",
+        "water_heater",
+        "light_bulb",
+        "power_outlet"
+      ]
+    },
+    {
+      "code": "HAS031",
+      "name_vi": "Ống co nhiệt Φ10",
+      "group_vi": "Consumable",
+      "kind": "Heat shrink tube",
+      "price_min": 7000,
+      "price_max": 20000,
+      "unit_vi": "mét",
+      "section_vi": "Đồ điện gia dụng",
+      "device_types": [
+        "gas_stove",
+        "kettle",
+        "electric_fan",
+        "ceiling_fan",
+        "microwave_oven",
+        "oven",
+        "water_heater",
+        "light_bulb",
+        "power_outlet"
+      ]
+    },
+    {
+      "code": "HAS032",
+      "name_vi": "Dây rút nhựa 10 cm",
+      "group_vi": "Consumable",
+      "kind": "Cable tie",
+      "price_min": 300,
+      "price_max": 1000,
+      "unit_vi": "sợi",
+      "section_vi": "Đồ điện gia dụng",
+      "device_types": [
+        "gas_stove",
+        "kettle",
+        "electric_fan",
+        "ceiling_fan",
+        "microwave_oven",
+        "oven",
+        "water_heater",
+        "light_bulb",
+        "power_outlet"
+      ]
+    },
+    {
+      "code": "HAS033",
+      "name_vi": "Dây rút nhựa 20 cm",
+      "group_vi": "Consumable",
+      "kind": "Cable tie",
+      "price_min": 500,
+      "price_max": 2000,
+      "unit_vi": "sợi",
+      "section_vi": "Đồ điện gia dụng",
+      "device_types": [
+        "gas_stove",
+        "kettle",
+        "electric_fan",
+        "ceiling_fan",
+        "microwave_oven",
+        "oven",
+        "water_heater",
+        "light_bulb",
+        "power_outlet"
+      ]
+    },
+    {
+      "code": "HAS034",
+      "name_vi": "Keo silicone chịu nhiệt",
+      "group_vi": "Consumable",
+      "kind": "Silicone",
+      "price_min": 50000,
+      "price_max": 150000,
+      "unit_vi": "tuýp",
+      "section_vi": "Đồ điện gia dụng",
+      "device_types": [
+        "gas_stove",
+        "kettle",
+        "electric_fan",
+        "ceiling_fan",
+        "microwave_oven",
+        "oven",
+        "water_heater",
+        "light_bulb",
+        "power_outlet"
+      ]
+    },
+    {
+      "code": "HAS035",
+      "name_vi": "Keo tản nhiệt linh kiện công suất",
+      "group_vi": "Consumable",
+      "kind": "Thermal paste",
+      "price_min": 30000,
+      "price_max": 150000,
+      "unit_vi": "tuýp",
+      "section_vi": "Đồ điện gia dụng",
+      "device_types": [
+        "gas_stove",
+        "kettle",
+        "electric_fan",
+        "ceiling_fan",
+        "microwave_oven",
+        "oven",
+        "water_heater",
+        "light_bulb",
+        "power_outlet"
+      ]
+    }
+  ]
+}
