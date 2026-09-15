@@ -26,6 +26,8 @@ jobs:
         run: ruff check app tests
       - name: Unit tests
         run: pytest
+        env:
+          AI_ENGINE: mock
       - name: Import and compile check
         run: |
           python -c "from app.main import app; assert app.title == 'FixHome AI Service'"
@@ -41,4 +43,4 @@ jobs:
           done
           exit 1
         env:
-          AI_PROVIDER: mock
+          AI_ENGINE: mock

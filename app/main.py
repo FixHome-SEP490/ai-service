@@ -20,8 +20,8 @@ app.add_middleware(
     CORSMiddleware,
     allow_origins=settings.CORS_ORIGINS,
     allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
+    allow_methods=["POST", "GET"],
+    allow_headers=["Content-Type", "X-API-Key"],
 )
 
 # Include API routes
@@ -34,6 +34,6 @@ async def health_check():
     return {
         "status": "ok",
         "service": "fixhome-ai-service",
-        "provider": settings.AI_PROVIDER,
+        "engine": settings.AI_ENGINE,
         "version": "0.1.0",
     }

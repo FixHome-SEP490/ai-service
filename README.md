@@ -2,7 +2,7 @@
 
 <p align="center">
   <strong>FastAPI AI Diagnosis Service cho nền tảng sửa chữa & bảo trì tại nhà FixHome</strong><br>
-  <em>Hỗ trợ chẩn đoán sự cố thông minh bằng Gemini / OpenAI API</em>
+  <em>Chẩn đoán sơ bộ bằng pipeline tự host: YOLOv8n phát hiện thiết bị, Qwen2.5-VL đọc ảnh và mô tả, tri thức có kiểm duyệt ràng buộc đầu ra</em>
 </p>
 
 ---
@@ -13,7 +13,9 @@
 |-----------|-----------|
 | Framework | FastAPI |
 | Language | Python 3.11+ |
-| AI Provider | Gemini / OpenAI API |
+| Detector | YOLOv8n (Ultralytics) |
+| Vision-language | Qwen2.5-VL-3B-Instruct AWQ qua vLLM |
+| Grounding | Retrieval trên bảng tri thức có kiểm duyệt |
 | Testing | Pytest |
 
 ## Prerequisites
@@ -63,13 +65,21 @@ curl http://localhost:8000/health
 │   ├── schemas/
 │   │   ├── diagnosis.py     # Request/response schemas
 │   │   └── health.py        # Health check schema
-│   └── services/
-│       ├── ai_provider.py       # Abstract AI provider
-│       ├── gemini_provider.py   # Google Gemini implementation
-│       └── openai_provider.py   # OpenAI implementation
+│   ├── services/
+│   │   ├── ai_provider.py       # Contract, factory, mock engine
+│   │   └── pipeline/
+│   │       ├── detector.py         # YOLOv8n stage
+│   │       ├── retriever.py        # Retrieval over the knowledge base
+│   │       ├── vlm.py              # Qwen2.5-VL stage
+│   │       ├── knowledge_base.py   # Curated catalog loader
+│   │       └── local_pipeline.py   # Orchestrator
+│   └── data/
+│       ├── device_catalog.json         # Closed device + condition vocabulary
+│       └── fault_knowledge_base.json   # Faults, services, prices, policies
 ├── tests/
 │   ├── test_health.py
-│   └── test_provider_abstraction.py
+│   ├── test_provider_abstraction.py
+│   └── test_pipeline.py
 ├── requirements.txt
 └── .env.example
 ```
@@ -79,6 +89,9 @@ curl http://localhost:8000/health
 See [.env.example](.env.example) for all required variables.
 
 > **Note:** AI Service is **advisory only** — it must never control transactions, approve quotations, or change order state.
+
+Chạy mặc định không cần GPU hay weights: detector và VLM có bản stub tất định. Đặt `YOLO_WEIGHTS_PATH`
+và `VLM_BASE_URL` để chuyển sang mô hình thật, cài thêm `requirements-model.txt`.
 
 ## Verification
 

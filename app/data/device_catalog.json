@@ -1,0 +1,23 @@
+{
+  "version": "2026-09-15",
+  "devices": [
+    { "device_type": "air_conditioner", "name_vi": "Máy lạnh", "service_group": "SVG_AC" },
+    { "device_type": "electric_fan", "name_vi": "Quạt điện", "service_group": "SVG_APPLIANCE" },
+    { "device_type": "washing_machine", "name_vi": "Máy giặt", "service_group": "SVG_APPLIANCE" },
+    { "device_type": "refrigerator", "name_vi": "Tủ lạnh", "service_group": "SVG_APPLIANCE" },
+    { "device_type": "water_heater", "name_vi": "Máy nước nóng", "service_group": "SVG_ELECTRIC" },
+    { "device_type": "power_outlet", "name_vi": "Ổ cắm điện", "service_group": "SVG_ELECTRIC" },
+    { "device_type": "water_pipe", "name_vi": "Đường ống nước", "service_group": "SVG_PLUMBING" },
+    { "device_type": "faucet", "name_vi": "Vòi nước", "service_group": "SVG_PLUMBING" }
+  ],
+  "visible_conditions": [
+    { "code": "burn_mark", "name_vi": "Vết cháy xém" },
+    { "code": "crack", "name_vi": "Nứt vỡ" },
+    { "code": "scratch", "name_vi": "Trầy xước" },
+    { "code": "rust", "name_vi": "Rỉ sét" },
+    { "code": "water_leak", "name_vi": "Rò rỉ, đọng nước" },
+    { "code": "ice_buildup", "name_vi": "Đóng tuyết" },
+    { "code": "dust_buildup", "name_vi": "Bám bụi bẩn dày" },
+    { "code": "aged", "name_vi": "Cũ, xuống cấp" }
+  ]
+}
