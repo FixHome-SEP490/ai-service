@@ -125,7 +125,7 @@ Chi tiết trong [docs/DATASET-AND-TRAINING.md](docs/DATASET-AND-TRAINING.md).
 ```bash
 python tools/build_dataset.py report                 # lớp nào có sẵn box, lớp nào phải tự thu
 python tools/build_dataset.py download --limit-per-class 400
-python tools/crawl_images.py fetch --all             # ảnh đặc thù Việt Nam
+python tools/collect_images.py import --device power_outlet --from <folder>             # ảnh đặc thù Việt Nam
 python tools/autolabel.py run --all                  # sinh box nháp
 python tools/autolabel.py review --device power_outlet
 python tools/build_dataset.py export --include-reviewed
