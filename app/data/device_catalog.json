@@ -246,7 +246,7 @@
       "device_type": "water_pipe",
       "name_vi": "Đường ống nước",
       "service_group": "SVG_PLUMBING",
-      "detector_class": false,
+      "detector_class": true,
       "open_images_class": null,
       "aliases_vi": [
         "ống nước",
@@ -255,7 +255,8 @@
         "ống dẫn nước",
         "mối nối ống"
       ],
-      "confusable_with": []
+      "confusable_with": [],
+      "source_note": "774 anh tu thu thap, bat detector_class sau khi co du lieu"
     },
     {
       "device_type": "water_heater",
