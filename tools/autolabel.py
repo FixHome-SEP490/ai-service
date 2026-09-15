@@ -141,6 +141,28 @@ def box_quality(box: Tuple[float, float, float, float]) -> float:
     return max(0.0, min(1.0, area_score))
 
 
+def quality_of_label(label_path: Path) -> float:
+    """Score a box straight from its label file.
+
+    Derived rather than stored. An earlier version wrote the scores to a sidecar
+    during labelling, the write was silently absent, and promote then defaulted
+    every missing score to 1.0 and let everything through — a filter that
+    reported doing its job while passing every image. Reading the box back means
+    the score cannot go missing, because it is the same file the box lives in.
+    """
+    try:
+        parts = label_path.read_text(encoding="utf-8").split()
+    except OSError:
+        return 0.0
+    if len(parts) < 5:
+        return 0.0
+    try:
+        box = tuple(float(v) for v in parts[1:5])
+    except ValueError:
+        return 0.0
+    return box_quality(box)
+
+
 def box_from_background(path: Path) -> Optional[Tuple[float, float, float, float]]:
     """Box around everything that is not the backdrop, or None.
 
@@ -369,14 +391,8 @@ def cmd_review(args: argparse.Namespace) -> None:
     known = class_index()
     classes = sorted(known, key=known.get)
 
-    quality_path = DRAFT_ROOT / device / "quality.json"
-    quality = (
-        json.loads(quality_path.read_text(encoding="utf-8"))
-        if quality_path.exists()
-        else {}
-    )
-
     samples = []
+    quality: Dict[str, float] = {}
     for image_path in sorted(images_dir.glob("*.jpg")):
         label_path = labels_dir / f"{image_path.stem}.txt"
         if not label_path.exists():
@@ -398,7 +414,9 @@ def cmd_review(args: argparse.Namespace) -> None:
         # Sort on this in the app: the doubtful boxes come first, so attention
         # goes where the mistakes are rather than spreading evenly across
         # eight thousand images.
-        sample["box_quality"] = quality.get(image_path.stem, 0.0)
+        score = quality_of_label(label_path)
+        quality[image_path.stem] = score
+        sample["box_quality"] = score
         samples.append(sample)
 
     dataset.add_samples(samples)
@@ -498,16 +516,9 @@ def _promote_drafts(args: argparse.Namespace) -> None:
         if device not in known or not labels_dir.exists():
             continue
 
-        quality_path = DRAFT_ROOT / device / "quality.json"
-        quality = (
-            json.loads(quality_path.read_text(encoding="utf-8"))
-            if quality_path.exists()
-            else {}
-        )
-
         device_kept = device_skipped = 0
         for label_path in sorted(labels_dir.glob("*.txt")):
-            if quality.get(label_path.stem, 1.0) < args.min_quality:
+            if quality_of_label(label_path) < args.min_quality:
                 device_skipped += 1
                 continue
             image_path = COLLECTED_ROOT / device / f"{label_path.stem}.jpg"
