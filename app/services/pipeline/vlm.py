@@ -16,9 +16,27 @@ invented content.
 from __future__ import annotations
 
 from dataclasses import dataclass, field
-from typing import List, Optional, Protocol
+from typing import List, Optional, Protocol, Tuple
 
 from app.services.pipeline.images import ImagePayload
+
+
+@dataclass(frozen=True)
+class FaultCandidate:
+    """One option on the shortlist, with enough context to judge it.
+
+    Sending bare codes made the model guess: `AC_LOW_REFRIGERANT` carries no
+    information about what that fault looks like, so it had nothing to compare
+    the customer's words against and was effectively picking from a list of
+    opaque strings. The name and the symptoms are what make it a decision.
+    """
+
+    code: str
+    name_vi: str
+    symptoms_vi: List[str]
+    retrieval_score: float = 0.0
+    """How well the description already matched, so the model knows what
+    retrieval thought before it looks at the photograph."""
 
 
 @dataclass(frozen=True)
@@ -36,8 +54,8 @@ class VisionLanguageModel(Protocol):
         crop: Optional[ImagePayload],
         description: str,
         device_type: Optional[str],
-        candidate_fault_codes: List[str],
-        candidate_condition_codes: List[str],
+        candidates: List[FaultCandidate],
+        candidate_condition_codes: List[Tuple[str, str]],
     ) -> VlmVerdict:
         ...
 
@@ -54,13 +72,13 @@ class StubVlm:
         crop: Optional[ImagePayload],
         description: str,
         device_type: Optional[str],
-        candidate_fault_codes: List[str],
-        candidate_condition_codes: List[str],
+        candidates: List[FaultCandidate],
+        candidate_condition_codes: List[Tuple[str, str]],
     ) -> VlmVerdict:
         return VlmVerdict(
-            fault_codes=candidate_fault_codes[:2],
+            fault_codes=[c.code for c in candidates][:2],
             condition_codes=[],
-            confidence=0.72 if candidate_fault_codes else 0.0,
+            confidence=0.72 if candidates else 0.0,
         )
 
     async def answer(self, question: str, passages_vi: List[str]) -> tuple[str, float]:
@@ -98,14 +116,14 @@ class QwenVlm:
         crop: Optional[ImagePayload],
         description: str,
         device_type: Optional[str],
-        candidate_fault_codes: List[str],
-        candidate_condition_codes: List[str],
+        candidates: List[FaultCandidate],
+        candidate_condition_codes: List[Tuple[str, str]],
     ) -> VlmVerdict:
         return await self._client.assess(
             crop=crop,
             description=description,
             device_type=device_type,
-            candidate_fault_codes=candidate_fault_codes,
+            candidates=candidates,
             candidate_condition_codes=candidate_condition_codes,
         )
 

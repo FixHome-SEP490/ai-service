@@ -13,9 +13,35 @@ from PIL import Image
 
 from app.services.pipeline.images import load_image
 from app.services.pipeline.qwen_client import QwenClient, _parse_verdict
+from app.services.pipeline.vlm import FaultCandidate
 
 FAULTS = ["AC_LOW_REFRIGERANT", "AC_DIRTY_FILTER", "AC_DRAIN_BLOCKED"]
 CONDITIONS = ["burn_mark", "rust", "water_leak"]
+
+CANDIDATES = [
+    FaultCandidate(
+        code="AC_LOW_REFRIGERANT",
+        name_vi="Thiếu gas",
+        symptoms_vi=["không mát", "chạy liên tục"],
+        retrieval_score=0.61,
+    ),
+    FaultCandidate(
+        code="AC_DIRTY_FILTER",
+        name_vi="Bẩn lưới lọc",
+        symptoms_vi=["có mùi", "gió yếu"],
+        retrieval_score=0.42,
+    ),
+    FaultCandidate(
+        code="AC_DRAIN_BLOCKED",
+        name_vi="Nghẹt thoát nước",
+        symptoms_vi=["chảy nước"],
+    ),
+]
+CONDITION_PAIRS = [
+    ("burn_mark", "Vết cháy xém"),
+    ("rust", "Rỉ sét"),
+    ("water_leak", "Rò rỉ, đọng nước"),
+]
 
 
 def _payload() -> str:
@@ -146,7 +172,7 @@ async def test_assess_does_not_call_the_model_without_candidates(monkeypatch):
         return '{"fault_codes": ["X"], "confidence": 1}'
 
     monkeypatch.setattr(client, "_chat", fake_chat)
-    verdict = await client.assess(None, "hư rồi", "air_conditioner", [], CONDITIONS)
+    verdict = await client.assess(None, "hư rồi", "air_conditioner", [], CONDITION_PAIRS)
 
     assert called is False
     assert verdict.fault_codes == []
@@ -157,7 +183,7 @@ async def test_assess_sends_the_crop_as_an_image_part(monkeypatch):
     client = _client(monkeypatch, '{"fault_codes": ["AC_DIRTY_FILTER"], "confidence": 0.7}')
     crop = load_image(_payload())
 
-    await client.assess(crop, "máy lạnh hôi", "air_conditioner", FAULTS, CONDITIONS)
+    await client.assess(crop, "máy lạnh hôi", "air_conditioner", CANDIDATES, CONDITION_PAIRS)
 
     user = client._fake.messages[-1]["content"]
     assert any(part.get("type") == "image_url" for part in user)
@@ -168,7 +194,7 @@ async def test_assess_sends_the_crop_as_an_image_part(monkeypatch):
 async def test_assess_works_without_an_image(monkeypatch):
     client = _client(monkeypatch, '{"fault_codes": ["AC_DIRTY_FILTER"], "confidence": 0.7}')
 
-    verdict = await client.assess(None, "máy lạnh hôi", None, FAULTS, CONDITIONS)
+    verdict = await client.assess(None, "máy lạnh hôi", None, CANDIDATES, CONDITION_PAIRS)
 
     user = client._fake.messages[-1]["content"]
     assert all(part.get("type") != "image_url" for part in user)
@@ -179,7 +205,7 @@ async def test_assess_works_without_an_image(monkeypatch):
 async def test_prompt_lists_only_the_allowed_codes(monkeypatch):
     client = _client(monkeypatch, '{"fault_codes": ["AC_DIRTY_FILTER"], "confidence": 0.7}')
 
-    await client.assess(None, "hôi", "air_conditioner", FAULTS, CONDITIONS)
+    await client.assess(None, "hôi", "air_conditioner", CANDIDATES, CONDITION_PAIRS)
 
     text = next(
         part["text"]
@@ -188,13 +214,18 @@ async def test_prompt_lists_only_the_allowed_codes(monkeypatch):
     )
     for code in FAULTS + CONDITIONS:
         assert code in text
+    # The names and symptoms are what make it a decision rather than a guess.
+    for candidate in CANDIDATES:
+        assert candidate.name_vi in text
+        for symptom in candidate.symptoms_vi:
+            assert symptom in text
 
 
 @pytest.mark.asyncio
 async def test_transport_failure_yields_an_empty_verdict(monkeypatch):
     client = _client(monkeypatch, None)
 
-    verdict = await client.assess(None, "máy lạnh hôi", None, FAULTS, CONDITIONS)
+    verdict = await client.assess(None, "máy lạnh hôi", None, CANDIDATES, CONDITION_PAIRS)
 
     assert verdict.fault_codes == []
     assert verdict.confidence == 0.0

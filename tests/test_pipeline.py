@@ -25,6 +25,7 @@ class _FixedVlm:
         self._verdict = verdict
 
     async def assess(self, *args, **kwargs) -> VlmVerdict:
+        self.last_kwargs = kwargs
         return self._verdict
 
     async def answer(self, question: str, passages_vi: list[str]):
