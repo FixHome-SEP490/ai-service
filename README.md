@@ -118,12 +118,24 @@ uvicorn app.main:app --port 8000
 python tools/demo_app.py          # http://127.0.0.1:7860
 ```
 
-### Dataset
+### Dataset và train
+
+Chi tiết trong [docs/DATASET-AND-TRAINING.md](docs/DATASET-AND-TRAINING.md).
 
 ```bash
-python tools/build_dataset.py report                        # lớp nào có sẵn, lớp nào phải tự thu
+python tools/build_dataset.py report                 # lớp nào có sẵn box, lớp nào phải tự thu
 python tools/build_dataset.py download --limit-per-class 400
-python tools/build_dataset.py export --out datasets/fixhome
+python tools/crawl_images.py fetch --all             # ảnh đặc thù Việt Nam
+python tools/autolabel.py run --all                  # sinh box nháp
+python tools/autolabel.py review --device power_outlet
+python tools/build_dataset.py export --include-reviewed
+```
+
+Train trên máy thuê, không phải cài lại gì:
+
+```bash
+docker build -f docker/train/Dockerfile -t <user>/fixhome-trainer:1.0 .
+docker run --gpus all --rm -e HF_TOKEN=...   -e HF_DATASET_REPO=<user>/fixhome-devices   -e HF_WEIGHTS_REPO=<user>/fixhome-detector   <user>/fixhome-trainer:1.0 train
 ```
 
 ## Verification

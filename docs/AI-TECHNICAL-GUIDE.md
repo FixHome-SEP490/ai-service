@@ -77,7 +77,9 @@ Preserve this abstraction. Do not put engine conditionals or raw model output in
 - `app/services/pipeline/`: detector, retriever, VLM adapter, knowledge-base loader, orchestrator.
 - `app/data/`: device catalog, fault knowledge base and service mapping. Curated by the team; the
   single source of every Vietnamese string, price range and urgency the service returns.
-- `tools/`: Gradio demo and the Open Images dataset builder. Never imported by the service.
+- `tools/`: Gradio demo, dataset builder, image crawler and auto-labeller. Never imported by the
+  service, and never a runtime dependency.
+- `docker/train/`: pinned training image and its entry point. See `docs/DATASET-AND-TRAINING.md`.
 - `app/core/`: configuration and service exception behavior.
 - `tests/`: health and provider-contract unit tests.
 - `requirements.txt`: runtime/test packages currently needed by the service.
