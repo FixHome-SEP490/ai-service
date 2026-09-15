@@ -102,13 +102,29 @@ class PriceEstimate(BaseModel):
     """Indicative only. Never a quotation and never a customer approval."""
 
     min: int = Field(ge=0)
-    max: int = Field(ge=0)
+
+    max: Optional[int] = Field(default=None, ge=0)
+    """Absent when no ceiling can be put on the job.
+
+    Either the cost is open-ended — a cracked TV panel, a holed water heater —
+    or the price tables cover no labour for the work and no part stands in for
+    it. Zero was the obvious sentinel and the wrong one: it cannot be told apart
+    from a job that costs nothing, and it breaks the ordering rule below.
+    Callers should show `requires_assessment` wording rather than a number."""
+
     currency: str = "VND"
+
+    requires_assessment: bool = False
+    """A technician has to look before this can be priced at all."""
 
     @model_validator(mode="after")
     def check_order(self) -> "PriceEstimate":
-        if self.min > self.max:
+        if self.max is not None and self.min > self.max:
             raise ValueError("price_estimate.min must not exceed price_estimate.max")
+        if self.max is None and not self.requires_assessment:
+            raise ValueError(
+                "price_estimate.max may only be omitted when requires_assessment is set"
+            )
         return self
 
 

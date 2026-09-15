@@ -14,7 +14,7 @@ file is then the whole integration, with no change to the fault data or code.
 from __future__ import annotations
 
 import json
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from functools import lru_cache
 from pathlib import Path
 from typing import Dict, List, Optional
@@ -38,6 +38,21 @@ class Fault:
     Estimated ranges are usable for an advisory figure but must not be presented
     as authoritative, and the team needs to see at a glance which entries are
     still guesses."""
+
+    requires_assessment: bool = False
+    """The tables cannot put a ceiling on this one.
+
+    Either the cost is genuinely open-ended — a cracked TV panel, a holed water
+    heater — or no labour row covers the work and no part stands in for it, so
+    the only figure available is the inspection fee. Showing that as a confident
+    number would read as the price of the repair. `price_max` is 0 here, and the
+    customer is told a technician has to look."""
+
+    labour_code: Optional[str] = None
+    part_codes: List[str] = field(default_factory=list)
+    """What the range was computed from, so a quote can be traced back."""
+
+    price_note_vi: Optional[str] = None
 
 
 @dataclass(frozen=True)

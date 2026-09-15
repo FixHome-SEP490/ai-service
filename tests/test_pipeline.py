@@ -83,7 +83,14 @@ async def test_vietnamese_content_comes_from_knowledge_base():
     fault = kb.fault("FAN_WORN_BEARING")
     assert response.suspected_faults[0].name_vi == fault.name_vi
     assert response.price_estimate.min == fault.price_min
-    assert response.price_estimate.max == fault.price_max
+    if fault.requires_assessment:
+        # No labour row covers re-oiling a fan bearing and no part stands in for
+        # it, so the tables can offer a floor and nothing above it. Quoting the
+        # inspection fee as the whole job would be the wrong kind of precise.
+        assert response.price_estimate.max is None
+        assert response.price_estimate.requires_assessment
+    else:
+        assert response.price_estimate.max == fault.price_max
     assert response.urgency == UrgencyLevel(fault.urgency)
 
 

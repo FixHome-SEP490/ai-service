@@ -63,6 +63,45 @@ Khi thiếu công, sàn lùi về phí kiểm tra tại nhà 100.000đ. Trung th
 nói rằng sửa tủ lạnh bắt đầu từ 100.000đ, điều đúng về mặt chữ nghĩa và dễ gây
 hiểu nhầm. Bảy dòng bổ sung vào bảng 8.3.1 sẽ xử lý xong chuyện này.
 
+## Con số được tính ra sao
+
+Mỗi bệnh trong `fault_pricing_map.json` trỏ tới một mã tiền công và vài mã linh
+kiện đại diện. `tools/price_faults.py` lấy đó dựng ra khoảng giá rồi ghi thẳng
+vào bảng bệnh, thay hết các con số tôi ước lượng trước đây. Sàn là giá tiền công
+của mã dịch vụ, trần là sàn cộng **mức giữa** khoảng giá của từng linh kiện, làm
+tròn tới chục nghìn.
+
+Mười hai bệnh chỉ hiện **một con số** chứ không hiện khoảng, vì chúng đúng là
+một dịch vụ trọn gói: vệ sinh máy lạnh, vệ sinh máy giặt, súc bình nóng lạnh,
+thay ổ cắm, thay bóng đèn. Không có linh kiện nào phải mua thêm nên không có
+trần để mà nói.
+
+## Khi hai bảng không đủ để báo giá
+
+Mười tám bệnh **không hiện trần**. Một phần vì chi phí vốn dĩ mở: vỡ tấm nền TV,
+thủng bình nóng lạnh, rò chân bồn cầu, nước đục do rỉ đường ống. Phần còn lại vì
+hai bảng hiện tại không đỡ nổi: không có dòng tiền công nào cho việc đó và cũng
+không có linh kiện nào đại diện được.
+
+Nhóm thứ hai mới là chỗ dễ sai. Nếu cứ để nguyên, "nghẹt bồn cầu" sẽ hiện đúng
+100.000đ — phí kiểm tra tại nhà — nhìn vừa rẻ vừa chắc chắn và sai hoàn toàn.
+Nên `price_faults.py` tự đánh dấu mọi bệnh chỉ có `DIAGNOSE_ONSITE` mà không có
+linh kiện nào là **cần khảo sát**, thay vì để nó báo một con số mà dữ liệu không
+đỡ được.
+
+Trong phản hồi API, `priceEstimate.max` khi đó là `null` kèm
+`requiresAssessment: true`. Số 0 từng là lựa chọn hiển nhiên và là lựa chọn sai:
+không phân biệt được với công việc không mất tiền, và nó phá luôn ràng buộc
+sàn ≤ trần.
+
+Nếu trong một ca có nhiều bệnh nghi ngờ mà chỉ một bệnh cần khảo sát thì cả ca
+bỏ trần. Lấy trần cao nhất của các bệnh còn lại là đặt một con số chắc nịch lên
+tình huống chưa ai định giá được, và khách sẽ đọc con số thấp đó như toàn bộ
+chi phí.
+
+Bảy dòng tiền công còn thiếu ở mục 8.3.1 sẽ kéo phần lớn nhóm này về lại có
+trần.
+
 ## Quan hệ với báo giá chính thức
 
 Khoảng giá này **chỉ là tham khảo** và không ràng buộc ai. Báo giá chính thức do
