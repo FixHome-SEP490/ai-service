@@ -112,6 +112,7 @@ class LocalPipelineProvider(AIProvider):
                 base_url=settings.VLM_BASE_URL,
                 model_name=settings.VLM_MODEL_NAME,
                 timeout_seconds=settings.VLM_TIMEOUT_SECONDS,
+                api_key=settings.VLM_API_KEY or None,
             )
             if settings.VLM_BASE_URL
             else StubVlm()

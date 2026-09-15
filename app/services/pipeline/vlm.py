@@ -72,16 +72,26 @@ class StubVlm:
 class QwenVlm:
     """Qwen2.5-VL-3B-Instruct AWQ served through vLLM.
 
-    Sampling is deterministic (temperature 0) so the same photo and description
-    always produce the same result, which is what makes the fixed regression set
-    meaningful. Generation is constrained to the candidate codes supplied by the
-    caller, so the model cannot name a device or fault outside the catalog.
+    A thin wrapper so the pipeline keeps depending on the protocol above rather
+    than on an HTTP client. The request building, validation and failure
+    handling live in `qwen_client`.
     """
 
-    def __init__(self, base_url: str, model_name: str, timeout_seconds: float) -> None:
-        self._base_url = base_url
-        self._model_name = model_name
-        self._timeout_seconds = timeout_seconds
+    def __init__(
+        self,
+        base_url: str,
+        model_name: str,
+        timeout_seconds: float,
+        api_key: Optional[str] = None,
+    ) -> None:
+        from app.services.pipeline.qwen_client import QwenClient
+
+        self._client = QwenClient(
+            base_url=base_url,
+            model_name=model_name,
+            timeout_seconds=timeout_seconds,
+            api_key=api_key,
+        )
 
     async def assess(
         self,
@@ -91,11 +101,13 @@ class QwenVlm:
         candidate_fault_codes: List[str],
         candidate_condition_codes: List[str],
     ) -> VlmVerdict:
-        raise NotImplementedError(
-            "QwenVlm requires a running vLLM endpoint; see docs/AI-TECHNICAL-GUIDE.md"
+        return await self._client.assess(
+            crop=crop,
+            description=description,
+            device_type=device_type,
+            candidate_fault_codes=candidate_fault_codes,
+            candidate_condition_codes=candidate_condition_codes,
         )
 
     async def answer(self, question: str, passages_vi: List[str]) -> tuple[str, float]:
-        raise NotImplementedError(
-            "QwenVlm requires a running vLLM endpoint; see docs/AI-TECHNICAL-GUIDE.md"
-        )
+        return await self._client.answer(question, passages_vi)
