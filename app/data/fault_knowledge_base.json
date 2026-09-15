@@ -1,38 +1,370 @@
 {
   "version": "2026-09-15",
+  "_comment_vi": "Bang tri thuc benh - tai san rieng cua AI Service. Moi chuoi tieng Viet tra ve cho khach deu lay tu day, mo hinh chi tra ve ma. Trieu chung viet theo cach khach hang mo ta chu khong theo thuat ngu ky thuat, vi truy xuat khop voi loi cua khach. price_reviewed=false nghia la khoang gia moi la uoc luong, can nguoi ra soat theo gia thi truong truoc khi dua vao van hanh. Ma dich vu cua Backend nam o service_mapping.json.",
   "faults": [
     {
       "fault_code": "AC_LOW_REFRIGERANT",
       "device_type": "air_conditioner",
-      "name_vi": "Thiếu gas làm lạnh",
+      "name_vi": "Thiếu gas, xì gas",
       "symptoms_vi": [
         "không mát",
         "kém lạnh",
         "chạy lâu mới mát",
-        "hơi ra yếu"
+        "hơi ra yếu",
+        "máy chạy liên tục không ngắt",
+        "dàn lạnh bám tuyết mỏng",
+        "mở 16 độ vẫn không mát",
+        "lạnh yếu hơn trước",
+        "chạy cả ngày không lạnh",
+        "gió ra không lạnh",
+        "máy lạnh không lạnh sâu",
+        "điện tăng mà phòng không mát",
+        "đường ống đồng bám tuyết"
       ],
       "price_min": 300000,
       "price_max": 800000,
+      "price_reviewed": false,
       "urgency": "MEDIUM",
       "suggested_actions_vi": [
-        "Tắt máy để tránh chạy quá tải máy nén"
+        "Tắt máy để tránh máy nén chạy quá tải trong tình trạng thiếu gas"
       ]
     },
     {
-      "fault_code": "AC_DIRTY_COIL",
+      "fault_code": "AC_DIRTY_FILTER",
       "device_type": "air_conditioner",
-      "name_vi": "Bẩn dàn lạnh, nghẹt lọc gió",
+      "name_vi": "Bẩn lưới lọc và dàn lạnh",
       "symptoms_vi": [
         "hôi",
+        "có mùi",
+        "mùi ẩm mốc",
         "gió yếu",
         "lâu không vệ sinh",
-        "chảy nước"
+        "bụi bám",
+        "thổi ra bụi",
+        "mùi khó chịu khi mới bật",
+        "hắt hơi khi bật máy lạnh",
+        "lưới lọc đen",
+        "gió ra ít hơn trước",
+        "cả năm chưa vệ sinh"
       ],
       "price_min": 150000,
       "price_max": 350000,
+      "price_reviewed": false,
       "urgency": "LOW",
       "suggested_actions_vi": [
         "Tháo và rửa lưới lọc gió nếu thao tác được an toàn"
+      ]
+    },
+    {
+      "fault_code": "AC_DRAIN_BLOCKED",
+      "device_type": "air_conditioner",
+      "name_vi": "Nghẹt đường thoát nước ngưng",
+      "symptoms_vi": [
+        "chảy nước",
+        "nhỏ nước xuống sàn",
+        "ướt tường dưới dàn lạnh",
+        "nước rỉ ra từ máy",
+        "máy lạnh bị dột",
+        "nước nhỏ giọt vào giường",
+        "ẩm tường chỗ gắn máy",
+        "chảy nước khi bật lâu",
+        "đọng nước dưới máy lạnh",
+        "nước tràn ra mặt nạ"
+      ],
+      "price_min": 200000,
+      "price_max": 450000,
+      "price_reviewed": false,
+      "urgency": "MEDIUM",
+      "suggested_actions_vi": [
+        "Hứng nước tạm và tắt máy để tránh thấm tường và chập điện"
+      ]
+    },
+    {
+      "fault_code": "AC_COMPRESSOR_FAULT",
+      "device_type": "air_conditioner",
+      "name_vi": "Hỏng máy nén",
+      "symptoms_vi": [
+        "cục nóng không chạy",
+        "kêu to rồi tắt",
+        "nhảy aptomat khi bật",
+        "quạt chạy mà không lạnh",
+        "máy nén nóng bất thường",
+        "cục nóng ù ù rồi im",
+        "ngoài trời không chạy",
+        "block không lên",
+        "chạy vài phút rồi ngắt",
+        "cục nóng rung mạnh"
+      ],
+      "price_min": 2000000,
+      "price_max": 5000000,
+      "price_reviewed": false,
+      "urgency": "HIGH",
+      "suggested_actions_vi": [
+        "Ngắt nguồn máy lạnh",
+        "Không bật lại để tránh hỏng lan sang bo mạch"
+      ]
+    },
+    {
+      "fault_code": "AC_PCB_FAULT",
+      "device_type": "air_conditioner",
+      "name_vi": "Lỗi bo mạch điều khiển",
+      "symptoms_vi": [
+        "không nhận remote",
+        "tự tắt",
+        "nháy đèn báo lỗi",
+        "bật không lên",
+        "chớp đèn liên tục",
+        "hiện mã lỗi",
+        "bấm remote không ăn",
+        "tự bật tự tắt",
+        "đèn xanh nhấp nháy",
+        "màn hình hiện chữ lạ",
+        "máy không phản hồi"
+      ],
+      "price_min": 800000,
+      "price_max": 2500000,
+      "price_reviewed": false,
+      "urgency": "MEDIUM",
+      "suggested_actions_vi": [
+        "Ngắt nguồn và ghi lại mã lỗi hoặc kiểu nháy đèn để báo kỹ thuật viên"
+      ]
+    },
+    {
+      "fault_code": "AC_INDOOR_FAN_MOTOR",
+      "device_type": "air_conditioner",
+      "name_vi": "Hỏng mô tơ quạt dàn lạnh",
+      "symptoms_vi": [
+        "quạt trong nhà không quay",
+        "gió rất yếu",
+        "kêu rít",
+        "có tiếng va đập trong dàn lạnh",
+        "quạt quay chậm",
+        "nghe tiếng ù trong máy",
+        "cánh quạt lồng sóc không quay",
+        "bật lên không có gió"
+      ],
+      "price_min": 500000,
+      "price_max": 1200000,
+      "price_reviewed": false,
+      "urgency": "MEDIUM",
+      "suggested_actions_vi": [
+        "Tắt máy để tránh dàn lạnh đóng băng do thiếu lưu lượng gió"
+      ]
+    },
+    {
+      "fault_code": "AC_OUTDOOR_FAN_MOTOR",
+      "device_type": "air_conditioner",
+      "name_vi": "Hỏng quạt cục nóng",
+      "symptoms_vi": [
+        "quạt ngoài trời không quay",
+        "cục nóng nóng ran",
+        "cục nóng kêu to",
+        "quạt ngoài quay chậm",
+        "cánh quạt cục nóng đứng yên",
+        "máy chạy một lúc thì ngắt"
+      ],
+      "price_min": 400000,
+      "price_max": 1000000,
+      "price_reviewed": false,
+      "urgency": "MEDIUM",
+      "suggested_actions_vi": [
+        "Tắt máy vì cục nóng không tản nhiệt sẽ làm hỏng máy nén"
+      ]
+    },
+    {
+      "fault_code": "AC_CAPACITOR",
+      "device_type": "air_conditioner",
+      "name_vi": "Hỏng tụ điện",
+      "symptoms_vi": [
+        "cục nóng ù không chạy",
+        "quạt cục nóng phải quay tay mới chạy",
+        "bật lên nghe ù rồi tắt",
+        "máy nén không khởi động được"
+      ],
+      "price_min": 250000,
+      "price_max": 600000,
+      "price_reviewed": false,
+      "urgency": "MEDIUM",
+      "suggested_actions_vi": [
+        "Ngắt nguồn, không dùng vật gì tác động vào cánh quạt"
+      ]
+    },
+    {
+      "fault_code": "AC_ICING",
+      "device_type": "air_conditioner",
+      "name_vi": "Đóng tuyết dàn lạnh",
+      "symptoms_vi": [
+        "đóng tuyết",
+        "đóng đá ở dàn lạnh",
+        "có băng bám",
+        "tuyết phủ trắng dàn",
+        "chảy nước nhiều sau khi tắt",
+        "đóng đá ở ống đồng"
+      ],
+      "price_min": 250000,
+      "price_max": 700000,
+      "price_reviewed": false,
+      "urgency": "MEDIUM",
+      "suggested_actions_vi": [
+        "Tắt máy và để tuyết tan hết trước khi bật lại"
+      ]
+    },
+    {
+      "fault_code": "AC_REMOTE_FAULT",
+      "device_type": "air_conditioner",
+      "name_vi": "Hỏng điều khiển từ xa",
+      "symptoms_vi": [
+        "remote không ăn",
+        "remote mất chữ",
+        "thay pin vẫn không được",
+        "phải đứng sát mới bấm được",
+        "remote loạn nút"
+      ],
+      "price_min": 100000,
+      "price_max": 300000,
+      "price_reviewed": false,
+      "urgency": "LOW",
+      "suggested_actions_vi": [
+        "Thử thay pin mới trước khi gọi thợ"
+      ]
+    },
+    {
+      "fault_code": "AC_NOISY_INDOOR",
+      "device_type": "air_conditioner",
+      "name_vi": "Máy chạy ồn, rung lắc",
+      "symptoms_vi": [
+        "máy lạnh kêu to",
+        "ồn hơn trước",
+        "rung lắc khi chạy",
+        "kêu lạch cạch",
+        "nghe tiếng va đập",
+        "kêu như máy cày",
+        "chạy không êm"
+      ],
+      "price_min": 200000,
+      "price_max": 600000,
+      "price_reviewed": false,
+      "urgency": "LOW",
+      "suggested_actions_vi": [
+        "Kiểm tra xem có vật lạ rơi vào dàn lạnh không"
+      ]
+    },
+    {
+      "fault_code": "AC_SMELL_BURNT",
+      "device_type": "air_conditioner",
+      "name_vi": "Mùi khét, nghi chập điện",
+      "symptoms_vi": [
+        "mùi khét",
+        "mùi nhựa cháy",
+        "khói ra từ máy lạnh",
+        "mùi cháy khi bật máy"
+      ],
+      "price_min": 400000,
+      "price_max": 1500000,
+      "price_reviewed": false,
+      "urgency": "HIGH",
+      "suggested_actions_vi": [
+        "Ngắt cầu dao máy lạnh ngay",
+        "Không bật lại để thử"
+      ]
+    },
+    {
+      "fault_code": "CEILFAN_CAPACITOR",
+      "device_type": "ceiling_fan",
+      "name_vi": "Hỏng tụ điện quạt trần",
+      "symptoms_vi": [
+        "quay chậm",
+        "quay yếu",
+        "phải quay tay mới chạy",
+        "ù mà không quay",
+        "bật số lớn vẫn quay chậm",
+        "quạt trần yếu gió"
+      ],
+      "price_min": 100000,
+      "price_max": 250000,
+      "price_reviewed": false,
+      "urgency": "LOW",
+      "suggested_actions_vi": [
+        "Ngưng dùng để tránh cháy cuộn dây mô tơ"
+      ]
+    },
+    {
+      "fault_code": "CEILFAN_BEARING",
+      "device_type": "ceiling_fan",
+      "name_vi": "Khô dầu, mòn bạc trục quạt trần",
+      "symptoms_vi": [
+        "kêu cọt kẹt",
+        "kêu ù",
+        "rung lắc",
+        "quay nặng",
+        "kêu rè rè trên trần",
+        "tiếng kêu nghe khó chịu",
+        "quạt trần kêu to về đêm"
+      ],
+      "price_min": 150000,
+      "price_max": 350000,
+      "price_reviewed": false,
+      "urgency": "MEDIUM",
+      "suggested_actions_vi": [
+        "Ngưng dùng vì rung lắc kéo dài có thể làm lỏng chỗ treo"
+      ]
+    },
+    {
+      "fault_code": "CEILFAN_MOUNT_LOOSE",
+      "device_type": "ceiling_fan",
+      "name_vi": "Lỏng bộ treo, mất cân bằng cánh",
+      "symptoms_vi": [
+        "lắc mạnh",
+        "rung trần",
+        "nghe lục cục trên trần",
+        "cánh đảo",
+        "quạt trần đảo vòng",
+        "sợ rơi",
+        "quạt trần lắc lư"
+      ],
+      "price_min": 150000,
+      "price_max": 400000,
+      "price_reviewed": false,
+      "urgency": "HIGH",
+      "suggested_actions_vi": [
+        "Tắt quạt và không đứng bên dưới cho tới khi kiểm tra xong"
+      ]
+    },
+    {
+      "fault_code": "CEILFAN_SPEED_SWITCH",
+      "device_type": "ceiling_fan",
+      "name_vi": "Hỏng hộp số, chiết áp",
+      "symptoms_vi": [
+        "chỉnh số không ăn",
+        "chỉ chạy một tốc độ",
+        "vặn núm không đổi gió",
+        "hộp số nóng",
+        "chiết áp kêu rè"
+      ],
+      "price_min": 120000,
+      "price_max": 300000,
+      "price_reviewed": false,
+      "urgency": "MEDIUM",
+      "suggested_actions_vi": [
+        "Ngắt cầu dao nếu hộp số nóng hoặc có mùi khét"
+      ]
+    },
+    {
+      "fault_code": "CEILFAN_MOTOR_BURNT",
+      "device_type": "ceiling_fan",
+      "name_vi": "Cháy cuộn dây mô tơ quạt trần",
+      "symptoms_vi": [
+        "mùi khét trên trần",
+        "quạt nóng ran",
+        "chạy được lát rồi dừng",
+        "khói"
+      ],
+      "price_min": 400000,
+      "price_max": 900000,
+      "price_reviewed": false,
+      "urgency": "HIGH",
+      "suggested_actions_vi": [
+        "Ngắt cầu dao khu vực ngay"
       ]
     },
     {
@@ -42,14 +374,1311 @@
       "symptoms_vi": [
         "kêu cộc cộc",
         "quay chậm",
-        "rít",
-        "nóng thân quạt"
+        "kêu rít",
+        "nóng thân quạt",
+        "quay một lúc thì dừng",
+        "quay chậm hơn lúc trước",
+        "kêu ù ù",
+        "trục quạt rơ",
+        "kêu lạch cạch khi quay"
       ],
       "price_min": 120000,
       "price_max": 250000,
+      "price_reviewed": false,
       "urgency": "LOW",
       "suggested_actions_vi": [
         "Ngưng dùng để tránh kẹt trục làm cháy mô tơ"
+      ]
+    },
+    {
+      "fault_code": "FAN_CAPACITOR",
+      "device_type": "electric_fan",
+      "name_vi": "Hỏng tụ khởi động",
+      "symptoms_vi": [
+        "ù mà không quay",
+        "phải đẩy cánh mới chạy",
+        "số nhỏ không chạy",
+        "bật lên không quay",
+        "quay yếu hẳn",
+        "quạt kêu ù ù mà đứng im"
+      ],
+      "price_min": 80000,
+      "price_max": 180000,
+      "price_reviewed": false,
+      "urgency": "LOW",
+      "suggested_actions_vi": [
+        "Ngưng dùng, không đẩy cánh bằng tay khi đang cấp điện"
+      ]
+    },
+    {
+      "fault_code": "FAN_MOTOR_BURNT",
+      "device_type": "electric_fan",
+      "name_vi": "Cháy cuộn dây mô tơ",
+      "symptoms_vi": [
+        "có mùi khét",
+        "nóng ran",
+        "khói",
+        "chạy được vài phút rồi tắt",
+        "mùi nhựa cháy",
+        "sờ vào nóng bỏng tay"
+      ],
+      "price_min": 200000,
+      "price_max": 450000,
+      "price_reviewed": false,
+      "urgency": "HIGH",
+      "suggested_actions_vi": [
+        "Rút phích cắm ngay",
+        "Không cắm lại để thử"
+      ]
+    },
+    {
+      "fault_code": "FAN_SWITCH_FAULT",
+      "device_type": "electric_fan",
+      "name_vi": "Hỏng công tắc, nút chỉnh tốc độ",
+      "symptoms_vi": [
+        "bấm số không ăn",
+        "chỉ chạy một số",
+        "chập chờn khi chỉnh",
+        "nút bị kẹt",
+        "bấm nút không bật được"
+      ],
+      "price_min": 80000,
+      "price_max": 200000,
+      "price_reviewed": false,
+      "urgency": "LOW",
+      "suggested_actions_vi": [
+        "Rút phích cắm trước khi tháo bất kỳ bộ phận nào"
+      ]
+    },
+    {
+      "fault_code": "FAN_OSCILLATION_FAULT",
+      "device_type": "electric_fan",
+      "name_vi": "Hỏng bộ tuốc năng, không đảo gió",
+      "symptoms_vi": [
+        "không đảo",
+        "không quay qua quay lại",
+        "gạt cần đảo không ăn",
+        "kêu lạch cạch khi đảo",
+        "đảo được một bên"
+      ],
+      "price_min": 100000,
+      "price_max": 250000,
+      "price_reviewed": false,
+      "urgency": "LOW",
+      "suggested_actions_vi": [
+        "Vẫn dùng tạm được, chỉ mất chức năng đảo gió"
+      ]
+    },
+    {
+      "fault_code": "FAN_CORD_DAMAGE",
+      "device_type": "electric_fan",
+      "name_vi": "Đứt, hở dây nguồn",
+      "symptoms_vi": [
+        "dây điện bị đứt",
+        "phải ngoáy dây mới chạy",
+        "chập chờn khi cử động dây",
+        "dây nóng",
+        "phích cắm nóng",
+        "dây bị chuột cắn"
+      ],
+      "price_min": 100000,
+      "price_max": 250000,
+      "price_reviewed": false,
+      "urgency": "HIGH",
+      "suggested_actions_vi": [
+        "Rút phích cắm và không dùng cho tới khi thay dây"
+      ]
+    },
+    {
+      "fault_code": "FAN_WOBBLE",
+      "device_type": "electric_fan",
+      "name_vi": "Rung lắc, cong cánh, lỏng chân đế",
+      "symptoms_vi": [
+        "quạt rung",
+        "lắc lư",
+        "đổ nghiêng",
+        "cánh cọ vào lồng",
+        "chạy bị lệch"
+      ],
+      "price_min": 80000,
+      "price_max": 200000,
+      "price_reviewed": false,
+      "urgency": "LOW",
+      "suggested_actions_vi": [
+        "Đặt quạt trên mặt phẳng và kiểm tra ốc khoá cánh"
+      ]
+    },
+    {
+      "fault_code": "WM_DRAIN_PUMP",
+      "device_type": "washing_machine",
+      "name_vi": "Hỏng bơm xả, nghẹt đường xả",
+      "symptoms_vi": [
+        "không xả nước",
+        "nước đọng trong lồng",
+        "báo lỗi xả",
+        "xả rất chậm",
+        "máy đứng ở bước xả",
+        "nước không rút",
+        "còn nước trong lồng sau khi giặt",
+        "bơm kêu to khi xả"
+      ],
+      "price_min": 350000,
+      "price_max": 800000,
+      "price_reviewed": false,
+      "urgency": "MEDIUM",
+      "suggested_actions_vi": [
+        "Khoá van cấp nước",
+        "Không mở cửa máy cửa ngang khi còn nước trong lồng"
+      ]
+    },
+    {
+      "fault_code": "WM_NO_SPIN",
+      "device_type": "washing_machine",
+      "name_vi": "Không vắt, hỏng dây curoa hoặc lệch tải",
+      "symptoms_vi": [
+        "không vắt",
+        "quần áo còn ướt sũng",
+        "lồng quay yếu",
+        "kêu trượt",
+        "vắt xong vẫn ướt",
+        "lồng không quay khi vắt",
+        "máy rung mạnh rồi dừng"
+      ],
+      "price_min": 150000,
+      "price_max": 400000,
+      "price_reviewed": false,
+      "urgency": "MEDIUM",
+      "suggested_actions_vi": [
+        "Chia nhỏ mẻ giặt để loại trừ nguyên nhân lệch tải"
+      ]
+    },
+    {
+      "fault_code": "WM_NO_WATER_INLET",
+      "device_type": "washing_machine",
+      "name_vi": "Không cấp nước, nghẹt van cấp",
+      "symptoms_vi": [
+        "không vào nước",
+        "vào nước rất chậm",
+        "báo lỗi cấp nước",
+        "máy đứng ở bước cấp nước",
+        "nước vào nhỏ giọt",
+        "chờ nước mãi không đầy"
+      ],
+      "price_min": 200000,
+      "price_max": 500000,
+      "price_reviewed": false,
+      "urgency": "MEDIUM",
+      "suggested_actions_vi": [
+        "Kiểm tra van nước tổng đã mở chưa và vòi có bị gập không"
+      ]
+    },
+    {
+      "fault_code": "WM_BEARING_NOISE",
+      "device_type": "washing_machine",
+      "name_vi": "Mòn bạc đạn lồng giặt",
+      "symptoms_vi": [
+        "kêu to khi vắt",
+        "rung lắc mạnh",
+        "kêu ù ù",
+        "máy chạy ầm ầm",
+        "kêu như máy bay",
+        "lồng bị rơ",
+        "ồn kinh khủng khi vắt"
+      ],
+      "price_min": 800000,
+      "price_max": 2000000,
+      "price_reviewed": false,
+      "urgency": "MEDIUM",
+      "suggested_actions_vi": [
+        "Giảm tải mỗi mẻ giặt cho tới khi sửa"
+      ]
+    },
+    {
+      "fault_code": "WM_PCB_FAULT",
+      "device_type": "washing_machine",
+      "name_vi": "Lỗi bo mạch điều khiển",
+      "symptoms_vi": [
+        "nhấn nút không ăn",
+        "báo lỗi lạ",
+        "tự dừng giữa chừng",
+        "đèn nháy liên tục",
+        "hiện mã lỗi",
+        "không chọn được chế độ",
+        "máy treo giữa chừng"
+      ],
+      "price_min": 600000,
+      "price_max": 1500000,
+      "price_reviewed": false,
+      "urgency": "MEDIUM",
+      "suggested_actions_vi": [
+        "Rút điện khoảng mười phút rồi thử lại một lần",
+        "Ghi lại mã lỗi hiển thị"
+      ]
+    },
+    {
+      "fault_code": "WM_DOOR_SEAL_LEAK",
+      "device_type": "washing_machine",
+      "name_vi": "Rách gioăng cửa, rò nước",
+      "symptoms_vi": [
+        "chảy nước ra sàn",
+        "ướt quanh chân máy",
+        "nước rỉ ở cửa",
+        "gioăng cao su bị rách",
+        "nước tràn khi giặt",
+        "ẩm sàn chỗ để máy giặt"
+      ],
+      "price_min": 400000,
+      "price_max": 900000,
+      "price_reviewed": false,
+      "urgency": "MEDIUM",
+      "suggested_actions_vi": [
+        "Khoá van cấp nước",
+        "Lau khô sàn để tránh trơn trượt và chập điện"
+      ]
+    },
+    {
+      "fault_code": "WM_DOOR_LOCK",
+      "device_type": "washing_machine",
+      "name_vi": "Hỏng khoá cửa",
+      "symptoms_vi": [
+        "không mở được cửa",
+        "cửa không đóng được",
+        "báo lỗi cửa",
+        "cửa kẹt không bung",
+        "máy không chạy vì báo chưa đóng cửa"
+      ],
+      "price_min": 250000,
+      "price_max": 600000,
+      "price_reviewed": false,
+      "urgency": "MEDIUM",
+      "suggested_actions_vi": [
+        "Không cạy cửa bằng tay khi trong lồng còn nước"
+      ]
+    },
+    {
+      "fault_code": "WM_SMELL_MOLD",
+      "device_type": "washing_machine",
+      "name_vi": "Hôi lồng giặt, đóng cặn",
+      "symptoms_vi": [
+        "quần áo có mùi hôi",
+        "lồng giặt bẩn",
+        "có cặn đen bám vào áo",
+        "mùi ẩm mốc",
+        "giặt xong vẫn hôi",
+        "có rong rêu trong lồng"
+      ],
+      "price_min": 200000,
+      "price_max": 500000,
+      "price_reviewed": false,
+      "urgency": "LOW",
+      "suggested_actions_vi": [
+        "Mở cửa máy sau khi giặt để lồng khô thoáng"
+      ]
+    },
+    {
+      "fault_code": "WM_MOTOR_FAULT",
+      "device_type": "washing_machine",
+      "name_vi": "Hỏng mô tơ giặt",
+      "symptoms_vi": [
+        "lồng không quay",
+        "kêu ù mà không quay",
+        "có mùi khét khi giặt",
+        "quay được một chiều",
+        "máy nóng bất thường"
+      ],
+      "price_min": 800000,
+      "price_max": 2000000,
+      "price_reviewed": false,
+      "urgency": "MEDIUM",
+      "suggested_actions_vi": [
+        "Rút điện và ngưng sử dụng"
+      ]
+    },
+    {
+      "fault_code": "WM_OVERFLOW",
+      "device_type": "washing_machine",
+      "name_vi": "Cấp nước không ngắt, tràn nước",
+      "symptoms_vi": [
+        "nước vào hoài không dừng",
+        "tràn nước ra ngoài",
+        "nước đầy tới miệng lồng",
+        "rút điện rồi nước vẫn vào"
+      ],
+      "price_min": 300000,
+      "price_max": 700000,
+      "price_reviewed": false,
+      "urgency": "HIGH",
+      "suggested_actions_vi": [
+        "Khoá van cấp nước ngay",
+        "Ngắt điện khu vực nếu nước đã lan ra sàn"
+      ]
+    },
+    {
+      "fault_code": "FRIDGE_LOW_GAS",
+      "device_type": "refrigerator",
+      "name_vi": "Thiếu gas, xì gas dàn lạnh",
+      "symptoms_vi": [
+        "không lạnh",
+        "ngăn mát không mát",
+        "ngăn đá không đông",
+        "chạy liên tục không nghỉ",
+        "tủ lạnh mát yếu",
+        "đá không đông được",
+        "để đồ vẫn hư",
+        "lạnh kém hẳn"
+      ],
+      "price_min": 400000,
+      "price_max": 900000,
+      "price_reviewed": false,
+      "urgency": "MEDIUM",
+      "suggested_actions_vi": [
+        "Chuyển thực phẩm dễ hỏng sang nơi khác"
+      ]
+    },
+    {
+      "fault_code": "FRIDGE_DEFROST_FAULT",
+      "device_type": "refrigerator",
+      "name_vi": "Hỏng bộ xả đá, đóng tuyết dày",
+      "symptoms_vi": [
+        "đóng tuyết",
+        "đóng đá dày",
+        "ngăn mát ấm mà ngăn đá lạnh",
+        "quạt kêu va vào đá",
+        "tuyết phủ kín ngăn đá",
+        "phải xả đá thủ công hoài",
+        "đá bám thành mảng"
+      ],
+      "price_min": 300000,
+      "price_max": 700000,
+      "price_reviewed": false,
+      "urgency": "MEDIUM",
+      "suggested_actions_vi": [
+        "Rút điện và xả đá tự nhiên, không dùng vật nhọn cạy đá"
+      ]
+    },
+    {
+      "fault_code": "FRIDGE_COMPRESSOR",
+      "device_type": "refrigerator",
+      "name_vi": "Hỏng block máy nén",
+      "symptoms_vi": [
+        "không chạy",
+        "kêu ù rồi tắt",
+        "nóng phía sau bất thường",
+        "nhảy aptomat",
+        "block nóng ran",
+        "không nghe tiếng máy chạy",
+        "im re không hoạt động"
+      ],
+      "price_min": 1500000,
+      "price_max": 3500000,
+      "price_reviewed": false,
+      "urgency": "HIGH",
+      "suggested_actions_vi": [
+        "Rút điện tủ lạnh",
+        "Chuyển thực phẩm đi nơi khác"
+      ]
+    },
+    {
+      "fault_code": "FRIDGE_DOOR_GASKET",
+      "device_type": "refrigerator",
+      "name_vi": "Hở gioăng cửa",
+      "symptoms_vi": [
+        "đọng nước trong tủ",
+        "cửa không hít",
+        "chảy nước ra ngoài",
+        "tủ chạy nhiều hơn bình thường",
+        "gioăng bị mục",
+        "cửa tự bung ra",
+        "đọng sương quanh cửa"
+      ],
+      "price_min": 300000,
+      "price_max": 800000,
+      "price_reviewed": false,
+      "urgency": "LOW",
+      "suggested_actions_vi": [
+        "Kiểm tra xem có vật cản làm kênh cửa không"
+      ]
+    },
+    {
+      "fault_code": "FRIDGE_FAN_FAULT",
+      "device_type": "refrigerator",
+      "name_vi": "Hỏng quạt gió dàn lạnh",
+      "symptoms_vi": [
+        "ngăn mát không lạnh",
+        "có tiếng kêu lạ trong tủ",
+        "ngăn đá lạnh nhưng ngăn mát ấm",
+        "nghe tiếng rẹt rẹt trong tủ",
+        "quạt kêu rồi im"
+      ],
+      "price_min": 250000,
+      "price_max": 600000,
+      "price_reviewed": false,
+      "urgency": "MEDIUM",
+      "suggested_actions_vi": [
+        "Giảm lượng thực phẩm để không chắn đường gió"
+      ]
+    },
+    {
+      "fault_code": "FRIDGE_DRAIN_BLOCKED",
+      "device_type": "refrigerator",
+      "name_vi": "Nghẹt lỗ thoát nước",
+      "symptoms_vi": [
+        "đọng nước dưới đáy tủ",
+        "nước chảy ra sàn bếp",
+        "ngăn rau đọng nước",
+        "nước đóng băng dưới khay rau"
+      ],
+      "price_min": 200000,
+      "price_max": 450000,
+      "price_reviewed": false,
+      "urgency": "LOW",
+      "suggested_actions_vi": [
+        "Lấy hết nước đọng và thực phẩm ở ngăn dưới ra"
+      ]
+    },
+    {
+      "fault_code": "FRIDGE_LIGHT_FAULT",
+      "device_type": "refrigerator",
+      "name_vi": "Hỏng đèn tủ lạnh",
+      "symptoms_vi": [
+        "đèn trong tủ không sáng",
+        "mở cửa không thấy đèn",
+        "đèn cháy"
+      ],
+      "price_min": 100000,
+      "price_max": 300000,
+      "price_reviewed": false,
+      "urgency": "LOW",
+      "suggested_actions_vi": [
+        "Không ảnh hưởng làm lạnh, có thể dùng bình thường"
+      ]
+    },
+    {
+      "fault_code": "FRIDGE_NOISY",
+      "device_type": "refrigerator",
+      "name_vi": "Tủ chạy ồn, rung",
+      "symptoms_vi": [
+        "tủ lạnh kêu to",
+        "rung lắc",
+        "kêu ù ù cả đêm",
+        "kêu lạch cạch",
+        "ồn hơn lúc mới mua"
+      ],
+      "price_min": 200000,
+      "price_max": 500000,
+      "price_reviewed": false,
+      "urgency": "LOW",
+      "suggested_actions_vi": [
+        "Kiểm tra tủ có kê cân bằng và cách tường đủ xa không"
+      ]
+    },
+    {
+      "fault_code": "MW_MAGNETRON",
+      "device_type": "microwave_oven",
+      "name_vi": "Hỏng sò cao tần",
+      "symptoms_vi": [
+        "không nóng",
+        "quay mà không nóng",
+        "hâm không nóng thức ăn",
+        "chạy bình thường nhưng nguội",
+        "quay đủ thời gian vẫn lạnh",
+        "mất nhiệt hoàn toàn"
+      ],
+      "price_min": 400000,
+      "price_max": 900000,
+      "price_reviewed": false,
+      "urgency": "MEDIUM",
+      "suggested_actions_vi": [
+        "Ngưng dùng và rút điện"
+      ]
+    },
+    {
+      "fault_code": "MW_DOOR_SWITCH",
+      "device_type": "microwave_oven",
+      "name_vi": "Hỏng công tắc cửa",
+      "symptoms_vi": [
+        "không chạy khi đóng cửa",
+        "báo lỗi cửa",
+        "bấm start không ăn",
+        "phải ấn cửa mới chạy",
+        "cửa đóng rồi máy vẫn không nhận"
+      ],
+      "price_min": 150000,
+      "price_max": 350000,
+      "price_reviewed": false,
+      "urgency": "MEDIUM",
+      "suggested_actions_vi": [
+        "Rút điện, không cố chèn cửa để máy chạy"
+      ]
+    },
+    {
+      "fault_code": "MW_TURNTABLE_MOTOR",
+      "device_type": "microwave_oven",
+      "name_vi": "Hỏng mô tơ mâm xoay",
+      "symptoms_vi": [
+        "mâm không quay",
+        "quay giật cục",
+        "kêu lạch cạch khi quay",
+        "đĩa đứng yên"
+      ],
+      "price_min": 150000,
+      "price_max": 300000,
+      "price_reviewed": false,
+      "urgency": "LOW",
+      "suggested_actions_vi": [
+        "Vẫn dùng tạm được nhưng thức ăn sẽ nóng không đều"
+      ]
+    },
+    {
+      "fault_code": "MW_SPARKING",
+      "device_type": "microwave_oven",
+      "name_vi": "Phóng tia lửa trong lò",
+      "symptoms_vi": [
+        "nổ lẹt đẹt",
+        "toé lửa",
+        "có tia lửa bên trong",
+        "cháy đen trong lòng lò",
+        "nghe tiếng nổ nhỏ khi chạy",
+        "loé sáng trong lò"
+      ],
+      "price_min": 250000,
+      "price_max": 700000,
+      "price_reviewed": false,
+      "urgency": "HIGH",
+      "suggested_actions_vi": [
+        "Tắt và rút điện ngay",
+        "Không dùng lại cho tới khi kiểm tra"
+      ]
+    },
+    {
+      "fault_code": "MW_NO_POWER",
+      "device_type": "microwave_oven",
+      "name_vi": "Không lên nguồn, đứt cầu chì",
+      "symptoms_vi": [
+        "không lên điện",
+        "bấm không có phản ứng",
+        "màn hình tối",
+        "cắm điện không thấy gì",
+        "nhảy aptomat khi cắm"
+      ],
+      "price_min": 200000,
+      "price_max": 500000,
+      "price_reviewed": false,
+      "urgency": "MEDIUM",
+      "suggested_actions_vi": [
+        "Thử ổ cắm khác để loại trừ nguyên nhân nguồn điện"
+      ]
+    },
+    {
+      "fault_code": "MW_FAN_NOISY",
+      "device_type": "microwave_oven",
+      "name_vi": "Quạt tản nhiệt ồn, nghẹt",
+      "symptoms_vi": [
+        "chạy rất ồn",
+        "kêu to bất thường",
+        "nóng vỏ ngoài",
+        "có mùi khét nhẹ"
+      ],
+      "price_min": 150000,
+      "price_max": 400000,
+      "price_reviewed": false,
+      "urgency": "MEDIUM",
+      "suggested_actions_vi": [
+        "Ngưng dùng nếu vỏ máy nóng bất thường"
+      ]
+    },
+    {
+      "fault_code": "OVEN_HEATING_ELEMENT",
+      "device_type": "oven",
+      "name_vi": "Hỏng thanh nhiệt",
+      "symptoms_vi": [
+        "không nóng",
+        "chỉ nóng một bên",
+        "nướng không chín",
+        "thanh nhiệt không đỏ",
+        "nướng lâu vẫn sống",
+        "chỉ thanh trên đỏ"
+      ],
+      "price_min": 250000,
+      "price_max": 600000,
+      "price_reviewed": false,
+      "urgency": "MEDIUM",
+      "suggested_actions_vi": [
+        "Rút điện trước khi kiểm tra"
+      ]
+    },
+    {
+      "fault_code": "OVEN_THERMOSTAT",
+      "device_type": "oven",
+      "name_vi": "Hỏng rơ le nhiệt",
+      "symptoms_vi": [
+        "nóng quá mức",
+        "cháy đồ ăn",
+        "không giữ được nhiệt",
+        "nhiệt độ sai so với cài đặt",
+        "vặn 180 độ mà nóng như 250",
+        "nhiệt lên xuống thất thường"
+      ],
+      "price_min": 200000,
+      "price_max": 500000,
+      "price_reviewed": false,
+      "urgency": "MEDIUM",
+      "suggested_actions_vi": [
+        "Không để lò chạy khi không có người trông"
+      ]
+    },
+    {
+      "fault_code": "OVEN_TIMER_FAULT",
+      "device_type": "oven",
+      "name_vi": "Hỏng bộ hẹn giờ, công tắc",
+      "symptoms_vi": [
+        "vặn giờ không ăn",
+        "không tự tắt",
+        "chạy liên tục",
+        "chuông không kêu",
+        "hẹn giờ chạy sai"
+      ],
+      "price_min": 200000,
+      "price_max": 450000,
+      "price_reviewed": false,
+      "urgency": "MEDIUM",
+      "suggested_actions_vi": [
+        "Rút điện khi dùng xong thay vì dựa vào hẹn giờ"
+      ]
+    },
+    {
+      "fault_code": "OVEN_DOOR_GLASS",
+      "device_type": "oven",
+      "name_vi": "Nứt kính cửa, hỏng bản lề",
+      "symptoms_vi": [
+        "kính cửa nứt",
+        "cửa không đóng khít",
+        "bản lề lỏng",
+        "nhiệt thoát ra ngoài",
+        "cửa lò bị xệ"
+      ],
+      "price_min": 300000,
+      "price_max": 800000,
+      "price_reviewed": false,
+      "urgency": "MEDIUM",
+      "suggested_actions_vi": [
+        "Ngưng dùng nếu kính đã nứt vì có thể vỡ khi gặp nhiệt"
+      ]
+    },
+    {
+      "fault_code": "OVEN_FAN_FAULT",
+      "device_type": "oven",
+      "name_vi": "Hỏng quạt đối lưu",
+      "symptoms_vi": [
+        "quạt trong lò không quay",
+        "nướng không đều",
+        "kêu to khi bật quạt"
+      ],
+      "price_min": 250000,
+      "price_max": 600000,
+      "price_reviewed": false,
+      "urgency": "LOW",
+      "suggested_actions_vi": [
+        "Có thể dùng chế độ không quạt tạm thời"
+      ]
+    },
+    {
+      "fault_code": "STOVE_IGNITER",
+      "device_type": "gas_stove",
+      "name_vi": "Hỏng bộ đánh lửa",
+      "symptoms_vi": [
+        "không lên lửa",
+        "đánh lửa yếu",
+        "phải bật nhiều lần",
+        "kêu tạch tạch mà không cháy",
+        "bật hoài không cháy",
+        "đánh lửa liên tục không ngừng",
+        "một bên không lên lửa"
+      ],
+      "price_min": 80000,
+      "price_max": 200000,
+      "price_reviewed": false,
+      "urgency": "MEDIUM",
+      "suggested_actions_vi": [
+        "Khoá van bình gas nếu đã xả gas nhiều lần mà không cháy"
+      ]
+    },
+    {
+      "fault_code": "STOVE_BURNER_CLOGGED",
+      "device_type": "gas_stove",
+      "name_vi": "Nghẹt họng lửa, lửa đỏ",
+      "symptoms_vi": [
+        "lửa đỏ",
+        "lửa yếu",
+        "lửa cháy không đều",
+        "nồi bị ám đen",
+        "lửa phù",
+        "lửa cháy một bên",
+        "nấu lâu chín",
+        "lửa vàng khè"
+      ],
+      "price_min": 80000,
+      "price_max": 200000,
+      "price_reviewed": false,
+      "urgency": "LOW",
+      "suggested_actions_vi": [
+        "Vệ sinh mặt bếp và họng lửa khi bếp đã nguội hẳn"
+      ]
+    },
+    {
+      "fault_code": "STOVE_GAS_LEAK",
+      "device_type": "gas_stove",
+      "name_vi": "Rò rỉ gas ở dây dẫn hoặc van",
+      "symptoms_vi": [
+        "mùi gas",
+        "hôi gas",
+        "ngửi thấy mùi khí",
+        "dây gas nứt",
+        "xì gas",
+        "nghe tiếng xì",
+        "mùi gas nồng trong bếp",
+        "dây dẫn gas cũ nứt nẻ"
+      ],
+      "price_min": 150000,
+      "price_max": 400000,
+      "price_reviewed": false,
+      "urgency": "HIGH",
+      "suggested_actions_vi": [
+        "Khoá van bình gas ngay lập tức",
+        "Mở cửa thông thoáng",
+        "Tuyệt đối không bật công tắc điện hay đánh lửa"
+      ]
+    },
+    {
+      "fault_code": "STOVE_VALVE_STUCK",
+      "device_type": "gas_stove",
+      "name_vi": "Kẹt núm vặn, hỏng van điều khiển",
+      "symptoms_vi": [
+        "núm vặn kẹt",
+        "không tắt được lửa",
+        "vặn nặng",
+        "lửa không nhỏ lại được",
+        "núm bị rít",
+        "vặn hết cỡ lửa vẫn to"
+      ],
+      "price_min": 150000,
+      "price_max": 400000,
+      "price_reviewed": false,
+      "urgency": "HIGH",
+      "suggested_actions_vi": [
+        "Khoá van bình gas để tắt bếp"
+      ]
+    },
+    {
+      "fault_code": "STOVE_FLAME_OUT",
+      "device_type": "gas_stove",
+      "name_vi": "Lửa tự tắt giữa chừng",
+      "symptoms_vi": [
+        "đang nấu tự tắt",
+        "lửa tắt khi vặn nhỏ",
+        "phải giữ núm mới cháy",
+        "lửa yếu dần rồi tắt",
+        "cảm ứng nhiệt hỏng"
+      ],
+      "price_min": 150000,
+      "price_max": 400000,
+      "price_reviewed": false,
+      "urgency": "HIGH",
+      "suggested_actions_vi": [
+        "Khoá van bình gas ngay vì lửa tắt mà gas vẫn ra rất nguy hiểm"
+      ]
+    },
+    {
+      "fault_code": "STOVE_REGULATOR",
+      "device_type": "gas_stove",
+      "name_vi": "Hỏng van điều áp, dây dẫn",
+      "symptoms_vi": [
+        "van bình không khớp",
+        "lắp vào bị xì",
+        "gas ra yếu",
+        "bình còn gas mà lửa nhỏ",
+        "van điều áp cũ"
+      ],
+      "price_min": 150000,
+      "price_max": 350000,
+      "price_reviewed": false,
+      "urgency": "HIGH",
+      "suggested_actions_vi": [
+        "Khoá van bình và không tự tháo lắp van điều áp"
+      ]
+    },
+    {
+      "fault_code": "KETTLE_THERMOSTAT",
+      "device_type": "kettle",
+      "name_vi": "Hỏng rơ le nhiệt",
+      "symptoms_vi": [
+        "không tự ngắt",
+        "sôi rồi vẫn đun",
+        "ngắt sớm khi chưa sôi",
+        "phải rút điện thủ công",
+        "nước trào ra ngoài"
+      ],
+      "price_min": 80000,
+      "price_max": 180000,
+      "price_reviewed": false,
+      "urgency": "MEDIUM",
+      "suggested_actions_vi": [
+        "Rút phích cắm ngay sau khi dùng"
+      ]
+    },
+    {
+      "fault_code": "KETTLE_HEATING_BASE",
+      "device_type": "kettle",
+      "name_vi": "Hỏng mâm nhiệt",
+      "symptoms_vi": [
+        "không nóng",
+        "đun rất lâu",
+        "bật đèn nhưng không sôi",
+        "nước chỉ ấm"
+      ],
+      "price_min": 100000,
+      "price_max": 250000,
+      "price_reviewed": false,
+      "urgency": "LOW",
+      "suggested_actions_vi": [
+        "Rút phích cắm và ngưng sử dụng"
+      ]
+    },
+    {
+      "fault_code": "KETTLE_LEAK",
+      "device_type": "kettle",
+      "name_vi": "Rò nước ở đáy bình",
+      "symptoms_vi": [
+        "rỉ nước",
+        "đọng nước dưới đế",
+        "ướt mặt bàn khi đun",
+        "nước chảy ra chân đế"
+      ],
+      "price_min": 100000,
+      "price_max": 300000,
+      "price_reviewed": false,
+      "urgency": "HIGH",
+      "suggested_actions_vi": [
+        "Ngưng dùng ngay vì nước rò xuống phần điện rất nguy hiểm"
+      ]
+    },
+    {
+      "fault_code": "KETTLE_SCALE",
+      "device_type": "kettle",
+      "name_vi": "Đóng cặn vôi trong bình",
+      "symptoms_vi": [
+        "có cặn trắng",
+        "nước có váng",
+        "đáy bình đóng cặn",
+        "đun lâu sôi hơn trước"
+      ],
+      "price_min": 50000,
+      "price_max": 150000,
+      "price_reviewed": false,
+      "urgency": "LOW",
+      "suggested_actions_vi": [
+        "Có thể tự khử cặn bằng giấm hoặc chanh loãng"
+      ]
+    },
+    {
+      "fault_code": "KETTLE_SWITCH",
+      "device_type": "kettle",
+      "name_vi": "Hỏng công tắc, chân tiếp xúc",
+      "symptoms_vi": [
+        "gạt công tắc không xuống",
+        "công tắc bật lên liền",
+        "phải đè mới chạy",
+        "đặt lên đế không ăn điện"
+      ],
+      "price_min": 80000,
+      "price_max": 200000,
+      "price_reviewed": false,
+      "urgency": "MEDIUM",
+      "suggested_actions_vi": [
+        "Rút phích cắm, không dùng vật chèn giữ công tắc"
+      ]
+    },
+    {
+      "fault_code": "TV_BACKLIGHT",
+      "device_type": "television",
+      "name_vi": "Hỏng dải đèn nền",
+      "symptoms_vi": [
+        "màn hình tối",
+        "có tiếng mà không có hình",
+        "soi đèn pin mới thấy hình",
+        "hình mờ tối",
+        "màn hình đen thui nhưng có âm thanh",
+        "sáng một góc"
+      ],
+      "price_min": 500000,
+      "price_max": 1500000,
+      "price_reviewed": false,
+      "urgency": "LOW",
+      "suggested_actions_vi": [
+        "Tắt nguồn, không cần xử lý gấp"
+      ]
+    },
+    {
+      "fault_code": "TV_POWER_BOARD",
+      "device_type": "television",
+      "name_vi": "Hỏng bo nguồn",
+      "symptoms_vi": [
+        "không lên nguồn",
+        "đèn báo nháy",
+        "bật không lên",
+        "tự tắt sau vài giây",
+        "đèn đỏ nhấp nháy",
+        "cắm điện không có phản ứng"
+      ],
+      "price_min": 400000,
+      "price_max": 900000,
+      "price_reviewed": false,
+      "urgency": "LOW",
+      "suggested_actions_vi": [
+        "Rút phích cắm và thử ổ cắm khác để loại trừ nguyên nhân nguồn điện"
+      ]
+    },
+    {
+      "fault_code": "TV_MAIN_BOARD",
+      "device_type": "television",
+      "name_vi": "Hỏng bo xử lý tín hiệu",
+      "symptoms_vi": [
+        "mất hình",
+        "mất tiếng",
+        "treo logo",
+        "không nhận cổng HDMI",
+        "hình bị sọc",
+        "đứng ở màn hình khởi động",
+        "không vào được menu"
+      ],
+      "price_min": 600000,
+      "price_max": 1800000,
+      "price_reviewed": false,
+      "urgency": "LOW",
+      "suggested_actions_vi": [
+        "Rút điện khoảng năm phút rồi thử khởi động lại một lần"
+      ]
+    },
+    {
+      "fault_code": "TV_PANEL_DAMAGE",
+      "device_type": "television",
+      "name_vi": "Vỡ, lỗi tấm nền",
+      "symptoms_vi": [
+        "màn hình có vệt",
+        "loang màu",
+        "sọc dọc",
+        "sọc ngang",
+        "nứt màn hình",
+        "một vùng màn hình đen",
+        "hình bị nhoè một góc"
+      ],
+      "price_min": 0,
+      "price_max": 0,
+      "price_reviewed": false,
+      "urgency": "LOW",
+      "suggested_actions_vi": [
+        "Thay tấm nền thường không kinh tế, kỹ thuật viên sẽ tư vấn cụ thể"
+      ]
+    },
+    {
+      "fault_code": "TV_NO_SOUND",
+      "device_type": "television",
+      "name_vi": "Mất tiếng, hỏng loa",
+      "symptoms_vi": [
+        "không có tiếng",
+        "tiếng rè",
+        "tiếng nhỏ dù đã tăng",
+        "tiếng lúc có lúc không"
+      ],
+      "price_min": 300000,
+      "price_max": 800000,
+      "price_reviewed": false,
+      "urgency": "LOW",
+      "suggested_actions_vi": [
+        "Thử tai nghe hoặc loa ngoài để xác định lỗi ở loa hay ở bo"
+      ]
+    },
+    {
+      "fault_code": "TV_REMOTE_FAULT",
+      "device_type": "television",
+      "name_vi": "Hỏng điều khiển, mắt nhận",
+      "symptoms_vi": [
+        "remote không ăn",
+        "phải chĩa sát mới được",
+        "thay pin vẫn không được",
+        "một số nút không ăn"
+      ],
+      "price_min": 100000,
+      "price_max": 350000,
+      "price_reviewed": false,
+      "urgency": "LOW",
+      "suggested_actions_vi": [
+        "Thử thay pin và lau sạch mắt nhận trên tivi"
+      ]
+    },
+    {
+      "fault_code": "SINK_CLOGGED",
+      "device_type": "sink",
+      "name_vi": "Nghẹt đường thoát bồn rửa",
+      "symptoms_vi": [
+        "nước thoát chậm",
+        "nghẹt",
+        "ứ nước trong bồn",
+        "trào ngược",
+        "hôi cống",
+        "nước rút rất chậm",
+        "đổ nước xuống bị dâng lên",
+        "bồn rửa bị tắc"
+      ],
+      "price_min": 150000,
+      "price_max": 400000,
+      "price_reviewed": false,
+      "urgency": "MEDIUM",
+      "suggested_actions_vi": [
+        "Ngưng đổ dầu mỡ và thức ăn thừa xuống bồn"
+      ]
+    },
+    {
+      "fault_code": "SINK_TRAP_LEAK",
+      "device_type": "sink",
+      "name_vi": "Rò rỉ ống thoát dưới bồn",
+      "symptoms_vi": [
+        "chảy nước dưới bồn",
+        "ướt tủ bếp",
+        "đọng nước trong tủ dưới",
+        "mối nối ống bị rỉ",
+        "tủ bếp bị mục vì nước"
+      ],
+      "price_min": 150000,
+      "price_max": 350000,
+      "price_reviewed": false,
+      "urgency": "MEDIUM",
+      "suggested_actions_vi": [
+        "Hứng chậu dưới chỗ rò và hạn chế dùng bồn rửa"
+      ]
+    },
+    {
+      "fault_code": "SINK_SMELL",
+      "device_type": "sink",
+      "name_vi": "Hôi cống, khô bẫy nước",
+      "symptoms_vi": [
+        "hôi cống bốc lên",
+        "mùi hôi từ bồn rửa",
+        "mùi thối ở bếp"
+      ],
+      "price_min": 150000,
+      "price_max": 350000,
+      "price_reviewed": false,
+      "urgency": "LOW",
+      "suggested_actions_vi": [
+        "Xả nước vài phút để làm đầy lại bẫy nước"
+      ]
+    },
+    {
+      "fault_code": "SINK_DRAIN_CORRODED",
+      "device_type": "sink",
+      "name_vi": "Rỉ sét, mục giỏ thoát",
+      "symptoms_vi": [
+        "giỏ thoát bị rỉ",
+        "nước rỉ quanh lỗ thoát",
+        "ron bồn bị mục"
+      ],
+      "price_min": 200000,
+      "price_max": 450000,
+      "price_reviewed": false,
+      "urgency": "LOW",
+      "suggested_actions_vi": [
+        "Hạn chế đọng nước lâu trong bồn"
+      ]
+    },
+    {
+      "fault_code": "FAUCET_DRIP",
+      "device_type": "faucet",
+      "name_vi": "Mòn gioăng, rò rỉ vòi nước",
+      "symptoms_vi": [
+        "nhỏ giọt",
+        "rỉ nước",
+        "khoá rồi vẫn chảy",
+        "chảy ri rỉ",
+        "vòi nước nhỏ nước cả đêm",
+        "khoá chặt vẫn rỉ"
+      ],
+      "price_min": 100000,
+      "price_max": 300000,
+      "price_reviewed": false,
+      "urgency": "LOW",
+      "suggested_actions_vi": [
+        "Khoá van chặn dưới bồn nếu có"
+      ]
+    },
+    {
+      "fault_code": "FAUCET_CARTRIDGE",
+      "device_type": "faucet",
+      "name_vi": "Hỏng lõi vòi trộn",
+      "symptoms_vi": [
+        "vặn nặng",
+        "không chỉnh được nóng lạnh",
+        "gạt bị kẹt",
+        "nước ra yếu một bên",
+        "gạt cần thấy rít",
+        "chỉ ra nước lạnh"
+      ],
+      "price_min": 150000,
+      "price_max": 400000,
+      "price_reviewed": false,
+      "urgency": "LOW",
+      "suggested_actions_vi": [
+        "Khoá van chặn trước khi tháo"
+      ]
+    },
+    {
+      "fault_code": "FAUCET_LOW_FLOW",
+      "device_type": "faucet",
+      "name_vi": "Nghẹt đầu lọc, áp lực nước yếu",
+      "symptoms_vi": [
+        "nước chảy yếu",
+        "nước ra ít",
+        "tia nước phun tung toé",
+        "nước ra không đều"
+      ],
+      "price_min": 100000,
+      "price_max": 250000,
+      "price_reviewed": false,
+      "urgency": "LOW",
+      "suggested_actions_vi": [
+        "Tháo đầu lọc ở miệng vòi và rửa cặn nếu thao tác được"
+      ]
+    },
+    {
+      "fault_code": "FAUCET_BASE_LEAK",
+      "device_type": "faucet",
+      "name_vi": "Rò rỉ chân vòi, mối nối",
+      "symptoms_vi": [
+        "chảy nước ở chân vòi",
+        "ướt mặt bàn quanh vòi",
+        "rò ở dây cấp nước",
+        "dây cấp nước phồng"
+      ],
+      "price_min": 150000,
+      "price_max": 400000,
+      "price_reviewed": false,
+      "urgency": "MEDIUM",
+      "suggested_actions_vi": [
+        "Khoá van chặn và lau khô để theo dõi chỗ rò"
+      ]
+    },
+    {
+      "fault_code": "TOILET_CLOGGED",
+      "device_type": "toilet",
+      "name_vi": "Nghẹt bồn cầu",
+      "symptoms_vi": [
+        "nghẹt",
+        "không rút nước",
+        "nước dâng lên",
+        "xả không trôi",
+        "tắc bồn cầu",
+        "xả nước trào ngược",
+        "rút rất chậm"
+      ],
+      "price_min": 200000,
+      "price_max": 500000,
+      "price_reviewed": false,
+      "urgency": "HIGH",
+      "suggested_actions_vi": [
+        "Ngưng xả nước thêm để tránh tràn"
+      ]
+    },
+    {
+      "fault_code": "TOILET_FILL_VALVE",
+      "device_type": "toilet",
+      "name_vi": "Hỏng van cấp nước két",
+      "symptoms_vi": [
+        "két không đầy nước",
+        "nước chảy vào liên tục",
+        "kêu rít khi cấp nước",
+        "phải chờ lâu mới xả được lần nữa",
+        "két nước không lên"
+      ],
+      "price_min": 150000,
+      "price_max": 400000,
+      "price_reviewed": false,
+      "urgency": "MEDIUM",
+      "suggested_actions_vi": [
+        "Khoá van chặn sau bồn cầu"
+      ]
+    },
+    {
+      "fault_code": "TOILET_FLAPPER_LEAK",
+      "device_type": "toilet",
+      "name_vi": "Rò van xả, chảy nước liên tục",
+      "symptoms_vi": [
+        "nước chảy hoài",
+        "nghe tiếng nước róc rách",
+        "hoá đơn nước tăng bất thường",
+        "nước rỉ vào lòng bồn cầu",
+        "két nước tự đầy rồi lại cạn"
+      ],
+      "price_min": 100000,
+      "price_max": 250000,
+      "price_reviewed": false,
+      "urgency": "MEDIUM",
+      "suggested_actions_vi": [
+        "Khoá van chặn giữa các lần dùng để đỡ thất thoát nước"
+      ]
+    },
+    {
+      "fault_code": "TOILET_BASE_LEAK",
+      "device_type": "toilet",
+      "name_vi": "Rò rỉ chân bồn cầu",
+      "symptoms_vi": [
+        "nước rỉ quanh chân",
+        "ẩm sàn nhà vệ sinh",
+        "có mùi hôi cống",
+        "nền quanh bồn cầu luôn ướt",
+        "bồn cầu bị lung lay"
+      ],
+      "price_min": 300000,
+      "price_max": 800000,
+      "price_reviewed": false,
+      "urgency": "HIGH",
+      "suggested_actions_vi": [
+        "Hạn chế sử dụng cho tới khi xử lý vì nước thải thấm nền"
+      ]
+    },
+    {
+      "fault_code": "TOILET_WEAK_FLUSH",
+      "device_type": "toilet",
+      "name_vi": "Xả yếu, nghẹt lỗ xả vành",
+      "symptoms_vi": [
+        "xả yếu",
+        "nước xả ít",
+        "phải xả hai ba lần",
+        "nước không xoáy"
+      ],
+      "price_min": 150000,
+      "price_max": 400000,
+      "price_reviewed": false,
+      "urgency": "LOW",
+      "suggested_actions_vi": [
+        "Kiểm tra mực nước trong két đã đủ chưa"
+      ]
+    },
+    {
+      "fault_code": "TOILET_SEAT_BROKEN",
+      "device_type": "toilet",
+      "name_vi": "Gãy, lỏng nắp bồn cầu",
+      "symptoms_vi": [
+        "nắp bị gãy",
+        "nắp lung lay",
+        "bản lề nắp hỏng",
+        "nắp trượt khi ngồi"
+      ],
+      "price_min": 150000,
+      "price_max": 450000,
+      "price_reviewed": false,
+      "urgency": "LOW",
+      "suggested_actions_vi": [
+        "Thay nắp là xử lý đơn giản, không ảnh hưởng hệ thống nước"
       ]
     },
     {
@@ -60,14 +1689,344 @@
         "cháy khét",
         "nổ tia lửa",
         "nóng ổ cắm",
-        "mất điện cục bộ"
+        "mất điện cục bộ",
+        "ổ cắm đen sạm",
+        "khói ra từ ổ điện",
+        "nghe tiếng nổ ở ổ cắm",
+        "ổ cắm bị chảy nhựa"
       ],
       "price_min": 150000,
       "price_max": 400000,
+      "price_reviewed": false,
       "urgency": "HIGH",
       "suggested_actions_vi": [
         "Ngắt cầu dao khu vực ngay lập tức",
         "Không cắm thêm thiết bị nào vào ổ này"
+      ]
+    },
+    {
+      "fault_code": "OUTLET_LOOSE_CONTACT",
+      "device_type": "power_outlet",
+      "name_vi": "Lỏng tiếp xúc, ổ cắm rơ",
+      "symptoms_vi": [
+        "cắm vào lỏng",
+        "chập chờn",
+        "phải lắc mới có điện",
+        "phích cắm tuột ra",
+        "cắm vào rơi ra",
+        "phải giữ phích mới chạy",
+        "lúc có điện lúc không"
+      ],
+      "price_min": 100000,
+      "price_max": 300000,
+      "price_reviewed": false,
+      "urgency": "MEDIUM",
+      "suggested_actions_vi": [
+        "Ngưng dùng ổ này vì tiếp xúc kém sinh nhiệt và dễ gây cháy"
+      ]
+    },
+    {
+      "fault_code": "OUTLET_NO_POWER",
+      "device_type": "power_outlet",
+      "name_vi": "Ổ cắm mất điện, đứt dây",
+      "symptoms_vi": [
+        "không có điện",
+        "ổ cắm không lên",
+        "cả mảng ổ mất điện",
+        "cắm vào không chạy",
+        "bút thử điện không sáng"
+      ],
+      "price_min": 150000,
+      "price_max": 450000,
+      "price_reviewed": false,
+      "urgency": "MEDIUM",
+      "suggested_actions_vi": [
+        "Kiểm tra aptomat khu vực đã nhảy chưa"
+      ]
+    },
+    {
+      "fault_code": "OUTLET_TRIPS_BREAKER",
+      "device_type": "power_outlet",
+      "name_vi": "Rò điện làm nhảy aptomat",
+      "symptoms_vi": [
+        "nhảy aptomat",
+        "cúp điện khi cắm thiết bị",
+        "giật nhẹ khi chạm",
+        "tê tay khi sờ vào vỏ thiết bị",
+        "cầu dao nhảy liên tục",
+        "chống giật nhảy hoài"
+      ],
+      "price_min": 200000,
+      "price_max": 600000,
+      "price_reviewed": false,
+      "urgency": "HIGH",
+      "suggested_actions_vi": [
+        "Ngắt cầu dao và không tự đóng lại nhiều lần",
+        "Không chạm vào thiết bị nghi rò điện"
+      ]
+    },
+    {
+      "fault_code": "OUTLET_OVERLOAD",
+      "device_type": "power_outlet",
+      "name_vi": "Quá tải, dùng quá nhiều thiết bị một ổ",
+      "symptoms_vi": [
+        "ổ cắm nóng",
+        "dây nguồn nóng",
+        "cắm nhiều thiết bị bị sụt điện",
+        "ổ chia nóng ran",
+        "dùng nồi cơm với ấm siêu tốc là nhảy điện"
+      ],
+      "price_min": 200000,
+      "price_max": 600000,
+      "price_reviewed": false,
+      "urgency": "HIGH",
+      "suggested_actions_vi": [
+        "Rút bớt thiết bị khỏi ổ này ngay"
+      ]
+    },
+    {
+      "fault_code": "OUTLET_BROKEN_FACE",
+      "device_type": "power_outlet",
+      "name_vi": "Vỡ, nứt mặt ổ cắm",
+      "symptoms_vi": [
+        "mặt ổ bị nứt",
+        "ổ cắm bể",
+        "lộ phần kim loại bên trong",
+        "ổ cắm bị gãy"
+      ],
+      "price_min": 100000,
+      "price_max": 300000,
+      "price_reviewed": false,
+      "urgency": "HIGH",
+      "suggested_actions_vi": [
+        "Ngắt cầu dao vì phần mang điện đang hở"
+      ]
+    },
+    {
+      "fault_code": "LIGHT_BULB_DEAD",
+      "device_type": "light_bulb",
+      "name_vi": "Bóng đèn cháy, hết tuổi thọ",
+      "symptoms_vi": [
+        "đèn không sáng",
+        "bóng cháy",
+        "đèn tắt hẳn",
+        "thay bóng mới vẫn không sáng"
+      ],
+      "price_min": 50000,
+      "price_max": 200000,
+      "price_reviewed": false,
+      "urgency": "LOW",
+      "suggested_actions_vi": [
+        "Tắt công tắc trước khi thay bóng"
+      ]
+    },
+    {
+      "fault_code": "LIGHT_FLICKERING",
+      "device_type": "light_bulb",
+      "name_vi": "Đèn chớp nháy, hỏng driver",
+      "symptoms_vi": [
+        "đèn nhấp nháy",
+        "đèn chớp",
+        "sáng yếu dần",
+        "lúc sáng lúc tắt",
+        "đèn nháy như đèn disco",
+        "sáng mờ rồi tắt"
+      ],
+      "price_min": 150000,
+      "price_max": 400000,
+      "price_reviewed": false,
+      "urgency": "MEDIUM",
+      "suggested_actions_vi": [
+        "Tắt đèn để tránh hỏng lan sang mạch điện"
+      ]
+    },
+    {
+      "fault_code": "LIGHT_SWITCH_FAULT",
+      "device_type": "light_bulb",
+      "name_vi": "Hỏng công tắc đèn",
+      "symptoms_vi": [
+        "bật không lên",
+        "công tắc kêu tạch",
+        "phải bật nhiều lần",
+        "công tắc nóng",
+        "gạt công tắc không ăn",
+        "công tắc bị lỏng"
+      ],
+      "price_min": 100000,
+      "price_max": 250000,
+      "price_reviewed": false,
+      "urgency": "MEDIUM",
+      "suggested_actions_vi": [
+        "Ngắt cầu dao khu vực nếu công tắc nóng hoặc có mùi khét"
+      ]
+    },
+    {
+      "fault_code": "LIGHT_DIM",
+      "device_type": "light_bulb",
+      "name_vi": "Đèn sáng yếu, điện áp thấp",
+      "symptoms_vi": [
+        "đèn sáng mờ",
+        "không đủ sáng",
+        "đèn vàng hơn trước",
+        "cả nhà đèn đều yếu"
+      ],
+      "price_min": 150000,
+      "price_max": 400000,
+      "price_reviewed": false,
+      "urgency": "LOW",
+      "suggested_actions_vi": [
+        "Kiểm tra xem có đang dùng nhiều thiết bị công suất lớn cùng lúc không"
+      ]
+    },
+    {
+      "fault_code": "LIGHT_FIXTURE_LEAK",
+      "device_type": "light_bulb",
+      "name_vi": "Máng đèn thấm nước, hoen rỉ",
+      "symptoms_vi": [
+        "đèn bị thấm nước",
+        "máng đèn có nước",
+        "đèn ngoài trời bị vào nước",
+        "đèn nhà tắm bị đọng hơi"
+      ],
+      "price_min": 200000,
+      "price_max": 500000,
+      "price_reviewed": false,
+      "urgency": "HIGH",
+      "suggested_actions_vi": [
+        "Ngắt cầu dao khu vực vì nước tiếp xúc phần mang điện"
+      ]
+    },
+    {
+      "fault_code": "WH_HEATING_ELEMENT",
+      "device_type": "water_heater",
+      "name_vi": "Hỏng thanh đốt",
+      "symptoms_vi": [
+        "không nóng",
+        "nước âm ấm",
+        "lâu nóng",
+        "bật đèn nhưng nước lạnh",
+        "bật cả tiếng vẫn không nóng",
+        "nước chỉ hơi ấm"
+      ],
+      "price_min": 300000,
+      "price_max": 800000,
+      "price_reviewed": false,
+      "urgency": "MEDIUM",
+      "suggested_actions_vi": [
+        "Tắt nguồn bình nóng lạnh"
+      ]
+    },
+    {
+      "fault_code": "WH_THERMOSTAT",
+      "device_type": "water_heater",
+      "name_vi": "Hỏng rơ le nhiệt",
+      "symptoms_vi": [
+        "nước quá nóng",
+        "không tự ngắt",
+        "nóng lạnh thất thường",
+        "nước sôi bốc hơi",
+        "lúc nóng lúc lạnh"
+      ],
+      "price_min": 250000,
+      "price_max": 600000,
+      "price_reviewed": false,
+      "urgency": "HIGH",
+      "suggested_actions_vi": [
+        "Tắt nguồn ngay vì nước quá nóng có thể gây bỏng"
+      ]
+    },
+    {
+      "fault_code": "WH_ELCB_TRIPS",
+      "device_type": "water_heater",
+      "name_vi": "Rò điện, nhảy chống giật",
+      "symptoms_vi": [
+        "nhảy aptomat khi bật",
+        "đèn chống giật nháy đỏ",
+        "tê tay khi chạm vòi sen",
+        "giật khi tắm",
+        "cầu dao nhảy mỗi lần bật bình",
+        "chống giật tự ngắt"
+      ],
+      "price_min": 300000,
+      "price_max": 700000,
+      "price_reviewed": false,
+      "urgency": "HIGH",
+      "suggested_actions_vi": [
+        "Ngắt nguồn ngay và tuyệt đối không tắm cho tới khi kiểm tra xong"
+      ]
+    },
+    {
+      "fault_code": "WH_SCALE_BUILDUP",
+      "device_type": "water_heater",
+      "name_vi": "Đóng cặn canxi trong bình",
+      "symptoms_vi": [
+        "lâu nóng hơn trước",
+        "tốn điện",
+        "nghe tiếng lục bục khi đun",
+        "nước ra có cặn",
+        "nước đục",
+        "nước ra có mùi tanh"
+      ],
+      "price_min": 200000,
+      "price_max": 500000,
+      "price_reviewed": false,
+      "urgency": "LOW",
+      "suggested_actions_vi": [
+        "Đặt lịch vệ sinh bình, thường một tới hai năm một lần"
+      ]
+    },
+    {
+      "fault_code": "WH_TANK_LEAK",
+      "device_type": "water_heater",
+      "name_vi": "Thủng, rò bình chứa",
+      "symptoms_vi": [
+        "chảy nước từ bình",
+        "ướt tường dưới bình",
+        "nhỏ nước liên tục",
+        "nước rỉ ở đáy bình",
+        "trần nhà tắm bị thấm"
+      ],
+      "price_min": 2000000,
+      "price_max": 5000000,
+      "price_reviewed": false,
+      "urgency": "HIGH",
+      "suggested_actions_vi": [
+        "Ngắt nguồn điện và khoá van cấp nước vào bình"
+      ]
+    },
+    {
+      "fault_code": "WH_LOW_PRESSURE",
+      "device_type": "water_heater",
+      "name_vi": "Nước yếu, nghẹt đường vào bình",
+      "symptoms_vi": [
+        "nước nóng ra yếu",
+        "sen nước nóng rất nhỏ",
+        "nước lạnh mạnh mà nóng yếu"
+      ],
+      "price_min": 200000,
+      "price_max": 500000,
+      "price_reviewed": false,
+      "urgency": "LOW",
+      "suggested_actions_vi": [
+        "Kiểm tra van cấp vào bình đã mở hết chưa"
+      ]
+    },
+    {
+      "fault_code": "WH_INSTANT_NO_HOT",
+      "device_type": "water_heater",
+      "name_vi": "Máy nước nóng trực tiếp không nóng",
+      "symptoms_vi": [
+        "máy nước nóng trực tiếp không nóng",
+        "bật đèn đỏ mà nước lạnh",
+        "nước yếu nên máy không kích",
+        "mở nhỏ thì nóng mở lớn thì lạnh"
+      ],
+      "price_min": 300000,
+      "price_max": 700000,
+      "price_reviewed": false,
+      "urgency": "MEDIUM",
+      "suggested_actions_vi": [
+        "Tắt nguồn và kiểm tra áp lực nước đầu vào"
       ]
     },
     {
@@ -78,14 +2037,117 @@
         "rỉ nước",
         "ẩm tường",
         "nhỏ giọt",
-        "đọng nước sàn"
+        "đọng nước sàn",
+        "thấm trần",
+        "tường bị loang ố",
+        "nước rỉ ở khớp nối",
+        "sơn tường bong vì ẩm"
       ],
       "price_min": 150000,
       "price_max": 500000,
+      "price_reviewed": false,
       "urgency": "MEDIUM",
       "suggested_actions_vi": [
         "Khoá van cấp nước tổng",
         "Hứng nước tạm để hạn chế thấm"
+      ]
+    },
+    {
+      "fault_code": "PIPE_BURST",
+      "device_type": "water_pipe",
+      "name_vi": "Vỡ ống, xì nước mạnh",
+      "symptoms_vi": [
+        "nước phun",
+        "ngập nước",
+        "mất áp lực nước",
+        "nghe tiếng nước chảy trong tường",
+        "nước phun thành tia",
+        "vỡ ống nước",
+        "nước tràn khắp nhà"
+      ],
+      "price_min": 300000,
+      "price_max": 900000,
+      "price_reviewed": false,
+      "urgency": "HIGH",
+      "suggested_actions_vi": [
+        "Khoá van cấp nước tổng ngay",
+        "Ngắt điện khu vực bị ngập"
+      ]
+    },
+    {
+      "fault_code": "PIPE_CLOGGED",
+      "device_type": "water_pipe",
+      "name_vi": "Nghẹt đường ống thoát",
+      "symptoms_vi": [
+        "thoát nước chậm",
+        "ứ nước",
+        "trào ngược",
+        "hôi cống",
+        "cống bị tắc",
+        "nước dâng ngược lên sàn"
+      ],
+      "price_min": 200000,
+      "price_max": 600000,
+      "price_reviewed": false,
+      "urgency": "MEDIUM",
+      "suggested_actions_vi": [
+        "Ngưng xả nước xuống đường ống đang nghẹt"
+      ]
+    },
+    {
+      "fault_code": "PIPE_LOW_PRESSURE",
+      "device_type": "water_pipe",
+      "name_vi": "Áp lực nước yếu toàn nhà",
+      "symptoms_vi": [
+        "nước yếu",
+        "nước chảy nhỏ giọt",
+        "tầng trên không có nước",
+        "giờ cao điểm không có nước",
+        "bơm chạy mà nước vẫn yếu"
+      ],
+      "price_min": 200000,
+      "price_max": 700000,
+      "price_reviewed": false,
+      "urgency": "LOW",
+      "suggested_actions_vi": [
+        "Kiểm tra bồn chứa còn nước và van tổng đã mở hết chưa"
+      ]
+    },
+    {
+      "fault_code": "PIPE_NOISY",
+      "device_type": "water_pipe",
+      "name_vi": "Ống kêu, búa nước",
+      "symptoms_vi": [
+        "ống nước kêu",
+        "nghe tiếng ầm khi khoá vòi",
+        "đường ống rung",
+        "kêu ù ù trong tường khi mở nước"
+      ],
+      "price_min": 200000,
+      "price_max": 600000,
+      "price_reviewed": false,
+      "urgency": "LOW",
+      "suggested_actions_vi": [
+        "Khoá vòi từ từ thay vì đóng đột ngột"
+      ]
+    },
+    {
+      "fault_code": "PIPE_RUSTY_WATER",
+      "device_type": "water_pipe",
+      "name_vi": "Nước đục, rỉ sét đường ống",
+      "symptoms_vi": [
+        "nước đục",
+        "nước có màu vàng",
+        "nước có cặn",
+        "nước tanh mùi sắt",
+        "mở vòi ra nước đỏ"
+      ],
+      "price_min": 300000,
+      "price_max": 900000,
+      "price_reviewed": false,
+      "urgency": "MEDIUM",
+      "suggested_actions_vi": [
+        "Xả bỏ phần nước đầu và không dùng để ăn uống cho tới khi kiểm tra"
       ]
     }
   ],
@@ -93,17 +2155,112 @@
     {
       "doc_id": "POLICY_AC_MAINTENANCE",
       "title_vi": "Chu kỳ vệ sinh máy lạnh",
-      "content_vi": "Máy lạnh hộ gia đình dùng thường xuyên nên vệ sinh khoảng ba đến sáu tháng một lần. Môi trường nhiều bụi hoặc dùng liên tục cả ngày thì rút ngắn còn ba tháng."
+      "content_vi": "Máy lạnh hộ gia đình dùng thường xuyên nên vệ sinh khoảng ba đến sáu tháng một lần. Môi trường nhiều bụi hoặc dùng liên tục cả ngày thì rút ngắn còn ba tháng. Máy lạnh văn phòng chạy suốt giờ hành chính nên vệ sinh ba tháng một lần. Vệ sinh đúng hạn giúp máy lạnh nhanh hơn, đỡ tốn điện và bền hơn."
     },
     {
-      "doc_id": "POLICY_WARRANTY",
-      "title_vi": "Bảo hành dịch vụ FixHome",
-      "content_vi": "Bảo hành chỉ áp dụng cho đúng hạng mục đã được duyệt trong báo giá. Lỗi mới không liên quan phải báo giá bổ sung và khách hàng quyết định duyệt hay từ chối."
+      "doc_id": "POLICY_AC_GAS",
+      "title_vi": "Khi nào cần nạp gas máy lạnh",
+      "content_vi": "Máy lạnh là hệ kín nên về nguyên tắc không tự hao gas. Nếu phải nạp gas thường xuyên thì nghĩa là đang có chỗ xì, cần tìm và xử lý chỗ xì chứ không chỉ nạp thêm. Nạp gas mà không xử lý rò rỉ chỉ là giải pháp tạm."
+    },
+    {
+      "doc_id": "POLICY_WH_MAINTENANCE",
+      "title_vi": "Bảo trì bình nóng lạnh",
+      "content_vi": "Bình nóng lạnh nên được kiểm tra và súc rửa cặn khoảng một đến hai năm một lần, tuỳ chất lượng nước khu vực. Nơi nước cứng hoặc nước giếng thì nên làm hằng năm. Thiết bị chống giật cần được kiểm tra định kỳ vì liên quan trực tiếp tới an toàn."
+    },
+    {
+      "doc_id": "POLICY_WM_MAINTENANCE",
+      "title_vi": "Bảo trì máy giặt",
+      "content_vi": "Máy giặt nên được vệ sinh lồng khoảng sáu tháng một lần và làm sạch bộ lọc xơ vải hằng tháng. Không giặt quá tải vì đây là nguyên nhân phổ biến nhất gây mòn bạc đạn. Nên mở cửa máy sau khi giặt để lồng khô thoáng, tránh mùi hôi."
+    },
+    {
+      "doc_id": "POLICY_FRIDGE_MAINTENANCE",
+      "title_vi": "Bảo trì tủ lạnh",
+      "content_vi": "Tủ lạnh nên được vệ sinh bên trong hằng tháng và hút bụi dàn nóng phía sau khoảng sáu tháng một lần. Không kê sát tường vì cản luồng tản nhiệt. Không nhồi quá đầy vì chắn đường gió làm ngăn mát không lạnh đều."
+    },
+    {
+      "doc_id": "POLICY_FAN_MAINTENANCE",
+      "title_vi": "Bảo trì quạt",
+      "content_vi": "Quạt nên được vệ sinh cánh và lồng vài tháng một lần. Quạt kêu hoặc quay chậm thường là do khô dầu bạc trục, xử lý sớm sẽ rẻ hơn nhiều so với để tới lúc cháy mô tơ."
+    },
+    {
+      "doc_id": "POLICY_GAS_MAINTENANCE",
+      "title_vi": "Bảo trì bếp gas",
+      "content_vi": "Dây dẫn gas nên được thay khoảng hai đến ba năm một lần kể cả khi nhìn còn tốt, vì cao su lão hoá từ bên trong. Nên vệ sinh họng lửa khi thấy lửa đỏ hoặc nồi bị ám đen."
+    },
+    {
+      "doc_id": "POLICY_ELECTRICAL_SAFETY",
+      "title_vi": "An toàn điện trong nhà",
+      "content_vi": "Khi ngửi thấy mùi khét từ ổ cắm, thấy tia lửa, hoặc aptomat nhảy lặp lại, phải ngắt cầu dao khu vực và ngưng sử dụng cho tới khi kỹ thuật viên kiểm tra. Không tự đóng lại aptomat nhiều lần vì mỗi lần đóng lại là một lần phóng điện qua chỗ lỗi."
+    },
+    {
+      "doc_id": "POLICY_GAS_SAFETY",
+      "title_vi": "An toàn khi nghi rò gas",
+      "content_vi": "Khi ngửi thấy mùi gas, khoá van bình ngay, mở cửa cho thông thoáng, và tuyệt đối không bật hay tắt bất kỳ công tắc điện nào, không đánh lửa, không dùng điện thoại trong phòng. Ra khỏi khu vực rồi mới gọi hỗ trợ."
+    },
+    {
+      "doc_id": "POLICY_WATER_LEAK",
+      "title_vi": "Xử lý tạm khi rò rỉ nước",
+      "content_vi": "Khi phát hiện rò rỉ, khoá van cấp nước tổng trước tiên. Nếu nước chạm tới ổ cắm hoặc thiết bị điện thì ngắt cầu dao khu vực trước khi dọn."
+    },
+    {
+      "doc_id": "POLICY_SHOCK_RISK",
+      "title_vi": "Nguy cơ rò điện",
+      "content_vi": "Cảm giác tê tay khi chạm vỏ thiết bị, vòi sen hay máy giặt là dấu hiệu rò điện. Phải ngắt nguồn thiết bị đó ngay và không sử dụng cho tới khi kiểm tra. Đây là tình huống nguy hiểm tính mạng, không nên tự xử lý."
+    },
+    {
+      "doc_id": "POLICY_AI_ADVISORY",
+      "title_vi": "Giới hạn của gợi ý từ AI",
+      "content_vi": "Kết quả AI chỉ là gợi ý sơ bộ dựa trên ảnh và mô tả, không phải kết luận kỹ thuật. Giá hiển thị là khoảng tham khảo. Kết luận cuối cùng và báo giá chính thức thuộc về kỹ thuật viên sau khi kiểm tra trực tiếp tại nhà."
     },
     {
       "doc_id": "POLICY_QUOTATION",
       "title_vi": "Báo giá chính thức",
-      "content_vi": "Giá do AI đưa ra chỉ là tham khảo. Báo giá chính thức được kỹ thuật viên lập sau khi kiểm tra trực tiếp và chỉ có hiệu lực khi khách hàng duyệt."
+      "content_vi": "Báo giá chính thức được kỹ thuật viên lập sau khi tới nơi và kiểm tra thực tế. Báo giá chỉ có hiệu lực khi khách hàng duyệt. Khách hàng có quyền từ chối, khi đó công việc dừng lại và không phát sinh chi phí sửa chữa."
+    },
+    {
+      "doc_id": "POLICY_ADDITIONAL_COST",
+      "title_vi": "Chi phí phát sinh",
+      "content_vi": "Nếu trong lúc sửa phát hiện hạng mục ngoài phạm vi đã duyệt, kỹ thuật viên phải gửi yêu cầu chi phí phát sinh và chờ khách hàng quyết định. Khách từ chối mà phần việc đã duyệt vẫn làm được thì tiếp tục làm phần đó; không làm được thì dừng."
+    },
+    {
+      "doc_id": "POLICY_WARRANTY",
+      "title_vi": "Bảo hành dịch vụ",
+      "content_vi": "Bảo hành chỉ áp dụng cho đúng hạng mục đã được duyệt trong báo giá. Lỗi mới không liên quan tới phạm vi cũ phải báo giá bổ sung và khách hàng quyết định duyệt hay từ chối."
+    },
+    {
+      "doc_id": "POLICY_PAYMENT",
+      "title_vi": "Hình thức thanh toán",
+      "content_vi": "Hỗ trợ thanh toán trực tuyến và tiền mặt. Với tiền mặt, kỹ thuật viên khai số tiền đã nhận và khách hàng xác nhận lại; hệ thống không tự động xác nhận thay hai bên."
+    },
+    {
+      "doc_id": "POLICY_PARTS",
+      "title_vi": "Linh kiện và vật tư",
+      "content_vi": "Tiền công và tiền linh kiện được tách riêng trong báo giá. Khách hàng có thể yêu cầu xem linh kiện thay thế trước khi lắp."
+    },
+    {
+      "doc_id": "POLICY_BOOKING",
+      "title_vi": "Đặt lịch và đổi lịch",
+      "content_vi": "Khách hàng chọn khung giờ mong muốn khi đặt lịch. Có thể đổi lịch trước khi công việc sửa chữa bắt đầu, hệ thống sẽ kiểm tra lịch trống của kỹ thuật viên."
+    },
+    {
+      "doc_id": "POLICY_CANCELLATION",
+      "title_vi": "Huỷ đơn",
+      "content_vi": "Khách hàng có thể huỷ trước khi kỹ thuật viên tới. Huỷ sau khi kỹ thuật viên đã tới nơi và xác nhận vị trí sẽ được bộ phận hỗ trợ xem xét theo chính sách."
+    },
+    {
+      "doc_id": "POLICY_SCOPE",
+      "title_vi": "Phạm vi dịch vụ",
+      "content_vi": "Hiện hỗ trợ bốn nhóm là máy lạnh, điện dân dụng, nước dân dụng và thiết bị gia đình. Thiết bị nằm ngoài danh mục sẽ được chuyển cho bộ phận hỗ trợ xem xét từng trường hợp."
+    },
+    {
+      "doc_id": "POLICY_REPLACE_VS_REPAIR",
+      "title_vi": "Nên sửa hay nên thay mới",
+      "content_vi": "Nguyên tắc tham khảo là khi chi phí sửa vượt quá khoảng một nửa giá mua mới, và thiết bị đã dùng nhiều năm, thì thay mới thường hợp lý hơn. Kỹ thuật viên sẽ tư vấn cụ thể sau khi kiểm tra."
+    },
+    {
+      "doc_id": "POLICY_PRICE_RANGE",
+      "title_vi": "Vì sao giá là một khoảng",
+      "content_vi": "Giá hiển thị là khoảng vì chi phí phụ thuộc vào nguyên nhân thật, loại linh kiện và độ khó khi thi công. Ví dụ cùng là máy lạnh không mát, nạp gas và thay máy nén chênh nhau rất nhiều lần."
     }
   ]
 }

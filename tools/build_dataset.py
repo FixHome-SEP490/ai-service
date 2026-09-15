@@ -104,17 +104,25 @@ def cmd_download(args: argparse.Namespace) -> None:
     dataset = None
     for index, class_name in enumerate(classes, start=1):
         print(f"  [{index}/{len(classes)}] {class_name}")
+        part_name = f"{args.dataset_name}-{index:02d}"
+        if part_name in fo.list_datasets():
+            fo.delete_dataset(part_name)
+        # No overwrite= here. The zoo treats it as "delete the downloaded
+        # split", so passing it per class wipes the images the previous classes
+        # just fetched: one run left 326 files on disk for 5273 samples, and the
+        # failure only appears later as missing-file errors during export.
         part = foz.load_zoo_dataset(
             "open-images-v7",
             split="train",
             label_types=["detections"],
             classes=[class_name],
             max_samples=args.limit_per_class,
-            dataset_name=f"{args.dataset_name}-{index:02d}",
-            overwrite=True,
+            dataset_name=part_name,
         )
         if dataset is None:
-            dataset = fo.Dataset(args.dataset_name, overwrite=True)
+            if args.dataset_name in fo.list_datasets():
+                fo.delete_dataset(args.dataset_name)
+            dataset = fo.Dataset(args.dataset_name)
         dataset.add_samples(part)
         part.delete()
     # Zoo datasets are non-persistent by default, so the registration is dropped
@@ -175,8 +183,18 @@ def cmd_export(args: argparse.Namespace) -> None:
 
     # Group by content hash first so duplicates cannot straddle two splits.
     by_hash: Dict[str, List] = defaultdict(list)
+    missing = 0
     for sample in dataset:
-        by_hash[_content_hash(Path(sample.filepath))].append(sample)
+        path = Path(sample.filepath)
+        if not path.exists():
+            missing += 1
+            continue
+        by_hash[_content_hash(path)].append(sample)
+    if missing:
+        print(
+            f"{missing} samples reference files no longer on disk and were skipped.\n"
+            "  Re-run: build_dataset.py download --limit-per-class N"
+        )
 
     reuse = SPLIT_PATH.exists() and not args.resplit
     if reuse:

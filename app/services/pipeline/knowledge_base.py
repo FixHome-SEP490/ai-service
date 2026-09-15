@@ -32,6 +32,12 @@ class Fault:
     price_max: int
     urgency: str
     suggested_actions_vi: List[str]
+    price_reviewed: bool = False
+    """Whether a person has checked the range against current market rates.
+
+    Estimated ranges are usable for an advisory figure but must not be presented
+    as authoritative, and the team needs to see at a glance which entries are
+    still guesses."""
 
 
 @dataclass(frozen=True)
