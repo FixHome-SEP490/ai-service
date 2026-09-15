@@ -1,0 +1,132 @@
+{
+  "version": "SEP490 8.3.1",
+  "_comment_vi": "Gia cong tho co dinh, Admin quan ly, snapshot khi Booking. Day la san cua moi khoang gia: tho van di lai va lam viec du co thay linh kien hay khong. DIAGNOSE_ONSITE la muc toi thieu khi chua ro benh.",
+  "services": [
+    {
+      "service_code": "AC_CLEAN_WALL_SMALL",
+      "name_vi": "Vệ sinh điều hòa treo tường 1–1.5 HP",
+      "device_type": "air_conditioner",
+      "price": 180000,
+      "unit_vi": "Máy"
+    },
+    {
+      "service_code": "AC_CLEAN_WALL_LARGE",
+      "name_vi": "Vệ sinh điều hòa treo tường 2–2.5 HP",
+      "device_type": "air_conditioner",
+      "price": 220000,
+      "unit_vi": "Máy"
+    },
+    {
+      "service_code": "AC_CLEAN_CASSETTE",
+      "name_vi": "Vệ sinh điều hòa âm trần",
+      "device_type": "air_conditioner",
+      "price": 500000,
+      "unit_vi": "Máy"
+    },
+    {
+      "service_code": "WM_CLEAN_TOP_SMALL",
+      "name_vi": "Vệ sinh máy giặt cửa trên ≤ 9kg",
+      "device_type": "washing_machine",
+      "price": 350000,
+      "unit_vi": "Máy"
+    },
+    {
+      "service_code": "WM_CLEAN_TOP_LARGE",
+      "name_vi": "Vệ sinh máy giặt cửa trên > 9kg",
+      "device_type": "washing_machine",
+      "price": 450000,
+      "unit_vi": "Máy"
+    },
+    {
+      "service_code": "WM_CLEAN_FRONT_SMALL",
+      "name_vi": "Vệ sinh máy giặt cửa ngang ≤ 9kg",
+      "device_type": "washing_machine",
+      "price": 550000,
+      "unit_vi": "Máy"
+    },
+    {
+      "service_code": "WM_CLEAN_FRONT_LARGE",
+      "name_vi": "Vệ sinh máy giặt cửa ngang > 9kg",
+      "device_type": "washing_machine",
+      "price": 650000,
+      "unit_vi": "Máy"
+    },
+    {
+      "service_code": "WH_CLEAN",
+      "name_vi": "Vệ sinh, bảo dưỡng bình nóng lạnh",
+      "device_type": "water_heater",
+      "price": 250000,
+      "unit_vi": "Bình"
+    },
+    {
+      "service_code": "ELEC_SWITCH_REPLACE",
+      "name_vi": "Thay công tắc điện, tiền công",
+      "device_type": "light_bulb",
+      "price": 100000,
+      "unit_vi": "Cái"
+    },
+    {
+      "service_code": "ELEC_OUTLET_REPLACE",
+      "name_vi": "Thay ổ cắm điện, tiền công",
+      "device_type": "power_outlet",
+      "price": 100000,
+      "unit_vi": "Cái"
+    },
+    {
+      "service_code": "ELEC_CEILING_LIGHT",
+      "name_vi": "Lắp đèn trần cơ bản, tiền công",
+      "device_type": "light_bulb",
+      "price": 120000,
+      "unit_vi": "Cái"
+    },
+    {
+      "service_code": "ELEC_WALL_FAN",
+      "name_vi": "Lắp quạt treo tường, tiền công",
+      "device_type": "electric_fan",
+      "price": 150000,
+      "unit_vi": "Cái"
+    },
+    {
+      "service_code": "ELEC_CEILING_FAN",
+      "name_vi": "Lắp quạt trần cơ bản, tiền công",
+      "device_type": "ceiling_fan",
+      "price": 250000,
+      "unit_vi": "Cái"
+    },
+    {
+      "service_code": "TV_MOUNT",
+      "name_vi": "Lắp TV lên giá treo có sẵn",
+      "device_type": "television",
+      "price": 100000,
+      "unit_vi": "TV"
+    },
+    {
+      "service_code": "PLUMB_FAUCET_REPLACE",
+      "name_vi": "Thay vòi nước, tiền công",
+      "device_type": "faucet",
+      "price": 120000,
+      "unit_vi": "Cái"
+    },
+    {
+      "service_code": "PLUMB_SHOWER_REPLACE",
+      "name_vi": "Thay vòi sen, tiền công",
+      "device_type": "faucet",
+      "price": 150000,
+      "unit_vi": "Bộ"
+    },
+    {
+      "service_code": "PLUMB_SIPHON_REPLACE",
+      "name_vi": "Thay siphon, chống rò lavabo, tiền công",
+      "device_type": "sink",
+      "price": 150000,
+      "unit_vi": "Bộ"
+    },
+    {
+      "service_code": "DIAGNOSE_ONSITE",
+      "name_vi": "Kiểm tra, chẩn đoán thiết bị tại nhà",
+      "device_type": null,
+      "price": 100000,
+      "unit_vi": "Lần"
+    }
+  ]
+}
