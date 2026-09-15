@@ -52,6 +52,32 @@ fetch_dataset() {
   log "Downloading dataset ${HF_DATASET_REPO}"
   huggingface-cli download "${HF_DATASET_REPO}" \
     --repo-type dataset --local-dir "${DATA_DIR}"
+
+  # The dataset travels as one archive. Uploading it as loose files hit the
+  # Hub's limit of 128 commits an hour partway through and left images without
+  # their labels, which trains quietly on the wrong thing.
+  local archive="${DATA_DIR}/fixhome-dataset.tar.gz"
+  if [[ -f "${archive}" ]]; then
+    log "Unpacking $(du -h "${archive}" | cut -f1)"
+    tar -xzf "${archive}" -C "${DATA_DIR}"
+    rm -f "${archive}"
+  fi
+
+  [[ -f "${DATA_DIR}/data.yaml" ]] || {
+    echo "No data.yaml in ${DATA_DIR} after download." >&2
+    exit 1
+  }
+
+  local images labels
+  images=$(find "${DATA_DIR}/images" -type f | wc -l)
+  labels=$(find "${DATA_DIR}/labels" -type f | wc -l)
+  log "${images} images, ${labels} labels"
+  if [[ "${images}" -ne "${labels}" ]]; then
+    # Ultralytics skips an image with no label beside it and says nothing, so
+    # a partial download would train on less data and still look healthy.
+    echo "Counts differ; the dataset did not arrive intact." >&2
+    exit 1
+  fi
 }
 
 fix_dataset_root() {

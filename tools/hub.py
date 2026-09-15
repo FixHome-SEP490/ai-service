@@ -18,6 +18,8 @@ from __future__ import annotations
 
 import argparse
 import sys
+import tarfile
+import tempfile
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
@@ -31,19 +33,20 @@ REPO_ROOT = Path(__file__).resolve().parents[1]
 DATASET_DIR = REPO_ROOT / "datasets" / "fixhome"
 WEIGHTS_DIR = REPO_ROOT / "weights"
 
-_HUB_DIR_LIMIT = 10000
-"""Files per directory the Hub accepts. Exceeding it rejects the entire push."""
+ARCHIVE_NAME = "fixhome-dataset.tar.gz"
+"""The dataset travels as one file.
 
+Uploading it as loose files failed twice, for different reasons. First the Hub
+refused any directory holding more than ten thousand files. Then, with that
+sharded away, 22745 separate uploads hit a limit of 128 commits an hour and
+stopped two thirds of the way through, leaving 22745 images beside 16620
+labels — a dataset that looks present and trains on the wrong thing.
 
-def _overfull_directories(root: Path) -> list[tuple[Path, int]]:
-    counts: dict[Path, int] = {}
-    for path in root.rglob("*"):
-        if path.is_file():
-            counts[path.parent] = counts.get(path.parent, 0) + 1
-    return sorted(
-        ((d.relative_to(root), n) for d, n in counts.items() if n > _HUB_DIR_LIMIT),
-        key=lambda item: -item[1],
-    )
+One archive is one commit. It also transfers far faster, since the cost of
+22745 small uploads is mostly round trips, and it retires the per-directory
+limit rather than working around it.
+"""
+
 
 _TOKEN_HINT = (
     "Create a token at huggingface.co/settings/tokens with the Write role.\n"
@@ -56,9 +59,7 @@ def _api(token: str):
     try:
         from huggingface_hub import HfApi
     except ImportError:  # pragma: no cover - tooling only
-        raise SystemExit(
-            "huggingface_hub is not installed. pip install -r requirements-tools.txt"
-        )
+        raise SystemExit("huggingface_hub is not installed. pip install -r requirements-tools.txt")
     return HfApi(token=token)
 
 
@@ -82,58 +83,58 @@ def cmd_push_dataset(args: argparse.Namespace) -> None:
             "Build it first: python tools/build_dataset.py export --include-roboflow"
         )
 
+    images = sum(1 for p in (source / "images").rglob("*") if p.is_file())
+    labels = sum(1 for p in (source / "labels").rglob("*") if p.is_file())
+    if images != labels:
+        raise SystemExit(
+            f"{images} images but {labels} labels locally. Training would silently "
+            "skip the unpaired ones.\nRe-export before uploading."
+        )
+
     token = get_secret("HF_TOKEN", hint=_TOKEN_HINT)
     api = _api(token)
     api.create_repo(args.repo, repo_type="dataset", private=args.private, exist_ok=True)
 
-    size_mb = sum(f.stat().st_size for f in source.rglob("*") if f.is_file()) / 1e6
     count = sum(1 for f in source.rglob("*") if f.is_file())
-    print(f"Uploading {count} files, {size_mb:.0f} MB, from {source}")
-    print("This is one upload; every later training run pulls it in seconds.")
+    size_mb = sum(f.stat().st_size for f in source.rglob("*") if f.is_file()) / 1e6
+    print(f"Packing {count} files, {size_mb:.0f} MB, from {source}")
 
-    crowded = _overfull_directories(source)
-    if crowded:
-        raise SystemExit(
-            "The Hub refuses a push where any directory holds more than "
-            f"{_HUB_DIR_LIMIT} files, and it rejects the whole push rather than\n"
-            "the offending directory. These are over the limit:\n"
-            + "".join(f"  {path}  ({count} files)\n" for path, count in crowded)
-            + "\nRe-export to shard them:\n"
-            "  python tools/build_dataset.py export --include-roboflow"
+    with tempfile.TemporaryDirectory() as workspace:
+        archive = Path(workspace) / ARCHIVE_NAME
+        with tarfile.open(archive, "w:gz") as tar:
+            tar.add(source, arcname=".")
+        print(f"Archive {archive.stat().st_size / 1e6:.0f} MB, uploading in one commit")
+
+        api.upload_file(
+            path_or_fileobj=str(archive),
+            path_in_repo=ARCHIVE_NAME,
+            repo_id=args.repo,
+            repo_type="dataset",
+            commit_message=args.message,
         )
 
-    api.upload_folder(
-        folder_path=str(source),
-        repo_id=args.repo,
-        repo_type="dataset",
-        commit_message=args.message,
-        # Mirror, do not merge. An upload only adds and updates, so re-exporting
-        # into a different layout leaves the old one beside the new one: one run
-        # left 11224 stale unsharded images next to 12513 sharded ones, and
-        # training would have scanned images with no labels beside them.
-        delete_patterns=["**"],
-    )
+    _remove_loose_files(api, args.repo)
 
-    # Checked rather than trusted. An earlier push moved every image, no labels
-    # at all, and still exited zero.
-    remote = api.list_repo_files(args.repo, repo_type="dataset")
-    uploaded = len([f for f in remote if f != ".gitattributes"])
-    if uploaded != count:
-        raise SystemExit(
-            f"\n{uploaded} files on the Hub but {count} locally. The push did not "
-            "land as expected.\nCheck the output above for the reason."
-        )
+    if ARCHIVE_NAME not in api.list_repo_files(args.repo, repo_type="dataset"):
+        raise SystemExit(f"{ARCHIVE_NAME} is not on the Hub. The upload did not land.")
 
-    images = sum(1 for f in remote if f.startswith("images/"))
-    labels = sum(1 for f in remote if f.startswith("labels/"))
-    if images != labels:
-        raise SystemExit(
-            f"\n{images} images but {labels} labels on the Hub. Training would "
-            "silently skip the unpaired ones."
-        )
-
-    print(f"\nDone: {uploaded} files at https://huggingface.co/datasets/{args.repo}")
+    print(f"\nDone: https://huggingface.co/datasets/{args.repo}")
     print(f"Set HF_DATASET_REPO={args.repo} when running the trainer.")
+
+
+def _remove_loose_files(api, repo: str) -> None:
+    """Delete files left by an earlier per-file upload.
+
+    They would be unpacked over by the archive and silently rejoin the dataset,
+    which is how the half-finished upload would keep hurting after being
+    replaced.
+    """
+    remote = api.list_repo_files(repo, repo_type="dataset")
+    for folder in ("images", "labels", "splits"):
+        if not any(f.startswith(f"{folder}/") for f in remote):
+            continue
+        print(f"Removing loose {folder}/ left by an earlier upload")
+        api.delete_folder(path_in_repo=folder, repo_id=repo, repo_type="dataset")
 
 
 def cmd_pull_weights(args: argparse.Namespace) -> None:
