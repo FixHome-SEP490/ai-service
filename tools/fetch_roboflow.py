@@ -7,7 +7,7 @@ train a model that looks fine in the logs and is useless in practice. So every
 label is rewritten to this project's `device_type` ids, and anything not in the
 map is dropped.
 
-    set ROBOFLOW_API_KEY=...
+    # put ROBOFLOW_API_KEY in .env (git-ignored), then:
     python tools/fetch_roboflow.py list
     python tools/fetch_roboflow.py download --all
     python tools/fetch_roboflow.py download --device water_heater
@@ -20,7 +20,6 @@ in through one code path.
 from __future__ import annotations
 
 import argparse
-import os
 import shutil
 import sys
 from collections import Counter
@@ -29,6 +28,7 @@ from typing import Dict, List, Optional
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
+from _secrets import describe, get_secret  # noqa: E402
 from roboflow_sources import SOURCES, RoboflowSource, coverage, sources_for  # noqa: E402
 
 if hasattr(sys.stdout, "reconfigure"):
@@ -68,6 +68,8 @@ def cmd_list(args: argparse.Namespace) -> None:
         "  bounds to plan against. Exact figures come from the download step."
     )
     print("\nAll sources are CC BY 4.0 and must be credited in the report.")
+    # Says whether the key was found and where, never what it is.
+    print(describe("ROBOFLOW_API_KEY"))
 
 
 def _download(source: RoboflowSource, api_key: str) -> Optional[Path]:
@@ -96,25 +98,21 @@ def _download(source: RoboflowSource, api_key: str) -> Optional[Path]:
 
 
 def _names_from_yaml(dataset_dir: Path) -> List[str]:
-    """Read class names without pulling in a YAML dependency."""
-    text = (dataset_dir / "data.yaml").read_text(encoding="utf-8")
-    inside = text.split("names:", 1)[1]
-    if "[" in inside.split("\n", 1)[0]:
-        raw = inside.split("[", 1)[1].split("]", 1)[0]
-        return [item.strip().strip("'\"") for item in raw.split(",") if item.strip()]
+    """Read the class list from a Roboflow data.yaml.
 
-    names: List[str] = []
-    for line in inside.splitlines()[1:]:
-        stripped = line.strip()
-        if not stripped.startswith("-") and ":" not in stripped:
-            break
-        if stripped.startswith("-"):
-            names.append(stripped[1:].strip().strip("'\""))
-        elif ":" in stripped:
-            names.append(stripped.split(":", 1)[1].strip().strip("'\""))
-        else:
-            break
-    return names
+    Parsed properly rather than scanned line by line. The hand-rolled version
+    kept reading past the list and collected `nc`, the licence string and the
+    project URL as if they were class names. Indices happened to stay correct
+    because the real names come first, so it looked harmless while making every
+    diagnostic message nonsense.
+    """
+    import yaml
+
+    data = yaml.safe_load((dataset_dir / "data.yaml").read_text(encoding="utf-8"))
+    names = data.get("names", [])
+    if isinstance(names, dict):  # some exports use {0: name} instead of a list
+        return [names[key] for key in sorted(names)]
+    return [str(name) for name in names]
 
 
 def _convert(source: RoboflowSource, dataset_dir: Path, class_index: Dict[str, int]) -> Counter:
@@ -142,7 +140,7 @@ def _convert(source: RoboflowSource, dataset_dir: Path, class_index: Dict[str, i
             continue
         for label_path in labels_dir.glob("*.txt"):
             kept: List[str] = []
-            device_type = None
+            present: List[str] = []
             for line in label_path.read_text(encoding="utf-8").splitlines():
                 parts = line.split()
                 if len(parts) < 5:
@@ -150,10 +148,14 @@ def _convert(source: RoboflowSource, dataset_dir: Path, class_index: Dict[str, i
                 original = int(parts[0])
                 if original not in remap:
                     continue  # a class this project does not model
-                device_type = remap_names[original]
+                if remap_names[original] not in present:
+                    present.append(remap_names[original])
                 kept.append(" ".join([str(remap[original])] + parts[1:5]))
-            if not kept or device_type is None:
+            if not kept:
                 continue
+            # An image can hold more than one modelled device; file it under the
+            # first and count every class it contributes.
+            device_type = present[0]
 
             image_path = next(
                 (p for p in images_dir.glob(f"{label_path.stem}.*")), None
@@ -173,12 +175,14 @@ def _convert(source: RoboflowSource, dataset_dir: Path, class_index: Dict[str, i
 
 
 def cmd_download(args: argparse.Namespace) -> None:
-    api_key = os.environ.get("ROBOFLOW_API_KEY", "").strip()
-    if not api_key:
-        raise SystemExit(
-            "ROBOFLOW_API_KEY is not set. Create a free Roboflow account, then\n"
-            "copy the key from Settings and export it before running this."
-        )
+    api_key = get_secret(
+        "ROBOFLOW_API_KEY",
+        hint=(
+            "Roboflow issues two keys. This needs the Private API Key from\n"
+            "Settings > API Keys. The Publishable Key is for browser-side\n"
+            "inference widgets and cannot download datasets."
+        ),
+    )
 
     selected = SOURCES if args.all else sources_for(args.device)
     if not selected:

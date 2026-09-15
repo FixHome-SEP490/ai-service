@@ -4,3 +4,4 @@ fiftyone==1.*
 pillow==11.*
 roboflow==1.1.*
 pillow-heif==0.21.*
+pyyaml==6.*
