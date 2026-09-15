@@ -53,3 +53,15 @@ def test_the_floor_is_always_labour_the_customer_would_pay():
     for device in kb.device_types:
         for fault in kb.faults_for_device(device):
             assert fault.price_min == labour[fault.labour_code]
+
+
+def test_the_assessment_flag_goes_out_as_camel_case():
+    """Backend reads camelCase. A lone snake_case field reads as missing."""
+    from app.schemas.diagnosis import PriceEstimate
+
+    payload = PriceEstimate(min=100_000, max=None, requires_assessment=True).model_dump(
+        by_alias=True
+    )
+    assert payload["requiresAssessment"] is True
+    assert payload["max"] is None
+    assert "requires_assessment" not in payload

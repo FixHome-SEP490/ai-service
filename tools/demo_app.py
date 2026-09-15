@@ -113,7 +113,18 @@ def _render(result: dict[str, Any]) -> str:
 
     price = result.get("priceEstimate")
     if price:
-        lines.append(f"\n**Giá tham khảo** {price['min']:,} – {price['max']:,} {price['currency']}")
+        # No ceiling means the tables cannot price the job, not that it is free.
+        if price.get("max") is None:
+            lines.append(
+                f"\n**Giá tham khảo** từ {price['min']:,} {price['currency']}, "
+                "phần còn lại cần kỹ thuật viên khảo sát tại chỗ"
+            )
+        elif price["max"] == price["min"]:
+            lines.append(f"\n**Giá tham khảo** {price['min']:,} {price['currency']}")
+        else:
+            lines.append(
+                f"\n**Giá tham khảo** {price['min']:,} – {price['max']:,} {price['currency']}"
+            )
 
     urgency = result.get("urgency", "LOW")
     color = _URGENCY_COLOR.get(urgency, "#555")
