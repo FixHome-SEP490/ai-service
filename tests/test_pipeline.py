@@ -29,6 +29,13 @@ class _FixedVlm:
         self.last_kwargs = kwargs
         return self._verdict
 
+    async def assess_context(self, *args, **kwargs) -> VlmVerdict:
+        self.last_kwargs = kwargs
+        return self._verdict
+
+    async def narrate(self, facts_vi: str, allowed_numbers: list[str]) -> str:
+        return ""
+
     async def answer(self, question: str, passages_vi: list[str]):
         return (passages_vi[0], 0.8) if passages_vi else ("", 0.0)
 

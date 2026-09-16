@@ -71,6 +71,10 @@ class VisionLanguageModel(Protocol):
         """Phrase a finished diagnosis as a message, without changing it."""
         ...
 
+    async def assess_context(self, crop, context, candidate_condition_codes) -> VlmVerdict:
+        """Choose from an assembled context bundle."""
+        ...
+
 
 class StubVlm:
     """Picks the top retrieved candidate. Deterministic, no weights needed."""
@@ -101,6 +105,14 @@ class StubVlm:
 
     async def narrate(self, facts_vi: str, allowed_numbers: List[str]) -> str:
         return ""
+
+    async def assess_context(self, crop, context, candidate_condition_codes) -> VlmVerdict:
+        # Same behaviour as assess: take retrieval's own top answer.
+        if not context.candidates:
+            return VlmVerdict()
+        return VlmVerdict(
+            fault_codes=[context.candidates[0].fault.fault_code], confidence=0.62
+        )
 
 
 class QwenVlm:
@@ -151,3 +163,6 @@ class QwenVlm:
 
     async def narrate(self, facts_vi: str, allowed_numbers: List[str]) -> str:
         return await self._client.narrate(facts_vi, allowed_numbers)
+
+    async def assess_context(self, crop, context, candidate_condition_codes) -> VlmVerdict:
+        return await self._client.assess_context(crop, context, candidate_condition_codes)
