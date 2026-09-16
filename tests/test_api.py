@@ -113,3 +113,22 @@ def test_chat_endpoint_returns_citations():
     assert body["status"] == "ok"
     assert body["citations"]
     assert body["citations"][0]["docId"]
+
+
+def test_a_diagnosis_says_what_produced_it():
+    """Section 8.4 requires provider, model and version stored for audit.
+
+    Without them a stored result says only "the AI said so". By the time a
+    complaint arrives the weights will have been replaced and the fault table
+    reworded, and neither would be recoverable from the record.
+    """
+    response = client.post(
+        "/api/v1/diagnosis/analyze",
+        json={"description": "Máy lạnh không mát", "images": []},
+    )
+    assert response.status_code == 200
+    info = response.json()["modelInfo"]
+    # The fault table is the one that always exists: every Vietnamese sentence
+    # and every price the customer sees comes out of it, and it changes without
+    # the code changing at all. Weights and a served model may be absent in CI.
+    assert info["knowledgeBaseVersion"]

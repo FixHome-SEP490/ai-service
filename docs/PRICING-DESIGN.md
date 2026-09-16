@@ -51,17 +51,25 @@ Bảng linh kiện bản v4 (791 dòng) **phủ đủ mười bảy lớp**. B�
 trống toàn bộ nhóm nước; bản mới bổ sung bồn rửa, vòi nước, bồn cầu, đường ống,
 và tách riêng lò vi sóng, lò nướng, bếp gas, ấm đun thay vì gộp chung.
 
-Còn thiếu là **bảng tiền công**, hiện chỉ phủ mười trong mười bảy lớp. Không có
-giá công cho: tủ lạnh, lò vi sóng, lò nướng, bếp gas, ấm đun, bồn cầu, đường
-ống nước.
+**Bảng tiền công** chỉ phủ mười trong mười bảy lớp. Không có giá công riêng cho:
+tủ lạnh, lò vi sóng, lò nướng, bếp gas, ấm đun, bồn cầu, đường ống nước.
 
-Điều đó lệch về một phía đáng chú ý: bảy lớp này **có linh kiện nhưng không có
-công**, nghĩa là biết được trần mà không biết sàn. Trong khi quy tắc lấy sàn làm
-điểm tựa, vì đó là con số chắc chắn nhất và là con số khách nhìn trước tiên.
+Bảy lớp này **có linh kiện nhưng không có công**, nghĩa là biết trần mà không
+biết sàn — trong khi quy tắc lấy sàn làm điểm tựa, vì đó là con số chắc chắn
+nhất và là con số khách nhìn trước tiên.
 
-Khi thiếu công, sàn lùi về phí kiểm tra tại nhà 100.000đ. Trung thực, nhưng nó
-nói rằng sửa tủ lạnh bắt đầu từ 100.000đ, điều đúng về mặt chữ nghĩa và dễ gây
-hiểu nhầm. Bảy dòng bổ sung vào bảng 8.3.1 sẽ xử lý xong chuyện này.
+PO đã quyết: **bảy lớp đó lấy phí kiểm tra tại nhà 100.000đ làm sàn**, không chờ
+bổ sung bảng 8.3.1. Đây là con số có thật trong mục 8.3.1, đúng quy trình — thợ
+tới nhà, kiểm tra, rồi mới lập báo giá chính thức — nên nó không phải con số bịa
+để lấp chỗ trống.
+
+Cần đọc nó cho đúng. Nó **không nói sửa tủ lạnh tốn 100.000đ**. Nó nói lần đi
+kiểm tra tốn 100.000đ, và phần sửa chữa nằm ở khoảng phía trên cho tới trần do
+linh kiện quyết định. Chữ nghĩa hiển thị cho khách phải phản ánh đúng chỗ đó,
+nếu không thì một con số trung thực lại thành một lời hứa sai.
+
+Khi nào bảng 8.3.1 có thêm bảy dòng thật thì sàn tự nâng lên, không phải sửa
+code — chỉ sửa `labour_catalog.json` rồi chạy lại `tools/price_faults.py`.
 
 ## Con số được tính ra sao
 
