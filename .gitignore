@@ -48,3 +48,4 @@ weights/
 
 # Id of a rented GPU, local to whoever rented it.
 .vast-instance
+.vast-offers.json
