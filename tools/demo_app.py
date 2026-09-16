@@ -1,23 +1,35 @@
-"""Gradio demo for the diagnosis pipeline.
+"""Test and monitoring console for the AI service.
 
-Upload a photo, type a Vietnamese description, see the detection drawn on the
-image next to the diagnosis. Two uses: checking training progress by eye during
-development, and demonstrating the system without asking anyone to read JSON.
+Three things an operator needs and a JSON response does not give.
 
-It talks to the running service over HTTP rather than importing the pipeline, so
-what you see here is exactly what Backend will receive, and it works just as
-well against a deployed instance.
+**Chẩn đoán** is the customer's view: a photo, a description, and what comes
+back. It keeps the session id between turns, so the assistant can ask which
+appliance it is and actually receive the answer — the behaviour that separates a
+conversation from a form, and the one a single-shot form can never show.
+
+**Đường đi gói tin** is the operator's view. The pipeline is four stages and a
+failure in any of them looks identical from outside: the assistant asks a
+question. Without this, "it asked again" could be the detector finding nothing,
+retrieval returning an empty shortlist, the model naming codes outside it, or
+the model server being unreachable — four problems, four different fixes, one
+symptom. The trace names which stage, how long it took, and what it produced.
+
+**Hỏi đáp** is the policy surface, which never recommends a service.
+
+It talks to the service over HTTP rather than importing the pipeline, so what is
+shown here is exactly what Backend receives.
 
     python -m uvicorn app.main:app --port 8000
     python tools/demo_app.py
 
-Set AI_SERVICE_URL to point at a remote deployment.
+Set AI_SERVICE_URL to point at a deployment.
 """
 
 from __future__ import annotations
 
 import io
 import os
+import time
 from typing import Any, Optional
 
 import gradio as gr
@@ -25,38 +37,55 @@ import httpx
 from PIL import Image, ImageDraw
 
 SERVICE_URL = os.environ.get("AI_SERVICE_URL", "http://127.0.0.1:8000")
-REQUEST_TIMEOUT = 30.0
+REQUEST_TIMEOUT = 120.0
 
 _URGENCY_COLOR = {"LOW": "#2e7d32", "MEDIUM": "#ef6c00", "HIGH": "#c62828"}
 
+_STAGE_ROLE_VI = {
+    "session": "Trí nhớ hội thoại — ghép lời khách qua nhiều lượt, nhớ thiết bị đã biết",
+    "detector": "YOLOv8n — nhận loại thiết bị từ ảnh và cắt vùng thiết bị",
+    "retrieval": "RAG — tra bảng bệnh, rút danh sách ngắn để Qwen chọn",
+    "vlm": "Qwen2.5-VL — đọc ảnh cắt và lời khách, chọn mã trong danh sách",
+    "knowledge_base": "Bảng bệnh — dịch mã sang tiếng Việt, ghép giá, việc nên làm",
+}
 
-def _post_upload(image: Optional[Image.Image], description: str) -> dict[str, Any]:
+
+def _post(
+    image: Optional[Image.Image],
+    description: str,
+    session_id: str,
+    trace: bool,
+) -> tuple[dict[str, Any], float]:
     files = []
     if image is not None:
         buffer = io.BytesIO()
         image.convert("RGB").save(buffer, format="JPEG", quality=90)
         files.append(("files", ("upload.jpg", buffer.getvalue(), "image/jpeg")))
 
+    data = {"description": description, "includeTrace": "true" if trace else "false"}
+    if session_id:
+        data["sessionId"] = session_id
+
+    started = time.perf_counter()
     response = httpx.post(
         f"{SERVICE_URL}/api/v1/diagnosis/analyze-upload",
-        data={"description": description},
+        data=data,
         files=files,
         timeout=REQUEST_TIMEOUT,
     )
-    return response.json()
+    return response.json(), (time.perf_counter() - started) * 1000
 
 
-def _draw_detection(image: Optional[Image.Image], result: dict[str, Any]) -> Optional[Image.Image]:
-    """Draw the detector box so the device it locked onto is visible at a glance."""
+def _draw_detection(image: Optional[Image.Image], result: dict[str, Any]):
     device = result.get("device")
     if image is None or not device or not device.get("boundingBox"):
         return image
 
     canvas = image.convert("RGB").copy()
     box = device["boundingBox"]
-    # The service downscales on intake, so box coordinates are in the scaled
-    # frame; rescale them back onto the image the user actually uploaded.
-    scale = max(canvas.width, canvas.height) / 1024 if max(canvas.width, canvas.height) > 1024 else 1
+    # The service downscales on intake, so the box is in the scaled frame.
+    longest = max(canvas.width, canvas.height)
+    scale = longest / 1024 if longest > 1024 else 1
     x, y = box["x"] * scale, box["y"] * scale
     w, h = box["width"] * scale, box["height"] * scale
 
@@ -68,63 +97,60 @@ def _draw_detection(image: Optional[Image.Image], result: dict[str, Any]) -> Opt
     return canvas
 
 
+def _price_line(price: Optional[dict[str, Any]]) -> str:
+    if not price:
+        return ""
+    currency = price.get("currency", "VND")
+    if price.get("max") is None:
+        return (
+            f"\n**Giá tham khảo** từ {price['min']:,} {currency}, "
+            "phần còn lại cần kỹ thuật viên khảo sát tại chỗ"
+        )
+    if price["max"] == price["min"]:
+        return f"\n**Giá tham khảo** {price['min']:,} {currency}"
+    return f"\n**Giá tham khảo** {price['min']:,} – {price['max']:,} {currency}"
+
+
 def _render(result: dict[str, Any]) -> str:
     if "code" in result:
         return f"### Lỗi `{result['code']}`\n\n{result.get('message', '')}"
 
-    if result.get("status") == "needs_clarification":
-        clar = result.get("clarification") or {}
-        questions = "\n".join(f"- {q}" for q in clar.get("questionsVi", []))
-        groups = ", ".join(clar.get("serviceGroupCodes", []))
-        return (
-            "### Cần làm rõ thêm\n\n"
-            f"Độ tin cậy {result.get('confidence', 0):.0%}, chưa đủ để kết luận.\n\n"
-            f"{questions}\n\nNhóm dịch vụ để chọn thủ công: {groups}"
-        )
-
     lines: list[str] = []
     device = result.get("device")
     if device:
-        lines.append(f"### {device['nameVi']} — {device['confidence']:.0%}")
+        seen = "ảnh" if device.get("source") == "image" else "mô tả"
+        lines.append(f"### {device['nameVi']} — {device['confidence']:.0%} (từ {seen})")
     else:
-        lines.append("### Không có ảnh, chẩn đoán theo mô tả")
+        lines.append("### Chưa xác định thiết bị")
 
-    conditions = result.get("visibleConditions") or []
-    if conditions:
-        lines.append("\n**Dấu hiệu nhìn thấy trên ảnh**")
-        lines += [f"- {c['nameVi']} ({c['confidence']:.0%})" for c in conditions]
+    if result.get("status") == "needs_clarification":
+        clar = result.get("clarification") or {}
+        questions = "\n".join(f"- {q}" for q in clar.get("questionsVi", []))
+        lines.append(
+            f"\n**Chưa đủ chắc ({result.get('confidence', 0):.0%}), hỏi lại khách:**\n\n{questions}"
+        )
+        lines.append("\n_Trả lời vào ô mô tả rồi bấm Gửi — phiên được giữ nguyên._")
+        return "\n".join(lines)
 
-    faults = result.get("suspectedFaults") or []
-    if faults:
-        lines.append("\n**Nghi ngờ hư hỏng**")
-        lines += [f"- {f['nameVi']} ({f['confidence']:.0%}) — từ {f['source']}" for f in faults]
+    for title, key, fmt in [
+        ("Dấu hiệu nhìn thấy", "visibleConditions", lambda c: f"- {c['nameVi']} ({c['confidence']:.0%})"),
+        ("Nghi ngờ hư hỏng", "suspectedFaults", lambda f: f"- {f['nameVi']} ({f['confidence']:.0%})"),
+        ("Dịch vụ gợi ý", "recommendedServices", lambda s: f"- `{s['serviceCode']}` {s['nameVi']}"),
+    ]:
+        items = result.get(key) or []
+        if items:
+            lines.append(f"\n**{title}**")
+            lines += [fmt(i) for i in items]
 
-    services = result.get("recommendedServices") or []
-    if services:
-        lines.append("\n**Dịch vụ gợi ý**")
-        lines += [f"- `{s['serviceCode']}` {s['nameVi']}" for s in services]
-    else:
-        lines.append("\n_Chưa có bảng dịch vụ của Backend nên phần gợi ý dịch vụ để trống._")
+    if not (result.get("recommendedServices") or []):
+        lines.append("\n_Backend chưa chốt bảng dịch vụ nên phần gợi ý để trống._")
 
     actions = result.get("suggestedActionsVi") or []
     if actions:
         lines.append("\n**Nên làm ngay**")
         lines += [f"- {a}" for a in actions]
 
-    price = result.get("priceEstimate")
-    if price:
-        # No ceiling means the tables cannot price the job, not that it is free.
-        if price.get("max") is None:
-            lines.append(
-                f"\n**Giá tham khảo** từ {price['min']:,} {price['currency']}, "
-                "phần còn lại cần kỹ thuật viên khảo sát tại chỗ"
-            )
-        elif price["max"] == price["min"]:
-            lines.append(f"\n**Giá tham khảo** {price['min']:,} {price['currency']}")
-        else:
-            lines.append(
-                f"\n**Giá tham khảo** {price['min']:,} – {price['max']:,} {price['currency']}"
-            )
+    lines.append(_price_line(result.get("priceEstimate")))
 
     urgency = result.get("urgency", "LOW")
     color = _URGENCY_COLOR.get(urgency, "#555")
@@ -134,14 +160,67 @@ def _render(result: dict[str, Any]) -> str:
     return "\n".join(lines)
 
 
-def diagnose(image: Optional[Image.Image], description: str):
+def _render_trace(result: dict[str, Any], round_trip_ms: float) -> str:
+    stages = result.get("trace") or []
+    if not stages:
+        return "_Chưa có gói tin nào. Gửi một yêu cầu ở tab Chẩn đoán._"
+
+    info = result.get("modelInfo") or {}
+    lines = [
+        f"### Gói tin đi qua {len(stages)} chặng, tổng {round_trip_ms:.0f}ms",
+        "",
+        f"Phiên `{result.get('sessionId', '-')}` · kết quả **{result.get('status')}**",
+        "",
+        "| Chặng | Thời gian | Kết quả | Vai trò |",
+        "|---|---|---|---|",
+    ]
+    for stage in stages:
+        mark = "✅" if stage["ok"] else "⛔"
+        role = _STAGE_ROLE_VI.get(stage["name"], "")
+        lines.append(f"| `{stage['name']}` | {stage['ms']}ms | {mark} {stage['summaryVi']} | {role} |")
+
+    served = sum(s["ms"] for s in stages)
+    lines += [
+        "",
+        f"Trong service {served}ms, còn lại {max(0, round_trip_ms - served):.0f}ms là "
+        "mạng, giải mã ảnh và dựng phản hồi.",
+        "",
+        "### Chi tiết từng chặng",
+    ]
+    for stage in stages:
+        lines.append(f"\n**`{stage['name']}`** — {stage['summaryVi']}")
+        for key, value in (stage.get("detail") or {}).items():
+            if value in (None, [], {}, ""):
+                continue
+            lines.append(f"- {key}: `{value}`")
+
+    lines += [
+        "",
+        "### Phiên bản đang chạy",
+        f"- Detector: `{info.get('detector') or 'chưa nạp weights, đang dùng stub'}`",
+        f"- Qwen: `{info.get('vlm') or 'chưa cấu hình VLM_BASE_URL'}`",
+        f"- Bảng bệnh: `{info.get('knowledgeBaseVersion') or '-'}`",
+    ]
+    return "\n".join(lines)
+
+
+def diagnose(image, description, session_id, keep_session):
     if not description or not description.strip():
-        return image, "Nhập mô tả sự cố trước đã.", {}
+        return image, "Nhập mô tả sự cố trước đã.", "", session_id, {}
     try:
-        result = _post_upload(image, description.strip())
+        result, ms = _post(
+            image, description.strip(), session_id if keep_session else "", trace=True
+        )
     except httpx.HTTPError as exc:
-        return image, f"Không gọi được service tại {SERVICE_URL}\n\n`{exc}`", {}
-    return _draw_detection(image, result), _render(result), result
+        return image, f"Không gọi được service tại {SERVICE_URL}\n\n`{exc}`", "", session_id, {}
+
+    return (
+        _draw_detection(image, result),
+        _render(result),
+        _render_trace(result, ms),
+        result.get("sessionId") or "",
+        result,
+    )
 
 
 def ask(question: str):
@@ -168,34 +247,50 @@ def ask(question: str):
 
 
 def build_demo() -> gr.Blocks:
-    with gr.Blocks(title="FixHome AI — Demo") as demo:
+    with gr.Blocks(title="FixHome AI — Test & Monitor") as demo:
         gr.Markdown(
             "# FixHome AI Service\n"
-            f"Đang gọi `{SERVICE_URL}`. "
-            "Chẩn đoán dùng ảnh để nhận thiết bị và mô tả để suy ra hư hỏng."
+            f"Đang gọi `{SERVICE_URL}`. YOLO nhận **vật**, Qwen suy ra **bệnh**, "
+            "RAG cấp **lời**. Mọi câu tiếng Việt đều lấy từ bảng bệnh, không phải "
+            "model tự viết."
         )
+        session_state = gr.State("")
 
         with gr.Tab("Chẩn đoán"):
             with gr.Row():
                 with gr.Column():
                     image_in = gr.Image(type="pil", label="Ảnh thiết bị")
                     description_in = gr.Textbox(
-                        label="Mô tả sự cố",
-                        placeholder="Máy lạnh mới vệ sinh tháng trước mà vẫn không mát",
+                        label="Mô tả sự cố, hoặc câu trả lời cho câu hỏi của AI",
+                        placeholder="Máy lạnh chạy cả ngày mà không mát",
                         lines=3,
                     )
-                    run = gr.Button("Chẩn đoán", variant="primary")
+                    keep = gr.Checkbox(
+                        value=True,
+                        label="Giữ phiên hội thoại (bỏ tick để bắt đầu lại từ đầu)",
+                    )
+                    run = gr.Button("Gửi", variant="primary")
+                    session_box = gr.Textbox(label="Session", interactive=False)
                 with gr.Column():
                     image_out = gr.Image(label="Vùng thiết bị phát hiện được")
                     result_md = gr.Markdown()
-            raw_json = gr.JSON(label="Response thô (đúng cái Backend nhận được)")
-            run.click(
-                diagnose,
-                inputs=[image_in, description_in],
-                outputs=[image_out, result_md, raw_json],
-            )
+            raw_json = gr.JSON(label="Response thô — đúng cái Backend nhận được")
 
-        with gr.Tab("Hỏi đáp"):
+        with gr.Tab("Đường đi gói tin"):
+            gr.Markdown(
+                "Mỗi yêu cầu ở tab Chẩn đoán được ghi lại ở đây: qua chặng nào, "
+                "mất bao lâu, chặng đó làm ra cái gì. Một chặng hỏng thì nhìn từ "
+                "ngoài đều giống nhau — AI hỏi lại khách — nên bảng này là chỗ "
+                "duy nhất phân biệt được bốn nguyên nhân khác nhau."
+            )
+            trace_md = gr.Markdown("_Chưa có gói tin nào._")
+
+        with gr.Tab("Hỏi đáp chính sách"):
+            gr.Markdown(
+                "Mặt riêng, chỉ trả lời từ tài liệu đã truy xuất. Không gợi ý "
+                "dịch vụ, không tạo ý định đặt lịch. Không có căn cứ thì từ chối "
+                "chứ không bịa."
+            )
             question_in = gr.Textbox(
                 label="Câu hỏi",
                 placeholder="Bao lâu nên vệ sinh máy lạnh một lần?",
@@ -204,7 +299,14 @@ def build_demo() -> gr.Blocks:
             ask_btn = gr.Button("Hỏi", variant="primary")
             answer_md = gr.Markdown()
             answer_json = gr.JSON(label="Response thô")
-            ask_btn.click(ask, inputs=question_in, outputs=[answer_md, answer_json])
+
+        run.click(
+            diagnose,
+            inputs=[image_in, description_in, session_state, keep],
+            outputs=[image_out, result_md, trace_md, session_state, raw_json],
+        ).then(lambda s: s, inputs=session_state, outputs=session_box)
+
+        ask_btn.click(ask, inputs=question_in, outputs=[answer_md, answer_json])
 
     return demo
 
