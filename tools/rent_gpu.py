@@ -98,14 +98,38 @@ def _cli(*args: str, capture: bool = True) -> subprocess.CompletedProcess:
     )
 
 
-def _json_cli(*args: str) -> list:
-    result = _cli(*args, "--raw")
-    if result.returncode != 0:
-        raise SystemExit(f"vast.ai refused the request:\n{result.stderr.strip()}")
+def _reply(result: subprocess.CompletedProcess, doing: str):
+    """Parse a --raw reply, treating anything unparseable as a failure.
+
+    The CLI exits 0 after printing "Failed with error 403: This action requires
+    login", so the exit code says nothing. The reply being JSON is the only
+    evidence that the request was carried out, and the message can arrive on
+    either stream, so both are shown when it is not.
+    """
+    output = (result.stdout or "").strip()
     try:
-        return json.loads(result.stdout)
+        return json.loads(output)
     except json.JSONDecodeError:
-        raise SystemExit(f"Could not read the reply as JSON:\n{result.stdout[:500]}")
+        detail = "\n".join(
+            part for part in (output, (result.stderr or "").strip()) if part
+        )
+        raise SystemExit(
+            f"vast.ai did not carry out the request ({doing}).\n"
+            f"{detail or 'It returned nothing at all.'}\n\n"
+            + (
+                "A 403 here means the API key may read but not spend. Create a\n"
+                "key with full permissions at cloud.vast.ai under Account, and\n"
+                "put that one in .env as VAST_API_KEY.\n\n"
+                if "403" in detail
+                else ""
+            )
+            + "Check https://cloud.vast.ai/instances/ before retrying, in case\n"
+            "a machine was created anyway."
+        )
+
+
+def _json_cli(*args: str) -> list:
+    return _reply(_cli(*args, "--raw"), doing=" ".join(args))
 
 
 def cmd_offers(args: argparse.Namespace) -> None:
@@ -179,18 +203,7 @@ def cmd_train(args: argparse.Namespace) -> None:
         "train",
         "--raw",
     )
-    if result.returncode != 0:
-        raise SystemExit(f"Could not rent the machine:\n{result.stderr.strip()}")
-
-    try:
-        created = json.loads(result.stdout)
-    except json.JSONDecodeError:
-        raise SystemExit(
-            "The machine may have been rented but the reply was unreadable:\n"
-            f"{result.stdout[:500]}\n\n"
-            "Check https://cloud.vast.ai/instances/ before trying again."
-        )
-
+    created = _reply(result, doing=f"renting offer {args.offer}")
     instance_id = created.get("new_contract")
     if not instance_id:
         raise SystemExit(f"No instance id in the reply: {created}")
