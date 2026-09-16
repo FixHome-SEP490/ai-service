@@ -14,11 +14,16 @@ of model downloads and GPU requirements.
 
 from __future__ import annotations
 
+import asyncio
 from dataclasses import dataclass
 from typing import List, Optional, Protocol
 
 from app.services.pipeline.images import ImagePayload
 from app.services.pipeline.knowledge_base import KnowledgeBase
+
+
+class DetectorClassMismatch(RuntimeError):
+    """The weights and the device catalog disagree about the class list."""
 
 
 @dataclass(frozen=True)
@@ -69,14 +74,63 @@ class YoloDetector:
         self._kb = kb
         self._min_confidence = min_confidence
         self._model = None
+        self._names: dict[int, str] = {}
 
     def _ensure_loaded(self) -> None:
         if self._model is None:
             from ultralytics import YOLO  # local import, optional dependency
 
-            self._model = YOLO(self._weights_path)
+            model = YOLO(self._weights_path)
+            self._names = {int(i): str(n) for i, n in model.names.items()}
+
+            # The weights carry their own class list, and it is the weights that
+            # decide what index 7 means. If it has drifted from the catalog, the
+            # detector would keep working and quietly name the wrong appliance —
+            # a toilet reported as an oven, with full confidence.
+            unknown = sorted(set(self._names.values()) - set(self._kb.device_types))
+            if unknown:
+                raise DetectorClassMismatch(
+                    f"The weights at {self._weights_path} predict classes that are "
+                    f"not in the device catalog: {', '.join(unknown)}"
+                )
+            self._model = model
 
     async def detect(self, image: ImagePayload) -> List[Detection]:
-        raise NotImplementedError(
-            "YoloDetector requires trained weights; see docs/AI-TECHNICAL-GUIDE.md"
+        self._ensure_loaded()
+
+        # Ultralytics is synchronous and CPU/GPU bound. Off the event loop it
+        # goes, or one inference blocks every other request on the worker.
+        results = await asyncio.to_thread(
+            self._model.predict,
+            image.image,
+            conf=self._min_confidence,
+            verbose=False,
         )
+        if not results:
+            return []
+
+        detections: List[Detection] = []
+        for box in results[0].boxes:
+            left, top, right, bottom = (int(v) for v in box.xyxy[0].tolist())
+
+            # Clamp to the frame. A box may extend past the edge, and a negative
+            # origin silently flips PIL's crop into taking the wrong region
+            # rather than raising.
+            left, top = max(0, left), max(0, top)
+            right = min(image.width, right)
+            bottom = min(image.height, bottom)
+            if right <= left or bottom <= top:
+                continue
+
+            box_xywh = (left, top, right - left, bottom - top)
+            detections.append(
+                Detection(
+                    device_type=self._names[int(box.cls[0])],
+                    confidence=float(box.conf[0]),
+                    box_xywh=box_xywh,
+                    crop=image.crop(box_xywh),
+                )
+            )
+
+        detections.sort(key=lambda d: d.confidence, reverse=True)
+        return detections

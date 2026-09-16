@@ -142,6 +142,22 @@ def _json_cli(*args: str) -> list:
     return _reply(_cli(*args, "--raw"), doing=" ".join(args))
 
 
+SERVE_MIN_CUDA = 13.0
+"""What the pinned vLLM image needs of the host driver.
+
+vLLM 0.29 is built against a CUDA the 12.6 drivers on cheaper hosts cannot run:
+the rental succeeds, the model never loads, and the log says "unsupported
+display driver / cuda driver combination" after the image has been pulled.
+"""
+
+
+def _cuda(offer: dict) -> float:
+    try:
+        return float(offer.get("cuda_max_good") or 0)
+    except (TypeError, ValueError):
+        return 0.0
+
+
 def cmd_offers(args: argparse.Namespace) -> None:
     query = [
         f"gpu_name={args.gpu}",
@@ -165,12 +181,27 @@ def cmd_offers(args: argparse.Namespace) -> None:
             "Try a different card or raise --max-price."
         )
 
-    print(f"{'offer':>10}  {'$/hr':>6}  {'GPU':<16}{'down':>8}  {'disk':>7}  reliability")
+    if args.min_cuda:
+        # Filtered here rather than in the query, because the server-side CUDA
+        # comparison returns nothing at all above 12.x. A host whose driver is
+        # too old for the image accepts the rental and then fails at startup
+        # with "unsupported display driver / cuda driver combination", which
+        # costs a whole rental to discover.
+        offers = [o for o in offers if _cuda(o) >= args.min_cuda]
+        if not offers:
+            raise SystemExit(
+                f"No {args.gpu} offer has a driver supporting CUDA {args.min_cuda}."
+            )
+
+    print(
+        f"{'offer':>10}  {'$/hr':>6}  {'GPU':<16}{'down':>8}  {'disk':>7}"
+        f"  {'cuda':>5}  reliability"
+    )
     for offer in offers[: args.limit]:
         print(
             f"{offer['id']:>10}  {offer['dph_total']:>6.3f}  {offer['gpu_name']:<16}"
             f"{offer.get('inet_down', 0):>6.0f}Mb  {offer['disk_space']:>5.0f}GB"
-            f"  {offer['reliability2']:.3f}"
+            f"  {_cuda(offer):>5.1f}  {offer['reliability2']:.3f}"
         )
 
     # Hours are a guess until the smoke test measures one epoch, and the guess
@@ -466,6 +497,12 @@ def main() -> None:
     offers.add_argument("--max-price", type=float, default=0.40)
     offers.add_argument("--min-download", type=int, default=200, help="Mbps")
     offers.add_argument("--limit", type=int, default=10)
+    offers.add_argument(
+        "--min-cuda",
+        type=float,
+        default=0.0,
+        help=f"host driver must support this CUDA; use {SERVE_MIN_CUDA} for serving",
+    )
 
     train = sub.add_parser("train", help="rent a machine and start training on it")
     train.add_argument("--offer", required=True, type=int)

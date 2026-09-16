@@ -73,7 +73,16 @@ class QwenClient:
         api_key: Optional[str] = None,
         max_tokens: int = 512,
     ) -> None:
-        self._url = base_url.rstrip("/") + "/v1/chat/completions"
+        # Accept the address with or without the /v1 suffix. vLLM prints its
+        # own address as ".../v1", so that is what an operator copies, and
+        # appending another produced /v1/v1/chat/completions and a 404. The
+        # pipeline treats a failed call as low confidence rather than an error,
+        # which is right for a model that is merely down and wrong here: a
+        # misconfigured address looked exactly like an inconclusive photograph.
+        root = base_url.rstrip("/")
+        if root.endswith("/v1"):
+            root = root[: -len("/v1")]
+        self._url = root + "/v1/chat/completions"
         self._model = model_name
         self._timeout = timeout_seconds
         self._headers = {"Content-Type": "application/json"}
