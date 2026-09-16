@@ -145,6 +145,13 @@ class Clarification(BaseModel):
 
 class DiagnosisRequest(BaseModel):
     request_id: Annotated[Optional[str], Field(max_length=64)] = None
+    session_id: Annotated[Optional[str], Field(max_length=64)] = None
+    """Ties this message to the ones before it.
+
+    Omitted, every message is a stranger: the device identified from an earlier
+    photograph is forgotten, and the answer to a question we just asked arrives
+    with nothing to attach it to. The response returns the id to use next."""
+
     description: Annotated[str, Field(min_length=1, max_length=2000)]
     images: Annotated[
         List[str],
@@ -157,6 +164,9 @@ class DiagnosisRequest(BaseModel):
 
 class DiagnosisResponse(BaseModel):
     request_id: Optional[str] = None
+    session_id: Optional[str] = None
+    """Send this back on the next message to continue the same conversation."""
+
     status: DiagnosisStatus = DiagnosisStatus.OK
     engine: Engine = Engine.LOCAL_PIPELINE
     device: Optional[DetectedDevice] = None

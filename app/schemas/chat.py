@@ -29,6 +29,13 @@ class Citation(BaseModel):
 
 class ChatRequest(BaseModel):
     request_id: Annotated[Optional[str], Field(max_length=64)] = None
+    session_id: Annotated[Optional[str], Field(max_length=64)] = None
+    """Ties this message to the ones before it.
+
+    Omitted, every message is a stranger: the device identified from an earlier
+    photograph is forgotten, and the answer to a question we just asked arrives
+    with nothing to attach it to. The response returns the id to use next."""
+
     question: Annotated[str, Field(min_length=1, max_length=1000)]
     device_type: Annotated[Optional[str], Field(max_length=64)] = None
 
@@ -37,6 +44,9 @@ class ChatRequest(BaseModel):
 
 class ChatResponse(BaseModel):
     request_id: Optional[str] = None
+    session_id: Optional[str] = None
+    """Send this back on the next message to continue the same conversation."""
+
     status: AnswerStatus = AnswerStatus.OK
     answer_vi: str
     citations: List[Citation] = Field(default_factory=list)

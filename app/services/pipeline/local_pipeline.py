@@ -24,6 +24,7 @@ from app.schemas.diagnosis import (
 )
 from app.services.pipeline import clarifier
 from app.services.pipeline import device_hint
+from app.services.pipeline.conversation import Conversation, get_conversation_store
 from app.services.pipeline.detector import Detection, Detector
 from app.services.pipeline.images import ImagePayload, load_base64_image
 from app.services.pipeline.knowledge_base import KnowledgeBase
@@ -52,18 +53,36 @@ class LocalPipeline:
         self._vlm = vlm
         self._retriever = retriever
         self._kb = kb
+        self._conversations = get_conversation_store()
 
     async def diagnose(self, request: DiagnosisRequest) -> DiagnosisResponse:
+        chat = self._conversations.get_or_create(request.session_id)
+        chat.add("customer", request.description)
+
         detection = await self._detect_primary(request.images)
         detected = detection.device_type if detection else None
+
+        # A follow-up carries no photograph, because nobody sends the same one
+        # twice. Without the remembered device the answer to the question we
+        # just asked arrives about no appliance in particular.
+        if detected is None and chat.device_type:
+            detected = chat.device_type
+
         # The photograph is ambiguous between a microwave and an oven; a
         # sentence saying "lò vi sóng" is not. Believe the words.
         device_type, _hint = device_hint.resolve(
             request.description, detected, self._kb
         )
+        if detection is not None:
+            chat.remember_device(detection.device_type, detection.confidence, "image")
+        elif device_type:
+            chat.remember_device(device_type, 0.0, "description")
 
+        # Symptoms arrive one message at a time: "máy không mát", then later "à
+        # mà nó còn kêu to nữa". Retrieved on its own the second is three words
+        # with no subject, so the retriever sees everything said so far.
         candidates = self._retriever.candidate_faults(
-            description=request.description,
+            description=chat.customer_text(),
             device_type=device_type,
             top_k=settings.RETRIEVAL_TOP_K,
         )
@@ -90,11 +109,11 @@ class LocalPipeline:
         shortlist = [c.fault for c in candidates]
         if confidence < settings.AI_CONFIDENCE_THRESHOLD:
             return self._clarification_response(
-                request, confidence, shortlist, detection
+                request, confidence, shortlist, detection, chat
             )
 
         return self._build_response(
-            request, detection, verdict, confidence, shortlist
+            request, detection, verdict, confidence, shortlist, chat
         )
 
     async def answer(self, request: ChatRequest) -> ChatResponse:
@@ -103,21 +122,26 @@ class LocalPipeline:
         Kept separate from diagnosis: it may discuss maintenance intervals and
         platform policy, but it never recommends a service or a booking.
         """
+        chat = self._conversations.get_or_create(request.session_id)
+        chat.add("customer", request.question)
+
         passages = self._retriever.policy_passages(
             request.question, top_k=settings.RETRIEVAL_TOP_K
         )
         if not passages:
-            return self._ungrounded_answer(request)
+            return self._ungrounded_answer(request, chat)
 
         answer_vi, confidence = await self._vlm.answer(
             question=request.question,
             passages_vi=[p.policy.content_vi for p in passages],
         )
         if not answer_vi:
-            return self._ungrounded_answer(request)
+            return self._ungrounded_answer(request, chat)
 
+        chat.add("assistant", answer_vi)
         return ChatResponse(
             request_id=request.request_id,
+            session_id=chat.session_id,
             status=AnswerStatus.OK,
             answer_vi=answer_vi,
             citations=[
@@ -132,9 +156,12 @@ class LocalPipeline:
             disclaimer_vi=settings.AI_DISCLAIMER_VI,
         )
 
-    def _ungrounded_answer(self, request: ChatRequest) -> ChatResponse:
+    def _ungrounded_answer(
+        self, request: ChatRequest, chat: Optional[Conversation] = None
+    ) -> ChatResponse:
         return ChatResponse(
             request_id=request.request_id,
+            session_id=chat.session_id if chat else None,
             status=AnswerStatus.NO_GROUNDING,
             answer_vi=settings.NO_GROUNDING_MESSAGE_VI,
             confidence=0.0,
@@ -169,6 +196,7 @@ class LocalPipeline:
         confidence: float,
         shortlist: Optional[List] = None,
         detection: Optional[Detection] = None,
+        chat: Optional[Conversation] = None,
     ) -> DiagnosisResponse:
         """Never guess. Ask the question that narrows it down.
 
@@ -181,10 +209,13 @@ class LocalPipeline:
         device_name = (
             self._kb.device_name_vi(detection.device_type) if detection else None
         )
+        # Everything said so far, not just this message, so a question already
+        # answered two turns ago is not put again.
+        said = chat.customer_text() if chat else request.description
         questions = clarifier.texts(
             clarifier.build_questions(
                 shortlist or [],
-                request.description,
+                said,
                 discriminators=self._kb.discriminators_for_device(
                     detection.device_type if detection else None
                 ),
@@ -196,17 +227,27 @@ class LocalPipeline:
         # starts feeling like it is not listening.
         confusion = device_hint.confusion_question(
             detection.device_type if detection else None,
-            request.description,
+            said,
             self._kb,
         )
         if confusion and confusion not in questions:
             questions = [confusion, *questions][: clarifier.MAX_QUESTIONS]
 
+        if chat is not None:
+            # Drop anything already put to this customer, then record what is
+            # left. Repeating a question reads as not having listened, which
+            # costs more trust than the answer would have been worth.
+            questions = [q for q in questions if q not in chat.asked_symptoms]
+            chat.remember_questions(questions)
+            for question in questions:
+                chat.add("assistant", question)
+
         return DiagnosisResponse(
             request_id=request.request_id,
+            session_id=chat.session_id if chat else None,
             status=DiagnosisStatus.NEEDS_CLARIFICATION,
             engine=Engine.LOCAL_PIPELINE,
-            device=self._resolve_device(detection),
+            device=self._resolve_device(detection, chat),
             confidence=confidence,
             is_low_confidence=True,
             clarification=Clarification(
@@ -223,8 +264,9 @@ class LocalPipeline:
         verdict: VlmVerdict,
         confidence: float,
         shortlist: Optional[List] = None,
+        chat: Optional[Conversation] = None,
     ) -> DiagnosisResponse:
-        device = self._resolve_device(detection)
+        device = self._resolve_device(detection, chat)
 
         faults: List[SuspectedFault] = []
         services: List[RecommendedService] = []
@@ -269,11 +311,16 @@ class LocalPipeline:
 
         if not faults:
             return self._clarification_response(
-                request, confidence, shortlist, detection
+                request, confidence, shortlist, detection, chat
             )
+
+        if chat is not None:
+            chat.shortlist = [f.fault_code for f in faults]
+            chat.add("assistant", ", ".join(f.name_vi for f in faults))
 
         return DiagnosisResponse(
             request_id=request.request_id,
+            session_id=chat.session_id if chat else None,
             status=DiagnosisStatus.OK,
             engine=Engine.LOCAL_PIPELINE,
             device=device,
@@ -297,8 +344,32 @@ class LocalPipeline:
             disclaimer_vi=settings.AI_DISCLAIMER_VI,
         )
 
-    def _resolve_device(self, detection: Optional[Detection]) -> Optional[DetectedDevice]:
+    def _resolve_device(
+        self,
+        detection: Optional[Detection],
+        chat: Optional[Conversation] = None,
+    ) -> Optional[DetectedDevice]:
         if detection is None:
+            # A follow-up has no photograph, but the appliance has not changed.
+            # Reporting nothing makes the client show "unknown device" on every
+            # turn after the first, which looks like the photo was forgotten.
+            #
+            # Only a device an earlier photograph established is reported.
+            # One merely inferred from the customer's words is remembered for
+            # retrieval but not announced as detected: the pipeline has not
+            # looked at the appliance, and putting a confidence on a sentence
+            # would mean inventing one.
+            if chat is not None and chat.device_type and chat.device_source_vi == "image":
+                remembered = self._kb.device_name_vi(chat.device_type)
+                if remembered is not None:
+                    return DetectedDevice(
+                        device_type=chat.device_type,
+                        name_vi=remembered,
+                        confidence=chat.device_confidence,
+                        source=EvidenceSource.IMAGE,
+                        # No box: this turn had no image to draw one on.
+                        bounding_box=None,
+                    )
             return None
         name_vi = self._kb.device_name_vi(detection.device_type)
         if name_vi is None:

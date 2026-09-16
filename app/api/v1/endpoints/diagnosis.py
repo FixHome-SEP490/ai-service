@@ -72,8 +72,14 @@ async def analyze_issue(
 )
 async def analyze_upload(
     description: str = Form(..., min_length=1, max_length=2000),
-    request_id: Optional[str] = Form(default=None, max_length=64),
-    category_hint: Optional[str] = Form(default=None, max_length=64),
+    # Field names are camelCase here as everywhere else on the wire. They were
+    # snake_case, alone in the API, so a client that had read the JSON contract
+    # sent sessionId and had it silently dropped: a form field that is not a
+    # parameter is not an error, it is simply absent, and every message then
+    # opened a new conversation with no sign of why.
+    request_id: Optional[str] = Form(default=None, max_length=64, alias="requestId"),
+    session_id: Optional[str] = Form(default=None, max_length=64, alias="sessionId"),
+    category_hint: Optional[str] = Form(default=None, max_length=64, alias="categoryHint"),
     files: Optional[List[UploadFile]] = File(default=None),
     provider: AIProvider = Depends(get_ai_provider),
 ) -> DiagnosisResponse:
@@ -98,6 +104,7 @@ async def analyze_upload(
     return await analyze_issue(
         request=DiagnosisRequest(
             request_id=request_id,
+            session_id=session_id,
             description=description,
             images=images,
             category_hint=category_hint,
