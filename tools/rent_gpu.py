@@ -86,9 +86,18 @@ def _executable() -> str:
     )
 
 
-def _cli(*args: str, capture: bool = True) -> subprocess.CompletedProcess:
+def _cli(*args: str, trailing: tuple = (), capture: bool = True) -> subprocess.CompletedProcess:
+    """Run the CLI. Anything in `trailing` goes after the key, never before.
+
+    `create instance --args train` hands every remaining argument to the
+    container, so a `--api-key` written after it is swallowed as a container
+    argument and never reaches vast.ai. The request then arrives unauthenticated
+    and comes back "403: This action requires login" — which reads as the key
+    being wrong, and cost an afternoon on that assumption. `--args` has to be
+    last, so it travels separately from the arguments that belong to the CLI.
+    """
     key = get_secret("VAST_API_KEY", hint=_KEY_HINT)
-    command = [_executable(), *args, "--api-key", key]
+    command = [_executable(), *args, "--api-key", key, *trailing]
     return subprocess.run(
         command,
         capture_output=capture,
@@ -274,9 +283,8 @@ def cmd_train(args: argparse.Namespace) -> None:
         str(DISK_GB),
         "--env",
         " ".join(env),
-        "--args",
-        "train",
         "--raw",
+        trailing=("--args", "train"),
     )
     created = _reply(result, doing=f"renting offer {args.offer}")
     instance_id = created.get("new_contract")
@@ -336,7 +344,9 @@ def cmd_logs(args: argparse.Namespace) -> None:
 def cmd_destroy(args: argparse.Namespace) -> None:
     instance = _instance_id(args.instance)
     print(f"Destroying instance {instance}")
-    result = _cli("destroy", "instance", str(instance))
+    # -y or it stops on a confirmation prompt with stdin closed, and reports
+    # nothing destroyed while the machine keeps billing.
+    result = _cli("destroy", "instance", str(instance), "-y")
     print(result.stdout.strip() or result.stderr.strip())
 
     # The reply is not the evidence. Ask what is rented and look for it.
