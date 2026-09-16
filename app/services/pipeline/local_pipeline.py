@@ -35,7 +35,56 @@ from app.services.pipeline.knowledge_base import KnowledgeBase
 from app.services.pipeline.retriever import Retriever
 from app.services.pipeline.vlm import FaultCandidate, VisionLanguageModel, VlmVerdict
 
+_IDENTIFY_PATTERNS = (
+    "la cai gi", "la gi", "may gi", "thiet bi gi", "cai gi vay", "gi vay",
+    "gi day", "gi the", "nhan ra", "doan xem", "biet day la",
+)
+"""Someone asking what the appliance is, not reporting that it broke.
+
+A photograph with "đây là cái gì vậy em" is a question, and it was answered
+with the device name followed by three questions about leaks. Nobody mentioned
+a leak. Answering something nobody asked, in the same breath as answering what
+they did ask, is how an assistant stops feeling like it read the message."""
+
+_SYMPTOM_WORDS = (
+    "hong", "hu", "keu", "ro ri", "ro nuoc", "chay", "khet", "khong ", "chap",
+    "nhay aptomat", "yeu", "cham", "nong qua", "lanh qua", "rung", "nut", "vo",
+    "tac", "nghet", "bi ",
+)
+"""Words that turn a photograph into a fault report.
+
+Checked alongside the identification patterns, because "đây là máy gì mà kêu to
+thế" is both a question and a symptom, and the symptom is the part worth acting
+on."""
+
+_TRADE_WORDS = (
+    "hong", "hu ", "sua", "thay", "keu", "ro ri", "ro nuoc", "chap", "chay",
+    "khet", "nong", "lanh", "nuoc", "dien", "tho", "bao tri", "ve sinh",
+    "lap dat", "thiet bi", "may ", "bong", "o cam", "cong tac", "voi", "bon",
+    "ong ", "quat", "lo ", "bep", "tu ", "binh ", "aptomat", "gas",
+)
+"""Words that place a question inside the trade.
+
+Coarse on purpose. The model's own NGOAI_PHAM_VI answer cannot be relied on —
+asked "bitcoin giá bao nhiêu" it explained how to track cryptocurrency prices —
+and a repair company answering questions about anything is worse than one
+answering fewer questions."""
+
 _MONEY_WORDS = ("gia", "tien", "bao nhieu", "chi phi", "cost", "het bao", "mac", "re")
+
+
+def _fold_vi(text: str) -> str:
+    folded = unicodedata.normalize("NFD", text.lower())
+    folded = "".join(c for c in folded if unicodedata.category(c) != "Mn")
+    return folded.replace("đ", "d")
+
+
+def _is_identification(text: str) -> bool:
+    """Asking what it is, and not also saying it is broken."""
+    folded = _fold_vi(text)
+    if not any(p in folded for p in _IDENTIFY_PATTERNS):
+        return False
+    return not any(w in folded for w in _SYMPTOM_WORDS)
 
 
 def _asks_about_money(question: str) -> bool:
@@ -118,6 +167,13 @@ class LocalPipeline:
             remembered_device=chat.device_type,
             asked_before=len(chat.asked_symptoms),
         )
+
+        # A sentence with no appliance, no symptom and no photograph is not a
+        # fault report. Sent through, "chiến tranh thế giới xảy ra khi nào" came
+        # back as three questions about what device was broken. The gate belongs
+        # here rather than in a client: Backend calls this endpoint too.
+        if not request.images and not self._is_in_the_trade(request.description):
+            return self._out_of_scope_response(request, chat, trace)
 
         detection = await self._detect_primary(request.images)
         trace.add(
@@ -236,6 +292,17 @@ class LocalPipeline:
             reason=verdict.reasoning_vi,
         )
 
+        # A photograph sent with "đây là cái gì" is a question about the
+        # appliance, not a report that it is broken. Answer it and ask the one
+        # question that follows naturally, rather than interrogating someone
+        # about symptoms they never mentioned.
+        if (
+            detection is not None
+            and _is_identification(chat.customer_text())
+            and not chat.answered
+        ):
+            return self._identification_response(request, detection, chat, trace)
+
         confidence = self._combine_confidence(detection, verdict.confidence)
         shortlist = [c.fault for c in candidates]
 
@@ -314,22 +381,30 @@ class LocalPipeline:
         policies = self._retriever.policy_passages(
             request.question, top_k=settings.RETRIEVAL_TOP_K
         )
-        prices = self._retriever.price_passages(request.question)
+        # Price rows are grounding for a question about price and noise for
+        # anything else. Asked "trước khi thợ tới em nên làm gì", they matched
+        # on "thợ" and "vòi" and the answer told the customer to replace a
+        # solenoid valve and a tap base before the technician arrived.
+        prices = (
+            self._retriever.price_passages(request.question)
+            if _asks_about_money(request.question)
+            else []
+        )
 
         # Order by what was asked. Asked "vệ sinh máy lạnh giá bao nhiêu" with
         # policy text first, the model answered with the cleaning interval —
         # true, retrieved, and not the question. The model reads the passages
         # in order and the first relevant one wins.
-        passages = prices + policies if _asks_about_money(request.question) else policies + prices
+        passages = prices + policies
         if not passages:
-            return self._ungrounded_answer(request, chat)
+            return await self._reasoned_answer(request, chat)
 
         answer_vi, confidence = await self._vlm.answer(
             question=request.question,
             passages_vi=[p.policy.content_vi for p in passages],
         )
         if not answer_vi:
-            return self._ungrounded_answer(request, chat)
+            return await self._reasoned_answer(request, chat)
 
         chat.add("assistant", answer_vi)
         return ChatResponse(
@@ -348,6 +423,121 @@ class LocalPipeline:
             confidence=confidence,
             disclaimer_vi=settings.AI_DISCLAIMER_VI,
         )
+
+    async def _reasoned_answer(
+        self, request: ChatRequest, chat: Conversation
+    ) -> ChatResponse:
+        """Nothing retrieved. Let the model answer from the trade, or decline.
+
+        Refusing everything outside the tables made the assistant useless past
+        its own catalogue: someone asking why an evaporator ices up got the same
+        sentence as someone asking about the weather, and every customer got the
+        same sentence as every other.
+
+        The model may explain, diagnose tentatively and say what to do before a
+        technician arrives. It may not put a number on anything, quote a
+        warranty term, or state a fault as settled — those belong to the tables
+        and to the person who turns up, and a customer holds the business to
+        whatever they were told. The client drops any answer containing money
+        even when the instruction said not to, because an instruction is not a
+        guarantee.
+        """
+        # The model was told to answer NGOAI_PHAM_VI outside the trade and does
+        # not reliably: asked "bitcoin giá bao nhiêu" it explained cryptocurrency
+        # exchanges. An instruction is not a gate, so the gate is here, and it
+        # fails closed — a question with no device and no repair word in it is
+        # refused without the model being asked at all.
+        if not self._is_in_the_trade(request.question):
+            return self._ungrounded_answer(request, chat)
+
+        answer_vi = await self._vlm.answer_generally(
+            request.question, history_vi=chat.customer_text()
+        )
+        if not answer_vi:
+            return self._ungrounded_answer(request, chat)
+
+        chat.add("assistant", answer_vi)
+        return ChatResponse(
+            request_id=request.request_id,
+            session_id=chat.session_id,
+            # Not OK: there are no citations behind this, and a caller that
+            # treats a cited answer and an uncited one alike has lost the
+            # distinction the citations exist for.
+            status=AnswerStatus.GENERAL_KNOWLEDGE,
+            answer_vi=answer_vi,
+            confidence=0.4,
+            disclaimer_vi=settings.AI_DISCLAIMER_VI,
+        )
+
+    def _identification_response(
+        self,
+        request: DiagnosisRequest,
+        detection: Detection,
+        chat: Conversation,
+        trace: "_Trace",
+    ) -> DiagnosisResponse:
+        """Name the appliance, then ask the only question that follows."""
+        name = self._kb.device_name_vi(detection.device_type) or detection.device_type
+        question = f"Dạ nhà mình đang gặp vấn đề gì với {name.lower()} ạ?"
+        chat.remember_questions([question])
+        chat.add("assistant", question)
+        trace.add("scope", True, f"Khách hỏi đây là thiết bị gì — trả lời {name}")
+        return DiagnosisResponse(
+            request_id=request.request_id,
+            session_id=chat.session_id,
+            status=DiagnosisStatus.NEEDS_CLARIFICATION,
+            engine=Engine.LOCAL_PIPELINE,
+            device=self._resolve_device(detection, chat),
+            confidence=round(detection.confidence, 4),
+            is_low_confidence=False,
+            clarification=Clarification(
+                questions_vi=[question],
+                service_group_codes=self._kb.all_service_groups(),
+            ),
+            model_info=self._model_info,
+            trace=trace.stages,
+            disclaimer_vi=settings.AI_DISCLAIMER_VI,
+        )
+
+    def _out_of_scope_response(
+        self, request: DiagnosisRequest, chat: Conversation, trace: "_Trace"
+    ) -> DiagnosisResponse:
+        """Say plainly that this is not what FixHome does, and offer the way back.
+
+        Not an error: the customer did nothing wrong, they asked a repair app
+        about something else. Answering with questions about their appliance
+        pretends not to have read it.
+        """
+        trace.add("scope", False, "Câu hỏi không thuộc phạm vi sửa chữa gia dụng")
+        return DiagnosisResponse(
+            request_id=request.request_id,
+            session_id=chat.session_id,
+            status=DiagnosisStatus.NEEDS_CLARIFICATION,
+            engine=Engine.LOCAL_PIPELINE,
+            confidence=0.0,
+            is_low_confidence=True,
+            clarification=Clarification(
+                questions_vi=[settings.OUT_OF_SCOPE_MESSAGE_VI],
+                service_group_codes=self._kb.all_service_groups(),
+            ),
+            model_info=self._model_info,
+            trace=trace.stages,
+            disclaimer_vi=settings.AI_DISCLAIMER_VI,
+        )
+
+    def _is_in_the_trade(self, question: str) -> bool:
+        """Whether this is about a household appliance, plumbing or electrics.
+
+        Deliberately coarse and deliberately strict. Letting through one
+        borderline question costs a mediocre answer; letting through every
+        question costs the model answering about anything at all in the voice
+        of a repair company.
+        """
+        if device_hint.devices_named_in(question, self._kb):
+            return True
+        folded = unicodedata.normalize("NFD", question.lower())
+        folded = "".join(c for c in folded if unicodedata.category(c) != "Mn")
+        return any(word in folded.replace("d", "d") for word in _TRADE_WORDS)
 
     def _ungrounded_answer(
         self, request: ChatRequest, chat: Optional[Conversation] = None

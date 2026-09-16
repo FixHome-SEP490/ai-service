@@ -54,11 +54,17 @@ def test_what_the_customer_already_said_is_not_asked_back():
     assert all("có mùi" not in q.text_vi for q in questions)
 
 
-def test_a_single_candidate_gets_confirmation_questions():
+def test_a_single_candidate_gets_a_confirmation_question():
+    """One question, not a list of them.
+
+    Three at once is a form. Nobody answers three: they answer the first and
+    ignore the rest, or they answer none. The ranking already knows which one
+    separates the shortlist best.
+    """
     questions = clarifier.build_questions([A], "máy lạnh hỏng")
 
-    assert questions
-    assert any("bám tuyết" in q.text_vi for q in questions)
+    assert len(questions) == clarifier.MAX_QUESTIONS == 1
+    assert questions[0].symptom_vi in A.symptoms_vi
 
 
 def test_question_count_is_capped():

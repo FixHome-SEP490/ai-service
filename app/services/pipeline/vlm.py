@@ -63,6 +63,10 @@ class VisionLanguageModel(Protocol):
         """Answer a grounded advisory question from retrieved passages."""
         ...
 
+    async def answer_generally(self, question: str, history_vi: str = "") -> str:
+        """Answer from the model's own trade knowledge when nothing was retrieved."""
+        ...
+
 
 class StubVlm:
     """Picks the top retrieved candidate. Deterministic, no weights needed."""
@@ -85,6 +89,11 @@ class StubVlm:
         if not passages_vi:
             return "", 0.0
         return passages_vi[0], 0.6
+
+    async def answer_generally(self, question: str, history_vi: str = "") -> str:
+        # The stub has no knowledge to reason from, so it declines rather than
+        # inventing one. Tests that want the reasoning path supply a fake.
+        return ""
 
 
 class QwenVlm:
@@ -129,3 +138,6 @@ class QwenVlm:
 
     async def answer(self, question: str, passages_vi: List[str]) -> tuple[str, float]:
         return await self._client.answer(question, passages_vi)
+
+    async def answer_generally(self, question: str, history_vi: str = "") -> str:
+        return await self._client.answer_generally(question, history_vi)

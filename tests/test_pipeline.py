@@ -21,8 +21,9 @@ from app.services.pipeline.vlm import StubVlm, VlmVerdict
 
 
 class _FixedVlm:
-    def __init__(self, verdict: VlmVerdict) -> None:
+    def __init__(self, verdict: VlmVerdict, general: str = "") -> None:
         self._verdict = verdict
+        self._general = general
 
     async def assess(self, *args, **kwargs) -> VlmVerdict:
         self.last_kwargs = kwargs
@@ -30,6 +31,9 @@ class _FixedVlm:
 
     async def answer(self, question: str, passages_vi: list[str]):
         return (passages_vi[0], 0.8) if passages_vi else ("", 0.0)
+
+    async def answer_generally(self, question: str, history_vi: str = "") -> str:
+        return self._general
 
 
 class _EmptyDetector:
@@ -189,12 +193,41 @@ async def test_chat_answer_is_cited():
 
 
 @pytest.mark.asyncio
-async def test_chat_refuses_when_nothing_retrieved():
-    pipeline = _pipeline(vlm=_FixedVlm(VlmVerdict()))
+async def test_a_question_outside_the_trade_is_refused_without_asking_the_model():
+    """The model answers questions about anything if you let it.
+
+    Asked "bitcoin giá bao nhiêu" it explained cryptocurrency exchanges, in the
+    voice of a repair company. The gate is ours, and it fails closed.
+    """
+    pipeline = _pipeline(vlm=_FixedVlm(VlmVerdict(), general=""))
     response = await pipeline.answer(ChatRequest(question="zzzz qqqq"))
 
     assert response.status == AnswerStatus.NO_GROUNDING
     assert response.citations == []
+
+
+@pytest.mark.asyncio
+async def test_a_question_the_tables_miss_is_still_answered():
+    """Refusing everything ungrounded made every customer get one sentence.
+
+    General repair knowledge is not a fact anybody owns. It comes back marked
+    as uncited, because an answer with citations and one without are not the
+    same thing to a caller.
+    """
+    pipeline = _pipeline(
+        vlm=_FixedVlm(
+            VlmVerdict(),
+            general="Dàn lạnh bám tuyết thường do thiếu gas hoặc lọc gió quá bẩn.",
+        )
+    )
+    # In the trade, so the model is asked; no policy passage covers it.
+    response = await pipeline.answer(
+        ChatRequest(question="thiết bị zzzz qqqq wwww bị làm sao")
+    )
+
+    assert response.status == AnswerStatus.GENERAL_KNOWLEDGE
+    assert response.citations == []
+    assert "bám tuyết" in response.answer_vi
 
 
 @pytest.mark.asyncio

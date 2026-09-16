@@ -68,6 +68,12 @@ class Settings(BaseSettings):
     team wrote for one fault almost exactly. Asking anything after that is
     asking them to repeat themselves."""
 
+    OUT_OF_SCOPE_MESSAGE_VI: str = (
+        "Dạ em là trợ lý sửa chữa thiết bị gia dụng của FixHome nên chỉ hỗ trợ "
+        "được các vấn đề về điện, nước và đồ gia dụng trong nhà thôi ạ. Nhà "
+        "mình có thiết bị nào đang trục trặc không ạ?"
+    )
+
     DECISIVE_MIN_WORDS: int = 3
     """Meaningful words the customer must have written before a high retrieval
     score counts as settling anything. "Hư rồi" is one."""

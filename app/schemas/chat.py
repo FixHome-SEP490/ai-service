@@ -16,6 +16,13 @@ from pydantic.alias_generators import to_camel
 class AnswerStatus(str, Enum):
     OK = "ok"
     OUT_OF_SCOPE = "out_of_scope"
+    GENERAL_KNOWLEDGE = "general_knowledge"
+    """Answered from the model's trade knowledge, with nothing cited.
+
+    Distinct from `ok` on purpose. An answer with citations traces to a
+    document somebody owns; this one traces to a model, and a client showing
+    them identically has thrown away the difference."""
+
     NO_GROUNDING = "no_grounding"
 
 
