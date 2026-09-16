@@ -332,17 +332,21 @@ def cmd_train(args: argparse.Namespace) -> None:
     print("    https://cloud.vast.ai/instances/  (delete button)")
 
 
-SERVE_IMAGE = "vllm/vllm-openai:v0.29.0"
-"""Official vLLM image, pinned.
+SERVE_IMAGE = "ghcr.io/fixhome-sep490/fixhome-serve:latest"
+"""The whole service in one container: vLLM, the detector, retrieval and the API.
 
-docker/serve/vllm.sh pip-installed `vllm==0.6.*`, which predates Qwen2.5-VL
-support entirely: that model arrived in 0.7.2. The script would have installed
-cleanly and then refused the model, which is a slow way to find out. The image
-also skips a pip install on every rental.
+Renting a box for Qwen alone and leaving the API and the detector on a laptop
+was a testing shortcut that quietly became the deployment. It costs the
+detector ten times its latency, since it then runs on a CPU, and it means
+Backend has to reach somebody's laptop.
 """
 
-SERVE_MODEL = "Qwen/Qwen2.5-VL-3B-Instruct-AWQ"
 SERVE_PORT = 8000
+"""The API port. vLLM stays on loopback inside the container.
+
+Nothing outside has any business talking to the model directly, and a rented
+box publishes its ports to the open internet.
+"""
 
 
 def cmd_serve(args: argparse.Namespace) -> None:
@@ -359,6 +363,18 @@ def cmd_serve(args: argparse.Namespace) -> None:
             "Destroy it first, or delete the file if it is stale."
         )
 
+    env = " ".join(
+        [
+            # -p publishes the API port; without it the service answers only
+            # inside the instance, which is no use to anything.
+            f"-p {SERVE_PORT}:{SERVE_PORT}",
+            f"-e HF_TOKEN={get_secret('HF_TOKEN')}",
+            f"-e HF_WEIGHTS_REPO={get_secret('HF_WEIGHTS_REPO')}",
+            f"-e WEIGHTS_RUN={args.weights_run}",
+            f"-e GPU_FRACTION={args.gpu_fraction}",
+            f"-e MAX_LEN={args.max_len}",
+        ]
+    )
     result = _cli(
         "create",
         "instance",
@@ -366,25 +382,11 @@ def cmd_serve(args: argparse.Namespace) -> None:
         "--image",
         SERVE_IMAGE,
         "--disk",
-        "40",
-        # -p publishes the API port; without it the server is reachable only
-        # from inside the instance, which is no use to anything.
+        "60",
         "--env",
-        f"-p {SERVE_PORT}:{SERVE_PORT}",
+        env,
         "--raw",
-        trailing=(
-            "--args",
-            "--model",
-            SERVE_MODEL,
-            "--port",
-            str(SERVE_PORT),
-            "--host",
-            "0.0.0.0",
-            "--gpu-memory-utilization",
-            str(args.gpu_fraction),
-            "--max-model-len",
-            str(args.max_len),
-        ),
+        trailing=("--args", "serve"),
     )
     created = _reply(result, doing=f"renting offer {args.offer} to serve Qwen")
     instance_id = created.get("new_contract")
@@ -393,7 +395,9 @@ def cmd_serve(args: argparse.Namespace) -> None:
 
     SERVE_INSTANCE_FILE.write_text(str(instance_id), encoding="utf-8")
     print(f"Serving instance {instance_id}, id saved to {SERVE_INSTANCE_FILE.name}")
-    print(f"Model {SERVE_MODEL} is several GB; first start takes a few minutes.")
+    print("First start pulls the image and the model, several minutes.")
+    print("The API only opens once Qwen answers, so a 404 here means it is")
+    print("still loading rather than broken.")
     print(f"\n    python tools/rent_gpu.py address --instance {instance_id}")
     print(f"    python tools/rent_gpu.py destroy --instance {instance_id}")
 
@@ -417,7 +421,10 @@ def cmd_address(args: argparse.Namespace) -> None:
             "try again in a minute."
         )
     port = mapping[0].get("HostPort")
-    print(f"VLM_BASE_URL=http://{str(host).strip()}:{port}/v1")
+    base = f"http://{str(host).strip()}:{port}"
+    print(f"AI_SERVICE_URL={base}")
+    print(f"  health   {base}/health")
+    print(f"  diagnose {base}/api/v1/diagnosis/analyze-upload")
 
 
 def _instance_id_for(explicit: Optional[int], path: Path) -> int:
@@ -523,7 +530,13 @@ def main() -> None:
 
     serve = sub.add_parser("serve", help="rent a second machine and serve Qwen")
     serve.add_argument("--offer", required=True, type=int)
-    serve.add_argument("--gpu-fraction", type=float, default=0.85)
+    serve.add_argument(
+        "--gpu-fraction",
+        type=float,
+        default=0.70,
+        help="share of VRAM for Qwen; the rest is the detector's",
+    )
+    serve.add_argument("--weights-run", default="detector-v1")
     serve.add_argument("--max-len", type=int, default=8192)
 
     address = sub.add_parser("address", help="where the served API answers")

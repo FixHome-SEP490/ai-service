@@ -1,0 +1,130 @@
+name: Serving image
+
+# Builds the serving image in CI rather than on a laptop.
+#
+# This is the whole service in one container: vLLM, the detector, retrieval and
+# the API. One container because they share one GPU, and because the deployment
+# is one rented box rather than a laptop calling out to a model server.
+#
+# Three reasons this is not a local docker build. The image is around seven
+# gigabytes because of the CUDA base, so pushing it from a home connection takes
+# far longer than building it; nobody needs Docker installed to produce it; and
+# the result is reproducible, built from a clean checkout every time instead of
+# from whatever happened to be in a developer's build cache.
+#
+# The image goes to GHCR using the token GitHub provides to the job, so no
+# credentials are stored for it. GHCR is private here because this organisation
+# forbids public packages and only an organisation owner can lift that, which
+# means a rented machine would have to log in with a GitHub token to pull.
+#
+# So the image is also pushed to Docker Hub when DOCKERHUB_USERNAME and
+# DOCKERHUB_TOKEN are present as repository secrets. A public Docker Hub
+# repository needs no credentials on the rented box at all. Without those
+# secrets the step is skipped and GHCR still works.
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - 'docker/serve/**'
+      - 'requirements.txt'
+      - 'app/**'
+      - '.github/workflows/serving-image.yml'
+
+permissions:
+  contents: read
+  packages: write
+
+concurrency:
+  group: serving-image
+  cancel-in-progress: true
+
+jobs:
+  build:
+    name: Build and push serving image
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+
+      # Registry paths must be lowercase, and this organisation's name is not.
+      # metadata-action lowercases the tags it generates, but any reference
+      # written by hand below has to be lowercased too, or the build fails at
+      # the very end with "repository name must be lowercase".
+      - name: Lowercase the image path
+        run: echo "IMAGE=ghcr.io/$(echo '${{ github.repository_owner }}' | tr '[:upper:]' '[:lower:]')/fixhome-serve" >> "$GITHUB_ENV"
+
+      # The CUDA base image does not fit alongside the runner's preinstalled
+      # toolchains. Without this the build fails partway with "no space left on
+      # device", which reads like a Docker problem and is not.
+      - name: Reclaim runner disk
+        run: |
+          echo "before:"; df -h / | tail -1
+          sudo rm -rf /usr/share/dotnet /usr/local/lib/android /opt/ghc
+          sudo rm -rf /usr/local/share/boost "$AGENT_TOOLSDIRECTORY"
+          sudo docker image prune -af
+          echo "after:"; df -h / | tail -1
+
+      - uses: docker/setup-buildx-action@v3
+
+      - name: Log in to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Log in to Docker Hub
+        if: ${{ vars.DOCKERHUB_ENABLED == 'true' }}
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Note the Docker Hub image path
+        if: ${{ vars.DOCKERHUB_ENABLED == 'true' }}
+        run: echo "HUB_IMAGE=docker.io/${{ secrets.DOCKERHUB_USERNAME }}/fixhome-serve" >> "$GITHUB_ENV"
+
+      - id: meta
+        uses: docker/metadata-action@v5
+        with:
+          # metadata-action tolerates a blank line, so one images list covers
+          # both the always-on registry and the optional one.
+          images: |
+            ${{ env.IMAGE }}
+            ${{ env.HUB_IMAGE }}
+          tags: |
+            type=raw,value=latest
+            type=sha,format=short
+
+      - name: Build and push
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: docker/serve/Dockerfile
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          # Layer cache lives in the registry, so a change to the project files
+          # rebuilds one thin layer instead of reinstalling the toolchain.
+          cache-from: type=registry,ref=${{ env.IMAGE }}:buildcache
+          cache-to: type=registry,ref=${{ env.IMAGE }}:buildcache,mode=max
+
+      - name: Report how to use it
+        run: |
+          echo "Images pushed:"
+          echo "  ${IMAGE}:latest   (GHCR, private in this organisation)"
+          if [ -n "${HUB_IMAGE:-}" ]; then
+            echo "  ${HUB_IMAGE}:latest   (Docker Hub)"
+            echo ""
+            echo "Pull on a rented GPU box with:"
+            echo "  docker pull ${HUB_IMAGE}:latest"
+            echo "Make that Docker Hub repository public once, so no login is needed."
+          else
+            echo ""
+            echo "Docker Hub is not configured, so the only image is on GHCR and"
+            echo "it is private. A rented box would have to log in to pull it."
+            echo "Set the DOCKERHUB_USERNAME and DOCKERHUB_TOKEN secrets and the"
+            echo "DOCKERHUB_ENABLED variable to 'true' to publish there as well."
+          fi
