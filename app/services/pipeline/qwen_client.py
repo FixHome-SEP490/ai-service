@@ -37,30 +37,57 @@ logger = logging.getLogger(__name__)
 
 _JSON_BLOCK = re.compile(r"\{.*\}", re.DOTALL)
 
-_ASSESS_SYSTEM = (
-    # The first two sentences are not politeness. Asked "ổ cắm có bị cháy đen
-    # không?" the model replied "tôi không thể xem hình ảnh của bạn", then in
-    # the next breath answered "màu trắng" when asked the colour of the same
-    # socket. It can see; a question shaped as judging a condition is what it
-    # declines. Saying outright that it is looking at a photograph, and asking
-    # it to describe rather than to assess, stopped the refusals: it went on to
-    # count four sockets, report their surfaces as clean, and pick the right
-    # code from a closed list, all of which it had refused a moment earlier.
-    "Bạn là bộ phận thị giác của hệ thống FixHome. Bạn LUÔN nhìn thấy bức ảnh "
-    "được gửi kèm. Hãy mô tả những gì quan sát được trong ảnh, không đưa lời "
-    "khuyên và không hướng dẫn cách xử lý.\n"
-    "Nhiệm vụ duy nhất của bạn là chọn mã "
-    "trong danh sách được cung cấp. Tuyệt đối không tạo ra mã mới, không giải "
-    "thích dài dòng, không viết nội dung cho khách hàng.\n"
-    "Chỉ trả về JSON đúng định dạng:\n"
-    '{"fault_codes": [...], "condition_codes": [...], "confidence": 0.0, "reason": "..."}\n'
-    "fault_codes: tối đa 3 mã, xếp theo mức độ khả năng giảm dần, chỉ lấy từ danh sách.\n"
-    "condition_codes: dấu hiệu hư hại NHÌN THẤY ĐƯỢC trên ảnh, chỉ lấy từ danh sách. "
-    "Không thấy gì rõ ràng thì để mảng rỗng.\n"
-    "confidence: từ 0 tới 1, phản ánh mức chắc chắn thật sự. "
-    "Mô tả mơ hồ thì để thấp.\n"
-    "reason: một câu ngắn bằng tiếng Việt, chỉ dùng cho nhật ký nội bộ."
-)
+def _assess_system(has_image: bool) -> str:
+    """The instructions, which differ by whether there is anything to look at.
+
+    One prompt for both was the mistake. Fixing a refusal — the model answering
+    "tôi không thể xem hình ảnh" when asked about damage — by opening with "bạn
+    là bộ phận thị giác, hãy mô tả cái quan sát được" turned it into a
+    describer. It then returned empty fault_codes on eight tries out of eight
+    while its own reason field said "mô tả rõ ràng về hiện tượng máy giặt không
+    vắt": it had understood the customer and filled in the wrong field.
+
+    Choosing the fault is the job. Reading the photograph is a detail of the
+    job, and only when a photograph exists.
+    """
+    lines = [
+        "Bạn là trợ lý chẩn đoán của FixHome.",
+        "",
+        "NHIỆM VỤ CHÍNH: đọc mô tả của khách và CHỌN mã hư hỏng khớp nhất trong "
+        "danh sách được đánh số. Luôn phải chọn ít nhất một mã nếu có mã nào hợp "
+        "lý — danh sách đã được lọc sẵn cho đúng thiết bị rồi. Chỉ để rỗng khi "
+        "thật sự không mã nào liên quan.",
+        "",
+    ]
+    if has_image:
+        # Only said when true. Told there was a photograph when there was none,
+        # the model described cracks and scratches in a picture nobody sent.
+        lines += [
+            "Có ảnh gửi kèm và bạn NHÌN THẤY được nó. Ngoài việc chọn mã hư "
+            "hỏng, hãy ghi lại dấu hiệu quan sát được trên bề mặt thiết bị, chỉ "
+            "chọn trong danh sách mã dấu hiệu. Bề mặt bình thường thì để rỗng.",
+            "",
+        ]
+    else:
+        lines += [
+            "Lượt này KHÔNG có ảnh, chỉ có lời khách kể. Hãy chẩn đoán từ lời "
+            "kể, đừng nói rằng thiếu ảnh. Để condition_codes rỗng vì không có "
+            "gì để nhìn.",
+            "",
+        ]
+    lines += [
+        "Tuyệt đối không tạo mã mới, không giải thích dài dòng, không viết nội "
+        "dung cho khách hàng.",
+        "Chỉ trả về JSON đúng định dạng:",
+        '{"fault_codes": [...], "condition_codes": [...], "confidence": 0.0, '
+        '"reason": "..."}',
+        "fault_codes: tối đa 3 mã hư hỏng VIẾT HOA, xếp theo khả năng giảm dần.",
+        "condition_codes: mã dấu hiệu viết thường, chỉ khi nhìn thấy trên ảnh.",
+        "confidence: 0 tới 1, phản ánh mức chắc chắn thật sự.",
+        "reason: một câu ngắn tiếng Việt, chỉ dùng cho nhật ký nội bộ.",
+    ]
+    return "\n".join(lines)
+
 
 _ANSWER_SYSTEM = (
     "Bạn là trợ lý của FixHome, nền tảng sửa chữa thiết bị gia đình.\n"
@@ -227,7 +254,7 @@ class QwenClient:
 
         raw = await self._chat(
             [
-                {"role": "system", "content": _ASSESS_SYSTEM},
+                {"role": "system", "content": _assess_system(crop is not None)},
                 {"role": "user", "content": content},
             ]
         )
