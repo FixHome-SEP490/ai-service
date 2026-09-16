@@ -241,6 +241,53 @@ class QwenClient:
             logger.warning("qwen_call_failed", extra={"error": type(exc).__name__})
             return None
 
+    async def assess_context(
+        self,
+        crop: Optional[ImagePayload],
+        context,
+        candidate_condition_codes: List[Tuple[str, str]],
+    ) -> VlmVerdict:
+        """Choose from the assembled context rather than a bare code list.
+
+        The context carries the conversation, the questions already put, the
+        price rows and the policy text. Handing over only the shortlist is what
+        made the assistant read like a lookup: it was one.
+        """
+        if not context.candidates:
+            return VlmVerdict()
+
+        prompt = build_context_prompt(context)
+        if candidate_condition_codes and crop is not None:
+            prompt += "\n\nDẤU HIỆU NHÌN THẤY (chỉ chọn trong đây, viết thường):\n"
+            prompt += "\n".join(
+                f"  {code} — {name}" for code, name in candidate_condition_codes
+            )
+
+        content: List[Dict[str, Any]] = []
+        if crop is not None:
+            content.append(
+                {
+                    "type": "image_url",
+                    "image_url": {"url": f"data:image/jpeg;base64,{crop.to_base64()}"},
+                }
+            )
+        content.append({"type": "text", "text": prompt})
+
+        raw = await self._chat(
+            [
+                {"role": "system", "content": _assess_system(crop is not None)},
+                {"role": "user", "content": content},
+            ]
+        )
+        if raw is None:
+            return VlmVerdict()
+        return _parse_verdict(
+            raw,
+            [c.fault.fault_code for c in context.candidates],
+            [code for code, _ in candidate_condition_codes],
+            has_image=crop is not None,
+        )
+
     async def assess(
         self,
         crop: Optional[ImagePayload],
@@ -377,6 +424,58 @@ class QwenClient:
         # retriever reports a calibrated score.
         confidence = 0.8 if len(passages_vi) == 1 else 0.7
         return text, confidence
+
+
+def build_context_prompt(ctx) -> str:
+    """Render the assembled context as the user turn.
+
+    Order matters. The device comes first because it constrains everything
+    after it; the conversation next, because a fault named three messages ago
+    is still the fault; the shortlist after that, so the model is choosing
+    against what it has just read rather than against a list in isolation.
+
+    Policy and price lines are included so the model can say what it is allowed
+    to say about cost and maintenance without reaching for anything else. They
+    are facts it may repeat, not facts it may extend.
+    """
+    lines: List[str] = []
+
+    if ctx.device_name_vi:
+        how = f" (nhận ra từ {ctx.device_source_vi})" if ctx.device_source_vi else ""
+        lines.append(f"THIẾT BỊ: {ctx.device_name_vi} [{ctx.device_type}]{how}")
+    else:
+        lines.append("THIẾT BỊ: chưa xác định")
+
+    if ctx.history and len(ctx.history) > 1:
+        lines += ["", "CUỘC TRÒ CHUYỆN TỪ ĐẦU:"]
+        lines += [f"  {line}" for line in ctx.history]
+    else:
+        lines += ["", f'KHÁCH MÔ TẢ: "{ctx.latest_message}"']
+
+    if ctx.already_asked:
+        lines += [
+            "",
+            "ĐÃ HỎI KHÁCH RỒI, đừng hỏi lại: " + "; ".join(ctx.already_asked[-4:]),
+        ]
+
+    lines += ["", "CÁC KHẢ NĂNG HƯ HỎNG (chỉ được chọn trong đây):"]
+    for index, candidate in enumerate(ctx.candidates, start=1):
+        fault = candidate.fault
+        lines.append(f"{index}. {fault.fault_code} — {fault.name_vi}")
+        lines.append(
+            "   Khách thường tả là: " + ", ".join(fault.symptoms_vi[:6])
+        )
+        lines.append(f"   Mức khớp từ khoá: {candidate.score:.2f}")
+
+    if ctx.price_rows:
+        lines += ["", "GIÁ THAM KHẢO (chỉ dùng đúng những con số này):"]
+        lines += [f"  {row.as_text_vi()}" for row in ctx.price_rows]
+
+    if ctx.policies:
+        lines += ["", "CHÍNH SÁCH LIÊN QUAN:"]
+        lines += [f"  {p.policy.content_vi}" for p in ctx.policies]
+
+    return "\n".join(lines)
 
 
 def _build_assess_prompt(

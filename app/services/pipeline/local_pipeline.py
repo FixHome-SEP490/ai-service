@@ -29,13 +29,14 @@ from app.schemas.diagnosis import (
     VisibleCondition,
 )
 from app.services.pipeline import clarifier
+from app.services.pipeline import context
 from app.services.pipeline import device_hint
 from app.services.pipeline.conversation import Conversation, get_conversation_store
 from app.services.pipeline.detector import Detection, Detector
 from app.services.pipeline.images import ImagePayload, load_base64_image
 from app.services.pipeline.knowledge_base import KnowledgeBase, ServiceRef
 from app.services.pipeline.retriever import Retriever
-from app.services.pipeline.vlm import FaultCandidate, VisionLanguageModel, VlmVerdict
+from app.services.pipeline.vlm import VisionLanguageModel, VlmVerdict
 
 _IDENTIFY_PATTERNS = (
     "la cai gi", "la gi", "may gi", "thiet bi gi", "cai gi vay", "gi vay",
@@ -344,19 +345,34 @@ class LocalPipeline:
                     kept=[c.fault.fault_code for c in candidates],
                 )
 
-        verdict = await self._vlm.assess(
-            crop=detection.crop if detection else None,
-            description=request.description,
+        # One place decides what the model may know, and it is not this loop.
+        # See context.py: the device and how it was learned, everything said so
+        # far, what has already been asked, the shortlist with the phrases
+        # customers use, the policies that bear on this device and the rows that
+        # price it. Handing over a bare list of codes is what made the answers
+        # read like a lookup table.
+        ctx = context.build(
+            kb=self._kb,
+            retriever=self._retriever,
+            chat=chat,
+            latest_message=request.description,
             device_type=device_type,
-            candidates=[
-                FaultCandidate(
-                    code=c.fault.fault_code,
-                    name_vi=c.fault.name_vi,
-                    symptoms_vi=c.fault.symptoms_vi,
-                    retrieval_score=c.score,
-                )
-                for c in candidates
-            ],
+            device_source=chat.device_source_vi,
+            candidates=candidates,
+            has_image=detection is not None,
+        )
+        trace.add(
+            "context",
+            True,
+            f"Nhồi ngữ cảnh: {len(ctx.candidates)} bệnh, {len(ctx.price_rows)} dòng giá, "
+            f"{len(ctx.policies)} chính sách, {len(ctx.history)} lượt hội thoại",
+            device=ctx.device_type,
+            asked_before=len(ctx.already_asked),
+        )
+
+        verdict = await self._vlm.assess_context(
+            crop=detection.crop if detection else None,
+            context=ctx,
             candidate_condition_codes=[
                 (code, self._kb.condition_name_vi(code) or code)
                 for code in self._kb.condition_codes
