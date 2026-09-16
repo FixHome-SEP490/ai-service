@@ -41,6 +41,7 @@ if hasattr(sys.stdout, "reconfigure"):
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 INSTANCE_FILE = REPO_ROOT / ".vast-instance"
+SERVE_INSTANCE_FILE = REPO_ROOT / ".vast-serve-instance"
 IMAGE = "ghcr.io/fixhome-sep490/fixhome-trainer:latest"
 
 DISK_GB = 60
@@ -300,15 +301,107 @@ def cmd_train(args: argparse.Namespace) -> None:
     print("    https://cloud.vast.ai/instances/  (delete button)")
 
 
-def _instance_id(explicit: Optional[int]) -> int:
+SERVE_IMAGE = "vllm/vllm-openai:v0.29.0"
+"""Official vLLM image, pinned.
+
+docker/serve/vllm.sh pip-installed `vllm==0.6.*`, which predates Qwen2.5-VL
+support entirely: that model arrived in 0.7.2. The script would have installed
+cleanly and then refused the model, which is a slow way to find out. The image
+also skips a pip install on every rental.
+"""
+
+SERVE_MODEL = "Qwen/Qwen2.5-VL-3B-Instruct-AWQ"
+SERVE_PORT = 8000
+
+
+def cmd_serve(args: argparse.Namespace) -> None:
+    """Rent a second machine and serve Qwen on it.
+
+    Separate from the trainer on purpose: a training run owns the whole card,
+    and serving is a different lifetime anyway — it outlives the run that
+    produced the detector.
+    """
+    if SERVE_INSTANCE_FILE.exists():
+        raise SystemExit(
+            f"{SERVE_INSTANCE_FILE.name} already names instance "
+            f"{SERVE_INSTANCE_FILE.read_text().strip()}.\n"
+            "Destroy it first, or delete the file if it is stale."
+        )
+
+    result = _cli(
+        "create",
+        "instance",
+        str(args.offer),
+        "--image",
+        SERVE_IMAGE,
+        "--disk",
+        "40",
+        # -p publishes the API port; without it the server is reachable only
+        # from inside the instance, which is no use to anything.
+        "--env",
+        f"-p {SERVE_PORT}:{SERVE_PORT}",
+        "--raw",
+        trailing=(
+            "--args",
+            "--model",
+            SERVE_MODEL,
+            "--port",
+            str(SERVE_PORT),
+            "--host",
+            "0.0.0.0",
+            "--gpu-memory-utilization",
+            str(args.gpu_fraction),
+            "--max-model-len",
+            str(args.max_len),
+        ),
+    )
+    created = _reply(result, doing=f"renting offer {args.offer} to serve Qwen")
+    instance_id = created.get("new_contract")
+    if not instance_id:
+        raise SystemExit(f"No instance id in the reply: {created}")
+
+    SERVE_INSTANCE_FILE.write_text(str(instance_id), encoding="utf-8")
+    print(f"Serving instance {instance_id}, id saved to {SERVE_INSTANCE_FILE.name}")
+    print(f"Model {SERVE_MODEL} is several GB; first start takes a few minutes.")
+    print(f"\n    python tools/rent_gpu.py address --instance {instance_id}")
+    print(f"    python tools/rent_gpu.py destroy --instance {instance_id}")
+
+
+def cmd_address(args: argparse.Namespace) -> None:
+    """Where the served API actually answers.
+
+    A rented instance publishes each container port on some arbitrary host
+    port, so the address cannot be guessed and changes with every rental.
+    """
+    instance = _instance_id_for(args.instance, SERVE_INSTANCE_FILE)
+    detail = _reply(
+        _cli("show", "instance", str(instance), "--raw"), doing="reading the instance"
+    )
+    host = detail.get("public_ipaddr")
+    mapping = (detail.get("ports") or {}).get(f"{SERVE_PORT}/tcp") or []
+    if not host or not mapping:
+        print(f"status: {detail.get('actual_status')}")
+        raise SystemExit(
+            "No published address yet. The instance is probably still starting;\n"
+            "try again in a minute."
+        )
+    port = mapping[0].get("HostPort")
+    print(f"VLM_BASE_URL=http://{str(host).strip()}:{port}/v1")
+
+
+def _instance_id_for(explicit: Optional[int], path: Path) -> int:
     if explicit:
         return explicit
-    if INSTANCE_FILE.exists():
-        return int(INSTANCE_FILE.read_text().strip())
+    if path.exists():
+        return int(path.read_text().strip())
     raise SystemExit(
-        f"No instance id given and no {INSTANCE_FILE.name}.\n"
+        f"No instance id given and no {path.name}.\n"
         "Run `status` to list what is actually rented."
     )
+
+
+def _instance_id(explicit: Optional[int]) -> int:
+    return _instance_id_for(explicit, INSTANCE_FILE)
 
 
 def _instances() -> List[dict]:
@@ -391,6 +484,14 @@ def main() -> None:
 
     sub.add_parser("status", help="what is rented and what it has cost")
 
+    serve = sub.add_parser("serve", help="rent a second machine and serve Qwen")
+    serve.add_argument("--offer", required=True, type=int)
+    serve.add_argument("--gpu-fraction", type=float, default=0.85)
+    serve.add_argument("--max-len", type=int, default=8192)
+
+    address = sub.add_parser("address", help="where the served API answers")
+    address.add_argument("--instance", type=int)
+
     destroy = sub.add_parser("destroy", help="stop the billing")
     destroy.add_argument("--instance", type=int)
 
@@ -401,6 +502,8 @@ def main() -> None:
         "logs": cmd_logs,
         "status": cmd_status,
         "destroy": cmd_destroy,
+        "serve": cmd_serve,
+        "address": cmd_address,
     }[args.command](args)
 
 

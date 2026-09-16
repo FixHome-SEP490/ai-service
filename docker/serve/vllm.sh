@@ -36,7 +36,15 @@ log "Installing vLLM"
 pip install --quiet --upgrade pip
 # Pinned: an unpinned vLLM changes sampling defaults and model support between
 # rentals, and results stop being comparable with the previous run.
-pip install --quiet "vllm==0.6.*" "qwen-vl-utils"
+#
+# 0.6 was the original pin and would never have worked: Qwen2.5-VL support
+# arrived in 0.7.2, so the install would have succeeded and the model would
+# then have been refused, which is a slow way to learn it.
+#
+# Prefer `python tools/rent_gpu.py serve`, which runs the official
+# vllm/vllm-openai image instead and skips this install entirely. This script
+# is for a box that already exists.
+pip install --quiet "vllm==0.29.*" "qwen-vl-utils"
 
 log "Starting vLLM for ${MODEL}"
 python -m vllm.entrypoints.openai.api_server \
