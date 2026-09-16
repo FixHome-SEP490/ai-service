@@ -137,7 +137,12 @@ def cmd_offers(args: argparse.Namespace) -> None:
         f"gpu_name={args.gpu}",
         "num_gpus=1",
         f"disk_space>={DISK_GB}",
-        "cuda_vers>=12.1",
+        # No CUDA filter. `cuda_vers>=12.1` and `cuda_max_good>=12.1` both
+        # return nothing at all for RTX 5090 hosts, which report CUDA 13.0 —
+        # the comparison fails somewhere above 12.x rather than excluding a
+        # genuinely unsuitable machine. On every other card the filter changed
+        # no result, so it was hiding a whole class of hardware and buying
+        # nothing. What the image actually needs is checked in `train` instead.
         f"dph<={args.max_price}",
         "reliability>0.98",
         f"inet_down>={args.min_download}",
@@ -170,8 +175,78 @@ def cmd_offers(args: argparse.Namespace) -> None:
     )
     print("Download speed matters: the dataset is a 2.4 GB archive.")
 
+    # Remember every offer shown, not just the ones printed, so `train` can say
+    # which card an id belongs to and refuse one the image cannot run.
+    OFFER_CACHE.write_text(
+        json.dumps({str(o["id"]): o["gpu_name"] for o in offers}, indent=1),
+        encoding="utf-8",
+    )
+
+
+UNSUPPORTED_GPUS = ("5090", "5080", "RTX PRO 6000", "B200", "GB200")
+"""Blackwell cards the training image cannot use.
+
+The image is pinned to pytorch/pytorch:2.4.1-cuda12.1, whose kernels are built
+for sm_90 and below. A Blackwell card is sm_120, so the run dies on the first
+convolution with "no kernel image is available for execution on the device" —
+after paying to download 2.4 GB of dataset onto a machine that was never going
+to train. Using one means rebuilding the image on CUDA 12.8 with torch 2.7+,
+which also resets the numerical baseline every previous run was compared on.
+"""
+
+
+OFFER_CACHE = REPO_ROOT / ".vast-offers.json"
+"""What the last `offers` run listed, so `train` knows which card an id is.
+
+There is no way to look one up: `search offers "id=..."` returns nothing for
+every syntax tried, and an unfiltered search returns 64 rows out of thousands,
+so the offer usually is not among them. Caching what was listed is the only
+reading of the card that does not depend on guessing.
+"""
+
+
+def _cached_gpu(offer_id: int) -> Optional[str]:
+    if not OFFER_CACHE.exists():
+        return None
+    try:
+        return json.loads(OFFER_CACHE.read_text(encoding="utf-8")).get(str(offer_id))
+    except (json.JSONDecodeError, OSError):
+        return None
+
+
+def _check_gpu_supported(offer_id: int, force: bool) -> None:
+    """Refuse a card the image cannot run, before any money is spent.
+
+    Unknown is not treated as unsupported: an id typed from the website is
+    perfectly legitimate, and blocking it would make the tool unusable. It says
+    what it could not check instead.
+    """
+    gpu = _cached_gpu(offer_id)
+    if gpu is None:
+        print(
+            f"Offer {offer_id} was not in the last `offers` listing, so the card\n"
+            "could not be checked. If it is a 5090 or another Blackwell card,\n"
+            "stop: this image is CUDA 12.1 and the run will fail after paying to\n"
+            "download the dataset."
+        )
+        return
+
+    print(f"Offer {offer_id}: {gpu}")
+    if any(bad in gpu for bad in UNSUPPORTED_GPUS) and not force:
+        raise SystemExit(
+            f"\nA {gpu} cannot run this image.\n\n"
+            "The image is built on CUDA 12.1 and a Blackwell card needs 12.8, so\n"
+            "the run would die on the first convolution, having already paid to\n"
+            "pull 2.4 GB of dataset onto it.\n\n"
+            "Rebuild docker/train/Dockerfile on a CUDA 12.8 base first, or pick\n"
+            "an Ada or Ampere card: 4090, 3090, A5000, 3060.\n"
+            "Pass --force-gpu only once the image has actually been rebuilt."
+        )
+
 
 def cmd_train(args: argparse.Namespace) -> None:
+    _check_gpu_supported(args.offer, args.force_gpu)
+
     if INSTANCE_FILE.exists():
         raise SystemExit(
             f"{INSTANCE_FILE.name} already names instance "
@@ -294,6 +369,11 @@ def main() -> None:
     train.add_argument("--epochs", type=int, default=100)
     train.add_argument("--batch", type=int, default=16)
     train.add_argument("--run-name", default="detector-v1")
+    train.add_argument(
+        "--force-gpu",
+        action="store_true",
+        help="rent a card the image cannot use; only after rebuilding it",
+    )
 
     logs = sub.add_parser("logs", help="what the training container has printed")
     logs.add_argument("--instance", type=int)
