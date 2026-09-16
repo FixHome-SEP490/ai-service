@@ -25,6 +25,7 @@ from __future__ import annotations
 import json
 import logging
 import re
+import unicodedata
 from typing import Any, Dict, List, Optional, Tuple
 
 import httpx
@@ -70,7 +71,71 @@ _ANSWER_SYSTEM = (
     "Không bịa giá, không hứa thời gian, không thay kỹ thuật viên kết luận."
 )
 
+_GENERAL_SYSTEM = (
+    "Bạn là kỹ thuật viên sửa chữa thiết bị gia dụng của FixHome, đang nhắn tin "
+    "với khách hàng Việt Nam.\n"
+    "Trả lời bằng kiến thức nghề của bạn: giải thích nguyên nhân, cách kiểm tra "
+    "an toàn tại nhà, nên làm gì trước khi thợ tới. Viết tự nhiên và đủ ý như "
+    "đang nói chuyện thật, không lặp lại câu hỏi của khách.\n"
+    "\n"
+    "TUYỆT ĐỐI KHÔNG nói ba thứ sau, vì chúng không thuộc về bạn:\n"
+    "1. Bất kỳ con số tiền nào. Không giá, không khoảng giá, không 'khoảng vài "
+    "trăm nghìn'. Khách hỏi tiền thì nói cần biết rõ thiết bị và hư hỏng mới "
+    "báo được.\n"
+    "2. Điều khoản bảo hành, chính sách hoàn tiền, cam kết thời gian của FixHome.\n"
+    "3. Khẳng định chắc chắn thiết bị hỏng gì khi chưa nhìn thấy. Nói 'thường "
+    "là', 'khả năng cao', và nói rõ thợ phải kiểm tra mới chắc.\n"
+    "\n"
+    "Nếu câu hỏi không liên quan tới thiết bị gia dụng, điện nước trong nhà hay "
+    "dịch vụ sửa chữa, trả về đúng một từ: NGOAI_PHAM_VI"
+)
+"""For questions the tables do not cover.
+
+Refusing everything ungrounded made the assistant useless outside its own
+catalogue: someone asking why frost forms on an evaporator got the same canned
+sentence as someone asking about the weather. General repair knowledge is not a
+fact anybody owns, and the model has it.
+
+What it must not produce is the part that *is* owned. A price, a warranty term,
+or a flat "your compressor is dead" reaches the customer as a commitment the
+business then has to honour, and those three come from the tables and the
+technician, never from a model.
+"""
+
+_OUT_OF_SCOPE = "NGOAI_PHAM_VI"
+
+_PRICE_LIKE = re.compile(
+    r"\d[\d.,]*\s*(?:đ\b|vnd|k\b|nghìn|nghin|triệu|trieu|tr\b)", re.IGNORECASE
+)
+"""A number with money beside it, whatever the instruction said.
+
+Telling the model not to quote a price is not a guarantee that it will not, and
+a figure a customer reads is a figure they will hold the business to. Cheaper to
+drop the answer than to explain afterwards why the number was not real.
+"""
+
 _INSUFFICIENT = "KHONG_DU_THONG_TIN"
+
+_DECLINES = (
+    "khong du thong tin",
+    "khong co du thong tin",
+    "khong the tra loi",
+    "khong tim thay thong tin",
+)
+"""Ways the model says it cannot answer, in the customer's alphabet.
+
+The sentinel was compared verbatim, so the model writing it back as proper
+Vietnamese — "Không đủ thông tin." — passed the check and reached a customer as
+the whole answer, with citations underneath it. Two words of internal protocol,
+punctuated and capitalised, presented as advice.
+"""
+
+
+def _declines(text: str) -> bool:
+    folded = unicodedata.normalize("NFD", text.lower())
+    folded = "".join(c for c in folded if unicodedata.category(c) != "Mn")
+    folded = folded.replace("đ", "d").replace("_", " ")
+    return any(phrase in folded for phrase in _DECLINES)
 
 
 class QwenClient:
@@ -175,6 +240,34 @@ class QwenClient:
             has_image=crop is not None,
         )
 
+    async def answer_generally(self, question: str, history_vi: str = "") -> str:
+        """Answer from the model's own knowledge, inside the trade.
+
+        Empty string when the question is not about home appliances or repair,
+        or when the answer quoted money, so the caller refuses rather than
+        improvises.
+        """
+        prompt = question
+        if history_vi:
+            prompt = f"Câu chuyện từ đầu:\n{history_vi}\n\nCâu hỏi hiện tại: {question}"
+
+        raw = await self._chat(
+            [
+                {"role": "system", "content": _GENERAL_SYSTEM},
+                {"role": "user", "content": prompt},
+            ]
+        )
+        if raw is None:
+            return ""
+
+        answer = raw.strip()
+        if _OUT_OF_SCOPE in answer.upper().replace(" ", "_"):
+            return ""
+        if _PRICE_LIKE.search(answer):
+            logger.warning("qwen_general_answer_quoted_money")
+            return ""
+        return answer
+
     async def answer(self, question: str, passages_vi: List[str]) -> tuple[str, float]:
         if not passages_vi:
             return "", 0.0
@@ -197,7 +290,7 @@ class QwenClient:
             return "", 0.0
 
         text = raw.strip()
-        if not text or _INSUFFICIENT in text.upper():
+        if not text or _declines(text):
             return "", 0.0
 
         # The first retrieved passage is the best match, so a longer list means

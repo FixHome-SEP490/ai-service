@@ -25,7 +25,17 @@ from typing import Iterable, List, Optional, Sequence
 
 from app.services.pipeline.knowledge_base import Discriminator, Fault
 
-MAX_QUESTIONS = 3
+MAX_QUESTIONS = 1
+"""One question a turn.
+
+Three at once is a form, not a conversation. Nobody answers three; they answer
+the first and ignore the rest, or they answer none and leave. The ranking
+already knows which single question separates the shortlist best — asking that
+one and waiting is the whole point of having ranked them.
+
+The device either/or is allowed alongside it, because that one settles which
+appliance is being discussed and the other settles what is wrong with it.
+"""
 
 
 @dataclass(frozen=True)
