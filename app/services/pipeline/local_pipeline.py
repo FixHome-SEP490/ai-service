@@ -384,6 +384,10 @@ class LocalPipeline:
         )
 
     def _resolve_conditions(self, verdict: VlmVerdict) -> List[VisibleCondition]:
+        if not settings.VLM_REPORT_VISIBLE_CONDITIONS:
+            # Still computed and still logged upstream, so the measurement can
+            # be made; simply not told to the customer. See the setting for why.
+            return []
         conditions: List[VisibleCondition] = []
         for code in verdict.condition_codes:
             name_vi = self._kb.condition_name_vi(code)
