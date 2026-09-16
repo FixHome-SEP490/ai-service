@@ -69,7 +69,13 @@ mạch điều khiển chiều quay.
 Lồng không quay. Máy giặt không quay. Mô tơ hỏng rồi. Máy giặt không giặt. Lồng
 đứng im. Máy giặt kêu ù mà không chạy.
 
-Nhóm này cần hỏi lại, vì nó trải trên sáu nhánh và mô tơ là nhánh hiếm nhất.
+Nhóm này cần hỏi lại, vì nó trải trên sáu nhánh và mô tơ là nhánh hiếm nhất trong
+sáu. Năm nhánh kia là dây curoa, khoá cửa, bo, chổi than, và lệch tải cùng nước
+chưa rút.
+
+Câu hỏi tách rẻ nhất là hỏi về tiếng: có nghe tiếng mô tơ chạy ở đáy máy trong
+khi lồng đứng im không. Có tiếng thì nghiêng mạnh về dây curoa, và đó là hạng mục
+rẻ hơn mô tơ rất nhiều.
 
 ## Khách gõ không dấu, gõ tắt
 

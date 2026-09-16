@@ -332,11 +332,16 @@ phổ biến dẫn tới hỏng block.
 
 ## Phân biệt với hai bệnh đường gió
 
-Bộ xả đá và quạt gió chỉ ảnh hưởng ngăn mát; ngăn đá vẫn đông đá.
+Bộ xả đá và quạt gió chỉ ảnh hưởng ngăn mát; ngăn đá vẫn đông đá bình thường, vì
+ngăn đá nằm ngay cạnh dàn lạnh và không phụ thuộc vào việc gió có được thổi xuống
+hay không.
 
-Block hỏng thì cả hai ngăn mất lạnh.
+Block hỏng thì cả hai ngăn mất lạnh, vì không còn gì đẩy môi chất đi vòng quanh hệ
+thống.
 
 Câu hỏi về ngăn đá tách được ngay, và nó là câu hỏi đầu tiên của cả nhóm tủ lạnh.
+Nó cũng là câu đính chính hiệu quả nhất cho khách đang tin là tủ hết gas: ngăn đá
+còn đông đá nghĩa là hệ thống lạnh vẫn làm việc.
 
 ## Phân biệt với mất nguồn
 
