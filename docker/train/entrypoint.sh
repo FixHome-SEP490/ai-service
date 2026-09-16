@@ -115,7 +115,28 @@ publish_weights() {
     --repo-type model --commit-message "${RUN_NAME}"
 }
 
+DONE_MARKER="${RUNS_DIR}/${RUN_NAME}.done"
+
+refuse_if_already_done() {
+  # vast.ai restarts a container that exits, so a finished run starts over:
+  # it retrains, overwrites its own published weights, and bills for as long
+  # as nobody is watching. Observed on the first real rental, which was two
+  # epochs into a second identical run before anyone noticed.
+  #
+  # /workspace survives the restart, so a marker written on success is the
+  # thing that distinguishes "started again" from "started".
+  if [[ -f "${DONE_MARKER}" ]]; then
+    log "Run ${RUN_NAME} already finished on this machine:"
+    cat "${DONE_MARKER}"
+    log "Not training again. Destroy the instance to stop being charged."
+    # Sleep rather than exit, because exiting is what triggers the restart
+    # this guard exists to break.
+    while true; do sleep 3600; done
+  fi
+}
+
 cmd_train() {
+  refuse_if_already_done
   require_gpu
   fetch_dataset
   fix_dataset_root
@@ -147,7 +168,17 @@ cmd_train() {
 
   cp -r "${RUNS_DIR}/${RUN_NAME}-test" "${run_dir}/test" 2>/dev/null || true
   publish_weights "${run_dir}"
+
+  {
+    echo "run:     ${RUN_NAME}"
+    echo "epochs:  ${EPOCHS}"
+    echo "weights: ${run_dir}/weights/best.pt"
+    echo "pushed:  ${HF_WEIGHTS_REPO:-not uploaded}"
+    echo "at:      $(date -u +%Y-%m-%dT%H:%M:%SZ)"
+  } > "${DONE_MARKER}"
+
   log "Done. Results in ${run_dir}"
+  log "This machine has nothing left to do; destroy it."
 }
 
 cmd_evaluate() {
