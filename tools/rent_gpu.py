@@ -26,6 +26,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import shutil
 import subprocess
 import sys
 from pathlib import Path
@@ -49,15 +50,45 @@ Disk is charged for the life of the rental and cannot be grown afterwards, so
 running out means starting over on a new machine.
 """
 
+_ESTIMATED_HOURS = {"RTX_3060": 7, "RTX_3090": 4, "RTX_4090": 3, "RTX_A5000": 5}
+"""Rough wall-clock for 100 epochs of YOLOv8n on 22745 images at 640px.
+
+Guesses, replaced by measurement as soon as the smoke test reports an epoch.
+"""
+
+
 _KEY_HINT = (
     "Create one at cloud.vast.ai under Account -> API keys, then put it in\n"
     ".env as VAST_API_KEY=... The key can spend money; treat it like a card."
 )
 
 
+def _executable() -> str:
+    """Path to the vastai console script.
+
+    `python -m vastai` does not work: the package has no __main__, and its
+    entry point parses arguments in a way that only holds when it is invoked as
+    the console script. Look for that script beside the running interpreter, so
+    the tool uses the virtualenv it was started from rather than whatever
+    happens to be on PATH.
+    """
+    scripts = Path(sys.executable).parent
+    for name in ("vastai.exe", "vastai"):
+        candidate = scripts / name
+        if candidate.exists():
+            return str(candidate)
+    found = shutil.which("vastai")
+    if found:
+        return found
+    raise SystemExit(
+        "The vastai command is not installed in this environment.\n"
+        "    .venv-tools/Scripts/pip install vastai"
+    )
+
+
 def _cli(*args: str, capture: bool = True) -> subprocess.CompletedProcess:
     key = get_secret("VAST_API_KEY", hint=_KEY_HINT)
-    command = [sys.executable, "-m", "vastai", *args, "--api-key", key]
+    command = [_executable(), *args, "--api-key", key]
     return subprocess.run(
         command,
         capture_output=capture,
@@ -103,10 +134,15 @@ def cmd_offers(args: argparse.Namespace) -> None:
             f"  {offer['reliability2']:.3f}"
         )
 
+    # Hours are a guess until the smoke test measures one epoch, and the guess
+    # is per card. Quoting a 3060 figure beside 4090 offers, as this did, reads
+    # as a prediction about the card listed rather than about a different one.
+    hours = _ESTIMATED_HOURS.get(args.gpu, 7)
     cheapest = offers[0]
     print(
-        f"\nA 100-epoch run is roughly 6-8 hours on a 3060, so about "
-        f"${cheapest['dph_total'] * 7:.2f} at the cheapest offer above."
+        f"\nA 100-epoch run is roughly {hours} hours on a {args.gpu.replace('_', ' ')},"
+        f" so about ${cheapest['dph_total'] * hours:.2f} at the cheapest offer above."
+        "\nThat is an estimate; the two-epoch smoke test gives the real number."
     )
     print("Download speed matters: the dataset is a 2.4 GB archive.")
 
