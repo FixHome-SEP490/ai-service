@@ -73,6 +73,20 @@ class Conversation:
     asked_symptoms: List[str] = field(default_factory=list)
     """Symptoms already put to the customer, so none is asked twice."""
 
+    awaiting_confusion_about: Optional[str] = None
+    """Which device the outstanding either/or question was asked about.
+
+    A bare "không" means nothing on its own. It only resolves the appliance
+    against the question it answers, so the question has to outlive the turn
+    that asked it."""
+
+    confusion_resolved: bool = False
+    """The either/or has been settled, or asked and not answered usefully.
+
+    Either way it is not asked again. A customer who could not answer it the
+    first time will not answer it the second, and asking twice is how a support
+    bot proves it is a form."""
+
     shortlist: List[str] = field(default_factory=list)
     """Fault codes still in play, narrowed as answers come in."""
 

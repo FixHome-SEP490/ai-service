@@ -80,6 +80,25 @@ class Discriminator:
 
 
 @dataclass(frozen=True)
+class ConfusionQuestion:
+    """One question that separates two devices a photograph cannot.
+
+    It asks about something the customer can see — a turntable, where the fan is
+    mounted — rather than which category the appliance belongs to. Someone who
+    could tell a microwave from an oven would not have needed the photograph
+    diagnosed in the first place, so asking them to choose the label hands the
+    hard part back to the person who came for help.
+    """
+
+    devices: List[str]
+    question_vi: str
+    if_yes: str
+    if_no: str
+    yes_words_vi: List[str] = field(default_factory=list)
+    no_words_vi: List[str] = field(default_factory=list)
+
+
+@dataclass(frozen=True)
 class Policy:
     doc_id: str
     title_vi: str
@@ -109,6 +128,9 @@ class KnowledgeBase:
         self._confusable: Dict[str, List[str]] = {
             d["device_type"]: d.get("confusable_with", []) for d in catalog["devices"]
         }
+        self._confusion: List[ConfusionQuestion] = [
+            ConfusionQuestion(**q) for q in catalog.get("confusion_questions", [])
+        ]
         self.version: str = str(kb.get("version", "unknown"))
         """Which edition of the fault table produced an answer.
 
@@ -152,6 +174,12 @@ class KnowledgeBase:
     def aliases_vi(self, device_type: str) -> List[str]:
         """What customers call this device, so a description can be believed."""
         return self._aliases.get(device_type, [])
+
+    def confusion_question(self, device_type: str) -> Optional[ConfusionQuestion]:
+        """The question that separates this device from the one it is confused with."""
+        return next(
+            (q for q in self._confusion if device_type in q.devices), None
+        )
 
     def confusable_with(self, device_type: str) -> List[str]:
         """Classes a person looking at a photograph would also struggle with."""
