@@ -7,6 +7,7 @@ from app.core.exceptions import AIServiceException, AITimeoutException
 from app.schemas.chat import ChatRequest, ChatResponse
 from app.schemas.diagnosis import DiagnosisErrorResponse
 from app.services.ai_provider import AIProvider, get_ai_provider
+from app.services.pipeline.acknowledgement import get_acknowledgements
 
 logger = logging.getLogger(__name__)
 router = APIRouter()
@@ -41,3 +42,23 @@ async def ask_question(
     except Exception as exc:
         logger.exception("chat_failed", extra={"request_id": request.request_id})
         raise AIServiceException(internal_detail=repr(exc)) from exc
+
+
+@router.get(
+    "/acknowledgements",
+    summary="Lines the client shows the moment a message is sent",
+)
+async def acknowledgements() -> dict:
+    """The whole set, for the client to cache and pick from locally.
+
+    These are the sentences said before an answer exists, so that a customer
+    who has just described a broken appliance is not left looking at an empty
+    screen. They have to appear the instant Send is pressed, which is why the
+    client picks one itself instead of asking for one per turn.
+
+    `safetyFirst` is not politeness. When the message carries a cue of live
+    electricity, escaping gas, or water reaching wiring, one of those lines
+    replaces the pleasantry, because the instruction in it cannot wait for the
+    pipeline to finish.
+    """
+    return get_acknowledgements().all_lines()

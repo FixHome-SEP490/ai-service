@@ -24,12 +24,18 @@ from __future__ import annotations
 import io
 import os
 import re
+import sys
 import unicodedata
+from pathlib import Path
 from typing import Any, Optional
 
 import gradio as gr
 import httpx
 from PIL import Image
+
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+
+from app.services.pipeline.acknowledgement import get_acknowledgements  # noqa: E402
 
 SERVICE_URL = os.environ.get("AI_SERVICE_URL", "http://127.0.0.1:8000")
 REQUEST_TIMEOUT = 120.0
@@ -138,13 +144,18 @@ def _reply_to_question(result: dict[str, Any]) -> str:
     return answer
 
 
-_ACK_WITH_PHOTO = "Dạ em nhận được ảnh rồi ạ, anh/chị chờ em xem qua một chút nhé."
-_ACK_TEXT = "Dạ em nhận được thông tin rồi ạ, anh/chị chờ em kiểm tra một chút nhé."
+_ACK = get_acknowledgements()
 """Sent before the work starts, not after it finishes.
 
 A diagnosis with a photograph takes about six seconds, and six seconds of an
 empty screen after sending a message reads as nobody being there. Saying so
-first costs nothing and is what a person would do."""
+first costs nothing and is what a person would do.
+
+One fixed sentence would not do, though. Repeated on every turn it stops being
+politeness and becomes a machine noise, so the module draws a line that fits
+the turn and that this session has not heard yet. It also overrides the
+pleasantry entirely when the message smells of live electricity or gas: that
+instruction cannot wait for the pipeline to finish."""
 
 
 def respond(message: dict[str, Any], history: list, session_id: str):
@@ -157,7 +168,12 @@ def respond(message: dict[str, Any], history: list, session_id: str):
     shown = text or "(gửi ảnh)"
     history = history + [{"role": "user", "content": shown}]
 
-    ack = _ACK_WITH_PHOTO if files else _ACK_TEXT
+    ack = _ACK.pick(
+        session_id=session_id,
+        text=text,
+        has_image=bool(files),
+        is_follow_up=bool(session_id),
+    )
     # Shown immediately, then replaced by the answer. Leaving it above the reply
     # would make every exchange two messages long for no reason.
     yield history + [{"role": "assistant", "content": ack}], session_id, None

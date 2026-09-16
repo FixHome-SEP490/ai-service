@@ -91,6 +91,47 @@ khoảng lặng vài giây trong chat đọc như hệ thống chết.
 tới mức cần nhìn tận mắt, và hỏi rõ cần nhìn phần nào: "mặt sau màn hình" chứ
 không phải "gửi ảnh".
 
+## Câu xác nhận: nói ngay, đừng im
+
+Khách nhắn xong mà màn hình trống trong sáu giây thì họ hiểu là không có ai ở
+đó. Với người vừa mô tả cái tủ lạnh hỏng lúc mười giờ đêm, im lặng đọc ra thành
+bị phớt lờ. Nên phải nói một câu ngay, trước khi pipeline chạy xong.
+
+Một câu cố định thì không đủ. Lặp lại ở mọi lượt, nó thôi là phép lịch sự và trở
+thành tiếng máy: khách nhắn ba lần, nghe đúng một câu ba lần, là học được rằng
+không ai đọc cả.
+
+Vì vậy câu xác nhận được chia theo tình huống và bốc không lặp trong một phiên.
+Danh sách nằm ở `app/data/acknowledgements.json`, logic ở
+`app/services/pipeline/acknowledgement.py`.
+
+**Chín nhóm tình huống.** Lần đầu bằng chữ. Lần đầu có ảnh. Lượt tiếp theo trong
+cùng cuộc trò chuyện. Khách hỏi giá. Khách hỏi kiến thức chung. Trước khi hỏi
+ngược lại khách. Khi phải chờ lâu hơn bình thường. Khi khách đang bực. Khi khách
+nói gấp.
+
+Chia nhóm không phải để cho đẹp. Câu hỏi giá không đáng nhận "em kiểm tra",
+nó đáng nhận "để em tra bảng giá". Tin nhắn thứ tư không phải lời chào đầu tiên.
+Và khách đang bực thì phải được ghi nhận cái bực trước đã, vì trả lời gọn gàng
+vào câu hỏi giá của họ đọc ra thành không để ý gì tới chuyện họ đang khó chịu.
+
+**Nhóm thứ mười không phải câu xã giao.** Khi tin nhắn có dấu hiệu điện đang
+chập, gas đang rò, hoặc nước đang chảy tới ổ điện, thì lời khuyên an toàn thay
+thế hoàn toàn câu lịch sự. Lý do đơn giản: khách đọc dòng đầu tiên trong lúc
+thiết bị vẫn đang cắm điện. Đây là chỗ duy nhất trong thiết kế hội thoại mà thứ
+tự sai gây hậu quả thật, nên nó được khoá bằng test.
+
+Dấu hiệu được so khớp trên chữ đã bỏ dấu, vì khách gõ không dấu suốt và đây là
+chỗ cuối cùng mà việc thiếu dấu được phép đổi câu trả lời.
+
+**Client bốc câu, không hỏi server.** Câu phải hiện ra đúng lúc bấm gửi, nên một
+vòng gọi API để xin câu thì phá mất chính thứ nó dùng để làm.
+`GET /api/v1/chat/acknowledgements` trả về nguyên bộ để mobile tải một lần rồi
+cache, và tự bốc tại chỗ.
+
+**Hết danh sách thì quay vòng, không rơi về một câu cố định.** Đi vòng thứ hai
+ít lộ hơn nhiều so với nói đúng một câu mãi mãi.
+
 ## Khoảng cách so với hiện tại
 
 Ghi trung thực để không nhầm giữa thứ đã chạy và thứ còn phải làm.

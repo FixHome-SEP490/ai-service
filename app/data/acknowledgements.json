@@ -1,0 +1,97 @@
+{
+  "version": "2026-09-16",
+  "_comment_vi": "Câu nói ngay khi khách vừa nhắn, trước khi pipeline chạy xong. Chia theo tình huống. Client bốc một câu và hiển thị tức thì, nên danh sách này phải nằm ở phía client chứ không phải chờ gọi API. Endpoint GET /api/v1/chat/acknowledgements trả về nguyên bộ để mobile tải một lần rồi cache. Luật quan trọng nhất: nhóm safety_first không phải câu xã giao mà là cảnh báo, và nó thay thế mọi câu khác.",
+
+  "first_text": [
+    "Dạ em nhận được thông tin rồi ạ, anh chị chờ em xem qua một chút nhé.",
+    "Dạ vâng, em ghi nhận rồi ạ. Anh chị đợi em kiểm tra chút xíu nha.",
+    "Dạ em đọc mô tả của anh chị rồi, để em tra lại rồi báo anh chị ngay ạ.",
+    "Dạ em nhận thông tin ạ, em kiểm tra ngay đây.",
+    "Dạ vâng ạ, anh chị cho em một chút để em xem kỹ trường hợp này nhé.",
+    "Dạ em hiểu rồi ạ, em đối chiếu lại rồi trả lời anh chị liền.",
+    "Dạ em nhận được rồi ạ. Anh chị chờ em tí xíu thôi nhé.",
+    "Dạ vâng, để em xem giúp anh chị ngay ạ.",
+    "Dạ em ghi nhận trường hợp của anh chị rồi, em kiểm tra rồi báo lại ngay ạ.",
+    "Dạ vâng ạ, em đang xem lại thông tin anh chị vừa gửi."
+  ],
+
+  "first_photo": [
+    "Dạ em nhận được ảnh rồi ạ, anh chị chờ em xem qua một chút nhé.",
+    "Dạ vâng, ảnh em nhận rồi ạ. Để em nhìn kỹ rồi báo anh chị ngay.",
+    "Dạ em thấy ảnh rồi ạ, em xem một chút rồi trả lời anh chị nha.",
+    "Dạ ảnh rõ lắm ạ, anh chị đợi em xem qua chút xíu nhé.",
+    "Dạ em nhận ảnh rồi, em đang xem đây ạ.",
+    "Dạ vâng ạ, em nhìn ảnh một chút rồi báo anh chị liền.",
+    "Dạ em nhận được hình rồi ạ, cho em chút thời gian xem nhé."
+  ],
+
+  "follow_up": [
+    "Dạ vâng, em ghi nhận thêm ạ. Để em xem lại nha.",
+    "Dạ em rõ rồi ạ, em đối chiếu lại một chút.",
+    "Dạ vâng ạ, thông tin này giúp em nhiều lắm. Em xem lại ngay.",
+    "Dạ em ghi nhận rồi ạ, chờ em chút nhé.",
+    "Dạ cảm ơn anh chị đã cho em thêm thông tin ạ, em xem lại liền.",
+    "Dạ vâng, có chi tiết này thì em khoanh vùng được rồi ạ. Em kiểm tra chút nha.",
+    "Dạ em nhận rồi ạ, để em ghép lại với phần anh chị kể lúc nãy."
+  ],
+
+  "price_question": [
+    "Dạ vâng, để em tra bảng giá cho anh chị ngay ạ.",
+    "Dạ em xem giá giúp anh chị đây ạ, chờ em một chút nhé.",
+    "Dạ vâng ạ, em lấy khoảng giá rồi báo anh chị liền.",
+    "Dạ em tra lại bảng giá cho chính xác rồi gửi anh chị nha.",
+    "Dạ vâng, em kiểm tra giá phần này rồi báo anh chị ngay ạ."
+  ],
+
+  "general_question": [
+    "Dạ vâng, câu này để em xem lại rồi trả lời anh chị cho kỹ ạ.",
+    "Dạ em tra lại một chút rồi giải thích cho anh chị nha.",
+    "Dạ vâng ạ, em xem lại tài liệu rồi trả lời anh chị ngay.",
+    "Dạ câu hỏi hay đó ạ, để em trả lời cho đầy đủ nhé.",
+    "Dạ em xem lại rồi nói rõ cho anh chị nha, chờ em chút ạ."
+  ],
+
+  "before_asking_back": [
+    "Dạ cho phép em hỏi thêm một chút để chẩn cho đúng nha anh chị.",
+    "Dạ em hỏi thêm một ý nữa thôi ạ, để em không đoán sai.",
+    "Dạ anh chị cho em hỏi thêm một chút xíu nhé, em muốn chắc trước khi báo giá.",
+    "Dạ em xin phép hỏi thêm một câu để khỏi mất công thợ đi lại ạ.",
+    "Dạ em hỏi nhanh một ý nữa thôi anh chị nhé, rồi em chốt luôn.",
+    "Dạ để em hỏi thêm một chi tiết cho chắc ạ, hỏi xong em trả lời liền."
+  ],
+
+  "long_wait": [
+    "Dạ anh chị chờ em thêm chút xíu nữa nhé, em đang đối chiếu ạ.",
+    "Dạ em vẫn đang xem đây ạ, thêm một lát nữa thôi.",
+    "Dạ ca này em phải xem kỹ hơn chút, anh chị thông cảm chờ em nha.",
+    "Dạ em đang tra thêm cho chắc ạ, sắp xong rồi anh chị nhé."
+  ],
+
+  "customer_upset": [
+    "Dạ em hiểu anh chị đang bực, để em xem cho kỹ rồi trả lời anh chị đàng hoàng ạ.",
+    "Dạ em xin lỗi vì chuyện này làm phiền anh chị. Em kiểm tra lại ngay đây ạ.",
+    "Dạ em nhận thông tin rồi ạ. Em sẽ xem kỹ chứ không trả lời qua loa đâu anh chị.",
+    "Dạ em hiểu ạ, chuyện này đúng là khó chịu thật. Anh chị cho em chút thời gian xem lại nhé."
+  ],
+
+  "urgent_mentioned": [
+    "Dạ em hiểu là gấp ạ, em xem ngay đây.",
+    "Dạ vâng em ưu tiên ca này ạ, anh chị chờ em một chút thôi.",
+    "Dạ em nhận rồi ạ, em xử lý ngay cho anh chị."
+  ],
+
+  "safety_first": {
+    "_comment_vi": "Không phải câu xã giao. Khi tin nhắn có dấu hiệu mất an toàn thì câu này thay thế mọi câu trên, và lời khuyên an toàn phải nằm ngay trong đó chứ không chờ kết quả chẩn đoán.",
+    "electrical": [
+      "Dạ trước hết anh chị ngắt aptomat cấp cho thiết bị này giúp em, đừng bật lại nha. Em xem tiếp ngay đây ạ.",
+      "Dạ anh chị ngắt điện thiết bị này trước đã nhé, an toàn trước rồi mình tính tiếp ạ. Em đang xem đây."
+    ],
+    "gas": [
+      "Dạ anh chị mở cửa cho thoáng, đừng bật tắt công tắc điện nào và đừng bật lửa nha. Em xem tiếp ngay ạ.",
+      "Dạ việc đầu tiên là mở thông thoáng và tránh lửa giúp em nhé anh chị, em đang xem đây ạ."
+    ],
+    "water_on_electrics": [
+      "Dạ anh chị tắt thiết bị và ngắt aptomat trước giúp em nhé, nước gần ổ điện là không chờ được ạ. Em xem tiếp ngay."
+    ]
+  }
+}
