@@ -159,6 +159,9 @@ class DiagnosisRequest(BaseModel):
     ] = []
     category_hint: Annotated[Optional[str], Field(max_length=64)] = None
 
+    include_trace: bool = False
+    """Ask for the stage-by-stage trace. For the admin dashboard, not customers."""
+
     model_config = ConfigDict(alias_generator=to_camel, populate_by_name=True, extra="forbid")
 
 
@@ -176,6 +179,27 @@ class ModelInfo(BaseModel):
 
     vlm: Optional[str] = None
     knowledge_base_version: Optional[str] = None
+
+    model_config = ConfigDict(alias_generator=to_camel, populate_by_name=True)
+
+
+class TraceStage(BaseModel):
+    """What one stage did, for the operator watching rather than the customer.
+
+    The pipeline is four stages and a failure in any of them shows up as the
+    same thing from outside: a clarification request. Without a trace, "the AI
+    asked a question again" could be the detector finding nothing, retrieval
+    returning an empty shortlist, the model naming codes outside it, or the
+    model server being unreachable. Those need four different fixes.
+    """
+
+    name: str
+    """detector, retrieval, vlm or knowledge_base."""
+
+    ms: int
+    ok: bool
+    summary_vi: str
+    detail: dict = Field(default_factory=dict)
 
     model_config = ConfigDict(alias_generator=to_camel, populate_by_name=True)
 
@@ -198,6 +222,14 @@ class DiagnosisResponse(BaseModel):
     is_low_confidence: bool = Field(default=False)
     clarification: Optional[Clarification] = None
     model_info: Optional[ModelInfo] = None
+
+    trace: List[TraceStage] = Field(default_factory=list)
+    """Empty unless the caller asked for it.
+
+    Customer traffic should not pay to assemble it, and it carries the
+    customer's own words, so it is opt-in per request rather than a setting
+    somebody forgets is on."""
+
     disclaimer_vi: str
 
     model_config = ConfigDict(alias_generator=to_camel, populate_by_name=True)

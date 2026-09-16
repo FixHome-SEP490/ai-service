@@ -80,6 +80,7 @@ async def analyze_upload(
     request_id: Optional[str] = Form(default=None, max_length=64, alias="requestId"),
     session_id: Optional[str] = Form(default=None, max_length=64, alias="sessionId"),
     category_hint: Optional[str] = Form(default=None, max_length=64, alias="categoryHint"),
+    include_trace: bool = Form(default=False, alias="includeTrace"),
     files: Optional[List[UploadFile]] = File(default=None),
     provider: AIProvider = Depends(get_ai_provider),
 ) -> DiagnosisResponse:
@@ -105,6 +106,7 @@ async def analyze_upload(
         request=DiagnosisRequest(
             request_id=request_id,
             session_id=session_id,
+            include_trace=include_trace,
             description=description,
             images=images,
             category_hint=category_hint,

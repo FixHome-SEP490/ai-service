@@ -3,7 +3,8 @@
 
 from __future__ import annotations
 
-from typing import List, Optional
+import time
+from typing import Any, List, Optional
 
 from app.core.config import settings
 from app.schemas.chat import AnswerStatus, ChatRequest, ChatResponse, Citation
@@ -20,6 +21,7 @@ from app.schemas.diagnosis import (
     PriceEstimate,
     RecommendedService,
     SuspectedFault,
+    TraceStage,
     UrgencyLevel,
     VisibleCondition,
 )
@@ -33,6 +35,34 @@ from app.services.pipeline.retriever import Retriever
 from app.services.pipeline.vlm import FaultCandidate, VisionLanguageModel, VlmVerdict
 
 _URGENCY_RANK = {UrgencyLevel.LOW: 0, UrgencyLevel.MEDIUM: 1, UrgencyLevel.HIGH: 2}
+
+
+class _Trace:
+    """Collects what each stage did, or nothing at all when not asked for.
+
+    The no-op form matters: a trace that is always built costs every customer
+    request the string formatting and the copying, to produce something only an
+    operator ever reads.
+    """
+
+    def __init__(self, wanted: bool) -> None:
+        self._wanted = wanted
+        self.stages: List[TraceStage] = []
+        self._started = time.perf_counter()
+
+    def mark(self) -> None:
+        self._started = time.perf_counter()
+
+    def add(self, name: str, ok: bool, summary_vi: str, **detail: Any) -> None:
+        if not self._wanted:
+            return
+        elapsed = int((time.perf_counter() - self._started) * 1000)
+        self.stages.append(
+            TraceStage(
+                name=name, ms=elapsed, ok=ok, summary_vi=summary_vi, detail=detail
+            )
+        )
+        self.mark()
 
 
 class LocalPipeline:
@@ -65,10 +95,32 @@ class LocalPipeline:
         )
 
     async def diagnose(self, request: DiagnosisRequest) -> DiagnosisResponse:
+        trace = _Trace(request.include_trace)
         chat = self._conversations.get_or_create(request.session_id)
         chat.add("customer", request.description)
+        trace.add(
+            "session",
+            True,
+            f"Lượt thứ {sum(1 for t in chat.turns if t.role == 'customer')} của phiên này",
+            session_id=chat.session_id,
+            remembered_device=chat.device_type,
+            asked_before=len(chat.asked_symptoms),
+        )
 
         detection = await self._detect_primary(request.images)
+        trace.add(
+            "detector",
+            detection is not None,
+            (
+                f"Nhận ra {detection.device_type} ({detection.confidence:.0%})"
+                if detection
+                else ("Không có ảnh" if not request.images else "Không nhận ra thiết bị nào")
+            ),
+            images=len(request.images),
+            device=detection.device_type if detection else None,
+            confidence=round(detection.confidence, 4) if detection else None,
+            box=list(detection.box_xywh) if detection else None,
+        )
         detected = detection.device_type if detection else None
 
         # A follow-up carries no photograph, because nobody sends the same one
@@ -123,6 +175,21 @@ class LocalPipeline:
             device_type=device_type,
             top_k=settings.RETRIEVAL_TOP_K,
         )
+        trace.add(
+            "retrieval",
+            bool(candidates),
+            (
+                f"RAG rút {len(candidates)} bệnh khả nghi cho {device_type or 'thiết bị chưa rõ'}"
+                if candidates
+                else "RAG không tìm được bệnh nào khớp mô tả"
+            ),
+            device=device_type,
+            searched_text=chat.customer_text(),
+            candidates=[
+                {"code": c.fault.fault_code, "score": round(c.score, 4)}
+                for c in candidates
+            ],
+        )
         verdict = await self._vlm.assess(
             crop=detection.crop if detection else None,
             description=request.description,
@@ -142,6 +209,21 @@ class LocalPipeline:
             ],
         )
 
+        trace.add(
+            "vlm",
+            bool(verdict.fault_codes),
+            (
+                f"Qwen chọn {', '.join(verdict.fault_codes)} ({verdict.confidence:.0%})"
+                if verdict.fault_codes
+                else "Qwen không chọn được mã nào trong danh sách"
+            ),
+            had_image=detection is not None,
+            chose=verdict.fault_codes,
+            conditions=verdict.condition_codes,
+            confidence=round(verdict.confidence, 4),
+            reason=verdict.reasoning_vi,
+        )
+
         confidence = self._combine_confidence(detection, verdict.confidence)
         shortlist = [c.fault for c in candidates]
 
@@ -159,16 +241,16 @@ class LocalPipeline:
             and not device_hint.devices_named_in(chat.customer_text(), self._kb)
         ):
             return self._clarification_response(
-                request, confidence, shortlist, detection, chat
+                request, confidence, shortlist, detection, chat, trace
             )
 
         if confidence < settings.AI_CONFIDENCE_THRESHOLD:
             return self._clarification_response(
-                request, confidence, shortlist, detection, chat
+                request, confidence, shortlist, detection, chat, trace
             )
 
         return self._build_response(
-            request, detection, verdict, confidence, shortlist, chat
+            request, detection, verdict, confidence, shortlist, chat, trace
         )
 
     async def answer(self, request: ChatRequest) -> ChatResponse:
@@ -252,6 +334,7 @@ class LocalPipeline:
         shortlist: Optional[List] = None,
         detection: Optional[Detection] = None,
         chat: Optional[Conversation] = None,
+        trace: Optional["_Trace"] = None,
     ) -> DiagnosisResponse:
         """Never guess. Ask the question that narrows it down.
 
@@ -299,6 +382,14 @@ class LocalPipeline:
             for question in questions:
                 chat.add("assistant", question)
 
+        if trace is not None:
+            trace.add(
+                "knowledge_base",
+                True,
+                f"Hỏi lại khách {len(questions)} câu thay vì đoán",
+                questions=questions,
+            )
+
         return DiagnosisResponse(
             request_id=request.request_id,
             session_id=chat.session_id if chat else None,
@@ -312,6 +403,7 @@ class LocalPipeline:
                 service_group_codes=self._kb.all_service_groups(),
             ),
             model_info=self._model_info,
+            trace=trace.stages if trace else [],
             disclaimer_vi=settings.AI_DISCLAIMER_VI,
         )
 
@@ -323,6 +415,7 @@ class LocalPipeline:
         confidence: float,
         shortlist: Optional[List] = None,
         chat: Optional[Conversation] = None,
+        trace: Optional["_Trace"] = None,
     ) -> DiagnosisResponse:
         device = self._resolve_device(detection, chat)
 
@@ -369,7 +462,18 @@ class LocalPipeline:
 
         if not faults:
             return self._clarification_response(
-                request, confidence, shortlist, detection, chat
+                request, confidence, shortlist, detection, chat, trace
+            )
+
+        if trace is not None:
+            trace.add(
+                "knowledge_base",
+                True,
+                f"Dịch {len(faults)} mã sang tiếng Việt, kèm giá và việc nên làm",
+                faults=[f.fault_code for f in faults],
+                price_min=price_min,
+                price_max=None if needs_assessment else price_max,
+                requires_assessment=needs_assessment,
             )
 
         if chat is not None:
@@ -400,6 +504,7 @@ class LocalPipeline:
             confidence=confidence,
             is_low_confidence=False,
             model_info=self._model_info,
+            trace=trace.stages if trace else [],
             disclaimer_vi=settings.AI_DISCLAIMER_VI,
         )
 
