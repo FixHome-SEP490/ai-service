@@ -90,6 +90,13 @@ def _reply_to_diagnosis(result: dict[str, Any]) -> str:
         asked = "\n".join(f"- {q}" for q in questions)
         return f"{opening}Em hỏi thêm cho chắc ạ:\n\n{asked}"
 
+    # The service phrases the whole answer when it can. Preferring it over the
+    # template is the point: same facts, written as something a person would
+    # send rather than assembled from the same five slots every time.
+    narrated = result.get("messageVi")
+    if narrated:
+        return narrated
+
     faults = result.get("suspectedFaults") or []
     lines = [opening + "Nhiều khả năng là:"]
     lines += [f"- **{f['nameVi']}**" for f in faults]
@@ -131,14 +138,29 @@ def _reply_to_question(result: dict[str, Any]) -> str:
     return answer
 
 
+_ACK_WITH_PHOTO = "Dạ em nhận được ảnh rồi ạ, anh/chị chờ em xem qua một chút nhé."
+_ACK_TEXT = "Dạ em nhận được thông tin rồi ạ, anh/chị chờ em kiểm tra một chút nhé."
+"""Sent before the work starts, not after it finishes.
+
+A diagnosis with a photograph takes about six seconds, and six seconds of an
+empty screen after sending a message reads as nobody being there. Saying so
+first costs nothing and is what a person would do."""
+
+
 def respond(message: dict[str, Any], history: list, session_id: str):
     text = (message.get("text") or "").strip()
     files = message.get("files") or []
     if not text and not files:
-        return history, session_id, None
+        yield history, session_id, None
+        return
 
     shown = text or "(gửi ảnh)"
     history = history + [{"role": "user", "content": shown}]
+
+    ack = _ACK_WITH_PHOTO if files else _ACK_TEXT
+    # Shown immediately, then replaced by the answer. Leaving it above the reply
+    # would make every exchange two messages long for no reason.
+    yield history + [{"role": "assistant", "content": ack}], session_id, None
 
     try:
         if files:
@@ -176,7 +198,7 @@ def respond(message: dict[str, Any], history: list, session_id: str):
         result = {}
 
     history = history + [{"role": "assistant", "content": reply}]
-    return history, result.get("sessionId") or session_id, None
+    yield history, result.get("sessionId") or session_id, None
 
 
 def reset():

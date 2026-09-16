@@ -7,6 +7,8 @@ import time
 import unicodedata
 from typing import Any, List, Optional
 
+import logging
+
 from app.core.config import settings
 from app.schemas.chat import AnswerStatus, ChatRequest, ChatResponse, Citation
 from app.schemas.diagnosis import (
@@ -74,6 +76,27 @@ asked "bitcoin giá bao nhiêu" it explained how to track cryptocurrency prices 
 and a repair company answering questions about anything is worse than one
 answering fewer questions."""
 
+_NOT_HOUSEHOLD = (
+    "may bay", "xe may", "o to", "xe hoi", "xe oto", "laptop", "may tinh",
+    "dien thoai", "iphone", "android", "may anh", "dong ho", "xe dap",
+)
+"""Things with electricity or an engine that FixHome does not repair.
+
+The trade words are coarse by design, and coarse let these through: "xe máy
+không nổ" matched on "may", "laptop không lên nguồn" on "nguon", "điều hoà xe
+hơi không mát" on the air conditioner it is not. Named outright, they are
+refused before anything else looks at them."""
+
+_GREETINGS = (
+    "alo", "a lo", "chao", "hello", "hi ", "em oi", "ban oi", "co ai", "co ai khong",
+    "cam on", "thanks", "ok", "oke", "da", "vang", "u", "um", "co", "khong", "yes",
+)
+"""Hello, thank you, and one-word acknowledgements.
+
+Refusing them as out of scope was the worst answer available: someone opening
+with "alo" was told FixHome only handles household appliances. They know. They
+are saying hello."""
+
 _MONEY_WORDS = ("gia", "tien", "bao nhieu", "chi phi", "cost", "het bao", "mac", "re")
 
 
@@ -81,6 +104,19 @@ def _fold_vi(text: str) -> str:
     folded = unicodedata.normalize("NFD", text.lower())
     folded = "".join(c for c in folded if unicodedata.category(c) != "Mn")
     return folded.replace("đ", "d")
+
+
+def _is_greeting(text: str) -> bool:
+    """A hello or a bare acknowledgement, with nothing else in it."""
+    folded = _fold_vi(text).strip(" .,!?")
+    if len(folded.split()) > 4:
+        return False
+    return any(folded == g.strip() or folded.startswith(g) for g in _GREETINGS)
+
+
+def _is_not_household(text: str) -> bool:
+    folded = _fold_vi(text)
+    return any(word in folded for word in _NOT_HOUSEHOLD)
 
 
 def _is_identification(text: str) -> bool:
@@ -98,6 +134,8 @@ def _asks_about_money(question: str) -> bool:
     folded = folded.replace("đ", "d")
     return any(word in folded for word in _MONEY_WORDS)
 
+
+logger = logging.getLogger(__name__)
 
 _URGENCY_RANK = {UrgencyLevel.LOW: 0, UrgencyLevel.MEDIUM: 1, UrgencyLevel.HIGH: 2}
 
@@ -180,6 +218,12 @@ class LocalPipeline:
         # nên thuê dịch vụ nào" carries no device and no symptom of its own and
         # is entirely on topic as the third message of a thread about a washing
         # machine; judging each message alone threw that away.
+        if _is_not_household(request.description):
+            return self._out_of_scope_response(request, chat, trace)
+
+        if _is_greeting(request.description) and chat.device_type is None:
+            return self._greeting_response(request, chat, trace)
+
         in_scope = (
             bool(request.images)
             or chat.device_type is not None
@@ -271,6 +315,35 @@ class LocalPipeline:
                 for c in candidates
             ],
         )
+        # Never offer Qwen a shortlist spanning several appliances. With the
+        # device unknown, retrieval searches all seventeen: a photograph of a
+        # gas stove the detector missed, described as "bật không lên lửa",
+        # produced STOVE_IGNITER at the top and air-conditioner faults beneath
+        # it, and the model picked AC_COMPRESSOR_FAULT — then told the customer
+        # to unplug their air conditioner.
+        #
+        # Retrieval's own top match names the appliance. Adopt it and drop the
+        # rest, so the choice is between faults of one machine.
+        if device_type is None and candidates:
+            top = candidates[0]
+            if (
+                top.score >= settings.DEVICE_FROM_RETRIEVAL_SCORE
+                and self._retriever.content_words(chat.customer_text())
+                >= settings.DECISIVE_MIN_WORDS
+            ):
+                device_type = top.fault.device_type
+                candidates = [
+                    c for c in candidates if c.fault.device_type == device_type
+                ]
+                chat.remember_device(device_type, 0.0, "description")
+                trace.add(
+                    "retrieval",
+                    True,
+                    f"Chốt thiết bị {device_type} theo bệnh khớp nhất, "
+                    "bỏ các bệnh của thiết bị khác",
+                    kept=[c.fault.fault_code for c in candidates],
+                )
+
         verdict = await self._vlm.assess(
             crop=detection.crop if detection else None,
             description=request.description,
@@ -332,7 +405,7 @@ class LocalPipeline:
             and self._kb.confusable_with(detection.device_type)
             and not device_hint.devices_named_in(chat.customer_text(), self._kb)
         ):
-            return self._clarification_response(
+            return await self._clarification_response(
                 request, confidence, shortlist, detection, chat, trace
             )
 
@@ -358,7 +431,7 @@ class LocalPipeline:
         )
 
         if confidence < settings.AI_CONFIDENCE_THRESHOLD and not decisive:
-            return self._clarification_response(
+            return await self._clarification_response(
                 request, confidence, shortlist, detection, chat, trace
             )
 
@@ -378,7 +451,7 @@ class LocalPipeline:
                     faults=verdict.fault_codes,
                 )
 
-        return self._build_response(
+        return await self._build_response(
             request, detection, verdict, confidence, shortlist, chat, trace
         )
 
@@ -404,7 +477,9 @@ class LocalPipeline:
         # on "thợ" and "vòi" and the answer told the customer to replace a
         # solenoid valve and a tap base before the technician arrived.
         prices = (
-            self._retriever.price_passages(request.question)
+            self._retriever.price_passages(
+                request.question, device_type=chat.device_type or request.device_type
+            )
             if _asks_about_money(request.question)
             else []
         )
@@ -430,13 +505,17 @@ class LocalPipeline:
             session_id=chat.session_id,
             status=AnswerStatus.OK,
             answer_vi=answer_vi,
+            # Only what the answer could have come from. Sending ten candidate
+            # rows and citing all ten put three refrigerator boards under an
+            # answer about a gas stove igniter: the figure was right and the
+            # sources read as though it had been made up.
             citations=[
                 Citation(
                     doc_id=p.policy.doc_id,
                     title_vi=p.policy.title_vi,
                     score=round(min(p.score, 1.0), 4),
                 )
-                for p in passages
+                for p in passages[:3]
             ],
             confidence=confidence,
             disclaimer_vi=settings.AI_DISCLAIMER_VI,
@@ -487,6 +566,49 @@ class LocalPipeline:
             disclaimer_vi=settings.AI_DISCLAIMER_VI,
         )
 
+    async def _narrate(
+        self,
+        device: Optional[DetectedDevice],
+        faults: List[SuspectedFault],
+        price_min: Optional[int],
+        price_max: Optional[int],
+        actions: List[str],
+        services: List[RecommendedService],
+    ) -> Optional[str]:
+        """Hand the finished answer to the model to phrase, nothing more.
+
+        Every fact is decided before this runs and none of it may change. The
+        client checks that no number appeared which was not supplied, and an
+        answer that grew one is discarded rather than corrected.
+        """
+        money = lambda v: f"{v:,}".replace(",", ".")  # noqa: E731
+        lines = []
+        if device:
+            lines.append(f"Thiết bị: {device.name_vi}")
+        lines.append("Khả năng hư hỏng: " + ", ".join(f.name_vi for f in faults))
+        if price_min is not None and price_max is not None and price_max != price_min:
+            lines.append(f"Chi phí dự kiến: {money(price_min)}đ tới {money(price_max)}đ")
+        elif price_min is not None and price_max == price_min:
+            lines.append(f"Chi phí dự kiến: {money(price_min)}đ")
+        elif price_min is not None:
+            lines.append(
+                f"Chi phí: từ {money(price_min)}đ, phần còn lại kỹ thuật viên "
+                "phải xem tận nơi mới tính được"
+            )
+        if actions:
+            lines.append("Việc khách nên làm ngay: " + "; ".join(actions))
+        if services:
+            lines.append("Dịch vụ nên đặt: " + ", ".join(s.name_vi for s in services))
+
+        allowed = [
+            str(v) for v in (price_min, price_max) if v is not None
+        ] + [money(v) for v in (price_min, price_max) if v is not None]
+        try:
+            return await self._vlm.narrate("\n".join(lines), allowed) or None
+        except Exception:  # pragma: no cover - narration is never load-bearing
+            logger.warning("narration_failed")
+            return None
+
     def _identification_response(
         self,
         request: DiagnosisRequest,
@@ -508,6 +630,34 @@ class LocalPipeline:
             device=self._resolve_device(detection, chat),
             confidence=round(detection.confidence, 4),
             is_low_confidence=False,
+            clarification=Clarification(
+                questions_vi=[question],
+                service_group_codes=self._kb.all_service_groups(),
+            ),
+            model_info=self._model_info,
+            trace=trace.stages,
+            disclaimer_vi=settings.AI_DISCLAIMER_VI,
+        )
+
+    def _greeting_response(
+        self, request: DiagnosisRequest, chat: Conversation, trace: "_Trace"
+    ) -> DiagnosisResponse:
+        """Say hello back and ask what is wrong.
+
+        Not a refusal and not a diagnosis. "Alo" answered with "em chỉ hỗ trợ
+        các vấn đề về điện nước" is the assistant explaining its job to someone
+        who was being polite.
+        """
+        question = settings.GREETING_MESSAGE_VI
+        chat.add("assistant", question)
+        trace.add("scope", True, "Khách chào hỏi, chưa có thông tin sự cố")
+        return DiagnosisResponse(
+            request_id=request.request_id,
+            session_id=chat.session_id,
+            status=DiagnosisStatus.NEEDS_CLARIFICATION,
+            engine=Engine.LOCAL_PIPELINE,
+            confidence=0.0,
+            is_low_confidence=True,
             clarification=Clarification(
                 questions_vi=[question],
                 service_group_codes=self._kb.all_service_groups(),
@@ -591,7 +741,7 @@ class LocalPipeline:
             return round(vlm_confidence, 4)
         return round((detection.confidence + vlm_confidence) / 2, 4)
 
-    def _clarification_response(
+    async def _clarification_response(
         self,
         request: DiagnosisRequest,
         confidence: float,
@@ -648,7 +798,7 @@ class LocalPipeline:
             # and is asked a third has stopped being helped and started filling
             # in a form. Commit to the shortlist and let confidence say how sure
             # that is; a technician settles it on site regardless.
-            return self._best_effort_response(
+            return await self._best_effort_response(
                 request, confidence, shortlist, detection, chat, trace
             )
 
@@ -657,7 +807,7 @@ class LocalPipeline:
             # questions retracts it, and from their side the assistant simply
             # forgot. Refine instead: keep answering, and let confidence carry
             # the doubt.
-            return self._best_effort_response(
+            return await self._best_effort_response(
                 request, confidence, shortlist, detection, chat, trace
             )
 
@@ -667,7 +817,7 @@ class LocalPipeline:
             # given no way to supply it, which is how the second turn of a real
             # conversation ended. Commit to what retrieval ranked first instead
             # and let the confidence say how sure that is.
-            return self._best_effort_response(request, confidence, shortlist, detection, chat, trace)
+            return await self._best_effort_response(request, confidence, shortlist, detection, chat, trace)
 
         if chat is not None:
             chat.times_asked += 1
@@ -700,7 +850,7 @@ class LocalPipeline:
             disclaimer_vi=settings.AI_DISCLAIMER_VI,
         )
 
-    def _best_effort_response(
+    async def _best_effort_response(
         self,
         request: DiagnosisRequest,
         confidence: float,
@@ -740,7 +890,7 @@ class LocalPipeline:
                 "Hết câu để hỏi, dùng thẳng thứ hạng của RAG thay vì bỏ lửng",
                 faults=verdict.fault_codes,
             )
-        return self._build_response(
+        return await self._build_response(
             request, detection, verdict, verdict.confidence, shortlist, chat, trace,
             source=EvidenceSource.KNOWLEDGE_BASE,
         )
@@ -780,7 +930,7 @@ class LocalPipeline:
             disclaimer_vi=settings.AI_DISCLAIMER_VI,
         )
 
-    def _build_response(
+    async def _build_response(
         self,
         request: DiagnosisRequest,
         detection: Optional[Detection],
@@ -845,7 +995,7 @@ class LocalPipeline:
                 urgency = fault_urgency
 
         if not faults:
-            return self._clarification_response(
+            return await self._clarification_response(
                 request, confidence, shortlist, detection, chat, trace
             )
 
@@ -865,9 +1015,15 @@ class LocalPipeline:
             chat.answered = True
             chat.add("assistant", ", ".join(f.name_vi for f in faults))
 
+        message_vi = await self._narrate(
+            device, faults, price_min, None if needs_assessment else price_max,
+            actions, services,
+        )
+
         return DiagnosisResponse(
             request_id=request.request_id,
             session_id=chat.session_id if chat else None,
+            message_vi=message_vi,
             status=DiagnosisStatus.OK,
             engine=Engine.LOCAL_PIPELINE,
             device=device,

@@ -221,6 +221,17 @@ class DiagnosisResponse(BaseModel):
     confidence: float = Field(default=0.0, ge=0.0, le=1.0)
     is_low_confidence: bool = Field(default=False)
     clarification: Optional[Clarification] = None
+    message_vi: Optional[str] = None
+    """The whole answer as one message, for a chat surface to send as-is.
+
+    The structured fields stay exactly as they were and remain the record. This
+    is the same content phrased as something a person would actually type,
+    because a reply assembled from a template reads like one: the same shape,
+    the same order and the same stock sentences for every customer.
+
+    Absent when the model was unavailable or when it altered a figure, and the
+    caller then formats the structured fields itself."""
+
     model_info: Optional[ModelInfo] = None
 
     trace: List[TraceStage] = Field(default_factory=list)
