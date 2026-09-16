@@ -15,7 +15,7 @@ from __future__ import annotations
 import re
 import unicodedata
 from dataclasses import dataclass
-from typing import List, Optional
+from typing import List, Optional, Sequence
 
 from app.core.config import settings
 from app.services.pipeline.knowledge_base import Fault, KnowledgeBase, Policy
@@ -82,6 +82,82 @@ def _overlap_score(query_tokens: List[str], target: str) -> float:
     return hits / len(set(query_tokens))
 
 
+_PRICE_NOISE = {
+    "gia", "tien", "bao", "nhieu", "tinh", "het", "cost", "ban", "minh", "sao",
+    "the", "nao", "khoang", "chi", "phi", "ben",
+}
+"""Words in every price question, which match nothing and dilute everything.
+
+"dây điện thay bên mình tính giá sao" is eight tokens of which two say what is
+being asked about. Dividing by all eight put the right row under any usable
+threshold."""
+
+
+def _price_score(
+    query_tokens: List[str], row_name: str, alias_tokens: Sequence[str] = ()
+) -> float:
+    """Balance how much of the row the question covers against how much of the
+    question the row explains.
+
+    Each direction alone picks a different wrong answer. Dividing by the
+    question, as policy retrieval does, buries every short row under a long
+    sentence. Dividing by the row rewards the shortest rows: expanded with the
+    device's aliases, "thay ổ cắm hết bao nhiêu tiền" covered every word of
+    "Công tắc cửa" and scored it a perfect match.
+    """
+    target = set(_content_tokens(_normalize(row_name)))
+    query = {t for t in _content_tokens(query_tokens) if t not in _PRICE_NOISE}
+    if not target or not query:
+        return 0.0
+
+    # Aliases widen what counts as a hit without widening the question. They
+    # are the team's words for a device, not the customer's, so charging the
+    # question for their length punishes it for a synonym it never used:
+    # "thay block máy lạnh" fell below the floor once six air-conditioner
+    # aliases had been added to its denominator.
+    alias = {t for t in _content_tokens(list(alias_tokens))} - query
+
+    # The customer's own words count double. Six aliases of "máy lạnh" made
+    # every air-conditioner part match as strongly as the cleaning service the
+    # question actually named, and "công tắc ổ cắm" — a legitimate alias of a
+    # socket — put a door switch above the socket row.
+    hits = sum(1 for t in target if t in query) + 0.5 * sum(
+        1 for t in target if t in alias
+    )
+    if not hits:
+        return 0.0
+
+    # Recall, deliberately. Tuning this into a precise ranker meant chasing one
+    # wrong answer after another: dividing by the question buried short rows,
+    # dividing by the row crowned the shortest ones, and balancing the two put
+    # "Công tắc cửa" at the top for a question about a socket. Lexical overlap
+    # on two-word names cannot tell a near miss from a match.
+    #
+    # So it gathers candidates rather than choosing one, and Qwen chooses among
+    # them — the same division of labour as the fault shortlist, where it
+    # works. Nothing outside these rows can reach the customer either way.
+    return hits / len(target)
+
+
+def _device_alias_tokens(question: str, kb: KnowledgeBase) -> List[str]:
+    """Add what the team calls a device to what the customer calls it.
+
+    The labour table says "điều hòa" and customers say "máy lạnh", so "vệ sinh
+    máy lạnh giá bao nhiêu" matched the water heater row and not one of the
+    three air-conditioner cleaning rows sitting right there.
+    """
+    from app.services.pipeline import device_hint
+
+    extra: List[str] = []
+    for hint in device_hint.devices_named_in(question, kb):
+        for alias in kb.aliases_vi(hint.device_type):
+            extra.extend(_normalize(alias))
+        name = kb.device_name_vi(hint.device_type)
+        if name:
+            extra.extend(_normalize(name))
+    return extra
+
+
 class Retriever:
     def __init__(self, kb: KnowledgeBase) -> None:
         self._kb = kb
@@ -112,6 +188,60 @@ class Retriever:
         # whenever the description says nothing useful invites a confident
         # guess; an empty shortlist correctly ends in a clarification instead.
         return [s for s in scored[:top_k] if s.score > 0.0]
+
+    def content_words(self, text: str) -> int:
+        """How many words carry meaning, once function words are dropped.
+
+        A high retrieval score means nothing on its own: the score divides by
+        the query's own length, so "hư rồi" matches some symptom perfectly and
+        scores 1.00. Counting what the customer actually described separates a
+        precise sentence from a shrug.
+        """
+        return len(_content_tokens(_normalize(text)))
+
+    def price_passages(self, question: str, top_k: int = 10) -> List[ScoredPolicy]:
+        """Lines from the labour and parts tables that match what was asked.
+
+        Returned as passages so they travel the same path as policy text: the
+        model may restate them and nothing else, which keeps a figure on screen
+        traceable to a row somebody in the team owns.
+
+        A lower floor than policy text on purpose. A price row is one short
+        line — "Thay ổ cắm điện, tiền công" — so a question shares far less of
+        it than of a paragraph, and the policy threshold hid every one of them.
+        """
+        tokens = _normalize(question)
+        if not tokens:
+            return []
+
+        # Narrow to the device first, exactly as the fault shortlist does.
+        # Ranking all 809 rows at once was the mistake: their names share so
+        # much vocabulary that "vệ sinh máy lạnh giá bao nhiêu" ranked a relay,
+        # a fridge hinge and refrigeration oil above the air-conditioner
+        # cleaning service it had named outright. Within one device the
+        # remaining rows are few and the overlap means something again.
+        from app.services.pipeline import device_hint
+
+        named = device_hint.devices_named_in(question, self._kb)
+        wanted = {hint.device_type for hint in named}
+        rows = self._kb.price_rows
+        if wanted:
+            narrowed = [r for r in rows if wanted & set(r.device_types)]
+            if narrowed:
+                rows = narrowed
+
+        aliases = _device_alias_tokens(question, self._kb)
+        scored = [
+            ScoredPolicy(
+                policy=Policy(
+                    doc_id=row.code, title_vi=row.name_vi, content_vi=row.as_text_vi()
+                ),
+                score=_price_score(tokens, row.name_vi, aliases),
+            )
+            for row in rows
+        ]
+        scored.sort(key=lambda s: s.score, reverse=True)
+        return [s for s in scored[:top_k] if s.score >= settings.PRICE_MIN_SCORE]
 
     def policy_passages(
         self, question: str, top_k: int = 3, min_score: Optional[float] = None

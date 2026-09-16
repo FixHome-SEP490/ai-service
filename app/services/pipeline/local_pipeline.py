@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import time
+import unicodedata
 from typing import Any, List, Optional
 
 from app.core.config import settings
@@ -33,6 +34,17 @@ from app.services.pipeline.images import ImagePayload, load_base64_image
 from app.services.pipeline.knowledge_base import KnowledgeBase
 from app.services.pipeline.retriever import Retriever
 from app.services.pipeline.vlm import FaultCandidate, VisionLanguageModel, VlmVerdict
+
+_MONEY_WORDS = ("gia", "tien", "bao nhieu", "chi phi", "cost", "het bao", "mac", "re")
+
+
+def _asks_about_money(question: str) -> bool:
+    """Whether the customer is asking what something costs."""
+    folded = unicodedata.normalize("NFD", question.lower())
+    folded = "".join(c for c in folded if unicodedata.category(c) != "Mn")
+    folded = folded.replace("đ", "d")
+    return any(word in folded for word in _MONEY_WORDS)
+
 
 _URGENCY_RANK = {UrgencyLevel.LOW: 0, UrgencyLevel.MEDIUM: 1, UrgencyLevel.HIGH: 2}
 
@@ -244,10 +256,42 @@ class LocalPipeline:
                 request, confidence, shortlist, detection, chat, trace
             )
 
-        if confidence < settings.AI_CONFIDENCE_THRESHOLD:
+        # A description that names the problem outright does not need a
+        # question. "Máy nước nóng không nóng" matched one fault at 1.00 and
+        # still came back as three questions, because the decision looked only
+        # at the model's confidence. Retrieval being certain is evidence too,
+        # and here it is the better evidence: it matched the customer's own
+        # words against symptoms the team wrote.
+        decisive = (
+            bool(candidates)
+            and candidates[0].score >= settings.RETRIEVAL_DECISIVE_SCORE
+            # And the customer actually described something. The score divides
+            # by the query's own length, so "hư rồi" matches a symptom
+            # perfectly and scores 1.00 while saying nothing at all.
+            and self._retriever.content_words(chat.customer_text())
+            >= settings.DECISIVE_MIN_WORDS
+        )
+
+        if confidence < settings.AI_CONFIDENCE_THRESHOLD and not decisive:
             return self._clarification_response(
                 request, confidence, shortlist, detection, chat, trace
             )
+
+        if decisive and not verdict.fault_codes:
+            # Retrieval is sure and the model would not choose. Answer from
+            # retrieval rather than asking: the customer has already said the
+            # thing that settles it.
+            verdict = VlmVerdict(
+                fault_codes=[c.fault.fault_code for c in candidates[:2]],
+                confidence=max(confidence, candidates[0].score * 0.7),
+            )
+            confidence = verdict.confidence
+            if trace is not None:
+                trace.add(
+                    "fallback", True,
+                    f"RAG chắc chắn ({candidates[0].score:.2f}), trả lời thẳng thay vì hỏi",
+                    faults=verdict.fault_codes,
+                )
 
         return self._build_response(
             request, detection, verdict, confidence, shortlist, chat, trace
@@ -262,9 +306,21 @@ class LocalPipeline:
         chat = self._conversations.get_or_create(request.session_id)
         chat.add("customer", request.question)
 
-        passages = self._retriever.policy_passages(
+        # Policy text and price rows are both grounding, and a question about
+        # cost is the commonest thing a customer asks first. The two tables were
+        # loaded and used offline while this surface could not see them, so
+        # "dây điện thay bên mình tính giá sao" was refused as out of scope with
+        # the answer sitting in a file the service had already read.
+        policies = self._retriever.policy_passages(
             request.question, top_k=settings.RETRIEVAL_TOP_K
         )
+        prices = self._retriever.price_passages(request.question)
+
+        # Order by what was asked. Asked "vệ sinh máy lạnh giá bao nhiêu" with
+        # policy text first, the model answered with the cleaning interval —
+        # true, retrieved, and not the question. The model reads the passages
+        # in order and the first relevant one wins.
+        passages = prices + policies if _asks_about_money(request.question) else policies + prices
         if not passages:
             return self._ungrounded_answer(request, chat)
 
@@ -378,6 +434,35 @@ class LocalPipeline:
             # left. Repeating a question reads as not having listened, which
             # costs more trust than the answer would have been worth.
             questions = [q for q in questions if q not in chat.asked_symptoms]
+
+        if chat is not None and chat.times_asked >= settings.MAX_CLARIFYING_TURNS and shortlist:
+            # Asked enough. A customer who has answered two rounds of questions
+            # and is asked a third has stopped being helped and started filling
+            # in a form. Commit to the shortlist and let confidence say how sure
+            # that is; a technician settles it on site regardless.
+            return self._best_effort_response(
+                request, confidence, shortlist, detection, chat, trace
+            )
+
+        if chat is not None and chat.answered and shortlist:
+            # This customer has already been given a diagnosis. Going back to
+            # questions retracts it, and from their side the assistant simply
+            # forgot. Refine instead: keep answering, and let confidence carry
+            # the doubt.
+            return self._best_effort_response(
+                request, confidence, shortlist, detection, chat, trace
+            )
+
+        if not questions:
+            # Nothing left to ask. Returning a clarification with no question is
+            # a dead end: the customer is told more information is needed and
+            # given no way to supply it, which is how the second turn of a real
+            # conversation ended. Commit to what retrieval ranked first instead
+            # and let the confidence say how sure that is.
+            return self._best_effort_response(request, confidence, shortlist, detection, chat, trace)
+
+        if chat is not None:
+            chat.times_asked += 1
             chat.remember_questions(questions)
             for question in questions:
                 chat.add("assistant", question)
@@ -407,6 +492,77 @@ class LocalPipeline:
             disclaimer_vi=settings.AI_DISCLAIMER_VI,
         )
 
+    def _best_effort_response(
+        self,
+        request: DiagnosisRequest,
+        confidence: float,
+        shortlist: Optional[List],
+        detection: Optional[Detection],
+        chat: Optional[Conversation],
+        trace: Optional["_Trace"],
+    ) -> DiagnosisResponse:
+        """Answer with retrieval's own ranking when there is nothing left to ask.
+
+        The model declining to choose is not the same as there being nothing to
+        say: retrieval put WH_INSTANT_NO_HOT at the top for "máy nước nóng
+        không nóng", which is the right answer, and the customer got a dead end
+        instead. Confidence is reported as retrieval's alone, so a client can
+        see this was not a model verdict.
+        """
+        if not shortlist:
+            return self._no_answer_response(request, confidence, detection, chat, trace)
+
+        verdict = VlmVerdict(
+            fault_codes=[f.fault_code for f in shortlist[:2]],
+            confidence=min(confidence, 0.5),
+        )
+        if trace is not None:
+            trace.add(
+                "fallback",
+                True,
+                "Hết câu để hỏi, dùng thẳng thứ hạng của RAG thay vì bỏ lửng",
+                faults=verdict.fault_codes,
+            )
+        return self._build_response(
+            request, detection, verdict, verdict.confidence, shortlist, chat, trace,
+            source=EvidenceSource.KNOWLEDGE_BASE,
+        )
+
+    def _no_answer_response(
+        self,
+        request: DiagnosisRequest,
+        confidence: float,
+        detection: Optional[Detection],
+        chat: Optional[Conversation],
+        trace: Optional["_Trace"],
+    ) -> DiagnosisResponse:
+        """Nothing retrieved and nothing left to ask: say so and let Backend on.
+
+        Rare, and the honest end of the road. The generic questions are better
+        than silence because at least one of them can be answered.
+        """
+        questions = clarifier.device_questions(
+            self._kb.device_name_vi(detection.device_type) if detection else None
+        )
+        if trace is not None:
+            trace.add("fallback", False, "Không còn gì để hỏi và cũng không có bệnh nào")
+        return DiagnosisResponse(
+            request_id=request.request_id,
+            session_id=chat.session_id if chat else None,
+            status=DiagnosisStatus.NEEDS_CLARIFICATION,
+            engine=Engine.LOCAL_PIPELINE,
+            device=self._resolve_device(detection, chat),
+            confidence=confidence,
+            is_low_confidence=True,
+            clarification=Clarification(
+                questions_vi=questions,
+                service_group_codes=self._kb.all_service_groups(),
+            ),
+            model_info=self._model_info,
+            trace=trace.stages if trace else [],
+            disclaimer_vi=settings.AI_DISCLAIMER_VI,
+        )
+
     def _build_response(
         self,
         request: DiagnosisRequest,
@@ -416,6 +572,7 @@ class LocalPipeline:
         shortlist: Optional[List] = None,
         chat: Optional[Conversation] = None,
         trace: Optional["_Trace"] = None,
+        source: EvidenceSource = EvidenceSource.DESCRIPTION,
     ) -> DiagnosisResponse:
         device = self._resolve_device(detection, chat)
 
@@ -436,7 +593,7 @@ class LocalPipeline:
                     fault_code=fault.fault_code,
                     name_vi=fault.name_vi,
                     confidence=verdict.confidence,
-                    source=EvidenceSource.DESCRIPTION,
+                    source=source,
                 )
             )
             for ref in self._kb.services_for_fault(fault.fault_code):
@@ -478,6 +635,7 @@ class LocalPipeline:
 
         if chat is not None:
             chat.shortlist = [f.fault_code for f in faults]
+            chat.answered = True
             chat.add("assistant", ", ".join(f.name_vi for f in faults))
 
         return DiagnosisResponse(
