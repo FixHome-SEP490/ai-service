@@ -80,6 +80,20 @@ class Conversation:
     against the question it answers, so the question has to outlive the turn
     that asked it."""
 
+    times_asked: int = 0
+    """How many turns have come back as questions instead of an answer.
+
+    Capped, because a third round of questions is not diligence, it is a form
+    wearing a conversation's clothes. Past the cap the service commits to what
+    it has and says how sure it is."""
+
+    answered: bool = False
+    """A diagnosis has already been shown to this customer.
+
+    Adding detail must never take the answer away again. Someone who is told
+    what is probably wrong, adds a confirming detail, and is then asked three
+    questions instead has been made worse off for co-operating."""
+
     confusion_resolved: bool = False
     """The either/or has been settled, or asked and not answered usefully.
 

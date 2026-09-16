@@ -319,11 +319,20 @@ def _parse_verdict(
 
     named_faults = _as_str_list(data.get("fault_codes"))
     named_conditions = _as_str_list(data.get("condition_codes"))
+
+    # Rescue misplaced fault codes first. Clearing the condition field before
+    # looking in it threw away real answers: asked about a water heater with no
+    # image, the model returned {"fault_codes": [], "condition_codes":
+    # ["WH_INSTANT_NO_HOT", ...]} — the right codes, in the wrong field — and
+    # the customer got "Qwen không chọn được mã nào" and a dead end.
+    misplaced_faults = [c for c in named_conditions if c in set(allowed_faults)]
+
     if not has_image:
         # Nothing was looked at, so nothing was seen. The model returned
         # ["crack", "scratch", "rust"] for a text-only call, which is not a
         # judgement call to weigh — it is a description of a photograph that
-        # does not exist.
+        # does not exist. Fault codes rescued above are unaffected: they are
+        # not claims about an image.
         named_conditions = []
 
     # A code from our own vocabulary put in the wrong field is a slotting
@@ -334,7 +343,6 @@ def _parse_verdict(
     # case in the catalogue with an empty diagnosis. Anything in neither list
     # is still refused.
     misplaced_conditions = [c for c in named_faults if c in allowed_condition_set]
-    misplaced_faults = [c for c in named_conditions if c in allowed_fault_set]
     if misplaced_conditions or misplaced_faults:
         logger.info(
             "qwen_codes_in_wrong_field",

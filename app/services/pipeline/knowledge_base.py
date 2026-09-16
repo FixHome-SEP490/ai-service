@@ -105,8 +105,45 @@ class Policy:
     content_vi: str
 
 
+@dataclass(frozen=True)
+class PriceRow:
+    """One line from the labour or parts table, as something retrieval can find.
+
+    The two tables were built for computing a fault's range offline and were
+    never visible to the chat surface, so "dây điện thay bên mình tính giá sao"
+    came back as out of scope while the answer sat in a file the service had
+    already loaded."""
+
+    code: str
+    name_vi: str
+    kind: str
+    """"labour" or "part"."""
+
+    price_min: int
+    price_max: int
+    unit_vi: str
+    device_types: List[str] = field(default_factory=list)
+
+    def as_text_vi(self) -> str:
+        if self.price_min == self.price_max:
+            money = f"{self.price_min:,}đ".replace(",", ".")
+        else:
+            money = (
+                f"{self.price_min:,}đ tới {self.price_max:,}đ".replace(",", ".")
+            )
+        what = "Tiền công" if self.kind == "labour" else "Giá linh kiện"
+        return f"{what} — {self.name_vi}: {money} một {self.unit_vi.lower()}."
+
+
 class KnowledgeBase:
-    def __init__(self, catalog: dict, kb: dict, mapping: dict) -> None:
+    def __init__(
+        self,
+        catalog: dict,
+        kb: dict,
+        mapping: dict,
+        labour: Optional[dict] = None,
+        parts: Optional[dict] = None,
+    ) -> None:
         self._device_names: Dict[str, str] = {
             d["device_type"]: d["name_vi"] for d in catalog["devices"]
         }
@@ -143,6 +180,32 @@ class KnowledgeBase:
         self._discriminators: List[Discriminator] = [
             Discriminator(**d) for d in kb.get("discriminators", [])
         ]
+        self._prices: List[PriceRow] = []
+        for row in (labour or {}).get("services", []):
+            self._prices.append(
+                PriceRow(
+                    code=row["service_code"],
+                    name_vi=row["name_vi"],
+                    kind="labour",
+                    price_min=row["price"],
+                    price_max=row["price"],
+                    unit_vi=row.get("unit_vi", "lần"),
+                    device_types=[row["device_type"]] if row.get("device_type") else [],
+                )
+            )
+        for row in (parts or {}).get("parts", []):
+            self._prices.append(
+                PriceRow(
+                    code=row["code"],
+                    name_vi=row["name_vi"],
+                    kind="part",
+                    price_min=row["price_min"],
+                    price_max=row["price_max"],
+                    unit_vi=row.get("unit_vi", "cái"),
+                    device_types=row.get("device_types", []),
+                )
+            )
+
         self._services: Dict[str, List[ServiceRef]] = {}
         for entry in mapping.get("mappings", []):
             self._services[entry["fault_code"]] = [
@@ -210,6 +273,11 @@ class KnowledgeBase:
         """Empty while Backend has not supplied a catalog. Not an error."""
         return list(self._services.get(fault_code, []))
 
+    @property
+    def price_rows(self) -> List[PriceRow]:
+        """Every labour and part line, for answering a question about cost."""
+        return list(self._prices)
+
     def all_service_groups(self) -> List[str]:
         return sorted(set(self._service_groups.values()))
 
@@ -219,4 +287,8 @@ def get_knowledge_base() -> KnowledgeBase:
     catalog = json.loads((DATA_DIR / "device_catalog.json").read_text(encoding="utf-8"))
     kb = json.loads((DATA_DIR / "fault_knowledge_base.json").read_text(encoding="utf-8"))
     mapping = json.loads((DATA_DIR / "service_mapping.json").read_text(encoding="utf-8"))
-    return KnowledgeBase(catalog=catalog, kb=kb, mapping=mapping)
+    labour = json.loads((DATA_DIR / "labour_catalog.json").read_text(encoding="utf-8"))
+    parts = json.loads((DATA_DIR / "parts_catalog.json").read_text(encoding="utf-8"))
+    return KnowledgeBase(
+        catalog=catalog, kb=kb, mapping=mapping, labour=labour, parts=parts
+    )

@@ -53,6 +53,33 @@ class Settings(BaseSettings):
     """
 
     # Advisory behavior
+    PRICE_MIN_SCORE: float = 0.40
+    """Overlap a price row needs before it counts as matching the question.
+
+    Lower than the policy floor because a row is one short line rather than a
+    paragraph, so a question shares much less of it. At the policy threshold
+    every row scored below and "dây điện thay bên mình tính giá sao" came back
+    as out of scope with the answer sitting in a loaded file."""
+
+    RETRIEVAL_DECISIVE_SCORE: float = 0.9
+    """Retrieval score above which the description already settles it.
+
+    A score this high means the customer's own words matched the symptoms the
+    team wrote for one fault almost exactly. Asking anything after that is
+    asking them to repeat themselves."""
+
+    DECISIVE_MIN_WORDS: int = 3
+    """Meaningful words the customer must have written before a high retrieval
+    score counts as settling anything. "Hư rồi" is one."""
+
+    MAX_CLARIFYING_TURNS: int = 2
+    """How many turns may come back as questions before the service commits.
+
+    Two, decided by the project owner. A third round is not diligence: the
+    customer has told us what they can, and an estimate they can act on beats a
+    fourth question they cannot answer. The technician settles it on site in
+    either case."""
+
     AI_CONFIDENCE_THRESHOLD: float = 0.6
     AI_DISCLAIMER_VI: str = (
         "Đây là gợi ý sơ bộ, kết luận cuối cùng thuộc về kỹ thuật viên kiểm tra trực tiếp."

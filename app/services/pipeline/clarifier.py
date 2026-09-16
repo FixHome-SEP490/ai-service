@@ -18,6 +18,7 @@ and the two cannot drift apart.
 
 from __future__ import annotations
 
+import re
 import unicodedata
 from dataclasses import dataclass
 from typing import Iterable, List, Optional, Sequence
@@ -59,7 +60,66 @@ def _already_said(symptom: str, description: str) -> bool:
         return False
     # Most of the symptom's meaningful words present counts as said.
     hits = sum(1 for w in words if w in folded)
-    return hits / len(words) >= 0.75
+    if hits / len(words) >= 0.75:
+        return True
+
+    # A long question is answered when any one of its clauses already is.
+    # "Có mùi khét hoặc thấy vết cháy đen ở ổ cắm không?" came back to someone
+    # who had written "ổ cắm bị cháy đen, có mùi khét": every clause of it was
+    # in their sentence, but spread over enough words to stay under the
+    # threshold above.
+    return any(_clause_said(part, folded) for part in _CLAUSE_SPLIT.split(symptom_folded))
+
+
+_CLAUSE_SPLIT = re.compile(r"(?:hoac|hay|va|,|;)|,")
+
+
+def _clause_said(clause: str, folded_description: str) -> bool:
+    words = [w for w in clause.split() if len(w) > 2]
+    # Two words or more, so "có" or "không" alone cannot match everything.
+    if len(words) < 2:
+        return False
+    return all(w in folded_description for w in words)
+
+
+_NEGATIONS = ("khong", "ko", "chua", "chang", "chal")
+_NEGATION_SCOPE = 4
+"""How many words after a negation it is taken to cover.
+
+"Máy nước nóng nhà em không nóng" negates "nóng". Four words is enough for
+"không nóng lên được nữa" and short enough that the next clause does not get
+swept in."""
+
+
+def _negated_words(description: str) -> set[str]:
+    """Words the customer has said are NOT happening.
+
+    Asked "máy nước nóng không nóng", the shortlist still holds a fault whose
+    symptom is "nóng chậm hơn trước", and asking about it produced "Nước có
+    nóng nhưng lâu hơn trước phải không?" — contradicting the sentence it was
+    replying to. A customer reads that as not having been listened to, and they
+    are right.
+    """
+    folded = _fold(description).split()
+    negated: set[str] = set()
+    for index, word in enumerate(folded):
+        if word in _NEGATIONS:
+            negated.update(
+                w for w in folded[index + 1 : index + 1 + _NEGATION_SCOPE] if len(w) > 2
+            )
+    return negated
+
+
+def _contradicts(symptom: str, negated: set[str]) -> bool:
+    """Whether asking this would argue with what the customer already said.
+
+    Both directions are caught, and both should be. A symptom asserting a word
+    the customer negated contradicts them; one negating the same word repeats
+    them. Neither is worth a turn.
+    """
+    if not negated:
+        return False
+    return any(w in negated for w in _fold(symptom).split() if len(w) > 2)
 
 
 def _phrase(symptom: str) -> str:
@@ -88,18 +148,21 @@ def build_questions(
     # Hand-written questions first. One whose two sides both intersect the
     # shortlist is guaranteed to eliminate something, which no templated
     # question can promise.
-    chosen = _from_discriminators(candidates, discriminators, limit)
+    chosen = _from_discriminators(candidates, discriminators, limit, description)
     if len(chosen) >= limit:
         return chosen
 
     total = len(candidates)
     scored: List[Question] = []
     seen: set[str] = set()
+    negated = _negated_words(description)
 
     for fault in candidates:
         for symptom in fault.symptoms_vi:
             key = _fold(symptom)
             if key in seen or _already_said(symptom, description):
+                continue
+            if _contradicts(symptom, negated):
                 continue
             seen.add(key)
 
@@ -114,19 +177,58 @@ def build_questions(
             )
 
     scored.sort(key=lambda q: (-q.splits, q.text_vi))
-    asked = {q.text_vi for q in chosen}
-    return chosen + [q for q in scored if q.text_vi not in asked][: limit - len(chosen)]
+    return _take_distinct(chosen, scored, limit)
+
+
+_SAME_QUESTION = 0.7
+"""Word overlap above which two questions are asking the same thing.
+
+"bật đèn nhưng nước lạnh" and "bật đèn đỏ mà nước lạnh" are different strings
+and one question. Both came back in the same reply, which reads as padding out
+a list rather than wanting to know something."""
+
+
+def _take_distinct(
+    chosen: List[Question], rest: List[Question], limit: int
+) -> List[Question]:
+    """Fill up to the limit, skipping anything that repeats a question already in."""
+    out = list(chosen)
+    for question in rest:
+        if len(out) >= limit:
+            break
+        if any(_overlap(question.symptom_vi, k.symptom_vi) >= _SAME_QUESTION for k in out):
+            continue
+        out.append(question)
+    return out
+
+
+def _overlap(left: str, right: str) -> float:
+    a = {w for w in _fold(left).split() if len(w) > 2}
+    b = {w for w in _fold(right).split() if len(w) > 2}
+    if not a or not b:
+        return 0.0
+    return len(a & b) / min(len(a), len(b))
 
 
 def _from_discriminators(
     candidates: Sequence[Fault],
     discriminators: Sequence[Discriminator],
     limit: int,
+    description: str = "",
 ) -> List[Question]:
     shortlist = {c.fault_code for c in candidates}
     scored: List[Question] = []
+    # Hand-written questions are chosen first and were the only ones not
+    # checked against what the customer said. That is how "Nước có nóng nhưng
+    # lâu hơn trước phải không?" came back twice to someone who had opened with
+    # "máy nước nóng không nóng".
+    negated = _negated_words(description)
 
     for entry in discriminators:
+        if _already_said(entry.question_vi, description) or _contradicts(
+            entry.question_vi, negated
+        ):
+            continue
         yes = shortlist & set(entry.favours_if_yes)
         no = shortlist & set(entry.favours_if_no)
         if not yes or not no:
@@ -149,10 +251,12 @@ def _confirmation_questions(
     fault: Fault, description: str, limit: int
 ) -> List[Question]:
     """One candidate left: ask for the symptoms that would confirm it."""
+    negated = _negated_words(description)
     questions = [
         Question(text_vi=_phrase(symptom), symptom_vi=symptom, splits=1)
         for symptom in fault.symptoms_vi
         if not _already_said(symptom, description)
+        and not _contradicts(symptom, negated)
     ]
     return questions[:limit]
 
