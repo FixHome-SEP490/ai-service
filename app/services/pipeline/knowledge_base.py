@@ -109,6 +109,13 @@ class KnowledgeBase:
         self._confusable: Dict[str, List[str]] = {
             d["device_type"]: d.get("confusable_with", []) for d in catalog["devices"]
         }
+        self.version: str = str(kb.get("version", "unknown"))
+        """Which edition of the fault table produced an answer.
+
+        Every Vietnamese sentence and every price a customer sees comes from
+        this file, so a complaint about wording or a quote is a complaint about
+        one version of it. Wording changes without the code changing at all."""
+
         self._faults: List[Fault] = [Fault(**f) for f in kb["faults"]]
         self._policies: List[Policy] = [Policy(**p) for p in kb["policies"]]
         self._discriminators: List[Discriminator] = [
