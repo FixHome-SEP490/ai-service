@@ -199,7 +199,9 @@ class Retriever:
         """
         return len(_content_tokens(_normalize(text)))
 
-    def price_passages(self, question: str, top_k: int = 10) -> List[ScoredPolicy]:
+    def price_passages(
+        self, question: str, top_k: int = 10, device_type: Optional[str] = None
+    ) -> List[ScoredPolicy]:
         """Lines from the labour and parts tables that match what was asked.
 
         Returned as passages so they travel the same path as policy text: the
@@ -224,6 +226,12 @@ class Retriever:
 
         named = device_hint.devices_named_in(question, self._kb)
         wanted = {hint.device_type for hint in named}
+        if not wanted and device_type:
+            # The question rarely names the appliance again. "Thay bộ đánh lửa
+            # bao nhiêu" arrives in a thread already about a gas stove and was
+            # answered citing a refrigerator display board, because each
+            # question was searched as though it were the first.
+            wanted = {device_type}
         rows = self._kb.price_rows
         if wanted:
             narrowed = [r for r in rows if wanted & set(r.device_types)]

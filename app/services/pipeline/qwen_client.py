@@ -131,6 +131,31 @@ technician, never from a model.
 
 _OUT_OF_SCOPE = "NGOAI_PHAM_VI"
 
+_NARRATE_SYSTEM = (
+    "Bạn là nhân viên kỹ thuật FixHome đang nhắn tin với khách hàng Việt Nam.\n"
+    "Bạn được cho sẵn KẾT QUẢ CHẨN ĐOÁN. Việc của bạn chỉ là diễn đạt lại cho "
+    "tự nhiên và lịch sự, như người thật đang trả lời tin nhắn.\n"
+    "\n"
+    "Viết theo mạch: xác nhận đã đọc thông tin khách gửi, nói đã kiểm tra, nêu "
+    "khả năng hư hỏng, nêu khoảng chi phí, dặn việc cần làm ngay, rồi mời khách "
+    "đặt lịch nếu muốn.\n"
+    "\n"
+    "Bắt buộc:\n"
+    "- Chỉ dùng đúng những con số và tên hư hỏng được cho. Không thêm, không "
+    "đổi, không làm tròn, không ước lượng thêm bất kỳ con số nào.\n"
+    "- Xưng em, gọi khách là anh/chị.\n"
+    "- Bốn tới sáu câu, liền mạch, không gạch đầu dòng.\n"
+    "- Không hứa thời gian, không khẳng định chắc chắn, không nhắc tới bảo hành."
+)
+"""Wording only. The facts are handed over and may not be touched.
+
+The reply was assembled from a template and read like one: same shape, same
+order, same stock phrases for every customer. The knowledge base still owns
+every fault name and every figure — this turns them into a message somebody
+would actually send, and the caller checks that no number appeared that was not
+given.
+"""
+
 _PRICE_LIKE = re.compile(
     r"\d[\d.,]*\s*(?:đ\b|vnd|k\b|nghìn|nghin|triệu|trieu|tr\b)", re.IGNORECASE
 )
@@ -266,6 +291,33 @@ class QwenClient:
             [code for code, _ in candidate_condition_codes],
             has_image=crop is not None,
         )
+
+    async def narrate(self, facts_vi: str, allowed_numbers: List[str]) -> str:
+        """Turn a finished diagnosis into a message a person would send.
+
+        Returns an empty string if the model introduced a number nobody gave
+        it, in which case the caller keeps its own wording. A warmer sentence is
+        worth having; a warmer sentence with an invented price is not.
+        """
+        raw = await self._chat(
+            [
+                {"role": "system", "content": _NARRATE_SYSTEM},
+                {"role": "user", "content": facts_vi},
+            ]
+        )
+        if raw is None:
+            return ""
+
+        text = raw.strip()
+        if not text or _declines(text):
+            return ""
+
+        permitted = {n.replace(".", "").replace(",", "") for n in allowed_numbers}
+        for found in re.findall(r"\d[\d.,]*", text):
+            if found.replace(".", "").replace(",", "") not in permitted:
+                logger.warning("qwen_narration_invented_a_number")
+                return ""
+        return text
 
     async def answer_generally(self, question: str, history_vi: str = "") -> str:
         """Answer from the model's own knowledge, inside the trade.

@@ -68,11 +68,23 @@ class Settings(BaseSettings):
     team wrote for one fault almost exactly. Asking anything after that is
     asking them to repeat themselves."""
 
+    GREETING_MESSAGE_VI: str = (
+        "Dạ em chào anh/chị ạ. Nhà mình đang có thiết bị nào trục trặc không ạ? "
+        "Anh/chị tả giúp em hiện tượng, có ảnh thì gửi kèm luôn ạ."
+    )
+
     OUT_OF_SCOPE_MESSAGE_VI: str = (
         "Dạ em là trợ lý sửa chữa thiết bị gia dụng của FixHome nên chỉ hỗ trợ "
         "được các vấn đề về điện, nước và đồ gia dụng trong nhà thôi ạ. Nhà "
         "mình có thiết bị nào đang trục trặc không ạ?"
     )
+
+    DEVICE_FROM_RETRIEVAL_SCORE: float = 0.5
+    """Retrieval score at which the top match may name the appliance.
+
+    Only used when nothing else knows it. Below this the ranking is noise and
+    adopting its top entry would lock the conversation onto a device the
+    customer never mentioned."""
 
     DECISIVE_MIN_WORDS: int = 3
     """Meaningful words the customer must have written before a high retrieval

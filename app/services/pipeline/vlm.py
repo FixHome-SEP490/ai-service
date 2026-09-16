@@ -67,6 +67,10 @@ class VisionLanguageModel(Protocol):
         """Answer from the model's own trade knowledge when nothing was retrieved."""
         ...
 
+    async def narrate(self, facts_vi: str, allowed_numbers: List[str]) -> str:
+        """Phrase a finished diagnosis as a message, without changing it."""
+        ...
+
 
 class StubVlm:
     """Picks the top retrieved candidate. Deterministic, no weights needed."""
@@ -93,6 +97,9 @@ class StubVlm:
     async def answer_generally(self, question: str, history_vi: str = "") -> str:
         # The stub has no knowledge to reason from, so it declines rather than
         # inventing one. Tests that want the reasoning path supply a fake.
+        return ""
+
+    async def narrate(self, facts_vi: str, allowed_numbers: List[str]) -> str:
         return ""
 
 
@@ -141,3 +148,6 @@ class QwenVlm:
 
     async def answer_generally(self, question: str, history_vi: str = "") -> str:
         return await self._client.answer_generally(question, history_vi)
+
+    async def narrate(self, facts_vi: str, allowed_numbers: List[str]) -> str:
+        return await self._client.narrate(facts_vi, allowed_numbers)
