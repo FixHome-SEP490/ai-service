@@ -31,7 +31,7 @@ from app.services.pipeline import device_hint
 from app.services.pipeline.conversation import Conversation, get_conversation_store
 from app.services.pipeline.detector import Detection, Detector
 from app.services.pipeline.images import ImagePayload, load_base64_image
-from app.services.pipeline.knowledge_base import KnowledgeBase
+from app.services.pipeline.knowledge_base import KnowledgeBase, ServiceRef
 from app.services.pipeline.retriever import Retriever
 from app.services.pipeline.vlm import FaultCandidate, VisionLanguageModel, VlmVerdict
 
@@ -62,6 +62,10 @@ _TRADE_WORDS = (
     "khet", "nong", "lanh", "nuoc", "dien", "tho", "bao tri", "ve sinh",
     "lap dat", "thiet bi", "may ", "bong", "o cam", "cong tac", "voi", "bon",
     "ong ", "quat", "lo ", "bep", "tu ", "binh ", "aptomat", "gas",
+    # Asking what to book is the point of the whole conversation, and it was
+    # being refused as off-topic: "giờ tôi nên thuê dịch vụ nào" came back with
+    # "em chỉ hỗ trợ các vấn đề về điện, nước và đồ gia dụng".
+    "dich vu", "thue", "dat lich", "book", "goi tho", "bao gia", "sua",
 )
 """Words that place a question inside the trade.
 
@@ -172,7 +176,16 @@ class LocalPipeline:
         # fault report. Sent through, "chiến tranh thế giới xảy ra khi nào" came
         # back as three questions about what device was broken. The gate belongs
         # here rather than in a client: Backend calls this endpoint too.
-        if not request.images and not self._is_in_the_trade(request.description):
+        # A conversation already about an appliance stays about it. "Giờ tôi
+        # nên thuê dịch vụ nào" carries no device and no symptom of its own and
+        # is entirely on topic as the third message of a thread about a washing
+        # machine; judging each message alone threw that away.
+        in_scope = (
+            bool(request.images)
+            or chat.device_type is not None
+            or self._is_in_the_trade(chat.customer_text())
+        )
+        if not in_scope:
             return self._out_of_scope_response(request, chat, trace)
 
         detection = await self._detect_primary(request.images)
@@ -331,6 +344,11 @@ class LocalPipeline:
         # words against symptoms the team wrote.
         decisive = (
             bool(candidates)
+            # Never without knowing the appliance. Retrieval then searches all
+            # seventeen at once, and "cái này bị sọc" — a photograph of a
+            # television the detector had missed — scored a broken fan motor
+            # highly enough to be answered as settled.
+            and device_type is not None
             and candidates[0].score >= settings.RETRIEVAL_DECISIVE_SCORE
             # And the customer actually described something. The score divides
             # by the query's own length, so "hư rồi" matches a symptom
@@ -702,6 +720,15 @@ class LocalPipeline:
         if not shortlist:
             return self._no_answer_response(request, confidence, detection, chat, trace)
 
+        if chat is not None and chat.device_type is None:
+            # Committing to retrieval's ranking is only safe once the appliance
+            # is known. Without one it searches all seventeen at once: a
+            # photograph of a television the detector missed, described as "bị
+            # sọc", came back as a broken fan motor and a faulty thermostat,
+            # stated with confidence. Ask which appliance instead — that
+            # question is never one the customer has already answered.
+            return self._no_answer_response(request, confidence, detection, chat, trace)
+
         verdict = VlmVerdict(
             fault_codes=[f.fault_code for f in shortlist[:2]],
             confidence=min(confidence, 0.5),
@@ -786,7 +813,17 @@ class LocalPipeline:
                     source=source,
                 )
             )
-            for ref in self._kb.services_for_fault(fault.fault_code):
+            refs = self._kb.services_for_fault(fault.fault_code)
+            if not refs:
+                # Backend has not agreed a service catalogue, and waiting for it
+                # meant answering "giờ tôi nên thuê dịch vụ nào" with nothing at
+                # all. Every fault already names the labour row its floor price
+                # came from, so the service is known — only its Backend code is
+                # not, and that is the part Backend owns.
+                labour = self._kb.labour_row(fault.labour_code)
+                if labour is not None:
+                    refs = [ServiceRef(service_code=labour.code, name_vi=labour.name_vi)]
+            for ref in refs:
                 if all(s.service_code != ref.service_code for s in services):
                     services.append(
                         RecommendedService(

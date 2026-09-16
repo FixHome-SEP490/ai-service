@@ -273,6 +273,14 @@ class KnowledgeBase:
         """Empty while Backend has not supplied a catalog. Not an error."""
         return list(self._services.get(fault_code, []))
 
+    def labour_row(self, code: Optional[str]) -> Optional[PriceRow]:
+        """The labour service a fault maps to, by code."""
+        if not code:
+            return None
+        return next(
+            (r for r in self._prices if r.kind == "labour" and r.code == code), None
+        )
+
     @property
     def price_rows(self) -> List[PriceRow]:
         """Every labour and part line, for answering a question about cost."""

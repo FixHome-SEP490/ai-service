@@ -113,15 +113,22 @@ async def test_vietnamese_content_comes_from_knowledge_base():
 
 
 @pytest.mark.asyncio
-async def test_services_stay_empty_until_backend_supplies_a_mapping():
-    """Service codes are Backend's to define; an empty mapping is not an error."""
+async def test_the_service_to_book_comes_from_the_labour_table_meanwhile():
+    """Backend owns the service codes. It does not own the answer.
+
+    Waiting for that catalogue meant answering "giờ tôi nên thuê dịch vụ nào"
+    with nothing, in a conversation that had already named the fault. Every
+    fault records the labour row its floor price came from, so the service is
+    known; only Backend's code for it is not.
+    """
     pipeline = _pipeline(
         vlm=_FixedVlm(VlmVerdict(fault_codes=["FAN_WORN_BEARING"], confidence=0.9))
     )
     response = await _after_the_either_or(pipeline, "Quạt kêu cộc cộc", [_png()])
 
     assert response.suspected_faults
-    assert response.recommended_services == []
+    assert response.recommended_services
+    assert response.recommended_services[0].name_vi
 
 
 @pytest.mark.asyncio
