@@ -64,7 +64,13 @@ nhánh ống hoặc về đúng cái sen đó.
 Nước nóng yếu. Nước nóng ra nhỏ. Sen nóng không có nước. Bình không ra nước. Nước
 nóng chảy yếu.
 
-Nhóm này cần đúng một câu hỏi về nước lạnh, và thường là đủ để định hướng.
+Nhóm này cần đúng một câu hỏi về nước lạnh, và thường là đủ để định hướng. Nếu nước
+lạnh cũng yếu thì chuyện nằm ở áp lực nước của cả nhà; nếu nước lạnh mạnh thì chuyện
+nằm trên đường đi riêng của nước nóng.
+
+Có một câu trong nhóm này cần cẩn thận: "bình không ra nước". Nó có thể là nước yếu,
+nhưng cũng có thể là khoá vào bình đang đóng hẳn, hoặc nhà đang mất nước. Hỏi thêm
+một ý về nước lạnh là tách được cả ba.
 
 ## Khách gõ không dấu, gõ tắt
 
