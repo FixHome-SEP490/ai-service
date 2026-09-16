@@ -151,7 +151,11 @@ class QwenClient:
             {
                 "type": "text",
                 "text": _build_assess_prompt(
-                    description, device_type, candidates, candidate_condition_codes
+                    description,
+                    device_type,
+                    candidates,
+                    candidate_condition_codes,
+                    has_image=crop is not None,
                 ),
             }
         )
@@ -168,6 +172,7 @@ class QwenClient:
             raw,
             [c.code for c in candidates],
             [code for code, _ in candidate_condition_codes],
+            has_image=crop is not None,
         )
 
     async def answer(self, question: str, passages_vi: List[str]) -> tuple[str, float]:
@@ -207,6 +212,7 @@ def _build_assess_prompt(
     device_type: Optional[str],
     candidates: List[FaultCandidate],
     condition_codes: List[Tuple[str, str]],
+    has_image: bool = True,
 ) -> str:
     """Give the model something to reason with, not a list of identifiers.
 
@@ -215,11 +221,20 @@ def _build_assess_prompt(
     customer actually wrote. Retrieval's own score comes too: it says what the
     text alone suggested, which the photograph is there to confirm or overturn.
     """
-    device_line = (
-        f"Thiết bị đã được nhận diện từ ảnh: {device_type}"
-        if device_type
-        else "Không có ảnh, chỉ có mô tả của khách hàng."
-    )
+    # The device can be known without an image: carried from an earlier turn,
+    # or read from what the customer wrote. Saying "nhận diện từ ảnh" on a call
+    # that carries no image is a claim the model then acts on — asked about an
+    # oven with no photograph attached it answered "bề mặt thiết bị có vết nứt
+    # và trầy xước", describing damage in a picture nobody sent.
+    if device_type and has_image:
+        device_line = f"Thiết bị đã được nhận diện từ ảnh: {device_type}"
+    elif device_type:
+        device_line = (
+            f"Thiết bị: {device_type}. Lượt này KHÔNG có ảnh — chỉ có lời khách kể. "
+            "Để condition_codes rỗng, vì không có gì để nhìn."
+        )
+    else:
+        device_line = "Không có ảnh, chỉ có mô tả của khách hàng."
 
     lines = [
         device_line,
@@ -274,7 +289,10 @@ def _build_assess_prompt(
 
 
 def _parse_verdict(
-    raw: str, allowed_faults: List[str], allowed_conditions: List[str]
+    raw: str,
+    allowed_faults: List[str],
+    allowed_conditions: List[str],
+    has_image: bool = True,
 ) -> VlmVerdict:
     """Extract and validate the verdict, discarding anything unexpected.
 
@@ -301,6 +319,12 @@ def _parse_verdict(
 
     named_faults = _as_str_list(data.get("fault_codes"))
     named_conditions = _as_str_list(data.get("condition_codes"))
+    if not has_image:
+        # Nothing was looked at, so nothing was seen. The model returned
+        # ["crack", "scratch", "rust"] for a text-only call, which is not a
+        # judgement call to weigh — it is a description of a photograph that
+        # does not exist.
+        named_conditions = []
 
     # A code from our own vocabulary put in the wrong field is a slotting
     # mistake, not an invention, and dropping it throws away a correct answer.

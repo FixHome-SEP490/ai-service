@@ -113,9 +113,85 @@ def confusion_question(
     if devices_named_in(description, kb):
         return None  # already told us
 
+    # Prefer the question about something visible. "Bên trong có đĩa xoay
+    # không?" is answerable by anyone; "là lò vi sóng hay lò nướng?" is the
+    # question they came here unable to answer, handed back to them.
+    written = kb.confusion_question(device_type)
+    if written is not None:
+        return written.question_vi
+
     options = [device_type, *siblings]
     names = [kb.device_name_vi(o) or o for o in options]
     if len(names) == 2:
         return f"Cho em hỏi thiết bị là {names[0]} hay {names[1]} ạ?"
     listed = ", ".join(names[:-1])
     return f"Cho em hỏi thiết bị là {listed} hay {names[-1]} ạ?"
+
+
+_YES = {"co", "dung", "phai", "u", "um", "vang", "oke", "ok", "yes"}
+_NO = {"khong", "ko", "k", "hong", "chua", "no"}
+
+_UNSURE = (
+    "khong ro",
+    "khong biet",
+    "khong chac",
+    "khong nam",
+    "chua ro",
+    "khong hieu",
+    "sao biet",
+)
+"""Replies that contain a negative word and are not a negative answer.
+
+"Em không rõ lắm" is the customer saying they cannot tell, and reading it as
+"no" resolves the appliance from an answer they did not give. Better to leave it
+unsettled and let the turn ask again or fall through to a clarification."""
+
+_POLITE = {"da", "vang", "a", "e", "em", "anh", "chi", "the", "thi", "la", "thua"}
+"""Words that open a Vietnamese reply without changing it.
+
+"Dạ không" is how the answer actually arrives, and a check that only reads the
+first word or the whole string misses every polite one."""
+
+
+def resolve_confusion_answer(
+    answer: str, asked_about: str, kb: KnowledgeBase
+) -> Optional[str]:
+    """Turn the customer's reply into a device, or None if it settles nothing.
+
+    Three ways a reply can answer. It can name the device outright, which is
+    checked first because "lò nướng đó em" ends the matter. It can carry one of
+    the words the question was written to elicit — "gắn trên trần". Or it can be
+    a bare yes or no, which only means anything against the question that was
+    asked, which is why that question has to be remembered.
+    """
+    question = kb.confusion_question(asked_about)
+    if question is None:
+        return None
+
+    named = devices_named_in(answer, kb)
+    for hint in named:
+        if hint.device_type in question.devices:
+            return hint.device_type
+
+    folded = _fold(answer)
+    for word in question.yes_words_vi:
+        if _fold(word).strip() in folded:
+            return question.if_yes
+    for word in question.no_words_vi:
+        if _fold(word).strip() in folded:
+            return question.if_no
+
+    # "Không rõ" before anything else: it carries a negative word and is not a
+    # negative answer, and reading it as one settles the appliance from an
+    # answer the customer did not give.
+    if any(phrase in folded for phrase in _UNSURE):
+        return None
+
+    # A bare yes or no, after dropping the particles a reply opens with.
+    # Negative first, because "không có" contains "có".
+    words = [w for w in folded.split() if w not in _POLITE]
+    if any(w in _NO for w in words):
+        return question.if_no
+    if any(w in _YES for w in words):
+        return question.if_yes
+    return None

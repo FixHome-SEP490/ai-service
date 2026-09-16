@@ -54,14 +54,30 @@ def _pipeline(detector=None, vlm=None) -> LocalPipeline:
     )
 
 
+async def _after_the_either_or(pipeline, description, images=None):
+    """Run the turn that asks which appliance it is, then answer it.
+
+    A fan photograph is one of the pairs the detector cannot separate — a
+    ceiling fan and a standing fan have different faults and different labour
+    prices — so the first turn asks where it is mounted. These tests are about
+    what happens once that is settled.
+    """
+    first = await pipeline.diagnose(
+        DiagnosisRequest(description=description, images=images or [])
+    )
+    assert first.status == DiagnosisStatus.NEEDS_CLARIFICATION
+    return await pipeline.diagnose(
+        DiagnosisRequest(
+            description="quạt đứng dưới sàn ạ", session_id=first.session_id
+        )
+    )
+
+
 @pytest.mark.asyncio
 async def test_detected_device_narrows_faults_to_that_device():
     pipeline = _pipeline()
-    response = await pipeline.diagnose(
-        DiagnosisRequest(
-            description="Quạt kêu cộc cộc và quay chậm",
-            images=[_png()],
-        )
+    response = await _after_the_either_or(
+        pipeline, "Quạt kêu cộc cộc và quay chậm", [_png()]
     )
 
     assert response.status == DiagnosisStatus.OK
@@ -76,9 +92,7 @@ async def test_vietnamese_content_comes_from_knowledge_base():
     pipeline = _pipeline(
         vlm=_FixedVlm(VlmVerdict(fault_codes=["FAN_WORN_BEARING"], confidence=0.9))
     )
-    response = await pipeline.diagnose(
-        DiagnosisRequest(description="Quạt kêu cộc cộc", images=[_png()])
-    )
+    response = await _after_the_either_or(pipeline, "Quạt kêu cộc cộc", [_png()])
 
     fault = kb.fault("FAN_WORN_BEARING")
     assert response.suspected_faults[0].name_vi == fault.name_vi
@@ -100,9 +114,7 @@ async def test_services_stay_empty_until_backend_supplies_a_mapping():
     pipeline = _pipeline(
         vlm=_FixedVlm(VlmVerdict(fault_codes=["FAN_WORN_BEARING"], confidence=0.9))
     )
-    response = await pipeline.diagnose(
-        DiagnosisRequest(description="Quạt kêu cộc cộc", images=[_png()])
-    )
+    response = await _after_the_either_or(pipeline, "Quạt kêu cộc cộc", [_png()])
 
     assert response.suspected_faults
     assert response.recommended_services == []

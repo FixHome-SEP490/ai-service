@@ -94,11 +94,45 @@ def test_nothing_named_and_nothing_detected():
 
 # ------------------------------------------------------- asking, sparingly
 
-def test_a_confusable_detection_produces_one_question():
+def test_a_confusable_detection_asks_about_something_the_customer_can_see():
+    """Not "is it a microwave or an oven?".
+
+    Someone who could answer that would not have needed the photograph
+    diagnosed. The question has to be about a turntable, a wall mount, a thing
+    in front of them — otherwise it hands the hard part back to the person who
+    came for help.
+    """
     question = device_hint.confusion_question("oven", "nướng không chín", KB)
 
     assert question is not None
-    assert "Lò nướng" in question and "Lò vi sóng" in question
+    assert "đĩa" in question, question
+    assert "Lò vi sóng" not in question, "asks them to name the category again"
+
+
+def test_the_answer_settles_the_device():
+    resolve = device_hint.resolve_confusion_answer
+    assert resolve("có ạ", "oven", KB) == "microwave_oven"
+    assert resolve("không có", "oven", KB) == "oven"
+    assert resolve("dạ không", "oven", KB) == "oven"
+
+
+def test_naming_the_device_outright_wins_over_the_yes_or_no():
+    """"không phải lò nướng, là lò vi sóng" starts with a no and means yes."""
+    settled = device_hint.resolve_confusion_answer(
+        "không phải lò nướng đâu, lò vi sóng ạ", "oven", KB
+    )
+    assert settled == "microwave_oven"
+
+
+def test_an_answer_about_where_the_fan_is_mounted_settles_it():
+    resolve = device_hint.resolve_confusion_answer
+    assert resolve("quạt gắn trên trần ạ", "electric_fan", KB) == "ceiling_fan"
+    assert resolve("quạt cây đứng dưới sàn", "ceiling_fan", KB) == "electric_fan"
+
+
+def test_an_answer_that_settles_nothing_returns_nothing():
+    """Guessing from an unrelated reply is worse than asking again."""
+    assert device_hint.resolve_confusion_answer("em không rõ lắm", "oven", KB) is None
 
 
 def test_nothing_is_asked_when_the_customer_already_said():
@@ -122,3 +156,13 @@ def test_confusion_is_symmetric(device):
     """One direction asking and the other staying silent would be a bug."""
     for sibling in KB.confusable_with(device):
         assert device in KB.confusable_with(sibling)
+
+
+def test_not_knowing_is_not_a_no():
+    """"Em không rõ lắm" carries a negative word and is not a negative answer.
+
+    Reading it as one settles the appliance from an answer the customer never
+    gave, and they would never see where it went wrong.
+    """
+    for reply in ["em không rõ lắm", "không biết nữa ạ", "em chưa rõ"]:
+        assert device_hint.resolve_confusion_answer(reply, "oven", KB) is None, reply

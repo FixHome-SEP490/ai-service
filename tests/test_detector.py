@@ -144,3 +144,23 @@ def test_an_invented_code_is_still_refused():
     assert verdict.fault_codes == []
     assert verdict.condition_codes == []
     assert verdict.confidence == 0.0
+
+
+def test_nothing_was_seen_when_nothing_was_sent():
+    """A text-only call came back describing cracks and scratches.
+
+    There was no photograph. The model was told "thiết bị đã được nhận diện từ
+    ảnh" on a call carrying no image, and obliged. Whatever it claims to have
+    seen, a turn with no image saw nothing.
+    """
+    from app.services.pipeline.qwen_client import _parse_verdict
+
+    verdict = _parse_verdict(
+        '{"fault_codes": ["OVEN_THERMOSTAT"], "condition_codes": ["crack", "rust"],'
+        ' "confidence": 0.8}',
+        allowed_faults=["OVEN_THERMOSTAT"],
+        allowed_conditions=["crack", "rust"],
+        has_image=False,
+    )
+    assert verdict.fault_codes == ["OVEN_THERMOSTAT"]
+    assert verdict.condition_codes == []

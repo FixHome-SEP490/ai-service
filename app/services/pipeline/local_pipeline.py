@@ -77,6 +77,30 @@ class LocalPipeline:
         if detected is None and chat.device_type:
             detected = chat.device_type
 
+        # If the last turn asked which of two look-alike appliances this is,
+        # this message may be the answer. Reading it before anything else means
+        # "không" settles the device instead of being one more symptom.
+        if chat.awaiting_confusion_about:
+            settled = device_hint.resolve_confusion_answer(
+                request.description, chat.awaiting_confusion_about, self._kb
+            )
+            if settled:
+                detected = settled
+                # Still "image". The photograph established it and the answer
+                # only chose between the two appliances that photograph could
+                # not separate, so this is better evidence than the detection
+                # alone, not worse. Recording it as coming from the description
+                # made _resolve_device stop reporting the device at all, and
+                # the turn that finally knew the appliance was the one that
+                # claimed not to.
+                chat.remember_device(settled, chat.device_confidence, "image")
+            # Cleared either way. An answer that settles nothing — "em không rõ
+            # lắm" — has still been given, and putting the same question a
+            # second time is how a support bot proves it is a form. Carry on
+            # with the detector's own guess and say so through confidence.
+            chat.awaiting_confusion_about = None
+            chat.confusion_resolved = True
+
         # The photograph is ambiguous between a microwave and an oven; a
         # sentence saying "lò vi sóng" is not. Believe the words.
         device_type, _hint = device_hint.resolve(
@@ -84,7 +108,11 @@ class LocalPipeline:
         )
         if detection is not None:
             chat.remember_device(detection.device_type, detection.confidence, "image")
-        elif device_type:
+        elif device_type and chat.device_source_vi != "image":
+            # Only when nothing better is already known. Without the guard this
+            # overwrote the appliance a photograph had established — including
+            # the one the customer had just confirmed by answering the either/or
+            # — and _resolve_device then stopped reporting a device at all.
             chat.remember_device(device_type, 0.0, "description")
 
         # Symptoms arrive one message at a time: "máy không mát", then later "à
@@ -116,6 +144,24 @@ class LocalPipeline:
 
         confidence = self._combine_confidence(detection, verdict.confidence)
         shortlist = [c.fault for c in candidates]
+
+        # Ask which of two look-alike appliances this is before committing to a
+        # diagnosis, even when confidence is high — especially then. The
+        # dangerous case is the detector being sure and wrong: an oven came back
+        # as a microwave at 0.84, and a confident "Lò vi sóng, hỏng sò cao tần,
+        # 600.000đ" about someone's oven is worse than one more turn. Asked once
+        # per conversation, and never when the customer has already said.
+        if (
+            detection is not None
+            and chat.awaiting_confusion_about is None
+            and not chat.confusion_resolved
+            and self._kb.confusable_with(detection.device_type)
+            and not device_hint.devices_named_in(chat.customer_text(), self._kb)
+        ):
+            return self._clarification_response(
+                request, confidence, shortlist, detection, chat
+            )
+
         if confidence < settings.AI_CONFIDENCE_THRESHOLD:
             return self._clarification_response(
                 request, confidence, shortlist, detection, chat
@@ -241,6 +287,8 @@ class LocalPipeline:
         )
         if confusion and confusion not in questions:
             questions = [confusion, *questions][: clarifier.MAX_QUESTIONS]
+            if chat is not None and detection is not None:
+                chat.awaiting_confusion_about = detection.device_type
 
         if chat is not None:
             # Drop anything already put to this customer, then record what is

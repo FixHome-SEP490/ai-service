@@ -308,5 +308,80 @@
       "name_vi": "Cũ, xuống cấp"
     }
   ],
-  "_comment_aliases_vi": "aliases_vi la cach khach hang goi thiet bi. Neu mo ta da nhac ten thiet bi thi tin theo do, khong hoi lai. confusable_with la cac lop nguoi nhin cung de nham, chi hoi khi detector chon mot trong hai ma mo ta khong nhac ten nao."
+  "_comment_aliases_vi": "aliases_vi la cach khach hang goi thiet bi. Neu mo ta da nhac ten thiet bi thi tin theo do, khong hoi lai. confusable_with la cac lop nguoi nhin cung de nham, chi hoi khi detector chon mot trong hai ma mo ta khong nhac ten nao.",
+  "_comment_confusion_vi": "Cau hoi tach hai thiet bi de lan. Hoi ve mot dau hieu khach NHIN THAY duoc, khong hoi 'la lo vi song hay lo nuong' — khach khong phan biet duoc hai cai do thi moi phai nho AI. Tra loi co/khong deu ra duoc mot thiet bi.",
+  "confusion_questions": [
+    {
+      "devices": [
+        "microwave_oven",
+        "oven"
+      ],
+      "question_vi": "Bên trong lò có đĩa thuỷ tinh tròn xoay khi chạy không ạ?",
+      "if_yes": "microwave_oven",
+      "if_no": "oven"
+    },
+    {
+      "devices": [
+        "ceiling_fan",
+        "electric_fan"
+      ],
+      "question_vi": "Quạt nhà mình gắn cố định trên trần hay là quạt đứng dưới sàn, treo tường ạ?",
+      "if_yes": "ceiling_fan",
+      "if_no": "electric_fan",
+      "yes_words_vi": [
+        "trần",
+        "gắn trần",
+        "âm trần"
+      ],
+      "no_words_vi": [
+        "sàn",
+        "đứng",
+        "treo tường",
+        "bàn",
+        "cây"
+      ]
+    },
+    {
+      "devices": [
+        "sink",
+        "faucet"
+      ],
+      "question_vi": "Chỗ đang hỏng là cái chậu rửa và đường thoát bên dưới, hay là cái vòi nước ạ?",
+      "if_yes": "sink",
+      "if_no": "faucet",
+      "yes_words_vi": [
+        "chậu",
+        "bồn",
+        "thoát",
+        "cống",
+        "dưới bồn"
+      ],
+      "no_words_vi": [
+        "vòi",
+        "sen",
+        "tay gạt",
+        "đầu vòi"
+      ]
+    },
+    {
+      "devices": [
+        "power_outlet",
+        "light_bulb"
+      ],
+      "question_vi": "Chỗ đang hỏng là ổ cắm điện trên tường hay là bóng đèn ạ?",
+      "if_yes": "power_outlet",
+      "if_no": "light_bulb",
+      "yes_words_vi": [
+        "ổ cắm",
+        "ổ điện",
+        "phích",
+        "cắm"
+      ],
+      "no_words_vi": [
+        "đèn",
+        "bóng",
+        "chiếu sáng"
+      ]
+    }
+  ]
 }
