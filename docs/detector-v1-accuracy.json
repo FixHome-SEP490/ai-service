@@ -1,0 +1,227 @@
+{
+  "weights": "weights/detector-v1/detector-v1/weights/best.pt",
+  "split": "test",
+  "classes": [
+    {
+      "class": "air_conditioner",
+      "n": 461,
+      "correct": 447,
+      "missed": 6,
+      "wrong": 8,
+      "accuracy": 0.9696,
+      "confused_with": {
+        "television": 1,
+        "toilet": 1,
+        "washing_machine": 1
+      }
+    },
+    {
+      "class": "power_outlet",
+      "n": 128,
+      "correct": 98,
+      "missed": 8,
+      "wrong": 22,
+      "accuracy": 0.7656,
+      "confused_with": {
+        "water_heater": 5,
+        "sink": 3,
+        "electric_fan": 2
+      }
+    },
+    {
+      "class": "kettle",
+      "n": 112,
+      "correct": 98,
+      "missed": 2,
+      "wrong": 12,
+      "accuracy": 0.875,
+      "confused_with": {
+        "electric_fan": 2,
+        "toilet": 2,
+        "oven": 2
+      }
+    },
+    {
+      "class": "electric_fan",
+      "n": 111,
+      "correct": 94,
+      "missed": 6,
+      "wrong": 11,
+      "accuracy": 0.8468,
+      "confused_with": {
+        "gas_stove": 3,
+        "light_bulb": 2,
+        "kettle": 1
+      }
+    },
+    {
+      "class": "gas_stove",
+      "n": 97,
+      "correct": 81,
+      "missed": 4,
+      "wrong": 12,
+      "accuracy": 0.8351,
+      "confused_with": {
+        "oven": 4,
+        "washing_machine": 2,
+        "toilet": 2
+      }
+    },
+    {
+      "class": "television",
+      "n": 90,
+      "correct": 79,
+      "missed": 3,
+      "wrong": 8,
+      "accuracy": 0.8778,
+      "confused_with": {
+        "air_conditioner": 3,
+        "oven": 2,
+        "water_pipe": 1
+      }
+    },
+    {
+      "class": "toilet",
+      "n": 82,
+      "correct": 63,
+      "missed": 5,
+      "wrong": 14,
+      "accuracy": 0.7683,
+      "confused_with": {
+        "sink": 4,
+        "water_heater": 3,
+        "electric_fan": 2
+      }
+    },
+    {
+      "class": "microwave_oven",
+      "n": 78,
+      "correct": 60,
+      "missed": 3,
+      "wrong": 15,
+      "accuracy": 0.7692,
+      "confused_with": {
+        "oven": 7,
+        "water_pipe": 2,
+        "toilet": 1
+      }
+    },
+    {
+      "class": "washing_machine",
+      "n": 75,
+      "correct": 66,
+      "missed": 0,
+      "wrong": 9,
+      "accuracy": 0.88,
+      "confused_with": {
+        "light_bulb": 2,
+        "microwave_oven": 2,
+        "toilet": 1
+      }
+    },
+    {
+      "class": "ceiling_fan",
+      "n": 73,
+      "correct": 64,
+      "missed": 2,
+      "wrong": 7,
+      "accuracy": 0.8767,
+      "confused_with": {
+        "electric_fan": 2,
+        "light_bulb": 2,
+        "faucet": 1
+      }
+    },
+    {
+      "class": "refrigerator",
+      "n": 72,
+      "correct": 61,
+      "missed": 6,
+      "wrong": 5,
+      "accuracy": 0.8472,
+      "confused_with": {
+        "television": 1,
+        "sink": 1,
+        "power_outlet": 1
+      }
+    },
+    {
+      "class": "oven",
+      "n": 68,
+      "correct": 50,
+      "missed": 3,
+      "wrong": 15,
+      "accuracy": 0.7353,
+      "confused_with": {
+        "microwave_oven": 7,
+        "light_bulb": 2,
+        "power_outlet": 1
+      }
+    },
+    {
+      "class": "light_bulb",
+      "n": 66,
+      "correct": 47,
+      "missed": 2,
+      "wrong": 17,
+      "accuracy": 0.7121,
+      "confused_with": {
+        "television": 3,
+        "toilet": 3,
+        "ceiling_fan": 2
+      }
+    },
+    {
+      "class": "sink",
+      "n": 59,
+      "correct": 45,
+      "missed": 2,
+      "wrong": 12,
+      "accuracy": 0.7627,
+      "confused_with": {
+        "toilet": 3,
+        "faucet": 2,
+        "microwave_oven": 2
+      }
+    },
+    {
+      "class": "water_heater",
+      "n": 53,
+      "correct": 41,
+      "missed": 1,
+      "wrong": 11,
+      "accuracy": 0.7736,
+      "confused_with": {
+        "electric_fan": 2,
+        "kettle": 2,
+        "toilet": 2
+      }
+    },
+    {
+      "class": "water_pipe",
+      "n": 51,
+      "correct": 37,
+      "missed": 2,
+      "wrong": 12,
+      "accuracy": 0.7255,
+      "confused_with": {
+        "water_heater": 2,
+        "faucet": 2,
+        "electric_fan": 1
+      }
+    },
+    {
+      "class": "faucet",
+      "n": 43,
+      "correct": 35,
+      "missed": 2,
+      "wrong": 6,
+      "accuracy": 0.814,
+      "confused_with": {
+        "toilet": 2,
+        "water_pipe": 1,
+        "water_heater": 1
+      }
+    }
+  ]
+}
