@@ -37,7 +37,18 @@ logger = logging.getLogger(__name__)
 _JSON_BLOCK = re.compile(r"\{.*\}", re.DOTALL)
 
 _ASSESS_SYSTEM = (
-    "Bạn là trợ lý kỹ thuật của FixHome. Nhiệm vụ duy nhất của bạn là chọn mã "
+    # The first two sentences are not politeness. Asked "ổ cắm có bị cháy đen
+    # không?" the model replied "tôi không thể xem hình ảnh của bạn", then in
+    # the next breath answered "màu trắng" when asked the colour of the same
+    # socket. It can see; a question shaped as judging a condition is what it
+    # declines. Saying outright that it is looking at a photograph, and asking
+    # it to describe rather than to assess, stopped the refusals: it went on to
+    # count four sockets, report their surfaces as clean, and pick the right
+    # code from a closed list, all of which it had refused a moment earlier.
+    "Bạn là bộ phận thị giác của hệ thống FixHome. Bạn LUÔN nhìn thấy bức ảnh "
+    "được gửi kèm. Hãy mô tả những gì quan sát được trong ảnh, không đưa lời "
+    "khuyên và không hướng dẫn cách xử lý.\n"
+    "Nhiệm vụ duy nhất của bạn là chọn mã "
     "trong danh sách được cung cấp. Tuyệt đối không tạo ra mã mới, không giải "
     "thích dài dòng, không viết nội dung cho khách hàng.\n"
     "Chỉ trả về JSON đúng định dạng:\n"
@@ -213,6 +224,13 @@ def _build_assess_prompt(
     lines = [
         device_line,
         "",
+        # Two closed vocabularies, and the model has put a member of one into
+        # the other's field. They are told apart by case, which is worth saying
+        # outright rather than leaving to be inferred from the examples.
+        "Có hai danh sách mã riêng biệt. Mã hư hỏng VIẾT HOA và chỉ đặt vào"
+        " fault_codes. Mã dấu hiệu nhìn thấy viết thường và chỉ đặt vào"
+        " condition_codes.",
+        "",
         f'Khách hàng mô tả: "{description}"',
         "",
         "Các khả năng hư hỏng đang cân nhắc, kèm những cách khách hàng thường mô tả:",
@@ -228,15 +246,23 @@ def _build_assess_prompt(
         lines.append("")
 
     lines += [
-        "Dấu hiệu hư hại nhìn thấy được, chỉ chọn trong danh sách này:",
+        "Dấu hiệu hư hại nhìn thấy được. Đây là danh sách RIÊNG, các mã này"
+        " viết thường và chỉ được đặt vào condition_codes, không bao giờ đặt vào"
+        " fault_codes:",
         "",
     ]
     lines += [f"- {code} — {name_vi}" for code, name_vi in condition_codes]
     lines += [
         "",
         "Nhiệm vụ:",
-        "1. Nhìn ảnh, ghi lại dấu hiệu hư hại thật sự thấy được. Không thấy gì rõ"
-        " ràng thì để mảng rỗng, đừng suy đoán từ mô tả.",
+        # "Ghi lại dấu hiệu hư hại" asks for a verdict, and a verdict is what
+        # the model declines to give about a photograph. Asking what the
+        # surface looks like, then which code that appearance matches, is the
+        # same question in two steps it will actually answer.
+        "1. Quan sát bề mặt thiết bị trong ảnh: màu sắc, vết bẩn, vết đen, vết"
+        " nứt, vết rỉ, lớp tuyết bám. Mã nào trong danh sách trên mô tả đúng"
+        " cái đang nhìn thấy thì chọn mã đó. Bề mặt bình thường thì để mảng"
+        " rỗng, và đừng suy ra dấu hiệu từ lời khách kể.",
         "2. Đối chiếu mô tả của khách với triệu chứng của từng khả năng ở trên,"
         " chọn tối đa ba mã, xếp theo mức khả năng giảm dần.",
         "3. Đặt confidence theo mức chắc chắn thật. Mô tả mơ hồ hoặc nhiều khả"
@@ -273,15 +299,32 @@ def _parse_verdict(
     allowed_fault_set = set(allowed_faults)
     allowed_condition_set = set(allowed_conditions)
 
-    faults = [
-        code
-        for code in _as_str_list(data.get("fault_codes"))
-        if code in allowed_fault_set
-    ][:3]
+    named_faults = _as_str_list(data.get("fault_codes"))
+    named_conditions = _as_str_list(data.get("condition_codes"))
+
+    # A code from our own vocabulary put in the wrong field is a slotting
+    # mistake, not an invention, and dropping it throws away a correct answer.
+    # Asked about a socket described as "cháy đen, có mùi khét" the model
+    # returned {"fault_codes": ["burn_mark"], "condition_codes": []}: burn_mark
+    # is a real visible-condition code, and discarding it left the most urgent
+    # case in the catalogue with an empty diagnosis. Anything in neither list
+    # is still refused.
+    misplaced_conditions = [c for c in named_faults if c in allowed_condition_set]
+    misplaced_faults = [c for c in named_conditions if c in allowed_fault_set]
+    if misplaced_conditions or misplaced_faults:
+        logger.info(
+            "qwen_codes_in_wrong_field",
+            extra={
+                "conditions_in_faults": misplaced_conditions,
+                "faults_in_conditions": misplaced_faults,
+            },
+        )
+
+    faults = [c for c in [*named_faults, *misplaced_faults] if c in allowed_fault_set][:3]
     conditions = [
-        code
-        for code in _as_str_list(data.get("condition_codes"))
-        if code in allowed_condition_set
+        c
+        for c in [*named_conditions, *misplaced_conditions]
+        if c in allowed_condition_set
     ]
 
     confidence = data.get("confidence", 0.0)
@@ -292,9 +335,11 @@ def _parse_verdict(
     confidence = min(max(confidence, 0.0), 1.0)
 
     if not faults:
-        # Every code it named was outside the shortlist, so there is nothing to
-        # report even if it sounded certain.
-        return VlmVerdict(confidence=0.0)
+        # Every fault it named was outside the shortlist, so there is nothing to
+        # diagnose even if it sounded certain. What it saw on the surface is
+        # kept: that observation is real, and the clarification turn can use it
+        # rather than starting from nothing.
+        return VlmVerdict(condition_codes=conditions, confidence=0.0)
 
     reason = data.get("reason")
     return VlmVerdict(

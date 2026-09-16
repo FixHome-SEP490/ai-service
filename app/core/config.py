@@ -19,6 +19,23 @@ class Settings(BaseSettings):
     VLM_MODEL_NAME: str = "Qwen/Qwen2.5-VL-3B-Instruct-AWQ"
     VLM_TIMEOUT_SECONDS: float = 8.0
     VLM_API_KEY: str = ""
+
+    VLM_REPORT_VISIBLE_CONDITIONS: bool = False
+    """Whether the damage the model claims to see is shown to the customer.
+
+    Off, because it is not true yet. Shown a clean stock photograph of a
+    refrigerator the model reported a crack, rust and a water leak; on a clean
+    air conditioner, a crack and rust. Asked in the other direction — "có vết
+    cháy đen không?" — it answered no, and asked to describe instead it said
+    "một hình tròn màu đen", seeing the mark without naming it as damage.
+
+    A wrong fault code is a wrong guess about something nobody can see. Telling
+    a customer their refrigerator is cracked when the photo they just took shows
+    it is not is a different kind of wrong: they can check, and they will.
+
+    The fault codes are unaffected — they come from the customer's words against
+    a retrieved shortlist, and those are reported as before. Turn this on once
+    there are photographs of real damage to measure against."""
     """Only needed if the vLLM endpoint was started with --api-key."""
 
     # Retrieval

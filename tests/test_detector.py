@@ -110,3 +110,37 @@ def test_the_vlm_address_is_accepted_with_or_without_the_v1_suffix(given):
 
     client = QwenClient(base_url=given, model_name="m", timeout_seconds=1.0)
     assert client._url == "http://host:8000/v1/chat/completions"
+
+
+def test_a_code_in_the_wrong_field_is_moved_rather_than_discarded():
+    """burn_mark is a real condition code the model put under fault_codes.
+
+    Dropping it left a socket described as "cháy đen, có mùi khét" with an
+    empty diagnosis: the most urgent case in the catalogue, silently lost. A
+    code from our own vocabulary in the wrong slot is a mistake about where to
+    put it, not an invention.
+    """
+    from app.services.pipeline.qwen_client import _parse_verdict
+
+    verdict = _parse_verdict(
+        '{"fault_codes": ["burn_mark", "OUTLET_SHORT_CIRCUIT"],'
+        ' "condition_codes": [], "confidence": 0.7}',
+        allowed_faults=["OUTLET_SHORT_CIRCUIT", "OUTLET_OVERLOAD"],
+        allowed_conditions=["burn_mark", "crack"],
+    )
+    assert verdict.fault_codes == ["OUTLET_SHORT_CIRCUIT"]
+    assert verdict.condition_codes == ["burn_mark"]
+
+
+def test_an_invented_code_is_still_refused():
+    from app.services.pipeline.qwen_client import _parse_verdict
+
+    verdict = _parse_verdict(
+        '{"fault_codes": ["OUTLET_ON_FIRE"], "condition_codes": ["smells_bad"],'
+        ' "confidence": 0.9}',
+        allowed_faults=["OUTLET_SHORT_CIRCUIT"],
+        allowed_conditions=["burn_mark"],
+    )
+    assert verdict.fault_codes == []
+    assert verdict.condition_codes == []
+    assert verdict.confidence == 0.0
