@@ -162,6 +162,24 @@ class DiagnosisRequest(BaseModel):
     model_config = ConfigDict(alias_generator=to_camel, populate_by_name=True, extra="forbid")
 
 
+class ModelInfo(BaseModel):
+    """What produced this answer, for the audit trail section 8.4 requires.
+
+    Backend stores provider, model and version against every diagnosis so a
+    complaint months later can be traced to the thing that made the claim.
+    Without it a stored result says only "the AI said so", and the model it
+    names will have been replaced by then.
+    """
+
+    detector: Optional[str] = None
+    """Detector weights in use, or absent when running on the stub."""
+
+    vlm: Optional[str] = None
+    knowledge_base_version: Optional[str] = None
+
+    model_config = ConfigDict(alias_generator=to_camel, populate_by_name=True)
+
+
 class DiagnosisResponse(BaseModel):
     request_id: Optional[str] = None
     session_id: Optional[str] = None
@@ -179,6 +197,7 @@ class DiagnosisResponse(BaseModel):
     confidence: float = Field(default=0.0, ge=0.0, le=1.0)
     is_low_confidence: bool = Field(default=False)
     clarification: Optional[Clarification] = None
+    model_info: Optional[ModelInfo] = None
     disclaimer_vi: str
 
     model_config = ConfigDict(alias_generator=to_camel, populate_by_name=True)

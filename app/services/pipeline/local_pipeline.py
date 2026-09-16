@@ -15,6 +15,7 @@ from app.schemas.diagnosis import (
     DiagnosisResponse,
     DiagnosisStatus,
     Engine,
+    ModelInfo,
     EvidenceSource,
     PriceEstimate,
     RecommendedService,
@@ -54,6 +55,14 @@ class LocalPipeline:
         self._retriever = retriever
         self._kb = kb
         self._conversations = get_conversation_store()
+        kb_version = getattr(kb, "version", None)
+        self._model_info = ModelInfo(
+            # Path rather than a name, because the name is always "best.pt" and
+            # the run it came from is the only thing that identifies it.
+            detector=settings.YOLO_WEIGHTS_PATH or None,
+            vlm=settings.VLM_MODEL_NAME if settings.VLM_BASE_URL else None,
+            knowledge_base_version=kb_version,
+        )
 
     async def diagnose(self, request: DiagnosisRequest) -> DiagnosisResponse:
         chat = self._conversations.get_or_create(request.session_id)
@@ -254,6 +263,7 @@ class LocalPipeline:
                 questions_vi=questions,
                 service_group_codes=self._kb.all_service_groups(),
             ),
+            model_info=self._model_info,
             disclaimer_vi=settings.AI_DISCLAIMER_VI,
         )
 
@@ -341,6 +351,7 @@ class LocalPipeline:
             urgency=urgency,
             confidence=confidence,
             is_low_confidence=False,
+            model_info=self._model_info,
             disclaimer_vi=settings.AI_DISCLAIMER_VI,
         )
 

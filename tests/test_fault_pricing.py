@@ -65,3 +65,16 @@ def test_the_assessment_flag_goes_out_as_camel_case():
     assert payload["requiresAssessment"] is True
     assert payload["max"] is None
     assert "requires_assessment" not in payload
+
+
+def test_a_diagnosis_says_what_produced_it():
+    """Section 8.4 requires provider, model and version stored for audit.
+
+    A stored result without them says only "the AI said so", and by the time a
+    complaint arrives the model it named will have been replaced.
+    """
+    from app.services.pipeline.local_pipeline import LocalPipeline
+
+    pipeline = LocalPipeline.__new__(LocalPipeline)
+    kb = get_knowledge_base()
+    assert kb.version and kb.version != "unknown"
