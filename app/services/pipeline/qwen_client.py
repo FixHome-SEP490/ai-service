@@ -101,12 +101,8 @@ _ANSWER_SYSTEM = (
     "Khi trả lời được thì viết tiếng Việt tự nhiên, ngắn gọn, tối đa bốn câu. "
     "Không bịa giá, không hứa thời gian, không thay kỹ thuật viên kết luận.\n"
     "\n"
-    "Nói như nhân viên đang nhắn tin với khách, không như một dòng trích từ tài "
-    "liệu. Xưng em, gọi khách là anh/chị, và có chữ 'dạ' hoặc 'ạ' cho đúng "
-    "giọng. 'Máy lạnh nên vệ sinh ba đến sáu tháng một lần.' là đúng nội dung "
-    "và cụt lủn; 'Dạ máy lạnh nhà mình nên vệ sinh khoảng ba đến sáu tháng một "
-    "lần anh/chị nhé.' mới là câu người thật nhắn.\n"
-    "Không xin lỗi. Khách hỏi thông tin chứ không khiếu nại."
+    "Mở đầu bằng 'Dạ', xưng em, gọi khách là anh/chị, kết câu bằng 'ạ' hoặc "
+    "'nhé' — giọng nhân viên đang nhắn tin, không phải một dòng trích tài liệu."
 )
 
 _SAFETY_ANSWER_SYSTEM = (
@@ -160,6 +156,32 @@ business then has to honour, and those three come from the tables and the
 technician, never from a model.
 """
 
+_APOLOGY = re.compile(
+    r"^\s*(dạ\s*)?(em\s+|mình\s+|chúng\s+tôi\s+)?(rất\s+)?xin\s+lỗi[^.!?\n]*[.!?\n]\s*",
+    re.IGNORECASE,
+)
+
+
+def _strip_apology(text: str) -> str:
+    """Remove an apology the answer opens with.
+
+    A customer reporting a broken appliance is not complaining about FixHome,
+    so an apology puts the fault in the wrong place and makes the conclusion
+    read as backing away from it. Instructing the model not to apologise made
+    it worse: shown the prohibition, a 3B model opened with the prohibition.
+
+    Only the opening, and only whole sentences of it. An apology in the middle
+    of an answer is usually attached to something real — a delay, a limit — and
+    cutting text out of the middle of a sentence is how a fluent answer becomes
+    an incoherent one.
+    """
+    previous = None
+    while previous != text:
+        previous = text
+        text = _APOLOGY.sub("", text, count=1)
+    return text.strip()
+
+
 _OUT_OF_SCOPE = "NGOAI_PHAM_VI"
 
 _NARRATE_SYSTEM = (
@@ -177,12 +199,21 @@ _NARRATE_SYSTEM = (
     "- Xưng em, gọi khách là anh/chị.\n"
     "- Bốn tới sáu câu, liền mạch, không gạch đầu dòng.\n"
     "- Không hứa thời gian, không khẳng định chắc chắn, không nhắc tới bảo hành.\n"
-    "\n"
-    "TUYỆT ĐỐI KHÔNG xin lỗi. Khách báo thiết bị hỏng, không phải khiếu nại "
-    "FixHome, nên 'em xin lỗi' đặt sai lỗi và làm câu kết luận nghe như đang "
-    "chối việc. Nêu kết quả bình thường, dứt khoát, rồi mời đặt thợ.\n"
-    "Câu cuối luôn là lời mời đặt dịch vụ, chủ động, không chờ khách hỏi."
+    "- Vào thẳng kết quả, giọng bình thường và dứt khoát.\n"
+    "- Câu cuối mời khách đặt dịch vụ, gọi đúng tên dịch vụ được cho.\n"
+    "- Viết thành đoạn văn xuôi, không chép lại các nhãn ở phần dữ liệu."
 )
+"""Written as what to do, never as what not to.
+
+A 3B model repeats what it is shown. Told "tuyệt đối không xin lỗi, khách báo
+thiết bị hỏng chứ không phải khiếu nại FixHome", it opened its next answer
+with "Xin lỗi, em hiểu nhầm rồi. Khách báo rằng thiết bị hỏng, nhưng không
+phải khiếu nại FixHome." — the prohibition, the reasoning, and two apologies.
+The advisory prompt had the same accident: given the blunt sentence as an
+example of what to avoid, it produced that exact sentence.
+
+What must not happen is enforced after the fact instead. See _strip_apology.
+"""
 """Wording only. The facts are handed over and may not be touched.
 
 The reply was assembled from a template and read like one: same shape, same
@@ -399,7 +430,7 @@ class QwenClient:
         if raw is None:
             return ""
 
-        text = raw.strip()
+        text = _strip_apology(raw.strip())
         if not text or _declines(text):
             return ""
 
