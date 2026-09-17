@@ -650,8 +650,19 @@ class QwenClient:
         if raw is None:
             return "", 0.0
 
-        text = raw.strip()
+        # The same cleaning the general path has always done. This one skipped
+        # it, so the surface a customer actually types into was the surface
+        # that said "Bạn nên khoá van nước trước, sau đó tôi sẽ trả lời chi tiết
+        # hơn" — wrong pronouns on both sides, and a promise to answer later
+        # that nothing will ever keep.
+        text = _fix_spelling(_fix_pronouns(_strip_apology(raw.strip())))
         if not text or _declines(text):
+            return "", 0.0
+        if _sends_the_customer_away(text):
+            # A repair company's assistant telling its own customer to find a
+            # technician somewhere else. The caller turns an empty answer into
+            # a question, which is worse for nobody.
+            logger.warning("qwen_grounded_answer_referred_elsewhere")
             return "", 0.0
 
         # The first retrieved passage is the best match, so a longer list means

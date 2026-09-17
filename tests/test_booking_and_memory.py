@@ -180,3 +180,30 @@ async def test_a_policy_question_is_not_turned_into_a_sales_pitch():
     response = await _pipeline().answer(ChatRequest(question="bảo hành bao lâu"))
 
     assert response.recommended_services == []
+
+
+def test_the_grounded_answer_speaks_the_same_way_as_every_other():
+    """The surface customers actually type into skipped the voice rules.
+
+    "Bạn nên khoá van nước trước, sau đó tôi sẽ trả lời chi tiết hơn" — wrong
+    pronoun on both sides of the sentence, from the one path that never ran
+    them.
+    """
+    from app.services.pipeline.qwen_client import (
+        _fix_pronouns,
+        _fix_spelling,
+        _sends_the_customer_away,
+        _strip_apology,
+    )
+
+    raw = (
+        "Xin lỗi, đây là chi phí thay Aptomat máy giặt. "
+        "Bạn nên khoá van nước trước, sau đó tôi sẽ trả lời chi tiết hơn."
+    )
+    cleaned = _fix_spelling(_fix_pronouns(_strip_apology(raw)))
+
+    assert not cleaned.startswith("Xin lỗi")
+    assert "Bạn" not in cleaned
+    assert "tôi" not in cleaned
+    assert "Anh/chị" in cleaned
+    assert _sends_the_customer_away("Bạn nên liên hệ với một chuyên gia về điện tử.")
