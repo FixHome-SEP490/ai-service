@@ -100,12 +100,22 @@ def _cli(*args: str, trailing: tuple = (), capture: bool = True) -> subprocess.C
     """
     key = get_secret("VAST_API_KEY", hint=_KEY_HINT)
     command = [_executable(), *args, "--api-key", key, *trailing]
+    # The CLI writes its own stdout, and on Windows that defaults to the ANSI
+    # code page. Training logs are full of box-drawing characters from the
+    # progress bar, so `logs` died inside vast.ai's own process with
+    # "'charmap' codec can't encode characters" — and exited 0 while doing it.
+    # Our own process then printed that sentence in place of the log, and
+    # anything reading it for a word like "Done" saw a successful command that
+    # simply never contained the word. A machine billing by the second, watched
+    # by something that can no longer see it finish.
+    environment = {**os.environ, "PYTHONIOENCODING": "utf-8", "PYTHONUTF8": "1"}
     return subprocess.run(
         command,
         capture_output=capture,
         text=True,
         encoding="utf-8",
         errors="replace",
+        env=environment,
     )
 
 
@@ -526,10 +536,31 @@ def cmd_status(args: argparse.Namespace) -> None:
         print(f"  image {item.get('image_uuid', '?')}")
 
 
+_NOT_A_LOG = ("codec can't encode", "codec can't decode")
+"""Sentences the CLI prints instead of the log, while exiting 0.
+
+Reported as a failure here rather than passed on, because the caller most
+likely to read this is a watcher looking for the word that means training
+finished, and a command that succeeds while returning no log is indistinguish-
+able from a run still in progress. The machine goes on billing.
+"""
+
+
 def cmd_logs(args: argparse.Namespace) -> None:
     instance = _instance_id(args.instance)
     result = _cli("logs", str(instance), "--tail", str(args.tail))
-    print(result.stdout or result.stderr)
+    output = result.stdout or result.stderr
+    if any(marker in output for marker in _NOT_A_LOG):
+        raise SystemExit(
+            "\n".join(
+                [
+                    f"The CLI failed to print the log rather than printing it: {output.strip()}",
+                    "This exits 0 on its own, so it has to be turned into a failure here.",
+                    f"Read it directly at https://cloud.vast.ai/instances/ ({instance}).",
+                ]
+            )
+        )
+    print(output)
 
 
 def cmd_destroy(args: argparse.Namespace) -> None:
