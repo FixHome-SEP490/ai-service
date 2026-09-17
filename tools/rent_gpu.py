@@ -313,6 +313,7 @@ def cmd_train(args: argparse.Namespace) -> None:
         f"-e HF_WEIGHTS_REPO={get_secret('HF_WEIGHTS_REPO')}",
         f"-e EPOCHS={args.epochs}",
         f"-e BATCH={args.batch}",
+        f"-e MODEL={args.model}",
         f"-e RUN_NAME={args.run_name}",
     ]
 
@@ -585,6 +586,16 @@ def main() -> None:
     train.add_argument("--epochs", type=int, default=100)
     train.add_argument("--batch", type=int, default=16)
     train.add_argument("--run-name", default="detector-v1")
+    train.add_argument(
+        "--model",
+        default="yolov8n.pt",
+        help=(
+            "starting weights. yolo11s.pt is the accuracy pick and costs about "
+            "three times the epoch time of yolov8n.pt; both fit a 12GB card at "
+            "640px. Changing this changes what the numbers mean, so record it "
+            "in the run name."
+        ),
+    )
     train.add_argument(
         "--force-gpu",
         action="store_true",
