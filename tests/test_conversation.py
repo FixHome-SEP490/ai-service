@@ -71,8 +71,70 @@ def test_an_unknown_session_id_starts_a_conversation_rather_than_failing():
     """
     store = ConversationStore()
     chat = store.get_or_create("expired-id")
-    assert chat.session_id == "expired-id"
     assert chat.turns == []
+
+
+def test_a_session_id_the_store_did_not_issue_is_not_adopted():
+    """Two clients that pick the same id must not share a conversation.
+
+    The field takes any string of up to sixty-four characters, so "guest", "1"
+    or an unauthenticated user id all arrive looking exactly like a real
+    session. Adopting them handed one customer's appliance, symptoms and
+    shortlist to another.
+    """
+    store = ConversationStore()
+    mine = store.get_or_create("guest")
+    mine.remember_device("air_conditioner", 0.9, "image")
+
+    theirs = store.get_or_create("guest")
+
+    assert theirs.session_id != "guest"
+    assert theirs.session_id != mine.session_id
+    assert theirs.device_type is None
+
+
+def test_the_id_handed_back_is_the_one_that_works():
+    """The client's job is to echo what the reply carried, so that must hold."""
+    store = ConversationStore()
+    first = store.get_or_create(None)
+    first.remember_device("washing_machine", 0.8, "image")
+
+    again = store.get_or_create(first.session_id)
+
+    assert again is first
+    assert again.device_type == "washing_machine"
+
+
+def test_conversations_are_capped_so_the_store_cannot_grow_without_limit():
+    """Turns were bounded and the dictionary holding conversations was not.
+
+    Anything producing sessions faster than the hour-long expiry removes them
+    grew until the box ran out of memory.
+    """
+    store = ConversationStore(max_sessions=10)
+    for _ in range(50):
+        store.get_or_create(None)
+    assert len(store) == 10
+
+
+def test_the_conversation_dropped_to_make_room_is_the_stalest_one():
+    """Three fit, a fourth arrives, and the one nobody has touched goes.
+
+    Read straight off the store rather than through get_or_create, because
+    asking for a conversation that is no longer there creates one — which would
+    both hide the eviction and cause another.
+    """
+    store = ConversationStore(max_sessions=3)
+    stale = store.get_or_create(None)
+    stale.updated_at = time.time() - 600
+    live = [store.get_or_create(None) for _ in range(2)]
+
+    assert len(store) == 3
+    newcomer = store.get_or_create(None)
+
+    surviving = set(store._sessions)
+    assert stale.session_id not in surviving
+    assert surviving == {c.session_id for c in live} | {newcomer.session_id}
 
 
 def test_a_conversation_left_alone_is_evicted():

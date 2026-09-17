@@ -46,6 +46,20 @@ A support conversation that runs past forty turns has gone wrong in a way more
 history will not fix, and an unbounded list is a memory leak with extra steps.
 """
 
+MAX_SESSIONS = 5000
+"""Conversations kept at once. Beyond this the least recently used go.
+
+The same argument as MAX_TURNS, which was applied to the list inside a
+conversation and not to the dictionary holding them. Turns were bounded and
+conversations were not, so anything that produced sessions faster than the
+hour-long expiry removed them grew without limit: a crawler, a health check
+that sends an id, or simply a busy day.
+
+Five thousand conversations of forty turns is on the order of a hundred
+megabytes, which is a ceiling worth having on a box whose memory is mostly
+spoken for by the model.
+"""
+
 
 @dataclass
 class Turn:
@@ -137,30 +151,65 @@ class Conversation:
 class ConversationStore:
     """In-memory sessions with a time-to-live."""
 
-    def __init__(self, ttl_seconds: int = SESSION_TTL_SECONDS) -> None:
+    def __init__(
+        self,
+        ttl_seconds: int = SESSION_TTL_SECONDS,
+        max_sessions: int = MAX_SESSIONS,
+    ) -> None:
         self._ttl = ttl_seconds
+        self._max = max_sessions
         self._sessions: Dict[str, Conversation] = {}
 
     def get_or_create(self, session_id: Optional[str]) -> Conversation:
-        """Return the named conversation, or start one.
+        """Return the conversation this id names, or start one and name it.
 
-        An unknown id starts a fresh conversation under that same id rather
-        than raising. A client whose session expired mid-chat should carry on
-        with a shorter memory, not receive an error in place of an answer.
+        An id the store does not know starts a fresh conversation — under a new
+        id of the store's own making, never under the one that was sent. A
+        client whose session expired mid-chat carries on with a shorter memory
+        rather than receiving an error, which is the point; it just carries on
+        under the id the reply hands back.
+
+        Adopting the id that arrived was the obvious thing and it was wrong.
+        The field is any string up to sixty-four characters, so two clients
+        that both send "guest", or "1", or a user id the service has no way to
+        authenticate, were handed the same conversation: one customer's
+        appliance, symptoms and shortlist shown to another. Nothing today sends
+        its own id — the web client starts at null and echoes back whatever it
+        is given — so the cost of refusing is nothing and the risk of accepting
+        does not scale down.
+
+        Anything wiring a new client to this service should do the same: send
+        no id on the first message, then send back whatever the reply carried.
         """
         self._evict_expired()
         if session_id:
             existing = self._sessions.get(session_id)
             if existing is not None:
                 return existing
-        new_id = session_id or uuid.uuid4().hex
+
+        new_id = uuid.uuid4().hex
         conversation = Conversation(session_id=new_id)
         self._sessions[new_id] = conversation
+        self._evict_overflow()
         return conversation
 
     def _evict_expired(self) -> None:
         cutoff = time.time() - self._ttl
         for key in [k for k, v in self._sessions.items() if v.updated_at < cutoff]:
+            del self._sessions[key]
+
+    def _evict_overflow(self) -> None:
+        """Drop the least recently used until the store is back within its cap.
+
+        Losing a live conversation is bad; running the box out of memory takes
+        every conversation at once, along with the model. So the oldest go, and
+        their owners carry on with a shorter memory the same way an expiry
+        leaves them.
+        """
+        if len(self._sessions) <= self._max:
+            return
+        by_age = sorted(self._sessions.items(), key=lambda kv: kv[1].updated_at)
+        for key, _ in by_age[: len(self._sessions) - self._max]:
             del self._sessions[key]
 
     def __len__(self) -> int:
