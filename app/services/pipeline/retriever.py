@@ -32,13 +32,21 @@ _TOKEN_RE = re.compile(r"[a-z0-9]+")
 _STOPWORDS = frozenset(
     """
     la co khong chua da dang se bi duoc cua va voi thi ma nhung nen roi
-    o tai tu den cho khi luc nay do kia ay nao gi sao vay the nhu
+    o tai tu den cho khi luc nay kia ay nao gi sao vay the nhu
     toi minh em anh chi ban nha a oi u um vang da
     mot hai ba cac nhung moi tung deu ca het rat qua lam hoi
     ra vao len xuong di ve lai nua con chi moi vua
     xin nho giup hoi sua kiem tra xem nao
     """.split()
 )
+"""Note what is deliberately absent: "do".
+
+Diacritics are stripped before matching, so the filler "do" and the symptom
+"đỏ" collapse to the same token. Listing it silently deleted the colour from
+every message about a gas flame, and "tại sao lửa bếp gas lại có màu đỏ" could
+not reach the fault whose first listed symptom is "lửa đỏ". Keeping it costs a
+little precision on sentences that use "do" as filler; dropping it cost a
+symptom."""
 
 
 def _content_tokens(tokens: List[str]) -> List[str]:
@@ -291,6 +299,68 @@ def _price_score(
     return hits / len(target)
 
 
+class _SymptomIndex:
+    """How rare each word is across one appliance's own symptom lists.
+
+    Plain overlap counted every matched word the same, so "nuoc" — a word in
+    nearly every plumbing symptom list, which therefore separates nothing —
+    weighed as much as "be", which appears in one list and settles the answer.
+    The first fix for that deleted appliance-naming words outright, and it took
+    "nuoc" with it: "ong nuoc bi be" arrived as two words, matched no fault at
+    all, and a burst pipe reached the customer as silence.
+
+    Rarity handles both cases with no list to maintain. A word used by every
+    fault of the appliance carries almost nothing; the appliance's own name is
+    exactly such a word, because the symptom lists keep repeating it.
+    """
+
+    def __init__(self, faults: Sequence[Fault]) -> None:
+        self._df: Dict[str, int] = {}
+        for fault in faults:
+            seen = set(_normalize(" ".join(fault.symptoms_vi)))
+            for token in seen:
+                self._df[token] = self._df.get(token, 0) + 1
+        self._total = max(len(faults), 1)
+
+    def weight(self, token: str) -> float:
+        """Zero for a word no symptom list uses.
+
+        A word outside the vocabulary is not evidence about anything, so it is
+        not charged to the denominator either. Charging it punished politeness:
+        "am sieu toc nha em bi ro nuoc o day a" would have scored below the
+        blunt "ro nuoc" purely for the filler.
+        """
+        df = self._df.get(token, 0)
+        if not df:
+            return 0.0
+        return math.log(1 + self._total / df)
+
+    def score(self, query_tokens: Iterable[str], fault: Fault) -> float:
+        """Share of the query's discriminating weight that this fault matches.
+
+        Filler words are dropped from both sides or from neither. _content_tokens
+        returns its input untouched when everything in it is filler, so filtering
+        each side independently made an all-filler message unmatchable against
+        anything: "khong di duoc" kept its three words while every symptom list
+        lost them. That message is how a blocked toilet usually arrives, and a
+        blocked toilet is one of the faults that has to warn before it answers.
+        """
+        tokens = list(query_tokens)
+        symptoms = _normalize(" ".join(fault.symptoms_vi))
+        if all(token in _STOPWORDS for token in tokens):
+            # Rarity can judge filler words on its own. A word common enough to
+            # be filler is common enough across the symptom lists to weigh
+            # almost nothing, so the rare one in the message decides.
+            query, target = tokens, set(symptoms)
+        else:
+            query, target = _content_tokens(tokens), set(_content_tokens(symptoms))
+        weights = {t: self.weight(t) for t in set(query)}
+        total = sum(weights.values())
+        if total <= 0.0:
+            return 0.0
+        return sum(w for t, w in weights.items() if t in target) / total
+
+
 def _device_alias_tokens(question: str, kb: KnowledgeBase) -> List[str]:
     """Add what the team calls a device to what the customer calls it.
 
@@ -313,6 +383,28 @@ def _device_alias_tokens(question: str, kb: KnowledgeBase) -> List[str]:
 class Retriever:
     def __init__(self, kb: KnowledgeBase) -> None:
         self._kb = kb
+        self._symptom_indexes: Dict[Optional[str], _SymptomIndex] = {}
+
+    def _symptom_index(self, device_type: Optional[str]) -> _SymptomIndex:
+        """Built once per appliance, on first use.
+
+        Document frequency is only meaningful inside the pool being ranked: the
+        word "nuoc" is everywhere among the plumbing faults and nearly absent
+        among the electrical ones, so one index over all 108 would rate it the
+        same in both.
+        """
+        if device_type not in self._symptom_indexes:
+            pool = (
+                self._kb.faults_for_device(device_type)
+                if device_type
+                else [
+                    f
+                    for d in self._kb.device_types
+                    for f in self._kb.faults_for_device(d)
+                ]
+            )
+            self._symptom_indexes[device_type] = _SymptomIndex(pool)
+        return self._symptom_indexes[device_type]
 
     def candidate_faults(
         self,
@@ -331,10 +423,16 @@ class Retriever:
             else [f for d in self._kb.device_types for f in self._kb.faults_for_device(d)]
         )
         tokens = _normalize(description)
-        scored = [
-            ScoredFault(fault=f, score=_overlap_score(tokens, " ".join(f.symptoms_vi)))
-            for f in pool
-        ]
+        # Weighted by how rare each word is among this appliance's own symptom
+        # lists. Once the appliance is settled its own name is noise — and worse
+        # than noise, because the symptom lists mention it too. "Tai sao lua bep
+        # gas lai co mau do" is four content words of which two name the stove,
+        # and both matched the gas-leak symptoms, which say "bep gas" in several
+        # entries; the fault about a red flame came fourth behind a leak. Rarity
+        # settles that with no list of words to delete, which an earlier fix had
+        # needed and which had quietly deleted "nuoc" from plumbing messages.
+        index = self._symptom_index(device_type)
+        scored = [ScoredFault(fault=f, score=index.score(tokens, f)) for f in pool]
         scored.sort(key=lambda s: s.score, reverse=True)
         # Drop zero-overlap faults. Handing the VLM every fault of a device
         # whenever the description says nothing useful invites a confident

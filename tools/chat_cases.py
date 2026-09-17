@@ -34,6 +34,26 @@ class Case:
 
     note: str = ""
 
+    corpus_any: List[str] = field(default_factory=list)
+    """Written files at least one of which must appear in the retrieved prose.
+
+    Checked at the file rather than the section, because which section answers
+    a question is a tuning decision and pinning it would make every tweak a
+    test failure. Which file is not: "vì sao dàn lạnh bám tuyết" has to reach
+    the icing or refrigerant file and nothing else is a right answer.
+    """
+
+    pin: Optional[str] = None
+    """Fault whose safety section must be pinned ahead of everything else.
+
+    Only set where getting it wrong is irreversible. `tools/eval_retrieval.py`
+    reports these separately from the rest, because a missed explanation is a
+    gap and a missed warning is a defect."""
+
+    business_any: List[str] = field(default_factory=list)
+    """Business-layer files, for questions about booking, warranty or how a
+    price is put together."""
+
 
 CASES: List[Case] = [
     # ---------------------------------------------------- plain and clear
@@ -232,4 +252,97 @@ CASES: List[Case] = [
          ["LIGHT_SWITCH_FAULT"]),
     Case("cắm sạc vào ổ mà lỏng lẻo rơi ra", "diagnose", "power_outlet",
          ["OUTLET_LOOSE_CONTACT"]),
+
+    # ------------------------------------------------------------------
+    # Questions the written corpus exists to answer.
+    #
+    # Everything above can be settled by naming a fault. These cannot: they ask
+    # why something happens, what to do first, or what the rule is. Before the
+    # corpus was wired in, the honest reply to all of them was a question.
+    # ------------------------------------------------------------------
+
+    # ------------------------------------------------ "vì sao", "thế nào"
+    Case("vì sao dàn lạnh bám tuyết", "answer", "air_conditioner",
+         ["AC_ICING", "AC_LOW_REFRIGERANT"],
+         corpus_any=["faults/AC_ICING.md", "faults/AC_LOW_REFRIGERANT.md"]),
+    Case("tại sao lửa bếp gas lại có màu đỏ", "answer", "gas_stove",
+         ["STOVE_BURNER_CLOGGED"],
+         corpus_any=["faults/STOVE_BURNER_CLOGGED.md", "devices/gas_stove.md"]),
+    Case("sao quat cu phai lay tay quay moi chay", "answer", "electric_fan",
+         ["FAN_CAPACITOR"],
+         corpus_any=["faults/FAN_CAPACITOR.md"]),
+    Case("tivi có tiếng mà màn hình tối thui là sao", "answer", "television",
+         ["TV_BACKLIGHT"],
+         corpus_any=["faults/TV_BACKLIGHT.md", "devices/television.md"]),
+    Case("vì sao ấm siêu tốc sôi rồi mà không tự tắt", "answer", "kettle",
+         ["KETTLE_THERMOSTAT", "KETTLE_SCALE"],
+         corpus_any=["faults/KETTLE_THERMOSTAT.md", "faults/KETTLE_SCALE.md",
+                     "devices/kettle.md"]),
+    Case("cặn trắng đóng dưới đáy ấm có độc không", "answer", "kettle",
+         ["KETTLE_SCALE"], corpus_any=["faults/KETTLE_SCALE.md"]),
+    Case("bồn cầu xả yếu là do đâu", "answer", "toilet",
+         ["TOILET_WEAK_FLUSH"],
+         corpus_any=["faults/TOILET_WEAK_FLUSH.md", "devices/toilet.md"]),
+    Case("sao đèn led mới mua nửa năm đã hỏng", "answer", "light_bulb",
+         ["LIGHT_BULB_DEAD", "LIGHT_FLICKERING"],
+         corpus_any=["faults/LIGHT_BULB_DEAD.md", "faults/LIGHT_FLICKERING.md",
+                     "devices/light_bulb.md"]),
+    Case("lò nướng nhà em nướng bánh cháy mặt mà sống ruột", "diagnose", "oven",
+         ["OVEN_HEATING_ELEMENT"],
+         corpus_any=["faults/OVEN_HEATING_ELEMENT.md", "devices/oven.md"]),
+    Case("ống nước kêu cốp một cái mỗi lần khoá vòi", "diagnose", "water_pipe",
+         ["PIPE_NOISY"], corpus_any=["faults/PIPE_NOISY.md"]),
+
+    # ------------------------------------------ the ones that must warn first
+    Case("bếp gas nhà em có mùi gas", "diagnose", "gas_stove",
+         ["STOVE_GAS_LEAK"], pin="STOVE_GAS_LEAK",
+         corpus_any=["faults/STOVE_GAS_LEAK.md"]),
+    Case("bep ga nha e co mui ga so qua", "diagnose", "gas_stove",
+         ["STOVE_GAS_LEAK"], pin="STOVE_GAS_LEAK",
+         note="không dấu, đang hoảng"),
+    Case("vỡ ống nước, nước phun khắp nhà", "diagnose", "water_pipe",
+         ["PIPE_BURST"], pin="PIPE_BURST",
+         corpus_any=["faults/PIPE_BURST.md"]),
+    Case("quạt trần có mùi khét", "diagnose", "ceiling_fan",
+         ["CEILFAN_MOTOR_BURNT"], pin="CEILFAN_MOTOR_BURNT",
+         corpus_any=["faults/CEILFAN_MOTOR_BURNT.md"]),
+    Case("quạt cây bốc mùi khét", "diagnose", "electric_fan",
+         ["FAN_MOTOR_BURNT"], pin="FAN_MOTOR_BURNT",
+         corpus_any=["faults/FAN_MOTOR_BURNT.md"]),
+    Case("ổ cắm bị cháy đen", "diagnose", "power_outlet",
+         ["OUTLET_SHORT_CIRCUIT"], pin="OUTLET_SHORT_CIRCUIT",
+         corpus_any=["faults/OUTLET_SHORT_CIRCUIT.md"]),
+    Case("lò vi sóng toé lửa trong ruột", "diagnose", "microwave_oven",
+         ["MW_SPARKING"], pin="MW_SPARKING",
+         corpus_any=["faults/MW_SPARKING.md"]),
+    Case("đèn nhà tắm bị vào nước", "diagnose", "light_bulb",
+         ["LIGHT_FIXTURE_LEAK"], pin="LIGHT_FIXTURE_LEAK",
+         corpus_any=["faults/LIGHT_FIXTURE_LEAK.md"]),
+    Case("ấm siêu tốc rò nước ở đáy", "diagnose", "kettle",
+         ["KETTLE_LEAK"], pin="KETTLE_LEAK",
+         corpus_any=["faults/KETTLE_LEAK.md"]),
+    Case("chân bồn cầu bị rò nước ra sàn", "diagnose", "toilet",
+         ["TOILET_BASE_LEAK"], pin="TOILET_BASE_LEAK",
+         corpus_any=["faults/TOILET_BASE_LEAK.md"]),
+
+    # --------------------------------------------------- the business layer
+    Case("đặt lịch sửa chữa thế nào", "answer", None,
+         business_any=["system/quy-trinh-dat-lich.md"]),
+    Case("bảo hành bao lâu", "answer", None,
+         business_any=["system/bao-hanh.md"]),
+    Case("tiền công với tiền linh kiện tính riêng hay chung", "answer", None,
+         business_any=["system/gia-va-cach-tinh-tien.md",
+                       "system/bao-hanh.md"]),
+    Case("fixhome là làm gì vậy", "answer", None,
+         business_any=["system/tong-quan-fixhome.md",
+                       "system/vai-tro-cua-ai.md"]),
+    Case("thợ tới rồi mà em không đồng ý giá thì sao", "answer", None,
+         business_any=["system/quy-trinh-dat-lich.md",
+                       "system/gia-va-cach-tinh-tien.md"]),
+
+    # ------------------------------- nothing may be retrieved for these
+    Case("hôm nay ăn gì ngon", "refuse", None,
+         note="không thiết bị, không triệu chứng — không được lấy gì"),
+    Case("thời tiết hôm nay thế nào", "refuse", None),
+    Case("cho hỏi giá vàng hôm nay", "refuse", None),
 ]

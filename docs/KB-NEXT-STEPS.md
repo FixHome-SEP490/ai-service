@@ -23,47 +23,29 @@ Kèm theo:
 
 Gate hiện tại: **1232 test pass**, `ruff` sạch.
 
-## Việc quan trọng nhất: kho tri thức chưa được nối vào retrieval
+## Việc thứ nhất, thứ hai và thứ ba: đã xong
 
-Đây là việc phải làm đầu tiên và không có việc nào thay thế được nó.
+Ba việc này làm liền một mạch vì chúng phụ thuộc nhau: không nối corpus thì không đo được, không đo được thì không biết nhánh an toàn có chạy hay không.
 
-`app/services/pipeline/retriever.py` hiện chỉ tìm trên `fault_knowledge_base.json` (các trường `symptoms_vi`) và trên `policies`. **Nó không đọc một dòng nào trong `app/data/knowledge/`.**
+**Nối corpus vào retrieval.** Trình đọc corpus chuyển từ `tools/chunk_kb.py` sang `app/services/pipeline/corpus.py`, để đường chạy production không phụ thuộc vào thư mục công cụ; `tools/chunk_kb.py` giờ chỉ còn in báo cáo. Lọc theo `device_type` trước khi chấm điểm, và chỉ lấy văn bản khi danh sách bệnh nghi ngờ khác rỗng. Chấm điểm bằng BM25 chứ không phải đếm từ trùng: cách đếm cũ cho mọi chunk của cùng một thiết bị số điểm 1.00 như nhau, thứ tự rơi về thứ tự bảng chữ cái. Mục an toàn không xếp hạng mà được ghim, khai báo bằng khoá `safety_heading` trong frontmatter của cả 25 bệnh HIGH.
 
-Nghĩa là: hai triệu ký tự vừa viết đang nằm trên đĩa và không có đường nào tới câu trả lời của Qwen. Thứ duy nhất đang đọc chúng là `tools/chunk_kb.py` và bộ test.
+**Bộ đánh giá.** `tools/chat_cases.py` có 143 ca viết theo đúng kiểu khách hàng viết, `tools/eval_retrieval.py` chấm chúng không cần server và không cần GPU. Số đo hiện tại: danh sách bệnh 100%, lấy đúng văn bản 100%, ghim cảnh báo 100%, im lặng khi hỏi ngoài phạm vi 100%, tra cứu dịch vụ 4/5.
 
-### Cần làm
+**Nhánh an toàn.** `tests/test_safety_first.py` kiểm từng câu lệnh bắt buộc, còn `tests/test_retrieval_quality.py` giữ các mốc tổng hợp để một lần tinh chỉnh sau này không âm thầm làm tụt chất lượng.
 
-1. **Nạp corpus vào retriever.** `tools/chunk_kb.py` đã có `load_corpus()` trả về `List[Chunk]` với đủ `doc_type`, `device_type`, `fault_code`, `heading_vi`, `text`. Chuyển logic đó từ `tools/` sang `app/services/pipeline/`, vì `tools/` không nên là dependency của `app/` khi chạy production.
+### Ba lỗi bộ đánh giá tìm ra, đều là lỗi thật
 
-2. **Lọc trước khi tính điểm.** Frontmatter có `device_type` và `fault_code` chính là để làm việc này. Khi đã biết thiết bị (từ detector ảnh hoặc từ `device_hint.py`), chỉ tính điểm trên chunk của thiết bị đó cộng với `persona/` và `system/`. Bỏ qua bước này thì 2.380 chunk bệnh cạnh tranh nhau trên mọi câu hỏi và độ chính xác tụt.
+Thứ nhất, cách cắt từ tên thiết bị khỏi câu hỏi đã cắt luôn những từ vừa là tên thiết bị vừa là triệu chứng. "ống nước bị bể" còn lại hai từ, không khớp bệnh nào, và một ca vỡ ống nước tới khách bằng sự im lặng. Thay bằng chấm theo độ hiếm của từ trong chính danh mục triệu chứng của thiết bị đó: từ nào xuất hiện ở hầu hết các bệnh thì tự mất trọng số, nên không cần danh sách từ phải xoá nữa.
 
-3. **Giữ lexical trước, đừng nhảy sang embedding ngay.** Docstring của `retriever.py` đã nói đúng: lexical thì deterministic và CI nhanh. Đo baseline bằng lexical trên corpus mới trước, rồi mới quyết định có cần embedding không. Nếu chuyển sang embedding thì `_STOPWORDS` và phần fold dấu vẫn cần cho bước lọc.
+Thứ hai, `symptoms_vi` và corpus đã trôi xa nhau. Corpus ghi sẵn từng bệnh khách gõ thế nào, nhưng retrieval lại khớp trên một danh sách bốn đến bảy mục sửa tay. Quét toàn bộ câu mà corpus gán cho bệnh HIGH thì một phần tư không tới được đúng bệnh. `tools/sync_symptoms.py` chép các mục đó sang, chỉ đụng `symptoms_vi` và không chạm giá, độ khẩn hay cờ duyệt: 621 lên 1.714 triệu chứng, và không còn câu nguy hiểm nào bị trả về rỗng.
 
-4. **Quyết định ngân sách chunk cho prompt.** Trung vị 726 ký tự, lớn nhất 2.273. Cần chốt đưa bao nhiêu chunk vào context của Qwen2.5-VL-3B và theo thứ tự ưu tiên nào. Gợi ý thứ tự: persona trước (nó định giọng), rồi chunk bệnh khớp nhất, rồi chunk thiết bị, rồi system nếu câu hỏi chạm nghiệp vụ.
+Thứ ba, từ dừng bị lọc ở một bên mà không lọc ở bên kia. Câu toàn từ dừng thì giữ nguyên, còn danh mục triệu chứng thì bị lọc, nên hai bên không bao giờ gặp nhau. "không đi được" là cách một ca tắc bồn cầu tới thường xuyên nhất và cả ba từ đều nằm trong danh sách từ dừng.
 
-5. **Viết test cho retrieval.** Một bộ câu hỏi mẫu kèm chunk mong đợi. Nó là thứ duy nhất cho biết việc sửa retriever sau này có làm hỏng gì không.
+### Chỗ còn hở, đã biết và chưa sửa
 
-## Việc thứ hai: bộ đánh giá chất lượng câu trả lời
+Câu "fixhome là làm gì vậy" trả về mục bảo hành thay vì mục tổng quan. Nguyên nhân: tiêu đề được nhân trọng số ba lần, nên một tiêu đề chỉ vì có chữ "FixHome" đã vượt mục trả lời đúng. Sửa chỗ này là đổi trọng số tiêu đề, mà trọng số ấy đang đỡ toàn bộ các con số vừa đạt 100%, nên để lại và ghi ra đây thay vì tinh chỉnh mò. Đây là câu hỏi dịch vụ, không phải nhánh an toàn.
 
-Chưa có cách nào biết corpus này có làm câu trả lời tốt lên hay không.
-
-- Dựng bộ khoảng 100–150 câu hỏi thật, viết theo đúng kiểu khách hàng viết: cụt, không dấu, sai chính tả, mô tả bằng cảm giác, tự chẩn đoán sai, chỉ gửi ảnh.
-- Mỗi câu ghi rõ: mã bệnh đúng, chunk nào phải được lấy ra, và câu trả lời phải chứa điều gì / không được chứa điều gì.
-- Đặc biệt kiểm bốn chỗ mà corpus đã viết là không được bịa: giá tiền, số liệu kỹ thuật, mã lỗi của hãng, và hư hỏng nhìn qua ảnh.
-- Chạy bộ này trước và sau mỗi lần đổi retriever hoặc đổi prompt.
-
-## Việc thứ ba: kiểm tra các nhánh an toàn thực sự chạy
-
-Corpus có một nhóm quy tắc dạng "cảnh báo trước, chẩn đoán sau". Cần test riêng cho chúng, vì đây là chỗ sai thì không sửa lại được:
-
-- Mùi gas → bốn việc (khoá van, mở thoáng, **không chạm công tắc nào**, không đánh lửa) phải đứng trước mọi câu hỏi.
-- Vỡ ống nước → "khoá van tổng" là câu đầu tiên, không hỏi gì trước.
-- Mùi khét / khói ở thiết bị điện → rút điện hoặc ngắt aptomat, kèm câu "tắt công tắc tường không đủ" ở các thiết bị đấu cứng (quạt trần, đèn, ổ cắm).
-- Tê tay khi chạm thiết bị → ngắt aptomat **trước** khi rút phích.
-- Lò vi sóng → không bao giờ gợi ý tự mở vỏ; không bao giờ gợi ý chạy lò rỗng để thử.
-- Kính cửa lò nứt, kính lò vi sóng, ổ cắm vỡ mặt ở nhà có trẻ nhỏ → ngừng dùng, không có nhánh "dùng tạm".
-
-Đề xuất: viết `tests/test_safety_first.py` bơm các câu này qua pipeline và assert rằng câu cảnh báo xuất hiện trước câu hỏi làm rõ.
+Hai câu còn lại trong bộ quét bệnh HIGH rơi sang bệnh cùng thiết bị chứ không rỗng: "trần bị ố đen chỗ quạt" và "hai bếp đều yếu". Cả hai đều mơ hồ thật, và rơi sang bệnh hàng xóm thì khách vẫn được hỏi lại rồi quay về đúng bệnh ở lượt sau.
 
 ## Việc thứ tư: chốt phần giá
 
