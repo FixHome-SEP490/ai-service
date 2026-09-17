@@ -54,6 +54,15 @@ class Fault:
 
     price_note_vi: Optional[str] = None
 
+    needs_technician_review: bool = False
+    """A technician has not yet read this entry.
+
+    Separate from price_reviewed, which is only about the numbers. This flag
+    covers the whole entry — the symptoms, what to do first, how urgent it is —
+    and it is set on everything written without a tradesman in the room.
+    Nothing in the service reads it; it is there so the backlog is a query
+    rather than a spreadsheet somebody maintains by hand."""
+
 
 @dataclass(frozen=True)
 class ServiceRef:

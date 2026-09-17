@@ -127,6 +127,11 @@
       "device_type": null,
       "price": 100000,
       "unit_vi": "Lần"
+    },
+    {
+      "service_code": "VE_SINH_MAY_SAY",
+      "name_vi": "Vệ sinh máy sấy gia đình",
+      "price": 350000
     }
   ]
 }
