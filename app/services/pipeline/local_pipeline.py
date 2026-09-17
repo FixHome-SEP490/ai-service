@@ -374,34 +374,19 @@ class LocalPipeline:
                 for c in candidates
             ],
         )
-        # Never offer Qwen a shortlist spanning several appliances. With the
-        # device unknown, retrieval searches all seventeen: a photograph of a
-        # gas stove the detector missed, described as "bật không lên lửa",
-        # produced STOVE_IGNITER at the top and air-conditioner faults beneath
-        # it, and the model picked AC_COMPRESSOR_FAULT — then told the customer
-        # to unplug their air conditioner.
+        # The shortlist may span several appliances when the device is not
+        # known, and the model will happily pick from across it. Retrieval's
+        # own top match used to be adopted as the appliance to stop that, and
+        # that guess is gone: weighting by word rarity normalises against the
+        # question's own weight, so a message of common words scores 1.00
+        # against whichever fault happens to use them. "Nhà em nó kêu to lắm
+        # không chạy" adopted an air conditioner and answered "hỏng máy nén"
+        # to someone who never said what the machine was.
         #
-        # Retrieval's own top match names the appliance. Adopt it and drop the
-        # rest, so the choice is between faults of one machine.
-        if device_type is None and candidates:
-            top = candidates[0]
-            if (
-                top.score >= settings.DEVICE_FROM_RETRIEVAL_SCORE
-                and self._retriever.content_words(chat.customer_text())
-                >= settings.DECISIVE_MIN_WORDS
-            ):
-                device_type = top.fault.device_type
-                candidates = [
-                    c for c in candidates if c.fault.device_type == device_type
-                ]
-                chat.remember_device(device_type, 0.0, "description")
-                trace.add(
-                    "retrieval",
-                    True,
-                    f"Chốt thiết bị {device_type} theo bệnh khớp nhất, "
-                    "bỏ các bệnh của thiết bị khác",
-                    kept=[c.fault.fault_code for c in candidates],
-                )
+        # What replaces it is below: with no appliance, ask which one. The
+        # case the guess was written for — a gas stove the detector missed,
+        # described as "bật không lên lửa" — is now recognised by name, as is
+        # every other diagnosis case in the suite.
 
         # One place decides what the model may know, and it is not this loop.
         # See context.py: the device and how it was learned, everything said so
@@ -515,9 +500,8 @@ class LocalPipeline:
         # Only when nothing else is known. A photograph or an earlier message
         # settles the appliance, and then "nó không chạy" is a complete thing to
         # say about it.
-        if (
-            device_type is None
-            and self._retriever.content_words(chat.customer_text())
+        if device_type is None or (
+            self._retriever.content_words(chat.customer_text())
             < settings.DECISIVE_MIN_WORDS
         ):
             return await self._clarification_response(
