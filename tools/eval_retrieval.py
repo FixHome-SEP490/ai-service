@@ -35,6 +35,12 @@ from app.services.pipeline.conversation import Conversation  # noqa: E402
 from app.services.pipeline.knowledge_base import get_knowledge_base  # noqa: E402
 from app.services.pipeline.retriever import Retriever  # noqa: E402
 from tools.chat_cases import CASES, Case  # noqa: E402
+from tools.chat_cases_generated import GENERATED  # noqa: E402
+
+# The hand-written cases carry the judgement; the generated ones carry the
+# volume. Scored together because a regression does not care which file a case
+# came from.
+CASES = CASES + GENERATED
 
 if hasattr(sys.stdout, "reconfigure"):
     sys.stdout.reconfigure(encoding="utf-8", errors="replace")

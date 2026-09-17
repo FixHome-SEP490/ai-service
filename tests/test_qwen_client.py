@@ -363,3 +363,12 @@ def test_only_whole_words_are_rewritten():
 
     text = "Máy tối om, khách sạn bên cạnh cũng mất điện."
     assert _fix_pronouns(text) == text
+
+
+def test_the_misspelling_the_model_keeps_making_is_corrected():
+    """"Hòng dải đèn nền" reached a customer on every television answer. The
+    knowledge base writes "hỏng"; the model drops the hook off the o."""
+    from app.services.pipeline.qwen_client import _fix_spelling
+
+    assert _fix_spelling("Thiết bị hòng dải đèn nền.") == "Thiết bị hỏng dải đèn nền."
+    assert _fix_spelling("Nó hỏng tụ rồi ạ.") == "Nó hỏng tụ rồi ạ."

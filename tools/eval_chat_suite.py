@@ -31,6 +31,9 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 import httpx  # noqa: E402
 
 from chat_cases import CASES, Case  # noqa: E402
+from chat_cases_generated import GENERATED  # noqa: E402
+
+CASES = CASES + GENERATED
 
 if hasattr(sys.stdout, "reconfigure"):
     sys.stdout.reconfigure(encoding="utf-8", errors="replace")
