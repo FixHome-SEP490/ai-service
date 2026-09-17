@@ -397,3 +397,23 @@ def test_the_price_of_something_else_is_still_turned_away(client, description):
     ).json()
     questions = (body.get("clarification") or {}).get("questionsVi") or [""]
     assert "chỉ hỗ trợ được" in questions[0], questions[0]
+
+
+@pytest.mark.parametrize(
+    "description",
+    [
+        # A fault code is a claim about one machine. These name none, and the
+        # service used to answer them by adopting whichever appliance retrieval
+        # ranked first: the project owner was told his gas stove had a broken
+        # compressor.
+        "nhà em nó kêu to lắm không chạy",
+        "máy nhà em bị hỏng nặng lắm",
+        "cái này nó không chạy nữa rồi",
+    ],
+)
+def test_no_appliance_means_a_question_not_a_compressor(client, description):
+    body = client.post(
+        "/api/v1/diagnosis/analyze-upload", data={"description": description}
+    ).json()
+    assert body["status"] == "needs_clarification", body.get("suspectedFaults")
+    assert not body.get("suspectedFaults")

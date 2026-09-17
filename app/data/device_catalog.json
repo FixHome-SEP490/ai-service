@@ -122,7 +122,10 @@
         "bếp ga",
         "bep gas",
         "bếp gas đôi",
-        "bếp gas mini"
+        "bếp gas mini",
+        "mùi gas",
+        "trong bếp",
+        "hơi gas"
       ],
       "confusable_with": []
     },
@@ -218,7 +221,12 @@
         "o cam",
         "ổ cắm điện",
         "công tắc ổ cắm",
-        "phích cắm"
+        "phích cắm",
+        "ổ cắm tường",
+        "chỗ cắm điện",
+        "cắm sạc",
+        "ổ mà",
+        "phích"
       ],
       "confusable_with": [
         "light_bulb"
@@ -236,7 +244,11 @@
         "đèn tuýp",
         "bong den",
         "cái đèn",
-        "đèn trần"
+        "đèn trần",
+        "công tắc đèn",
+        "đèn nhà tắm",
+        "đèn phòng",
+        "bóng đèn nhà tắm"
       ],
       "confusable_with": [
         "power_outlet"
@@ -253,7 +265,11 @@
         "đường ống",
         "ong nuoc",
         "ống dẫn nước",
-        "mối nối ống"
+        "mối nối ống",
+        "đường cống",
+        "nước máy",
+        "cống nhà tắm",
+        "cống thoát"
       ],
       "confusable_with": [],
       "source_note": "774 anh tu thu thap, bat detector_class sau khi co du lieu"
@@ -269,7 +285,10 @@
         "bình nóng lạnh",
         "máy nước nóng",
         "binh nong lanh",
-        "bình tắm nóng lạnh"
+        "bình tắm nóng lạnh",
+        "bình nước nóng",
+        "bình nóng",
+        "nước nóng"
       ],
       "confusable_with": []
     }
