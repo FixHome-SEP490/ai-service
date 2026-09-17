@@ -340,6 +340,49 @@ CASES: List[Case] = [
          business_any=["system/quy-trinh-dat-lich.md",
                        "system/gia-va-cach-tinh-tien.md"]),
 
+    # ------------------------------- the five devices Backend already sells for
+    # Phrased away from the symptom lists on purpose. A case written in the
+    # same words as the index it is testing measures nothing.
+    Case("bếp nhà mình đặt nồi lên nó kêu bíp bíp rồi thôi", "diagnose", "induction_hob",
+         faults_any=["HOB_NO_PAN_DETECT", "HOB_ERROR_CODE"]),
+    Case("bep tu nha e hien chu E2 roi tat", "diagnose", "induction_hob",
+         faults_any=["HOB_ERROR_CODE"]),
+    Case("bếp từ nấu được mười phút là tự tắt", "diagnose", "induction_hob",
+         faults_any=["HOB_FAN_NOISY", "HOB_ERROR_CODE"]),
+    Case("hôm qua làm rơi cái nắp nồi xuống mặt bếp từ", "diagnose", "induction_hob",
+         faults_any=["HOB_GLASS_CRACKED"]),
+    Case("cắm bếp từ vào là cả nhà mất điện", "diagnose", "induction_hob",
+         faults_any=["HOB_NO_POWER"],
+         note="phải cảnh báo trước khi hỏi"),
+
+    Case("máy rửa bát chạy xong bát vẫn nhớt dầu", "diagnose", "dishwasher",
+         faults_any=["DW_NOT_CLEAN"]),
+    Case("mở cửa máy rửa chén ra thấy nước đọng ở đáy", "diagnose", "dishwasher",
+         faults_any=["DW_NOT_DRAINING"]),
+    Case("may rua bat cham dat", "ask", None,
+         note="không đủ để kết luận, hỏi lại"),
+
+    Case("máy sấy chạy cả tiếng mà áo vẫn ẩm", "diagnose", "clothes_dryer",
+         faults_any=["DRYER_NOT_HEATING", "DRYER_LINT_CLOGGED"]),
+    Case("máy sấy quần áo dạo này lâu khô hơn hẳn", "diagnose", "clothes_dryer",
+         faults_any=["DRYER_LINT_CLOGGED", "DRYER_NOT_HEATING"]),
+
+    Case("cây nước nóng lạnh nhà em không ra nước nữa", "diagnose", "water_purifier",
+         faults_any=["PURIFIER_NO_WATER", "PURIFIER_NO_POWER"]),
+    Case("nước lọc dạo này uống thấy có vị lạ", "diagnose", "water_purifier",
+         faults_any=["PURIFIER_FILTER_DUE"]),
+    Case("máy lọc nước kêu ù ù suốt đêm không nghỉ", "diagnose", "water_purifier",
+         faults_any=["PURIFIER_PUMP_RUNS_ON"]),
+
+    Case("khoá cửa đặt tay mãi không mở được", "diagnose", "smart_lock",
+         faults_any=["LOCK_FINGERPRINT_FAIL", "LOCK_LOW_BATTERY"]),
+    Case("khoá vân tay kêu tít tít mỗi lần mở cửa", "diagnose", "smart_lock",
+         faults_any=["LOCK_LOW_BATTERY"]),
+    Case("khoá nhận vân rồi mà cửa vẫn không bật ra", "diagnose", "smart_lock",
+         faults_any=["LOCK_MOTOR_FAULT"]),
+    Case("em đang đứng ngoài cửa không vào nhà được", "diagnose", "smart_lock",
+         faults_any=["LOCK_LOCKED_OUT"]),
+
     # ------------------------------- nothing may be retrieved for these
     Case("hôm nay ăn gì ngon", "refuse", None,
          note="không thiết bị, không triệu chứng — không được lấy gì"),
