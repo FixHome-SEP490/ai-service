@@ -143,9 +143,20 @@ class Settings(BaseSettings):
         "Đây là gợi ý sơ bộ, kết luận cuối cùng thuộc về kỹ thuật viên kiểm tra trực tiếp."
     )
     NO_GROUNDING_MESSAGE_VI: str = (
-        "Câu hỏi này nằm ngoài phạm vi tài liệu hiện có. "
-        "Vui lòng liên hệ bộ phận hỗ trợ của FixHome."
+        "Dạ cái này bên em chưa có sẵn thông tin để trả lời chính xác cho anh/chị ạ. "
+        "Anh/chị đặt lịch thì thợ sẽ gọi trước khi sang, mình hỏi thợ trực tiếp là rõ "
+        "nhất. Hoặc nhà mình đang có thiết bị nào trục trặc thì tả giúp em nhé."
     )
+    """Said when the question is inside the trade but nothing answers it.
+
+    It used to read "vui lòng liên hệ bộ phận hỗ trợ của FixHome" — the
+    assistant of a repair company handing its own customer to somebody else,
+    for a question as ordinary as whether the technician wears a mask. There is
+    no support desk at the other end of that sentence.
+
+    What replaced it does the two things that are true: say plainly that this
+    is not written down, and give the customer somewhere to go — the technician
+    who will ring before the visit, or a description of whatever is broken."""
     CLARIFICATION_QUESTIONS_VI: List[str] = [
         "Thiết bị gặp sự cố là loại nào?",
         "Hiện tượng bắt đầu từ khi nào và xảy ra liên tục hay thỉnh thoảng?",

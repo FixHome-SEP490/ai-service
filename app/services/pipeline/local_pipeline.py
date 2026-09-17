@@ -813,7 +813,7 @@ class LocalPipeline:
         # fails closed — a question with no device and no repair word in it is
         # refused without the model being asked at all.
         if not self._is_in_the_trade(request.question):
-            return self._ungrounded_answer(request, chat)
+            return self._ungrounded_answer(request, chat, in_the_trade=False)
 
         answer_vi = await self._vlm.answer_generally(
             request.question, history_vi=chat.customer_text()
@@ -1084,13 +1084,27 @@ class LocalPipeline:
         return False
 
     def _ungrounded_answer(
-        self, request: ChatRequest, chat: Optional[Conversation] = None
+        self,
+        request: ChatRequest,
+        chat: Optional[Conversation] = None,
+        in_the_trade: bool = True,
     ) -> ChatResponse:
+        """Nothing to answer from. What to say depends on why.
+
+        Inside the trade, the honest thing is that this is not written down,
+        and the technician who rings before the visit can say. Outside it,
+        inviting somebody to book a repair because they asked about the weather
+        is worse than the sentence it replaced.
+        """
         return ChatResponse(
             request_id=request.request_id,
             session_id=chat.session_id if chat else None,
             status=AnswerStatus.NO_GROUNDING,
-            answer_vi=settings.NO_GROUNDING_MESSAGE_VI,
+            answer_vi=(
+                settings.NO_GROUNDING_MESSAGE_VI
+                if in_the_trade
+                else settings.OUT_OF_SCOPE_MESSAGE_VI
+            ),
             confidence=0.0,
             disclaimer_vi=settings.AI_DISCLAIMER_VI,
         )
