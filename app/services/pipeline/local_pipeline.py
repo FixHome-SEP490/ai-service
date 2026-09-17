@@ -78,6 +78,13 @@ _TRADE_WORDS = (
     # sentence about nothing and the customer is told it is out of scope —
     # after retrieval has already found the document written to answer it.
     "bao hanh", "chinh sach", "hoan tien", "huy lich", "fixhome", "hoa don",
+    # Three words that used to be matched by accident. "Cống nhà tắm bốc mùi
+    # hôi" passed because "cống" contains "ong ", and "cắm sạc vào ổ mà lỏng
+    # lẻo" because "lỏng" does too; whole-word matching took both away along
+    # with the false positives. Chosen by running every case in chat_cases.py
+    # against the gate: "gia" was the obvious fourth and it lets in questions
+    # about the price of gold and of bitcoin.
+    "mui", "cam", "mac",
 )
 """Words that place a question inside the trade.
 

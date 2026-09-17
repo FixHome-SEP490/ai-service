@@ -365,3 +365,35 @@ def test_a_warranty_question_is_answered_not_declared_out_of_scope(client):
     outside what the service covers."""
     body = _ask(client, "bảo hành bao lâu")
     assert body["status"] == "ok", body["answerVi"]
+
+
+@pytest.mark.parametrize(
+    "description",
+    [
+        # Both used to pass the gate by accident: "cống" contains "ong " and so
+        # does "lỏng". Whole-word matching took the accident away along with
+        # the false positives, and these two are real work.
+        "cống nhà tắm bốc mùi hôi",
+        "cắm sạc vào ổ mà lỏng lẻo rơi ra",
+    ],
+)
+def test_real_work_is_not_turned_away(client, description):
+    body = client.post(
+        "/api/v1/diagnosis/analyze-upload", data={"description": description}
+    ).json()
+    questions = (body.get("clarification") or {}).get("questionsVi") or [""]
+    assert "chỉ hỗ trợ được" not in questions[0], questions[0]
+
+
+@pytest.mark.parametrize(
+    "description",
+    ["giá vàng bây giờ bao nhiêu", "bitcoin giá bao nhiêu"],
+)
+def test_the_price_of_something_else_is_still_turned_away(client, description):
+    """The obvious way to let price questions in is to add "giá", and it lets
+    these two in with them."""
+    body = client.post(
+        "/api/v1/diagnosis/analyze-upload", data={"description": description}
+    ).json()
+    questions = (body.get("clarification") or {}).get("questionsVi") or [""]
+    assert "chỉ hỗ trợ được" in questions[0], questions[0]
