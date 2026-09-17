@@ -68,15 +68,43 @@ def cmd_list(args: argparse.Namespace) -> None:
     )
 
 
+def _absolute_list(dataset_dir: Path, source: str) -> Path:
+    """The source's image list with every path resolved, written beside it.
+
+    The exported lists hold entries like `./images/test/00/faucet_1a94.jpg`,
+    and Ultralytics resolves a relative entry against the folder the list file
+    sits in rather than against the dataset root. Every image was therefore
+    looked for under `splits/images/test/`, and the run died with "No valid
+    images found", naming a cache file in a folder that has never existed.
+
+    Rewritten absolute rather than moved, because the lists are an export
+    artefact and the next export would put them back where they were.
+    """
+    source_list = dataset_dir / "splits" / f"test_{source}.txt"
+    lines = [
+        line.strip()
+        for line in source_list.read_text(encoding="utf-8").splitlines()
+        if line.strip()
+    ]
+    resolved = [(dataset_dir / line).resolve().as_posix() for line in lines]
+    # Not "test_..." : the source lists are found with a test_*.txt glob,
+    # so a resolved copy under that name became a source of its own and the
+    # run reported six sources where the dataset has three.
+    target = dataset_dir / "splits" / f"resolved_{source}.txt"
+    target.write_text("\n".join(resolved) + "\n", encoding="utf-8")
+    return target
+
+
 def _write_data_yaml(dataset_dir: Path, source: str, names: List[str]) -> Path:
     """A data.yaml whose validation set is one source's test images."""
     target = dataset_dir / "splits" / f"data_{source}.yaml"
     listed = "\n".join(f"  {index}: {name}" for index, name in enumerate(names))
+    images = _absolute_list(dataset_dir, source)
     target.write_text(
         f"path: {dataset_dir.resolve().as_posix()}\n"
         "train: images/train\n"
-        f"val: splits/test_{source}.txt\n"
-        f"test: splits/test_{source}.txt\n\n"
+        f"val: {images.as_posix()}\n"
+        f"test: {images.as_posix()}\n\n"
         f"names:\n{listed}\n",
         encoding="utf-8",
     )
@@ -101,11 +129,25 @@ def cmd_run(args: argparse.Namespace) -> None:
         raise SystemExit(f"No class names in {dataset_dir / 'data.yaml'}")
     model = YOLO(args.weights)
 
+    failures: Dict[str, str] = {}
     results: Dict[str, dict] = {}
     for source, _ in splits.items():
         data_yaml = _write_data_yaml(dataset_dir, source, names)
         print(f"\n=== {source}")
-        metrics = model.val(data=str(data_yaml), split="test", verbose=False)
+        try:
+            metrics = model.val(data=str(data_yaml), split="test", verbose=False)
+        except Exception as error:  # noqa: BLE001 - reported, not swallowed
+            # Ultralytics sizes its confusion matrix from the data.yaml and
+            # indexes it by the label on disk, so a model with fewer classes
+            # than the dataset dies with "index 19 is out of bounds". That is
+            # what happens to every older model once classes are added, and it
+            # used to end the run while leaving the previous results file in
+            # place — so the next reader compared a model with itself and saw a
+            # perfect match. Use eval_detector.py for a model that does not know
+            # every class; it scores by name and skips labels it has no name for.
+            failures[source] = f"{type(error).__name__}: {error}"
+            print(f"  FAILED {failures[source]}")
+            continue
         box = metrics.box
         results[source] = {
             "map50": round(float(box.map50), 4),
@@ -118,6 +160,18 @@ def cmd_run(args: argparse.Namespace) -> None:
             f"   mAP50-95 {results[source]['map50_95']:.3f}"
             f"   P {results[source]['precision']:.3f}"
             f"   R {results[source]['recall']:.3f}"
+        )
+
+    if failures:
+        # Nothing is written. A stale file that names different weights is
+        # worse than no file: it reads as a result, and the run that produced
+        # it is no longer on the screen.
+        print(f"\n{len(failures)} of {len(splits)} sources failed:")
+        for source, reason in failures.items():
+            print(f"  {source}: {reason}")
+        raise SystemExit(
+            f"Nothing written. {RESULTS_PATH.name} still holds an earlier run"
+            " and does not describe these weights."
         )
 
     RESULTS_PATH.write_text(

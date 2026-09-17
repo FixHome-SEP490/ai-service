@@ -43,6 +43,12 @@ build/
 datasets/*
 !datasets/split.json
 weights/
+
+# Where Ultralytics writes evaluation output: a folder of plots per run,
+# named val, val2, val3 and so on. A hundred and forty-four of them went
+# into a commit once because they are created by tools that are run before
+# committing, not after.
+runs/
 *.pt
 .venv-tools/
 
