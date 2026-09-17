@@ -4654,7 +4654,17 @@
         "khoá cửa không đọc thẻ từ",
         "nhập mã đúng mà khoá báo sai",
         "khoá thông minh quên mật khẩu",
-        "thẻ từ quẹt không ăn"
+        "thẻ từ quẹt không ăn",
+        "khoá báo sai mã liên tục rồi im luôn",
+        "thẻ của em không mở được mà thẻ của vợ thì được",
+        "bấm mã xong khoá không phản ứng gì",
+        "khoa khong doc the tu",
+        "nhap ma dung ma bao sai",
+        "the tu quet khong an",
+        "quen mat khau khoa cua",
+        "rồi im luôn",
+        "chắc khoá hỏng đầu đọc",
+        "chắc mất mã rồi phải phá khoá"
       ],
       "price_min": 100000,
       "price_max": 0,
