@@ -131,3 +131,33 @@ def test_the_dialogue_keeps_both_sides_in_order():
     chat.add("customer", "ba")
 
     assert _recent_dialogue(chat).splitlines() == ["Khách: một", "Bạn: hai", "Khách: ba"]
+
+
+@pytest.mark.asyncio
+async def test_a_question_still_offers_something_to_book():
+    """Analyse and stop is how these conversations died.
+
+    The customer read a question, answered it, was asked again, and never
+    reached a booking. Asking and offering are not exclusive.
+    """
+    response = await _pipeline().diagnose(DiagnosisRequest(description="hư rồi"))
+
+    assert response.status == DiagnosisStatus.NEEDS_CLARIFICATION
+    assert response.recommended_services
+    assert (
+        response.recommended_services[0].service_code
+        == "KIEM_TRA_CHAN_DOAN_THIET_BI"
+    )
+
+
+@pytest.mark.asyncio
+async def test_an_unsettled_appliance_is_never_offered_a_specific_repair():
+    """Two words naming nothing were offered a refrigerator repair.
+
+    The shortlist retrieved for "hư rồi" happened to be all one device, and
+    that is not evidence about the customer's appliance.
+    """
+    response = await _pipeline().diagnose(DiagnosisRequest(description="cứu em với"))
+
+    codes = [s.service_code for s in response.recommended_services]
+    assert codes == ["KIEM_TRA_CHAN_DOAN_THIET_BI"]

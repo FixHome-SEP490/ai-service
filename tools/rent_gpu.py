@@ -317,7 +317,7 @@ def cmd_train(args: argparse.Namespace) -> None:
     ]
 
     print(f"Renting offer {args.offer} and starting {args.epochs} epochs")
-    result = _cli(
+    create = [
         "create",
         "instance",
         str(args.offer),
@@ -327,9 +327,20 @@ def cmd_train(args: argparse.Namespace) -> None:
         str(DISK_GB),
         "--env",
         " ".join(env),
-        "--raw",
-        trailing=("--args", "train"),
-    )
+    ]
+    # The trainer image is on GHCR and this organisation forbids public
+    # packages, so the rented box has to log in before it can pull. Without
+    # this the pull fails with no message anybody sees: the instance sits at
+    # "loading" indefinitely, billing by the second, and looks exactly like a
+    # slow download. Twenty-seven minutes of one went by before anyone asked
+    # why the serve path had a --login and this one did not.
+    login = _registry_login()
+    if login:
+        create += ["--login", login]
+    else:
+        print("No GHCR credentials found; the pull will fail unless the image")
+        print("has been made public. Set GHCR_TOKEN in .env, or run `gh auth login`.")
+    result = _cli(*create, "--raw", trailing=("--args", "train"))
     created = _reply(result, doing=f"renting offer {args.offer}")
     instance_id = created.get("new_contract")
     if not instance_id:

@@ -286,6 +286,25 @@ class KnowledgeBase:
     def fault(self, fault_code: str) -> Optional[Fault]:
         return next((f for f in self._faults if f.fault_code == fault_code), None)
 
+    FALLBACK_SERVICE_CODE = "KIEM_TRA_CHAN_DOAN_THIET_BI"
+    """What a customer books when the fault is not settled.
+
+    The PO's rule: a fault with no service of its own falls to an on-site
+    inspection. It is also the right offer while a question is still open —
+    somebody comes and looks is literally what is being proposed."""
+
+    def fallback_service(self) -> Optional[ServiceRef]:
+        """The inspection service, as Backend spells it.
+
+        Not the labour row of the same name. Backend's code is the one the
+        mobile app can turn into a booking; ours prices it.
+        """
+        for refs in self._services.values():
+            for ref in refs:
+                if ref.service_code == self.FALLBACK_SERVICE_CODE:
+                    return ref
+        return None
+
     def services_for_fault(self, fault_code: str) -> List[ServiceRef]:
         """Empty while Backend has not supplied a catalog. Not an error."""
         return list(self._services.get(fault_code, []))
