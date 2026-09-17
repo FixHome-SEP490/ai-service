@@ -153,11 +153,125 @@ def test_nothing_is_asked_without_a_detection():
     assert device_hint.confusion_question(None, "hỏng rồi", KB) is None
 
 
-@pytest.mark.parametrize("device", ["microwave_oven", "oven", "sink", "faucet"])
+@pytest.mark.parametrize("device", sorted(KB.device_types))
 def test_confusion_is_symmetric(device):
-    """One direction asking and the other staying silent would be a bug."""
+    """One direction asking and the other staying silent would be a bug.
+
+    Every device in the catalogue, not a list written by hand. The hand-written
+    list named four, was written before five more devices were added, and so
+    never looked at any of them: the induction hob pointed at the gas stove and
+    the gas stove pointed at nothing, which meant a photograph read as a gas
+    stove never asked — and an induction hob got advice about gas valves and a
+    leaking bottle.
+    """
     for sibling in KB.confusable_with(device):
-        assert device in KB.confusable_with(sibling)
+        assert device in KB.confusable_with(sibling), f"{sibling} does not point back"
+
+
+@pytest.mark.parametrize("device", sorted(KB.device_types))
+def test_a_device_that_asks_can_understand_the_answer(device):
+    """Never ask a question whose answer cannot be read.
+
+    `confusion_question` falls back to a generated "is it A or B" whenever no
+    written question covers the device, but `resolve_confusion_answer` gives up
+    immediately when there is no written question — so the dishwasher asked,
+    the customer answered, and every reply resolved to None. A turn spent to
+    learn nothing, and no way for the customer to see why.
+    """
+    if not KB.confusable_with(device):
+        return
+    written = KB.confusion_question(device)
+    assert written is not None, f"{device} asks a question it cannot resolve"
+    assert device in written.devices
+
+
+@pytest.mark.parametrize("device", sorted(KB.device_types))
+def test_a_device_understands_the_name_it_is_shown_under(device):
+    """Whatever the answer prints, a customer can type back.
+
+    The clarifying questions offer devices by their display name, so a reply
+    that repeats the words the question just used has to land. "Quạt điện" was
+    the name shown and not a name understood, which meant the fan question
+    could be answered correctly in the customer's own words and still resolve
+    to nothing.
+    """
+    name = KB.device_name_vi(device)
+    got = [h.device_type for h in device_hint.devices_named_in(name, KB)]
+    assert got[:1] == [device], f"{name!r} -> {got}"
+
+
+@pytest.mark.parametrize("device", sorted(KB.device_types))
+def test_every_sibling_can_be_reached_by_naming_it(device):
+    """Saying the name of any offered device settles the question.
+
+    This is the path a three-way question depends on entirely, since a bare yes
+    or no cannot choose between three.
+    """
+    written = KB.confusion_question(device)
+    if written is None:
+        return
+    for other in written.devices:
+        name = KB.device_name_vi(other) or other
+        got = device_hint.resolve_confusion_answer(name, device, KB)
+        assert got == other, f"{device} asked, {name!r} answered, got {got}"
+
+
+@pytest.mark.parametrize(
+    "device,reply,expected",
+    [
+        ("ceiling_fan", "không phải trần đâu ạ", "electric_fan"),
+        ("ceiling_fan", "nhà em không gắn trần", "electric_fan"),
+        ("sink", "không phải chậu ạ", "faucet"),
+        ("power_outlet", "không phải ổ cắm", "light_bulb"),
+        ("induction_hob", "nhà em không dùng bình gas", "induction_hob"),
+        ("gas_stove", "không có bình gas ạ", "induction_hob"),
+    ],
+)
+def test_a_denial_answers_in_the_opposite_direction(device, reply, expected):
+    """The reply mentions the thing asked about, to rule it out.
+
+    Matching the word alone read every one of these as a confirmation, so the
+    three commonest pairs in the catalogue — the fan, the sink and the socket —
+    each resolved to exactly the wrong one of the two.
+    """
+    assert device_hint.resolve_confusion_answer(reply, device, KB) == expected
+
+
+@pytest.mark.parametrize(
+    "reply",
+    ["em không rõ, chắc là quạt trần", "không biết nữa, hình như gắn trên trần"],
+)
+def test_not_being_sure_is_still_not_a_denial(reply):
+    """"Không rõ" carries the same word a denial does and means the opposite.
+
+    The customer is guessing, and the guess is the most informative thing in
+    the sentence. Reading the "không" as a denial would have thrown it away and
+    answered with the other device.
+    """
+    assert device_hint.resolve_confusion_answer(reply, "ceiling_fan", KB) == (
+        "ceiling_fan"
+    )
+
+
+@pytest.mark.parametrize(
+    "text,expected",
+    [
+        ("máy sấy quần áo nhà em không nóng", ["clothes_dryer"]),
+        ("tủ sấy quần áo nhà em không nóng", []),
+        ("máy sấy quần áo hỏng, máy sấy tóc thì vẫn chạy", ["clothes_dryer"]),
+    ],
+)
+def test_a_disqualifier_wins_only_when_it_is_the_same_phrase(text, expected):
+    """Length was the wrong signal for this and had to be replaced.
+
+    "Tủ sấy quần áo" is a drying cabinet, and its alias match "sấy quần áo" is
+    three words while the disqualifier "tủ sấy" is two — so the longer, more
+    specific-looking phrase was the wrong one. What separates the cases is
+    whether the two are built from the same words: in the cabinet they share
+    "sấy", and in a sentence that mentions a hair dryer afterwards they do not.
+    """
+    got = [h.device_type for h in device_hint.devices_named_in(text, KB)]
+    assert got == expected
 
 
 def test_not_knowing_is_not_a_no():

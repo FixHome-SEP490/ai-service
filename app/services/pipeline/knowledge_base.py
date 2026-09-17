@@ -105,8 +105,17 @@ class ConfusionQuestion:
 
     devices: List[str]
     question_vi: str
-    if_yes: str
-    if_no: str
+    if_yes: str = ""
+    if_no: str = ""
+    """A bare yes or no resolves to these, and empty means it resolves nothing.
+
+    Both are empty for a question that offers three choices rather than two,
+    where "có" is not an answer to anything. A washing machine, a tumble dryer
+    and a dishwasher are one photograph — a white box with a door — so the
+    question has to offer all three, and then the reply is read by what it
+    names rather than by its yes or no.
+    """
+
     yes_words_vi: List[str] = field(default_factory=list)
     no_words_vi: List[str] = field(default_factory=list)
 

@@ -1,6 +1,6 @@
 # Những chỗ kho tri thức cần thợ xác nhận
 
-819 mục, trải trên 157 tài liệu. Danh sách này được sinh ra từ chính kho tri thức bằng `python tools/review_backlog.py`, nên nó không bao giờ lệch với file gốc.
+821 mục, trải trên 158 tài liệu. Danh sách này được sinh ra từ chính kho tri thức bằng `python tools/review_backlog.py`, nên nó không bao giờ lệch với file gốc.
 
 Xếp theo thiết bị, thiết bị nhiều mã bệnh lên trước, vì đó cũng là thiết bị khách hỏi nhiều nhất. Trong mỗi thiết bị, mã bệnh nguy hiểm lên trước: trả lời sai ở đó tốn hơn trả lời sai một cái giá.
 
@@ -1200,11 +1200,15 @@ Cách dùng: mỗi lần ngồi xuống xử lý trọn một thiết bị. Tr�
 - Phần gỗ đáy tủ đã hỏng tới đâu, nếu đã rò lâu.
 - Chi phí. Mọi con số tiền lấy từ bảng giá của hệ thống, không lấy từ tài liệu này.
 
-## chung — 3 mục
+## chung — 5 mục
 
 **Khu vực FixHome nhận sửa** — `system/khu-vuc-phuc-vu.md`
 
 - Có phụ phí đi xa cho đơn ở quận xa trung tâm hay không, và ngưỡng tính từ đâu. Khách ở Bình Tân hay Thủ Đức hay hỏi câu này ngay sau khi biết là có phục vụ.
 - Khung giờ nhận đơn thực tế của đội thợ, vì khách hỏi khu vực thường hỏi luôn giờ, và hiện tài liệu này không trả lời được vế sau.
 - Có nhận đơn gấp trong ngày ở mọi quận không, hay chỉ ở một số quận có đủ thợ trực. Đây là thứ quyết định câu trả lời cho các ca khẩn như rò gas hay kẹt ngoài cửa, và hiện đang bỏ trống.
+**Những thiết bị nhìn ảnh không phân biệt được, và cách hỏi lại** — `system/thiet-bi-de-nhin-nham.md`
+
+- Máy rửa bát âm tủ có mặt nạ gỗ trùng với cánh tủ bếp thì trong ảnh gần như không thấy được gì — có dấu hiệu nào khách nhìn thấy được để tách nó khỏi máy giặt không, ngoài việc hỏi máy dùng làm gì.
+- Bếp hồng ngoại nên xếp cùng nhóm với bếp từ hay tách riêng, vì mặt bếp nhìn giống nhau nhưng bếp hồng ngoại vẫn nóng mặt kính sau khi tắt và đó là một cảnh báo an toàn khác.
 
