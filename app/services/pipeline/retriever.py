@@ -373,11 +373,40 @@ class _SymptomIndex:
     ranking, not the absolute score, and any change to either can cost a
     warning.
 
-    So the known cost of leaving it alone is ties. "Máy giặt không vắt được"
-    still ranks a noisy bearing above WM_NO_SPIN, whose first symptom is the
-    customer's exact words. Accept that the shortlist carries both and let the
-    model choose — which is what a shortlist is for. Every attempt to make the
-    scorer decide it alone has cost more than it bought.
+    The known cost of leaving it alone was ties, and a fourth attempt finally
+    bought some of that back — from the other direction. Not by changing any
+    score, which is what the three above all did, but by ordering faults that
+    already scored the same.
+
+    Six can tie. "Bep tu khong tat duoc" had five gas and induction faults at
+    exactly 1.0, and the one whose symptom list contains that sentence word for
+    word came last, on the order the JSON file happens to list them in. The
+    phrase bonus was meant to separate these and cannot: it is added inside a
+    min(1.0, ...), so at a full score it is discarded precisely when every
+    other signal has run out.
+
+    Breaking ties on the same phrase measure took 468 of 472 to 470, with the
+    written-corpus check, the business check, the silence check and — the one
+    that disqualified an earlier attempt — all ten safety pins unchanged. It
+    can move a pin, since pinning follows the top-ranked fault and this reorders
+    the top, so those ten were the number watched.
+
+    Two of the three it fixed were the induction hob above. It cost one: "bếp
+    gas lửa không đều" no longer shortlists a clogged burner, and now offers
+    three other gas faults instead. All three carry the same warning to close
+    the bottle valve, which is why this was accepted rather than reverted.
+
+    One detail made the difference, and it is the reason the bonus underperforms
+    inside score() as well. `_phrase_overlap` was given the query with filler
+    removed and the symptoms with filler left in, so a word-for-word match
+    measured zero: "bep tu khong tat duoc" reads as the pair (tu, tat) on one
+    side and (tu, khong), (khong, tat) on the other. The tie-break filters both.
+    Correcting it inside score() would move every score in the corpus, which is
+    the territory the three failures above are from, so it was not touched.
+
+    Where a tie survives all of that, the original advice still holds: let the
+    shortlist carry both and let the model choose. That is what a shortlist is
+    for.
     """
 
     def __init__(self, faults: Sequence[Fault]) -> None:
@@ -430,6 +459,34 @@ class _SymptomIndex:
         # threshold — the two earlier attempts at this failed because they took
         # weight away, and one of them cost two safety pins.
         return min(1.0, covered + _PHRASE_BONUS * _phrase_overlap(query, symptoms))
+
+    def phrase_overlap(self, query_tokens: Iterable[str], fault: Fault) -> float:
+        """The same phrase measure, for breaking ties rather than scoring.
+
+        The bonus inside score() is capped away exactly when it is needed. Six
+        faults can each cover every weighted token of a short query, all reach
+        1.0, and the cap then discards the one signal that separates them: for
+        "bep tu khong tat duoc", five gas and induction faults tied at 1.0 and
+        the one whose symptom list contains that sentence word for word came
+        last, on file order.
+
+        Used only to order faults that already scored the same, so no score
+        moves and nothing can cross a threshold. Two earlier attempts at this
+        failed by taking weight away from the score itself, and one of them
+        cost two safety warnings.
+        """
+        tokens = list(query_tokens)
+        symptoms = _normalize(" ".join(fault.symptoms_vi))
+        if all(t in _STOPWORDS for t in tokens):
+            return _phrase_overlap(tokens, symptoms)
+        # Both sides filtered, which the bonus inside score() does not do: it
+        # compares the query with filler removed against symptoms with filler
+        # left in. "Bep tu khong tat duoc" becomes the pair (tu, tat) on one
+        # side while the symptom that contains that exact sentence still reads
+        # (tu, khong), (khong, tat) on the other, so a word-for-word match
+        # measures zero overlap. Correcting it inside score() would move every
+        # score; here it only orders faults that already tied.
+        return _phrase_overlap(_content_tokens(tokens), _content_tokens(symptoms))
 
 
 def _device_alias_tokens(question: str, kb: KnowledgeBase) -> List[str]:
@@ -504,7 +561,12 @@ class Retriever:
         # needed and which had quietly deleted "nuoc" from plumbing messages.
         index = self._symptom_index(device_type)
         scored = [ScoredFault(fault=f, score=index.score(tokens, f)) for f in pool]
-        scored.sort(key=lambda s: s.score, reverse=True)
+        # Equal scores were left in the order the JSON file happens to list
+        # them. Saying it the way the symptom list says it decides instead.
+        scored.sort(
+            key=lambda s: (s.score, index.phrase_overlap(tokens, s.fault)),
+            reverse=True,
+        )
         # Drop zero-overlap faults. Handing the VLM every fault of a device
         # whenever the description says nothing useful invites a confident
         # guess; an empty shortlist correctly ends in a clarification instead.
