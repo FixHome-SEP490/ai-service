@@ -242,12 +242,22 @@ function money(n) {
   return n.toLocaleString("vi-VN") + "đ";
 }
 
+// The service the customer can book, whatever else the answer says. A reply
+// that analyses and then stops is where these conversations died: the customer
+// read the diagnosis and had nowhere to go with it.
+function bookingLine(r) {
+  const svc = (r.recommendedServices || [])[0];
+  if (!svc) return "";
+  return "\n\n" + "Dịch vụ nên đặt: " + svc.nameVi
+       + "\n" + "Anh/chị bấm Đặt thợ ngay giúp em, thợ FixHome sẽ gọi xác nhận giờ ạ.";
+}
+
 function renderDiagnosis(r) {
   if (r.code) return { text: "Hiện em chưa kiểm tra được, anh/chị chọn dịch vụ thủ công giúp em nhé." };
   const opening = r.device ? `Em xem thì đây là ${r.device.nameVi}. ` : "";
   if (r.status === "needs_clarification") {
     const qs = (r.clarification && r.clarification.questionsVi) || [];
-    return { text: opening + "Em hỏi thêm cho chắc ạ:\n" + qs.map(q => "• " + q).join("\n") };
+    return { text: opening + "Em hỏi thêm cho chắc ạ:\n" + qs.map(q => "• " + q).join("\n") + bookingLine(r) };
   }
   if (r.messageVi) return { text: r.messageVi, kind: r.urgency === "HIGH" ? "warn" : "" };
   const lines = [opening + "Nhiều khả năng là:"];
@@ -258,6 +268,8 @@ function renderDiagnosis(r) {
   else if (p.min != null) lines.push("\nChi phí dự kiến khoảng " + money(p.min) + " tới " + money(p.max) + ".");
   const acts = r.suggestedActionsVi || [];
   if (acts.length) { lines.push("\nAnh/chị làm giúp em mấy việc này trước ạ:"); for (const a of acts) lines.push("• " + a); }
+  const booking = bookingLine(r);
+  if (booking) lines.push(booking.slice(2));
   if (r.disclaimerVi) lines.push("\n" + r.disclaimerVi);
   return { text: lines.join("\n"), kind: r.urgency === "HIGH" ? "warn" : "" };
 }

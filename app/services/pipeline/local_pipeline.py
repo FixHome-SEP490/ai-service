@@ -1183,6 +1183,12 @@ class LocalPipeline:
                 questions_vi=questions,
                 service_group_codes=self._kb.all_service_groups(),
             ),
+            # Asking and offering are not exclusive. The customer still has to
+            # answer the question, but they no longer have to wait for the
+            # answer before they can book anybody.
+            recommended_services=self._service_to_offer(
+                shortlist, chat.device_type if chat else None
+            ),
             # Asking which appliance it is does not make a burning smell less
             # urgent. "Cháy khét" is two words and settles nothing, so it is
             # right to ask — and wrong to hand the client a LOW beside the
@@ -1192,6 +1198,57 @@ class LocalPipeline:
             model_info=self._model_info,
             trace=trace.stages if trace else [],
             disclaimer_vi=settings.AI_DISCLAIMER_VI,
+        )
+
+    def _service_to_offer(
+        self, shortlist: Optional[List], device_type: Optional[str]
+    ) -> List[RecommendedService]:
+        """One service the customer could book right now, even mid-question.
+
+        A question with no way forward attached is where conversations died:
+        the customer answered, the assistant asked again, and nobody ever
+        arrived at a booking. Naming a service alongside the question costs the
+        customer nothing and gives the app something to put a button on.
+
+        Never a confident repair when the fault is still open. If the faults
+        under consideration all book the same service, that is the one; where
+        they disagree, the honest offer is the call-out, because that is
+        literally what is being proposed — somebody comes and looks.
+        """
+        # The specific service only once the appliance is settled. Without this
+        # guard "hư rồi" — two words naming nothing — was offered a
+        # refrigerator repair, because the shortlist it retrieved happened to be
+        # all one device.
+        if device_type is None:
+            return self._fallback_offer()
+
+        codes = []
+        for entry in shortlist or []:
+            fault = getattr(entry, "fault", entry)
+            for ref in self._kb.services_for_fault(getattr(fault, "fault_code", "")):
+                if ref.service_code not in codes:
+                    codes.append(ref.service_code)
+        if len(codes) == 1:
+            ref = next(
+                r
+                for entry in shortlist
+                for r in self._kb.services_for_fault(
+                    getattr(getattr(entry, "fault", entry), "fault_code", "")
+                )
+            )
+            return [
+                RecommendedService(service_code=ref.service_code, name_vi=ref.name_vi)
+            ]
+
+        return self._fallback_offer()
+
+    def _fallback_offer(self) -> List[RecommendedService]:
+        """The on-site inspection, in Backend's code so the app can book it."""
+        ref = self._kb.fallback_service()
+        return (
+            [RecommendedService(service_code=ref.service_code, name_vi=ref.name_vi)]
+            if ref
+            else []
         )
 
     def _highest_urgency(self, shortlist: Optional[List]) -> UrgencyLevel:
