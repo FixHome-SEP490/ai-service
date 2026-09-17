@@ -8,4 +8,10 @@ __pycache__/
 *.pyc
 .pytest_cache/
 tests/
-*.md
+# Anchored, and it has to stay anchored. The knowledge corpus is 132 .md
+# files under app/data/knowledge/, and it is the whole point of the service.
+# Docker's * does not cross a slash, so the unanchored form happened to spare
+# them, but nobody should have to know that to read this file: written as
+# **/*.md it would ship an image that starts cleanly, answers every question,
+# and knows nothing.
+/*.md

@@ -26,6 +26,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 import shutil
 import subprocess
 import sys
@@ -34,7 +35,7 @@ from typing import List, Optional
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
-from _secrets import get_secret  # noqa: E402
+from _secrets import _from_env_file, get_secret  # noqa: E402
 
 if hasattr(sys.stdout, "reconfigure"):
     sys.stdout.reconfigure(encoding="utf-8", errors="replace")
@@ -169,6 +170,16 @@ def cmd_offers(args: argparse.Namespace) -> None:
         # genuinely unsuitable machine. On every other card the filter changed
         # no result, so it was hiding a whole class of hardware and buying
         # nothing. What the image actually needs is checked in `train` instead.
+        # VRAM, not just the model name. The plan is a 12GB card and the
+        # entrypoint's memory split is written for one; an RTX 3060 also ships
+        # as an 8GB board under the same name, and renting one would load Qwen,
+        # leave the detector nothing, and run out of CUDA memory partway
+        # through the first request with a photograph in it.
+        #
+        # In gigabytes. The search API takes GB here while the offer it returns
+        # reports gpu_ram in megabytes, so the obvious 12*1024 matches nothing
+        # at all and reads like there are no 3060s left.
+        f"gpu_ram>={args.min_vram}",
         f"dph<={args.max_price}",
         "reliability>0.98",
         f"inet_down>={args.min_download}",
@@ -194,12 +205,13 @@ def cmd_offers(args: argparse.Namespace) -> None:
             )
 
     print(
-        f"{'offer':>10}  {'$/hr':>6}  {'GPU':<16}{'down':>8}  {'disk':>7}"
+        f"{'offer':>10}  {'$/hr':>6}  {'GPU':<16}{'vram':>6}{'down':>8}  {'disk':>7}"
         f"  {'cuda':>5}  reliability"
     )
     for offer in offers[: args.limit]:
         print(
             f"{offer['id']:>10}  {offer['dph_total']:>6.3f}  {offer['gpu_name']:<16}"
+            f"{offer.get('gpu_ram', 0) / 1024:>4.0f}GB"
             f"{offer.get('inet_down', 0):>6.0f}Mb  {offer['disk_space']:>5.0f}GB"
             f"  {_cuda(offer):>5.1f}  {offer['reliability2']:.3f}"
         )
@@ -349,6 +361,33 @@ box publishes its ports to the open internet.
 """
 
 
+def _registry_login() -> Optional[str]:
+    """Docker credentials for the rented box, or None if the image is public.
+
+    The serving image lives on GHCR and this organisation does not allow public
+    packages, so the rented machine has to log in before it can pull. vast.ai
+    takes the credentials as literal `docker login` arguments and runs them on
+    the box; they are passed straight through and never printed here.
+
+    GHCR accepts any GitHub token with read:packages as the password, and the
+    username is ignored for token auth. Prefer GHCR_TOKEN in .env; fall back to
+    whatever `gh` is already authenticated with, so a developer who has signed
+    in to the CLI needs no extra setup.
+    """
+    token = os.environ.get("GHCR_TOKEN", "").strip() or _from_env_file("GHCR_TOKEN")
+    if not token and shutil.which("gh"):
+        try:
+            token = subprocess.run(
+                ["gh", "auth", "token"], capture_output=True, text=True, timeout=20
+            ).stdout.strip()
+        except (OSError, subprocess.SubprocessError):
+            token = ""
+    if not token:
+        return None
+    user = os.environ.get("GITHUB_ACTOR", "").strip() or "fixhome"
+    return f"-u {user} -p {token} ghcr.io"
+
+
 def cmd_serve(args: argparse.Namespace) -> None:
     """Rent a second machine and serve Qwen on it.
 
@@ -375,7 +414,7 @@ def cmd_serve(args: argparse.Namespace) -> None:
             f"-e MAX_LEN={args.max_len}",
         ]
     )
-    result = _cli(
+    create = [
         "create",
         "instance",
         str(args.offer),
@@ -385,9 +424,14 @@ def cmd_serve(args: argparse.Namespace) -> None:
         "60",
         "--env",
         env,
-        "--raw",
-        trailing=("--args", "serve"),
-    )
+    ]
+    login = _registry_login()
+    if login:
+        create += ["--login", login]
+    else:
+        print("No GHCR credentials found; the pull will fail unless the image")
+        print("has been made public. Set GHCR_TOKEN in .env, or run `gh auth login`.")
+    result = _cli(*create, "--raw", trailing=("--args", "serve"))
     created = _reply(result, doing=f"renting offer {args.offer} to serve Qwen")
     instance_id = created.get("new_contract")
     if not instance_id:
@@ -450,9 +494,13 @@ def cmd_status(args: argparse.Namespace) -> None:
     instances = _instances()
     if not instances:
         print("Nothing rented. No charges accruing.")
-        if INSTANCE_FILE.exists():
-            INSTANCE_FILE.unlink()
-            print(f"Removed the stale {INSTANCE_FILE.name}.")
+        # Both files, not just the trainer's. Clearing one and leaving the
+        # other meant `serve` refused to start the next day, pointing at an
+        # instance that had been destroyed and saying to destroy it first.
+        for path in (INSTANCE_FILE, SERVE_INSTANCE_FILE):
+            if path.exists():
+                path.unlink()
+                print(f"Removed the stale {path.name}.")
         return
 
     for item in instances:
@@ -502,6 +550,12 @@ def main() -> None:
     offers = sub.add_parser("offers", help="what is available and what it costs")
     offers.add_argument("--gpu", default="RTX_3060")
     offers.add_argument("--max-price", type=float, default=0.40)
+    offers.add_argument(
+        "--min-vram",
+        type=int,
+        default=12,
+        help="GB of VRAM; 12 is what the deployment was planned around",
+    )
     offers.add_argument("--min-download", type=int, default=200, help="Mbps")
     offers.add_argument("--limit", type=int, default=10)
     offers.add_argument(

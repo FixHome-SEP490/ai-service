@@ -5,6 +5,31 @@ from fastapi.middleware.cors import CORSMiddleware
 from app.core.config import settings
 from app.core.exceptions import AIServiceException, ai_exception_handler
 from app.api.v1.router import api_router
+from app.services.pipeline.corpus import get_corpus
+
+
+def _assert_the_corpus_shipped() -> None:
+    """Refuse to start rather than answer from an empty corpus.
+
+    The corpus reaches the rented box as files inside the image, and a build
+    that leaves them out is invisible at runtime: retrieval returns nothing,
+    every answer degrades into a clarifying question, the health check is green
+    and the service looks like it is working. The same reasoning as the
+    entrypoint refusing to start on a stub detector, which would have answered
+    every photograph with the same appliance.
+
+    Cheap to check and it only runs once, so it runs at startup rather than
+    being something somebody remembers to verify after a deploy.
+    """
+    chunks = get_corpus()
+    if len(chunks) < 1000:
+        raise RuntimeError(
+            f"Kho tri thức chỉ có {len(chunks)} đoạn, phải có vài nghìn. "
+            "app/data/knowledge/ không vào được image — kiểm tra .dockerignore."
+        )
+
+
+_assert_the_corpus_shipped()
 
 app = FastAPI(
     title="FixHome AI Service",
