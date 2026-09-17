@@ -257,12 +257,18 @@ def test_asking_how_the_bill_works_is_inside_the_trade():
     assert not pipeline._is_in_the_trade("bitcoin giá bao nhiêu")
 
 
-def test_a_washer_and_a_dryer_are_asked_apart():
-    """The same photograph, and different faults at different prices.
+def test_a_washer_a_dryer_and_a_dishwasher_are_asked_apart():
+    """The same photograph three times over: a white box with a door.
 
-    A front-load washer and a front-load dryer are a drum behind a round glass
-    door. The question has to be about something the customer can see without
-    knowing which machine they own.
+    This used to ask about the pull-out detergent drawer, which separates a
+    washer from a tumble dryer and gets a dishwasher wrong: a dishwasher's
+    detergent goes in a compartment in the door, so its owner answers "no" and
+    the machine was filed as a tumble dryer.
+
+    So the question now offers all three. It names them, which the other
+    confusion questions deliberately avoid — but nobody is unsure whether their
+    machine washes clothes or washes dishes. That confusion belongs entirely to
+    the photograph.
     """
     from app.services.pipeline import device_hint
 
@@ -270,7 +276,40 @@ def test_a_washer_and_a_dryer_are_asked_apart():
     question = device_hint.confusion_question("washing_machine", "không vắt", kb)
 
     assert question is not None
-    assert "bột giặt" in question or "nước giặt" in question
+    for offered in ("máy giặt", "máy sấy quần áo", "máy rửa bát"):
+        assert offered in question, offered
+
+
+def test_a_three_way_question_does_not_guess_from_a_bare_yes_or_no():
+    """"Có" answers nothing when three things were offered.
+
+    The binary questions resolve a bare yes or no, and carrying that over would
+    have put the dishwasher bug back: an answer that settles nothing would
+    settle on whichever device happened to be written first.
+    """
+    from app.services.pipeline import device_hint
+
+    kb = get_knowledge_base()
+    for reply in ["có", "dạ có", "không", "đúng rồi"]:
+        for asked in ["washing_machine", "clothes_dryer", "dishwasher"]:
+            got = device_hint.resolve_confusion_answer(reply, asked, kb)
+            assert got is None, (reply, asked, got)
+
+
+def test_a_three_way_question_is_settled_by_what_the_reply_names():
+    from app.services.pipeline import device_hint
+
+    kb = get_knowledge_base()
+    expected = {
+        "máy giặt ạ": "washing_machine",
+        "máy sấy quần áo": "clothes_dryer",
+        "máy rửa bát ạ": "dishwasher",
+        "máy rửa chén": "dishwasher",
+        "dạ máy để rửa bát": "dishwasher",
+    }
+    for reply, device in expected.items():
+        got = device_hint.resolve_confusion_answer(reply, "washing_machine", kb)
+        assert got == device, (reply, got)
 
 
 @pytest.mark.parametrize(

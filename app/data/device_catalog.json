@@ -40,6 +40,8 @@
       "detector_class": true,
       "open_images_class": "Mechanical fan",
       "aliases_vi": [
+        "quạt điện",
+        "quat dien",
         "quạt cây",
         "quạt bàn",
         "quạt hộp",
@@ -64,10 +66,12 @@
         "máy giặt cửa trên",
         "máy giặt cửa ngang",
         "lồng giặt",
-        "ngăn đựng bột giặt"
+        "ngăn đựng bột giặt",
+        "giặt quần áo"
       ],
       "confusable_with": [
-        "clothes_dryer"
+        "clothes_dryer",
+        "dishwasher"
       ]
     },
     {
@@ -139,7 +143,9 @@
         "van điều áp",
         "kiềng bếp"
       ],
-      "confusable_with": []
+      "confusable_with": [
+        "induction_hob"
+      ]
     },
     {
       "device_type": "kettle",
@@ -338,10 +344,13 @@
         "máy rửa bát",
         "may rua bat",
         "máy rửa chén",
-        "may rua chen"
+        "may rua chen",
+        "rửa bát",
+        "rửa chén"
       ],
       "confusable_with": [
-        "washing_machine"
+        "washing_machine",
+        "clothes_dryer"
       ]
     },
     {
@@ -357,10 +366,12 @@
         "máy sấy",
         "may say",
         "lưới lọc xơ",
-        "lồng sấy"
+        "lồng sấy",
+        "sấy quần áo"
       ],
       "confusable_with": [
-        "washing_machine"
+        "washing_machine",
+        "dishwasher"
       ]
     },
     {
@@ -519,16 +530,27 @@
       ],
       "question_vi": "Bếp nhà mình có dùng bình gas không ạ?",
       "if_yes": "gas_stove",
-      "if_no": "induction_hob"
+      "if_no": "induction_hob",
+      "yes_words_vi": [
+        "đánh lửa",
+        "ngọn lửa",
+        "lửa xanh",
+        "bật lửa"
+      ],
+      "no_words_vi": [
+        "bếp từ",
+        "bếp điện",
+        "hồng ngoại",
+        "cảm ứng"
+      ]
     },
     {
       "devices": [
         "washing_machine",
-        "clothes_dryer"
+        "clothes_dryer",
+        "dishwasher"
       ],
-      "question_vi": "Máy nhà mình có ngăn để đổ bột giặt hoặc nước giặt, kéo ra được không ạ?",
-      "if_yes": "washing_machine",
-      "if_no": "clothes_dryer"
+      "question_vi": "Máy nhà mình là máy giặt, máy sấy quần áo, hay máy rửa bát ạ?"
     }
   ]
 }

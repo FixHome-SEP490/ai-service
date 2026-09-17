@@ -74,6 +74,36 @@ def _disqualified(device_type: str, folded: str) -> bool:
     return False
 
 
+def _overlaps_a_disqualifier(device_type: str, folded: str, alias: str) -> bool:
+    """Whether a disqualifier is built out of the same words as the alias.
+
+    Length was the original test for this, and length is the wrong signal.
+    "Tủ sấy quần áo" is a drying cabinet: the alias "sấy quần áo" is three words
+    and the disqualifier "tủ sấy" is two, so the longer, more specific-looking
+    phrase was the wrong one, and the cabinet came back as a tumble dryer with
+    a tumble dryer's lint-fire warning.
+
+    What actually separates the two cases is whether they occupy the same words.
+    In "tủ sấy quần áo" the disqualifier and the alias share "sấy" — it is one
+    phrase, and the first two words say which. In "máy sấy quần áo và máy sấy
+    tóc" the disqualifier sits somewhere else in the sentence, describing a
+    second appliance, and the alias still means what it says.
+    """
+    words = _folded_words(folded)
+    start = words.find(f" {alias} ")
+    if start < 0:
+        return False
+    alias_span = (start, start + len(alias) + 2)
+
+    for phrase in NOT_THIS_DEVICE.get(device_type, ()):
+        at = words.find(f" {phrase} ")
+        while at >= 0:
+            if at < alias_span[1] and at + len(phrase) + 2 > alias_span[0]:
+                return True
+            at = words.find(f" {phrase} ", at + 1)
+    return False
+
+
 def _folded_words(folded: str) -> str:
     """The folded text reduced to space-separated words, padded at both ends."""
     return " " + " ".join(re.findall(r"[a-z0-9]+", folded)) + " "
@@ -102,9 +132,14 @@ def devices_named_in(description: str, kb: KnowledgeBase) -> List[DeviceHint]:
                 best = alias
         if best is None:
             continue
-        # The specific alias survives its own disqualifier: somebody who typed
-        # "máy sấy quần áo" has said which one they mean, whatever else is in
-        # the sentence.
+        # The specific alias survives a disqualifier elsewhere in the sentence:
+        # somebody who typed "máy sấy quần áo" has said which one they mean,
+        # whatever else they went on to mention. But not one built out of the
+        # same words — "tủ sấy quần áo" is the alias with a different first
+        # word, and that first word is the whole meaning.
+        folded_alias = _fold(best).strip()
+        if _overlaps_a_disqualifier(device_type, folded, folded_alias):
+            continue
         if len(best.split()) < 3 and _disqualified(device_type, folded):
             continue
         hits.append(DeviceHint(device_type=device_type, matched_alias=best))
@@ -206,6 +241,45 @@ _POLITE = {"da", "vang", "a", "e", "em", "anh", "chi", "the", "thi", "la", "thua
 first word or the whole string misses every polite one."""
 
 
+
+_NEGATORS = {"khong", "ko", "k", "chang", "chua", "dau"}
+"""Words that turn a mention into its opposite, checked as whole words.
+
+The question asks about something visible and the reply mentions it — but half
+the time to deny it. "Không phải trần đâu ạ" contains the word the ceiling fan
+question was written to elicit, and matching on the word alone read that as a
+yes: the three commonest pairs in the catalogue, the fan, the sink and the
+socket, all resolved to exactly the wrong one of the two.
+
+Whole words, not substrings, and only just before the phrase. "Ko" inside
+another word, or a "không" from the start of a long sentence, would put the
+same fault back in a harder place to see.
+"""
+
+_NEGATION_WINDOW = 24
+"""How far back a negator still governs the phrase, in characters.
+
+Long enough for "nhà em không dùng ..." and short enough that a denial about
+something else earlier in the sentence does not reach across.
+"""
+
+
+def _negated(folded: str, phrase: str) -> bool:
+    """Whether the reply denies the phrase rather than confirming it.
+
+    "Không rõ" is excluded on purpose. It is not a denial, it is the customer
+    saying they cannot tell, and treating it as one would answer the question
+    for them — so "em không rõ, chắc là quạt trần" stays a ceiling fan.
+    """
+    index = folded.find(phrase)
+    if index < 0:
+        return False
+    before = folded[max(0, index - _NEGATION_WINDOW):index]
+    if any(unsure in before for unsure in _UNSURE):
+        return False
+    return bool(set(before.split()) & _NEGATORS)
+
+
 def resolve_confusion_answer(
     answer: str, asked_about: str, kb: KnowledgeBase
 ) -> Optional[str]:
@@ -221,18 +295,38 @@ def resolve_confusion_answer(
     if question is None:
         return None
 
+    folded = _fold(answer)
+
     named = devices_named_in(answer, kb)
     for hint in named:
-        if hint.device_type in question.devices:
+        if hint.device_type not in question.devices:
+            continue
+        if not _negated(folded, _fold(hint.matched_alias).strip()):
             return hint.device_type
+        # They named it to rule it out. "Không có bình gas" names the gas
+        # stove by one of its own aliases, and reading that as the answer
+        # picked the appliance the customer had just denied.
+        others = [d for d in question.devices if d != hint.device_type]
+        if len(others) == 1:
+            return others[0]
+        return None  # three choices and one ruled out still leaves two
 
-    folded = _fold(answer)
+    # A denial of the phrase answers the question just as well as a
+    # confirmation of it, and in the opposite direction. `or None` throughout,
+    # because a question offering three choices leaves both of these empty and
+    # an empty string is not a device.
     for word in question.yes_words_vi:
-        if _fold(word).strip() in folded:
-            return question.if_yes
+        phrase = _fold(word).strip()
+        if phrase in folded:
+            if _negated(folded, phrase):
+                return question.if_no or None
+            return question.if_yes or None
     for word in question.no_words_vi:
-        if _fold(word).strip() in folded:
-            return question.if_no
+        phrase = _fold(word).strip()
+        if phrase in folded:
+            if _negated(folded, phrase):
+                return question.if_yes or None
+            return question.if_no or None
 
     # "Không rõ" before anything else: it carries a negative word and is not a
     # negative answer, and reading it as one settles the appliance from an
@@ -244,7 +338,7 @@ def resolve_confusion_answer(
     # Negative first, because "không có" contains "có".
     words = [w for w in folded.split() if w not in _POLITE]
     if any(w in _NO for w in words):
-        return question.if_no
+        return question.if_no or None
     if any(w in _YES for w in words):
-        return question.if_yes
+        return question.if_yes or None
     return None
