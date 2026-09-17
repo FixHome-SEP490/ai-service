@@ -732,6 +732,7 @@ class LocalPipeline:
             session_id=chat.session_id,
             status=AnswerStatus.OK,
             answer_vi=answer_vi,
+            recommended_services=self._services_for_answer(codes, device_type),
             # Only what the answer could have come from. Sending ten candidate
             # rows and citing all ten put three refrigerator boards under an
             # answer about a gas stove igniter: the figure was right and the
@@ -791,6 +792,7 @@ class LocalPipeline:
             return self._ungrounded_answer(request, chat)
 
         chat.add("assistant", answer_vi)
+        device_type = chat.device_type or _device_named_in(request.question, self._kb)
         return ChatResponse(
             request_id=request.request_id,
             session_id=chat.session_id,
@@ -799,6 +801,12 @@ class LocalPipeline:
             # distinction the citations exist for.
             status=AnswerStatus.GENERAL_KNOWLEDGE,
             answer_vi=answer_vi,
+            # Nothing was retrieved, so there is no shortlist to name a service
+            # from — but the appliance is known and it is broken enough to ask
+            # about, and the inspection is always bookable.
+            recommended_services=(
+                self._fallback_offer() if device_type else []
+            ),
             confidence=0.4,
             disclaimer_vi=settings.AI_DISCLAIMER_VI,
         )
@@ -1199,6 +1207,20 @@ class LocalPipeline:
             trace=trace.stages if trace else [],
             disclaimer_vi=settings.AI_DISCLAIMER_VI,
         )
+
+    def _services_for_answer(
+        self, codes: List[str], device_type: Optional[str]
+    ) -> List[RecommendedService]:
+        """What a chat answer leaves the customer able to book.
+
+        Empty when the question was not about a broken appliance. Somebody
+        asking how long the warranty lasts does not want a button, and putting
+        one there turns every answer into a sales pitch.
+        """
+        if device_type is None or not codes:
+            return []
+        faults = [self._kb.fault(code) for code in codes]
+        return self._service_to_offer([f for f in faults if f], device_type)
 
     def _service_to_offer(
         self, shortlist: Optional[List], device_type: Optional[str]

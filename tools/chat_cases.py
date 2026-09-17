@@ -383,6 +383,18 @@ CASES: List[Case] = [
     Case("em đang đứng ngoài cửa không vào nhà được", "diagnose", "smart_lock",
          faults_any=["LOCK_LOCKED_OUT"]),
 
+    # ------------------------------- where FixHome actually works
+    # "Thợ bên mình có tới quận 7 không" came back as "câu hỏi này nằm ngoài
+    # phạm vi tài liệu hiện có" — to a customer one question away from booking.
+    Case("thợ bên mình có tới quận 7 không", "answer", None,
+         business_any=["system/khu-vuc-phuc-vu.md"]),
+    Case("nhà em ở Hà Đông có nhận không", "answer", None,
+         business_any=["system/khu-vuc-phuc-vu.md"]),
+    Case("fixhome có làm ở Bình Dương không", "answer", None,
+         business_any=["system/khu-vuc-phuc-vu.md"]),
+    Case("bên mình phục vụ khu vực nào", "answer", None,
+         business_any=["system/khu-vuc-phuc-vu.md"]),
+
     # ------------------------------- nothing may be retrieved for these
     Case("hôm nay ăn gì ngon", "refuse", None,
          note="không thiết bị, không triệu chứng — không được lấy gì"),

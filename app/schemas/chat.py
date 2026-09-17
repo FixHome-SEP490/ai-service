@@ -12,6 +12,8 @@ from typing import Annotated, List, Optional
 from pydantic import BaseModel, ConfigDict, Field
 from pydantic.alias_generators import to_camel
 
+from app.schemas.diagnosis import RecommendedService
+
 
 class AnswerStatus(str, Enum):
     OK = "ok"
@@ -58,6 +60,17 @@ class ChatResponse(BaseModel):
     answer_vi: str
     citations: List[Citation] = Field(default_factory=list)
     confidence: float = Field(default=0.0, ge=0.0, le=1.0)
+
+    recommended_services: List[RecommendedService] = Field(default_factory=list)
+    """What the customer could book, if anything fits what they asked.
+
+    The diagnosis surface has carried this from the start and this one did not,
+    which put the "Đặt thợ ngay" button on the wrong half of the conversation:
+    the button lives in the chat frame, and the chat frame was the one surface
+    that never said which service to book. Empty is a real answer — nobody
+    books a technician after asking how long the warranty lasts.
+    """
+
     disclaimer_vi: str
 
     model_config = ConfigDict(alias_generator=to_camel, populate_by_name=True)

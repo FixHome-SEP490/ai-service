@@ -8,46 +8,54 @@ PO chốt ngày 17/09/2026. Ghi lại nguyên ý để không trôi:
 > booking và đặt cái filter sao cho ra đúng dịch vụ. Cái này triển khai hoàn toàn
 > trên mobile app.
 
-## Tin tốt: phần lớn đường ống đã dựng sẵn
+## Phần AI Service đã xong, cập nhật 17/09/2026
 
-Không phải làm lại từ đầu, và **không phải train lại gì cả**. Lý do ở mục cuối.
+Không còn việc nào ở repo này chặn mobile nữa. Cụ thể những gì đã làm:
 
-`app/data/service_mapping.json` đã tồn tại và đang **cố ý để trống**. Chú thích
-trong file ghi đúng tình huống hôm nay: "De rong cho toi khi Backend chot catalog;
-khi do chi can dien file nay, khong dung vao bang loi hay code." Đây chính là chỗ
-"dạy cho RAG biết danh sách dịch vụ".
+`app/data/service_mapping.json` đã được điền đủ. 134 bệnh, 72 bệnh có dịch vụ riêng
+và 62 bệnh rơi về `KIEM_TRA_CHAN_DOAN_THIET_BI` đúng như PO chốt. File được sinh
+bởi `tools/map_services.py` đọc thẳng `backend/src/database/seeds/seed-catalog.ts`,
+nên tên dịch vụ khách nhìn thấy đúng là tên trong catalog chứ không phải tên
+ai đó gõ lại. Backend đổi tên dịch vụ thì chạy lại tool, không sửa tay.
 
-`DiagnosisResponse` đã có sẵn trường `recommended_services: List[RecommendedService]`
-với `service_code` và `name_vi`, và `local_pipeline.py` đã điền nó: gọi
-`services_for_fault()`, nếu chưa có ánh xạ thì lùi về mã công trong
-`labour_catalog.json` để câu "giờ tôi nên thuê dịch vụ nào" không bị trả lời bằng
-sự im lặng. Nghĩa là AI **đã** biết trả lời nên đặt dịch vụ nào, chỉ là đang trả về
-mã nội bộ của AI Service chứ chưa phải `serviceId` của Backend.
+Mỗi dịch vụ mang theo `base_price` của Backend, nên con số AI nói khi mời đặt
+lịch là con số catalog tính tiền, không phải sàn công thợ của bảng giá nội bộ.
 
-Bên mobile, `CustomerServicesScreen` đã nhận `route.params?.query` và lọc theo nó.
-Tức là cơ chế "route qua trang dịch vụ kèm bộ lọc" đã chạy được, chỉ là đang lọc
-trên một mảng `ALL_SERVICES` viết cứng 8 nhóm trong chính file màn hình, chứ chưa
-gọi `servicesApi.getServices({ categoryId, search })` — hàm này đã viết xong trong
-`src/api/services.api.ts` nhưng chưa ai dùng.
+`ChatResponse` đã có `recommendedServices`, giống `DiagnosisResponse`. Trước đây
+chỉ mặt chẩn đoán có, mà nút "Đặt thợ ngay" lại sống trong khung chat.
 
-## Việc cần làm, chia theo repo
+**Mọi câu trả lời đều kèm một dịch vụ đặt được, kể cả câu hỏi lại.** Đây là chỗ
+mobile cần đọc kỹ nhất. Quy tắc:
 
-### AI Service
+Biết thiết bị và các bệnh trong danh sách ngắn đều đặt chung một dịch vụ thì
+trả đúng dịch vụ đó.
 
-Điền `service_mapping.json`: mỗi `fault_code` ánh xạ sang một hoặc nhiều
-`service_code` của Backend. 108 bệnh, và nhiều bệnh chung một dịch vụ nên số dòng
-thật sẽ ít hơn nhiều. Đây là dữ liệu, không đụng code.
+Các bệnh khác dịch vụ nhau, hoặc chưa biết thiết bị gì, thì trả
+`KIEM_TRA_CHAN_DOAN_THIET_BI`. Đây không phải trả bừa: thợ sang xem tận nơi đúng
+là việc đang được đề nghị.
 
-Thêm `recommended_services` vào `ChatResponse`. Hiện `DiagnosisResponse` có,
-`ChatResponse` không — mà nút "Đặt thợ ngay" sống trong khung chat. Đây là sửa
-schema, không sửa logic: dữ liệu đã có sẵn trong pipeline.
+Câu hỏi không về thiết bị hỏng — bảo hành bao lâu, quy trình đặt lịch — thì
+`recommendedServices` rỗng. Không ai đặt thợ sau khi hỏi bảo hành, và dí nút vào
+đó biến mọi câu trả lời thành lời chào hàng.
 
-Trả kèm `service_id` của Backend chứ không chỉ `service_code`. Mobile cần thứ đưa
-thẳng vào bộ lọc được, không phải thứ phải đoán lại bằng cách so tên.
+Khách nói thẳng là muốn đặt lịch thì AI không chẩn đoán nữa. "Bây giờ anh muốn
+đặt lịch vệ sinh máy lạnh" trả về `status: ok`, `suspectedFaults` rỗng, một dịch vụ
+trong `recommendedServices`, và `messageVi` mời khách bấm nút. Mobile gặp dạng này
+thì đưa thẳng sang màn đặt lịch chứ đừng hiển thị như một kết luận bệnh.
 
-Viết thêm vài file tri thức nghiệp vụ trong `app/data/knowledge/system/` mô tả
-danh mục dịch vụ bằng lời khách: dịch vụ nào bao gồm gì, khi nào chọn dịch vụ này
-thay vì dịch vụ kia. Corpus hiện có 5 file nghiệp vụ, đây là file thứ 6 trở đi.
+`app/data/knowledge/system/danh-muc-dich-vu.md` mô tả danh mục bằng lời khách, nên
+câu "giờ tôi nên thuê dịch vụ nào" được trả lời từ tài liệu chứ không phải từ
+suy đoán của mô hình.
+
+## Còn thiếu một thứ, và nó thuộc Backend
+
+AI trả `serviceCode` chứ chưa trả `serviceId`. Mapping được sinh từ file seed, mà
+file seed không chứa id — id sinh ra lúc chạy seed vào database. Hai cách để đóng:
+Backend cho AI Service một endpoint trả bảng code → id, hoặc mobile lọc
+`GET /services` theo `code`. Cách thứ hai không cần ai làm gì thêm và nên chọn
+trước, cách thứ nhất sạch hơn nếu sau này danh mục to lên.
+
+## Việc còn lại, chia theo repo
 
 ### Backend
 
