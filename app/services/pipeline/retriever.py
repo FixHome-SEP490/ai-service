@@ -360,12 +360,24 @@ class _SymptomIndex:
     name plus filler have nothing left to score on, and several of the
     dangerous phrasings are exactly that shape.
 
-    The known cost of leaving it alone is ties. "Máy giặt không vắt được"
-    ranks a noisy bearing level with WM_NO_SPIN, whose first symptom is the
-    customer's exact words, because the bearing's phrasings repeat "máy giặt"
-    and WM_NO_SPIN's do not. The cheap fix for that is data, not scoring: write
-    the appliance name into the symptom lists that lack it, or accept that the
-    shortlist carries both and let the model choose — which is what it is for.
+    A third was tried from the opposite direction: counting the appliance's name
+    as present in every one of its faults, which is what writing the name into
+    the symptom lists that lack it would amount to. 468 became 462 and a safety
+    pin was lost as well.
+
+    That one is worth understanding rather than just recording, because the
+    reasoning behind it was wrong in a way that is easy to repeat. Raising a
+    score cannot push a fault below a threshold, so it looked safe. But
+    `safety_passages` pins on the top-ranked fault, and raising everyone else
+    moves the dangerous one out of first place. What matters here is the
+    ranking, not the absolute score, and any change to either can cost a
+    warning.
+
+    So the known cost of leaving it alone is ties. "Máy giặt không vắt được"
+    still ranks a noisy bearing above WM_NO_SPIN, whose first symptom is the
+    customer's exact words. Accept that the shortlist carries both and let the
+    model choose — which is what a shortlist is for. Every attempt to make the
+    scorer decide it alone has cost more than it bought.
     """
 
     def __init__(self, faults: Sequence[Fault]) -> None:
