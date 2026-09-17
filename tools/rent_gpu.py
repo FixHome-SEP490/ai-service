@@ -712,7 +712,16 @@ def main() -> None:
         default=0.70,
         help="share of VRAM for Qwen; the rest is the detector's",
     )
-    serve.add_argument("--weights-run", default="detector-v1")
+    serve.add_argument(
+        "--weights-run",
+        default="detector-v2-yolo11s",
+        help=(
+            "which published run the served detector uses. v2 knows twenty-two "
+            "devices to v1's seventeen, and on the seventeen they share it "
+            "names 86.2 percent correctly against v1's 83.9, measured on the "
+            "same images. See docs/DETECTOR-V2.md."
+        ),
+    )
     serve.add_argument("--max-len", type=int, default=8192)
 
     address = sub.add_parser("address", help="where the served API answers")
