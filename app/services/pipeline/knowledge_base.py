@@ -61,6 +61,10 @@ class ServiceRef:
 
     service_code: str
     name_vi: str
+    base_price: Optional[int] = None
+    """What Backend charges for it. Quoting the fault's floor instead named a
+    price from our own labour table that had nothing to do with the service the
+    customer was about to book."""
 
 
 @dataclass(frozen=True)
@@ -209,7 +213,11 @@ class KnowledgeBase:
         self._services: Dict[str, List[ServiceRef]] = {}
         for entry in mapping.get("mappings", []):
             self._services[entry["fault_code"]] = [
-                ServiceRef(service_code=s["service_code"], name_vi=s["name_vi"])
+                ServiceRef(
+                    service_code=s["service_code"],
+                    name_vi=s["name_vi"],
+                    base_price=s.get("base_price"),
+                )
                 for s in entry.get("services", [])
             ]
 

@@ -36,7 +36,9 @@ class _FixedVlm:
     async def narrate(self, facts_vi: str, allowed_numbers: list[str]) -> str:
         return ""
 
-    async def answer(self, question: str, passages_vi: list[str], safety_vi=None):
+    async def answer(
+        self, question: str, passages_vi: list[str], safety_vi=None, history_vi=""
+    ):
         if safety_vi:
             return (safety_vi, 0.8)
         return (passages_vi[0], 0.8) if passages_vi else ("", 0.0)

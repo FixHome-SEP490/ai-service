@@ -103,7 +103,16 @@ _ANSWER_SYSTEM = (
     "Không bịa giá, không hứa thời gian, không thay kỹ thuật viên kết luận.\n"
     "\n"
     "Mở đầu bằng 'Dạ', xưng em, gọi khách là anh/chị, kết câu bằng 'ạ' hoặc "
-    "'nhé' — giọng nhân viên đang nhắn tin, không phải một dòng trích tài liệu."
+    "'nhé' — giọng nhân viên đang nhắn tin, không phải một dòng trích tài liệu.\n"
+    "\n"
+    "Tài liệu là ghi chú nghề viết CHO BẠN ĐỌC, không phải lời để đọc lại cho "
+    "khách. Trong đó có những câu dặn bạn nên hỏi gì, nên nói gì — hãy LÀM theo "
+    "chúng, đừng thuật lại chúng. Nói thẳng với khách, ngôi thứ hai, như đang "
+    "nhắn cho chính người đó.\n"
+    "\n"
+    "Câu cuối luôn mời khách đặt thợ. Kể cả khi bạn chưa chắc bệnh gì, kể cả "
+    "khi còn phải hỏi thêm, vẫn cho khách biết đặt dịch vụ nào thì có người tới "
+    "xem tận nơi."
 )
 
 _SAFETY_ANSWER_SYSTEM = (
@@ -140,6 +149,10 @@ _GENERAL_SYSTEM = (
     "2. Điều khoản bảo hành, chính sách hoàn tiền, cam kết thời gian của FixHome.\n"
     "3. Khẳng định chắc chắn thiết bị hỏng gì khi chưa nhìn thấy. Nói 'thường "
     "là', 'khả năng cao', và nói rõ thợ phải kiểm tra mới chắc.\n"
+    "\n"
+    "Bạn LÀ thợ của FixHome. Khách đang hỏi đúng nghề của bạn, nên việc của "
+    "bạn là giúp họ và mời họ đặt thợ bên mình tới xem. Câu cuối luôn là lời "
+    "mời đặt lịch với FixHome.\n"
     "\n"
     "Nếu câu hỏi không liên quan tới thiết bị gia dụng, điện nước trong nhà hay "
     "dịch vụ sửa chữa, trả về đúng một từ: NGOAI_PHAM_VI"
@@ -190,6 +203,32 @@ _MISSPELLINGS = (
     (r"\bhòng\b", "hỏng"),
     (r"\bHòng\b", "Hỏng"),
 )
+
+
+_SENDS_AWAY = (
+    "lien he voi mot chuyen gia",
+    "lien he chuyen gia",
+    "tim mot ky thuat vien",
+    "tim ky thuat vien khac",
+    "trung tam bao hanh",
+    "cua hang sua chua",
+    "tho sua chua ben ngoai",
+    "khong the giup",
+    "khong ho tro duoc",
+)
+"""Ways the model has told a customer to take their problem elsewhere.
+
+FixHome sells exactly the thing being deflected. An answer containing one of
+these is dropped rather than repaired, because the sentence around it is
+usually an apology for not helping and there is nothing in it worth keeping.
+"""
+
+
+def _sends_the_customer_away(text: str) -> bool:
+    folded = unicodedata.normalize("NFD", text.lower())
+    folded = "".join(c for c in folded if unicodedata.category(c) != "Mn")
+    folded = folded.replace("đ", "d")
+    return any(phrase in folded for phrase in _SENDS_AWAY)
 
 
 def _fix_spelling(text: str) -> str:
@@ -531,8 +570,16 @@ class QwenClient:
         if raw is None:
             return ""
 
-        answer = raw.strip()
+        answer = _fix_spelling(_fix_pronouns(_strip_apology(raw.strip())))
         if _OUT_OF_SCOPE in answer.upper().replace(" ", "_"):
+            return ""
+        if _sends_the_customer_away(answer):
+            # "Xin lỗi, tôi không thể giúp bạn. Bạn nên liên hệ với một chuyên
+            # gia về điện tử hoặc kỹ thuật viên" — said by the assistant of a
+            # repair company, to someone asking what a repair costs. Handing
+            # its own customer to somebody else is worse than saying nothing,
+            # and the caller turns an empty answer into a question instead.
+            logger.warning("qwen_general_answer_referred_elsewhere")
             return ""
         if _PRICE_LIKE.search(answer):
             logger.warning("qwen_general_answer_quoted_money")
@@ -544,7 +591,15 @@ class QwenClient:
         question: str,
         passages_vi: List[str],
         safety_vi: Optional[str] = None,
+        history_vi: str = "",
     ) -> tuple[str, float]:
+        """history_vi is the thread so far, oldest first.
+
+        Without it this path answered every message as though it were the
+        first. "Chi phi thay aptomat may giat" followed by "gia bao nhieu" came
+        back as a sentence about fixed-price services: the second question is
+        only a question at all because of the first, and the model never saw it.
+        """
         if not (passages_vi or safety_vi):
             return "", 0.0
 
@@ -565,9 +620,13 @@ class QwenClient:
                 "lời của bạn. Không rút gọn, không bỏ bước nào. Xong rồi mới "
                 "trả lời phần còn lại của câu hỏi.\n\n"
             )
+        thread = (
+            f"Cuộc trò chuyện từ đầu:\n{history_vi}\n\n" if history_vi else ""
+        )
         prompt = (
             f"{head}"
             f"Tài liệu tham khảo:\n\n{numbered}\n\n"
+            f"{thread}"
             f"Câu hỏi của khách hàng: {question}\n\n"
             "Trả lời dựa trên tài liệu trên."
         )

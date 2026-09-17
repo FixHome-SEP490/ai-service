@@ -144,12 +144,80 @@ def _is_identification(text: str) -> bool:
     return not any(w in folded for w in _SYMPTOM_WORDS)
 
 
+_BOOKING_INTENT = (
+    "muon dat", "dat lich", "dat tho", "dat dich vu", "cho dat",
+    "goi tho", "book lich", "book tho", "dang ky dich vu", "hen tho",
+    "cho minh dat", "toi muon dat", "em muon dat", "anh muon dat",
+)
+"""The customer has stopped describing and started buying.
+
+Asked "bây giờ anh muốn đặt lịch vệ sinh máy lạnh", the service answered with
+a diagnosis: two possible faults, a price range and a list of things to try
+first. Nobody asked what was wrong. Diagnosing someone who is trying to book
+puts a wall of text between them and the thing they came to do.
+"""
+
+
+def _wants_to_book(text: str) -> bool:
+    return any(phrase in _fold_vi(text) for phrase in _BOOKING_INTENT)
+
+
 _BUSINESS_WORDS = (
     "bao hanh", "chinh sach", "hoan tien", "huy", "dat lich", "quy trinh",
     "fixhome", "hoa don", "cam ket", "khieu nai", "danh gia", "thanh toan",
     "dat tho", "goi tho", "dich vu", "ung dung", "app",
 )
 """What makes a question about the business rather than about a machine."""
+
+
+_FOLLOW_UP_MAX_WORDS = 6
+"""Above this a question carries enough of itself to retrieve on.
+
+Six words is where "gia bao nhieu" and "con cai kia thi sao" sit and where a
+real standalone question starts. Getting it wrong in the safe direction means
+retrieving on one message too many, which the retriever already handles: it is
+given the whole thread on the diagnosis side and always has been."""
+
+
+_DIALOGUE_TURNS = 6
+"""How much of the thread the model is shown.
+
+Enough to follow a reference back a couple of exchanges, short enough that a
+3B model with a passage budget still spends most of its attention on the
+documents."""
+
+
+def _recent_dialogue(chat: Conversation) -> str:
+    """The last few turns, labelled, oldest first.
+
+    customer_text() joins only what the customer said, which is right for
+    retrieval and wrong for a prompt: the model needs to see what it already
+    answered, or it answers it again.
+    """
+    lines = [
+        ("Khách" if t.role == "customer" else "Bạn") + f": {t.text_vi}"
+        for t in chat.turns[-_DIALOGUE_TURNS:]
+    ]
+    return "\n".join(lines)
+
+
+def _standalone_question(question: str, chat: Conversation, kb: KnowledgeBase) -> str:
+    """The question with enough of the thread in front of it to mean something.
+
+    "Chi phí thay aptomat máy giặt", then "giá bao nhiêu". The second message
+    retrieved on three words that name no appliance and no part, matched a
+    policy line about fixed-price services, and the customer was told something
+    true about a different subject. It is not a new question; it is the end of
+    the previous one.
+    """
+    earlier = [t.text_vi for t in chat.turns if t.role == "customer"][:-1]
+    if not earlier:
+        return question
+    if len(_fold_vi(question).split()) > _FOLLOW_UP_MAX_WORDS:
+        return question
+    if _device_named_in(question, kb) is not None:
+        return question
+    return f"{earlier[-1]} {question}"
 
 
 def _asks_about_the_business(question: str) -> bool:
@@ -290,6 +358,15 @@ class LocalPipeline:
         )
         if not in_scope:
             return self._out_of_scope_response(request, chat, trace)
+
+        # Someone asking to book has stopped describing and started buying.
+        # "Bây giờ anh muốn đặt lịch vệ sinh máy lạnh" came back as a diagnosis
+        # — two possible faults, a price range, and a list of things to try
+        # first — to a customer who had asked for none of it.
+        if _wants_to_book(request.description) and not request.images:
+            booking = self._booking_response(request, chat, trace)
+            if booking is not None:
+                return booking
 
         detection = await self._detect_primary(request.images)
         trace.add(
@@ -547,8 +624,11 @@ class LocalPipeline:
         # loaded and used offline while this surface could not see them, so
         # "dây điện thay bên mình tính giá sao" was refused as out of scope with
         # the answer sitting in a file the service had already read.
+        # A follow-up is not a new question. Everything below retrieves on the
+        # resolved form; the model is still shown the words the customer typed.
+        asked = _standalone_question(request.question, chat, self._kb)
         policies = self._retriever.policy_passages(
-            request.question, top_k=settings.RETRIEVAL_TOP_K
+            asked, top_k=settings.RETRIEVAL_TOP_K
         )
         # Price rows are grounding for a question about price and noise for
         # anything else. Asked "trước khi thợ tới em nên làm gì", they matched
@@ -556,9 +636,9 @@ class LocalPipeline:
         # solenoid valve and a tap base before the technician arrived.
         prices = (
             self._retriever.price_passages(
-                request.question, device_type=chat.device_type or request.device_type
+                asked, device_type=chat.device_type or request.device_type
             )
-            if _asks_about_money(request.question)
+            if _asks_about_money(asked)
             else []
         )
 
@@ -569,10 +649,10 @@ class LocalPipeline:
         # refrigerator. Two million characters about the trade sat one call
         # away the whole time.
         device_type = chat.device_type or request.device_type or _device_named_in(
-            request.question, self._kb
+            asked, self._kb
         )
         candidates = (
-            self._retriever.candidate_faults(request.question, device_type)
+            self._retriever.candidate_faults(asked, device_type)
             if device_type
             else []
         )
@@ -590,7 +670,7 @@ class LocalPipeline:
         safety = self._retriever.safety_passages(codes[:1])
         pinned = [f"{s.chunk.source_file}::{s.chunk.heading_vi}" for s in safety]
         corpus = self._retriever.corpus_passages(
-            request.question,
+            asked,
             device_type=device_type,
             fault_codes=codes,
             exclude=pinned,
@@ -609,8 +689,8 @@ class LocalPipeline:
         # which does not say how long, so the model declined and the customer
         # was told the question was out of scope.
         business = (
-            self._retriever.business_passages(request.question)
-            if _asks_about_the_business(request.question) or not codes
+            self._retriever.business_passages(asked)
+            if _asks_about_the_business(asked) or not codes
             else []
         )
 
@@ -620,7 +700,7 @@ class LocalPipeline:
         # documents — which are about the fault and say nothing about warranty.
         written = (
             business + corpus
-            if _asks_about_the_business(request.question)
+            if _asks_about_the_business(asked)
             else corpus + business
         )
         chunks = safety + written
@@ -640,6 +720,7 @@ class LocalPipeline:
         answer_vi, confidence = await self._vlm.answer(
             question=request.question,
             passages_vi=passages_vi,
+            history_vi=_recent_dialogue(chat),
             safety_vi="\n\n".join(s.chunk.as_passage_vi() for s in safety) or None,
         )
         if not answer_vi:
@@ -790,6 +871,91 @@ class LocalPipeline:
                 questions_vi=[question],
                 service_group_codes=self._kb.all_service_groups(),
             ),
+            model_info=self._model_info,
+            trace=trace.stages,
+            disclaimer_vi=settings.AI_DISCLAIMER_VI,
+        )
+
+    def _booking_response(
+        self, request: DiagnosisRequest, chat: Conversation, trace: "_Trace"
+    ) -> Optional[DiagnosisResponse]:
+        """Hand over the service, not a diagnosis.
+
+        Returns None when the appliance is still unknown, because "cho mình
+        đặt lịch" on its own does not say what to book and the ordinary path
+        already asks that well.
+        """
+        device_type = chat.device_type or _device_named_in(
+            chat.customer_text(), self._kb
+        )
+        if device_type is None:
+            return None
+
+        # Which service, from the faults that fit what they have said. A
+        # cleaning and a repair are different services at different prices, and
+        # "đặt lịch vệ sinh máy lạnh" names the cheaper one outright.
+        candidates = self._retriever.candidate_faults(
+            chat.customer_text(), device_type, top_k=settings.VLM_SHORTLIST_SIZE
+        )
+        services: List[RecommendedService] = []
+        # The catalogue's own price, kept beside the service it belongs to. The
+        # fault's floor is a number from our labour table and named 100.000đ
+        # under "Sửa tủ lạnh" — a different row from the one being booked.
+        base: Optional[int] = None
+        for scored in candidates:
+            refs = self._kb.services_for_fault(scored.fault.fault_code)
+            if not refs:
+                # Same fallback the diagnosis path uses: every fault names the
+                # labour row its floor price came from, so the service is known
+                # even where Backend has not issued a code for it.
+                labour = self._kb.labour_row(scored.fault.labour_code)
+                if labour is None:
+                    continue
+                refs = [
+                    ServiceRef(
+                        service_code=labour.code,
+                        name_vi=labour.name_vi,
+                        base_price=labour.price_min,
+                    )
+                ]
+            for ref in refs:
+                if all(s.service_code != ref.service_code for s in services):
+                    if not services:
+                        base = ref.base_price or scored.fault.price_min
+                    services.append(
+                        RecommendedService(
+                            service_code=ref.service_code, name_vi=ref.name_vi
+                        )
+                    )
+        if not services:
+            return None
+
+        name = self._kb.device_name_vi(device_type) or device_type
+        price = (
+            " Giá dịch vụ từ {:,.0f}đ.".format(base).replace(",", ".")
+            if base
+            else ""
+        )
+        message = (
+            f"Dạ vâng ạ, bên em nhận đặt dịch vụ {services[0].name_vi} "
+            f"cho {name.lower()}.{price} Anh/chị bấm Đặt thợ ngay giúp em, "
+            "thợ FixHome sẽ gọi xác nhận giờ và sang tận nơi ạ."
+        )
+        chat.add("assistant", message)
+        trace.add(
+            "scope",
+            True,
+            f"Khách muốn đặt lịch — đưa thẳng dịch vụ {services[0].service_code}",
+        )
+        return DiagnosisResponse(
+            request_id=request.request_id,
+            session_id=chat.session_id,
+            status=DiagnosisStatus.OK,
+            engine=Engine.LOCAL_PIPELINE,
+            device=self._resolve_device(None, chat),
+            recommended_services=services[:1],
+            message_vi=message,
+            confidence=0.0,
             model_info=self._model_info,
             trace=trace.stages,
             disclaimer_vi=settings.AI_DISCLAIMER_VI,
