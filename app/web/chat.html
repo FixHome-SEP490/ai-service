@@ -1,0 +1,294 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FixHome — Trợ lý sửa chữa</title>
+<style>
+  :root {
+    --bg: #f3f4f6; --panel: #ffffff; --ink: #111827; --muted: #6b7280;
+    --line: #e5e7eb; --me: #2563eb; --me-ink: #ffffff; --warn: #b91c1c;
+    --note: #f0f9ff; --note-line: #bae6fd;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--bg); color: var(--ink);
+    font: 15px/1.55 -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+    height: 100dvh; display: flex; flex-direction: column;
+  }
+  header {
+    background: var(--panel); border-bottom: 1px solid var(--line);
+    padding: 10px 16px; display: flex; align-items: center; gap: 12px;
+  }
+  header h1 { font-size: 16px; margin: 0; flex: 1; }
+  header .sub { font-size: 12px; color: var(--muted); font-weight: 400; }
+  button {
+    font: inherit; border: 1px solid var(--line); background: var(--panel);
+    color: var(--ink); border-radius: 8px; padding: 7px 12px; cursor: pointer;
+  }
+  button:hover { background: #f9fafb; }
+  button:disabled { opacity: .5; cursor: default; }
+  #log { flex: 1; overflow-y: auto; padding: 16px; }
+  .turn { max-width: 760px; margin: 0 auto 14px; display: flex; }
+  .turn.me { justify-content: flex-end; }
+  .bubble {
+    background: var(--panel); border: 1px solid var(--line); border-radius: 12px;
+    padding: 10px 13px; max-width: 86%; white-space: pre-wrap; word-wrap: break-word;
+  }
+  .turn.me .bubble { background: var(--me); color: var(--me-ink); border-color: var(--me); }
+  .bubble img { display: block; max-width: 260px; border-radius: 8px; margin-bottom: 8px; }
+  .who { font-size: 11px; color: var(--muted); margin-bottom: 3px; }
+  .turn.me .who { text-align: right; }
+  .bubble.note { background: var(--note); border-color: var(--note-line); }
+  .bubble.warn { border-color: var(--warn); border-width: 2px; }
+  .cites { margin-top: 8px; font-size: 12px; color: var(--muted); }
+  .empty { max-width: 760px; margin: 40px auto; color: var(--muted); text-align: center; }
+  footer { background: var(--panel); border-top: 1px solid var(--line); padding: 10px 16px; }
+  .composer { max-width: 760px; margin: 0 auto; display: flex; gap: 8px; align-items: flex-end; }
+  textarea {
+    flex: 1; font: inherit; resize: none; border: 1px solid var(--line);
+    border-radius: 10px; padding: 9px 11px; min-height: 42px; max-height: 140px;
+  }
+  .thumb { position: relative; }
+  .thumb img { height: 42px; border-radius: 8px; display: block; }
+  .thumb button {
+    position: absolute; top: -7px; right: -7px; border-radius: 50%;
+    width: 22px; height: 22px; padding: 0; line-height: 1; font-size: 13px;
+  }
+  label.pick { cursor: pointer; }
+  .hint { max-width: 760px; margin: 6px auto 0; font-size: 12px; color: var(--muted); }
+</style>
+</head>
+<body>
+<header>
+  <h1>FixHome <span class="sub" id="head-sub">trợ lý sửa chữa</span></h1>
+  <button id="new-session" title="Xoá hội thoại và bắt đầu lại">Phiên chat mới</button>
+</header>
+
+<div id="log"><div class="empty">Mô tả thiết bị đang trục trặc, gửi kèm ảnh nếu có.</div></div>
+
+<footer>
+  <div class="composer">
+    <label class="pick"><button type="button" id="pick">Ảnh</button>
+      <input id="file" type="file" accept="image/*" hidden></label>
+    <div class="thumb" id="thumb" hidden>
+      <img id="thumb-img" alt="ảnh sắp gửi">
+      <button type="button" id="thumb-drop" title="Bỏ ảnh">×</button>
+    </div>
+    <textarea id="text" rows="1" placeholder="Nhà mình đang gặp vấn đề gì ạ?"></textarea>
+    <button id="send">Gửi</button>
+  </div>
+  <div class="hint" id="hint"></div>
+</footer>
+
+<script>
+// Everything said stays on screen. The acknowledgement is a turn like any
+// other, not a placeholder that the answer overwrites: the customer asked for
+// a record of the conversation, and a line that vanishes when the real reply
+// lands reads as though the assistant changed its mind about answering.
+const log = document.getElementById("log");
+const textBox = document.getElementById("text");
+const fileInput = document.getElementById("file");
+const thumb = document.getElementById("thumb");
+const thumbImg = document.getElementById("thumb-img");
+const sendBtn = document.getElementById("send");
+const hint = document.getElementById("hint");
+
+const STORE = "fixhome-chat-v1";
+let state = load() || fresh();
+let pending = null;   // the File waiting to be sent
+let acks = null;
+
+function fresh() { return { sessionId: null, turns: [] }; }
+function load() {
+  try { return JSON.parse(localStorage.getItem(STORE) || "null"); } catch { return null; }
+}
+function save() {
+  // Best effort. A transcript with photographs outgrows the quota quickly, and
+  // losing the saved copy must not take the visible conversation with it.
+  try { localStorage.setItem(STORE, JSON.stringify(state)); } catch { /* full */ }
+}
+
+function render() {
+  log.innerHTML = "";
+  if (!state.turns.length) {
+    const empty = document.createElement("div");
+    empty.className = "empty";
+    empty.textContent = "Mô tả thiết bị đang trục trặc, gửi kèm ảnh nếu có.";
+    log.appendChild(empty);
+    return;
+  }
+  for (const turn of state.turns) log.appendChild(bubbleFor(turn));
+  log.scrollTop = log.scrollHeight;
+}
+
+function bubbleFor(turn) {
+  const row = document.createElement("div");
+  row.className = "turn" + (turn.who === "me" ? " me" : "");
+  const who = document.createElement("div");
+  who.className = "who";
+  who.textContent = turn.who === "me" ? "Bạn" : "FixHome";
+  const bubble = document.createElement("div");
+  bubble.className = "bubble" + (turn.kind ? " " + turn.kind : "");
+  if (turn.image) {
+    const img = document.createElement("img");
+    img.src = turn.image;
+    img.alt = "ảnh đã gửi";
+    bubble.appendChild(img);
+  }
+  if (turn.text) bubble.appendChild(document.createTextNode(turn.text));
+  if (turn.cites && turn.cites.length) {
+    const c = document.createElement("div");
+    c.className = "cites";
+    c.textContent = "Nguồn: " + turn.cites.join(" · ");
+    bubble.appendChild(c);
+  }
+  const wrap = document.createElement("div");
+  wrap.appendChild(who);
+  wrap.appendChild(bubble);
+  row.appendChild(wrap);
+  return row;
+}
+
+function say(turn) { state.turns.push(turn); save(); render(); }
+
+function fold(s) {
+  return s.normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase();
+}
+const ASK_WORDS = ["bao lau", "bao nhieu", "the nao", "lam sao", "co nen", "vi sao",
+  "tai sao", "la gi", "bao hanh", "chinh sach", "gia ", "phi ", "quy trinh",
+  "dat lich", "huy", "hoan tien"];
+function isAQuestion(t) {
+  const f = fold(t);
+  if (t.includes("?") && !/\b(hong|hu|khong|bi|keu|ro|chay)\b/.test(f)) return true;
+  return ASK_WORDS.some(w => f.includes(w));
+}
+
+function pickAck(text, hasImage) {
+  if (!acks) return "Dạ em nhận được thông tin rồi ạ, anh chị chờ em xem qua một chút nhé.";
+  const f = fold(text);
+  const safety = acks.safetyFirst || {};
+  // A cue of gas, live electricity or water reaching wiring replaces the
+  // pleasantry, because the instruction in it cannot wait for the pipeline.
+  if (/mui gas|ro gas|xi gas/.test(f) && safety.gas) return one(safety.gas);
+  if (/khet|boc khoi|chay|te tay|giat dien/.test(f) && safety.electrical) return one(safety.electrical);
+  if (/ngap|vao nuoc|nuoc vao dien/.test(f) && safety.water_on_electrics) return one(safety.water_on_electrics);
+  const s = acks.situations || {};
+  const group = hasImage ? s.first_photo : (isAQuestion(text) ? s.general_question : s.first_text);
+  return one(group || s.first_text || []);
+}
+function one(list) { return list && list.length ? list[Math.floor(Math.random() * list.length)] : ""; }
+
+function money(n) {
+  if (n === null || n === undefined) return "";
+  return n.toLocaleString("vi-VN") + "đ";
+}
+
+function renderDiagnosis(r) {
+  if (r.code) return { text: "Hiện em chưa kiểm tra được, anh/chị chọn dịch vụ thủ công giúp em nhé." };
+  const opening = r.device ? `Em xem thì đây là ${r.device.nameVi}. ` : "";
+  if (r.status === "needs_clarification") {
+    const qs = (r.clarification && r.clarification.questionsVi) || [];
+    return { text: opening + "Em hỏi thêm cho chắc ạ:\n" + qs.map(q => "• " + q).join("\n") };
+  }
+  if (r.messageVi) return { text: r.messageVi, kind: r.urgency === "HIGH" ? "warn" : "" };
+  const lines = [opening + "Nhiều khả năng là:"];
+  for (const f of r.suspectedFaults || []) lines.push("• " + f.nameVi);
+  const p = r.priceEstimate || {};
+  if (p.min != null && p.max == null) lines.push("\nChi phí dự kiến từ " + money(p.min) + ".");
+  else if (p.min != null && p.max === p.min) lines.push("\nChi phí dự kiến " + money(p.min) + ".");
+  else if (p.min != null) lines.push("\nChi phí dự kiến khoảng " + money(p.min) + " tới " + money(p.max) + ".");
+  const acts = r.suggestedActionsVi || [];
+  if (acts.length) { lines.push("\nAnh/chị làm giúp em mấy việc này trước ạ:"); for (const a of acts) lines.push("• " + a); }
+  if (r.disclaimerVi) lines.push("\n" + r.disclaimerVi);
+  return { text: lines.join("\n"), kind: r.urgency === "HIGH" ? "warn" : "" };
+}
+
+async function send() {
+  const text = textBox.value.trim();
+  if (!text && !pending) return;
+  sendBtn.disabled = true;
+  hint.textContent = "Đang gửi…";
+
+  const image = pending ? await asDataUrl(pending) : null;
+  say({ who: "me", text, image });
+  const file = pending;
+  textBox.value = "";
+  clearThumb();
+
+  say({ who: "ai", text: pickAck(text, !!file), kind: "note" });
+
+  try {
+    let reply;
+    if (file) {
+      const form = new FormData();
+      form.append("description", text || "Anh/chị xem giúp em thiết bị này bị gì ạ");
+      if (state.sessionId) form.append("sessionId", state.sessionId);
+      form.append("files", file, "photo.jpg");
+      const r = await (await fetch("/api/v1/diagnosis/analyze-upload", { method: "POST", body: form })).json();
+      if (r.sessionId) state.sessionId = r.sessionId;
+      reply = renderDiagnosis(r);
+    } else if (isAQuestion(text)) {
+      const body = { question: text };
+      if (state.sessionId) body.sessionId = state.sessionId;
+      const r = await (await fetch("/api/v1/chat/ask", {
+        method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body)
+      })).json();
+      if (r.sessionId) state.sessionId = r.sessionId;
+      reply = { text: r.answerVi || "", cites: (r.citations || []).map(c => c.titleVi) };
+    } else {
+      const form = new FormData();
+      form.append("description", text);
+      if (state.sessionId) form.append("sessionId", state.sessionId);
+      const r = await (await fetch("/api/v1/diagnosis/analyze-upload", { method: "POST", body: form })).json();
+      if (r.sessionId) state.sessionId = r.sessionId;
+      reply = renderDiagnosis(r);
+    }
+    say({ who: "ai", text: reply.text, cites: reply.cites, kind: reply.kind || "" });
+  } catch (err) {
+    say({ who: "ai", text: "Em chưa kết nối được tới máy chủ ạ. " + err });
+  } finally {
+    sendBtn.disabled = false;
+    hint.textContent = "";
+    textBox.focus();
+  }
+}
+
+function asDataUrl(file) {
+  return new Promise((resolve) => {
+    const reader = new FileReader();
+    reader.onload = () => resolve(reader.result);
+    reader.readAsDataURL(file);
+  });
+}
+
+function clearThumb() { pending = null; fileInput.value = ""; thumb.hidden = true; }
+
+document.getElementById("pick").onclick = () => fileInput.click();
+fileInput.onchange = async () => {
+  const f = fileInput.files[0];
+  if (!f) return;
+  pending = f;
+  thumbImg.src = await asDataUrl(f);
+  thumb.hidden = false;
+};
+document.getElementById("thumb-drop").onclick = clearThumb;
+sendBtn.onclick = send;
+textBox.addEventListener("keydown", (e) => {
+  if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); send(); }
+});
+document.getElementById("new-session").onclick = () => {
+  // A new session on the server as well. Keeping the old id would carry the
+  // appliance and everything already asked into a conversation the customer
+  // started precisely to get away from them.
+  state = fresh();
+  save();
+  render();
+  textBox.focus();
+};
+
+fetch("/api/v1/chat/acknowledgements").then(r => r.json()).then(a => { acks = a; }).catch(() => {});
+render();
+</script>
+</body>
+</html>

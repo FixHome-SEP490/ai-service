@@ -5,6 +5,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from app.core.config import settings
 from app.core.exceptions import AIServiceException, ai_exception_handler
 from app.api.v1.router import api_router
+from app.web.routes import router as web_router
 from app.services.pipeline.corpus import get_corpus
 
 
@@ -51,6 +52,10 @@ app.add_middleware(
 
 # Include API routes
 app.include_router(api_router)
+# The page the service serves about itself, at /chat on the same port the API
+# answers on. A rented box publishes one port, and "send the team a link" only
+# works if the link is that one.
+app.include_router(web_router)
 
 
 @app.get("/health", tags=["Health"])
