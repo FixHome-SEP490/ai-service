@@ -5,6 +5,7 @@ device_type: electric_fan
 fault_code: FAN_MOTOR_BURNT
 name_vi: Cháy cuộn dây mô tơ
 urgency: HIGH
+safety_heading: Câu phải nói ngay
 confusable_with: [FAN_CAPACITOR, FAN_WORN_BEARING, FAN_CORD_DAMAGE]
 price_policy: Không ghi giá trong tài liệu này. Giá lấy từ bảng giá của hệ thống.
 last_reviewed: 2026-09-17

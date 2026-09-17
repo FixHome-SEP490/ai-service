@@ -5,6 +5,7 @@ fault_code: WH_ELCB_TRIPS
 device_type: water_heater
 name_vi: Rò điện, nhảy chống giật
 urgency: HIGH
+safety_heading: Câu trả lời đầu tiên, trước mọi câu hỏi
 labour_code: DIAGNOSE_ONSITE
 part_codes: [HA045]
 confusable_with:

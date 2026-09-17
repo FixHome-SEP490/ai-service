@@ -5,6 +5,7 @@ device_type: toilet
 fault_code: TOILET_BASE_LEAK
 name_vi: Rò rỉ chân bồn cầu
 urgency: HIGH
+safety_heading: Vì sao một vũng nước nhỏ lại là mã ưu tiên cao
 confusable_with: [TOILET_FILL_VALVE, TOILET_FLAPPER_LEAK, PIPE_JOINT_LEAK]
 price_policy: Không ghi giá trong tài liệu này. Giá lấy từ bảng giá của hệ thống.
 last_reviewed: 2026-09-17

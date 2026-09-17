@@ -5,6 +5,7 @@ device_type: light_bulb
 fault_code: LIGHT_FIXTURE_LEAK
 name_vi: Máng đèn thấm nước, hoen rỉ
 urgency: HIGH
+safety_heading: Câu phải nói ngay
 confusable_with: [LIGHT_FLICKERING, LIGHT_BULB_DEAD, PIPE_JOINT_LEAK]
 price_policy: Không ghi giá trong tài liệu này. Giá lấy từ bảng giá của hệ thống.
 last_reviewed: 2026-09-17

@@ -5,6 +5,7 @@ device_type: gas_stove
 fault_code: STOVE_FLAME_OUT
 name_vi: Lửa tự tắt giữa chừng
 urgency: HIGH
+safety_heading: Vì sao bệnh này ưu tiên cao dù nghe chỉ là phiền toái
 confusable_with: [STOVE_BURNER_CLOGGED, STOVE_REGULATOR, STOVE_GAS_LEAK]
 price_policy: Không ghi giá trong tài liệu này. Giá lấy từ bảng giá của hệ thống.
 last_reviewed: 2026-09-17

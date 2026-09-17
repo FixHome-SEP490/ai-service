@@ -5,6 +5,7 @@ device_type: gas_stove
 fault_code: STOVE_VALVE_STUCK
 name_vi: Núm vặn kẹt, không tắt được lửa
 urgency: HIGH
+safety_heading: Một câu phải nói ngay nếu khách đang không tắt được lửa
 confusable_with: [STOVE_GAS_LEAK, STOVE_REGULATOR, STOVE_BURNER_CLOGGED]
 price_policy: Không ghi giá trong tài liệu này. Giá lấy từ bảng giá của hệ thống.
 last_reviewed: 2026-09-17

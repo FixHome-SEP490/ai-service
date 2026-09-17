@@ -5,6 +5,7 @@ fault_code: FRIDGE_COMPRESSOR
 device_type: refrigerator
 name_vi: Hỏng block máy nén
 urgency: HIGH
+safety_heading: Cảnh báo quan trọng nhất về bệnh này
 labour_code: DIAGNOSE_ONSITE
 part_codes: [RF002]
 confusable_with:

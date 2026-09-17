@@ -5,6 +5,7 @@ device_type: microwave_oven
 fault_code: MW_SPARKING
 name_vi: Phóng tia lửa trong lò
 urgency: HIGH
+safety_heading: Câu phải nói ngay, và vế thứ hai phản trực giác
 confusable_with: [MW_MAGNETRON, MW_DOOR_SWITCH]
 price_policy: Không ghi giá trong tài liệu này. Giá lấy từ bảng giá của hệ thống.
 last_reviewed: 2026-09-17

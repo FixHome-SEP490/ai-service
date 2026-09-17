@@ -5,6 +5,7 @@ device_type: ceiling_fan
 fault_code: CEILFAN_MOUNT_LOOSE
 name_vi: Lỏng bộ treo, mất cân bằng cánh
 urgency: HIGH
+safety_heading: Cách nói đúng mức: dứt khoát nhưng không doạ
 confusable_with: [CEILFAN_BEARING, CEILFAN_CAPACITOR]
 price_policy: Không ghi giá trong tài liệu này. Giá lấy từ bảng giá của hệ thống.
 last_reviewed: 2026-09-17

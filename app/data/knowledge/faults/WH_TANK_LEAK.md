@@ -5,6 +5,7 @@ fault_code: WH_TANK_LEAK
 device_type: water_heater
 name_vi: Thủng, rò bình chứa
 urgency: HIGH
+safety_heading: Câu trả lời đầu tiên, trước mọi câu hỏi
 labour_code: DIAGNOSE_ONSITE
 part_codes: []
 confusable_with:

@@ -5,6 +5,7 @@ device_type: ceiling_fan
 fault_code: CEILFAN_MOTOR_BURNT
 name_vi: Cháy cuộn dây mô tơ quạt trần
 urgency: HIGH
+safety_heading: Câu phải nói ngay
 confusable_with: [CEILFAN_CAPACITOR, CEILFAN_BEARING, CEILFAN_SPEED_SWITCH]
 price_policy: Không ghi giá trong tài liệu này. Giá lấy từ bảng giá của hệ thống.
 last_reviewed: 2026-09-17

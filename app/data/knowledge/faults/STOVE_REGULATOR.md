@@ -5,6 +5,7 @@ device_type: gas_stove
 fault_code: STOVE_REGULATOR
 name_vi: Van điều áp và bình gas
 urgency: HIGH
+safety_heading: Vì sao ưu tiên cao
 confusable_with: [STOVE_GAS_LEAK, STOVE_BURNER_CLOGGED, STOVE_IGNITER, STOVE_FLAME_OUT]
 price_policy: Không ghi giá trong tài liệu này. Giá lấy từ bảng giá của hệ thống.
 last_reviewed: 2026-09-17

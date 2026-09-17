@@ -5,6 +5,7 @@ device_type: power_outlet
 fault_code: OUTLET_SHORT_CIRCUIT
 name_vi: Chập cháy ổ cắm
 urgency: HIGH
+safety_heading: Ca khẩn nhất của cụm điện
 confusable_with: [OUTLET_TRIPS_BREAKER, OUTLET_OVERLOAD, OUTLET_LOOSE_CONTACT]
 price_policy: Không ghi giá trong tài liệu này. Giá lấy từ bảng giá của hệ thống.
 last_reviewed: 2026-09-17

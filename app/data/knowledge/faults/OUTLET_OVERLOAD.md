@@ -5,6 +5,7 @@ device_type: power_outlet
 fault_code: OUTLET_OVERLOAD
 name_vi: Quá tải, dùng quá nhiều thiết bị một ổ
 urgency: HIGH
+safety_heading: Nhánh nguy hiểm âm thầm: nóng mà không nhảy
 confusable_with: [OUTLET_SHORT_CIRCUIT, OUTLET_TRIPS_BREAKER, OUTLET_LOOSE_CONTACT]
 price_policy: Không ghi giá trong tài liệu này. Giá lấy từ bảng giá của hệ thống.
 last_reviewed: 2026-09-17

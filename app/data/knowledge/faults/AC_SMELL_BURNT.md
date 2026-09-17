@@ -5,6 +5,7 @@ fault_code: AC_SMELL_BURNT
 device_type: air_conditioner
 name_vi: Mùi khét, nghi chập điện
 urgency: HIGH
+safety_heading: Cách xử lý ca này khác mọi ca khác
 labour_code: DIAGNOSE_ONSITE
 part_codes: [AC019]
 confusable_with:

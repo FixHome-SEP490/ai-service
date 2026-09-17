@@ -5,6 +5,7 @@ device_type: power_outlet
 fault_code: OUTLET_TRIPS_BREAKER
 name_vi: Rò điện làm nhảy aptomat
 urgency: HIGH
+safety_heading: Nhóm phải cảnh báo ngay
 confusable_with: [OUTLET_SHORT_CIRCUIT, OUTLET_OVERLOAD]
 price_policy: Không ghi giá trong tài liệu này. Giá lấy từ bảng giá của hệ thống.
 last_reviewed: 2026-09-17

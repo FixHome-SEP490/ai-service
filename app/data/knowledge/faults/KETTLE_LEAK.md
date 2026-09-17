@@ -5,6 +5,7 @@ device_type: kettle
 fault_code: KETTLE_LEAK
 name_vi: Rò nước ở đáy bình
 urgency: HIGH
+safety_heading: Câu phải nói ngay
 confusable_with: [KETTLE_HEATING_BASE, KETTLE_SCALE]
 price_policy: Không ghi giá trong tài liệu này. Giá lấy từ bảng giá của hệ thống.
 last_reviewed: 2026-09-17

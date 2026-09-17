@@ -440,6 +440,17 @@ def build_context_prompt(ctx) -> str:
     """
     lines: List[str] = []
 
+    # Before the device, before the conversation, before everything. A model
+    # with a small context window attends to what it sees first, and this is
+    # the one part of the bundle where being read late is a real cost.
+    safety = getattr(ctx, "safety", None) or []
+    for pinned in safety:
+        lines += [
+            "PHẢI NÓI NGAY, TRƯỚC KHI HỎI HAY CHẨN ĐOÁN BẤT KỲ ĐIỀU GÌ:",
+            pinned.chunk.as_passage_vi(),
+            "",
+        ]
+
     if ctx.device_name_vi:
         how = f" (nhận ra từ {ctx.device_source_vi})" if ctx.device_source_vi else ""
         lines.append(f"THIẾT BỊ: {ctx.device_name_vi} [{ctx.device_type}]{how}")
@@ -474,6 +485,25 @@ def build_context_prompt(ctx) -> str:
     if ctx.policies:
         lines += ["", "CHÍNH SÁCH LIÊN QUAN:"]
         lines += [f"  {p.policy.content_vi}" for p in ctx.policies]
+
+    # Last, and deliberately so. These are the longest blocks in the bundle, and
+    # putting them above the shortlist pushed the candidate faults into the
+    # middle of a wall of prose. They are what the answer is built from, not
+    # what it is chosen from.
+    passages = getattr(ctx, "passages", None) or []
+    if passages:
+        lines += [
+            "",
+            "TÀI LIỆU NGHỀ (dựa vào đây để giải thích, không được thêm ngoài):",
+        ]
+        for hit in passages:
+            lines += ["", hit.chunk.as_passage_vi()]
+
+    business = getattr(ctx, "business", None) or []
+    if business:
+        lines += ["", "QUY ĐỊNH CỦA FIXHOME:"]
+        for hit in business:
+            lines += ["", hit.chunk.as_passage_vi()]
 
     return "\n".join(lines)
 

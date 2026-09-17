@@ -5,6 +5,7 @@ fault_code: WM_OVERFLOW
 device_type: washing_machine
 name_vi: Cấp nước không ngắt, tràn nước
 urgency: HIGH
+safety_heading: Cách xử lý ca này khác mọi ca khác
 labour_code: DIAGNOSE_ONSITE
 part_codes: [WM009]
 confusable_with:

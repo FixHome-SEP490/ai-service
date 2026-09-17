@@ -5,6 +5,7 @@ device_type: toilet
 fault_code: TOILET_CLOGGED
 name_vi: Nghẹt bồn cầu
 urgency: HIGH
+safety_heading: Câu phải nói trước mọi chẩn đoán
 confusable_with: [TOILET_WEAK_FLUSH, PIPE_CLOGGED]
 price_policy: Không ghi giá trong tài liệu này. Giá lấy từ bảng giá của hệ thống.
 last_reviewed: 2026-09-17

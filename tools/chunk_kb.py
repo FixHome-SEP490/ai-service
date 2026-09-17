@@ -1,4 +1,4 @@
-"""Split the knowledge corpus into retrievable chunks and report on their size.
+"""Report on how the knowledge corpus splits into retrievable chunks.
 
 The corpus is written to be chunked at `##` headings, so a section is the unit
 that gets pulled out and handed to the model. That makes section length a real
@@ -16,126 +16,52 @@ appliance, is not an answer.
     python tools/chunk_kb.py --out chunks.json
     python tools/chunk_kb.py --show-outliers
 
-The same parsing is used by tests/test_knowledge_chunks.py, so the bounds below
-are enforced rather than merely reported.
+The parsing itself lives in `app/services/pipeline/corpus.py`, because the
+request path loads the same chunks and must not depend on a developer script.
+This file is the report around it, and re-exports the names so existing callers
+and tests keep working.
 """
 
 from __future__ import annotations
 
 import argparse
 import json
-import re
 import statistics
 import sys
-from dataclasses import asdict, dataclass
+from dataclasses import asdict
 from pathlib import Path
-from typing import Dict, Iterator, List, Optional
+from typing import Dict, List
 
-KB_DIR = Path(__file__).resolve().parents[1] / "app" / "data" / "knowledge"
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
-MIN_CHARS = 200
-"""Below this a section has been cut off from what gives it meaning."""
+from app.services.pipeline.corpus import (  # noqa: E402
+    KB_DIR,
+    MAX_CHARS,
+    MIN_CHARS,
+    TARGET_HIGH,
+    TARGET_LOW,
+    Chunk,
+    chunk_file,
+    load_corpus,
+    parse_front_matter,
+    split_sections,
+)
 
-MAX_CHARS = 4000
-"""Above this one section starts to crowd out the rest of the bundle."""
-
-TARGET_LOW = 400
-TARGET_HIGH = 2500
-"""Comfortable band. Outside it is worth a look; outside MIN/MAX fails a test."""
+__all__ = [
+    "KB_DIR",
+    "MAX_CHARS",
+    "MIN_CHARS",
+    "TARGET_HIGH",
+    "TARGET_LOW",
+    "Chunk",
+    "chunk_file",
+    "load_corpus",
+    "parse_front_matter",
+    "split_sections",
+]
 
 if hasattr(sys.stdout, "reconfigure"):
     sys.stdout.reconfigure(encoding="utf-8", errors="replace")
-
-
-@dataclass(frozen=True)
-class Chunk:
-    """One `##` section, standing on its own."""
-
-    doc_id: str
-    doc_type: str
-    source_file: str
-    heading_vi: str
-    text: str
-    device_type: Optional[str] = None
-    fault_code: Optional[str] = None
-
-    @property
-    def size(self) -> int:
-        return len(self.text)
-
-
-def parse_front_matter(raw: str) -> tuple[Dict[str, str], str]:
-    """Pull the YAML block off the top without needing a YAML parser.
-
-    Only flat `key: value` lines are read. List and block values are recorded as
-    present but not parsed, because nothing here needs their contents — the
-    tests check that required keys exist and that the scalar ones are sane.
-    """
-    if not raw.startswith("---"):
-        return {}, raw
-    end = raw.find("\n---", 3)
-    if end == -1:
-        return {}, raw
-    block = raw[3:end]
-    body = raw[end + 4 :]
-
-    fields: Dict[str, str] = {}
-    for line in block.splitlines():
-        if not line or line.startswith(("  ", "-", "#")):
-            continue
-        key, sep, value = line.partition(":")
-        if not sep:
-            continue
-        fields[key.strip()] = value.strip().strip("\"'")
-    return fields, body
-
-
-def split_sections(body: str) -> Iterator[tuple[str, str]]:
-    """Yield (heading, text) for every `##` section.
-
-    The `#` title and anything before the first `##` are skipped: the title is
-    a label, not a retrievable unit, and prose above the first section would
-    arrive with no heading to say what it is about.
-    """
-    parts = re.split(r"^## +(.+)$", body, flags=re.MULTILINE)
-    for i in range(1, len(parts), 2):
-        heading = parts[i].strip()
-        text = parts[i + 1].strip()
-        if heading and text:
-            yield heading, text
-
-
-def chunk_file(path: Path) -> List[Chunk]:
-    raw = path.read_text(encoding="utf-8")
-    fields, body = parse_front_matter(raw)
-    rel = path.relative_to(KB_DIR).as_posix()
-    return [
-        Chunk(
-            doc_id=fields.get("doc_id", ""),
-            doc_type=fields.get("doc_type", ""),
-            source_file=rel,
-            heading_vi=heading,
-            text=text,
-            device_type=fields.get("device_type"),
-            fault_code=fields.get("fault_code"),
-        )
-        for heading, text in split_sections(body)
-    ]
-
-
-def load_corpus(kb_dir: Path = KB_DIR) -> List[Chunk]:
-    """Every chunk in the corpus, in a stable order.
-
-    README.md is skipped: it documents the pattern for whoever writes the next
-    file, and retrieving it would put instructions to authors in front of a
-    customer.
-    """
-    chunks: List[Chunk] = []
-    for path in sorted(kb_dir.rglob("*.md")):
-        if path.name == "README.md":
-            continue
-        chunks.extend(chunk_file(path))
-    return chunks
 
 
 def _bar(value: int, scale: int = 60) -> str:

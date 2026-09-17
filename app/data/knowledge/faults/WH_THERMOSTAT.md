@@ -5,6 +5,7 @@ fault_code: WH_THERMOSTAT
 device_type: water_heater
 name_vi: Hỏng rơ le nhiệt
 urgency: HIGH
+safety_heading: Câu trả lời đầu tiên, trước mọi câu hỏi
 labour_code: DIAGNOSE_ONSITE
 part_codes: [HA044]
 confusable_with:

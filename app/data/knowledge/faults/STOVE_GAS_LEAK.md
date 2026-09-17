@@ -5,6 +5,7 @@ device_type: gas_stove
 fault_code: STOVE_GAS_LEAK
 name_vi: Rò rỉ gas
 urgency: HIGH
+safety_heading: Bốn việc phải nói ngay, đúng thứ tự này
 confusable_with: [STOVE_REGULATOR, STOVE_VALVE_STUCK, STOVE_FLAME_OUT]
 price_policy: Không ghi giá trong tài liệu này. Giá lấy từ bảng giá của hệ thống.
 last_reviewed: 2026-09-17

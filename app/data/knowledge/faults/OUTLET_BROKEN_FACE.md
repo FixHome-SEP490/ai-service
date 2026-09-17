@@ -5,6 +5,7 @@ device_type: power_outlet
 fault_code: OUTLET_BROKEN_FACE
 name_vi: Vỡ, nứt mặt ổ cắm
 urgency: HIGH
+safety_heading: Câu hỏi đầu tiên: nhà có trẻ nhỏ không
 confusable_with: [OUTLET_LOOSE_CONTACT, OUTLET_SHORT_CIRCUIT]
 price_policy: Không ghi giá trong tài liệu này. Giá lấy từ bảng giá của hệ thống.
 last_reviewed: 2026-09-17

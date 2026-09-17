@@ -5,6 +5,7 @@ fault_code: AC_COMPRESSOR_FAULT
 device_type: air_conditioner
 name_vi: Hỏng máy nén
 urgency: HIGH
+safety_heading: Cảnh báo quan trọng nhất về bệnh này
 labour_code: DIAGNOSE_ONSITE
 part_codes: [AC002]
 confusable_with:

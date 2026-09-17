@@ -5,6 +5,7 @@ device_type: water_pipe
 fault_code: PIPE_BURST
 name_vi: Vỡ ống, xì nước mạnh
 urgency: HIGH
+safety_heading: Ca gấp nhất kho tri thức về mặt tốc độ
 confusable_with: [PIPE_JOINT_LEAK, PIPE_LOW_PRESSURE]
 price_policy: Không ghi giá trong tài liệu này. Giá lấy từ bảng giá của hệ thống.
 last_reviewed: 2026-09-17

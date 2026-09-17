@@ -5,6 +5,7 @@ device_type: electric_fan
 fault_code: FAN_CORD_DAMAGE
 name_vi: Đứt, hở dây nguồn
 urgency: HIGH
+safety_heading: Câu phải nói ngay
 confusable_with: [FAN_SWITCH_FAULT, FAN_MOTOR_BURNT, FAN_CAPACITOR]
 price_policy: Không ghi giá trong tài liệu này. Giá lấy từ bảng giá của hệ thống.
 last_reviewed: 2026-09-17
