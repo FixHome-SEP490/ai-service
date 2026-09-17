@@ -38,8 +38,11 @@ RUN pip install --no-cache-dir -r requirements-train.txt
 
 # The project code is small and changes often, so it is copied last: editing it
 # rebuilds one thin layer instead of reinstalling the whole toolchain.
-COPY app/data ./app/data
-COPY tools ./tools
+# Neither the corpus nor the chat tools are read by entrypoint.sh: it pulls the
+# dataset from the Hub and runs `yolo detect train`. Copying them in meant every
+# corpus edit rebuilt this image and replaced :latest — including while a rented
+# box was halfway through pulling it, which leaves the pull retrying against
+# layers that no longer exist. Three machines sat at "loading" that way.
 COPY docker/train/entrypoint.sh ./entrypoint.sh
 RUN chmod +x ./entrypoint.sh
 
