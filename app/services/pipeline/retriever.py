@@ -310,6 +310,28 @@ def _price_score(
     return hits / len(target)
 
 
+_PHRASE_BONUS = 0.15
+"""How much saying it the symptom list's way is worth.
+
+Small on purpose. It separates ties without being able to overturn a real
+difference in coverage."""
+
+
+def _phrase_overlap(query: Sequence[str], symptoms: Sequence[str]) -> float:
+    """Share of the query's adjacent word pairs the symptom text also has.
+
+    Coverage counts words with no regard for order, so "không vắt" and "vắt
+    xong không khô" look identical to it. WM_NO_SPIN opens its symptom list with
+    "không vắt" — the customer's exact words — and still tied with a noisy
+    bearing whose phrasings merely contain both words apart.
+    """
+    pairs = {(a, b) for a, b in zip(query, query[1:])}
+    if not pairs:
+        return 0.0
+    theirs = {(a, b) for a, b in zip(symptoms, symptoms[1:])}
+    return len(pairs & theirs) / len(pairs)
+
+
 class _SymptomIndex:
     """How rare each word is across one appliance's own symptom lists.
 
@@ -390,7 +412,12 @@ class _SymptomIndex:
         total = sum(weights.values())
         if total <= 0.0:
             return 0.0
-        return sum(w for t, w in weights.items() if t in target) / total
+        covered = sum(w for t, w in weights.items() if t in target) / total
+        # A small bonus for saying it the way the symptom list says it. Purely
+        # additive, so nothing that scored before can now fall below a
+        # threshold — the two earlier attempts at this failed because they took
+        # weight away, and one of them cost two safety pins.
+        return min(1.0, covered + _PHRASE_BONUS * _phrase_overlap(query, symptoms))
 
 
 def _device_alias_tokens(question: str, kb: KnowledgeBase) -> List[str]:
