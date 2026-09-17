@@ -53,9 +53,16 @@ Hai câu còn lại trong bộ quét bệnh HIGH rơi sang bệnh cùng thiết 
 
 Corpus **không chứa một con số tiền nào**, và có test cơ học chặn việc đó (`test_no_money_amounts_anywhere_in_the_corpus`). Nguyên tắc một nguồn giá đang được giữ.
 
+`fault_pricing_map.json` đã đối chiếu: phủ đủ 108/108 mã bệnh, không có mã lạc theo chiều nào, mọi `labour` đều có trong danh mục công, mọi `parts` đều có trong danh mục linh kiện, và `labour_code` cùng `part_codes` trong `fault_knowledge_base.json` khớp từng dòng với bảng ánh xạ.
+
+Hai chỗ cần anh quyết, vì là dữ liệu nghiệp vụ chứ không phải lỗi mã:
+
+Thứ nhất, danh mục linh kiện không có bóng đèn và không có ổ cắm. Bảng công ghi rõ "tiền công", nên `LIGHT_BULB_DEAD` và `OUTLET_BROKEN_FACE` hiện chỉ báo được tiền công, không báo được tiền vật tư; hỏi "thay bóng đèn bao nhiêu" thì không có dòng giá nào trả về. Em không tự điền giá vào đây.
+
+Thứ hai, một khối 100 mã thuộc nhóm "Đồ điện gia dụng" đang gắn cùng lúc cho năm loại thiết bị (quạt bàn, quạt trần, bình nóng lạnh, đèn, ổ cắm), và trong khối đó còn sót linh kiện bếp từ — mà bếp từ không nằm trong 17 thiết bị. Đã kiểm: không rò ra câu trả lời, vì tên linh kiện có chữ "bếp từ" nên không khớp câu hỏi về đèn hay ổ cắm. Ghi lại để dọn khi rảnh, không phải việc gấp.
+
 Việc còn lại:
 
-- Kiểm tra `fault_pricing_map.json` phủ đủ 108 mã bệnh. Chưa đối chiếu.
 - Chốt cách AI nói về giá: nói dải, nói "giá cuối do kỹ thuật viên báo sau khi xem trực tiếp", và không bao giờ tự cộng trừ. Phần này đã viết trong `system/gia-va-cach-tinh-tien.md`, cần kiểm là prompt thực sự dùng nó.
 - Kiểm quy tắc hoa hồng 10% chỉ trên công, không trên linh kiện, có bị AI hiểu nhầm thành giảm giá cho khách không.
 
