@@ -1,5 +1,5 @@
 {
-  "version": "2026-09-15",
+  "version": "2026-09-17",
   "_comment_vi": "Bang tri thuc benh - tai san rieng cua AI Service. Moi chuoi tieng Viet tra ve cho khach deu lay tu day, mo hinh chi tra ve ma. Trieu chung viet theo cach khach hang mo ta chu khong theo thuat ngu ky thuat, vi truy xuat khop voi loi cua khach. price_reviewed=false nghia la khoang gia moi la uoc luong, can nguoi ra soat theo gia thi truong truoc khi dua vao van hanh. Ma dich vu cua Backend nam o service_mapping.json.",
   "faults": [
     {
@@ -3791,6 +3791,636 @@
         "PIP013"
       ],
       "price_note_vi": "Chi phi tuy chieu dai doan ong phai thay va viec duc tuong, tho khao sat moi bao duoc."
+    },
+    {
+      "fault_code": "HOB_NO_PAN_DETECT",
+      "device_type": "induction_hob",
+      "name_vi": "Bếp từ không nhận nồi",
+      "symptoms_vi": [
+        "bếp từ không nhận nồi",
+        "bếp báo E0",
+        "đặt nồi lên mà bếp kêu bíp bíp",
+        "bếp từ không nóng dù đã bật",
+        "bếp nhận nồi này không nhận nồi kia",
+        "bếp từ kêu tít tít rồi tắt",
+        "bếp không ăn nồi"
+      ],
+      "price_min": 100000,
+      "price_max": 0,
+      "price_reviewed": true,
+      "urgency": "LOW",
+      "suggested_actions_vi": [
+        "Thử lại bằng nồi đáy nhiễm từ, đường kính đáy tối thiểu 12cm"
+      ],
+      "requires_assessment": true,
+      "labour_code": "DIAGNOSE_ONSITE",
+      "part_codes": [],
+      "price_note_vi": "Backend bao gia sau khi kiem tra; bang linh kien chua co phu tung cho thiet bi nay nen khong dua tran.",
+      "needs_technician_review": true
+    },
+    {
+      "fault_code": "HOB_ERROR_CODE",
+      "device_type": "induction_hob",
+      "name_vi": "Bếp từ báo mã lỗi E",
+      "symptoms_vi": [
+        "bếp từ báo lỗi E1",
+        "bếp báo E2",
+        "bếp từ hiện chữ E rồi tắt",
+        "bếp từ nhấp nháy báo lỗi",
+        "bếp chạy vài phút là báo lỗi",
+        "bếp từ tự ngắt và hiện mã lỗi"
+      ],
+      "price_min": 100000,
+      "price_max": 0,
+      "price_reviewed": true,
+      "urgency": "MEDIUM",
+      "suggested_actions_vi": [
+        "Tắt bếp, rút điện 10 phút rồi bật lại để loại trừ lỗi quá nhiệt tạm thời"
+      ],
+      "requires_assessment": true,
+      "labour_code": "DIAGNOSE_ONSITE",
+      "part_codes": [],
+      "price_note_vi": "Backend bao gia sau khi kiem tra; bang linh kien chua co phu tung cho thiet bi nay nen khong dua tran.",
+      "needs_technician_review": true
+    },
+    {
+      "fault_code": "HOB_FAN_NOISY",
+      "device_type": "induction_hob",
+      "name_vi": "Quạt tản nhiệt bếp từ kêu hoặc hỏng",
+      "symptoms_vi": [
+        "bếp từ kêu to khi nấu",
+        "quạt bếp từ kêu rè rè",
+        "bếp từ nóng máy rồi tự tắt",
+        "bếp từ chạy một lúc là ngắt",
+        "bếp từ thổi hơi nóng ra rất mạnh"
+      ],
+      "price_min": 100000,
+      "price_max": 0,
+      "price_reviewed": true,
+      "urgency": "MEDIUM",
+      "suggested_actions_vi": [
+        "Kiểm tra khe thoát nhiệt phía dưới bếp có bị bịt kín không"
+      ],
+      "requires_assessment": true,
+      "labour_code": "DIAGNOSE_ONSITE",
+      "part_codes": [],
+      "price_note_vi": "Backend bao gia sau khi kiem tra; bang linh kien chua co phu tung cho thiet bi nay nen khong dua tran.",
+      "needs_technician_review": true
+    },
+    {
+      "fault_code": "HOB_TOUCH_FAULT",
+      "device_type": "induction_hob",
+      "name_vi": "Bảng cảm ứng bếp từ không ăn",
+      "symptoms_vi": [
+        "bếp từ bấm không ăn",
+        "nút cảm ứng bếp từ không nhạy",
+        "bếp từ tự tăng giảm công suất",
+        "bảng điều khiển bếp từ đơ",
+        "bếp từ không tắt được"
+      ],
+      "price_min": 100000,
+      "price_max": 0,
+      "price_reviewed": true,
+      "urgency": "MEDIUM",
+      "suggested_actions_vi": [
+        "Lau khô mặt kính, nước đọng trên cảm ứng làm bếp hiểu sai thao tác"
+      ],
+      "requires_assessment": true,
+      "labour_code": "DIAGNOSE_ONSITE",
+      "part_codes": [],
+      "price_note_vi": "Backend bao gia sau khi kiem tra; bang linh kien chua co phu tung cho thiet bi nay nen khong dua tran.",
+      "needs_technician_review": true
+    },
+    {
+      "fault_code": "HOB_NO_POWER",
+      "device_type": "induction_hob",
+      "name_vi": "Bếp từ mất nguồn",
+      "symptoms_vi": [
+        "bếp từ không lên nguồn",
+        "bếp từ cắm điện không lên",
+        "bếp từ tối thui không sáng đèn",
+        "bếp từ chết hẳn",
+        "cắm bếp từ là nhảy aptomat",
+        "bếp từ nhà em cắm điện mà không lên",
+        "bếp từ tối thui không sáng đèn gì cả",
+        "bếp từ tự nhiên chết hẳn không dùng được nữa",
+        "cắm bếp từ vào là nhảy aptomat",
+        "bật bếp từ lên là cúp điện cả nhà",
+        "bếp từ hôm qua còn dùng được sáng nay không lên",
+        "bep tu khong len nguon",
+        "bep tu cam dien khong len",
+        "bep tu chet nguon roi",
+        "cam bep tu la nhay at to mat",
+        "bep tu khong vao dien",
+        "bat bep tu la cup dien",
+        "at to mat"
+      ],
+      "price_min": 100000,
+      "price_max": 0,
+      "price_reviewed": true,
+      "urgency": "HIGH",
+      "suggested_actions_vi": [
+        "Rút phích cắm bếp ra khỏi ổ điện",
+        "Không cắm lại nếu bếp làm nhảy aptomat, chờ thợ kiểm tra"
+      ],
+      "requires_assessment": true,
+      "labour_code": "DIAGNOSE_ONSITE",
+      "part_codes": [],
+      "price_note_vi": "Backend bao gia sau khi kiem tra; bang linh kien chua co phu tung cho thiet bi nay nen khong dua tran.",
+      "needs_technician_review": true
+    },
+    {
+      "fault_code": "HOB_GLASS_CRACKED",
+      "device_type": "induction_hob",
+      "name_vi": "Nứt vỡ mặt kính bếp từ",
+      "symptoms_vi": [
+        "mặt kính bếp từ bị nứt",
+        "bếp từ vỡ mặt kính",
+        "mặt bếp từ rạn chân chim",
+        "bếp từ nhà em vỡ mặt kính rồi",
+        "mặt bếp từ rạn chân chim một đường",
+        "làm rơi cái nồi xuống nứt mặt bếp",
+        "bếp từ nứt một đường có dùng tiếp được không",
+        "mat kinh bep tu bi nut",
+        "chắc phải thay cả bếp mới đúng không em",
+        "nứt tí thôi chắc không sao đâu nhỉ",
+        "bếp vẫn nấu được bình thường mà",
+        "chắc dán keo lại là xong đúng không"
+      ],
+      "price_min": 100000,
+      "price_max": 0,
+      "price_reviewed": true,
+      "urgency": "HIGH",
+      "suggested_actions_vi": [
+        "Ngừng dùng bếp và rút điện, mặt kính nứt có thể vỡ tiếp khi nóng"
+      ],
+      "requires_assessment": true,
+      "labour_code": "DIAGNOSE_ONSITE",
+      "part_codes": [],
+      "price_note_vi": "Backend bao gia sau khi kiem tra; bang linh kien chua co phu tung cho thiet bi nay nen khong dua tran.",
+      "needs_technician_review": true
+    },
+    {
+      "fault_code": "DW_NOT_CLEAN",
+      "device_type": "dishwasher",
+      "name_vi": "Máy rửa bát rửa không sạch",
+      "symptoms_vi": [
+        "máy rửa bát rửa không sạch",
+        "bát ra vẫn còn cặn",
+        "máy rửa chén không sạch dầu mỡ",
+        "bát còn vết trắng sau khi rửa",
+        "máy rửa bát rửa xong vẫn bẩn"
+      ],
+      "price_min": 100000,
+      "price_max": 0,
+      "price_reviewed": true,
+      "urgency": "LOW",
+      "suggested_actions_vi": [
+        "Tháo và rửa lưới lọc đáy máy, kiểm tra tay phun có quay tự do không"
+      ],
+      "requires_assessment": true,
+      "labour_code": "DIAGNOSE_ONSITE",
+      "part_codes": [],
+      "price_note_vi": "Backend bao gia sau khi kiem tra; bang linh kien chua co phu tung cho thiet bi nay nen khong dua tran.",
+      "needs_technician_review": true
+    },
+    {
+      "fault_code": "DW_NOT_DRAINING",
+      "device_type": "dishwasher",
+      "name_vi": "Máy rửa bát không thoát nước",
+      "symptoms_vi": [
+        "máy rửa bát đọng nước dưới đáy",
+        "máy rửa chén không xả nước",
+        "máy rửa bát tràn nước ra sàn",
+        "nước không rút sau khi rửa xong",
+        "máy rửa bát báo lỗi xả nước"
+      ],
+      "price_min": 100000,
+      "price_max": 0,
+      "price_reviewed": true,
+      "urgency": "MEDIUM",
+      "suggested_actions_vi": [
+        "Tắt máy và khoá van cấp nước trước khi mở cửa máy"
+      ],
+      "requires_assessment": true,
+      "labour_code": "DIAGNOSE_ONSITE",
+      "part_codes": [],
+      "price_note_vi": "Backend bao gia sau khi kiem tra; bang linh kien chua co phu tung cho thiet bi nay nen khong dua tran.",
+      "needs_technician_review": true
+    },
+    {
+      "fault_code": "DW_NO_WATER",
+      "device_type": "dishwasher",
+      "name_vi": "Máy rửa bát không cấp nước",
+      "symptoms_vi": [
+        "máy rửa bát không vào nước",
+        "máy rửa chén báo lỗi cấp nước",
+        "máy chạy mà không thấy nước",
+        "máy rửa bát kêu ù ù rồi dừng"
+      ],
+      "price_min": 100000,
+      "price_max": 0,
+      "price_reviewed": true,
+      "urgency": "MEDIUM",
+      "suggested_actions_vi": [
+        "Kiểm tra van cấp nước đã mở hết chưa và ống cấp có bị gập không"
+      ],
+      "requires_assessment": true,
+      "labour_code": "DIAGNOSE_ONSITE",
+      "part_codes": [],
+      "price_note_vi": "Backend bao gia sau khi kiem tra; bang linh kien chua co phu tung cho thiet bi nay nen khong dua tran.",
+      "needs_technician_review": true
+    },
+    {
+      "fault_code": "DW_DOOR_LEAK",
+      "device_type": "dishwasher",
+      "name_vi": "Rò nước cửa máy rửa bát",
+      "symptoms_vi": [
+        "máy rửa bát chảy nước ra cửa",
+        "nước rỉ dưới chân máy rửa bát",
+        "gioăng cửa máy rửa bát bị hở",
+        "máy rửa chén rò nước khi chạy"
+      ],
+      "price_min": 100000,
+      "price_max": 0,
+      "price_reviewed": true,
+      "urgency": "MEDIUM",
+      "suggested_actions_vi": [
+        "Lau khô sàn và ngắt điện máy, nước rò gần ổ điện rất nguy hiểm"
+      ],
+      "requires_assessment": true,
+      "labour_code": "DIAGNOSE_ONSITE",
+      "part_codes": [],
+      "price_note_vi": "Backend bao gia sau khi kiem tra; bang linh kien chua co phu tung cho thiet bi nay nen khong dua tran.",
+      "needs_technician_review": true
+    },
+    {
+      "fault_code": "DW_NO_POWER",
+      "device_type": "dishwasher",
+      "name_vi": "Máy rửa bát không lên nguồn",
+      "symptoms_vi": [
+        "máy rửa bát không lên nguồn",
+        "máy rửa chén cắm điện không chạy",
+        "máy rửa bát bấm không phản hồi",
+        "máy rửa bát chết nguồn"
+      ],
+      "price_min": 100000,
+      "price_max": 0,
+      "price_reviewed": true,
+      "urgency": "MEDIUM",
+      "suggested_actions_vi": [
+        "Kiểm tra ổ cắm bằng một thiết bị khác trước khi gọi thợ"
+      ],
+      "requires_assessment": true,
+      "labour_code": "DIAGNOSE_ONSITE",
+      "part_codes": [],
+      "price_note_vi": "Backend bao gia sau khi kiem tra; bang linh kien chua co phu tung cho thiet bi nay nen khong dua tran.",
+      "needs_technician_review": true
+    },
+    {
+      "fault_code": "DRYER_NOT_HEATING",
+      "device_type": "clothes_dryer",
+      "name_vi": "Máy sấy không ra hơi nóng",
+      "symptoms_vi": [
+        "máy sấy quần áo không nóng",
+        "máy sấy chạy mà quần áo vẫn ẩm",
+        "máy sấy quay nhưng không nóng",
+        "sấy xong quần áo vẫn ướt"
+      ],
+      "price_min": 100000,
+      "price_max": 0,
+      "price_reviewed": true,
+      "urgency": "MEDIUM",
+      "suggested_actions_vi": [
+        "Kiểm tra lưới lọc xơ vải, lọc tắc là nguyên nhân thường gặp nhất"
+      ],
+      "requires_assessment": true,
+      "labour_code": "DIAGNOSE_ONSITE",
+      "part_codes": [],
+      "price_note_vi": "Backend bao gia sau khi kiem tra; bang linh kien chua co phu tung cho thiet bi nay nen khong dua tran.",
+      "needs_technician_review": true
+    },
+    {
+      "fault_code": "DRYER_LINT_CLOGGED",
+      "device_type": "clothes_dryer",
+      "name_vi": "Tắc lọc xơ vải, tắc đường thoát ẩm",
+      "symptoms_vi": [
+        "máy sấy lâu khô hơn trước",
+        "máy sấy nóng bất thường",
+        "máy sấy có mùi khét nhẹ",
+        "lọc xơ máy sấy đầy bông",
+        "máy sấy báo lỗi lọc"
+      ],
+      "price_min": 350000,
+      "price_max": 350000,
+      "price_reviewed": true,
+      "urgency": "MEDIUM",
+      "suggested_actions_vi": [
+        "Ngừng dùng máy nếu có mùi khét, xơ vải tích tụ là nguyên nhân cháy máy sấy"
+      ],
+      "requires_assessment": false,
+      "labour_code": "VE_SINH_MAY_SAY",
+      "part_codes": [],
+      "price_note_vi": "Gia co dinh theo bang gia ve sinh may say.",
+      "needs_technician_review": true
+    },
+    {
+      "fault_code": "DRYER_NOISY",
+      "device_type": "clothes_dryer",
+      "name_vi": "Máy sấy kêu to, lồng sấy rơ",
+      "symptoms_vi": [
+        "máy sấy kêu cạch cạch",
+        "máy sấy quần áo kêu rất to",
+        "lồng máy sấy quay bị rung",
+        "máy sấy kêu rít khi quay"
+      ],
+      "price_min": 100000,
+      "price_max": 0,
+      "price_reviewed": true,
+      "urgency": "LOW",
+      "suggested_actions_vi": [
+        "Kiểm tra trong lồng có vật cứng như đồng xu hoặc khoá kéo không"
+      ],
+      "requires_assessment": true,
+      "labour_code": "DIAGNOSE_ONSITE",
+      "part_codes": [],
+      "price_note_vi": "Backend bao gia sau khi kiem tra; bang linh kien chua co phu tung cho thiet bi nay nen khong dua tran.",
+      "needs_technician_review": true
+    },
+    {
+      "fault_code": "DRYER_NOT_SPINNING",
+      "device_type": "clothes_dryer",
+      "name_vi": "Lồng máy sấy không quay",
+      "symptoms_vi": [
+        "máy sấy không quay lồng",
+        "máy sấy chạy mà lồng đứng yên",
+        "máy sấy kêu ù nhưng không quay",
+        "dây curoa máy sấy đứt"
+      ],
+      "price_min": 100000,
+      "price_max": 0,
+      "price_reviewed": true,
+      "urgency": "MEDIUM",
+      "suggested_actions_vi": [
+        "Tắt máy, lồng không quay mà mô tơ vẫn chạy sẽ làm cháy mô tơ"
+      ],
+      "requires_assessment": true,
+      "labour_code": "DIAGNOSE_ONSITE",
+      "part_codes": [],
+      "price_note_vi": "Backend bao gia sau khi kiem tra; bang linh kien chua co phu tung cho thiet bi nay nen khong dua tran.",
+      "needs_technician_review": true
+    },
+    {
+      "fault_code": "DRYER_NO_POWER",
+      "device_type": "clothes_dryer",
+      "name_vi": "Máy sấy không lên nguồn",
+      "symptoms_vi": [
+        "máy sấy không lên nguồn",
+        "máy sấy cắm điện không chạy",
+        "máy sấy quần áo chết nguồn"
+      ],
+      "price_min": 100000,
+      "price_max": 0,
+      "price_reviewed": true,
+      "urgency": "MEDIUM",
+      "suggested_actions_vi": [
+        "Kiểm tra cửa máy đã đóng khít chưa, công tắc cửa hở thì máy không chạy"
+      ],
+      "requires_assessment": true,
+      "labour_code": "DIAGNOSE_ONSITE",
+      "part_codes": [],
+      "price_note_vi": "Backend bao gia sau khi kiem tra; bang linh kien chua co phu tung cho thiet bi nay nen khong dua tran.",
+      "needs_technician_review": true
+    },
+    {
+      "fault_code": "PURIFIER_NO_WATER",
+      "device_type": "water_purifier",
+      "name_vi": "Máy lọc nước không ra nước",
+      "symptoms_vi": [
+        "máy lọc nước không ra nước",
+        "máy lọc nước chảy rất chậm",
+        "vòi máy lọc không có nước",
+        "máy lọc nước bơm mà không ra nước"
+      ],
+      "price_min": 100000,
+      "price_max": 0,
+      "price_reviewed": true,
+      "urgency": "MEDIUM",
+      "suggested_actions_vi": [
+        "Kiểm tra nguồn nước vào và van khoá đã mở chưa"
+      ],
+      "requires_assessment": true,
+      "labour_code": "DIAGNOSE_ONSITE",
+      "part_codes": [],
+      "price_note_vi": "Backend bao gia sau khi kiem tra; bang linh kien chua co phu tung cho thiet bi nay nen khong dua tran.",
+      "needs_technician_review": true
+    },
+    {
+      "fault_code": "PURIFIER_LEAK",
+      "device_type": "water_purifier",
+      "name_vi": "Máy lọc nước rò rỉ nước",
+      "symptoms_vi": [
+        "máy lọc nước chảy nước ra sàn",
+        "máy lọc nước rỉ nước ở lõi",
+        "cốc lọc máy lọc nước bị rò",
+        "máy lọc nước ướt chân tủ"
+      ],
+      "price_min": 100000,
+      "price_max": 0,
+      "price_reviewed": true,
+      "urgency": "MEDIUM",
+      "suggested_actions_vi": [
+        "Khoá van cấp nước vào máy và rút điện"
+      ],
+      "requires_assessment": true,
+      "labour_code": "DIAGNOSE_ONSITE",
+      "part_codes": [],
+      "price_note_vi": "Backend bao gia sau khi kiem tra; bang linh kien chua co phu tung cho thiet bi nay nen khong dua tran.",
+      "needs_technician_review": true
+    },
+    {
+      "fault_code": "PURIFIER_FILTER_DUE",
+      "device_type": "water_purifier",
+      "name_vi": "Lõi lọc hết hạn, nước có mùi vị lạ",
+      "symptoms_vi": [
+        "nước máy lọc có mùi lạ",
+        "nước lọc uống thấy tanh",
+        "máy lọc nước báo thay lõi",
+        "nước lọc có cặn trắng",
+        "lâu rồi chưa thay lõi máy lọc"
+      ],
+      "price_min": 100000,
+      "price_max": 0,
+      "price_reviewed": true,
+      "urgency": "LOW",
+      "suggested_actions_vi": [
+        "Ngừng uống trực tiếp cho tới khi thay lõi và súc rửa bình chứa"
+      ],
+      "requires_assessment": true,
+      "labour_code": "DIAGNOSE_ONSITE",
+      "part_codes": [],
+      "price_note_vi": "Backend bao gia sau khi kiem tra; bang linh kien chua co phu tung cho thiet bi nay nen khong dua tran.",
+      "needs_technician_review": true
+    },
+    {
+      "fault_code": "PURIFIER_PUMP_RUNS_ON",
+      "device_type": "water_purifier",
+      "name_vi": "Bơm máy lọc chạy liên tục",
+      "symptoms_vi": [
+        "máy lọc nước bơm chạy suốt",
+        "máy lọc nước kêu ù ù cả ngày",
+        "bơm máy lọc không ngắt",
+        "máy lọc nước chạy liên tục không nghỉ"
+      ],
+      "price_min": 100000,
+      "price_max": 0,
+      "price_reviewed": true,
+      "urgency": "MEDIUM",
+      "suggested_actions_vi": [
+        "Rút điện máy để bơm không chạy khô và cháy"
+      ],
+      "requires_assessment": true,
+      "labour_code": "DIAGNOSE_ONSITE",
+      "part_codes": [],
+      "price_note_vi": "Backend bao gia sau khi kiem tra; bang linh kien chua co phu tung cho thiet bi nay nen khong dua tran.",
+      "needs_technician_review": true
+    },
+    {
+      "fault_code": "PURIFIER_NO_POWER",
+      "device_type": "water_purifier",
+      "name_vi": "Máy lọc nước không lên nguồn",
+      "symptoms_vi": [
+        "máy lọc nước không lên đèn",
+        "máy lọc nước cắm điện không chạy",
+        "cây nước nóng lạnh không vào điện"
+      ],
+      "price_min": 100000,
+      "price_max": 0,
+      "price_reviewed": true,
+      "urgency": "MEDIUM",
+      "suggested_actions_vi": [
+        "Kiểm tra ổ cắm và adapter nguồn của máy"
+      ],
+      "requires_assessment": true,
+      "labour_code": "DIAGNOSE_ONSITE",
+      "part_codes": [],
+      "price_note_vi": "Backend bao gia sau khi kiem tra; bang linh kien chua co phu tung cho thiet bi nay nen khong dua tran.",
+      "needs_technician_review": true
+    },
+    {
+      "fault_code": "LOCK_FINGERPRINT_FAIL",
+      "device_type": "smart_lock",
+      "name_vi": "Khóa vân tay không nhận vân",
+      "symptoms_vi": [
+        "khóa vân tay không nhận",
+        "khóa cửa thông minh quét vân tay không được",
+        "khoá vân tay báo lỗi liên tục",
+        "đặt tay mãi khoá không mở"
+      ],
+      "price_min": 100000,
+      "price_max": 0,
+      "price_reviewed": true,
+      "urgency": "MEDIUM",
+      "suggested_actions_vi": [
+        "Lau khô đầu đọc và ngón tay, thử vân tay đã đăng ký của người khác"
+      ],
+      "requires_assessment": true,
+      "labour_code": "DIAGNOSE_ONSITE",
+      "part_codes": [],
+      "price_note_vi": "Backend bao gia sau khi kiem tra; bang linh kien chua co phu tung cho thiet bi nay nen khong dua tran.",
+      "needs_technician_review": true
+    },
+    {
+      "fault_code": "LOCK_LOW_BATTERY",
+      "device_type": "smart_lock",
+      "name_vi": "Khóa thông minh hết pin",
+      "symptoms_vi": [
+        "khóa cửa thông minh báo pin yếu",
+        "khoá vân tay kêu tít liên tục",
+        "khóa điện tử hết pin không mở được",
+        "khoá thông minh sập nguồn"
+      ],
+      "price_min": 100000,
+      "price_max": 0,
+      "price_reviewed": true,
+      "urgency": "MEDIUM",
+      "suggested_actions_vi": [
+        "Dùng chìa cơ hoặc sạc dự phòng qua cổng micro USB dưới thân khoá"
+      ],
+      "requires_assessment": true,
+      "labour_code": "DIAGNOSE_ONSITE",
+      "part_codes": [],
+      "price_note_vi": "Backend bao gia sau khi kiem tra; bang linh kien chua co phu tung cho thiet bi nay nen khong dua tran.",
+      "needs_technician_review": true
+    },
+    {
+      "fault_code": "LOCK_MOTOR_FAULT",
+      "device_type": "smart_lock",
+      "name_vi": "Mô tơ chốt khóa không chạy",
+      "symptoms_vi": [
+        "khóa thông minh kêu nhưng không mở",
+        "chốt khoá cửa không rút vào",
+        "khoá vân tay nhận vân mà cửa không mở",
+        "khoá điện tử kẹt chốt"
+      ],
+      "price_min": 100000,
+      "price_max": 0,
+      "price_reviewed": true,
+      "urgency": "MEDIUM",
+      "suggested_actions_vi": [
+        "Không giật mạnh tay nắm, chốt kẹt bị cạy sẽ hỏng cả bộ khoá"
+      ],
+      "requires_assessment": true,
+      "labour_code": "DIAGNOSE_ONSITE",
+      "part_codes": [],
+      "price_note_vi": "Backend bao gia sau khi kiem tra; bang linh kien chua co phu tung cho thiet bi nay nen khong dua tran.",
+      "needs_technician_review": true
+    },
+    {
+      "fault_code": "LOCK_LOCKED_OUT",
+      "device_type": "smart_lock",
+      "name_vi": "Kẹt ngoài cửa, không vào được nhà",
+      "symptoms_vi": [
+        "bị khoá ngoài cửa",
+        "không mở được cửa vào nhà",
+        "khoá cửa thông minh kẹt không vào nhà được",
+        "mất thẻ từ không vào được"
+      ],
+      "price_min": 100000,
+      "price_max": 0,
+      "price_reviewed": true,
+      "urgency": "MEDIUM",
+      "suggested_actions_vi": [
+        "Gọi dịch vụ mở khoá khẩn cấp, bên em có thợ trực 24/7"
+      ],
+      "requires_assessment": true,
+      "labour_code": "DIAGNOSE_ONSITE",
+      "part_codes": [],
+      "price_note_vi": "Backend bao gia sau khi kiem tra; bang linh kien chua co phu tung cho thiet bi nay nen khong dua tran.",
+      "needs_technician_review": true
+    },
+    {
+      "fault_code": "LOCK_CARD_FAULT",
+      "device_type": "smart_lock",
+      "name_vi": "Khóa không đọc thẻ từ, mã số sai",
+      "symptoms_vi": [
+        "khoá cửa không đọc thẻ từ",
+        "nhập mã đúng mà khoá báo sai",
+        "khoá thông minh quên mật khẩu",
+        "thẻ từ quẹt không ăn"
+      ],
+      "price_min": 100000,
+      "price_max": 0,
+      "price_reviewed": true,
+      "urgency": "MEDIUM",
+      "suggested_actions_vi": [
+        "Thử thẻ từ khác đã đăng ký để biết lỗi ở thẻ hay ở khoá"
+      ],
+      "requires_assessment": true,
+      "labour_code": "DIAGNOSE_ONSITE",
+      "part_codes": [],
+      "price_note_vi": "Backend bao gia sau khi kiem tra; bang linh kien chua co phu tung cho thiet bi nay nen khong dua tran.",
+      "needs_technician_review": true
     }
   ],
   "policies": [

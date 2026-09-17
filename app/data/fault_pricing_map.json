@@ -668,6 +668,136 @@
       ],
       "assess": true,
       "note_vi": "Chi phi tuy chieu dai doan ong phai thay va viec duc tuong, tho khao sat moi bao duoc."
+    },
+    "HOB_NO_PAN_DETECT": {
+      "labour": "DIAGNOSE_ONSITE",
+      "parts": [],
+      "note_vi": "Backend bao gia sau khi kiem tra; bang linh kien chua co phu tung cho thiet bi nay nen khong dua tran."
+    },
+    "HOB_ERROR_CODE": {
+      "labour": "DIAGNOSE_ONSITE",
+      "parts": [],
+      "note_vi": "Backend bao gia sau khi kiem tra; bang linh kien chua co phu tung cho thiet bi nay nen khong dua tran."
+    },
+    "HOB_FAN_NOISY": {
+      "labour": "DIAGNOSE_ONSITE",
+      "parts": [],
+      "note_vi": "Backend bao gia sau khi kiem tra; bang linh kien chua co phu tung cho thiet bi nay nen khong dua tran."
+    },
+    "HOB_TOUCH_FAULT": {
+      "labour": "DIAGNOSE_ONSITE",
+      "parts": [],
+      "note_vi": "Backend bao gia sau khi kiem tra; bang linh kien chua co phu tung cho thiet bi nay nen khong dua tran."
+    },
+    "HOB_NO_POWER": {
+      "labour": "DIAGNOSE_ONSITE",
+      "parts": [],
+      "note_vi": "Backend bao gia sau khi kiem tra; bang linh kien chua co phu tung cho thiet bi nay nen khong dua tran."
+    },
+    "HOB_GLASS_CRACKED": {
+      "labour": "DIAGNOSE_ONSITE",
+      "parts": [],
+      "note_vi": "Backend bao gia sau khi kiem tra; bang linh kien chua co phu tung cho thiet bi nay nen khong dua tran."
+    },
+    "DW_NOT_CLEAN": {
+      "labour": "DIAGNOSE_ONSITE",
+      "parts": [],
+      "note_vi": "Backend bao gia sau khi kiem tra; bang linh kien chua co phu tung cho thiet bi nay nen khong dua tran."
+    },
+    "DW_NOT_DRAINING": {
+      "labour": "DIAGNOSE_ONSITE",
+      "parts": [],
+      "note_vi": "Backend bao gia sau khi kiem tra; bang linh kien chua co phu tung cho thiet bi nay nen khong dua tran."
+    },
+    "DW_NO_WATER": {
+      "labour": "DIAGNOSE_ONSITE",
+      "parts": [],
+      "note_vi": "Backend bao gia sau khi kiem tra; bang linh kien chua co phu tung cho thiet bi nay nen khong dua tran."
+    },
+    "DW_DOOR_LEAK": {
+      "labour": "DIAGNOSE_ONSITE",
+      "parts": [],
+      "note_vi": "Backend bao gia sau khi kiem tra; bang linh kien chua co phu tung cho thiet bi nay nen khong dua tran."
+    },
+    "DW_NO_POWER": {
+      "labour": "DIAGNOSE_ONSITE",
+      "parts": [],
+      "note_vi": "Backend bao gia sau khi kiem tra; bang linh kien chua co phu tung cho thiet bi nay nen khong dua tran."
+    },
+    "DRYER_NOT_HEATING": {
+      "labour": "DIAGNOSE_ONSITE",
+      "parts": [],
+      "note_vi": "Backend bao gia sau khi kiem tra; bang linh kien chua co phu tung cho thiet bi nay nen khong dua tran."
+    },
+    "DRYER_LINT_CLOGGED": {
+      "labour": "VE_SINH_MAY_SAY",
+      "parts": [],
+      "note_vi": "Gia co dinh theo bang gia ve sinh may say."
+    },
+    "DRYER_NOISY": {
+      "labour": "DIAGNOSE_ONSITE",
+      "parts": [],
+      "note_vi": "Backend bao gia sau khi kiem tra; bang linh kien chua co phu tung cho thiet bi nay nen khong dua tran."
+    },
+    "DRYER_NOT_SPINNING": {
+      "labour": "DIAGNOSE_ONSITE",
+      "parts": [],
+      "note_vi": "Backend bao gia sau khi kiem tra; bang linh kien chua co phu tung cho thiet bi nay nen khong dua tran."
+    },
+    "DRYER_NO_POWER": {
+      "labour": "DIAGNOSE_ONSITE",
+      "parts": [],
+      "note_vi": "Backend bao gia sau khi kiem tra; bang linh kien chua co phu tung cho thiet bi nay nen khong dua tran."
+    },
+    "PURIFIER_NO_WATER": {
+      "labour": "DIAGNOSE_ONSITE",
+      "parts": [],
+      "note_vi": "Backend bao gia sau khi kiem tra; bang linh kien chua co phu tung cho thiet bi nay nen khong dua tran."
+    },
+    "PURIFIER_LEAK": {
+      "labour": "DIAGNOSE_ONSITE",
+      "parts": [],
+      "note_vi": "Backend bao gia sau khi kiem tra; bang linh kien chua co phu tung cho thiet bi nay nen khong dua tran."
+    },
+    "PURIFIER_FILTER_DUE": {
+      "labour": "DIAGNOSE_ONSITE",
+      "parts": [],
+      "note_vi": "Backend bao gia sau khi kiem tra; bang linh kien chua co phu tung cho thiet bi nay nen khong dua tran."
+    },
+    "PURIFIER_PUMP_RUNS_ON": {
+      "labour": "DIAGNOSE_ONSITE",
+      "parts": [],
+      "note_vi": "Backend bao gia sau khi kiem tra; bang linh kien chua co phu tung cho thiet bi nay nen khong dua tran."
+    },
+    "PURIFIER_NO_POWER": {
+      "labour": "DIAGNOSE_ONSITE",
+      "parts": [],
+      "note_vi": "Backend bao gia sau khi kiem tra; bang linh kien chua co phu tung cho thiet bi nay nen khong dua tran."
+    },
+    "LOCK_FINGERPRINT_FAIL": {
+      "labour": "DIAGNOSE_ONSITE",
+      "parts": [],
+      "note_vi": "Backend bao gia sau khi kiem tra; bang linh kien chua co phu tung cho thiet bi nay nen khong dua tran."
+    },
+    "LOCK_LOW_BATTERY": {
+      "labour": "DIAGNOSE_ONSITE",
+      "parts": [],
+      "note_vi": "Backend bao gia sau khi kiem tra; bang linh kien chua co phu tung cho thiet bi nay nen khong dua tran."
+    },
+    "LOCK_MOTOR_FAULT": {
+      "labour": "DIAGNOSE_ONSITE",
+      "parts": [],
+      "note_vi": "Backend bao gia sau khi kiem tra; bang linh kien chua co phu tung cho thiet bi nay nen khong dua tran."
+    },
+    "LOCK_LOCKED_OUT": {
+      "labour": "DIAGNOSE_ONSITE",
+      "parts": [],
+      "note_vi": "Backend bao gia sau khi kiem tra; bang linh kien chua co phu tung cho thiet bi nay nen khong dua tran."
+    },
+    "LOCK_CARD_FAULT": {
+      "labour": "DIAGNOSE_ONSITE",
+      "parts": [],
+      "note_vi": "Backend bao gia sau khi kiem tra; bang linh kien chua co phu tung cho thiet bi nay nen khong dua tran."
     }
   }
 }

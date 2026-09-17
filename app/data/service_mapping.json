@@ -1081,6 +1081,266 @@
           "base_price": 100000
         }
       ]
+    },
+    {
+      "fault_code": "HOB_NO_PAN_DETECT",
+      "services": [
+        {
+          "service_code": "SUA_BEP_TU",
+          "name_vi": "Sửa bếp từ báo lỗi E / không nhận nồi",
+          "base_price": 150000
+        }
+      ]
+    },
+    {
+      "fault_code": "HOB_ERROR_CODE",
+      "services": [
+        {
+          "service_code": "SUA_BEP_TU",
+          "name_vi": "Sửa bếp từ báo lỗi E / không nhận nồi",
+          "base_price": 150000
+        }
+      ]
+    },
+    {
+      "fault_code": "HOB_FAN_NOISY",
+      "services": [
+        {
+          "service_code": "SUA_BEP_TU",
+          "name_vi": "Sửa bếp từ báo lỗi E / không nhận nồi",
+          "base_price": 150000
+        }
+      ]
+    },
+    {
+      "fault_code": "HOB_TOUCH_FAULT",
+      "services": [
+        {
+          "service_code": "SUA_BEP_TU",
+          "name_vi": "Sửa bếp từ báo lỗi E / không nhận nồi",
+          "base_price": 150000
+        }
+      ]
+    },
+    {
+      "fault_code": "HOB_NO_POWER",
+      "services": [
+        {
+          "service_code": "SUA_BEP_TU",
+          "name_vi": "Sửa bếp từ báo lỗi E / không nhận nồi",
+          "base_price": 150000
+        }
+      ]
+    },
+    {
+      "fault_code": "HOB_GLASS_CRACKED",
+      "services": [
+        {
+          "service_code": "SUA_BEP_TU",
+          "name_vi": "Sửa bếp từ báo lỗi E / không nhận nồi",
+          "base_price": 150000
+        }
+      ]
+    },
+    {
+      "fault_code": "DW_NOT_CLEAN",
+      "services": [
+        {
+          "service_code": "SUA_MAY_RUA_CHEN",
+          "name_vi": "Sửa máy rửa bát không sạch / tràn nước",
+          "base_price": 200000
+        }
+      ]
+    },
+    {
+      "fault_code": "DW_NOT_DRAINING",
+      "services": [
+        {
+          "service_code": "SUA_MAY_RUA_CHEN",
+          "name_vi": "Sửa máy rửa bát không sạch / tràn nước",
+          "base_price": 200000
+        }
+      ]
+    },
+    {
+      "fault_code": "DW_NO_WATER",
+      "services": [
+        {
+          "service_code": "SUA_MAY_RUA_CHEN",
+          "name_vi": "Sửa máy rửa bát không sạch / tràn nước",
+          "base_price": 200000
+        }
+      ]
+    },
+    {
+      "fault_code": "DW_DOOR_LEAK",
+      "services": [
+        {
+          "service_code": "SUA_MAY_RUA_CHEN",
+          "name_vi": "Sửa máy rửa bát không sạch / tràn nước",
+          "base_price": 200000
+        }
+      ]
+    },
+    {
+      "fault_code": "DW_NO_POWER",
+      "services": [
+        {
+          "service_code": "SUA_MAY_RUA_CHEN",
+          "name_vi": "Sửa máy rửa bát không sạch / tràn nước",
+          "base_price": 200000
+        }
+      ]
+    },
+    {
+      "fault_code": "DRYER_NOT_HEATING",
+      "services": [
+        {
+          "service_code": "KIEM_TRA_CHAN_DOAN_THIET_BI",
+          "name_vi": "Kiểm tra/chẩn đoán thiết bị tại nhà",
+          "base_price": 100000
+        }
+      ]
+    },
+    {
+      "fault_code": "DRYER_LINT_CLOGGED",
+      "services": [
+        {
+          "service_code": "VE_SINH_MAY_SAY",
+          "name_vi": "Vệ sinh máy sấy gia đình",
+          "base_price": 350000
+        }
+      ]
+    },
+    {
+      "fault_code": "DRYER_NOISY",
+      "services": [
+        {
+          "service_code": "KIEM_TRA_CHAN_DOAN_THIET_BI",
+          "name_vi": "Kiểm tra/chẩn đoán thiết bị tại nhà",
+          "base_price": 100000
+        }
+      ]
+    },
+    {
+      "fault_code": "DRYER_NOT_SPINNING",
+      "services": [
+        {
+          "service_code": "KIEM_TRA_CHAN_DOAN_THIET_BI",
+          "name_vi": "Kiểm tra/chẩn đoán thiết bị tại nhà",
+          "base_price": 100000
+        }
+      ]
+    },
+    {
+      "fault_code": "DRYER_NO_POWER",
+      "services": [
+        {
+          "service_code": "KIEM_TRA_CHAN_DOAN_THIET_BI",
+          "name_vi": "Kiểm tra/chẩn đoán thiết bị tại nhà",
+          "base_price": 100000
+        }
+      ]
+    },
+    {
+      "fault_code": "PURIFIER_NO_WATER",
+      "services": [
+        {
+          "service_code": "LAP_MAY_LOC_NUOC",
+          "name_vi": "Lắp máy lọc nước cơ bản",
+          "base_price": 250000
+        }
+      ]
+    },
+    {
+      "fault_code": "PURIFIER_LEAK",
+      "services": [
+        {
+          "service_code": "LAP_MAY_LOC_NUOC",
+          "name_vi": "Lắp máy lọc nước cơ bản",
+          "base_price": 250000
+        }
+      ]
+    },
+    {
+      "fault_code": "PURIFIER_FILTER_DUE",
+      "services": [
+        {
+          "service_code": "LAP_MAY_LOC_NUOC",
+          "name_vi": "Lắp máy lọc nước cơ bản",
+          "base_price": 250000
+        }
+      ]
+    },
+    {
+      "fault_code": "PURIFIER_PUMP_RUNS_ON",
+      "services": [
+        {
+          "service_code": "LAP_MAY_LOC_NUOC",
+          "name_vi": "Lắp máy lọc nước cơ bản",
+          "base_price": 250000
+        }
+      ]
+    },
+    {
+      "fault_code": "PURIFIER_NO_POWER",
+      "services": [
+        {
+          "service_code": "LAP_MAY_LOC_NUOC",
+          "name_vi": "Lắp máy lọc nước cơ bản",
+          "base_price": 250000
+        }
+      ]
+    },
+    {
+      "fault_code": "LOCK_FINGERPRINT_FAIL",
+      "services": [
+        {
+          "service_code": "SUA_KHOA_THONG_MINH",
+          "name_vi": "Sửa khóa cửa vân tay / thẻ từ",
+          "base_price": 200000
+        }
+      ]
+    },
+    {
+      "fault_code": "LOCK_LOW_BATTERY",
+      "services": [
+        {
+          "service_code": "SUA_KHOA_THONG_MINH",
+          "name_vi": "Sửa khóa cửa vân tay / thẻ từ",
+          "base_price": 200000
+        }
+      ]
+    },
+    {
+      "fault_code": "LOCK_MOTOR_FAULT",
+      "services": [
+        {
+          "service_code": "SUA_KHOA_THONG_MINH",
+          "name_vi": "Sửa khóa cửa vân tay / thẻ từ",
+          "base_price": 200000
+        }
+      ]
+    },
+    {
+      "fault_code": "LOCK_LOCKED_OUT",
+      "services": [
+        {
+          "service_code": "MO_KHOA_KHAN_CAP",
+          "name_vi": "Mở khóa cửa khẩn cấp 24/7",
+          "base_price": 150000
+        }
+      ]
+    },
+    {
+      "fault_code": "LOCK_CARD_FAULT",
+      "services": [
+        {
+          "service_code": "SUA_KHOA_THONG_MINH",
+          "name_vi": "Sửa khóa cửa vân tay / thẻ từ",
+          "base_price": 200000
+        }
+      ]
     }
   ]
 }

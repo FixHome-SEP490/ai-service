@@ -90,21 +90,59 @@ BY_FAULT = {
     "TOILET_BASE_LEAK": "SUA_RO_RI_NUOC",
     # Bình nóng lạnh đóng cặn là bảo dưỡng.
     "WH_SCALE_BUILDUP": "VE_SINH_BINH_NONG_LANH",
+    # Bếp từ, máy rửa bát, máy sấy, máy lọc nước và khoá thông minh — năm thiết
+    # bị Backend có dịch vụ riêng, nên không cái nào rơi về kiểm tra chung.
+    "HOB_NO_PAN_DETECT": "SUA_BEP_TU",
+    "HOB_ERROR_CODE": "SUA_BEP_TU",
+    "HOB_FAN_NOISY": "SUA_BEP_TU",
+    "HOB_TOUCH_FAULT": "SUA_BEP_TU",
+    "HOB_NO_POWER": "SUA_BEP_TU",
+    "HOB_GLASS_CRACKED": "SUA_BEP_TU",
+    "DW_NOT_CLEAN": "SUA_MAY_RUA_CHEN",
+    "DW_NOT_DRAINING": "SUA_MAY_RUA_CHEN",
+    "DW_NO_WATER": "SUA_MAY_RUA_CHEN",
+    "DW_DOOR_LEAK": "SUA_MAY_RUA_CHEN",
+    "DW_NO_POWER": "SUA_MAY_RUA_CHEN",
+    "DRYER_NOT_HEATING": "KIEM_TRA_CHAN_DOAN_THIET_BI",
+    "DRYER_LINT_CLOGGED": "VE_SINH_MAY_SAY",
+    "DRYER_NOISY": "KIEM_TRA_CHAN_DOAN_THIET_BI",
+    "DRYER_NOT_SPINNING": "KIEM_TRA_CHAN_DOAN_THIET_BI",
+    "DRYER_NO_POWER": "KIEM_TRA_CHAN_DOAN_THIET_BI",
+    "PURIFIER_NO_WATER": "LAP_MAY_LOC_NUOC",
+    "PURIFIER_LEAK": "LAP_MAY_LOC_NUOC",
+    "PURIFIER_FILTER_DUE": "LAP_MAY_LOC_NUOC",
+    "PURIFIER_PUMP_RUNS_ON": "LAP_MAY_LOC_NUOC",
+    "PURIFIER_NO_POWER": "LAP_MAY_LOC_NUOC",
+    "LOCK_FINGERPRINT_FAIL": "SUA_KHOA_THONG_MINH",
+    "LOCK_LOW_BATTERY": "SUA_KHOA_THONG_MINH",
+    "LOCK_MOTOR_FAULT": "SUA_KHOA_THONG_MINH",
+    "LOCK_LOCKED_OUT": "MO_KHOA_KHAN_CAP",
+    "LOCK_CARD_FAULT": "SUA_KHOA_THONG_MINH",
 }
 
 
 def read_catalog() -> dict:
-    """service_code -> (name, basePrice), straight out of the seed file."""
+    """service_code -> (name, basePrice), straight out of the seed file.
+
+    Split rather than matched with a lookahead: the last service in the file
+    has no next "code:" to look ahead to, and a bounded one silently dropped
+    MO_KHOA_KHAN_CAP — the emergency lock-opening service, which is exactly
+    the one somebody locked out of their house needs.
+    """
     text = SEED.read_text(encoding="utf-8")
-    blocks = re.findall(
-        r"code: '([A-Z0-9_]+)',\s*name: '([^']+)'(.{0,600}?)(?=code: '|\Z)",
-        text,
-        re.S,
-    )
     catalog = {}
-    for code, name, tail in blocks:
+    for chunk in text.split("code: '")[1:]:
+        code, _, tail = chunk.partition("'")
+        if not re.fullmatch(r"[A-Z0-9_]+", code):
+            continue
+        name = re.search(r"name: '([^']+)'", tail)
         price = re.search(r"basePrice: (\d+)", tail)
-        catalog[code] = (name, int(price.group(1)) if price else None)
+        if name is None:
+            continue
+        catalog[code] = (
+            name.group(1),
+            int(price.group(1)) if price else None,
+        )
     return catalog
 
 def main() -> None:
