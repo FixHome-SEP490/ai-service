@@ -294,3 +294,37 @@ def test_sampling_is_deterministic():
     client = QwenClient(base_url="http://vllm.test", model_name="qwen", timeout_seconds=1)
     assert client._model == "qwen"
     assert client._url.endswith("/v1/chat/completions")
+
+
+# -- the apology the prompt could not stop ---------------------------------
+
+
+@pytest.mark.parametrize(
+    "raw,expected",
+    [
+        # The opening of what a 3B model produced when the prompt told it not
+        # to apologise. Only the apology goes: the sentence after it is the
+        # model reciting the prohibition, and no rule about apologies can catch
+        # that. What stops it is the prohibition no longer being in the prompt.
+        (
+            "Xin lỗi, em hiểu nhầm rồi. Bóng đèn nhà mình cháy rồi ạ.",
+            "Bóng đèn nhà mình cháy rồi ạ.",
+        ),
+        ("Dạ em xin lỗi vì chuyện này. Bóng cháy rồi ạ.", "Bóng cháy rồi ạ."),
+        ("Bóng cháy rồi ạ.", "Bóng cháy rồi ạ."),
+    ],
+)
+def test_an_opening_apology_is_removed(raw, expected):
+    from app.services.pipeline.qwen_client import _strip_apology
+
+    assert _strip_apology(raw) == expected
+
+
+def test_an_apology_in_the_middle_is_left_alone():
+    """It is usually attached to something real — a delay, a limit — and
+    cutting a sentence out of the middle is how a fluent answer becomes an
+    incoherent one."""
+    from app.services.pipeline.qwen_client import _strip_apology
+
+    text = "Em kiểm tra thì bóng cháy. Em xin lỗi vì thợ tới trễ ạ."
+    assert _strip_apology(text) == text
