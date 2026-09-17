@@ -536,8 +536,12 @@ def cmd_destroy(args: argparse.Namespace) -> None:
             "charged. Delete it at https://cloud.vast.ai/instances/ now."
         )
 
-    if INSTANCE_FILE.exists():
-        INSTANCE_FILE.unlink()
+    # Both files. Clearing only the trainer's left the serving one naming a
+    # machine that had just been destroyed, and the next `serve` refused to
+    # start and said to destroy it first — twice in one afternoon.
+    for path in (INSTANCE_FILE, SERVE_INSTANCE_FILE):
+        if path.exists() and path.read_text(encoding="utf-8").strip() == str(instance):
+            path.unlink()
     print(f"Gone. {len(remaining)} instance(s) still rented.")
     if remaining:
         print(f"  {remaining} — destroy these too if they are not wanted.")
