@@ -237,12 +237,18 @@ class QwenClient:
         self._url = root + "/v1/chat/completions"
         self._model = model_name
         self._timeout = timeout_seconds
+        # The warning answers are longer by instruction and were timing out.
+        # Derived rather than injected, so a deployment that tunes the ordinary
+        # budget does not silently leave this one behind.
+        self._safety_timeout = max(timeout_seconds * 3, 25.0)
         self._headers = {"Content-Type": "application/json"}
         if api_key:
             self._headers["Authorization"] = f"Bearer {api_key}"
         self._max_tokens = max_tokens
 
-    async def _chat(self, messages: List[Dict[str, Any]]) -> Optional[str]:
+    async def _chat(
+        self, messages: List[Dict[str, Any]], timeout_seconds: Optional[float] = None
+    ) -> Optional[str]:
         payload = {
             "model": self._model,
             "messages": messages,
@@ -253,7 +259,9 @@ class QwenClient:
             "max_tokens": self._max_tokens,
         }
         try:
-            async with httpx.AsyncClient(timeout=self._timeout) as client:
+            async with httpx.AsyncClient(
+                timeout=timeout_seconds or self._timeout
+            ) as client:
                 response = await client.post(
                     self._url, json=payload, headers=self._headers
                 )
@@ -460,7 +468,12 @@ class QwenClient:
                     "content": _SAFETY_ANSWER_SYSTEM if safety_vi else _ANSWER_SYSTEM,
                 },
                 {"role": "user", "content": prompt},
-            ]
+            ],
+            # A warning answer is two or three times longer by instruction, so
+            # it needs longer than a maintenance question. At the ordinary
+            # budget it timed out and the customer was shown the
+            # service-unavailable message instead of the warning.
+            timeout_seconds=self._safety_timeout if safety_vi else None,
         )
         if raw is None:
             return "", 0.0

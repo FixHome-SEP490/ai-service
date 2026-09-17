@@ -53,7 +53,7 @@ def _payload() -> str:
 def _client(monkeypatch, reply):
     client = QwenClient(base_url="http://vllm.test", model_name="qwen", timeout_seconds=1)
 
-    async def fake_chat(messages):
+    async def fake_chat(messages, timeout_seconds=None):
         fake_chat.messages = messages
         return reply
 
@@ -166,7 +166,7 @@ async def test_assess_does_not_call_the_model_without_candidates(monkeypatch):
 
     client = QwenClient(base_url="http://vllm.test", model_name="qwen", timeout_seconds=1)
 
-    async def fake_chat(messages):
+    async def fake_chat(messages, timeout_seconds=None):
         nonlocal called
         called = True
         return '{"fault_codes": ["X"], "confidence": 1}'
@@ -259,7 +259,7 @@ async def test_answer_without_passages_never_calls_the_model(monkeypatch):
     called = False
     client = QwenClient(base_url="http://vllm.test", model_name="qwen", timeout_seconds=1)
 
-    async def fake_chat(messages):
+    async def fake_chat(messages, timeout_seconds=None):
         nonlocal called
         called = True
         return "bất cứ điều gì"

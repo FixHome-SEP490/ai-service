@@ -144,6 +144,30 @@ def _is_identification(text: str) -> bool:
     return not any(w in folded for w in _SYMPTOM_WORDS)
 
 
+_BUSINESS_WORDS = (
+    "bao hanh", "chinh sach", "hoan tien", "huy", "dat lich", "quy trinh",
+    "fixhome", "hoa don", "cam ket", "khieu nai", "danh gia", "thanh toan",
+    "dat tho", "goi tho", "dich vu", "ung dung", "app",
+)
+"""What makes a question about the business rather than about a machine."""
+
+
+def _asks_about_the_business(question: str) -> bool:
+    """Whether the five business documents are relevant at all.
+
+    They were being consulted for every question, and one of them outranked
+    the fault documents on "máy lạnh không mát" because it happens to discuss
+    an air conditioner that is not cooling — as an example of what the
+    manufacturer's warranty covers. The customer asked why their machine was
+    not cooling and was told to go and check their warranty first, which is a
+    repair company talking its own customer out of the job.
+    """
+    folded = unicodedata.normalize("NFD", question.lower())
+    folded = "".join(c for c in folded if unicodedata.category(c) != "Mn")
+    folded = folded.replace("đ", "d")
+    return any(word in folded for word in _BUSINESS_WORDS)
+
+
 def _asks_about_money(question: str) -> bool:
     """Whether the customer is asking what something costs."""
     folded = unicodedata.normalize("NFD", question.lower())
@@ -573,7 +597,13 @@ class LocalPipeline:
         # mùi gas" into the question box is in the same room as someone who
         # sent a photograph of it, and the instruction to shut the cylinder
         # valve cannot depend on which surface they happened to use.
-        safety = self._retriever.safety_passages(codes)
+        # Only when the dangerous fault is the *best* match, not merely among
+        # the three. "Vệ sinh máy lạnh bao lâu một lần" shortlists a dirty
+        # filter first and a burnt smell third, and pinning on the third turned
+        # a question about cleaning intervals into a safety warning — and a
+        # prompt long enough to run past the model's time budget, so the
+        # customer got an error instead of an answer.
+        safety = self._retriever.safety_passages(codes[:1])
         pinned = [f"{s.chunk.source_file}::{s.chunk.heading_vi}" for s in safety]
         corpus = self._retriever.corpus_passages(
             request.question,
@@ -594,9 +624,22 @@ class LocalPipeline:
         # never called: "bảo hành bao lâu" reached only the one-line policy row,
         # which does not say how long, so the model declined and the customer
         # was told the question was out of scope.
-        business = self._retriever.business_passages(request.question)
+        business = (
+            self._retriever.business_passages(request.question)
+            if _asks_about_the_business(request.question) or not codes
+            else []
+        )
 
-        chunks = safety + corpus + business
+        # Whichever the customer actually asked about goes first. The model
+        # reads the passages in order and the first relevant one wins, so
+        # "bảo hành máy lạnh bao lâu" answered from the air conditioner's fault
+        # documents — which are about the fault and say nothing about warranty.
+        written = (
+            business + corpus
+            if _asks_about_the_business(request.question)
+            else corpus + business
+        )
+        chunks = safety + written
         passages = prices + policies
         if not (passages or chunks):
             return await self._reasoned_answer(request, chat)

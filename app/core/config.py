@@ -18,6 +18,7 @@ class Settings(BaseSettings):
     VLM_BASE_URL: str = ""
     VLM_MODEL_NAME: str = "Qwen/Qwen2.5-VL-3B-Instruct-AWQ"
     VLM_TIMEOUT_SECONDS: float = 8.0
+
     VLM_API_KEY: str = ""
 
     VLM_REPORT_VISIBLE_CONDITIONS: bool = False
