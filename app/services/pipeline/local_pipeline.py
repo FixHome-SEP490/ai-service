@@ -465,6 +465,26 @@ class LocalPipeline:
             >= settings.DECISIVE_MIN_WORDS
         )
 
+        # Too little was said for anyone to answer, the model included. The
+        # same word count already guarded `decisive`, but `decisive` is only
+        # the path taken when the model is unsure — nothing stopped a confident
+        # one. A live run answered "hư rồi" with a refrigerator compressor,
+        # "cứu em với" with a tap cartridge, and "sửa giúp em cái này" with a
+        # damaged fan cord: three messages that name no appliance, describe no
+        # symptom, and between them carry four content words.
+        #
+        # Only when nothing else is known. A photograph or an earlier message
+        # settles the appliance, and then "nó không chạy" is a complete thing to
+        # say about it.
+        if (
+            device_type is None
+            and self._retriever.content_words(chat.customer_text())
+            < settings.DECISIVE_MIN_WORDS
+        ):
+            return await self._clarification_response(
+                request, confidence, shortlist, detection, chat, trace
+            )
+
         if confidence < settings.AI_CONFIDENCE_THRESHOLD and not decisive:
             return await self._clarification_response(
                 request, confidence, shortlist, detection, chat, trace
@@ -955,10 +975,31 @@ class LocalPipeline:
                 questions_vi=questions,
                 service_group_codes=self._kb.all_service_groups(),
             ),
+            # Asking which appliance it is does not make a burning smell less
+            # urgent. "Cháy khét" is two words and settles nothing, so it is
+            # right to ask — and wrong to hand the client a LOW beside the
+            # question, because the client decides from this field how loudly
+            # to show the reply.
+            urgency=self._highest_urgency(shortlist),
             model_info=self._model_info,
             trace=trace.stages if trace else [],
             disclaimer_vi=settings.AI_DISCLAIMER_VI,
         )
+
+    def _highest_urgency(self, shortlist: Optional[List]) -> UrgencyLevel:
+        """The most urgent fault still under consideration."""
+        urgency = UrgencyLevel.LOW
+        for entry in shortlist or []:
+            # Callers pass faults here and scored faults there; taking either
+            # is cheaper than making them agree, and reading the wrong one
+            # silently returns LOW for a burning smell.
+            fault = getattr(entry, "fault", entry)
+            if not hasattr(fault, "urgency"):
+                continue
+            level = UrgencyLevel(fault.urgency)
+            if _URGENCY_RANK[level] > _URGENCY_RANK[urgency]:
+                urgency = level
+        return urgency
 
     async def _best_effort_response(
         self,

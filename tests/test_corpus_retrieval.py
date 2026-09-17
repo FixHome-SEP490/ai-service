@@ -311,3 +311,39 @@ def test_a_dangerous_answer_carries_the_whole_instruction(client):
     answer = _ask(client, "bếp gas nhà em có mùi gas", "gas_stove")["answerVi"].lower()
     for step in ["khoá van bình gas", "công tắc điện"]:
         assert step in answer, answer[:200]
+
+
+@pytest.mark.parametrize(
+    "message",
+    [
+        # Each was answered with a confident fault in a live run: a
+        # refrigerator compressor, a tap cartridge, a damaged fan cord. None of
+        # them names an appliance or describes a symptom.
+        "hư rồi",
+        "cứu em với",
+        "sửa giúp em cái này",
+        "máy hỏng rồi em ơi",
+        "nó không chạy",
+    ],
+)
+def test_a_message_that_says_nothing_gets_a_question_not_a_diagnosis(client, message):
+    response = client.post(
+        "/api/v1/diagnosis/analyze-upload", data={"description": message}
+    )
+    assert response.status_code == 200, response.text
+    body = response.json()
+    assert body["status"] == "needs_clarification", body.get("suspectedFaults")
+    assert not body.get("suspectedFaults")
+
+
+def test_a_short_dangerous_message_still_reports_its_urgency(client):
+    """Asking which appliance it is does not make a burning smell less urgent.
+
+    The client decides from this field how loudly to show the reply, so a
+    question beside a LOW is how a burning smell reaches someone as routine.
+    """
+    body = client.post(
+        "/api/v1/diagnosis/analyze-upload", data={"description": "cháy khét"}
+    ).json()
+    assert body["status"] == "needs_clarification"
+    assert body["urgency"] == "HIGH"
