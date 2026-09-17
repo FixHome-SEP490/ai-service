@@ -2963,7 +2963,7 @@
         "chỗ cắm điện bị nám"
       ],
       "price_min": 100000,
-      "price_max": 100000,
+      "price_max": 250000,
       "price_reviewed": true,
       "urgency": "HIGH",
       "suggested_actions_vi": [
@@ -3008,7 +3008,7 @@
         "phải để dây một tư thế"
       ],
       "price_min": 100000,
-      "price_max": 100000,
+      "price_max": 250000,
       "price_reviewed": true,
       "urgency": "MEDIUM",
       "suggested_actions_vi": [
@@ -3047,7 +3047,7 @@
         "cúp điện"
       ],
       "price_min": 100000,
-      "price_max": 270000,
+      "price_max": 400000,
       "price_reviewed": true,
       "urgency": "MEDIUM",
       "suggested_actions_vi": [
@@ -3129,7 +3129,7 @@
         "không sao đâu ạ"
       ],
       "price_min": 100000,
-      "price_max": 340000,
+      "price_max": 670000,
       "price_reviewed": true,
       "urgency": "HIGH",
       "suggested_actions_vi": [
@@ -3166,7 +3166,7 @@
         "ổ cắm bị bung ra khỏi tường"
       ],
       "price_min": 100000,
-      "price_max": 100000,
+      "price_max": 290000,
       "price_reviewed": true,
       "urgency": "HIGH",
       "suggested_actions_vi": [
@@ -3204,7 +3204,7 @@
         "cái đèn chết rồi"
       ],
       "price_min": 120000,
-      "price_max": 120000,
+      "price_max": 320000,
       "price_reviewed": true,
       "urgency": "LOW",
       "suggested_actions_vi": [
@@ -3243,7 +3243,7 @@
         "ngồi dưới đèn đó bị nhức đầu"
       ],
       "price_min": 120000,
-      "price_max": 120000,
+      "price_max": 250000,
       "price_reviewed": true,
       "urgency": "MEDIUM",
       "suggested_actions_vi": [
@@ -3282,7 +3282,7 @@
         "phải bấm kiểu gì đó nó mới lên"
       ],
       "price_min": 100000,
-      "price_max": 170000,
+      "price_max": 270000,
       "price_reviewed": true,
       "urgency": "MEDIUM",
       "suggested_actions_vi": [
@@ -3320,13 +3320,13 @@
         "đèn như đèn dầu"
       ],
       "price_min": 100000,
-      "price_max": 0,
+      "price_max": 280000,
       "price_reviewed": true,
       "urgency": "LOW",
       "suggested_actions_vi": [
         "Kiểm tra xem có đang dùng nhiều thiết bị công suất lớn cùng lúc không"
       ],
-      "requires_assessment": true,
+      "requires_assessment": false,
       "labour_code": "DIAGNOSE_ONSITE",
       "part_codes": [
         "LGT013",
@@ -3357,7 +3357,7 @@
         "nước rỉ ra chỗ đèn"
       ],
       "price_min": 120000,
-      "price_max": 120000,
+      "price_max": 450000,
       "price_reviewed": true,
       "urgency": "HIGH",
       "suggested_actions_vi": [
