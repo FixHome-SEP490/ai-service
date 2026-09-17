@@ -490,3 +490,50 @@ def test_every_device_has_questions_a_customer_can_answer(device):
     for question in questions:
         assert question.question_vi.endswith("ạ?")
         assert question.favours_if_yes and question.favours_if_no
+
+
+@pytest.mark.asyncio
+async def test_the_look_alike_question_is_asked_once_even_if_nothing_settles_it():
+    """A reply that answers nothing still counts as having been answered.
+
+    The three-way question resolves to nothing far more often than the yes-or-no
+    ones it replaced — "dạ có" chooses none of three — so the path where the
+    answer settles nothing went from rare to ordinary. Asking again would be
+    how a support bot proves it is a form, and the customer who could not tell
+    the first time cannot tell the second either.
+
+    Nothing covered this before, on any of the questions.
+    """
+    import base64
+    import io
+
+    from PIL import Image
+
+    from app.services.pipeline.detector import StubDetector
+
+    kb = get_knowledge_base()
+    buffer = io.BytesIO()
+    Image.new("RGB", (64, 48), (120, 120, 120)).save(buffer, format="PNG")
+    png = base64.b64encode(buffer.getvalue()).decode("ascii")
+
+    pipeline = LocalPipeline(
+        detector=StubDetector(kb=kb, device_type="washing_machine"),
+        vlm=StubVlm(),
+        retriever=Retriever(kb),
+        kb=kb,
+    )
+
+    first = await pipeline.diagnose(
+        DiagnosisRequest(description="máy nhà em không chạy", images=[png])
+    )
+    asked = " ".join(first.clarification.questions_vi)
+    assert "máy rửa bát" in asked, asked
+
+    for reply in ["dạ có", "em không rõ lắm"]:
+        again = await pipeline.diagnose(
+            DiagnosisRequest(description=reply, session_id=first.session_id)
+        )
+        questions = " ".join(
+            again.clarification.questions_vi if again.clarification else []
+        )
+        assert "máy rửa bát" not in questions, (reply, questions)
