@@ -323,3 +323,50 @@ def test_filtered_water_reaches_the_purifier(text, expected):
     hits = [h.device_type for h in device_hint.devices_named_in(text, kb)]
 
     assert hits == expected
+
+
+@pytest.mark.parametrize(
+    "text,expected",
+    [
+        # The part, when the machine is never named.
+        ("lồng giặt kêu cạch cạch", "washing_machine"),
+        ("ngăn đá không đông", "refrigerator"),
+        ("ruột ấm đóng cặn trắng", "kettle"),
+        ("lưới lọc xơ đầy bông", "clothes_dryer"),
+        ("chốt khoá không rút vào", "smart_lock"),
+        ("mâm xoay lò vi sóng không quay", "microwave_oven"),
+        ("bình gas hết nhanh quá", "gas_stove"),
+        ("mặt kính bếp nứt", "induction_hob"),
+    ],
+)
+def test_a_part_names_the_machine_it_belongs_to(text, expected):
+    """Customers describe what they can see, and it is rarely the appliance.
+
+    Ten of thirty such phrasings reached no device at all and were answered
+    with a question about which appliance was broken — about an appliance the
+    customer had just described a part of.
+    """
+    from app.services.pipeline import device_hint
+
+    kb = get_knowledge_base()
+    hits = [h.device_type for h in device_hint.devices_named_in(text, kb)]
+
+    assert hits and hits[0] == expected
+
+
+def test_aptomat_is_deliberately_not_an_alias():
+    """It would take the burning hob away from the hob.
+
+    "Aptomat" is seven characters and "bếp từ" is six, and the longest alias
+    wins. Making it a socket alias sends "cắm bếp từ là nhảy aptomat" — which
+    carries a safety document about a hob that trips the breaker — to the
+    socket instead.
+    """
+    from app.services.pipeline import device_hint
+
+    kb = get_knowledge_base()
+    hits = [h.device_type for h in device_hint.devices_named_in(
+        "cắm bếp từ là nhảy aptomat", kb
+    )]
+
+    assert hits[0] == "induction_hob"
