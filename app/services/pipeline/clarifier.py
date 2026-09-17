@@ -133,7 +133,15 @@ def _contradicts(symptom: str, negated: set[str]) -> bool:
 
 
 def _phrase(symptom: str) -> str:
-    """Turn a symptom into something a person would actually ask."""
+    """Turn a symptom into something a person would actually ask.
+
+    Lower-cased, because the symptom lists are written as standalone phrases
+    and some of them start with a capital: "Quạt bò" dropped into the middle of
+    this sentence read as a proper noun rather than as the thing it describes.
+    """
+    symptom = symptom.strip()
+    if symptom[:1].isupper():
+        symptom = symptom[0].lower() + symptom[1:]
     return f"Thiết bị có hiện tượng {symptom} không?"
 
 

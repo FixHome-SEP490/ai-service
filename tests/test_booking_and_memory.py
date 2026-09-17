@@ -402,3 +402,30 @@ async def test_an_off_topic_question_is_not_invited_to_book_a_repair():
 
     assert "đặt lịch" not in response.answer_vi
     assert "chỉ hỗ trợ" in response.answer_vi
+
+
+@pytest.mark.asyncio
+@pytest.mark.parametrize("text", ["hỏng", "sửa đi", "hư rồi", "cứu em với"])
+async def test_with_no_appliance_it_asks_which_appliance(text):
+    """Not a symptom taken from somebody else's machine.
+
+    With nothing settled, the shortlist spans every device the words happened
+    to touch. "Hỏng" was answered with "Thiết bị có hiện tượng block không lên
+    không?" — a compressor, in trade slang, to someone who had typed one word.
+    "Sửa đi" got "Thiết bị có hiện tượng Quạt bò không?", which is not a
+    sentence. The thing actually missing is the appliance, and that is a
+    question anybody can answer.
+    """
+    response = await _pipeline().diagnose(DiagnosisRequest(description=text))
+
+    assert response.status == DiagnosisStatus.NEEDS_CLARIFICATION
+    questions = response.clarification.questions_vi
+    assert questions[0] == "Thiết bị gặp sự cố là loại nào?"
+    assert not any("block" in q for q in questions)
+
+
+def test_a_symptom_never_arrives_capitalised_mid_sentence():
+    from app.services.pipeline.clarifier import _phrase
+
+    assert _phrase("Quạt bò") == "Thiết bị có hiện tượng quạt bò không?"
+    assert _phrase("kêu cộc cộc") == "Thiết bị có hiện tượng kêu cộc cộc không?"

@@ -1154,14 +1154,28 @@ class LocalPipeline:
         # Everything said so far, not just this message, so a question already
         # answered two turns ago is not put again.
         said = chat.customer_text() if chat else request.description
-        questions = clarifier.texts(
-            clarifier.build_questions(
-                shortlist or [],
-                said,
-                discriminators=self._kb.discriminators_for_device(
-                    detection.device_type if detection else None
-                ),
+        # With no appliance settled, the shortlist spans every device the words
+        # happened to touch, and a symptom taken from it is a question about
+        # somebody else's machine. "Hỏng" was answered with "Thiết bị có hiện
+        # tượng block không lên không?" — a compressor, in trade slang, to
+        # someone who had typed one word. "Sửa đi" got "Thiết bị có hiện tượng
+        # Quạt bò không?", which is not a sentence.
+        #
+        # Ask which appliance instead. That is the thing actually missing, and
+        # it is a question anybody can answer.
+        settled = bool(detection) or bool(chat and chat.device_type)
+        questions = (
+            clarifier.texts(
+                clarifier.build_questions(
+                    shortlist or [],
+                    said,
+                    discriminators=self._kb.discriminators_for_device(
+                        detection.device_type if detection else None
+                    ),
+                )
             )
+            if settled
+            else []
         ) or clarifier.device_questions(device_name)
 
         # One question about which device it is, and only when the customer has
