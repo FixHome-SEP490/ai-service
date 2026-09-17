@@ -86,8 +86,15 @@ def _ask(case: Case) -> Dict[str, Any]:
             timeout=180.0,
         )
         body = response.json()
-        # Normalise so one classifier handles both surfaces.
-        return {"status": body.get("status"), "answerVi": body.get("answerVi", "")}
+        # Normalise so one classifier handles both surfaces. Citations travel
+        # with it because they are the only evidence of which tables the answer
+        # was allowed to come from, and a live run once passed every case while
+        # the written corpus was unreachable from this endpoint entirely.
+        return {
+            "status": body.get("status"),
+            "answerVi": body.get("answerVi", ""),
+            "citations": [c.get("docId") for c in body.get("citations") or []],
+        }
 
     response = httpx.post(
         f"{SERVICE_URL}/api/v1/diagnosis/analyze-upload",
@@ -143,6 +150,7 @@ def main() -> None:
                 "fault_ok": fault_ok,
                 "note": case.note,
                 "reply": result.get("messageVi") or result.get("answerVi") or "",
+                "citations": result.get("citations") or [],
             }
         )
 
@@ -166,6 +174,24 @@ def main() -> None:
         print(f"{kind:<12}{right[kind]:>6}{by_expect[kind]:>6}")
     total_ok = sum(right.values())
     print(f"{'tất cả':<12}{total_ok:>6}{len(rows):>6}   {total_ok / len(rows):.0%}")
+
+    # Which body of knowledge each answer actually stood on. The corpus is the
+    # reason this project spent two million characters, and the only way to see
+    # it reached an answer is to look at what the answer cited: an endpoint that
+    # cannot see it still replies, still sounds right, and still scores full
+    # marks on every count above.
+    answered = [r for r in rows if r["expect"] == "answer" and r["citations"]]
+    if answered:
+        from_corpus = [r for r in answered if any(
+            str(doc).startswith("KB_") for doc in r["citations"]
+        )]
+        print(
+            f"\n{'tri thức nghề':<14}{len(from_corpus):>4}/{len(answered):<4} "
+            f"{len(from_corpus) / len(answered):>4.0%} câu trả lời có trích tài liệu nghề"
+        )
+        bare = [r for r in answered if r not in from_corpus]
+        for row in bare[:8]:
+            print(f"  chỉ có chính sách: {row['text']!r} -> {row['citations']}")
 
     wrong_device = [r for r in rows if r["ok"] and not r["device_ok"]]
     wrong_fault = [r for r in rows if r["ok"] and r["device_ok"] and not r["fault_ok"]]
