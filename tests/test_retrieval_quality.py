@@ -173,3 +173,41 @@ def test_symptoms_stay_in_step_with_the_corpus():
             if missing:
                 behind.append(f"{fault.fault_code} thiếu {len(missing)}")
     assert not behind, f"chạy python tools/sync_symptoms.py --write — {behind}"
+
+
+# -- words the trade cannot afford to lose ---------------------------------
+
+
+@pytest.mark.parametrize(
+    "question,device_type,must_mention",
+    [
+        # Each of these is a filler word and a piece of vocabulary at the same
+        # time once tone marks are stripped, and each was on the stopword list
+        # until a question made of nothing else came back empty.
+        ("thay bong den bao nhieu", "light_bulb", "đèn"),       # đến / đèn
+        ("thay tu quat bao nhieu", "electric_fan", "Tụ"),       # từ / tụ
+        ("thay voi nuoc bao nhieu", "faucet", "vòi"),           # với / vòi
+        ("thay o cam bao nhieu", "power_outlet", "ổ cắm"),      # ở / ổ
+        ("gia gioang cua tu lanh", "refrigerator", "cửa"),      # của / cửa
+    ],
+)
+def test_a_question_made_only_of_folded_words_still_finds_a_price(
+    retriever, question, device_type, must_mention
+):
+    hits = retriever.price_passages(question, device_type=device_type, top_k=3)
+    assert hits, question
+    assert any(must_mention.lower() in h.policy.content_vi.lower() for h in hits), (
+        f"{question!r} -> {[h.policy.title_vi for h in hits]}"
+    )
+
+
+def test_the_trade_vocabulary_is_not_filtered_as_filler():
+    """Asserted on the list itself as well, because the behavioural test above
+    only fails once someone has already shipped the regression."""
+    from app.services.pipeline.retriever import _STOPWORDS
+
+    collisions = {"do", "den", "tu", "o", "cua", "voi", "u"} & set(_STOPWORDS)
+    assert not collisions, (
+        f"{sorted(collisions)} vừa là từ đệm vừa là từ nghề sau khi bỏ dấu "
+        "(đỏ, đèn, tụ/tủ, ổ, cửa, vòi, ù) — xem chú thích ở _STOPWORDS"
+    )

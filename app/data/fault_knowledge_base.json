@@ -2972,7 +2972,11 @@
       ],
       "requires_assessment": false,
       "labour_code": "ELEC_OUTLET_REPLACE",
-      "part_codes": []
+      "part_codes": [
+        "OUT001",
+        "OUT002",
+        "OUT017"
+      ]
     },
     {
       "fault_code": "OUTLET_LOOSE_CONTACT",
@@ -3012,7 +3016,11 @@
       ],
       "requires_assessment": false,
       "labour_code": "ELEC_OUTLET_REPLACE",
-      "part_codes": []
+      "part_codes": [
+        "OUT001",
+        "OUT002",
+        "OUT017"
+      ]
     },
     {
       "fault_code": "OUTLET_NO_POWER",
@@ -3048,7 +3056,9 @@
       "requires_assessment": false,
       "labour_code": "ELEC_OUTLET_REPLACE",
       "part_codes": [
-        "HAS002"
+        "HAS002",
+        "OUT012",
+        "OUT017"
       ]
     },
     {
@@ -3088,7 +3098,10 @@
       ],
       "requires_assessment": true,
       "labour_code": "DIAGNOSE_ONSITE",
-      "part_codes": []
+      "part_codes": [
+        "OUT012",
+        "OUT015"
+      ]
     },
     {
       "fault_code": "OUTLET_OVERLOAD",
@@ -3125,7 +3138,9 @@
       "requires_assessment": false,
       "labour_code": "ELEC_OUTLET_REPLACE",
       "part_codes": [
-        "HAS003"
+        "HAS003",
+        "OUT013",
+        "OUT014"
       ]
     },
     {
@@ -3159,7 +3174,12 @@
       ],
       "requires_assessment": false,
       "labour_code": "ELEC_OUTLET_REPLACE",
-      "part_codes": []
+      "part_codes": [
+        "OUT001",
+        "OUT002",
+        "OUT006",
+        "OUT007"
+      ]
     },
     {
       "fault_code": "LIGHT_BULB_DEAD",
@@ -3192,7 +3212,11 @@
       ],
       "requires_assessment": false,
       "labour_code": "ELEC_CEILING_LIGHT",
-      "part_codes": []
+      "part_codes": [
+        "LGT001",
+        "LGT002",
+        "LGT004"
+      ]
     },
     {
       "fault_code": "LIGHT_FLICKERING",
@@ -3227,7 +3251,10 @@
       ],
       "requires_assessment": false,
       "labour_code": "ELEC_CEILING_LIGHT",
-      "part_codes": []
+      "part_codes": [
+        "LGT013",
+        "LGT014"
+      ]
     },
     {
       "fault_code": "LIGHT_SWITCH_FAULT",
@@ -3264,7 +3291,9 @@
       "requires_assessment": false,
       "labour_code": "ELEC_SWITCH_REPLACE",
       "part_codes": [
-        "HAS024"
+        "HAS024",
+        "OUT009",
+        "OUT010"
       ]
     },
     {
@@ -3299,7 +3328,11 @@
       ],
       "requires_assessment": true,
       "labour_code": "DIAGNOSE_ONSITE",
-      "part_codes": []
+      "part_codes": [
+        "LGT013",
+        "LGT014",
+        "LGT001"
+      ]
     },
     {
       "fault_code": "LIGHT_FIXTURE_LEAK",
@@ -3332,7 +3365,11 @@
       ],
       "requires_assessment": false,
       "labour_code": "ELEC_CEILING_LIGHT",
-      "part_codes": []
+      "part_codes": [
+        "LGT011",
+        "LGT017",
+        "LGT009"
+      ]
     },
     {
       "fault_code": "WH_HEATING_ELEMENT",
