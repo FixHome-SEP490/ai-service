@@ -161,3 +161,22 @@ async def test_an_unsettled_appliance_is_never_offered_a_specific_repair():
 
     codes = [s.service_code for s in response.recommended_services]
     assert codes == ["KIEM_TRA_CHAN_DOAN_THIET_BI"]
+
+
+@pytest.mark.asyncio
+async def test_a_chat_answer_about_an_appliance_can_be_booked():
+    """The button lives in the chat frame, and the chat frame had no service."""
+    response = await _pipeline().answer(
+        ChatRequest(question="máy giặt kêu to khi vắt")
+    )
+
+    assert response.recommended_services
+    assert response.recommended_services[0].service_code == "SUA_MAY_GIAT"
+
+
+@pytest.mark.asyncio
+async def test_a_policy_question_is_not_turned_into_a_sales_pitch():
+    """Nobody books a technician after asking how long the warranty lasts."""
+    response = await _pipeline().answer(ChatRequest(question="bảo hành bao lâu"))
+
+    assert response.recommended_services == []
