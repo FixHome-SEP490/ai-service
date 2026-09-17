@@ -41,8 +41,30 @@
   .turn.me .who { text-align: right; }
   .bubble.note { background: var(--note); border-color: var(--note-line); }
   .bubble.warn { border-color: var(--warn); border-width: 2px; }
-  .cites { margin-top: 8px; font-size: 12px; color: var(--muted); }
   .empty { max-width: 760px; margin: 40px auto; color: var(--muted); text-align: center; }
+
+  /* A message that appears the instant Send is pressed reads as a form
+     submission, not a reply. It arrives instead: up, and slightly overshooting
+     its size, the way a bubble lands in every messaging app anyone has used. */
+  @keyframes pop {
+    0%   { opacity: 0; transform: translateY(10px) scale(.94); }
+    60%  { opacity: 1; transform: translateY(0) scale(1.02); }
+    100% { opacity: 1; transform: translateY(0) scale(1); }
+  }
+  .turn.new .bubble { animation: pop .34s cubic-bezier(.22,1,.36,1); }
+  @media (prefers-reduced-motion: reduce) { .turn.new .bubble { animation: none; } }
+
+  .dots { display: inline-flex; gap: 5px; padding: 3px 2px; }
+  .dots i {
+    width: 7px; height: 7px; border-radius: 50%; background: var(--muted);
+    display: block; animation: blink 1.25s infinite ease-in-out;
+  }
+  .dots i:nth-child(2) { animation-delay: .18s; }
+  .dots i:nth-child(3) { animation-delay: .36s; }
+  @keyframes blink {
+    0%, 70%, 100% { opacity: .28; transform: translateY(0); }
+    35%           { opacity: 1;  transform: translateY(-3px); }
+  }
   footer { background: var(--panel); border-top: 1px solid var(--line); padding: 10px 16px; }
   .composer { max-width: 760px; margin: 0 auto; display: flex; gap: 8px; align-items: flex-end; }
   textarea {
@@ -118,8 +140,10 @@ function render() {
     log.appendChild(empty);
     return;
   }
+  // No entrance animation here. This runs on reload and on starting over, and
+  // a transcript that replays every bubble arriving is a page having a seizure.
   for (const turn of state.turns) log.appendChild(bubbleFor(turn));
-  log.scrollTop = log.scrollHeight;
+  toBottom();
 }
 
 function bubbleFor(turn) {
@@ -137,12 +161,10 @@ function bubbleFor(turn) {
     bubble.appendChild(img);
   }
   if (turn.text) bubble.appendChild(document.createTextNode(turn.text));
-  if (turn.cites && turn.cites.length) {
-    const c = document.createElement("div");
-    c.className = "cites";
-    c.textContent = "Nguồn: " + turn.cites.join(" · ");
-    bubble.appendChild(c);
-  }
+  // No citations on screen. They are the titles of internal documents — "Kịch
+  // bản hội thoại mẫu", "Cây hỏi, khi chỉ được hỏi tối đa hai câu" — and a
+  // customer reading them learns nothing except that somebody left the
+  // machinery open. They stay in the API response for the team to inspect.
   const wrap = document.createElement("div");
   wrap.appendChild(who);
   wrap.appendChild(bubble);
@@ -150,7 +172,43 @@ function bubbleFor(turn) {
   return row;
 }
 
-function say(turn) { state.turns.push(turn); save(); render(); }
+function say(turn) {
+  // Appended rather than re-rendered, so only the arriving bubble animates.
+  // Rebuilding the whole log replayed the entrance on every message already on
+  // screen, which is a page that twitches every time anyone types.
+  state.turns.push(turn);
+  save();
+  const empty = log.querySelector(".empty");
+  if (empty) empty.remove();
+  const row = bubbleFor(turn);
+  row.classList.add("new");
+  log.appendChild(row);
+  toBottom();
+}
+
+function toBottom() { log.scrollTop = log.scrollHeight; }
+
+let typingRow = null;
+function showTyping() {
+  if (typingRow) return;
+  typingRow = document.createElement("div");
+  typingRow.className = "turn new";
+  typingRow.innerHTML =
+    '<div><div class="who">FixHome</div>' +
+    '<div class="bubble"><span class="dots"><i></i><i></i><i></i></span></div></div>';
+  log.appendChild(typingRow);
+  toBottom();
+}
+function hideTyping() {
+  if (typingRow) { typingRow.remove(); typingRow = null; }
+}
+
+const wait = (ms) => new Promise((r) => setTimeout(r, ms));
+
+/** How long someone would plausibly have taken to type this. */
+function typingTimeFor(text) {
+  return Math.min(1400, 420 + (text || "").length * 9);
+}
 
 function fold(s) {
   return s.normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase();
@@ -216,42 +274,75 @@ async function send() {
   textBox.value = "";
   clearThumb();
 
-  say({ who: "ai", text: pickAck(text, !!file), kind: "note" });
+  // The acknowledgement is a person saying they have read the message, so it
+  // waits the time a person would have taken to type it. Arriving in the same
+  // frame as the customer's own message, it read as an autoresponder and the
+  // reassurance it exists to give was lost.
+  const ack = pickAck(text, !!file);
+  showTyping();
+
+  // The request goes out now, not after the pause: the pause is for the
+  // reader, and making the model wait for it would be theatre paid for in
+  // seconds of GPU time.
+  // The failure is carried rather than thrown, because nothing awaits this
+  // promise for the length of the pause and a rejection in that window is an
+  // unhandled one.
+  const answering = fetchAnswer(text, file).then(
+    (reply) => ({ reply }),
+    (error) => ({ error })
+  );
+
+  await wait(typingTimeFor(ack));
+  hideTyping();
+  say({ who: "ai", text: ack, kind: "note" });
+  showTyping();
 
   try {
-    let reply;
-    if (file) {
-      const form = new FormData();
-      form.append("description", text || "Anh/chị xem giúp em thiết bị này bị gì ạ");
-      if (state.sessionId) form.append("sessionId", state.sessionId);
-      form.append("files", file, "photo.jpg");
-      const r = await (await fetch("/api/v1/diagnosis/analyze-upload", { method: "POST", body: form })).json();
-      if (r.sessionId) state.sessionId = r.sessionId;
-      reply = renderDiagnosis(r);
-    } else if (isAQuestion(text)) {
-      const body = { question: text };
-      if (state.sessionId) body.sessionId = state.sessionId;
-      const r = await (await fetch("/api/v1/chat/ask", {
-        method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body)
-      })).json();
-      if (r.sessionId) state.sessionId = r.sessionId;
-      reply = { text: r.answerVi || "", cites: (r.citations || []).map(c => c.titleVi) };
+    const outcome = await answering;
+    // A reply that lands in under a second after the acknowledgement looks
+    // like it was already written. Only ever a short floor, never a ceiling:
+    // a slow answer is never delayed further.
+    await wait(260);
+    hideTyping();
+    if (outcome.error) {
+      say({ who: "ai", text: "Em chưa kết nối được tới máy chủ ạ. " + outcome.error });
     } else {
-      const form = new FormData();
-      form.append("description", text);
-      if (state.sessionId) form.append("sessionId", state.sessionId);
-      const r = await (await fetch("/api/v1/diagnosis/analyze-upload", { method: "POST", body: form })).json();
-      if (r.sessionId) state.sessionId = r.sessionId;
-      reply = renderDiagnosis(r);
+      const reply = outcome.reply;
+        say({ who: "ai", text: reply.text, kind: reply.kind || "" });
     }
-    say({ who: "ai", text: reply.text, cites: reply.cites, kind: reply.kind || "" });
-  } catch (err) {
-    say({ who: "ai", text: "Em chưa kết nối được tới máy chủ ạ. " + err });
   } finally {
+    hideTyping();
     sendBtn.disabled = false;
     hint.textContent = "";
     textBox.focus();
   }
+}
+
+async function fetchAnswer(text, file) {
+  if (file) {
+    const form = new FormData();
+    form.append("description", text || "Anh/chị xem giúp em thiết bị này bị gì ạ");
+    if (state.sessionId) form.append("sessionId", state.sessionId);
+    form.append("files", file, "photo.jpg");
+    const r = await (await fetch("/api/v1/diagnosis/analyze-upload", { method: "POST", body: form })).json();
+    if (r.sessionId) state.sessionId = r.sessionId;
+    return renderDiagnosis(r);
+  }
+  if (isAQuestion(text)) {
+    const body = { question: text };
+    if (state.sessionId) body.sessionId = state.sessionId;
+    const r = await (await fetch("/api/v1/chat/ask", {
+      method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body)
+    })).json();
+    if (r.sessionId) state.sessionId = r.sessionId;
+    return { text: r.answerVi || "" };
+  }
+  const form = new FormData();
+  form.append("description", text);
+  if (state.sessionId) form.append("sessionId", state.sessionId);
+  const r = await (await fetch("/api/v1/diagnosis/analyze-upload", { method: "POST", body: form })).json();
+  if (r.sessionId) state.sessionId = r.sessionId;
+  return renderDiagnosis(r);
 }
 
 function asDataUrl(file) {

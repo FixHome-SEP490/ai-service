@@ -41,3 +41,20 @@ def test_the_page_keeps_what_the_owner_asked_it_to_keep(client):
     assert "Phiên chat mới" in body
     assert "readAsDataURL" in body
     assert "state.turns.push" in body
+
+
+def test_the_page_shows_no_internal_document_titles(client):
+    """A customer saw "Nguồn: Kịch bản hội thoại mẫu · Cây hỏi, khi chỉ được hỏi
+    tối đa hai câu" under an answer about cleaning intervals.
+
+    Citations are how the team checks an answer was grounded. To a customer
+    they are the names of files they cannot read, and they say only that
+    somebody left the machinery open. They stay in the API response.
+    """
+    body = client.get("/chat").text
+    assert "Nguồn:" not in body
+    # The field itself, not the word: the page explains in a comment why it
+    # does not render these, and an assertion that forbids the word forbids
+    # saying why.
+    assert "titleVi" not in body
+    assert "r.citations" not in body
