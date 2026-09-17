@@ -310,6 +310,28 @@ def _price_score(
     return hits / len(target)
 
 
+_PHRASE_BONUS = 0.15
+"""How much saying it the symptom list's way is worth.
+
+Small on purpose. It separates ties without being able to overturn a real
+difference in coverage."""
+
+
+def _phrase_overlap(query: Sequence[str], symptoms: Sequence[str]) -> float:
+    """Share of the query's adjacent word pairs the symptom text also has.
+
+    Coverage counts words with no regard for order, so "không vắt" and "vắt
+    xong không khô" look identical to it. WM_NO_SPIN opens its symptom list with
+    "không vắt" — the customer's exact words — and still tied with a noisy
+    bearing whose phrasings merely contain both words apart.
+    """
+    pairs = {(a, b) for a, b in zip(query, query[1:])}
+    if not pairs:
+        return 0.0
+    theirs = {(a, b) for a, b in zip(symptoms, symptoms[1:])}
+    return len(pairs & theirs) / len(pairs)
+
+
 class _SymptomIndex:
     """How rare each word is across one appliance's own symptom lists.
 
@@ -323,6 +345,39 @@ class _SymptomIndex:
     Rarity handles both cases with no list to maintain. A word used by every
     fault of the appliance carries almost nothing; the appliance's own name is
     exactly such a word, because the symptom lists keep repeating it.
+
+    Two stronger versions of that idea have been tried and measured, and both
+    made things worse. Do not try them a third time.
+
+    Zeroing the weight of any word every fault of the appliance uses: 466
+    correct out of 472 became 465.
+
+    Zeroing the weight of the appliance's own aliases, so the name cannot score
+    at all inside its own faults: 466 became 449, the written-corpus check fell
+    from 19 of 19 to 18, and — the reason this one is disqualified outright —
+    safety pinning fell from 10 of 10 to 8. Two dangerous faults stopped
+    warning before they answered. Queries whose only content is the appliance
+    name plus filler have nothing left to score on, and several of the
+    dangerous phrasings are exactly that shape.
+
+    A third was tried from the opposite direction: counting the appliance's name
+    as present in every one of its faults, which is what writing the name into
+    the symptom lists that lack it would amount to. 468 became 462 and a safety
+    pin was lost as well.
+
+    That one is worth understanding rather than just recording, because the
+    reasoning behind it was wrong in a way that is easy to repeat. Raising a
+    score cannot push a fault below a threshold, so it looked safe. But
+    `safety_passages` pins on the top-ranked fault, and raising everyone else
+    moves the dangerous one out of first place. What matters here is the
+    ranking, not the absolute score, and any change to either can cost a
+    warning.
+
+    So the known cost of leaving it alone is ties. "Máy giặt không vắt được"
+    still ranks a noisy bearing above WM_NO_SPIN, whose first symptom is the
+    customer's exact words. Accept that the shortlist carries both and let the
+    model choose — which is what a shortlist is for. Every attempt to make the
+    scorer decide it alone has cost more than it bought.
     """
 
     def __init__(self, faults: Sequence[Fault]) -> None:
@@ -369,7 +424,12 @@ class _SymptomIndex:
         total = sum(weights.values())
         if total <= 0.0:
             return 0.0
-        return sum(w for t, w in weights.items() if t in target) / total
+        covered = sum(w for t, w in weights.items() if t in target) / total
+        # A small bonus for saying it the way the symptom list says it. Purely
+        # additive, so nothing that scored before can now fall below a
+        # threshold — the two earlier attempts at this failed because they took
+        # weight away, and one of them cost two safety pins.
+        return min(1.0, covered + _PHRASE_BONUS * _phrase_overlap(query, symptoms))
 
 
 def _device_alias_tokens(question: str, kb: KnowledgeBase) -> List[str]:
