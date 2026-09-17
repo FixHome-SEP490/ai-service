@@ -169,6 +169,24 @@ class _Trace:
         self.mark()
 
 
+def _device_named_in(question: str, kb: KnowledgeBase) -> Optional[str]:
+    """The appliance the customer named, when nobody passed one in.
+
+    A chat box has no photograph and usually no device field, least of all on
+    the first message — but the customer almost always names the appliance,
+    because that is how people describe a problem. Without this the corpus was
+    unreachable from the question box unless the client happened to fill in a
+    field it has no way of knowing yet.
+
+    Only used when nothing better is known: an appliance settled by a
+    photograph or by an earlier message in the same session always wins, since
+    a later sentence mentioning a fridge does not mean the air conditioner
+    stopped being the subject.
+    """
+    named = device_hint.devices_named_in(question, kb)
+    return named[0].device_type if len(named) == 1 else None
+
+
 class LocalPipeline:
     """The self-hosted diagnosis pipeline.
 
@@ -506,7 +524,9 @@ class LocalPipeline:
         # the policy table and came back explaining how often to clean a
         # refrigerator. Two million characters about the trade sat one call
         # away the whole time.
-        device_type = chat.device_type or request.device_type
+        device_type = chat.device_type or request.device_type or _device_named_in(
+            request.question, self._kb
+        )
         candidates = (
             self._retriever.candidate_faults(request.question, device_type)
             if device_type
