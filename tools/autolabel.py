@@ -100,6 +100,16 @@ PROMPTS: Dict[str, List[str]] = {
     "electric_fan": ["electric fan", "pedestal fan"],
     "light_bulb": ["light bulb", "ceiling light", "lamp"],
     "water_pipe": ["pipe", "plumbing pipe"],
+    # Five classes added 17/09/2026. Three of them share a prompt space with a
+    # class that already exists, and the open-vocabulary pass cannot tell them
+    # apart from words alone: a dishwasher and a dryer both answer to "white
+    # front-loading appliance", an induction hob and a gas stove both to
+    # "cooktop". Their drafts need reviewing by eye, not by count.
+    "induction_hob": ["induction cooktop", "induction hob", "glass ceramic cooktop"],
+    "dishwasher": ["dishwasher"],
+    "clothes_dryer": ["clothes dryer", "tumble dryer"],
+    "water_purifier": ["water purifier", "water filter system"],
+    "smart_lock": ["smart door lock", "digital door lock", "fingerprint lock"],
 }
 
 

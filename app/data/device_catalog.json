@@ -291,6 +291,86 @@
         "nước nóng"
       ],
       "confusable_with": []
+    },
+    {
+      "device_type": "induction_hob",
+      "name_vi": "Bếp từ",
+      "service_group": "SVG_APPLIANCE",
+      "detector_class": true,
+      "open_images_class": null,
+      "aliases_vi": [
+        "bếp từ",
+        "bếp điện từ",
+        "bep tu",
+        "bếp hồng ngoại",
+        "bếp âm"
+      ],
+      "confusable_with": [
+        "gas_stove"
+      ]
+    },
+    {
+      "device_type": "dishwasher",
+      "name_vi": "Máy rửa bát",
+      "service_group": "SVG_APPLIANCE",
+      "detector_class": true,
+      "open_images_class": null,
+      "aliases_vi": [
+        "máy rửa bát",
+        "máy rửa chén",
+        "may rua bat",
+        "máy rửa chén bát"
+      ],
+      "confusable_with": [
+        "washing_machine"
+      ]
+    },
+    {
+      "device_type": "clothes_dryer",
+      "name_vi": "Máy sấy quần áo",
+      "service_group": "SVG_APPLIANCE",
+      "detector_class": true,
+      "open_images_class": null,
+      "aliases_vi": [
+        "máy sấy quần áo",
+        "máy sấy đồ",
+        "may say quan ao",
+        "máy sấy"
+      ],
+      "confusable_with": [
+        "washing_machine"
+      ]
+    },
+    {
+      "device_type": "water_purifier",
+      "name_vi": "Máy lọc nước",
+      "service_group": "SVG_PLUMBING",
+      "detector_class": true,
+      "open_images_class": null,
+      "aliases_vi": [
+        "máy lọc nước",
+        "máy lọc nước RO",
+        "may loc nuoc",
+        "cây lọc nước"
+      ],
+      "confusable_with": [
+        "water_heater"
+      ]
+    },
+    {
+      "device_type": "smart_lock",
+      "name_vi": "Khoá cửa thông minh",
+      "service_group": "SVG_ELECTRIC",
+      "detector_class": true,
+      "open_images_class": null,
+      "aliases_vi": [
+        "khóa vân tay",
+        "khoá vân tay",
+        "khóa cửa thông minh",
+        "khóa điện tử",
+        "khoa van tay"
+      ],
+      "confusable_with": []
     }
   ],
   "visible_conditions": [
