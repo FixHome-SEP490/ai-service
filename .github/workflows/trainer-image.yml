@@ -26,8 +26,6 @@ on:
       - 'docker/train/**'
       - 'requirements-model.txt'
       - 'requirements-train.txt'
-      - 'tools/**'
-      - 'app/data/**'
       - '.github/workflows/trainer-image.yml'
 
 permissions:
