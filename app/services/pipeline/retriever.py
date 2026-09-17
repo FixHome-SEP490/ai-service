@@ -323,6 +323,27 @@ class _SymptomIndex:
     Rarity handles both cases with no list to maintain. A word used by every
     fault of the appliance carries almost nothing; the appliance's own name is
     exactly such a word, because the symptom lists keep repeating it.
+
+    Two stronger versions of that idea have been tried and measured, and both
+    made things worse. Do not try them a third time.
+
+    Zeroing the weight of any word every fault of the appliance uses: 466
+    correct out of 472 became 465.
+
+    Zeroing the weight of the appliance's own aliases, so the name cannot score
+    at all inside its own faults: 466 became 449, the written-corpus check fell
+    from 19 of 19 to 18, and — the reason this one is disqualified outright —
+    safety pinning fell from 10 of 10 to 8. Two dangerous faults stopped
+    warning before they answered. Queries whose only content is the appliance
+    name plus filler have nothing left to score on, and several of the
+    dangerous phrasings are exactly that shape.
+
+    The known cost of leaving it alone is ties. "Máy giặt không vắt được"
+    ranks a noisy bearing level with WM_NO_SPIN, whose first symptom is the
+    customer's exact words, because the bearing's phrasings repeat "máy giặt"
+    and WM_NO_SPIN's do not. The cheap fix for that is data, not scoring: write
+    the appliance name into the symptom lists that lack it, or accept that the
+    shortlist carries both and let the model choose — which is what it is for.
     """
 
     def __init__(self, faults: Sequence[Fault]) -> None:
