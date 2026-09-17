@@ -108,7 +108,7 @@ nó reset luôn cảnh báo tràn sau khi khay đã khô.
 
 Chữ "bát" và "chén" dùng lẫn nhau theo vùng miền, phải hiểu cả hai. "Chết
 nguồn" là cách nói rất phổ biến và nó không phân biệt được giữa máy mất điện
-thật và máy tự khoá vì chốt cửa hay pháo chống tràn — ba thứ rất khác nhau.
+thật và máy tự khoá vì chốt cửa hay phao chống tràn — ba thứ rất khác nhau.
 Gặp cách nói này thì luôn hỏi lại đèn có sáng không và sàn có ẩm không.
 
 ## Khách mô tả bằng hệ quả

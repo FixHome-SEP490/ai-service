@@ -4522,7 +4522,18 @@
       "symptoms_vi": [
         "máy lọc nước không lên đèn",
         "máy lọc nước cắm điện không chạy",
-        "cây nước nóng lạnh không vào điện"
+        "cây nước nóng lạnh không vào điện",
+        "máy lọc nước chết hẳn không kêu gì",
+        "máy lọc nước tự nhiên ngừng hoạt động",
+        "cục sạc của máy lọc không sáng đèn",
+        "máy lọc nước hỏng sau hôm nhà em bị ngập",
+        "may loc nuoc khong len den",
+        "may loc nuoc cam dien khong chay",
+        "may loc nuoc chet nguon",
+        "cuc sac may loc khong sang",
+        "cục sạc",
+        "nhà em phải đi mua nước bình mấy hôm nay",
+        "máy im từ hôm mất điện cả khu"
       ],
       "price_min": 100000,
       "price_max": 0,
