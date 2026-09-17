@@ -107,7 +107,12 @@ async def test_vietnamese_content_comes_from_knowledge_base():
     )
     response = await _after_the_either_or(pipeline, "Quạt kêu cộc cộc", [_png()])
 
-    fault = kb.fault("FAN_WORN_BEARING")
+    # Which fault is not the point here, and is no longer the model's to
+    # decide: the stub detector finds nothing in the png, so the model is
+    # shown no picture, and without one retrieval's ranking is the better
+    # judge. What this test is about is that every Vietnamese word in the
+    # answer came out of the knowledge base rather than out of the model.
+    fault = kb.fault(response.suspected_faults[0].fault_code)
     assert response.suspected_faults[0].name_vi == fault.name_vi
     assert response.price_estimate.min == fault.price_min
     if fault.requires_assessment:
@@ -178,7 +183,11 @@ async def test_text_only_request_still_works_without_detector_signal():
 
     assert response.status == DiagnosisStatus.OK
     assert response.device is None
-    assert response.suspected_faults[0].fault_code == "AC_LOW_REFRIGERANT"
+    # An air-conditioner fault, from the appliance the sentence names. Not
+    # this particular one: with no photograph the shortlist's own order wins
+    # over the model's pick, because measured across 267 labelled cases it is
+    # right 88% of the time against the model's 79%.
+    assert response.suspected_faults[0].fault_code.startswith("AC_")
 
 
 @pytest.mark.asyncio
@@ -272,3 +281,55 @@ async def test_out_of_scope_question_is_refused_by_retrieval_alone():
 
     assert response.status == AnswerStatus.NO_GROUNDING
     assert response.citations == []
+
+
+@pytest.mark.asyncio
+async def test_without_a_photograph_the_shortlist_order_wins():
+    """Measured, not assumed.
+
+    Across 267 labelled cases the model picked the right fault 79% of the
+    time and retrieval's own first place was right 88%. The right answer sat
+    in retrieval's top two in 97% of them, so what the model mostly added was
+    a chance to reach past it.
+    """
+    pipeline = _pipeline(
+        detector=_EmptyDetector(),
+        # A real air-conditioner fault, and not the one retrieval ranks first
+        # for this sentence.
+        vlm=_FixedVlm(VlmVerdict(fault_codes=["AC_REMOTE_FAULT"], confidence=0.9)),
+    )
+    response = await pipeline.diagnose(
+        DiagnosisRequest(description="máy lạnh chạy cả ngày mà không mát")
+    )
+
+    kb = get_knowledge_base()
+    ranked = Retriever(kb).candidate_faults(
+        "máy lạnh chạy cả ngày mà không mát", "air_conditioner", top_k=3
+    )
+    assert response.suspected_faults[0].fault_code == ranked[0].fault.fault_code
+    assert response.suspected_faults[0].fault_code != "AC_REMOTE_FAULT"
+
+
+@pytest.mark.asyncio
+async def test_with_a_photograph_the_model_still_decides():
+    """It can see a cracked panel, a burn mark, water under a machine — none of
+    which is in a ranking of the customer's words. That half is unmeasured:
+    the suite sends text, and there are no photographs labelled by fault."""
+    kb = get_knowledge_base()
+    pipeline = LocalPipeline(
+        # A television needs no either/or question, so the turn carrying the
+        # photograph is also the turn being measured. With a fan the first turn
+        # asks where it is mounted and the answer arrives on a second turn with
+        # no picture on it — at which point the model is shown nothing and the
+        # ranking should win, which is what the previous version of this test
+        # accidentally asserted.
+        detector=StubDetector(kb=kb, device_type="television"),
+        vlm=_FixedVlm(VlmVerdict(fault_codes=["TV_POWER_BOARD"], confidence=0.9)),
+        retriever=Retriever(kb),
+        kb=kb,
+    )
+    response = await pipeline.diagnose(
+        DiagnosisRequest(description="tivi bị sọc màn hình", images=[_png()])
+    )
+
+    assert response.suspected_faults[0].fault_code == "TV_POWER_BOARD"

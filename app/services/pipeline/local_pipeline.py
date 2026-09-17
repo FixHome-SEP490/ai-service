@@ -6,6 +6,7 @@ from __future__ import annotations
 import re
 import time
 import unicodedata
+from dataclasses import replace
 from typing import Any, List, Optional
 
 import logging
@@ -421,6 +422,29 @@ class LocalPipeline:
                 for code in self._kb.condition_codes
             ],
         )
+
+        # Without a photograph the model is choosing between codes on the
+        # strength of the same sentence retrieval already ranked them by, and
+        # measured across 267 labelled cases it does that worse: retrieval's
+        # own first place is right 88% of the time, the model's pick 79%. The
+        # right answer is in retrieval's top two in 97% of cases, so what the
+        # model mostly contributes is a chance to reach past it.
+        #
+        # With a photograph it stays in charge. It can see a cracked panel, a
+        # burn mark, water under a machine — evidence no ranking of the
+        # customer's words contains. That half is unmeasured: the suite sends
+        # text, and there are no photographs labelled by fault to measure it
+        # with.
+        if detection is None and candidates and verdict.fault_codes:
+            ranked = [c.fault.fault_code for c in candidates]
+            if verdict.fault_codes[0] != ranked[0]:
+                verdict = replace(verdict, fault_codes=ranked[: len(verdict.fault_codes)])
+                trace.add(
+                    "vlm",
+                    True,
+                    f"Không có ảnh nên theo thứ hạng của RAG: {ranked[0]}",
+                    model_chose=verdict.fault_codes,
+                )
 
         trace.add(
             "vlm",
