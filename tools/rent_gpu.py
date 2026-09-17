@@ -170,6 +170,16 @@ def cmd_offers(args: argparse.Namespace) -> None:
         # genuinely unsuitable machine. On every other card the filter changed
         # no result, so it was hiding a whole class of hardware and buying
         # nothing. What the image actually needs is checked in `train` instead.
+        # VRAM, not just the model name. The plan is a 12GB card and the
+        # entrypoint's memory split is written for one; an RTX 3060 also ships
+        # as an 8GB board under the same name, and renting one would load Qwen,
+        # leave the detector nothing, and run out of CUDA memory partway
+        # through the first request with a photograph in it.
+        #
+        # In gigabytes. The search API takes GB here while the offer it returns
+        # reports gpu_ram in megabytes, so the obvious 12*1024 matches nothing
+        # at all and reads like there are no 3060s left.
+        f"gpu_ram>={args.min_vram}",
         f"dph<={args.max_price}",
         "reliability>0.98",
         f"inet_down>={args.min_download}",
@@ -195,12 +205,13 @@ def cmd_offers(args: argparse.Namespace) -> None:
             )
 
     print(
-        f"{'offer':>10}  {'$/hr':>6}  {'GPU':<16}{'down':>8}  {'disk':>7}"
+        f"{'offer':>10}  {'$/hr':>6}  {'GPU':<16}{'vram':>6}{'down':>8}  {'disk':>7}"
         f"  {'cuda':>5}  reliability"
     )
     for offer in offers[: args.limit]:
         print(
             f"{offer['id']:>10}  {offer['dph_total']:>6.3f}  {offer['gpu_name']:<16}"
+            f"{offer.get('gpu_ram', 0) / 1024:>4.0f}GB"
             f"{offer.get('inet_down', 0):>6.0f}Mb  {offer['disk_space']:>5.0f}GB"
             f"  {_cuda(offer):>5.1f}  {offer['reliability2']:.3f}"
         )
@@ -539,6 +550,12 @@ def main() -> None:
     offers = sub.add_parser("offers", help="what is available and what it costs")
     offers.add_argument("--gpu", default="RTX_3060")
     offers.add_argument("--max-price", type=float, default=0.40)
+    offers.add_argument(
+        "--min-vram",
+        type=int,
+        default=12,
+        help="GB of VRAM; 12 is what the deployment was planned around",
+    )
     offers.add_argument("--min-download", type=int, default=200, help="Mbps")
     offers.add_argument("--limit", type=int, default=10)
     offers.add_argument(
