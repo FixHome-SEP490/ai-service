@@ -307,7 +307,38 @@ def _check_gpu_supported(offer_id: int, force: bool) -> None:
         )
 
 
+def resume_conflict(run_name: str, resume_from: str) -> str:
+    """Why this pair of names would destroy the weights it starts from.
+
+    publish_weights uploads a finished run into a folder named after the
+    run, so continuing detector-v2 under the name detector-v2 replaces the
+    very weights --resume-from read, and there is then no way back to the
+    seventy epochs already paid for. The machine that made them is gone.
+
+    Returns the complaint, or an empty string when the pair is safe.
+    """
+    if not resume_from:
+        return ""
+    first = resume_from.strip("/").split("/")[0]
+    if first != run_name:
+        return ""
+    return "\n".join(
+        [
+            f"--run-name {run_name} is the run --resume-from reads from.",
+            "publish_weights uploads a finished run under its run name, so"
+            " this would overwrite the weights it started from and leave no"
+            " way back to them.",
+            f"Give the continued run its own name, e.g. {run_name}-more.",
+        ]
+    )
+
 def cmd_train(args: argparse.Namespace) -> None:
+    # First, before a secret is read or a machine is rented: this one is
+    # free to detect and expensive to discover afterwards.
+    conflict = resume_conflict(args.run_name, args.resume_from)
+    if conflict:
+        raise SystemExit(conflict)
+
     _check_gpu_supported(args.offer, args.force_gpu)
 
     if INSTANCE_FILE.exists():
@@ -326,7 +357,19 @@ def cmd_train(args: argparse.Namespace) -> None:
         f"-e MODEL={args.model}",
         f"-e RUN_NAME={args.run_name}",
     ]
+    # Only sent when asked for. The entrypoint treats an empty LR0 as "use the
+    # default", but an unset one reads better in the container's own log of
+    # what it was given.
+    if args.resume_from:
+        env.append(f"-e RESUME_FROM={args.resume_from}")
+    if args.lr0:
+        env.append(f"-e LR0={args.lr0}")
+    if args.warmup:
+        env.append(f"-e WARMUP={args.warmup}")
 
+
+    if args.resume_from:
+        print(f"Continuing from {args.resume_from} for {args.epochs} more epochs")
     print(f"Renting offer {args.offer} and starting {args.epochs} epochs")
     create = [
         "create",
@@ -626,6 +669,28 @@ def main() -> None:
             "640px. Changing this changes what the numbers mean, so record it "
             "in the run name."
         ),
+    )
+    train.add_argument(
+        "--resume-from",
+        default="",
+        help=(
+            "continue from weights already published, given as the path inside "
+            "the weights repo, e.g. detector-v2/weights/best.pt. The machine "
+            "that produced them no longer exists, so this is the only way to "
+            "buy more epochs without paying again for the ones already run. "
+            "Not a true resume: the schedule starts over, which is why the "
+            "learning rate drops to 0.002 unless --lr0 says otherwise."
+        ),
+    )
+    train.add_argument(
+        "--lr0",
+        default="",
+        help="starting learning rate; default 0.002 when --resume-from is set",
+    )
+    train.add_argument(
+        "--warmup",
+        default="",
+        help="warmup epochs; default 1 when --resume-from is set",
     )
     train.add_argument(
         "--force-gpu",
