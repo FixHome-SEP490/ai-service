@@ -59,7 +59,13 @@ class VisionLanguageModel(Protocol):
     ) -> VlmVerdict:
         ...
 
-    async def answer(self, question: str, passages_vi: List[str]) -> tuple[str, float]:
+    async def answer(
+        self,
+        question: str,
+        passages_vi: List[str],
+        safety_vi: Optional[str] = None,
+        history_vi: str = "",
+    ) -> tuple[str, float]:
         """Answer a grounded advisory question from retrieved passages."""
         ...
 
@@ -98,6 +104,7 @@ class StubVlm:
         question: str,
         passages_vi: List[str],
         safety_vi: Optional[str] = None,
+        history_vi: str = "",
     ) -> tuple[str, float]:
         # The warning first, exactly as the real client is instructed to put it,
         # so a test can tell whether the dangerous branch reached the answer
@@ -170,8 +177,11 @@ class QwenVlm:
         question: str,
         passages_vi: List[str],
         safety_vi: Optional[str] = None,
+        history_vi: str = "",
     ) -> tuple[str, float]:
-        return await self._client.answer(question, passages_vi, safety_vi)
+        return await self._client.answer(
+            question, passages_vi, safety_vi, history_vi=history_vi
+        )
 
     async def answer_generally(self, question: str, history_vi: str = "") -> str:
         return await self._client.answer_generally(question, history_vi)

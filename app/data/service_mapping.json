@@ -1,5 +1,1086 @@
 {
-  "version": "2026-09-15",
-  "_comment_vi": "Anh xa ma loi cua AI Service sang ma dich vu cua Backend. De rong cho toi khi Backend chot catalog; khi do chi can dien file nay, khong dung vao bang loi hay code.",
-  "mappings": []
+  "version": "2026-09-17",
+  "_comment_vi": "Sinh boi tools/map_services.py tu backend seed-catalog.ts. Loi khong co dich vu rieng thi roi ve KIEM_TRA_CHAN_DOAN_THIET_BI.",
+  "mappings": [
+    {
+      "fault_code": "AC_LOW_REFRIGERANT",
+      "services": [
+        {
+          "service_code": "SUA_DIEU_HOA",
+          "name_vi": "Sửa điều hòa không mát / chảy nước",
+          "base_price": 150000
+        }
+      ]
+    },
+    {
+      "fault_code": "AC_DIRTY_FILTER",
+      "services": [
+        {
+          "service_code": "VE_SINH_DIEU_HOA_1HP",
+          "name_vi": "Vệ sinh điều hòa treo tường 1–1.5 HP",
+          "base_price": 180000
+        }
+      ]
+    },
+    {
+      "fault_code": "AC_DRAIN_BLOCKED",
+      "services": [
+        {
+          "service_code": "VE_SINH_DIEU_HOA_1HP",
+          "name_vi": "Vệ sinh điều hòa treo tường 1–1.5 HP",
+          "base_price": 180000
+        }
+      ]
+    },
+    {
+      "fault_code": "AC_COMPRESSOR_FAULT",
+      "services": [
+        {
+          "service_code": "SUA_DIEU_HOA",
+          "name_vi": "Sửa điều hòa không mát / chảy nước",
+          "base_price": 150000
+        }
+      ]
+    },
+    {
+      "fault_code": "AC_PCB_FAULT",
+      "services": [
+        {
+          "service_code": "SUA_DIEU_HOA",
+          "name_vi": "Sửa điều hòa không mát / chảy nước",
+          "base_price": 150000
+        }
+      ]
+    },
+    {
+      "fault_code": "AC_INDOOR_FAN_MOTOR",
+      "services": [
+        {
+          "service_code": "SUA_DIEU_HOA",
+          "name_vi": "Sửa điều hòa không mát / chảy nước",
+          "base_price": 150000
+        }
+      ]
+    },
+    {
+      "fault_code": "AC_OUTDOOR_FAN_MOTOR",
+      "services": [
+        {
+          "service_code": "SUA_DIEU_HOA",
+          "name_vi": "Sửa điều hòa không mát / chảy nước",
+          "base_price": 150000
+        }
+      ]
+    },
+    {
+      "fault_code": "AC_CAPACITOR",
+      "services": [
+        {
+          "service_code": "SUA_DIEU_HOA",
+          "name_vi": "Sửa điều hòa không mát / chảy nước",
+          "base_price": 150000
+        }
+      ]
+    },
+    {
+      "fault_code": "AC_ICING",
+      "services": [
+        {
+          "service_code": "SUA_DIEU_HOA",
+          "name_vi": "Sửa điều hòa không mát / chảy nước",
+          "base_price": 150000
+        }
+      ]
+    },
+    {
+      "fault_code": "AC_REMOTE_FAULT",
+      "services": [
+        {
+          "service_code": "KIEM_TRA_CHAN_DOAN_THIET_BI",
+          "name_vi": "Kiểm tra/chẩn đoán thiết bị tại nhà",
+          "base_price": 100000
+        }
+      ]
+    },
+    {
+      "fault_code": "AC_NOISY_INDOOR",
+      "services": [
+        {
+          "service_code": "SUA_DIEU_HOA",
+          "name_vi": "Sửa điều hòa không mát / chảy nước",
+          "base_price": 150000
+        }
+      ]
+    },
+    {
+      "fault_code": "AC_SMELL_BURNT",
+      "services": [
+        {
+          "service_code": "SUA_DIEU_HOA",
+          "name_vi": "Sửa điều hòa không mát / chảy nước",
+          "base_price": 150000
+        }
+      ]
+    },
+    {
+      "fault_code": "CEILFAN_CAPACITOR",
+      "services": [
+        {
+          "service_code": "KIEM_TRA_CHAN_DOAN_THIET_BI",
+          "name_vi": "Kiểm tra/chẩn đoán thiết bị tại nhà",
+          "base_price": 100000
+        }
+      ]
+    },
+    {
+      "fault_code": "CEILFAN_BEARING",
+      "services": [
+        {
+          "service_code": "KIEM_TRA_CHAN_DOAN_THIET_BI",
+          "name_vi": "Kiểm tra/chẩn đoán thiết bị tại nhà",
+          "base_price": 100000
+        }
+      ]
+    },
+    {
+      "fault_code": "CEILFAN_MOUNT_LOOSE",
+      "services": [
+        {
+          "service_code": "LAP_QUAT_TRAN_CO_BAN",
+          "name_vi": "Lắp quạt trần cơ bản - tiền công",
+          "base_price": 250000
+        }
+      ]
+    },
+    {
+      "fault_code": "CEILFAN_SPEED_SWITCH",
+      "services": [
+        {
+          "service_code": "KIEM_TRA_CHAN_DOAN_THIET_BI",
+          "name_vi": "Kiểm tra/chẩn đoán thiết bị tại nhà",
+          "base_price": 100000
+        }
+      ]
+    },
+    {
+      "fault_code": "CEILFAN_MOTOR_BURNT",
+      "services": [
+        {
+          "service_code": "KIEM_TRA_CHAN_DOAN_THIET_BI",
+          "name_vi": "Kiểm tra/chẩn đoán thiết bị tại nhà",
+          "base_price": 100000
+        }
+      ]
+    },
+    {
+      "fault_code": "FAN_WORN_BEARING",
+      "services": [
+        {
+          "service_code": "KIEM_TRA_CHAN_DOAN_THIET_BI",
+          "name_vi": "Kiểm tra/chẩn đoán thiết bị tại nhà",
+          "base_price": 100000
+        }
+      ]
+    },
+    {
+      "fault_code": "FAN_CAPACITOR",
+      "services": [
+        {
+          "service_code": "KIEM_TRA_CHAN_DOAN_THIET_BI",
+          "name_vi": "Kiểm tra/chẩn đoán thiết bị tại nhà",
+          "base_price": 100000
+        }
+      ]
+    },
+    {
+      "fault_code": "FAN_MOTOR_BURNT",
+      "services": [
+        {
+          "service_code": "KIEM_TRA_CHAN_DOAN_THIET_BI",
+          "name_vi": "Kiểm tra/chẩn đoán thiết bị tại nhà",
+          "base_price": 100000
+        }
+      ]
+    },
+    {
+      "fault_code": "FAN_SWITCH_FAULT",
+      "services": [
+        {
+          "service_code": "KIEM_TRA_CHAN_DOAN_THIET_BI",
+          "name_vi": "Kiểm tra/chẩn đoán thiết bị tại nhà",
+          "base_price": 100000
+        }
+      ]
+    },
+    {
+      "fault_code": "FAN_OSCILLATION_FAULT",
+      "services": [
+        {
+          "service_code": "KIEM_TRA_CHAN_DOAN_THIET_BI",
+          "name_vi": "Kiểm tra/chẩn đoán thiết bị tại nhà",
+          "base_price": 100000
+        }
+      ]
+    },
+    {
+      "fault_code": "FAN_CORD_DAMAGE",
+      "services": [
+        {
+          "service_code": "KIEM_TRA_CHAN_DOAN_THIET_BI",
+          "name_vi": "Kiểm tra/chẩn đoán thiết bị tại nhà",
+          "base_price": 100000
+        }
+      ]
+    },
+    {
+      "fault_code": "FAN_WOBBLE",
+      "services": [
+        {
+          "service_code": "KIEM_TRA_CHAN_DOAN_THIET_BI",
+          "name_vi": "Kiểm tra/chẩn đoán thiết bị tại nhà",
+          "base_price": 100000
+        }
+      ]
+    },
+    {
+      "fault_code": "WM_DRAIN_PUMP",
+      "services": [
+        {
+          "service_code": "SUA_MAY_GIAT",
+          "name_vi": "Sửa máy giặt rung lắc / không vắt",
+          "base_price": 180000
+        }
+      ]
+    },
+    {
+      "fault_code": "WM_NO_SPIN",
+      "services": [
+        {
+          "service_code": "SUA_MAY_GIAT",
+          "name_vi": "Sửa máy giặt rung lắc / không vắt",
+          "base_price": 180000
+        }
+      ]
+    },
+    {
+      "fault_code": "WM_NO_WATER_INLET",
+      "services": [
+        {
+          "service_code": "SUA_MAY_GIAT",
+          "name_vi": "Sửa máy giặt rung lắc / không vắt",
+          "base_price": 180000
+        }
+      ]
+    },
+    {
+      "fault_code": "WM_BEARING_NOISE",
+      "services": [
+        {
+          "service_code": "SUA_MAY_GIAT",
+          "name_vi": "Sửa máy giặt rung lắc / không vắt",
+          "base_price": 180000
+        }
+      ]
+    },
+    {
+      "fault_code": "WM_PCB_FAULT",
+      "services": [
+        {
+          "service_code": "SUA_MAY_GIAT",
+          "name_vi": "Sửa máy giặt rung lắc / không vắt",
+          "base_price": 180000
+        }
+      ]
+    },
+    {
+      "fault_code": "WM_DOOR_SEAL_LEAK",
+      "services": [
+        {
+          "service_code": "SUA_MAY_GIAT",
+          "name_vi": "Sửa máy giặt rung lắc / không vắt",
+          "base_price": 180000
+        }
+      ]
+    },
+    {
+      "fault_code": "WM_DOOR_LOCK",
+      "services": [
+        {
+          "service_code": "SUA_MAY_GIAT",
+          "name_vi": "Sửa máy giặt rung lắc / không vắt",
+          "base_price": 180000
+        }
+      ]
+    },
+    {
+      "fault_code": "WM_SMELL_MOLD",
+      "services": [
+        {
+          "service_code": "VE_SINH_MAY_GIAT_CUA_TREN_LE9",
+          "name_vi": "Vệ sinh cửa trên ≤ 9kg",
+          "base_price": 350000
+        }
+      ]
+    },
+    {
+      "fault_code": "WM_MOTOR_FAULT",
+      "services": [
+        {
+          "service_code": "SUA_MAY_GIAT",
+          "name_vi": "Sửa máy giặt rung lắc / không vắt",
+          "base_price": 180000
+        }
+      ]
+    },
+    {
+      "fault_code": "WM_OVERFLOW",
+      "services": [
+        {
+          "service_code": "SUA_MAY_GIAT",
+          "name_vi": "Sửa máy giặt rung lắc / không vắt",
+          "base_price": 180000
+        }
+      ]
+    },
+    {
+      "fault_code": "FRIDGE_LOW_GAS",
+      "services": [
+        {
+          "service_code": "SUA_TU_LANH",
+          "name_vi": "Sửa tủ lạnh không đông đá / kêu to",
+          "base_price": 180000
+        }
+      ]
+    },
+    {
+      "fault_code": "FRIDGE_DEFROST_FAULT",
+      "services": [
+        {
+          "service_code": "SUA_TU_LANH",
+          "name_vi": "Sửa tủ lạnh không đông đá / kêu to",
+          "base_price": 180000
+        }
+      ]
+    },
+    {
+      "fault_code": "FRIDGE_COMPRESSOR",
+      "services": [
+        {
+          "service_code": "SUA_TU_LANH",
+          "name_vi": "Sửa tủ lạnh không đông đá / kêu to",
+          "base_price": 180000
+        }
+      ]
+    },
+    {
+      "fault_code": "FRIDGE_DOOR_GASKET",
+      "services": [
+        {
+          "service_code": "SUA_TU_LANH",
+          "name_vi": "Sửa tủ lạnh không đông đá / kêu to",
+          "base_price": 180000
+        }
+      ]
+    },
+    {
+      "fault_code": "FRIDGE_FAN_FAULT",
+      "services": [
+        {
+          "service_code": "SUA_TU_LANH",
+          "name_vi": "Sửa tủ lạnh không đông đá / kêu to",
+          "base_price": 180000
+        }
+      ]
+    },
+    {
+      "fault_code": "FRIDGE_DRAIN_BLOCKED",
+      "services": [
+        {
+          "service_code": "SUA_TU_LANH",
+          "name_vi": "Sửa tủ lạnh không đông đá / kêu to",
+          "base_price": 180000
+        }
+      ]
+    },
+    {
+      "fault_code": "FRIDGE_LIGHT_FAULT",
+      "services": [
+        {
+          "service_code": "SUA_TU_LANH",
+          "name_vi": "Sửa tủ lạnh không đông đá / kêu to",
+          "base_price": 180000
+        }
+      ]
+    },
+    {
+      "fault_code": "FRIDGE_NOISY",
+      "services": [
+        {
+          "service_code": "SUA_TU_LANH",
+          "name_vi": "Sửa tủ lạnh không đông đá / kêu to",
+          "base_price": 180000
+        }
+      ]
+    },
+    {
+      "fault_code": "MW_MAGNETRON",
+      "services": [
+        {
+          "service_code": "KIEM_TRA_CHAN_DOAN_THIET_BI",
+          "name_vi": "Kiểm tra/chẩn đoán thiết bị tại nhà",
+          "base_price": 100000
+        }
+      ]
+    },
+    {
+      "fault_code": "MW_DOOR_SWITCH",
+      "services": [
+        {
+          "service_code": "KIEM_TRA_CHAN_DOAN_THIET_BI",
+          "name_vi": "Kiểm tra/chẩn đoán thiết bị tại nhà",
+          "base_price": 100000
+        }
+      ]
+    },
+    {
+      "fault_code": "MW_TURNTABLE_MOTOR",
+      "services": [
+        {
+          "service_code": "KIEM_TRA_CHAN_DOAN_THIET_BI",
+          "name_vi": "Kiểm tra/chẩn đoán thiết bị tại nhà",
+          "base_price": 100000
+        }
+      ]
+    },
+    {
+      "fault_code": "MW_SPARKING",
+      "services": [
+        {
+          "service_code": "KIEM_TRA_CHAN_DOAN_THIET_BI",
+          "name_vi": "Kiểm tra/chẩn đoán thiết bị tại nhà",
+          "base_price": 100000
+        }
+      ]
+    },
+    {
+      "fault_code": "MW_NO_POWER",
+      "services": [
+        {
+          "service_code": "KIEM_TRA_CHAN_DOAN_THIET_BI",
+          "name_vi": "Kiểm tra/chẩn đoán thiết bị tại nhà",
+          "base_price": 100000
+        }
+      ]
+    },
+    {
+      "fault_code": "MW_FAN_NOISY",
+      "services": [
+        {
+          "service_code": "KIEM_TRA_CHAN_DOAN_THIET_BI",
+          "name_vi": "Kiểm tra/chẩn đoán thiết bị tại nhà",
+          "base_price": 100000
+        }
+      ]
+    },
+    {
+      "fault_code": "OVEN_HEATING_ELEMENT",
+      "services": [
+        {
+          "service_code": "KIEM_TRA_CHAN_DOAN_THIET_BI",
+          "name_vi": "Kiểm tra/chẩn đoán thiết bị tại nhà",
+          "base_price": 100000
+        }
+      ]
+    },
+    {
+      "fault_code": "OVEN_THERMOSTAT",
+      "services": [
+        {
+          "service_code": "KIEM_TRA_CHAN_DOAN_THIET_BI",
+          "name_vi": "Kiểm tra/chẩn đoán thiết bị tại nhà",
+          "base_price": 100000
+        }
+      ]
+    },
+    {
+      "fault_code": "OVEN_TIMER_FAULT",
+      "services": [
+        {
+          "service_code": "KIEM_TRA_CHAN_DOAN_THIET_BI",
+          "name_vi": "Kiểm tra/chẩn đoán thiết bị tại nhà",
+          "base_price": 100000
+        }
+      ]
+    },
+    {
+      "fault_code": "OVEN_DOOR_GLASS",
+      "services": [
+        {
+          "service_code": "KIEM_TRA_CHAN_DOAN_THIET_BI",
+          "name_vi": "Kiểm tra/chẩn đoán thiết bị tại nhà",
+          "base_price": 100000
+        }
+      ]
+    },
+    {
+      "fault_code": "OVEN_FAN_FAULT",
+      "services": [
+        {
+          "service_code": "KIEM_TRA_CHAN_DOAN_THIET_BI",
+          "name_vi": "Kiểm tra/chẩn đoán thiết bị tại nhà",
+          "base_price": 100000
+        }
+      ]
+    },
+    {
+      "fault_code": "STOVE_IGNITER",
+      "services": [
+        {
+          "service_code": "KIEM_TRA_CHAN_DOAN_THIET_BI",
+          "name_vi": "Kiểm tra/chẩn đoán thiết bị tại nhà",
+          "base_price": 100000
+        }
+      ]
+    },
+    {
+      "fault_code": "STOVE_BURNER_CLOGGED",
+      "services": [
+        {
+          "service_code": "KIEM_TRA_CHAN_DOAN_THIET_BI",
+          "name_vi": "Kiểm tra/chẩn đoán thiết bị tại nhà",
+          "base_price": 100000
+        }
+      ]
+    },
+    {
+      "fault_code": "STOVE_GAS_LEAK",
+      "services": [
+        {
+          "service_code": "KIEM_TRA_CHAN_DOAN_THIET_BI",
+          "name_vi": "Kiểm tra/chẩn đoán thiết bị tại nhà",
+          "base_price": 100000
+        }
+      ]
+    },
+    {
+      "fault_code": "STOVE_VALVE_STUCK",
+      "services": [
+        {
+          "service_code": "KIEM_TRA_CHAN_DOAN_THIET_BI",
+          "name_vi": "Kiểm tra/chẩn đoán thiết bị tại nhà",
+          "base_price": 100000
+        }
+      ]
+    },
+    {
+      "fault_code": "STOVE_FLAME_OUT",
+      "services": [
+        {
+          "service_code": "KIEM_TRA_CHAN_DOAN_THIET_BI",
+          "name_vi": "Kiểm tra/chẩn đoán thiết bị tại nhà",
+          "base_price": 100000
+        }
+      ]
+    },
+    {
+      "fault_code": "STOVE_REGULATOR",
+      "services": [
+        {
+          "service_code": "KIEM_TRA_CHAN_DOAN_THIET_BI",
+          "name_vi": "Kiểm tra/chẩn đoán thiết bị tại nhà",
+          "base_price": 100000
+        }
+      ]
+    },
+    {
+      "fault_code": "KETTLE_THERMOSTAT",
+      "services": [
+        {
+          "service_code": "KIEM_TRA_CHAN_DOAN_THIET_BI",
+          "name_vi": "Kiểm tra/chẩn đoán thiết bị tại nhà",
+          "base_price": 100000
+        }
+      ]
+    },
+    {
+      "fault_code": "KETTLE_HEATING_BASE",
+      "services": [
+        {
+          "service_code": "KIEM_TRA_CHAN_DOAN_THIET_BI",
+          "name_vi": "Kiểm tra/chẩn đoán thiết bị tại nhà",
+          "base_price": 100000
+        }
+      ]
+    },
+    {
+      "fault_code": "KETTLE_LEAK",
+      "services": [
+        {
+          "service_code": "KIEM_TRA_CHAN_DOAN_THIET_BI",
+          "name_vi": "Kiểm tra/chẩn đoán thiết bị tại nhà",
+          "base_price": 100000
+        }
+      ]
+    },
+    {
+      "fault_code": "KETTLE_SCALE",
+      "services": [
+        {
+          "service_code": "KIEM_TRA_CHAN_DOAN_THIET_BI",
+          "name_vi": "Kiểm tra/chẩn đoán thiết bị tại nhà",
+          "base_price": 100000
+        }
+      ]
+    },
+    {
+      "fault_code": "KETTLE_SWITCH",
+      "services": [
+        {
+          "service_code": "KIEM_TRA_CHAN_DOAN_THIET_BI",
+          "name_vi": "Kiểm tra/chẩn đoán thiết bị tại nhà",
+          "base_price": 100000
+        }
+      ]
+    },
+    {
+      "fault_code": "TV_BACKLIGHT",
+      "services": [
+        {
+          "service_code": "KIEM_TRA_CHAN_DOAN_THIET_BI",
+          "name_vi": "Kiểm tra/chẩn đoán thiết bị tại nhà",
+          "base_price": 100000
+        }
+      ]
+    },
+    {
+      "fault_code": "TV_POWER_BOARD",
+      "services": [
+        {
+          "service_code": "KIEM_TRA_CHAN_DOAN_THIET_BI",
+          "name_vi": "Kiểm tra/chẩn đoán thiết bị tại nhà",
+          "base_price": 100000
+        }
+      ]
+    },
+    {
+      "fault_code": "TV_MAIN_BOARD",
+      "services": [
+        {
+          "service_code": "KIEM_TRA_CHAN_DOAN_THIET_BI",
+          "name_vi": "Kiểm tra/chẩn đoán thiết bị tại nhà",
+          "base_price": 100000
+        }
+      ]
+    },
+    {
+      "fault_code": "TV_PANEL_DAMAGE",
+      "services": [
+        {
+          "service_code": "KIEM_TRA_CHAN_DOAN_THIET_BI",
+          "name_vi": "Kiểm tra/chẩn đoán thiết bị tại nhà",
+          "base_price": 100000
+        }
+      ]
+    },
+    {
+      "fault_code": "TV_NO_SOUND",
+      "services": [
+        {
+          "service_code": "KIEM_TRA_CHAN_DOAN_THIET_BI",
+          "name_vi": "Kiểm tra/chẩn đoán thiết bị tại nhà",
+          "base_price": 100000
+        }
+      ]
+    },
+    {
+      "fault_code": "TV_REMOTE_FAULT",
+      "services": [
+        {
+          "service_code": "KIEM_TRA_CHAN_DOAN_THIET_BI",
+          "name_vi": "Kiểm tra/chẩn đoán thiết bị tại nhà",
+          "base_price": 100000
+        }
+      ]
+    },
+    {
+      "fault_code": "SINK_CLOGGED",
+      "services": [
+        {
+          "service_code": "KIEM_TRA_CHAN_DOAN_THIET_BI",
+          "name_vi": "Kiểm tra/chẩn đoán thiết bị tại nhà",
+          "base_price": 100000
+        }
+      ]
+    },
+    {
+      "fault_code": "SINK_TRAP_LEAK",
+      "services": [
+        {
+          "service_code": "THAY_SIPHON_LAVABO",
+          "name_vi": "Thay siphon/chống rò lavabo - tiền công",
+          "base_price": 150000
+        }
+      ]
+    },
+    {
+      "fault_code": "SINK_SMELL",
+      "services": [
+        {
+          "service_code": "KIEM_TRA_CHAN_DOAN_THIET_BI",
+          "name_vi": "Kiểm tra/chẩn đoán thiết bị tại nhà",
+          "base_price": 100000
+        }
+      ]
+    },
+    {
+      "fault_code": "SINK_DRAIN_CORRODED",
+      "services": [
+        {
+          "service_code": "THAY_SIPHON_LAVABO",
+          "name_vi": "Thay siphon/chống rò lavabo - tiền công",
+          "base_price": 150000
+        }
+      ]
+    },
+    {
+      "fault_code": "FAUCET_DRIP",
+      "services": [
+        {
+          "service_code": "THAY_VOI_NUOC",
+          "name_vi": "Thay vòi nước - tiền công",
+          "base_price": 120000
+        }
+      ]
+    },
+    {
+      "fault_code": "FAUCET_CARTRIDGE",
+      "services": [
+        {
+          "service_code": "THAY_VOI_NUOC",
+          "name_vi": "Thay vòi nước - tiền công",
+          "base_price": 120000
+        }
+      ]
+    },
+    {
+      "fault_code": "FAUCET_LOW_FLOW",
+      "services": [
+        {
+          "service_code": "KIEM_TRA_CHAN_DOAN_THIET_BI",
+          "name_vi": "Kiểm tra/chẩn đoán thiết bị tại nhà",
+          "base_price": 100000
+        }
+      ]
+    },
+    {
+      "fault_code": "FAUCET_BASE_LEAK",
+      "services": [
+        {
+          "service_code": "THAY_VOI_NUOC",
+          "name_vi": "Thay vòi nước - tiền công",
+          "base_price": 120000
+        }
+      ]
+    },
+    {
+      "fault_code": "TOILET_CLOGGED",
+      "services": [
+        {
+          "service_code": "KIEM_TRA_CHAN_DOAN_THIET_BI",
+          "name_vi": "Kiểm tra/chẩn đoán thiết bị tại nhà",
+          "base_price": 100000
+        }
+      ]
+    },
+    {
+      "fault_code": "TOILET_FILL_VALVE",
+      "services": [
+        {
+          "service_code": "KIEM_TRA_CHAN_DOAN_THIET_BI",
+          "name_vi": "Kiểm tra/chẩn đoán thiết bị tại nhà",
+          "base_price": 100000
+        }
+      ]
+    },
+    {
+      "fault_code": "TOILET_FLAPPER_LEAK",
+      "services": [
+        {
+          "service_code": "KIEM_TRA_CHAN_DOAN_THIET_BI",
+          "name_vi": "Kiểm tra/chẩn đoán thiết bị tại nhà",
+          "base_price": 100000
+        }
+      ]
+    },
+    {
+      "fault_code": "TOILET_BASE_LEAK",
+      "services": [
+        {
+          "service_code": "SUA_RO_RI_NUOC",
+          "name_vi": "Sửa rò rỉ đường ống nước / bục vỡ",
+          "base_price": 150000
+        }
+      ]
+    },
+    {
+      "fault_code": "TOILET_WEAK_FLUSH",
+      "services": [
+        {
+          "service_code": "KIEM_TRA_CHAN_DOAN_THIET_BI",
+          "name_vi": "Kiểm tra/chẩn đoán thiết bị tại nhà",
+          "base_price": 100000
+        }
+      ]
+    },
+    {
+      "fault_code": "TOILET_SEAT_BROKEN",
+      "services": [
+        {
+          "service_code": "KIEM_TRA_CHAN_DOAN_THIET_BI",
+          "name_vi": "Kiểm tra/chẩn đoán thiết bị tại nhà",
+          "base_price": 100000
+        }
+      ]
+    },
+    {
+      "fault_code": "OUTLET_SHORT_CIRCUIT",
+      "services": [
+        {
+          "service_code": "SUA_CHAP_DIEN",
+          "name_vi": "Sửa chập điện âm tường / nhảy Aptomat",
+          "base_price": 200000
+        }
+      ]
+    },
+    {
+      "fault_code": "OUTLET_LOOSE_CONTACT",
+      "services": [
+        {
+          "service_code": "THAY_O_CAM_DIEN",
+          "name_vi": "Thay ổ cắm điện - tiền công",
+          "base_price": 100000
+        }
+      ]
+    },
+    {
+      "fault_code": "OUTLET_NO_POWER",
+      "services": [
+        {
+          "service_code": "SUA_CHAP_DIEN",
+          "name_vi": "Sửa chập điện âm tường / nhảy Aptomat",
+          "base_price": 200000
+        }
+      ]
+    },
+    {
+      "fault_code": "OUTLET_TRIPS_BREAKER",
+      "services": [
+        {
+          "service_code": "SUA_CHAP_DIEN",
+          "name_vi": "Sửa chập điện âm tường / nhảy Aptomat",
+          "base_price": 200000
+        }
+      ]
+    },
+    {
+      "fault_code": "OUTLET_OVERLOAD",
+      "services": [
+        {
+          "service_code": "SUA_CHAP_DIEN",
+          "name_vi": "Sửa chập điện âm tường / nhảy Aptomat",
+          "base_price": 200000
+        }
+      ]
+    },
+    {
+      "fault_code": "OUTLET_BROKEN_FACE",
+      "services": [
+        {
+          "service_code": "THAY_O_CAM_DIEN",
+          "name_vi": "Thay ổ cắm điện - tiền công",
+          "base_price": 100000
+        }
+      ]
+    },
+    {
+      "fault_code": "LIGHT_BULB_DEAD",
+      "services": [
+        {
+          "service_code": "LAP_DEN_TRAN_CO_BAN",
+          "name_vi": "Lắp đèn trần cơ bản - tiền công",
+          "base_price": 120000
+        }
+      ]
+    },
+    {
+      "fault_code": "LIGHT_FLICKERING",
+      "services": [
+        {
+          "service_code": "LAP_DEN_TRAN_CO_BAN",
+          "name_vi": "Lắp đèn trần cơ bản - tiền công",
+          "base_price": 120000
+        }
+      ]
+    },
+    {
+      "fault_code": "LIGHT_SWITCH_FAULT",
+      "services": [
+        {
+          "service_code": "THAY_CONG_TAC_DIEN",
+          "name_vi": "Thay công tắc điện - tiền công",
+          "base_price": 100000
+        }
+      ]
+    },
+    {
+      "fault_code": "LIGHT_DIM",
+      "services": [
+        {
+          "service_code": "LAP_DEN_TRAN_CO_BAN",
+          "name_vi": "Lắp đèn trần cơ bản - tiền công",
+          "base_price": 120000
+        }
+      ]
+    },
+    {
+      "fault_code": "LIGHT_FIXTURE_LEAK",
+      "services": [
+        {
+          "service_code": "LAP_DEN_TRAN_CO_BAN",
+          "name_vi": "Lắp đèn trần cơ bản - tiền công",
+          "base_price": 120000
+        }
+      ]
+    },
+    {
+      "fault_code": "WH_HEATING_ELEMENT",
+      "services": [
+        {
+          "service_code": "KIEM_TRA_CHAN_DOAN_THIET_BI",
+          "name_vi": "Kiểm tra/chẩn đoán thiết bị tại nhà",
+          "base_price": 100000
+        }
+      ]
+    },
+    {
+      "fault_code": "WH_THERMOSTAT",
+      "services": [
+        {
+          "service_code": "KIEM_TRA_CHAN_DOAN_THIET_BI",
+          "name_vi": "Kiểm tra/chẩn đoán thiết bị tại nhà",
+          "base_price": 100000
+        }
+      ]
+    },
+    {
+      "fault_code": "WH_ELCB_TRIPS",
+      "services": [
+        {
+          "service_code": "KIEM_TRA_CHAN_DOAN_THIET_BI",
+          "name_vi": "Kiểm tra/chẩn đoán thiết bị tại nhà",
+          "base_price": 100000
+        }
+      ]
+    },
+    {
+      "fault_code": "WH_SCALE_BUILDUP",
+      "services": [
+        {
+          "service_code": "VE_SINH_BINH_NONG_LANH",
+          "name_vi": "Vệ sinh/bảo dưỡng bình nóng lạnh",
+          "base_price": 250000
+        }
+      ]
+    },
+    {
+      "fault_code": "WH_TANK_LEAK",
+      "services": [
+        {
+          "service_code": "KIEM_TRA_CHAN_DOAN_THIET_BI",
+          "name_vi": "Kiểm tra/chẩn đoán thiết bị tại nhà",
+          "base_price": 100000
+        }
+      ]
+    },
+    {
+      "fault_code": "WH_LOW_PRESSURE",
+      "services": [
+        {
+          "service_code": "KIEM_TRA_CHAN_DOAN_THIET_BI",
+          "name_vi": "Kiểm tra/chẩn đoán thiết bị tại nhà",
+          "base_price": 100000
+        }
+      ]
+    },
+    {
+      "fault_code": "WH_INSTANT_NO_HOT",
+      "services": [
+        {
+          "service_code": "KIEM_TRA_CHAN_DOAN_THIET_BI",
+          "name_vi": "Kiểm tra/chẩn đoán thiết bị tại nhà",
+          "base_price": 100000
+        }
+      ]
+    },
+    {
+      "fault_code": "PIPE_JOINT_LEAK",
+      "services": [
+        {
+          "service_code": "SUA_RO_RI_NUOC",
+          "name_vi": "Sửa rò rỉ đường ống nước / bục vỡ",
+          "base_price": 150000
+        }
+      ]
+    },
+    {
+      "fault_code": "PIPE_BURST",
+      "services": [
+        {
+          "service_code": "SUA_RO_RI_NUOC",
+          "name_vi": "Sửa rò rỉ đường ống nước / bục vỡ",
+          "base_price": 150000
+        }
+      ]
+    },
+    {
+      "fault_code": "PIPE_CLOGGED",
+      "services": [
+        {
+          "service_code": "KIEM_TRA_CHAN_DOAN_THIET_BI",
+          "name_vi": "Kiểm tra/chẩn đoán thiết bị tại nhà",
+          "base_price": 100000
+        }
+      ]
+    },
+    {
+      "fault_code": "PIPE_LOW_PRESSURE",
+      "services": [
+        {
+          "service_code": "KIEM_TRA_CHAN_DOAN_THIET_BI",
+          "name_vi": "Kiểm tra/chẩn đoán thiết bị tại nhà",
+          "base_price": 100000
+        }
+      ]
+    },
+    {
+      "fault_code": "PIPE_NOISY",
+      "services": [
+        {
+          "service_code": "KIEM_TRA_CHAN_DOAN_THIET_BI",
+          "name_vi": "Kiểm tra/chẩn đoán thiết bị tại nhà",
+          "base_price": 100000
+        }
+      ]
+    },
+    {
+      "fault_code": "PIPE_RUSTY_WATER",
+      "services": [
+        {
+          "service_code": "KIEM_TRA_CHAN_DOAN_THIET_BI",
+          "name_vi": "Kiểm tra/chẩn đoán thiết bị tại nhà",
+          "base_price": 100000
+        }
+      ]
+    }
+  ]
 }

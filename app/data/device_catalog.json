@@ -1,5 +1,5 @@
 {
-  "version": "2026-09-15",
+  "version": "2026-09-17",
   "_comment_vi": "detector_class = true nghia la lop nay duoc YOLO nhan dien tu anh. false nghia la chi chan doan duoc qua mo ta bang chu. open_images_class la ten lop tuong ung trong Open Images V7, null nghia la phai tu thu anh. water_heater bat detector_class sau khi tim duoc 203 box trong dataset evesyalari.",
   "devices": [
     {
@@ -291,6 +291,91 @@
         "nước nóng"
       ],
       "confusable_with": []
+    },
+    {
+      "device_type": "induction_hob",
+      "name_vi": "Bếp từ",
+      "service_group": "SVG_APPLIANCE",
+      "detector_class": true,
+      "open_images_class": null,
+      "source_note": "anh thu thap tu cac san TMDT VN, autolabel backdrop pass",
+      "aliases_vi": [
+        "bếp từ",
+        "bep tu",
+        "bếp điện từ",
+        "bếp hồng ngoại",
+        "bếp âm",
+        "bếp đôi"
+      ],
+      "confusable_with": [
+        "gas_stove"
+      ]
+    },
+    {
+      "device_type": "dishwasher",
+      "name_vi": "Máy rửa bát",
+      "service_group": "SVG_APPLIANCE",
+      "detector_class": true,
+      "open_images_class": null,
+      "source_note": "anh thu thap tu cac san TMDT VN, autolabel backdrop pass",
+      "aliases_vi": [
+        "máy rửa bát",
+        "may rua bat",
+        "máy rửa chén",
+        "may rua chen"
+      ],
+      "confusable_with": [
+        "washing_machine"
+      ]
+    },
+    {
+      "device_type": "clothes_dryer",
+      "name_vi": "Máy sấy quần áo",
+      "service_group": "SVG_APPLIANCE",
+      "detector_class": true,
+      "open_images_class": null,
+      "source_note": "anh thu thap tu cac san TMDT VN, autolabel backdrop pass",
+      "aliases_vi": [
+        "máy sấy quần áo",
+        "may say quan ao",
+        "máy sấy",
+        "may say"
+      ],
+      "confusable_with": [
+        "washing_machine"
+      ]
+    },
+    {
+      "device_type": "water_purifier",
+      "name_vi": "Máy lọc nước",
+      "service_group": "SVG_PLUMBING",
+      "detector_class": true,
+      "open_images_class": null,
+      "source_note": "anh thu thap tu cac san TMDT VN, autolabel backdrop pass",
+      "aliases_vi": [
+        "máy lọc nước",
+        "may loc nuoc",
+        "máy lọc ro",
+        "cây nước nóng lạnh"
+      ],
+      "confusable_with": []
+    },
+    {
+      "device_type": "smart_lock",
+      "name_vi": "Khóa cửa thông minh",
+      "service_group": "SVG_ELECTRIC",
+      "detector_class": true,
+      "open_images_class": null,
+      "source_note": "anh thu thap tu cac san TMDT VN, autolabel backdrop pass",
+      "aliases_vi": [
+        "khóa cửa thông minh",
+        "khoa cua thong minh",
+        "khóa vân tay",
+        "khoa van tay",
+        "khóa điện tử",
+        "khóa thẻ từ"
+      ],
+      "confusable_with": []
     }
   ],
   "visible_conditions": [
@@ -401,6 +486,24 @@
         "bóng",
         "chiếu sáng"
       ]
+    },
+    {
+      "devices": [
+        "gas_stove",
+        "induction_hob"
+      ],
+      "question_vi": "Bếp nhà mình có dùng bình gas không ạ?",
+      "if_yes": "gas_stove",
+      "if_no": "induction_hob"
+    },
+    {
+      "devices": [
+        "washing_machine",
+        "clothes_dryer"
+      ],
+      "question_vi": "Máy nhà mình có cấp nước vào để giặt không, hay chỉ quay cho khô quần áo ạ?",
+      "if_yes": "washing_machine",
+      "if_no": "clothes_dryer"
     }
   ]
 }
