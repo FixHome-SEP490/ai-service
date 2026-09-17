@@ -100,6 +100,21 @@ PROMPTS: Dict[str, List[str]] = {
     "electric_fan": ["electric fan", "pedestal fan"],
     "light_bulb": ["light bulb", "ceiling light", "lamp"],
     "water_pipe": ["pipe", "plumbing pipe"],
+    # The five devices added in September. Missing from here, the
+    # open-vocabulary pass was handed an empty prompt list and quietly labelled
+    # nothing: clothes_dryer kept 198 of 384 images and the other 186 were
+    # dropped for no reason anyone could see in the output.
+    "induction_hob": [
+        "induction cooktop", "induction hob", "electric cooktop",
+        "glass ceramic cooktop",
+    ],
+    "dishwasher": ["dishwasher", "dish washing machine"],
+    "clothes_dryer": ["clothes dryer", "tumble dryer", "laundry dryer"],
+    "water_purifier": [
+        "water purifier", "water filter", "water dispenser",
+        "reverse osmosis water filter",
+    ],
+    "smart_lock": ["door lock", "smart door lock", "electronic door lock"],
 }
 
 

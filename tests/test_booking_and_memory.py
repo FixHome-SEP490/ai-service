@@ -255,3 +255,45 @@ def test_asking_how_the_bill_works_is_inside_the_trade():
     assert pipeline._is_in_the_trade("bị lỗi")
     assert not pipeline._is_in_the_trade("giá vàng hôm nay")
     assert not pipeline._is_in_the_trade("bitcoin giá bao nhiêu")
+
+
+def test_a_washer_and_a_dryer_are_asked_apart():
+    """The same photograph, and different faults at different prices.
+
+    A front-load washer and a front-load dryer are a drum behind a round glass
+    door. The question has to be about something the customer can see without
+    knowing which machine they own.
+    """
+    from app.services.pipeline import device_hint
+
+    kb = get_knowledge_base()
+    question = device_hint.confusion_question("washing_machine", "không vắt", kb)
+
+    assert question is not None
+    assert "bột giặt" in question or "nước giặt" in question
+
+
+@pytest.mark.parametrize(
+    "text,expected",
+    [
+        ("máy sấy quần áo không nóng", ["clothes_dryer"]),
+        ("máy sấy nhà em lâu khô", ["clothes_dryer"]),
+        ("máy sấy tóc bị cháy khét", []),
+        ("tủ sấy quần áo nhà em không nóng", []),
+        ("giàn phơi quần áo bị gãy", []),
+        ("máy sấy bát", []),
+    ],
+)
+def test_only_a_tumble_dryer_is_a_clothes_dryer(text, expected):
+    """"Máy sấy" is four appliances, and the alias list could claim only one.
+
+    It claimed the tumble dryer, so "máy sấy tóc bị cháy khét" arrived as one —
+    and a clogged tumble dryer carries a four-step fire warning, which is what
+    the customer holding a hair dryer was then given.
+    """
+    from app.services.pipeline import device_hint
+
+    kb = get_knowledge_base()
+    hits = [h.device_type for h in device_hint.devices_named_in(text, kb)]
+
+    assert hits == expected

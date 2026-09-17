@@ -144,7 +144,9 @@ def test_nothing_is_asked_when_the_customer_already_said():
 
 
 def test_nothing_is_asked_for_a_device_with_no_confusable_sibling():
-    assert device_hint.confusion_question("washing_machine", "không vắt", KB) is None
+    # Not the washing machine any more: a front-load washer and a front-load
+    # dryer are the same photograph, so that pair now has a question of its own.
+    assert device_hint.confusion_question("refrigerator", "không lạnh", KB) is None
 
 
 def test_nothing_is_asked_without_a_detection():
