@@ -429,3 +429,25 @@ def test_a_symptom_never_arrives_capitalised_mid_sentence():
 
     assert _phrase("Quạt bò") == "Thiết bị có hiện tượng quạt bò không?"
     assert _phrase("kêu cộc cộc") == "Thiết bị có hiện tượng kêu cộc cộc không?"
+
+
+@pytest.mark.parametrize(
+    "device",
+    ["induction_hob", "dishwasher", "clothes_dryer", "water_purifier", "smart_lock"],
+)
+def test_every_device_has_questions_a_customer_can_answer(device):
+    """The five added in September had none, so their questions came from raw
+    symptom lists — written for a technician, and picked for how well they
+    split the shortlist rather than for whether anybody can check them.
+
+    A photograph of a fridge produced "Thiết bị có hiện tượng cái lỗ ở đáy tủ
+    bị nghẹt không?", and nobody can see the drain hole at the back of their
+    fridge.
+    """
+    kb = get_knowledge_base()
+    questions = kb.discriminators_for_device(device)
+
+    assert len(questions) >= 3
+    for question in questions:
+        assert question.question_vi.endswith("ạ?")
+        assert question.favours_if_yes and question.favours_if_no

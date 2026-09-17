@@ -5471,6 +5471,247 @@
         "KETTLE_THERMOSTAT",
         "KETTLE_HEATING_BASE"
       ]
+    },
+    {
+      "device_type": "induction_hob",
+      "question_vi": "Bếp có sáng đèn hoặc hiện số khi anh/chị bật không ạ?",
+      "favours_if_yes": [
+        "HOB_NO_PAN_DETECT",
+        "HOB_ERROR_CODE",
+        "HOB_TOUCH_FAULT",
+        "HOB_FAN_NOISY"
+      ],
+      "favours_if_no": [
+        "HOB_NO_POWER"
+      ]
+    },
+    {
+      "device_type": "induction_hob",
+      "question_vi": "Bếp chạy được một lúc rồi mới tự tắt, hay tắt ngay từ đầu ạ?",
+      "favours_if_yes": [
+        "HOB_FAN_NOISY",
+        "HOB_ERROR_CODE"
+      ],
+      "favours_if_no": [
+        "HOB_NO_PAN_DETECT",
+        "HOB_NO_POWER"
+      ]
+    },
+    {
+      "device_type": "induction_hob",
+      "question_vi": "Đổi sang một cái nồi khác thì bếp có nhận không ạ?",
+      "favours_if_yes": [
+        "HOB_NO_PAN_DETECT"
+      ],
+      "favours_if_no": [
+        "HOB_ERROR_CODE",
+        "HOB_TOUCH_FAULT",
+        "HOB_FAN_NOISY"
+      ]
+    },
+    {
+      "device_type": "induction_hob",
+      "question_vi": "Mặt kính bếp có vết nứt hay rạn nào không ạ?",
+      "favours_if_yes": [
+        "HOB_GLASS_CRACKED"
+      ],
+      "favours_if_no": [
+        "HOB_NO_PAN_DETECT",
+        "HOB_ERROR_CODE",
+        "HOB_TOUCH_FAULT"
+      ]
+    },
+    {
+      "device_type": "dishwasher",
+      "question_vi": "Máy có sáng đèn khi anh/chị bấm nút không ạ?",
+      "favours_if_yes": [
+        "DW_NOT_CLEAN",
+        "DW_NOT_DRAINING",
+        "DW_NO_WATER",
+        "DW_DOOR_LEAK"
+      ],
+      "favours_if_no": [
+        "DW_NO_POWER"
+      ]
+    },
+    {
+      "device_type": "dishwasher",
+      "question_vi": "Mở cửa máy ra có thấy nước đọng dưới đáy không ạ?",
+      "favours_if_yes": [
+        "DW_NOT_DRAINING"
+      ],
+      "favours_if_no": [
+        "DW_NOT_CLEAN",
+        "DW_NO_WATER",
+        "DW_NO_POWER"
+      ]
+    },
+    {
+      "device_type": "dishwasher",
+      "question_vi": "Trong lúc máy chạy có nghe tiếng nước phun bên trong không ạ?",
+      "favours_if_yes": [
+        "DW_NOT_CLEAN",
+        "DW_NOT_DRAINING"
+      ],
+      "favours_if_no": [
+        "DW_NO_WATER"
+      ]
+    },
+    {
+      "device_type": "dishwasher",
+      "question_vi": "Nước chảy ra ngoài có bọt trắng không ạ?",
+      "favours_if_yes": [
+        "DW_DOOR_LEAK"
+      ],
+      "favours_if_no": [
+        "DW_NOT_DRAINING",
+        "DW_NOT_CLEAN"
+      ]
+    },
+    {
+      "device_type": "clothes_dryer",
+      "question_vi": "Máy có sáng đèn và chạy được không ạ?",
+      "favours_if_yes": [
+        "DRYER_NOT_HEATING",
+        "DRYER_LINT_CLOGGED",
+        "DRYER_NOISY",
+        "DRYER_NOT_SPINNING"
+      ],
+      "favours_if_no": [
+        "DRYER_NO_POWER"
+      ]
+    },
+    {
+      "device_type": "clothes_dryer",
+      "question_vi": "Lồng máy có quay không ạ?",
+      "favours_if_yes": [
+        "DRYER_NOT_HEATING",
+        "DRYER_LINT_CLOGGED",
+        "DRYER_NOISY"
+      ],
+      "favours_if_no": [
+        "DRYER_NOT_SPINNING"
+      ]
+    },
+    {
+      "device_type": "clothes_dryer",
+      "question_vi": "Chạy xong sờ vỏ máy có nóng bất thường hoặc có mùi khét không ạ?",
+      "favours_if_yes": [
+        "DRYER_LINT_CLOGGED"
+      ],
+      "favours_if_no": [
+        "DRYER_NOT_HEATING",
+        "DRYER_NOISY",
+        "DRYER_NOT_SPINNING"
+      ]
+    },
+    {
+      "device_type": "clothes_dryer",
+      "question_vi": "Lưới lọc xơ tháo ra có phủ một lớp bông dày không ạ?",
+      "favours_if_yes": [
+        "DRYER_LINT_CLOGGED",
+        "DRYER_NOT_HEATING"
+      ],
+      "favours_if_no": [
+        "DRYER_NOISY",
+        "DRYER_NOT_SPINNING"
+      ]
+    },
+    {
+      "device_type": "water_purifier",
+      "question_vi": "Máy có sáng đèn hoặc nghe tiếng bơm chạy không ạ?",
+      "favours_if_yes": [
+        "PURIFIER_NO_WATER",
+        "PURIFIER_LEAK",
+        "PURIFIER_FILTER_DUE",
+        "PURIFIER_PUMP_RUNS_ON"
+      ],
+      "favours_if_no": [
+        "PURIFIER_NO_POWER"
+      ]
+    },
+    {
+      "device_type": "water_purifier",
+      "question_vi": "Mở vòi ra có nước được vài giây rồi hết, hay không ra giọt nào ạ?",
+      "favours_if_yes": [
+        "PURIFIER_NO_WATER"
+      ],
+      "favours_if_no": [
+        "PURIFIER_FILTER_DUE",
+        "PURIFIER_LEAK"
+      ]
+    },
+    {
+      "device_type": "water_purifier",
+      "question_vi": "Máy có lúc nào im hẳn không, hay kêu liên tục cả ngày ạ?",
+      "favours_if_yes": [
+        "PURIFIER_FILTER_DUE",
+        "PURIFIER_NO_WATER"
+      ],
+      "favours_if_no": [
+        "PURIFIER_PUMP_RUNS_ON"
+      ]
+    },
+    {
+      "device_type": "water_purifier",
+      "question_vi": "Dưới hoặc quanh máy có chỗ nào ướt không ạ?",
+      "favours_if_yes": [
+        "PURIFIER_LEAK"
+      ],
+      "favours_if_no": [
+        "PURIFIER_NO_WATER",
+        "PURIFIER_FILTER_DUE",
+        "PURIFIER_NO_POWER"
+      ]
+    },
+    {
+      "device_type": "smart_lock",
+      "question_vi": "Chạm tay vào khoá có sáng đèn hay kêu tiếng nào không ạ?",
+      "favours_if_yes": [
+        "LOCK_FINGERPRINT_FAIL",
+        "LOCK_MOTOR_FAULT",
+        "LOCK_CARD_FAULT"
+      ],
+      "favours_if_no": [
+        "LOCK_LOW_BATTERY",
+        "LOCK_LOCKED_OUT"
+      ]
+    },
+    {
+      "device_type": "smart_lock",
+      "question_vi": "Khoá có kêu bíp kéo dài hoặc nháy đèn đỏ mỗi lần mở không ạ?",
+      "favours_if_yes": [
+        "LOCK_LOW_BATTERY"
+      ],
+      "favours_if_no": [
+        "LOCK_FINGERPRINT_FAIL",
+        "LOCK_CARD_FAULT",
+        "LOCK_MOTOR_FAULT"
+      ]
+    },
+    {
+      "device_type": "smart_lock",
+      "question_vi": "Nhập mã số hoặc quẹt thẻ thì có mở được không ạ?",
+      "favours_if_yes": [
+        "LOCK_FINGERPRINT_FAIL"
+      ],
+      "favours_if_no": [
+        "LOCK_CARD_FAULT",
+        "LOCK_LOW_BATTERY",
+        "LOCK_MOTOR_FAULT"
+      ]
+    },
+    {
+      "device_type": "smart_lock",
+      "question_vi": "Khoá nhận đúng rồi mà chốt cửa không rút vào phải không ạ?",
+      "favours_if_yes": [
+        "LOCK_MOTOR_FAULT"
+      ],
+      "favours_if_no": [
+        "LOCK_FINGERPRINT_FAIL",
+        "LOCK_CARD_FAULT",
+        "LOCK_LOW_BATTERY"
+      ]
     }
   ],
   "_comment_discriminators_vi": "Cau hoi phan biet, viet tay. Chi hoi khi cau tra loi loai bo duoc bot kha nang. favours_if_yes va favours_if_no la cac ma benh moi ben duoc cung co. Cau hoi tot nhat la cau ma ca hai ben deu giao voi danh sach dang can nhac."
