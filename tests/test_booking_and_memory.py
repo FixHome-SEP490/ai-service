@@ -297,3 +297,29 @@ def test_only_a_tumble_dryer_is_a_clothes_dryer(text, expected):
     hits = [h.device_type for h in device_hint.devices_named_in(text, kb)]
 
     assert hits == expected
+
+
+@pytest.mark.parametrize(
+    "text,expected",
+    [
+        ("nước lọc uống thấy mùi tanh", ["water_purifier"]),
+        ("lõi lọc nước hết hạn chưa", ["water_purifier"]),
+        # The words that made this risky, and do not collide.
+        ("máy lạnh lọc gió bẩn", ["air_conditioner"]),
+        ("lưới lọc máy rửa bát bị bít", ["dishwasher"]),
+    ],
+)
+def test_filtered_water_reaches_the_purifier(text, expected):
+    """"Nước lọc" is what people call the water, not the machine.
+
+    "Nước lọc uống thấy mùi tanh" named no device, so it was answered with a
+    question instead of the cartridge fault written for exactly it. The risk of
+    adding the alias is the other filters in the house — the air-conditioner
+    filter and the dishwasher strainer — and neither collides.
+    """
+    from app.services.pipeline import device_hint
+
+    kb = get_knowledge_base()
+    hits = [h.device_type for h in device_hint.devices_named_in(text, kb)]
+
+    assert hits == expected
