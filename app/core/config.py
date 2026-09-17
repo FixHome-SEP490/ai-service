@@ -52,6 +52,30 @@ class Settings(BaseSettings):
     deliberate: a missing answer is a gap, a confident wrong one is a defect.
     """
 
+    CORPUS_TOP_K: int = 3
+    """Written passages handed over per turn.
+
+    Each is a `##` section, median 726 characters. Three of them is roughly two
+    thousand characters of prose on top of the shortlist, the price rows and the
+    conversation — enough to explain a mechanism or give the safety steps,
+    without pushing the candidate faults out of a 3B model's attention."""
+
+    CORPUS_MIN_SCORE: float = 0.80
+    """BM25 score, over the question's own weight, that a passage needs.
+
+    Not comparable to POLICY_MIN_SCORE: this one runs roughly 0 to 2.5 rather
+    than 0 to 1, because BM25's term saturation lets a short dense section score
+    above full coverage. Plain overlap does not work on this corpus at all — a
+    726-character section of Vietnamese prose contains most common words, so
+    every question scored 1.00 against every section of the right appliance and
+    the ordering fell back to alphabetical.
+
+    Measured on real questions, passages worth handing over sit between 1.0 and
+    2.6. The floor is set below that band on purpose: it is there to catch
+    genuine noise, not to decide relevance. Relevance is decided by requiring a
+    non-empty fault shortlist, because no floor separated an off-topic question
+    from a real one — see `Retriever.corpus_passages`."""
+
     # Advisory behavior
     PRICE_MIN_SCORE: float = 0.40
     """Overlap a price row needs before it counts as matching the question.

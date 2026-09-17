@@ -41,7 +41,12 @@ from typing import List, Optional, Sequence
 
 from app.services.pipeline.conversation import Conversation
 from app.services.pipeline.knowledge_base import KnowledgeBase, PriceRow
-from app.services.pipeline.retriever import Retriever, ScoredFault, ScoredPolicy
+from app.services.pipeline.retriever import (
+    Retriever,
+    ScoredChunk,
+    ScoredFault,
+    ScoredPolicy,
+)
 
 MAX_HISTORY_TURNS = 8
 """Turns of dialogue handed over.
@@ -72,6 +77,20 @@ class DiagnosisContext:
     policies: List[ScoredPolicy] = field(default_factory=list)
     price_rows: List[PriceRow] = field(default_factory=list)
     has_image: bool = False
+    safety: List[ScoredChunk] = field(default_factory=list)
+    """Sections that must be said before diagnosing. Pinned, never ranked."""
+
+    passages: List[ScoredChunk] = field(default_factory=list)
+    """Written prose about this appliance: mechanism, what to check, what to say.
+
+    The corpus is what separates an answer from a lookup. Without it the model
+    had the fault's name, the phrases customers use for it, and a price — enough
+    to classify, nothing to explain with. "Vì sao dàn lạnh bám tuyết" had no
+    answer in the bundle at all, so the only honest reply was a question."""
+
+    business: List[ScoredChunk] = field(default_factory=list)
+    """Booking, pricing model, warranty. Retrieved apart so a fault question
+    cannot spend its budget on the booking flow, or the reverse."""
 
     def is_empty(self) -> bool:
         """Nothing retrieved at all: asking beats guessing."""
@@ -126,6 +145,25 @@ def build(
         for turn in chat.turns[-MAX_HISTORY_TURNS:]
     ]
 
+    # Written prose, in three parts that must not compete for the same budget.
+    #
+    # Safety first and unranked: a section that has to be said before anything
+    # else cannot be asked to win on wording, and measured on the gas leak it
+    # loses — it is written as instructions, so it repeats the customer's words
+    # least of any section in the file.
+    #
+    # Then the ranked passages, told which sections were already pinned so the
+    # same text is not handed over twice.
+    #
+    # Business last and only when the question reaches for it.
+    codes = [c.fault.fault_code for c in candidates]
+    safety = retriever.safety_passages(codes)
+    pinned = [f"{s.chunk.source_file}::{s.chunk.heading_vi}" for s in safety]
+    passages = retriever.corpus_passages(
+        said, device_type=device_type, fault_codes=codes, exclude=pinned
+    )
+    business = retriever.business_passages(said)
+
     return DiagnosisContext(
         device_type=device_type,
         device_name_vi=kb.device_name_vi(device_type) if device_type else None,
@@ -138,4 +176,7 @@ def build(
         policies=policies,
         price_rows=prices[:MAX_PRICE_ROWS],
         has_image=has_image,
+        safety=safety,
+        passages=passages,
+        business=business,
     )
