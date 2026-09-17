@@ -85,6 +85,15 @@ _TRADE_WORDS = (
     # against the gate: "gia" was the obvious fourth and it lets in questions
     # about the price of gold and of bitcoin.
     "mui", "cam", "mac",
+    # Asking how the bill is put together is the commonest business question
+    # there is, and it was refused: "bên mình tính giá sao" carries no appliance
+    # and no symptom, and bare "gia" cannot be a trade word because it lets in
+    # the price of gold. As phrases they are unambiguous.
+    "tinh gia", "tinh tien", "gia ca", "bang gia", "phi dich vu",
+    # Two words that are a fault report and nothing else. "Bị lỗi" alone was
+    # refused as off-topic, which is the assistant telling somebody reporting a
+    # fault that faults are not its subject.
+    "bi loi", "bi hong", "gap van de", "co van de", "truc trac",
 )
 """Words that place a question inside the trade.
 
@@ -104,17 +113,28 @@ không nổ" matched on "may", "laptop không lên nguồn" on "nguon", "điều
 hơi không mát" on the air conditioner it is not. Named outright, they are
 refused before anything else looks at them."""
 
-_GREETINGS = (
-    "alo", "a lo", "chao", "hello", "hi ", "em oi", "ban oi", "co ai", "co ai khong",
-    "cam on", "thanks", "ok", "oke", "da", "vang", "u", "um", "co", "khong", "yes",
-)
-"""Hello, thank you, and one-word acknowledgements.
+_GREETING_PHRASES = frozenset({
+    "alo", "a lo", "co ai khong", "co ai o day khong", "co ai do khong",
+    "co ai khong a", "cho hoi", "xin chao", "chao shop", "chao ban",
+})
+"""Whole messages that are only a hello, matched exactly."""
 
-Refusing them as out of scope was the worst answer available: someone opening
-with "alo" was told FixHome only handles household appliances. They know. They
-are saying hello."""
+_GREETING_TOKENS = frozenset({
+    "chao", "hello", "hi", "hey", "alo", "cam", "on", "thanks", "thank", "you",
+    "ok", "oke", "okie", "da", "vang", "u", "um", "uh", "co", "khong", "yes",
+    "em", "anh", "chi", "ban", "oi", "a", "ah", "nhe", "nha", "voi", "the",
+})
+"""Words a message can be made *entirely* of and still say nothing.
 
-_MONEY_WORDS = ("gia", "tien", "bao nhieu", "chi phi", "cost", "het bao", "mac", "re")
+Never matched as a prefix. `startswith` on folded text made "có mùi khét" a
+greeting, because "có" folds to "co" and "co" was in this list — so the most
+dangerous message a customer can send was answered with "Dạ em chào anh/chị ạ".
+So were "không lên nguồn", "có nước rò", "có tiếng nổ" and "dạ máy lạnh hỏng".
+
+The rule that prevents this is the same one the retriever learned: whole words
+only, and a word this short can never decide anything on its own. It decides
+here only when every other word in the message is also one of these.
+"""
 
 
 def _fold_vi(text: str) -> str:
@@ -125,10 +145,13 @@ def _fold_vi(text: str) -> str:
 
 def _is_greeting(text: str) -> bool:
     """A hello or a bare acknowledgement, with nothing else in it."""
-    folded = _fold_vi(text).strip(" .,!?")
-    if len(folded.split()) > 4:
+    folded = _fold_vi(text)
+    words = re.findall(r"[a-z0-9]+", folded)
+    if not words or len(words) > 5:
         return False
-    return any(folded == g.strip() or folded.startswith(g) for g in _GREETINGS)
+    if " ".join(words) in _GREETING_PHRASES:
+        return True
+    return all(word in _GREETING_TOKENS for word in words)
 
 
 def _is_not_household(text: str) -> bool:
@@ -234,6 +257,13 @@ def _asks_about_the_business(question: str) -> bool:
     folded = "".join(c for c in folded if unicodedata.category(c) != "Mn")
     folded = folded.replace("đ", "d")
     return any(word in folded for word in _BUSINESS_WORDS)
+
+
+_MONEY_WORDS = ("gia", "tien", "bao nhieu", "chi phi", "cost", "het bao", "mac", "re")
+"""What makes a question one about cost.
+
+Substring matching is deliberate here and safe: the price tables are only ever
+added to what is already retrieved, never used to decide whether to answer."""
 
 
 def _asks_about_money(question: str) -> bool:

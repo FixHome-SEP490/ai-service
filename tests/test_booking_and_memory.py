@@ -207,3 +207,51 @@ def test_the_grounded_answer_speaks_the_same_way_as_every_other():
     assert "tôi" not in cleaned
     assert "Anh/chị" in cleaned
     assert _sends_the_customer_away("Bạn nên liên hệ với một chuyên gia về điện tử.")
+
+
+@pytest.mark.parametrize(
+    "text",
+    [
+        "có mùi khét",
+        "có nước rò",
+        "có tiếng nổ",
+        "không lên nguồn",
+        "dạ máy lạnh hỏng",
+        "máy giặt bị lỗi",
+    ],
+)
+def test_a_fault_report_is_never_mistaken_for_a_greeting(text):
+    """The worst bug of the afternoon, and it was silent.
+
+    _is_greeting matched greeting words as prefixes of the folded message, so
+    "có mùi khét" — the most dangerous thing a customer can send — was answered
+    with "Dạ em chào anh/chị ạ", because "có" folds to "co" and "co" was in the
+    list. Whole words only, and only when every word in the message is one.
+    """
+    from app.services.pipeline.local_pipeline import _is_greeting
+
+    assert not _is_greeting(text)
+
+
+@pytest.mark.parametrize(
+    "text",
+    ["alo", "chào em", "em ơi", "có ai không", "ok cảm ơn em", "dạ", "vâng ạ"],
+)
+def test_a_greeting_is_still_recognised(text):
+    from app.services.pipeline.local_pipeline import _is_greeting
+
+    assert _is_greeting(text)
+
+
+def test_asking_how_the_bill_works_is_inside_the_trade():
+    """"Bên mình tính giá sao" was refused as off topic.
+
+    Bare "gia" cannot be a trade word — it lets in the price of gold — but the
+    phrase is unambiguous, and how the bill is put together is the commonest
+    business question there is.
+    """
+    pipeline = _pipeline()
+    assert pipeline._is_in_the_trade("bên mình tính giá sao")
+    assert pipeline._is_in_the_trade("bị lỗi")
+    assert not pipeline._is_in_the_trade("giá vàng hôm nay")
+    assert not pipeline._is_in_the_trade("bitcoin giá bao nhiêu")
