@@ -347,3 +347,21 @@ def test_a_short_dangerous_message_still_reports_its_urgency(client):
     ).json()
     assert body["status"] == "needs_clarification"
     assert body["urgency"] == "HIGH"
+
+
+def test_a_counting_question_is_not_read_as_an_appliance(client):
+    """"mấy" and "máy" are the same word once tone marks are stripped.
+
+    The whole-word fix removed the trailing space that had been holding them
+    apart, and "2 cộng 2 bằng mấy" was answered by a repair service.
+    """
+    assert _ask(client, "2 cộng 2 bằng mấy")["status"] == "no_grounding"
+
+
+def test_a_warranty_question_is_answered_not_declared_out_of_scope(client):
+    """The corpus refuses to promise a term, and that is not the same as
+    having nothing to say. Told to decline when the documents lack the figure,
+    the model declined — and the customer was told their warranty question was
+    outside what the service covers."""
+    body = _ask(client, "bảo hành bao lâu")
+    assert body["status"] == "ok", body["answerVi"]
