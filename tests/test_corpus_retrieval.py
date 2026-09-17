@@ -194,3 +194,50 @@ def test_prompt_survives_a_context_without_the_new_fields(kb, retriever):
         policies: list = []
 
     assert "THIẾT BỊ" in build_context_prompt(Bare())
+
+
+# -- the question box, not only the photograph -----------------------------
+
+
+@pytest.fixture(scope="module")
+def client():
+    from fastapi.testclient import TestClient
+
+    from app.main import app
+
+    return TestClient(app)
+
+
+def _ask(client, question: str, device_type=None) -> dict:
+    body = {"question": question}
+    if device_type:
+        body["deviceType"] = device_type
+    response = client.post("/api/v1/chat/ask", json=body)
+    assert response.status_code == 200, response.text
+    return response.json()
+
+
+def test_an_explanatory_question_is_answered_from_the_corpus(client):
+    """The gap a live run found.
+
+    The corpus was wired into diagnosis and stopped there, so this surface —
+    the one a chat box calls — still answered from the small policy table.
+    Asked why an evaporator ices up, it explained how often to clean a
+    refrigerator: retrieved, true, and about a different appliance.
+    """
+    body = _ask(client, "vi sao dan lanh bam tuyet", "air_conditioner")
+    cited = [c["docId"] for c in body["citations"]]
+    assert any(doc.startswith("KB_FAULT_AC") for doc in cited), cited
+
+
+def test_a_dangerous_question_warns_on_this_surface_too(client):
+    """Typing it into the question box is the same room as photographing it."""
+    body = _ask(client, "bep gas nha em co mui gas", "gas_stove")
+    assert "khoá van bình gas" in body["answerVi"].lower()
+    assert body["citations"][0]["docId"] == "KB_FAULT_STOVE_GAS_LEAK"
+
+
+def test_a_policy_question_still_reaches_policy(client):
+    """The corpus must not crowd out the tables it was never meant to replace."""
+    body = _ask(client, "bao hanh bao lau")
+    assert any(c["docId"].startswith("POLICY") for c in body["citations"])

@@ -500,17 +500,53 @@ class LocalPipeline:
             else []
         )
 
+        # The written corpus, which this surface could not see at all. It was
+        # wired into diagnosis and stopped there, so "vì sao dàn lạnh bám
+        # tuyết" — the question the corpus exists to answer — was served from
+        # the policy table and came back explaining how often to clean a
+        # refrigerator. Two million characters about the trade sat one call
+        # away the whole time.
+        device_type = chat.device_type or request.device_type
+        candidates = (
+            self._retriever.candidate_faults(request.question, device_type)
+            if device_type
+            else []
+        )
+        codes = [c.fault.fault_code for c in candidates]
+        # A dangerous fault has to warn here too. Someone typing "bếp nhà em có
+        # mùi gas" into the question box is in the same room as someone who
+        # sent a photograph of it, and the instruction to shut the cylinder
+        # valve cannot depend on which surface they happened to use.
+        safety = self._retriever.safety_passages(codes)
+        pinned = [f"{s.chunk.source_file}::{s.chunk.heading_vi}" for s in safety]
+        corpus = self._retriever.corpus_passages(
+            request.question,
+            device_type=device_type,
+            fault_codes=codes,
+            exclude=pinned,
+        )
+
         # Order by what was asked. Asked "vệ sinh máy lạnh giá bao nhiêu" with
         # policy text first, the model answered with the cleaning interval —
         # true, retrieved, and not the question. The model reads the passages
         # in order and the first relevant one wins.
+        #
+        # The warning goes first whatever was asked, then the price if money
+        # was the question, then the trade documents, then policy.
+        chunks = safety + corpus
         passages = prices + policies
-        if not passages:
+        if not (passages or chunks):
             return await self._reasoned_answer(request, chat)
 
+        passages_vi = (
+            [s.chunk.as_passage_vi() for s in safety]
+            + [p.policy.content_vi for p in prices]
+            + [s.chunk.as_passage_vi() for s in corpus]
+            + [p.policy.content_vi for p in policies]
+        )
         answer_vi, confidence = await self._vlm.answer(
             question=request.question,
-            passages_vi=[p.policy.content_vi for p in passages],
+            passages_vi=passages_vi,
         )
         if not answer_vi:
             return await self._reasoned_answer(request, chat)
@@ -525,14 +561,24 @@ class LocalPipeline:
             # rows and citing all ten put three refrigerator boards under an
             # answer about a gas stove igniter: the figure was right and the
             # sources read as though it had been made up.
-            citations=[
-                Citation(
-                    doc_id=p.policy.doc_id,
-                    title_vi=p.policy.title_vi,
-                    score=round(min(p.score, 1.0), 4),
-                )
-                for p in passages[:3]
-            ],
+            citations=(
+                [
+                    Citation(
+                        doc_id=s.chunk.doc_id,
+                        title_vi=s.chunk.heading_vi,
+                        score=round(min(s.score, 1.0), 4),
+                    )
+                    for s in chunks[:2]
+                ]
+                + [
+                    Citation(
+                        doc_id=p.policy.doc_id,
+                        title_vi=p.policy.title_vi,
+                        score=round(min(p.score, 1.0), 4),
+                    )
+                    for p in passages[:2]
+                ]
+            )[:3],
             confidence=confidence,
             disclaimer_vi=settings.AI_DISCLAIMER_VI,
         )
