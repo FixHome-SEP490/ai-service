@@ -97,6 +97,11 @@ def _ask(case: Case) -> Dict[str, Any]:
             "status": body.get("status"),
             "answerVi": body.get("answerVi", ""),
             "citations": [c.get("docId") for c in body.get("citations") or []],
+            # The PO's standing rule: whatever else an answer does, the
+            # customer must be left able to book somebody. Carried through so
+            # the run can count how often that actually happens instead of
+            # taking it on trust.
+            "recommendedServices": body.get("recommendedServices") or [],
         }
 
     response = httpx.post(
@@ -154,6 +159,10 @@ def main() -> None:
                 "note": case.note,
                 "reply": result.get("messageVi") or result.get("answerVi") or "",
                 "citations": result.get("citations") or [],
+                "services": [
+                    s.get("serviceCode")
+                    for s in result.get("recommendedServices") or []
+                ],
             }
         )
 
@@ -177,6 +186,26 @@ def main() -> None:
         print(f"{kind:<12}{right[kind]:>6}{by_expect[kind]:>6}")
     total_ok = sum(right.values())
     print(f"{'tất cả':<12}{total_ok:>6}{len(rows):>6}   {total_ok / len(rows):.0%}")
+
+    # Whatever else a reply does, the customer has to be left able to book
+    # somebody. A reply that diagnoses and then stops is the failure the PO
+    # named: "phân tích xong là im luôn". Counted over the cases where an offer
+    # belongs — a refusal must not carry one, and neither must a question about
+    # how long the warranty lasts.
+    should_offer = [r for r in rows if r["expect"] in ("diagnose", "ask")]
+    offered = [r for r in should_offer if r["services"]]
+    if should_offer:
+        print(
+            f"\nmời đặt dịch vụ{len(offered):>6}/{len(should_offer):<5} "
+            f"{len(offered) / len(should_offer):>4.0%} câu trả lời có dịch vụ để đặt"
+        )
+        silent = [r for r in should_offer if not r["services"]]
+        for row in silent[:8]:
+            print(f"  không mời được gì: {row['text']!r}")
+
+    leaked_offer = [r for r in rows if r["expect"] == "refuse" and r["services"]]
+    for row in leaked_offer[:5]:
+        print(f"  mời đặt dịch vụ cho câu ngoài phạm vi: {row['text']!r}")
 
     # Which body of knowledge each answer actually stood on. The corpus is the
     # reason this project spent two million characters, and the only way to see
