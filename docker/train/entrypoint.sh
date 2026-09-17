@@ -23,6 +23,9 @@ IMAGE_SIZE="${IMAGE_SIZE:-640}"
 BATCH="${BATCH:-16}"
 SEED="${SEED:-20260915}"
 RUN_NAME="${RUN_NAME:-detector-$(date +%Y%m%d-%H%M%S)}"
+RESUME_FROM="${RESUME_FROM:-}"
+LR0="${LR0:-}"
+WARMUP="${WARMUP:-}"
 
 log() { printf '\n== %s\n' "$*"; }
 
@@ -135,11 +138,75 @@ refuse_if_already_done() {
   fi
 }
 
+fetch_resume_weights() {
+  # Buying more epochs for a model that already exists.
+  #
+  # A rental is destroyed the minute it finishes, so the only copy of the
+  # weights it produced is the one publish_weights pushed to the Hub.
+  # Without a way to fetch that back, the only route to more epochs was to
+  # train from scratch and pay a second time for the epochs already bought.
+  #
+  # RESUME_FROM is a path inside HF_WEIGHTS_REPO, laid out the way
+  # publish_weights leaves it: detector-v2/weights/best.pt.
+  #
+  # Call this what it is: not a resume. Ultralytics resumes only from a run
+  # directory it wrote itself, with the optimiser state and the place in the
+  # schedule still in it, and that directory died with the machine. What
+  # happens here is a fresh run of EPOCHS epochs starting from trained
+  # weights - new warmup, new decay, a new schedule from its beginning.
+  #
+  # That distinction decides the learning rate. The weights handed in have
+  # already been annealed to the bottom of a schedule; hitting them with the
+  # default lr0 of 0.01 and three epochs of warmup pulls them apart again,
+  # and the first several epochs read as a regression before they recover.
+  # So when RESUME_FROM is set and nothing was said about the rate, start
+  # low and warm up briefly.
+  [[ -n "${RESUME_FROM}" ]] || return 0
+  if [[ -z "${HF_WEIGHTS_REPO:-}" || -z "${HF_TOKEN:-}" ]]; then
+    echo "RESUME_FROM needs HF_WEIGHTS_REPO and HF_TOKEN to fetch from." >&2
+    exit 1
+  fi
+
+  log "Continuing from ${RESUME_FROM} in ${HF_WEIGHTS_REPO}"
+  local dir="/workspace/resume"
+  huggingface-cli download "${HF_WEIGHTS_REPO}" "${RESUME_FROM}" \
+    --repo-type model --local-dir "${dir}"
+
+  local weights="${dir}/${RESUME_FROM}"
+  [[ -f "${weights}" ]] || {
+    echo "${RESUME_FROM} is not in ${HF_WEIGHTS_REPO}." >&2
+    echo "Check the run name; publish_weights uploads under RUN_NAME." >&2
+    exit 1
+  }
+  MODEL="${weights}"
+  LR0="${LR0:-0.002}"
+  WARMUP="${WARMUP:-1.0}"
+  log "Starting from ${MODEL} at lr0=${LR0}, warmup ${WARMUP} epoch(s)"
+}
+
 cmd_train() {
   refuse_if_already_done
   require_gpu
   fetch_dataset
   fix_dataset_root
+  fetch_resume_weights
+
+  # Kept out of the command line when unset: yolo reads an empty lr0= as
+  # the string "" and stops with a parse error rather than using its own
+  # default.
+  # Written as if-blocks, not `[[ test ]] && append`, because this file runs
+  # under `set -e` on a machine that bills by the second. Whether a bare
+  # AND-list whose test fails ends the script is a question with a
+  # version-dependent answer, and the cost of being wrong is a run that dies
+  # at the first line of training with nothing in the log to explain it.
+  local tuning=()
+  if [[ -n "${LR0}" ]]; then
+    tuning+=("lr0=${LR0}")
+  fi
+  if [[ -n "${WARMUP}" ]]; then
+    tuning+=("warmup_epochs=${WARMUP}")
+  fi
+
   log "Training ${MODEL} for ${EPOCHS} epochs at ${IMAGE_SIZE}px, batch ${BATCH}"
   yolo detect train \
     model="${MODEL}" \
@@ -152,7 +219,8 @@ cmd_train() {
     project="${RUNS_DIR}" \
     name="${RUN_NAME}" \
     exist_ok=True \
-    plots=True
+    plots=True \
+    ${tuning[@]+"${tuning[@]}"}
 
   local run_dir="${RUNS_DIR}/${RUN_NAME}"
   log "Evaluating on the held-out test split"
