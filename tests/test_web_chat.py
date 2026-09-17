@@ -58,3 +58,16 @@ def test_the_page_shows_no_internal_document_titles(client):
     # saying why.
     assert "titleVi" not in body
     assert "r.citations" not in body
+
+
+def test_health_says_whether_the_models_are_attached(client):
+    """"Is Qwen running, is YOLO running" took reading vLLM's throughput log
+    and then photographing five appliances to prove the detector was not a
+    stub. A service running on two stubs answers 200 and says "local" exactly
+    like a healthy one."""
+    body = client.get("/health").json()
+    assert body["status"] == "ok"
+    assert "attached" in body["vlm"]
+    assert "attached" in body["detector"]
+    # The corpus is the third thing that can silently be missing.
+    assert body["knowledge"]["chunks"] > 1000

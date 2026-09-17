@@ -60,10 +60,29 @@ app.include_router(web_router)
 
 @app.get("/health", tags=["Health"])
 async def health_check():
-    """Health check endpoint - returns basic operational status and provider without sensitive info"""
+    """Whether the two models are actually loaded, not merely whether it replies.
+
+    "Is Qwen running, is YOLO running" took reading vLLM's throughput log and
+    then sending photographs of five appliances to prove the detector was not a
+    stub, because a service answering with a stub detector and a stub model
+    looks exactly like a healthy one from here: 200, engine "local", no clue.
+
+    Neither field asserts the model is any good. They say a real one is
+    attached, which is the question that could not be answered from outside.
+    """
     return {
         "status": "ok",
         "service": "fixhome-ai-service",
         "engine": settings.AI_ENGINE,
         "version": "0.1.0",
+        "vlm": {
+            "attached": bool(settings.VLM_BASE_URL),
+            "model": settings.VLM_MODEL_NAME if settings.VLM_BASE_URL else None,
+        },
+        # Whether, not which. An older test forbids the word "weights" in this
+        # response and it is right to: the endpoint is public on a rented box,
+        # and a filename is a fact about the filesystem that a health check has
+        # no reason to publish.
+        "detector": {"attached": bool(settings.YOLO_WEIGHTS_PATH)},
+        "knowledge": {"chunks": len(get_corpus())},
     }
