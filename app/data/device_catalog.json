@@ -64,7 +64,9 @@
         "máy giặt cửa trên",
         "máy giặt cửa ngang"
       ],
-      "confusable_with": []
+      "confusable_with": [
+        "clothes_dryer"
+      ]
     },
     {
       "device_type": "refrigerator",
@@ -334,7 +336,7 @@
       "service_group": "SVG_APPLIANCE",
       "detector_class": true,
       "open_images_class": null,
-      "source_note": "anh thu thap tu cac san TMDT VN, autolabel backdrop pass",
+      "source_note": "Anh thu thap lai 17/09/2026 bang tu khoa ro rang. Lan dau tu khoa 'may say' lan may say toc nen phai lam lai.",
       "aliases_vi": [
         "máy sấy quần áo",
         "may say quan ao",
@@ -366,7 +368,7 @@
       "service_group": "SVG_ELECTRIC",
       "detector_class": true,
       "open_images_class": null,
-      "source_note": "anh thu thap tu cac san TMDT VN, autolabel backdrop pass",
+      "source_note": "Anh thu thap lai 17/09/2026 bang tu khoa ro rang. Lan dau tu khoa 'may say' lan may say toc nen phai lam lai.",
       "aliases_vi": [
         "khóa cửa thông minh",
         "khoa cua thong minh",
@@ -501,7 +503,7 @@
         "washing_machine",
         "clothes_dryer"
       ],
-      "question_vi": "Máy nhà mình có cấp nước vào để giặt không, hay chỉ quay cho khô quần áo ạ?",
+      "question_vi": "Máy nhà mình có ngăn để đổ bột giặt hoặc nước giặt, kéo ra được không ạ?",
       "if_yes": "washing_machine",
       "if_no": "clothes_dryer"
     }

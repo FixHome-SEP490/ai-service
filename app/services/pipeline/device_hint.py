@@ -17,6 +17,7 @@ feel like it is not listening.
 
 from __future__ import annotations
 
+import re
 import unicodedata
 from dataclasses import dataclass
 from typing import List, Optional, Sequence
@@ -37,11 +38,57 @@ def _fold(text: str) -> str:
     return " " + stripped.replace("đ", "d") + " "
 
 
+NOT_THIS_DEVICE = {
+    # "tu say" and "gian phoi" are a drying cabinet and a clothes airer: they
+    # dry clothes, they are sold under the same search terms, and they are not
+    # the machine the 350.000d service cleans — that one has a lint filter, a
+    # vent duct and a drum, none of which a fabric tent has.
+    "clothes_dryer": (
+        "toc", "bat", "chen", "giay", "tay", "quat suoi",
+        "tu say", "gian phoi", "mac phoi", "sao phoi",
+    ),
+    "water_heater": ("nuoc nong lanh", "binh thuy"),
+    "electric_fan": ("quat thong gio", "quat hut mui"),
+}
+"""Words that take an alias back, keyed by the device the alias belongs to.
+
+"Máy sấy" is a clothes dryer, a hair dryer, a dish dryer and a shoe dryer, and
+the alias list could only claim one of them. It claimed the clothes dryer, so
+"máy sấy tóc bị cháy khét" came back as a tumble dryer — and since a clogged
+dryer is a fire risk, the answer was a four-step fire warning about a hair
+dryer somebody was holding.
+
+Matched as whole words on the tone-stripped text, for the reason every other
+list in this project is: three-letter fragments collide constantly. "Tóc" folds
+to "toc", which is not a substring of anything that matters here, but the rule
+holds anyway because the next entry added will not be so lucky.
+"""
+
+
+def _disqualified(device_type: str, folded: str) -> bool:
+    """Whether something in the text says this is not that device."""
+    words = _folded_words(folded)
+    for phrase in NOT_THIS_DEVICE.get(device_type, ()):
+        if f" {phrase} " in words:
+            return True
+    return False
+
+
+def _folded_words(folded: str) -> str:
+    """The folded text reduced to space-separated words, padded at both ends."""
+    return " " + " ".join(re.findall(r"[a-z0-9]+", folded)) + " "
+
+
 def devices_named_in(description: str, kb: KnowledgeBase) -> List[DeviceHint]:
     """Every device the text names, longest alias first.
 
     Longest first because "máy giặt cửa trên" contains "máy giặt", and reporting
     the more specific match makes the reason legible.
+
+    A device whose name is taken back by a later word is dropped entirely: see
+    NOT_THIS_DEVICE. That is deliberately stronger than ranking it lower, since
+    the wrong appliance carries the wrong faults, the wrong prices and — in at
+    least one case — the wrong safety warning.
     """
     folded = _fold(description)
     hits: List[DeviceHint] = []
@@ -53,8 +100,14 @@ def devices_named_in(description: str, kb: KnowledgeBase) -> List[DeviceHint]:
                 best is None or len(alias) > len(best)
             ):
                 best = alias
-        if best is not None:
-            hits.append(DeviceHint(device_type=device_type, matched_alias=best))
+        if best is None:
+            continue
+        # The specific alias survives its own disqualifier: somebody who typed
+        # "máy sấy quần áo" has said which one they mean, whatever else is in
+        # the sentence.
+        if len(best.split()) < 3 and _disqualified(device_type, folded):
+            continue
+        hits.append(DeviceHint(device_type=device_type, matched_alias=best))
 
     hits.sort(key=lambda h: -len(h.matched_alias))
     return hits
