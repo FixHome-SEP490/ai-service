@@ -370,3 +370,35 @@ def test_aptomat_is_deliberately_not_an_alias():
     )]
 
     assert hits[0] == "induction_hob"
+
+
+@pytest.mark.asyncio
+async def test_an_unanswerable_trade_question_does_not_send_them_to_support():
+    """There is no support desk at the other end of that sentence.
+
+    "Thợ có đeo khẩu trang không" came back as "vui lòng liên hệ bộ phận hỗ trợ
+    của FixHome" — a repair company's assistant handing its own customer to
+    somebody else over a question that ordinary. The corpus has a document
+    telling the model never to say it; the fallback message said it anyway.
+    """
+    response = await _pipeline().answer(
+        ChatRequest(question="thợ có đeo khẩu trang không")
+    )
+
+    assert "bộ phận hỗ trợ" not in response.answer_vi
+    assert "đặt lịch" in response.answer_vi
+
+
+@pytest.mark.asyncio
+async def test_an_off_topic_question_is_not_invited_to_book_a_repair():
+    """The other direction, and it is just as wrong.
+
+    Telling somebody who asked about the weather that a technician will ring
+    them is worse than the sentence it replaced.
+    """
+    response = await _pipeline().answer(
+        ChatRequest(question="thời tiết hôm nay thế nào")
+    )
+
+    assert "đặt lịch" not in response.answer_vi
+    assert "chỉ hỗ trợ" in response.answer_vi
