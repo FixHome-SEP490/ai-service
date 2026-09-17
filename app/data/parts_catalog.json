@@ -1,6 +1,6 @@
 {
   "version": "FIXHOME-BANG-LINH-KIEN-VA-VAT-TU-791-ITEMS-v4.0",
-  "_comment_vi": "Bang linh kien do team cung cap. Gia la khoang tham khao vi phu thuoc model. Day la phan day tran gia len; san la tien cong tho trong labour_catalog.json.",
+  "_comment_vi": "Bang linh kien do team cung cap. Gia la khoang tham khao vi phu thuoc model. Day la phan day tran gia len; san la tien cong tho trong labour_catalog.json. Cac dong co price_estimated=true la uoc luong gia thi truong do AI Service bo sung khi bang goc chua co muc do, can Admin ra lai.",
   "parts": [
     {
       "code": "AC001",
@@ -10684,6 +10684,552 @@
       "device_types": [
         "kettle"
       ]
+    },
+    {
+      "code": "LGT001",
+      "name_vi": "Bóng đèn LED E27 9W",
+      "group_vi": "Linh kiện",
+      "kind": "LED bulb",
+      "price_min": 25000,
+      "price_max": 70000,
+      "unit_vi": "cái",
+      "section_vi": "Đèn & bóng đèn",
+      "device_types": [
+        "light_bulb"
+      ],
+      "price_estimated": true,
+      "price_note_vi": "Uoc luong theo gia thi truong pho thong 2026, Admin can ra lai truoc khi chot."
+    },
+    {
+      "code": "LGT002",
+      "name_vi": "Bóng đèn LED E27 12W",
+      "group_vi": "Linh kiện",
+      "kind": "LED bulb",
+      "price_min": 35000,
+      "price_max": 95000,
+      "unit_vi": "cái",
+      "section_vi": "Đèn & bóng đèn",
+      "device_types": [
+        "light_bulb"
+      ],
+      "price_estimated": true,
+      "price_note_vi": "Uoc luong theo gia thi truong pho thong 2026, Admin can ra lai truoc khi chot."
+    },
+    {
+      "code": "LGT003",
+      "name_vi": "Bóng đèn LED E27 20W",
+      "group_vi": "Linh kiện",
+      "kind": "LED bulb",
+      "price_min": 55000,
+      "price_max": 140000,
+      "unit_vi": "cái",
+      "section_vi": "Đèn & bóng đèn",
+      "device_types": [
+        "light_bulb"
+      ],
+      "price_estimated": true,
+      "price_note_vi": "Uoc luong theo gia thi truong pho thong 2026, Admin can ra lai truoc khi chot."
+    },
+    {
+      "code": "LGT004",
+      "name_vi": "Bóng đèn LED tuýp 1,2 m 18W",
+      "group_vi": "Linh kiện",
+      "kind": "LED tube",
+      "price_min": 45000,
+      "price_max": 120000,
+      "unit_vi": "cái",
+      "section_vi": "Đèn & bóng đèn",
+      "device_types": [
+        "light_bulb"
+      ],
+      "price_estimated": true,
+      "price_note_vi": "Uoc luong theo gia thi truong pho thong 2026, Admin can ra lai truoc khi chot."
+    },
+    {
+      "code": "LGT005",
+      "name_vi": "Bóng đèn LED tuýp 0,6 m 9W",
+      "group_vi": "Linh kiện",
+      "kind": "LED tube",
+      "price_min": 30000,
+      "price_max": 80000,
+      "unit_vi": "cái",
+      "section_vi": "Đèn & bóng đèn",
+      "device_types": [
+        "light_bulb"
+      ],
+      "price_estimated": true,
+      "price_note_vi": "Uoc luong theo gia thi truong pho thong 2026, Admin can ra lai truoc khi chot."
+    },
+    {
+      "code": "LGT006",
+      "name_vi": "Đèn LED âm trần 7W",
+      "group_vi": "Linh kiện",
+      "kind": "LED downlight",
+      "price_min": 45000,
+      "price_max": 130000,
+      "unit_vi": "cái",
+      "section_vi": "Đèn & bóng đèn",
+      "device_types": [
+        "light_bulb"
+      ],
+      "price_estimated": true,
+      "price_note_vi": "Uoc luong theo gia thi truong pho thong 2026, Admin can ra lai truoc khi chot."
+    },
+    {
+      "code": "LGT007",
+      "name_vi": "Đèn LED âm trần 9W",
+      "group_vi": "Linh kiện",
+      "kind": "LED downlight",
+      "price_min": 55000,
+      "price_max": 160000,
+      "unit_vi": "cái",
+      "section_vi": "Đèn & bóng đèn",
+      "device_types": [
+        "light_bulb"
+      ],
+      "price_estimated": true,
+      "price_note_vi": "Uoc luong theo gia thi truong pho thong 2026, Admin can ra lai truoc khi chot."
+    },
+    {
+      "code": "LGT008",
+      "name_vi": "Đèn LED âm trần 12W",
+      "group_vi": "Linh kiện",
+      "kind": "LED downlight",
+      "price_min": 70000,
+      "price_max": 200000,
+      "unit_vi": "cái",
+      "section_vi": "Đèn & bóng đèn",
+      "device_types": [
+        "light_bulb"
+      ],
+      "price_estimated": true,
+      "price_note_vi": "Uoc luong theo gia thi truong pho thong 2026, Admin can ra lai truoc khi chot."
+    },
+    {
+      "code": "LGT009",
+      "name_vi": "Đèn LED ốp trần 18W",
+      "group_vi": "Linh kiện",
+      "kind": "LED ceiling light",
+      "price_min": 90000,
+      "price_max": 260000,
+      "unit_vi": "cái",
+      "section_vi": "Đèn & bóng đèn",
+      "device_types": [
+        "light_bulb"
+      ],
+      "price_estimated": true,
+      "price_note_vi": "Uoc luong theo gia thi truong pho thong 2026, Admin can ra lai truoc khi chot."
+    },
+    {
+      "code": "LGT010",
+      "name_vi": "Đèn LED ốp trần 24W",
+      "group_vi": "Linh kiện",
+      "kind": "LED ceiling light",
+      "price_min": 120000,
+      "price_max": 340000,
+      "unit_vi": "cái",
+      "section_vi": "Đèn & bóng đèn",
+      "device_types": [
+        "light_bulb"
+      ],
+      "price_estimated": true,
+      "price_note_vi": "Uoc luong theo gia thi truong pho thong 2026, Admin can ra lai truoc khi chot."
+    },
+    {
+      "code": "LGT011",
+      "name_vi": "Máng đèn LED tuýp 1,2 m",
+      "group_vi": "Linh kiện",
+      "kind": "Tube fixture",
+      "price_min": 60000,
+      "price_max": 180000,
+      "unit_vi": "cái",
+      "section_vi": "Đèn & bóng đèn",
+      "device_types": [
+        "light_bulb"
+      ],
+      "price_estimated": true,
+      "price_note_vi": "Uoc luong theo gia thi truong pho thong 2026, Admin can ra lai truoc khi chot."
+    },
+    {
+      "code": "LGT012",
+      "name_vi": "Máng đèn LED tuýp 0,6 m",
+      "group_vi": "Linh kiện",
+      "kind": "Tube fixture",
+      "price_min": 45000,
+      "price_max": 130000,
+      "unit_vi": "cái",
+      "section_vi": "Đèn & bóng đèn",
+      "device_types": [
+        "light_bulb"
+      ],
+      "price_estimated": true,
+      "price_note_vi": "Uoc luong theo gia thi truong pho thong 2026, Admin can ra lai truoc khi chot."
+    },
+    {
+      "code": "LGT013",
+      "name_vi": "Driver LED âm trần 7–12W",
+      "group_vi": "Linh kiện",
+      "kind": "LED driver",
+      "price_min": 25000,
+      "price_max": 80000,
+      "unit_vi": "cái",
+      "section_vi": "Đèn & bóng đèn",
+      "device_types": [
+        "light_bulb"
+      ],
+      "price_estimated": true,
+      "price_note_vi": "Uoc luong theo gia thi truong pho thong 2026, Admin can ra lai truoc khi chot."
+    },
+    {
+      "code": "LGT014",
+      "name_vi": "Driver LED ốp trần 18–24W",
+      "group_vi": "Linh kiện",
+      "kind": "LED driver",
+      "price_min": 35000,
+      "price_max": 110000,
+      "unit_vi": "cái",
+      "section_vi": "Đèn & bóng đèn",
+      "device_types": [
+        "light_bulb"
+      ],
+      "price_estimated": true,
+      "price_note_vi": "Uoc luong theo gia thi truong pho thong 2026, Admin can ra lai truoc khi chot."
+    },
+    {
+      "code": "LGT015",
+      "name_vi": "Đuôi đèn E27 gắn trần",
+      "group_vi": "Linh kiện",
+      "kind": "Lamp holder",
+      "price_min": 10000,
+      "price_max": 35000,
+      "unit_vi": "cái",
+      "section_vi": "Đèn & bóng đèn",
+      "device_types": [
+        "light_bulb"
+      ],
+      "price_estimated": true,
+      "price_note_vi": "Uoc luong theo gia thi truong pho thong 2026, Admin can ra lai truoc khi chot."
+    },
+    {
+      "code": "LGT016",
+      "name_vi": "Đuôi đèn ngạnh cài tuýp T8",
+      "group_vi": "Linh kiện",
+      "kind": "Lamp holder",
+      "price_min": 8000,
+      "price_max": 25000,
+      "unit_vi": "đôi",
+      "section_vi": "Đèn & bóng đèn",
+      "device_types": [
+        "light_bulb"
+      ],
+      "price_estimated": true,
+      "price_note_vi": "Uoc luong theo gia thi truong pho thong 2026, Admin can ra lai truoc khi chot."
+    },
+    {
+      "code": "LGT017",
+      "name_vi": "Gioăng chống ẩm máng đèn nhà tắm",
+      "group_vi": "Linh kiện",
+      "kind": "Gasket",
+      "price_min": 15000,
+      "price_max": 50000,
+      "unit_vi": "cái",
+      "section_vi": "Đèn & bóng đèn",
+      "device_types": [
+        "light_bulb"
+      ],
+      "price_estimated": true,
+      "price_note_vi": "Uoc luong theo gia thi truong pho thong 2026, Admin can ra lai truoc khi chot."
+    },
+    {
+      "code": "LGT018",
+      "name_vi": "Chóa đèn âm trần rời",
+      "group_vi": "Linh kiện",
+      "kind": "Reflector",
+      "price_min": 25000,
+      "price_max": 90000,
+      "unit_vi": "cái",
+      "section_vi": "Đèn & bóng đèn",
+      "device_types": [
+        "light_bulb"
+      ],
+      "price_estimated": true,
+      "price_note_vi": "Uoc luong theo gia thi truong pho thong 2026, Admin can ra lai truoc khi chot."
+    },
+    {
+      "code": "OUT001",
+      "name_vi": "Ổ cắm đơn 3 chấu",
+      "group_vi": "Linh kiện",
+      "kind": "AC socket",
+      "price_min": 25000,
+      "price_max": 75000,
+      "unit_vi": "cái",
+      "section_vi": "Ổ cắm, công tắc & thiết bị đóng cắt",
+      "device_types": [
+        "power_outlet"
+      ],
+      "price_estimated": true,
+      "price_note_vi": "Uoc luong theo gia thi truong pho thong 2026, Admin can ra lai truoc khi chot."
+    },
+    {
+      "code": "OUT002",
+      "name_vi": "Ổ cắm đôi 3 chấu",
+      "group_vi": "Linh kiện",
+      "kind": "AC socket",
+      "price_min": 40000,
+      "price_max": 120000,
+      "unit_vi": "cái",
+      "section_vi": "Ổ cắm, công tắc & thiết bị đóng cắt",
+      "device_types": [
+        "power_outlet"
+      ],
+      "price_estimated": true,
+      "price_note_vi": "Uoc luong theo gia thi truong pho thong 2026, Admin can ra lai truoc khi chot."
+    },
+    {
+      "code": "OUT003",
+      "name_vi": "Ổ cắm đôi kèm công tắc",
+      "group_vi": "Linh kiện",
+      "kind": "AC socket",
+      "price_min": 55000,
+      "price_max": 160000,
+      "unit_vi": "cái",
+      "section_vi": "Ổ cắm, công tắc & thiết bị đóng cắt",
+      "device_types": [
+        "power_outlet"
+      ],
+      "price_estimated": true,
+      "price_note_vi": "Uoc luong theo gia thi truong pho thong 2026, Admin can ra lai truoc khi chot."
+    },
+    {
+      "code": "OUT004",
+      "name_vi": "Ổ cắm có màn che an toàn trẻ em",
+      "group_vi": "Linh kiện",
+      "kind": "AC socket",
+      "price_min": 60000,
+      "price_max": 180000,
+      "unit_vi": "cái",
+      "section_vi": "Ổ cắm, công tắc & thiết bị đóng cắt",
+      "device_types": [
+        "power_outlet"
+      ],
+      "price_estimated": true,
+      "price_note_vi": "Uoc luong theo gia thi truong pho thong 2026, Admin can ra lai truoc khi chot."
+    },
+    {
+      "code": "OUT005",
+      "name_vi": "Ổ cắm chống nước IP44 ngoài trời",
+      "group_vi": "Linh kiện",
+      "kind": "AC socket",
+      "price_min": 90000,
+      "price_max": 260000,
+      "unit_vi": "cái",
+      "section_vi": "Ổ cắm, công tắc & thiết bị đóng cắt",
+      "device_types": [
+        "power_outlet"
+      ],
+      "price_estimated": true,
+      "price_note_vi": "Uoc luong theo gia thi truong pho thong 2026, Admin can ra lai truoc khi chot."
+    },
+    {
+      "code": "OUT006",
+      "name_vi": "Mặt nạ ổ cắm, công tắc",
+      "group_vi": "Linh kiện",
+      "kind": "Faceplate",
+      "price_min": 15000,
+      "price_max": 50000,
+      "unit_vi": "cái",
+      "section_vi": "Ổ cắm, công tắc & thiết bị đóng cắt",
+      "device_types": [
+        "power_outlet",
+        "light_bulb"
+      ],
+      "price_estimated": true,
+      "price_note_vi": "Uoc luong theo gia thi truong pho thong 2026, Admin can ra lai truoc khi chot."
+    },
+    {
+      "code": "OUT007",
+      "name_vi": "Đế âm tường nhựa",
+      "group_vi": "Linh kiện",
+      "kind": "Back box",
+      "price_min": 8000,
+      "price_max": 30000,
+      "unit_vi": "cái",
+      "section_vi": "Ổ cắm, công tắc & thiết bị đóng cắt",
+      "device_types": [
+        "power_outlet",
+        "light_bulb"
+      ],
+      "price_estimated": true,
+      "price_note_vi": "Uoc luong theo gia thi truong pho thong 2026, Admin can ra lai truoc khi chot."
+    },
+    {
+      "code": "OUT008",
+      "name_vi": "Đế nổi gắn tường",
+      "group_vi": "Linh kiện",
+      "kind": "Surface box",
+      "price_min": 12000,
+      "price_max": 40000,
+      "unit_vi": "cái",
+      "section_vi": "Ổ cắm, công tắc & thiết bị đóng cắt",
+      "device_types": [
+        "power_outlet",
+        "light_bulb"
+      ],
+      "price_estimated": true,
+      "price_note_vi": "Uoc luong theo gia thi truong pho thong 2026, Admin can ra lai truoc khi chot."
+    },
+    {
+      "code": "OUT009",
+      "name_vi": "Công tắc đơn một chiều",
+      "group_vi": "Linh kiện",
+      "kind": "Wall switch",
+      "price_min": 20000,
+      "price_max": 65000,
+      "unit_vi": "cái",
+      "section_vi": "Ổ cắm, công tắc & thiết bị đóng cắt",
+      "device_types": [
+        "power_outlet",
+        "light_bulb"
+      ],
+      "price_estimated": true,
+      "price_note_vi": "Uoc luong theo gia thi truong pho thong 2026, Admin can ra lai truoc khi chot."
+    },
+    {
+      "code": "OUT010",
+      "name_vi": "Công tắc đôi một chiều",
+      "group_vi": "Linh kiện",
+      "kind": "Wall switch",
+      "price_min": 30000,
+      "price_max": 95000,
+      "unit_vi": "cái",
+      "section_vi": "Ổ cắm, công tắc & thiết bị đóng cắt",
+      "device_types": [
+        "power_outlet",
+        "light_bulb"
+      ],
+      "price_estimated": true,
+      "price_note_vi": "Uoc luong theo gia thi truong pho thong 2026, Admin can ra lai truoc khi chot."
+    },
+    {
+      "code": "OUT011",
+      "name_vi": "Công tắc hai chiều cầu thang",
+      "group_vi": "Linh kiện",
+      "kind": "Wall switch",
+      "price_min": 35000,
+      "price_max": 110000,
+      "unit_vi": "cái",
+      "section_vi": "Ổ cắm, công tắc & thiết bị đóng cắt",
+      "device_types": [
+        "power_outlet",
+        "light_bulb"
+      ],
+      "price_estimated": true,
+      "price_note_vi": "Uoc luong theo gia thi truong pho thong 2026, Admin can ra lai truoc khi chot."
+    },
+    {
+      "code": "OUT012",
+      "name_vi": "Aptomat MCB 1P 16A",
+      "group_vi": "Linh kiện",
+      "kind": "MCB",
+      "price_min": 55000,
+      "price_max": 170000,
+      "unit_vi": "cái",
+      "section_vi": "Ổ cắm, công tắc & thiết bị đóng cắt",
+      "device_types": [
+        "power_outlet"
+      ],
+      "price_estimated": true,
+      "price_note_vi": "Uoc luong theo gia thi truong pho thong 2026, Admin can ra lai truoc khi chot."
+    },
+    {
+      "code": "OUT013",
+      "name_vi": "Aptomat MCB 1P 20A",
+      "group_vi": "Linh kiện",
+      "kind": "MCB",
+      "price_min": 60000,
+      "price_max": 180000,
+      "unit_vi": "cái",
+      "section_vi": "Ổ cắm, công tắc & thiết bị đóng cắt",
+      "device_types": [
+        "power_outlet"
+      ],
+      "price_estimated": true,
+      "price_note_vi": "Uoc luong theo gia thi truong pho thong 2026, Admin can ra lai truoc khi chot."
+    },
+    {
+      "code": "OUT014",
+      "name_vi": "Aptomat MCB 2P 32A",
+      "group_vi": "Linh kiện",
+      "kind": "MCB",
+      "price_min": 110000,
+      "price_max": 320000,
+      "unit_vi": "cái",
+      "section_vi": "Ổ cắm, công tắc & thiết bị đóng cắt",
+      "device_types": [
+        "power_outlet"
+      ],
+      "price_estimated": true,
+      "price_note_vi": "Uoc luong theo gia thi truong pho thong 2026, Admin can ra lai truoc khi chot."
+    },
+    {
+      "code": "OUT015",
+      "name_vi": "Aptomat chống giật RCBO 1P+N 20A",
+      "group_vi": "Linh kiện",
+      "kind": "RCBO",
+      "price_min": 250000,
+      "price_max": 700000,
+      "unit_vi": "cái",
+      "section_vi": "Ổ cắm, công tắc & thiết bị đóng cắt",
+      "device_types": [
+        "power_outlet"
+      ],
+      "price_estimated": true,
+      "price_note_vi": "Uoc luong theo gia thi truong pho thong 2026, Admin can ra lai truoc khi chot."
+    },
+    {
+      "code": "OUT016",
+      "name_vi": "Aptomat chống giật RCCB 2P 25A 30mA",
+      "group_vi": "Linh kiện",
+      "kind": "RCCB",
+      "price_min": 280000,
+      "price_max": 800000,
+      "unit_vi": "cái",
+      "section_vi": "Ổ cắm, công tắc & thiết bị đóng cắt",
+      "device_types": [
+        "power_outlet"
+      ],
+      "price_estimated": true,
+      "price_note_vi": "Uoc luong theo gia thi truong pho thong 2026, Admin can ra lai truoc khi chot."
+    },
+    {
+      "code": "OUT017",
+      "name_vi": "Cầu đấu domino 10A",
+      "group_vi": "Linh kiện",
+      "kind": "Terminal block",
+      "price_min": 8000,
+      "price_max": 30000,
+      "unit_vi": "cái",
+      "section_vi": "Ổ cắm, công tắc & thiết bị đóng cắt",
+      "device_types": [
+        "power_outlet"
+      ],
+      "price_estimated": true,
+      "price_note_vi": "Uoc luong theo gia thi truong pho thong 2026, Admin can ra lai truoc khi chot."
+    },
+    {
+      "code": "OUT018",
+      "name_vi": "Cầu đấu domino 20A",
+      "group_vi": "Linh kiện",
+      "kind": "Terminal block",
+      "price_min": 12000,
+      "price_max": 40000,
+      "unit_vi": "cái",
+      "section_vi": "Ổ cắm, công tắc & thiết bị đóng cắt",
+      "device_types": [
+        "power_outlet"
+      ],
+      "price_estimated": true,
+      "price_note_vi": "Uoc luong theo gia thi truong pho thong 2026, Admin can ra lai truoc khi chot."
     }
   ]
 }

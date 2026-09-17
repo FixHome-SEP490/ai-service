@@ -31,22 +31,33 @@ _TOKEN_RE = re.compile(r"[a-z0-9]+")
 # hư rồi không biết sao" gets a confident diagnosis built on nothing.
 _STOPWORDS = frozenset(
     """
-    la co khong chua da dang se bi duoc cua va voi thi ma nhung nen roi
-    o tai tu den cho khi luc nay kia ay nao gi sao vay the nhu
-    toi minh em anh chi ban nha a oi u um vang da
+    la co khong chua da dang se bi duoc va thi ma nhung nen roi
+    tai cho khi luc nay kia ay nao gi sao vay the nhu
+    toi minh em anh chi ban nha a oi um vang da
     mot hai ba cac nhung moi tung deu ca het rat qua lam hoi
     ra vao len xuong di ve lai nua con chi moi vua
     xin nho giup hoi sua kiem tra xem nao
     """.split()
 )
-"""Note what is deliberately absent: "do".
+"""Seven fillers are deliberately absent, and they are absent for one reason.
 
-Diacritics are stripped before matching, so the filler "do" and the symptom
-"đỏ" collapse to the same token. Listing it silently deleted the colour from
-every message about a gas flame, and "tại sao lửa bếp gas lại có màu đỏ" could
-not reach the fault whose first listed symptom is "lửa đỏ". Keeping it costs a
-little precision on sentences that use "do" as filler; dropping it cost a
-symptom."""
+Diacritics are stripped before matching, so a filler and a piece of the trade's
+core vocabulary can collapse onto the same token. Every one of these was on the
+list once and each was deleting a word the customer had just typed:
+
+    do   "do" but also "đỏ", the colour of a gas flame that is burning wrong
+    den  "đến" but also "đèn", which is the whole subject of a lighting fault
+    tu   "từ" but also "tụ", the capacitor, and "tủ", the refrigerator
+    o    "ở" but also "ổ", the socket and the bearing
+    cua  "của" but also "cửa", the door of an oven, a fridge, a machine
+    voi  "với" but also "vòi", the tap
+    u    "ừ" but also "ù", the hum of a motor that is trying to start
+
+The cost of keeping them is a little precision on sentences that use them as
+filler, and rarity weighting absorbs most of that: a word that really is filler
+appears across most of the symptom lists and is scored near zero anyway. The
+cost of listing them was a customer writing "bóng đèn" and being understood to
+have said nothing at all."""
 
 
 def _content_tokens(tokens: List[str]) -> List[str]:
