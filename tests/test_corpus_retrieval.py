@@ -241,3 +241,22 @@ def test_a_policy_question_still_reaches_policy(client):
     """The corpus must not crowd out the tables it was never meant to replace."""
     body = _ask(client, "bao hanh bao lau")
     assert any(c["docId"].startswith("POLICY") for c in body["citations"])
+
+
+def test_the_appliance_is_taken_from_the_question_when_nobody_passed_one(client):
+    """A chat box has no photograph and no device field on the first message.
+
+    Requiring one made the corpus unreachable from the question box unless the
+    client filled in something it has no way of knowing yet — and the offline
+    suite, which sends no device, would have gone on measuring the half that
+    worked.
+    """
+    body = _ask(client, "may lanh nha em bi bam tuyet vi sao")
+    cited = [c["docId"] for c in body["citations"]]
+    assert any(doc.startswith("KB_FAULT_AC") for doc in cited), cited
+
+
+def test_an_off_topic_question_still_retrieves_nothing(client):
+    """Inferring the appliance must not turn every sentence into an appliance."""
+    body = _ask(client, "hom nay an gi ngon")
+    assert not body["citations"]
