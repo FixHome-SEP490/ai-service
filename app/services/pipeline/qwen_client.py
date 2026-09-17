@@ -30,6 +30,7 @@ from typing import Any, Dict, List, Optional, Tuple
 
 import httpx
 
+from app.services.pipeline.corpus import voice_guidance
 from app.services.pipeline.images import ImagePayload
 from app.services.pipeline.vlm import FaultCandidate, VlmVerdict
 
@@ -162,6 +163,39 @@ _APOLOGY = re.compile(
 )
 
 
+_PRONOUN_FIXES = (
+    # The assistant speaking of itself. "Tôi" is not wrong Vietnamese, it is
+    # the wrong register: a repair company's assistant says "em".
+    (r"\bTôi\b", "Em"),
+    (r"\btôi\b", "em"),
+    # The customer. "Bạn" reads flat and slightly cold; the trade says anh/chị,
+    # which also avoids guessing anyone's gender.
+    (r"\bBạn\b", "Anh/chị"),
+    (r"\bbạn\b", "anh/chị"),
+    # Talking about the customer in the third person, to the customer.
+    (r"\bcủa khách\b", "của anh/chị"),
+    (r"\bcho khách\b", "cho anh/chị"),
+    (r"\bkhách nên\b", "anh/chị nên"),
+)
+
+
+def _fix_pronouns(text: str) -> str:
+    """Put the answer back into the register the persona asks for.
+
+    The instruction is in the prompt and the persona file now sits above it,
+    and a 3B model still wrote "Tôi đã kiểm tra và xác nhận rằng thiết bị của
+    khách", then "thiết bị của bạn" one turn later. Register is a rule, so it
+    is enforced like one rather than requested.
+
+    Only whole words, and only the pronouns. Rewriting more of a sentence than
+    this is how a fluent answer turns into a mechanical one, which is the thing
+    being fixed.
+    """
+    for pattern, replacement in _PRONOUN_FIXES:
+        text = re.sub(pattern, replacement, text)
+    return text
+
+
 def _strip_apology(text: str) -> str:
     """Remove an apology the answer opens with.
 
@@ -180,6 +214,16 @@ def _strip_apology(text: str) -> str:
         previous = text
         text = _APOLOGY.sub("", text, count=1)
     return text.strip()
+
+
+def _narrate_system() -> str:
+    """The instructions, with the written voice in front of them.
+
+    The hand-written half says what the turn must contain; the persona file
+    says how a person says it. Keeping the two apart means whoever edits the
+    voice edits a Vietnamese document rather than a Python string.
+    """
+    return f"{voice_guidance()}\n\n{_NARRATE_SYSTEM}"
 
 
 _OUT_OF_SCOPE = "NGOAI_PHAM_VI"
@@ -423,14 +467,14 @@ class QwenClient:
         """
         raw = await self._chat(
             [
-                {"role": "system", "content": _NARRATE_SYSTEM},
+                {"role": "system", "content": _narrate_system()},
                 {"role": "user", "content": facts_vi},
             ]
         )
         if raw is None:
             return ""
 
-        text = _strip_apology(raw.strip())
+        text = _fix_pronouns(_strip_apology(raw.strip()))
         if not text or _declines(text):
             return ""
 

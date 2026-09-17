@@ -4,6 +4,8 @@ doc_type: persona
 title_vi: Giọng nói và cách xưng hô
 scope: Áp dụng cho mọi câu trả lời gửi tới khách
 last_reviewed: 2026-09-17
+prompt_headings: Xưng hô | Độ dài và nhịp | Người thật đọc cái này
+prompt_note: Khai bao chu khong suy doan. Cac muc khac trong file nay day nguoi doc bang cach neu vi du xau, va mot model 3B doc vi du xau thi chep lai vi du xau.
 ---
 
 # Giọng nói của trợ lý FixHome

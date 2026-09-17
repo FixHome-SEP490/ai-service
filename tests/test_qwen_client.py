@@ -328,3 +328,38 @@ def test_an_apology_in_the_middle_is_left_alone():
 
     text = "Em kiểm tra thì bóng cháy. Em xin lỗi vì thợ tới trễ ạ."
     assert _strip_apology(text) == text
+
+
+# -- the register, enforced rather than requested --------------------------
+
+
+@pytest.mark.parametrize(
+    "raw,expected",
+    [
+        # What the model wrote with "Xưng em, gọi khách là anh/chị" in the
+        # prompt and the persona file above it.
+        (
+            "Tôi đã kiểm tra và xác nhận rằng thiết bị của khách là một tivi.",
+            "Em đã kiểm tra và xác nhận rằng thiết bị của anh/chị là một tivi.",
+        ),
+        ("Tôi khuyên bạn nên tắt nguồn.", "Em khuyên anh/chị nên tắt nguồn."),
+        # Already right, and left alone.
+        (
+            "Dạ em kiểm tra rồi ạ, máy của anh/chị bị sọc màn hình.",
+            "Dạ em kiểm tra rồi ạ, máy của anh/chị bị sọc màn hình.",
+        ),
+    ],
+)
+def test_the_register_is_corrected(raw, expected):
+    from app.services.pipeline.qwen_client import _fix_pronouns
+
+    assert _fix_pronouns(raw) == expected
+
+
+def test_only_whole_words_are_rewritten():
+    """Rewriting more of a sentence than the pronouns is how a fluent answer
+    turns mechanical, which is the thing being fixed."""
+    from app.services.pipeline.qwen_client import _fix_pronouns
+
+    text = "Máy tối om, khách sạn bên cạnh cũng mất điện."
+    assert _fix_pronouns(text) == text

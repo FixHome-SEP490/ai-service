@@ -417,3 +417,25 @@ def test_no_appliance_means_a_question_not_a_compressor(client, description):
     ).json()
     assert body["status"] == "needs_clarification", body.get("suspectedFaults")
     assert not body.get("suspectedFaults")
+
+
+def test_the_written_voice_reaches_the_model():
+    """Sixteen thousand characters were written to shape how this assistant
+    talks, and for a while nothing read them."""
+    from app.services.pipeline.corpus import voice_guidance
+    from app.services.pipeline.qwen_client import _narrate_system
+
+    voice = voice_guidance()
+    assert "Xưng hô" in voice
+    assert voice in _narrate_system()
+
+
+def test_only_the_declared_persona_sections_reach_the_model():
+    """Most of the persona teaches by showing a bad answer, and a 3B model
+    shown a bad answer reproduces it. Which sections are safe is declared in
+    the file, not decided by code."""
+    from app.services.pipeline.corpus import get_corpus
+
+    allowed = {c.heading_vi for c in get_corpus() if c.for_prompt}
+    assert "Những câu không bao giờ nói" not in allowed
+    assert allowed and allowed <= {c.heading_vi for c in get_corpus()}

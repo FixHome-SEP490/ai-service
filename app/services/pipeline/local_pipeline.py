@@ -357,7 +357,7 @@ class LocalPipeline:
         candidates = self._retriever.candidate_faults(
             description=chat.customer_text(),
             device_type=device_type,
-            top_k=settings.RETRIEVAL_TOP_K,
+            top_k=settings.VLM_SHORTLIST_SIZE,
         )
         trace.add(
             "retrieval",
