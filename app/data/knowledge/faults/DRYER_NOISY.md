@@ -103,8 +103,12 @@ bốn việc khác nhau và một trong bốn cần tắt máy ngay.
 
 "máy rung làm đổ cả chai trên nóc"
 
-Câu cuối chỉ vào máy kê lệch hoặc máy chồng không có khung nối, chứ không phải
-hỏng cơ khí.
+"chạy máy là cả nhà phải nói to lên mới nghe nhau"
+
+Ba câu đầu không nói gì về kiểu tiếng nên vẫn phải hỏi lại. Nhưng câu thứ ba
+đáng chú ý riêng: đổ được chai trên nóc nghĩa là máy đang dịch chuyển thật, và đó
+là máy kê lệch hoặc máy chồng không có khung nối chứ không phải hỏng cơ khí. Chỉnh
+lại là hết, và nói ra thì khách khỏi mất tiền oan.
 
 ## Khi nào phải tắt máy ngay
 
