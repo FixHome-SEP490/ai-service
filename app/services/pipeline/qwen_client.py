@@ -179,6 +179,32 @@ _PRONOUN_FIXES = (
 )
 
 
+_MISSPELLINGS = (
+    # Observed on every television answer: "hòng dải đèn nền". "Hòng" is a
+    # real word — it means hoping to, as in "hòng thoát" — and it is never the
+    # word for broken. The knowledge base writes "hỏng" and the model drops
+    # the hook off the o on its way out. Correcting it also corrects the rare
+    # sentence where "hòng" was meant, and that sentence is about someone
+    # hoping to get away with something — not a thing a repair assistant
+    # discussing a television has any reason to write.
+    (r"\bhòng\b", "hỏng"),
+    (r"\bHòng\b", "Hỏng"),
+)
+
+
+def _fix_spelling(text: str) -> str:
+    """Correct the few misspellings the model reliably produces.
+
+    Deliberately a short list of observed ones rather than a spellchecker. A
+    general corrector would rewrite the trade's own words — "tụ", "bạc đạn",
+    "aptomat" — and every wrong correction reaches a customer as a sentence
+    that reads as though nobody checked it.
+    """
+    for pattern, replacement in _MISSPELLINGS:
+        text = re.sub(pattern, replacement, text)
+    return text
+
+
 def _fix_pronouns(text: str) -> str:
     """Put the answer back into the register the persona asks for.
 
@@ -474,7 +500,7 @@ class QwenClient:
         if raw is None:
             return ""
 
-        text = _fix_pronouns(_strip_apology(raw.strip()))
+        text = _fix_spelling(_fix_pronouns(_strip_apology(raw.strip())))
         if not text or _declines(text):
             return ""
 
