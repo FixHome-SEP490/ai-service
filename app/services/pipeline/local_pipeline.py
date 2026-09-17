@@ -64,12 +64,27 @@ on."""
 _TRADE_WORDS = (
     "hong", "hu ", "sua", "thay", "keu", "ro ri", "ro nuoc", "chap", "chay",
     "khet", "nong", "lanh", "nuoc", "dien", "tho", "bao tri", "ve sinh",
-    "lap dat", "thiet bi", "may ", "bong", "o cam", "cong tac", "voi", "bon",
+    # No bare "may". Stripped of tone marks it is both "máy", the machine, and
+    # "mấy", the word every counting question ends with: "2 cộng 2 bằng mấy"
+    # was answered because of it. Appliances are recognised by name through
+    # devices_named_in, which is the better signal anyway.
+    "lap dat", "thiet bi", "bong", "o cam", "cong tac", "voi", "bon",
     "ong ", "quat", "lo ", "bep", "tu ", "binh ", "aptomat", "gas",
     # Asking what to book is the point of the whole conversation, and it was
     # being refused as off-topic: "giờ tôi nên thuê dịch vụ nào" came back with
     # "em chỉ hỗ trợ các vấn đề về điện, nước và đồ gia dụng".
     "dich vu", "thue", "dat lich", "book", "goi tho", "bao gia", "sua",
+    # The business questions. Without these, "bảo hành bao lâu" reads as a
+    # sentence about nothing and the customer is told it is out of scope —
+    # after retrieval has already found the document written to answer it.
+    "bao hanh", "chinh sach", "hoan tien", "huy lich", "fixhome", "hoa don",
+    # Three words that used to be matched by accident. "Cống nhà tắm bốc mùi
+    # hôi" passed because "cống" contains "ong ", and "cắm sạc vào ổ mà lỏng
+    # lẻo" because "lỏng" does too; whole-word matching took both away along
+    # with the false positives. Chosen by running every case in chat_cases.py
+    # against the gate: "gia" was the obvious fourth and it lets in questions
+    # about the price of gold and of bitcoin.
+    "mui", "cam", "mac",
 )
 """Words that place a question inside the trade.
 

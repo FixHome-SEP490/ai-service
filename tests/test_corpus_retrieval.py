@@ -347,3 +347,53 @@ def test_a_short_dangerous_message_still_reports_its_urgency(client):
     ).json()
     assert body["status"] == "needs_clarification"
     assert body["urgency"] == "HIGH"
+
+
+def test_a_counting_question_is_not_read_as_an_appliance(client):
+    """"mấy" and "máy" are the same word once tone marks are stripped.
+
+    The whole-word fix removed the trailing space that had been holding them
+    apart, and "2 cộng 2 bằng mấy" was answered by a repair service.
+    """
+    assert _ask(client, "2 cộng 2 bằng mấy")["status"] == "no_grounding"
+
+
+def test_a_warranty_question_is_answered_not_declared_out_of_scope(client):
+    """The corpus refuses to promise a term, and that is not the same as
+    having nothing to say. Told to decline when the documents lack the figure,
+    the model declined — and the customer was told their warranty question was
+    outside what the service covers."""
+    body = _ask(client, "bảo hành bao lâu")
+    assert body["status"] == "ok", body["answerVi"]
+
+
+@pytest.mark.parametrize(
+    "description",
+    [
+        # Both used to pass the gate by accident: "cống" contains "ong " and so
+        # does "lỏng". Whole-word matching took the accident away along with
+        # the false positives, and these two are real work.
+        "cống nhà tắm bốc mùi hôi",
+        "cắm sạc vào ổ mà lỏng lẻo rơi ra",
+    ],
+)
+def test_real_work_is_not_turned_away(client, description):
+    body = client.post(
+        "/api/v1/diagnosis/analyze-upload", data={"description": description}
+    ).json()
+    questions = (body.get("clarification") or {}).get("questionsVi") or [""]
+    assert "chỉ hỗ trợ được" not in questions[0], questions[0]
+
+
+@pytest.mark.parametrize(
+    "description",
+    ["giá vàng bây giờ bao nhiêu", "bitcoin giá bao nhiêu"],
+)
+def test_the_price_of_something_else_is_still_turned_away(client, description):
+    """The obvious way to let price questions in is to add "giá", and it lets
+    these two in with them."""
+    body = client.post(
+        "/api/v1/diagnosis/analyze-upload", data={"description": description}
+    ).json()
+    questions = (body.get("clarification") or {}).get("questionsVi") or [""]
+    assert "chỉ hỗ trợ được" in questions[0], questions[0]
