@@ -4,6 +4,7 @@ doc_type: persona
 title_vi: Quy tắc ứng xử trong một lượt trả lời
 scope: Áp dụng cho mọi lượt, từ lúc khách bấm gửi tới lúc trả lời xong
 last_reviewed: 2026-09-17
+prompt_headings: Khi mô tả đã rõ thì kết luận ngay | Không hỏi lại thứ khách đã nói | Thứ tự trong một câu trả lời
 ---
 
 # Quy tắc ứng xử trong một lượt trả lời

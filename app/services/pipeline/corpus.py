@@ -47,6 +47,16 @@ class Chunk:
     text: str
     device_type: Optional[str] = None
     fault_code: Optional[str] = None
+    for_prompt: bool = False
+    """Whether this section may be pasted into the model's instructions.
+
+    Declared per file in `prompt_headings`, for the same reason `safety_heading`
+    is declared: a mechanism this load-bearing should not depend on guessing.
+    Most of the persona file teaches by showing what a bad answer looks like,
+    and a 3B model shown a bad answer reproduces it — the prompt that told it
+    "tuyệt đối không xin lỗi" got back "Xin lỗi, em hiểu nhầm rồi."
+    """
+
     safety_heading: Optional[str] = None
     """Which section of this file has to be said before diagnosing.
 
@@ -134,9 +144,20 @@ def chunk_file(path: Path, kb_dir: Path = KB_DIR) -> List[Chunk]:
             device_type=fields.get("device_type"),
             fault_code=fields.get("fault_code"),
             safety_heading=fields.get("safety_heading"),
+            for_prompt=heading in _prompt_headings(fields),
         )
         for heading, text in split_sections(body)
     ]
+
+
+def _prompt_headings(fields: Dict[str, str]) -> frozenset:
+    """Headings the file allows into the model's instructions, as declared.
+
+    Written as one frontmatter line separated by pipes, because the section
+    titles contain commas and a comma-separated list would split them.
+    """
+    raw = fields.get("prompt_headings", "")
+    return frozenset(part.strip() for part in raw.split("|") if part.strip())
 
 
 def load_corpus(kb_dir: Path = KB_DIR) -> List[Chunk]:
@@ -162,3 +183,19 @@ def get_corpus() -> Tuple[Chunk, ...]:
     far too slow to re-read per request.
     """
     return tuple(load_corpus())
+
+
+@lru_cache(maxsize=1)
+def voice_guidance() -> str:
+    """The persona sections the files allow into the model's instructions.
+
+    Sixteen thousand characters were written to shape how this assistant talks
+    and nothing read them: the voice was a one-line instruction, "Xưng em, gọi
+    khách là anh/chị", which a 3B model ignored — it wrote "Tôi đã kiểm tra và
+    xác nhận rằng thiết bị của khách", then "thiết bị của bạn" a turn later.
+
+    Only the declared sections, and they are declared rather than chosen here
+    so that whoever edits the persona decides what the model sees.
+    """
+    parts = [chunk.as_passage_vi() for chunk in get_corpus() if chunk.for_prompt]
+    return "\n\n".join(parts)

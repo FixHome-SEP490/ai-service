@@ -41,6 +41,21 @@ class Settings(BaseSettings):
 
     # Retrieval
     RETRIEVAL_TOP_K: int = 5
+
+    VLM_SHORTLIST_SIZE: int = 3
+    """How many faults the model may choose between.
+
+    Five let it reach past better answers. Shown a photograph of a television
+    and "cái này bị sọc màn hình", it wrote in its own reason field "hình
+    nghiêng về tấm nền hỏng" — the panel — and then chose the backlight and the
+    remote control. The remote was ranked fourth at 0.25, behind the panel at
+    0.46.
+
+    Three costs nothing. Across the whole case suite the expected fault is at
+    rank one in fifty-five cases and rank two in one; nothing correct has ever
+    been at rank three, four or five, so the lower ranks were only ever a
+    supply of wrong answers within reach.
+    """
     POLICY_MIN_SCORE: float = 0.55
     """Below this a passage is treated as not covering the question.
 
