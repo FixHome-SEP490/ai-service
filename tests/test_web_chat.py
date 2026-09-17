@@ -53,4 +53,8 @@ def test_the_page_shows_no_internal_document_titles(client):
     """
     body = client.get("/chat").text
     assert "Nguồn:" not in body
-    assert "citations" not in body
+    # The field itself, not the word: the page explains in a comment why it
+    # does not render these, and an assertion that forbids the word forbids
+    # saying why.
+    assert "titleVi" not in body
+    assert "r.citations" not in body
