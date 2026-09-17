@@ -3,6 +3,7 @@
 
 from __future__ import annotations
 
+import re
 import time
 import unicodedata
 from typing import Any, List, Optional
@@ -553,20 +554,31 @@ class LocalPipeline:
         #
         # The warning goes first whatever was asked, then the price if money
         # was the question, then the trade documents, then policy.
-        chunks = safety + corpus
+        # The five business documents. They were written for exactly these
+        # questions and the retriever had a method for them, which this path
+        # never called: "bảo hành bao lâu" reached only the one-line policy row,
+        # which does not say how long, so the model declined and the customer
+        # was told the question was out of scope.
+        business = self._retriever.business_passages(request.question)
+
+        chunks = safety + corpus + business
         passages = prices + policies
         if not (passages or chunks):
             return await self._reasoned_answer(request, chat)
 
+        # The warning travels apart from the documents, because it is not one.
+        # Mixed in as "[1]" it was read as reference material and summarised
+        # away: a live gas-leak question came back as "Khó hiểu rõ ràng."
         passages_vi = (
-            [s.chunk.as_passage_vi() for s in safety]
-            + [p.policy.content_vi for p in prices]
+            [p.policy.content_vi for p in prices]
             + [s.chunk.as_passage_vi() for s in corpus]
+            + [s.chunk.as_passage_vi() for s in business]
             + [p.policy.content_vi for p in policies]
         )
         answer_vi, confidence = await self._vlm.answer(
             question=request.question,
             passages_vi=passages_vi,
+            safety_vi="\n\n".join(s.chunk.as_passage_vi() for s in safety) or None,
         )
         if not answer_vi:
             return await self._reasoned_answer(request, chat)
@@ -787,7 +799,23 @@ class LocalPipeline:
             return True
         folded = unicodedata.normalize("NFD", question.lower())
         folded = "".join(c for c in folded if unicodedata.category(c) != "Mn")
-        return any(word in folded.replace("d", "d") for word in _TRADE_WORDS)
+        # Whole words. Substring matching on folded text let three off-topic
+        # questions through in a live run, each on a word that is not there:
+        # "2 cộng 2 bằng mấy" contains "ong " and was read as a pipe, "trời đẹp
+        # không" contains "hong" and was read as broken, "thời tiết" contains
+        # "tho" and was read as a technician. Vietnamese without tone marks is
+        # short and collides constantly, which is why the trailing spaces on
+        # some of these entries were there in the first place.
+        words = re.findall(r"[a-z0-9]+", folded)
+        padded = f" {' '.join(words)} "
+        for phrase in _TRADE_WORDS:
+            phrase = phrase.strip()
+            if " " in phrase:
+                if f" {phrase} " in padded:
+                    return True
+            elif phrase in words:
+                return True
+        return False
 
     def _ungrounded_answer(
         self, request: ChatRequest, chat: Optional[Conversation] = None

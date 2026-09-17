@@ -260,3 +260,54 @@ def test_an_off_topic_question_still_retrieves_nothing(client):
     """Inferring the appliance must not turn every sentence into an appliance."""
     body = _ask(client, "hom nay an gi ngon")
     assert not body["citations"]
+
+
+# -- what a live run found ---------------------------------------------------
+
+
+@pytest.mark.parametrize(
+    "question",
+    [
+        # Each of these was answered in a live run, on a word that is not in it:
+        # "cộng" contains "ong " and was read as a pipe, "không" contains "hong"
+        # and was read as broken, "thời" contains "tho" and was read as a
+        # technician. Vietnamese without tone marks is short and collides.
+        "2 cộng 2 bằng mấy",
+        "hôm nay trời đẹp không",
+        "thời tiết hôm nay thế nào",
+    ],
+)
+def test_an_off_topic_question_is_refused_not_answered(client, question):
+    body = _ask(client, question)
+    assert body["status"] == "no_grounding", body["answerVi"]
+
+
+@pytest.mark.parametrize(
+    "question,expected",
+    [
+        ("bảo hành bao lâu", "KB_SYS_"),
+        ("đặt lịch sửa chữa thế nào", "KB_SYS_"),
+    ],
+)
+def test_a_business_question_reaches_the_written_business_documents(
+    client, question, expected
+):
+    """Five documents were written for these questions and never consulted.
+
+    The one-line policy row says a warranty exists; it does not say how long,
+    so the model declined and the customer was told the question was out of
+    scope — with the answer in a file the service had already loaded.
+    """
+    cited = [c["docId"] for c in _ask(client, question)["citations"]]
+    assert any(doc.startswith(expected) for doc in cited), cited
+
+
+def test_a_dangerous_answer_carries_the_whole_instruction(client):
+    """The warning travels as an order, not as reference document [1].
+
+    Mixed in with the others and capped at four sentences, a live model turned
+    four ordered gas-leak steps into "Khó hiểu rõ ràng."
+    """
+    answer = _ask(client, "bếp gas nhà em có mùi gas", "gas_stove")["answerVi"].lower()
+    for step in ["khoá van bình gas", "công tắc điện"]:
+        assert step in answer, answer[:200]

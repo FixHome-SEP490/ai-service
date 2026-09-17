@@ -93,7 +93,17 @@ class StubVlm:
             confidence=0.72 if candidates else 0.0,
         )
 
-    async def answer(self, question: str, passages_vi: List[str]) -> tuple[str, float]:
+    async def answer(
+        self,
+        question: str,
+        passages_vi: List[str],
+        safety_vi: Optional[str] = None,
+    ) -> tuple[str, float]:
+        # The warning first, exactly as the real client is instructed to put it,
+        # so a test can tell whether the dangerous branch reached the answer
+        # without a model in the way.
+        if safety_vi:
+            return safety_vi, 0.6
         if not passages_vi:
             return "", 0.0
         return passages_vi[0], 0.6
@@ -155,8 +165,13 @@ class QwenVlm:
             candidate_condition_codes=candidate_condition_codes,
         )
 
-    async def answer(self, question: str, passages_vi: List[str]) -> tuple[str, float]:
-        return await self._client.answer(question, passages_vi)
+    async def answer(
+        self,
+        question: str,
+        passages_vi: List[str],
+        safety_vi: Optional[str] = None,
+    ) -> tuple[str, float]:
+        return await self._client.answer(question, passages_vi, safety_vi)
 
     async def answer_generally(self, question: str, history_vi: str = "") -> str:
         return await self._client.answer_generally(question, history_vi)
