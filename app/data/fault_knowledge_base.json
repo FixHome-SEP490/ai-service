@@ -4332,7 +4332,15 @@
       "symptoms_vi": [
         "máy sấy không lên nguồn",
         "máy sấy cắm điện không chạy",
-        "máy sấy quần áo chết nguồn"
+        "máy sấy quần áo chết nguồn",
+        "bấm nút máy sấy không có phản ứng gì",
+        "máy sấy sáng đèn mà không chạy",
+        "cắm máy sấy vào là nhảy aptomat",
+        "máy sấy chạy vài giây rồi tắt ngóm",
+        "may say khong len nguon",
+        "may say cam dien khong chay",
+        "may say chet nguon",
+        "cam may say la nhay at to mat"
       ],
       "price_min": 100000,
       "price_max": 0,
