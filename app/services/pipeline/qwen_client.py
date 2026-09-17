@@ -98,6 +98,26 @@ _ANSWER_SYSTEM = (
     "Không bịa giá, không hứa thời gian, không thay kỹ thuật viên kết luận."
 )
 
+_SAFETY_ANSWER_SYSTEM = (
+    "Bạn là trợ lý của FixHome, nền tảng sửa chữa thiết bị gia đình.\n"
+    "Khách đang mô tả một tình huống nguy hiểm. Việc đầu tiên và quan trọng "
+    "nhất của bạn là nói lại cho khách các việc phải làm ngay, đúng thứ tự "
+    "được cung cấp, không bỏ bước nào.\n"
+    "Chỉ được trả lời dựa trên các đoạn tài liệu được cung cấp. "
+    "Không suy diễn, không thêm thông tin ngoài tài liệu.\n"
+    "Không giới hạn số câu: nói đủ các bước còn hơn nói ngắn. "
+    "Không bịa giá, không hứa thời gian, không thay kỹ thuật viên kết luận.\n"
+    "Tuyệt đối không trả về KHONG_DU_THONG_TIN khi đã có phần phải nói ngay."
+)
+"""Separate from _ANSWER_SYSTEM because of one line in that one.
+
+"tối đa bốn câu" is right for a maintenance question and wrong for a gas
+leak, where the instruction runs to four steps and the fourth is the one about
+not touching a light switch. A cap on length is a cap on how much of the
+warning survives.
+"""
+
+
 _GENERAL_SYSTEM = (
     "Bạn là kỹ thuật viên sửa chữa thiết bị gia dụng của FixHome, đang nhắn tin "
     "với khách hàng Việt Nam.\n"
@@ -394,21 +414,47 @@ class QwenClient:
             return ""
         return answer
 
-    async def answer(self, question: str, passages_vi: List[str]) -> tuple[str, float]:
-        if not passages_vi:
+    async def answer(
+        self,
+        question: str,
+        passages_vi: List[str],
+        safety_vi: Optional[str] = None,
+    ) -> tuple[str, float]:
+        if not (passages_vi or safety_vi):
             return "", 0.0
 
         numbered = "\n\n".join(
             f"[{i}] {p}" for i, p in enumerate(passages_vi, start=1)
         )
+        # A pinned warning is not one of the reference documents. Handing it
+        # over as "[1]" among the rest and asking for a short answer, a 3B
+        # model turned four ordered gas-leak instructions into "Khó hiểu rõ
+        # ràng." The diagnosis prompt has framed it as an order from the
+        # beginning; this surface was given the passage and none of the framing.
+        head = ""
+        if safety_vi:
+            head = (
+                "PHẢI NÓI NGAY, TRƯỚC KHI TRẢ LỜI BẤT KỲ ĐIỀU GÌ KHÁC:\n"
+                f"{safety_vi}\n\n"
+                "Nhắc lại đầy đủ các việc trên cho khách, đúng thứ tự đó, bằng "
+                "lời của bạn. Không rút gọn, không bỏ bước nào. Xong rồi mới "
+                "trả lời phần còn lại của câu hỏi.\n\n"
+            )
         prompt = (
+            f"{head}"
             f"Tài liệu tham khảo:\n\n{numbered}\n\n"
             f"Câu hỏi của khách hàng: {question}\n\n"
             "Trả lời dựa trên tài liệu trên."
         )
         raw = await self._chat(
             [
-                {"role": "system", "content": _ANSWER_SYSTEM},
+                # The four-sentence cap is right for a maintenance question
+                # and wrong for a burning smell: it is the instruction the
+                # model obeys when it drops the third and fourth safety step.
+                {
+                    "role": "system",
+                    "content": _SAFETY_ANSWER_SYSTEM if safety_vi else _ANSWER_SYSTEM,
+                },
                 {"role": "user", "content": prompt},
             ]
         )
