@@ -62,7 +62,9 @@
         "máy giặt",
         "may giat",
         "máy giặt cửa trên",
-        "máy giặt cửa ngang"
+        "máy giặt cửa ngang",
+        "lồng giặt",
+        "ngăn đựng bột giặt"
       ],
       "confusable_with": [
         "clothes_dryer"
@@ -77,7 +79,10 @@
       "aliases_vi": [
         "tủ lạnh",
         "tu lanh",
-        "cái tủ lạnh"
+        "cái tủ lạnh",
+        "ngăn đá",
+        "ngăn mát",
+        "ngăn đông"
       ],
       "confusable_with": []
     },
@@ -91,7 +96,8 @@
         "lò vi sóng",
         "vi sóng",
         "lo vi song",
-        "microwave"
+        "microwave",
+        "mâm xoay"
       ],
       "confusable_with": [
         "oven"
@@ -127,7 +133,11 @@
         "bếp gas mini",
         "mùi gas",
         "trong bếp",
-        "hơi gas"
+        "hơi gas",
+        "bình gas",
+        "bình ga",
+        "van điều áp",
+        "kiềng bếp"
       ],
       "confusable_with": []
     },
@@ -142,7 +152,9 @@
         "ấm đun nước",
         "ấm điện",
         "am sieu toc",
-        "bình đun nước"
+        "bình đun nước",
+        "ruột ấm",
+        "đế ấm"
       ],
       "confusable_with": []
     },
@@ -307,7 +319,9 @@
         "bếp điện từ",
         "bếp hồng ngoại",
         "bếp âm",
-        "bếp đôi"
+        "bếp đôi",
+        "mặt kính bếp",
+        "mâm từ"
       ],
       "confusable_with": [
         "gas_stove"
@@ -341,7 +355,9 @@
         "máy sấy quần áo",
         "may say quan ao",
         "máy sấy",
-        "may say"
+        "may say",
+        "lưới lọc xơ",
+        "lồng sấy"
       ],
       "confusable_with": [
         "washing_machine"
@@ -379,7 +395,10 @@
         "khóa vân tay",
         "khoa van tay",
         "khóa điện tử",
-        "khóa thẻ từ"
+        "khóa thẻ từ",
+        "chốt khoá",
+        "chốt khóa",
+        "đầu đọc vân tay"
       ],
       "confusable_with": []
     }
