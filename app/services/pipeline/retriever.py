@@ -34,12 +34,12 @@ _STOPWORDS = frozenset(
     la co khong chua da dang se bi duoc va thi ma nhung nen roi
     tai cho khi luc nay kia ay nao gi sao vay the nhu
     toi minh em anh chi ban nha a oi um vang da
-    mot hai ba cac nhung moi tung deu ca het rat qua lam hoi
+    mot hai ba cac nhung moi tung ca het rat qua lam hoi
     ra vao len xuong di ve lai nua con chi moi vua
     xin nho giup hoi sua kiem tra xem nao
     """.split()
 )
-"""Seven fillers are deliberately absent, and they are absent for one reason.
+"""Eight fillers are deliberately absent. Seven for one reason and one for another.
 
 Diacritics are stripped before matching, so a filler and a piece of the trade's
 core vocabulary can collapse onto the same token. Every one of these was on the
@@ -57,7 +57,25 @@ The cost of keeping them is a little precision on sentences that use them as
 filler, and rarity weighting absorbs most of that: a word that really is filler
 appears across most of the symptom lists and is scored near zero anyway. The
 cost of listing them was a customer writing "bóng đèn" and being understood to
-have said nothing at all."""
+have said nothing at all.
+
+The eighth is "đều", and it is here for a different reason: not a collision
+between two words, but one word doing two jobs. As a quantifier it is filler —
+"mọi thứ đều ổn". Describing a flame it is the entire complaint: "lửa không
+đều" is a clogged burner, and it is the only thing in that sentence that says
+so, because "bếp gas lửa" fits every fault a gas stove has.
+
+Listing it emptied both sentences. "Bếp gas lửa không đều" became "bếp gas lửa"
+and four faults tied on a full score, so the clogged burner came fourth on the
+order of the JSON file; "hai bếp đều yếu" is the regulator's own symptom, word
+for word, and lost the word that distinguishes it. Those were the last two
+failures in the suite.
+
+Removing it took the shortlist from 470 of 472 to 472, with the written-corpus
+check, the business check, the silence check and all ten safety pins unchanged
+— which is the measurement that matters here, since unlike a tie-break this
+moves every score in the corpus, and that is the territory three reverted
+attempts came from."""
 
 
 def _content_tokens(tokens: List[str]) -> List[str]:
