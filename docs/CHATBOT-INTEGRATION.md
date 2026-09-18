@@ -239,14 +239,16 @@ anh quyết** — không có nó thì chatbot vẫn chạy đủ.
   "isLowConfidence": false,
   "clarification": { "questionsVi": ["Máy có xả hết nước ra khỏi lồng không?"],
                      "serviceGroupCodes": ["SVG_APPLIANCE"] },
-  "messageVi": null,
+  "messageVi": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Có khả năng hư hỏng là mòn bạc đạn lồng giặt. Chi phí từ 100.000đ, phần còn lại kỹ thuật viên phải xem tận nơi mới tính được. Em sẽ đặt dịch vụ Sửa máy giặt rung lắc / không vắt cho anh/chị.",
   "disclaimerVi": "Đây là gợi ý sơ bộ, kết luận cuối cùng thuộc về kỹ thuật viên…"
 }
 ```
 
-**Điều quan trọng nhất và dễ hiểu sai nhất:** với chẩn đoán, **`messageVi` thường là
-`null`**. Dịch vụ trả về **dữ liệu có cấu trúc**, client tự dựng câu. Đừng chờ một
-đoạn văn có sẵn.
+**`messageVi` là câu đã soạn sẵn để hiện thẳng làm bong bóng chat**, và các trường
+có cấu trúc bên cạnh là để dựng chip, nút, cảnh báo. Trước đây trường này để `null`
+và client phải tự ghép câu; nay pipeline tự soạn. Vẫn phải xử `null`: có nhánh
+không sinh câu, và khi đó client dựng câu từ các trường có cấu trúc như mô tả dưới
+đây.
 
 Client nên hiện, theo thứ tự:
 
@@ -299,7 +301,8 @@ của bot. **Vẫn có `recommendedServices`** — thường là gói kiểm tra
 **Đừng gửi id phiên do client tự đặt.** Sẽ bị bỏ qua, và nếu server có nhận thì hai
 khách dùng chung hội thoại.
 
-**Đừng chờ `messageVi` ở chẩn đoán.** Nó thường `null`.
+**Đừng coi `messageVi` là chắc chắn có.** Bình thường nó có câu đầy đủ, nhưng
+vẫn có nhánh trả `null` — client phải dựng được câu từ các trường có cấu trúc.
 
 **Đừng hiện `suspectedFaults` như một kết luận.** Nó là danh sách khả nghi: đo trên
 máy thật, mã đúng nằm ở **hạng nhất 91,7%** — cao, nhưng không phải chắc chắn. Từ ngữ
