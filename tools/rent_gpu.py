@@ -162,6 +162,33 @@ display driver / cuda driver combination" after the image has been pulled.
 """
 
 
+SERVE_KNOWN_GOOD_MACHINE = 27076
+"""The host that has served this image end to end, measured not guessed.
+
+RTX A4000, 16 GB, CUDA 13.0, 6.8 Gb/s down, reliability 0.999, around twelve
+cents an hour, Delaware. It pulled the 8.74 GB image in about three minutes,
+loaded Qwen, and answered on its published port.
+
+Five hosts were tried before it and four failed, each differently, which is why
+this is written down rather than rediscovered:
+
+    545 Mbps, CUDA 12.2   pull retried for 33 minutes and never finished
+    6.6 Gb/s, CUDA 12.6   pulled in under a minute, then CUDA error 803:
+                          "unsupported display driver / cuda driver combination"
+    1.4 Gb/s, CUDA 13.0   pull stalled at 19 minutes
+    4.8 Gb/s, CUDA 13.2   container healthy, published port unreachable from
+                          outside — reliability 0.981, host not verified
+
+The two mechanical requirements are enforced by _check_serve_host. The third is
+not mechanical: a host can pass both and still not route traffic to its own
+published port, and the only defence is to prefer a host that has done the job.
+
+    python tools/rent_gpu.py offers --machine 27076
+
+If it is not rentable, sort candidates by reliability rather than by price. The
+serving box costs cents an hour and a failed rental costs fifteen minutes.
+"""
+
 SERVE_MIN_DOWNLOAD_MBPS = 3000
 """What the serving image needs of the host's link, measured rather than guessed.
 
@@ -187,7 +214,6 @@ def _cuda(offer: dict) -> float:
 
 def cmd_offers(args: argparse.Namespace) -> None:
     query = [
-        f"gpu_name={args.gpu}",
         "num_gpus=1",
         f"disk_space>={DISK_GB}",
         # No CUDA filter. `cuda_vers>=12.1` and `cuda_max_good>=12.1` both
@@ -211,8 +237,29 @@ def cmd_offers(args: argparse.Namespace) -> None:
         f"inet_down>={args.min_download}",
         "rentable=true",
     ]
+    # One host, by id, for the machine already known to serve this image. The
+    # card name is dropped in that case: the point is the host, and it does not
+    # have a 3060 in it.
+    if args.machine:
+        query.append(f"machine_id={args.machine}")
+    else:
+        query.append(f"gpu_name={args.gpu}")
     offers = _json_cli("search", "offers", " ".join(query), "-o", "dph")
     if not offers:
+        if args.machine:
+            raise SystemExit(
+                "\n".join(
+                    [
+                        f"Host {args.machine} has nothing rentable under "
+                        f"${args.max_price}/hr right now.",
+                        "It is frequently rented by us — run `status` before",
+                        "concluding it is gone. A fully rented host returns no",
+                        "offers at all rather than an unavailable one.",
+                        "Otherwise drop --machine and sort candidates by",
+                        "reliability rather than by price.",
+                    ]
+                )
+            )
         raise SystemExit(
             f"No {args.gpu} under ${args.max_price}/hr met the filters.\n"
             "Try a different card or raise --max-price."
@@ -750,6 +797,15 @@ def main() -> None:
         help="GB of VRAM; 12 is what the deployment was planned around",
     )
     offers.add_argument("--min-download", type=int, default=200, help="Mbps")
+    offers.add_argument(
+        "--machine",
+        type=int,
+        default=0,
+        help=(
+            "list only this host, ignoring --gpu. "
+            f"{SERVE_KNOWN_GOOD_MACHINE} is the one that has served this image."
+        ),
+    )
     offers.add_argument("--limit", type=int, default=10)
     offers.add_argument(
         "--min-cuda",
