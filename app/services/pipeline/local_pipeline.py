@@ -676,9 +676,11 @@ class LocalPipeline:
 
         # Symptoms arrive one message at a time: "máy không mát", then later "à
         # mà nó còn kêu to nữa". Retrieved on its own the second is three words
-        # with no subject, so the retriever sees everything said so far.
+        # with no subject, so the retriever sees everything said so far - minus
+        # the turns that were answered by asking which appliance it was, which
+        # carry no symptom and do measurable harm when joined in.
         candidates = self._retriever.candidate_faults(
-            description=chat.customer_text(),
+            description=chat.symptom_text(),
             device_type=device_type,
             top_k=settings.VLM_SHORTLIST_SIZE,
         )
@@ -1149,7 +1151,7 @@ class LocalPipeline:
         # cleaning and a repair are different services at different prices, and
         # "đặt lịch vệ sinh máy lạnh" names the cheaper one outright.
         candidates = self._retriever.candidate_faults(
-            chat.customer_text(), device_type, top_k=settings.VLM_SHORTLIST_SIZE
+            chat.symptom_text(), device_type, top_k=settings.VLM_SHORTLIST_SIZE
         )
         services: List[RecommendedService] = []
         # The catalogue's own price, kept beside the service it belongs to. The
@@ -1454,6 +1456,13 @@ class LocalPipeline:
         # Ask which appliance instead. That is the thing actually missing, and
         # it is a question anybody can answer.
         settled = bool(detection) or bool(chat and chat.device_type)
+        if not settled and chat is not None:
+            # Nothing in this turn named an appliance, so nothing in it can be
+            # a symptom either - it is "nhà em có cái máy bị hỏng" or shorter.
+            # Keep it in the thread, keep it out of the retrieval query: joined
+            # with a real symptom later it out-scores it, because every word in
+            # it is a word the symptom lists also use.
+            chat.this_turn_had_no_symptom()
         questions = (
             clarifier.texts(
                 clarifier.build_questions(

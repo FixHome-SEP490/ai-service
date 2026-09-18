@@ -206,6 +206,32 @@ Deliberately far above the 200 Mbps default for `offers`, which sizes a 2.4 GB
 dataset archive rather than this image.
 """
 
+SERVE_MIN_COMPUTE_CAP = 750
+"""The card's own generation, which no other filter catches.
+
+The model is AWQ 4-bit, and vLLM refuses AWQ below compute capability 7.5:
+
+    The quantization method auto_awq is not supported for the current GPU.
+    Minimum capability: 75. Current capability: 70.
+
+That rules out Volta and everything older, and a Tesla V100 is the trap,
+because on every other measure it looks like the best machine on the list --
+32 GB of VRAM, a 14.6 Gb/s link, reliability 0.999, CUDA 13.0. It was
+recommended as the first fallback on exactly that reasoning, rented, and never
+loaded the model. Nothing about "V100" tells you 7.0; the number does.
+
+vast.ai reports it as an integer scaled by a hundred, so 750 here is 7.5. The
+floor admits Turing (T4, RTX 20xx) and everything after it: Ampere at 8.0-8.6,
+Ada at 8.9, Hopper and Blackwell above that.
+"""
+
+
+def _compute_cap(offer: dict) -> int:
+    try:
+        return int(offer.get("compute_cap") or 0)
+    except (TypeError, ValueError):
+        return 0
+
 
 def _cuda(offer: dict) -> float:
     try:
@@ -234,6 +260,10 @@ def cmd_offers(args: argparse.Namespace) -> None:
         # reports gpu_ram in megabytes, so the obvious 12*1024 matches nothing
         # at all and reads like there are no 3060s left.
         f"gpu_ram>={args.min_vram}",
+        # The card's generation, not its size. Below 7.5 vLLM refuses the AWQ
+        # weights outright, which is how a 32 GB V100 with a 14.6 Gb/s link and
+        # 0.999 reliability turned out to be unrentable for this image.
+        f"compute_cap>={SERVE_MIN_COMPUTE_CAP}",
         f"dph<={args.max_price}",
         "reliability>0.98",
         f"inet_down>={args.min_download}",
@@ -244,8 +274,14 @@ def cmd_offers(args: argparse.Namespace) -> None:
     # have a 3060 in it.
     if args.machine:
         query.append(f"machine_id={args.machine}")
-    else:
+    elif args.gpu:
         query.append(f"gpu_name={args.gpu}")
+    # An empty --gpu searches every card. The pinned host is one physical
+    # machine belonging to one provider, so the day somebody else rents it the
+    # question becomes "what else will serve this image" - and that question is
+    # not about a card name, it is about CUDA, link speed and VRAM. Without
+    # this, dropping --machine fell back to the default card and reported no
+    # candidates while two A4000s sat there rentable.
     offers = _json_cli("search", "offers", " ".join(query), "-o", "dph")
     if not offers:
         if args.machine:
@@ -263,8 +299,8 @@ def cmd_offers(args: argparse.Namespace) -> None:
                 )
             )
         raise SystemExit(
-            f"No {args.gpu} under ${args.max_price}/hr met the filters.\n"
-            "Try a different card or raise --max-price."
+            f"No {args.gpu or 'GPU'} under ${args.max_price}/hr met the filters.\n"
+            'Try `--gpu ""` to search every card, or raise --max-price.'
         )
 
     if args.min_cuda:
@@ -276,7 +312,8 @@ def cmd_offers(args: argparse.Namespace) -> None:
         offers = [o for o in offers if _cuda(o) >= args.min_cuda]
         if not offers:
             raise SystemExit(
-                f"No {args.gpu} offer has a driver supporting CUDA {args.min_cuda}."
+                f"No {args.gpu or 'GPU'} offer has a driver supporting CUDA "
+                f"{args.min_cuda}."
             )
 
     print(
@@ -297,7 +334,10 @@ def cmd_offers(args: argparse.Namespace) -> None:
     hours = _ESTIMATED_HOURS.get(args.gpu, 7)
     cheapest = offers[0]
     print(
-        f"\nA 100-epoch run is roughly {hours} hours on a {args.gpu.replace('_', ' ')},"
+        f"\nA 100-epoch run is roughly {hours} hours on a "
+        # Named from the cheapest offer when no card was asked for, because
+        # "roughly 7 hours on a , so about $0.64" is what it printed otherwise.
+        f"{args.gpu.replace('_', ' ') if args.gpu else cheapest.get('gpu_name', 'GPU')},"
         f" so about ${cheapest['dph_total'] * hours:.2f} at the cheapest offer above."
         "\nThat is an estimate; the two-epoch smoke test gives the real number."
     )
@@ -315,6 +355,7 @@ def cmd_offers(args: argparse.Namespace) -> None:
                     "gpu_name": o["gpu_name"],
                     "cuda": _cuda(o),
                     "inet_down": o.get("inet_down") or 0,
+                    "compute_cap": _compute_cap(o),
                 }
                 for o in offers
             },
@@ -361,7 +402,7 @@ def _cached_offer(offer_id: int) -> Optional[dict]:
     if entry is None:
         return None
     if isinstance(entry, str):
-        return {"gpu_name": entry, "cuda": 0.0, "inet_down": 0}
+        return {"gpu_name": entry, "cuda": 0.0, "inet_down": 0, "compute_cap": 0}
     return entry
 
 
@@ -394,12 +435,22 @@ def _check_serve_host(offer_id: int, force: bool) -> None:
 
     cuda = float(entry.get("cuda") or 0)
     down = float(entry.get("inet_down") or 0)
+    cap = int(entry.get("compute_cap") or 0)
     print(
         f"Offer {offer_id}: {entry.get('gpu_name', '?')}, "
-        f"CUDA {cuda or 'unknown'}, {down:.0f} Mbps"
+        f"CUDA {cuda or 'unknown'}, {down:.0f} Mbps, "
+        f"compute {cap / 100 if cap else 'unknown'}"
     )
 
     problems = []
+    if cap and cap < SERVE_MIN_COMPUTE_CAP:
+        problems.append(
+            f"compute capability {cap / 100} is below "
+            f"{SERVE_MIN_COMPUTE_CAP / 100}, and the model is AWQ 4-bit. vLLM "
+            "refuses to start: \"The quantization method auto_awq is not "
+            "supported for the current GPU.\" No amount of VRAM or bandwidth "
+            "makes up for it - a V100 has 32 GB and still cannot run this."
+        )
     if cuda and cuda < SERVE_MIN_CUDA:
         problems.append(
             f"CUDA {cuda} is below the {SERVE_MIN_CUDA} this image needs. vLLM "
@@ -757,7 +808,28 @@ def _instance_id_for(explicit: Optional[int], path: Path) -> int:
 
 
 def _instance_id(explicit: Optional[int]) -> int:
-    return _instance_id_for(explicit, INSTANCE_FILE)
+    """The instance a bare `destroy` should act on.
+
+    Either file will do, because there is only ever one of each and the
+    question being asked is "the machine I rented". Looking only in the
+    trainer's file was a trap: serving is the thing rented most days, so the
+    common case was `destroy` refusing with "no .vast-instance" while an A4000
+    kept billing, and the operator reading that as "nothing is rented".
+
+    The serving file is checked first for the same reason - it is the one that
+    is usually there, and the one that never self-destructs.
+    """
+    if explicit:
+        return explicit
+    for path in (SERVE_INSTANCE_FILE, INSTANCE_FILE):
+        if path.exists():
+            return int(path.read_text().strip())
+    raise SystemExit(
+        "No instance id given, and neither "
+        f"{SERVE_INSTANCE_FILE.name} nor {INSTANCE_FILE.name} exists.\n"
+        "Run `status` to list what is actually rented, then\n"
+        "`destroy --instance <id>`."
+    )
 
 
 def _instances() -> List[dict]:
@@ -847,7 +919,15 @@ def main() -> None:
     sub = parser.add_subparsers(dest="command", required=True)
 
     offers = sub.add_parser("offers", help="what is available and what it costs")
-    offers.add_argument("--gpu", default="RTX_3060")
+    offers.add_argument(
+        "--gpu",
+        default="RTX_3060",
+        help=(
+            "card to search for, as vast.ai names it: RTX_3060, RTX_A4000. "
+            'Pass an empty string ("") to search every card, which is what to '
+            "do when the pinned host is taken."
+        ),
+    )
     offers.add_argument("--max-price", type=float, default=0.40)
     offers.add_argument(
         "--min-vram",

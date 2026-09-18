@@ -9,6 +9,78 @@ Có hai loại máy, đừng lẫn: **máy train** (chạy YOLO, dùng một l�
 
 ---
 
+## Khi máy đã chốt bị người khác thuê
+
+`machine_id 27076` là **một máy vật lý của một người cho thuê**, không phải một
+loại máy. Ai thuê trước thì nó biến mất khỏi danh sách cho tới khi trả, và điều
+đó sẽ xảy ra.
+
+Trước khi kết luận là mất máy, chạy `status` — máy do **chính mình** đang thuê
+cũng không còn xuất hiện trong danh sách cho thuê, và đó là nhầm lẫn hay gặp
+nhất.
+
+Nếu máy bận thật, tìm theo tiêu chuẩn thay vì theo tên card:
+
+```
+python tools/rent_gpu.py offers --gpu "" --min-vram 12 --min-cuda 13.0 --min-download 3000
+```
+
+`--gpu ""` là tìm **mọi loại card**. Không có nó thì lệnh ngầm lọc đúng RTX 3060
+theo mặc định và báo không có máy nào, trong khi A4000 vẫn đang rảnh — đã dính
+một lần.
+
+Đo ngày 18/09: câu lệnh trên trả về **11 máy đạt chuẩn**, từ A4000 $0,092 tới
+RTX 3090 $0,402, gồm cả 4070 Ti, 5060 Ti, V100, 4090. Nói cách khác nguồn cung
+rộng; thứ hiếm không phải GPU mà là **CUDA ≥ 13.0 cộng đường truyền ≥ 3 Gb/s**.
+
+Chọn máy thì **ưu tiên reliability rồi mới tới giá**. Chênh lệch giá cả ngày
+chưa tới một đô; một lần thuê hỏng mất 15–30 phút.
+
+### Điều kiện thứ tư: đời card, không phải dung lượng card
+
+Model là AWQ 4-bit, và vLLM từ chối AWQ trên card có **compute capability dưới
+7.5**, tức là loại sạch Volta trở về trước.
+
+Tesla V100 là cái bẫy. Trên mọi thước đo nhìn thấy được, nó là máy tốt nhất danh
+sách — 32GB VRAM, đường truyền 14,6 Gb/s, reliability 0,999, CUDA 13.0 — và nó
+**không bao giờ chạy được model này**. Nó đã được đề xuất làm máy dự phòng số
+một đúng vì những con số đó, được thuê, và vLLM từ chối:
+
+```
+The quantization method auto_awq is not supported for the current GPU.
+Minimum capability: 75. Current capability: 70.
+```
+
+Không có gì trong chữ "V100" nói lên 7.0; chỉ con số nói. Nay `offers` lọc sẵn
+`compute_cap>=750` và `serve` từ chối trước khi tiêu tiền. Ngưỡng đó cho phép
+Turing (T4, RTX 20xx) trở đi: Ampere 8.0–8.6, Ada 8.9, Hopper và Blackwell cao
+hơn.
+
+### Danh sách máy dự phòng, quét ngày 18/09/2026
+
+Đây là **machine id**, số cố định của từng máy vật lý — khác offer id vốn đổi
+mỗi ngày. Dùng `offers --machine <id>` để lấy offer id hiện tại.
+
+| machine | $/hr | GPU | down | cc | CUDA | rely | nơi đặt |
+|---|---|---|---|---|---|---|---|
+| **27076** | 0,108 | RTX A4000 16GB | 6,8 Gb/s | 8.6 | 13.0 | 0,999 | Delaware, US |
+| **31435** | 0,201 | RTX 4060 Ti 16GB | 7,9 Gb/s | 8.9 | 13.3 | 0,998 | Texas, US |
+| **136951** | 0,335 | RTX 3090 24GB | 4,2 Gb/s | 8.6 | 13.2 | 0,998 | Texas, US |
+| **143773** | 0,161 | RTX 4070 Ti 12GB | 3,1 Gb/s | 8.9 | 13.2 | 0,997 | Minnesota, US |
+| 47212 | 0,336 | RTX PRO 4000 24GB | 8,0 Gb/s | 12.0 | 13.2 | 0,996 | Na Uy |
+| 141939 | 0,303 | RTX PRO 4000 24GB | 3,9 Gb/s | 12.0 | 13.2 | 0,995 | North Carolina, US |
+| 140204 | 0,240 | RTX 5060 Ti 16GB | 3,4 Gb/s | 12.0 | 13.2 | 0,989 | Đan Mạch |
+| 149622 | 0,092 | RTX A4000 16GB | 3,9 Gb/s | 8.6 | 13.2 | 0,988 | Nhật |
+
+Thứ tự nên thử: **27076 → 31435 → 136951 → 143773**, cả bốn reliability từ 0,997
+trở lên. Hai dòng cuối để cuối vì dưới 0,99 — con 3060 làm mất nửa tiếng cũng
+chỉ 0,982.
+
+**Bảng này là ảnh chụp một thời điểm.** Máy có thể bị thuê, đổi giá, hoặc chủ máy
+tắt đi. Luôn quét lại trước khi kết luận, đừng thuê mù theo bảng.
+
+---
+
 ## Máy serve: chốt con A4000 này
 
     machine_id 27076    host_id 150602
@@ -71,6 +143,28 @@ trước ngoài việc **ưu tiên host đã từng làm được việc** — n
 
 Tổng tiền cho bốn lần thất bại: khoảng **$0.09**. Tổng thời gian mất: hơn một
 giờ. Tiền không đáng kể, thời gian mới đáng.
+
+### Lần thứ sáu, 18/09 chiều: thử RTX 3060 12GB
+
+PO hỏi có thuê 3060 12GB rẻ hơn được không, miễn hiệu năng không giảm. Câu trả
+lời **chưa biết**, vì máy 3060 duy nhất đạt chuẩn lại hỏng theo kiểu số 4:
+container chạy hoàn chỉnh — log có `Qwen is answering` và `Uvicorn running on
+0.0.0.0:8000` — nhưng cổng bên ngoài không route, `curl` treo 12 giây rồi timeout.
+Huỷ, quay lại A4000.
+
+Vì vậy **3060 chưa bị loại, chỉ là chưa đo được**. Nếu lần sau muốn thử lại, đây
+là những gì cần biết trước:
+
+- Trên giấy 3060 có băng thông bộ nhớ 360 GB/s so với 448 GB/s của A4000, tức
+  **thấp hơn khoảng 20%**. Sinh chữ là tác vụ nghẽn băng thông, nên nhiều khả
+  năng độ trễ tăng cỡ đó. Phải đo mới biết, đừng suy từ con số này.
+- VRAM 12GB so với 16GB. Với `GPU_FRACTION=0.70` thì Qwen được 8,4GB thay vì
+  11,2GB; model chiếm 3,32GB nên vẫn vừa, nhưng KV cache hẹp hơn hẳn.
+- Giá $0,081/giờ so với $0,108–0,123. Tiết kiệm khoảng **$0,03/giờ**, tức là
+  chưa tới một đô cho cả một ngày làm việc. Không đáng đánh đổi lấy rủi ro.
+
+Kết luận thực dụng: **cứ dùng A4000 27076**, trừ khi có ai đó cần chạy rất nhiều
+giờ liên tục thì mới bõ công đo 3060.
 
 ---
 
