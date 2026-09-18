@@ -309,6 +309,45 @@ def _strip_prompt_echo(text: str) -> str:
     return "" if _BARE_FRAME.match(text) else text
 
 
+_WORD = re.compile(r"[0-9a-zA-ZÀ-ỹ]+")
+
+
+def _content_words(text: str) -> List[str]:
+    """The words of a sentence, lowercased, with punctuation dropped.
+
+    Deliberately keeps the diacritics. Folding them away is what made `gia`
+    match `giặt` and `tho` match `thôi` elsewhere in this pipeline; here there
+    is nothing to gain from it, because both sides of the comparison are
+    Vietnamese written the same way.
+    """
+    return _WORD.findall(text.lower())
+
+
+def _is_the_question_again(answer: str, question: str) -> bool:
+    """Whether the model handed the question back instead of answering it.
+
+    The labelled form — "Khách: <question>" — is removed by the stripper above.
+    This is the bare form, and it survived because it carries no frame to strip:
+    asked "vệ sinh máy lạnh bao nhiêu tiền", the served model replied "Vệ sinh
+    máy lạnh bao nhiêu tiền?" and nothing else, three times out of three. To a
+    customer that is the assistant repeating them, which reads worse than no
+    answer at all.
+
+    An echo is recognised by adding nothing: every word of the reply already
+    appeared in the question. Length is the guard — an answer that opens by
+    restating the question and then explains is longer than the question, and
+    must not be thrown away — so this only fires on replies no longer than the
+    question itself.
+    """
+    reply = _content_words(answer)
+    asked = _content_words(question)
+    if not reply or not asked:
+        return False
+    if len(reply) > len(asked):
+        return False
+    return set(reply).issubset(set(asked))
+
+
 def _strip_apology(text: str) -> str:
     """Remove an apology the answer opens with.
 
@@ -621,6 +660,9 @@ class QwenClient:
         answer = _fix_spelling(_fix_pronouns(_strip_apology(_strip_prompt_echo(raw.strip()))))
         if _OUT_OF_SCOPE in answer.upper().replace(" ", "_"):
             return ""
+        if _is_the_question_again(answer, question):
+            logger.warning("qwen_general_answer_echoed_the_question")
+            return ""
         if _sends_the_customer_away(answer):
             # "Xin lỗi, tôi không thể giúp bạn. Bạn nên liên hệ với một chuyên
             # gia về điện tử hoặc kỹ thuật viên" — said by the assistant of a
@@ -705,6 +747,12 @@ class QwenClient:
         # that nothing will ever keep.
         text = _fix_spelling(_fix_pronouns(_strip_apology(_strip_prompt_echo(raw.strip()))))
         if not text or _declines(text):
+            return "", 0.0
+        if _is_the_question_again(text, question):
+            # Handing the question back is not an answer, and the caller's
+            # fallback — the retrieved passages themselves — is worse prose
+            # carrying the right content, which is the better of the two.
+            logger.warning("qwen_grounded_answer_echoed_the_question")
             return "", 0.0
         if _sends_the_customer_away(text):
             # A repair company's assistant telling its own customer to find a
