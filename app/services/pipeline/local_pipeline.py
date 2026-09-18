@@ -476,7 +476,10 @@ def _device_named_in(question: str, kb: KnowledgeBase) -> Optional[str]:
 
 
 def _ranked_by_retrieval(
-    chosen: Sequence[str], shortlist: Optional[Sequence[Any]]
+    chosen: Sequence[str],
+    shortlist: Optional[Sequence[Any]],
+    *,
+    saw_a_photograph: bool,
 ) -> List[str]:
     """Retrieval's leader first, then whatever the model chose from the shortlist.
 
@@ -505,7 +508,14 @@ def _ranked_by_retrieval(
     So this is a trade, not a strict improvement, and the trade is worth making
     because the response carries a shortlist rather than a single verdict: both
     faults are shown, and on average the right one is placed first far more often
-    than before. What the model no longer does is lead.
+    than before.
+
+    It is also why this only applies when there is no photograph. Shown an image
+    the model has evidence no ranking of the customer's words contains — a
+    cracked panel, a burn mark, water under a machine — and there it stays in
+    charge. That half is unmeasured and should be described as such: the suite
+    sends text, and there is no set of photographs labelled by fault to measure
+    it with. All the figures above are from text-only turns.
 
     Codes the model invented are dropped, as they were before — it may only
     choose from what was retrieved. Simulated over the same 464 cases, this rule
@@ -514,6 +524,8 @@ def _ranked_by_retrieval(
     Safety pinning is unaffected: it already keys on retrieval's own top-ranked
     fault and never read this list.
     """
+    if saw_a_photograph:
+        return list(chosen)
     ranked = [getattr(f, "fault_code", None) for f in (shortlist or [])]
     ranked = [code for code in ranked if code]
     if not ranked:
@@ -1725,7 +1737,9 @@ class LocalPipeline:
         needs_assessment = False
         urgency = UrgencyLevel.LOW
 
-        for code in _ranked_by_retrieval(verdict.fault_codes, shortlist):
+        for code in _ranked_by_retrieval(
+            verdict.fault_codes, shortlist, saw_a_photograph=detection is not None
+        ):
             fault = self._kb.fault(code)
             if fault is None:
                 continue  # model named a code outside the catalog; drop it
