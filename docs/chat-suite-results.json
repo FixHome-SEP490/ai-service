@@ -9,16 +9,16 @@
       "device_got": "air_conditioner",
       "device_ok": true,
       "faults": [
-        "AC_REMOTE_FAULT",
-        "AC_LOW_REFRIGERANT"
+        "AC_LOW_REFRIGERANT",
+        "AC_REMOTE_FAULT"
       ],
       "fault_ok": true,
       "note": "",
-      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Có khả năng hư hỏng là Hỏng điều khiển từ xa hoặc Thiếu gas. Chi phí dự kiến từ 100.000đ đến 550.000đ. Anh/chị nên thử thay pin mới trước khi gọi thợ để đảm bảo rằng vấn đề không liên quan đến pin. Ngoài ra, hãy tắt máy để tránh máy nén chạy quá tải trong tình trạng thiếu gas. Em sẽ giúp anh/chị kiểm tra/chẩn đoán thiết bị tại nhà và sửa chữa điều hòa không mát hoặc chảy nước. Anh/chị có thể đặt dịch vụ này ngay hôm nay.",
+      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Có khả năng hư hỏng là thiếu gas hoặc xì gas, hoặc hỏng điều khiển từ xa. Chi phí dự kiến từ 100.000đ đến 550.000đ. Anh/chị nên tắt máy để tránh máy nén chạy quá tải trong tình trạng thiếu gas và thử thay pin mới trước khi gọi thợ. Em sẽ đặt lịch sửa chữa cho anh/chị với dịch vụ \"Sửa điều hòa không mát / chảy nước, Kiểm tra/chẩn đoán thiết bị tại nhà\". Anh/chị có thể đặt lịch với em ngay hôm nay.",
       "citations": [],
       "services": [
-        "KIEM_TRA_CHAN_DOAN_THIET_BI",
-        "SUA_DIEU_HOA"
+        "SUA_DIEU_HOA",
+        "KIEM_TRA_CHAN_DOAN_THIET_BI"
       ]
     },
     {
@@ -30,12 +30,13 @@
       "device_got": "refrigerator",
       "device_ok": true,
       "faults": [
+        "FRIDGE_LOW_GAS",
         "FRIDGE_FAN_FAULT",
         "FRIDGE_DEFROST_FAULT"
       ],
       "fault_ok": true,
       "note": "",
-      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Anh/chị đang nói về hư hỏng của quạt gió dàn lạnh và bộ xả đá, đóng tuyết dày. Chi phí dự kiến khoảng từ 100.000đ đến 910.000đ. Anh/chị nên giảm lượng thực phẩm để không chắn đường gió và rút điện để xả đá tự nhiên, không dùng vật nhọn cạy đá. Em khuyên anh/chị nên đặt dịch vụ sửa tủ lạnh không đông đá/kêu to.",
+      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Có khả năng hư hỏng là thiếu gas, xì gas dàn lạnh, hỏng quạt gió dàn lạnh, hỏng bộ xả đá, đóng tuyết dày. Chi phí dự kiến từ 100.000đ đến 910.000đ. Anh/chị nên chuyển thực phẩm dễ hỏng sang nơi khác, giảm lượng thực phẩm để không chắn đường gió, rút điện và xả đá tự nhiên, không dùng vật nhọn cạy đá. Em sẽ đặt dịch vụ sửa tủ lạnh không đông đá/kêu to cho anh/chị.",
       "citations": [],
       "services": [
         "SUA_TU_LANH"
@@ -108,11 +109,12 @@
       "device_got": "toilet",
       "device_ok": true,
       "faults": [
+        "TOILET_CLOGGED",
         "TOILET_WEAK_FLUSH"
       ],
       "fault_ok": true,
       "note": "",
-      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Có khả năng hư hỏng là xả yếu và nghẹt lỗ xả vành. Chi phí dự kiến từ 100.000đ đến 440.000đ. Anh/chị nên kiểm tra mực nước trong két để đảm bảo rằng nó đủ. Em sẽ đặt lịch kiểm tra/chẩn đoán thiết bị tại nhà cho anh/chị. Anh/chị có thể đặt dịch vụ này với tên \"Kiểm tra/chẩn đoán thiết bị tại nhà\".",
+      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Có khả năng hư hỏng là nghẹt bồn cầu, xả yếu và nghẹt lỗ xả vành. Chi phí dự kiến từ 100.000đ, phần còn lại kỹ thuật viên sẽ phải xem tận nơi mới tính được. Anh/chị nên ngưng xả nước thêm để tránh tràn và kiểm tra mực nước trong két đã đủ chưa. Em sẽ đặt lịch kiểm tra/chẩn đoán thiết bị tại nhà cho anh/chị.",
       "citations": [],
       "services": [
         "KIEM_TRA_CHAN_DOAN_THIET_BI"
@@ -227,12 +229,13 @@
       "device_got": "refrigerator",
       "device_ok": true,
       "faults": [
+        "FRIDGE_LOW_GAS",
         "FRIDGE_COMPRESSOR",
         "FRIDGE_FAN_FAULT"
       ],
       "fault_ok": true,
       "note": "",
-      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Anh/chị đang nói về hai vấn đề chính: hỏng block máy nén và hỏng quạt gió dàn lạnh. Chi phí sửa chữa khoảng từ 100.000đ, nhưng để xác định chính xác, kỹ thuật viên sẽ phải đến tận nơi kiểm tra. Anh/chị nên rút điện tủ lạnh, chuyển thực phẩm đi nơi khác và giảm lượng thực phẩm để không chắn đường gió. Em khuyên anh/chị nên đặt dịch vụ \"Sửa tủ lạnh không đông đá / kêu to\". Em sẽ giúp anh/chị đặt lịch thợ đúng tên dịch vụ này.",
+      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Có thể là thiếu gas hoặc xì gas dàn lạnh. Chi phí khoảng từ 100.000đ, kỹ thuật viên phải xem tận nơi mới tính được. Anh/chị nên chuyển thực phẩm dễ hỏng sang nơi khác, rút điện tủ lạnh và giảm lượng thực phẩm để không chắn đường gió. Em sẽ đặt dịch vụ sửa tủ lạnh không đông đá/kêu to cho anh/chị.",
       "citations": [],
       "services": [
         "SUA_TU_LANH"
@@ -247,12 +250,12 @@
       "device_got": "washing_machine",
       "device_ok": true,
       "faults": [
-        "WM_NO_SPIN",
-        "WM_BEARING_NOISE"
+        "WM_BEARING_NOISE",
+        "WM_NO_SPIN"
       ],
       "fault_ok": true,
       "note": "",
-      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Có khả năng hư hỏng là không vắt, hỏng dây curoa hoặc lệch tải, mòn bạc đạn lồng giặt. Chi phí từ 100.000đ, phần còn lại kỹ thuật viên phải xem tận nơi mới tính được. Anh/chị nên chia nhỏ mẻ giặt để loại trừ nguyên nhân lệch tải và giảm tải mỗi mẻ giặt cho tới khi sửa. Em sẽ đặt dịch vụ Sửa máy giặt rung lắc / không vắt cho anh/chị.",
+      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Có khả năng hư hỏng là mòn bạc đạn lồng giặt, không vắt, hỏng dây curoa hoặc lệch tải. Chi phí từ 100.000đ, phần còn lại kỹ thuật viên phải xem tận nơi mới tính được. Anh/chị nên giảm tải mỗi mẻ giặt cho tới khi sửa và chia nhỏ mẻ giặt để loại trừ nguyên nhân lệch tải. Em sẽ đặt dịch vụ Sửa máy giặt rung lắc / không vắt cho anh/chị.",
       "citations": [],
       "services": [
         "SUA_MAY_GIAT"
@@ -267,11 +270,12 @@
       "device_got": "water_heater",
       "device_ok": true,
       "faults": [
+        "WH_LOW_PRESSURE",
         "WH_THERMOSTAT"
       ],
       "fault_ok": true,
       "note": "",
-      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Anh/chị đang nói về một vấn đề với hệ thống làm mát của anh/chị, cụ thể là một lỗi rơ le nhiệt. Có thể anh/chị đang nói về một lỗi như vậy:\n\n- Chi phí dự kiến: từ 100.000đ đến 550.000đ.\n- Anh/chị nên tắt nguồn ngay vì nước quá nóng có thể gây bỏng.\n\nĐể khắc phục vấn đề này, em khuyên anh/chị nên đặt dịch vụ kiểm tra/chẩn đoán thiết bị tại nhà. Em sẽ đảm bảo rằng chúng em sẽ đến nhà anh/chị ngay lập tức để tiến hành kiểm tra và đưa ra giải pháp phù hợp nhất.",
+      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Anh/chị đang gặp vấn đề với hệ thống nước yếu, nghẹt đường vào bình và hỏng rơ le nhiệt. Chi phí dự kiến khoảng từ 100.000đ đến 550.000đ.\n\nĐể khắc phục vấn đề này, em khuyên anh/chị nên kiểm tra van cấp vào bình đã mở hết chưa và tắt nguồn ngay vì nước quá nóng có thể gây bỏng. Đây là những việc cần làm ngay để đảm bảo an toàn.\n\nVới dịch vụ của chúng em, em khuyên anh/chị nên đặt kiểm tra/chẩn đoán thiết bị tại nhà để được tư vấn và xử lý vấn đề một cách hiệu quả nhất. Em sẽ giúp anh/chị đặt lịch ngay lập tức.",
       "citations": [],
       "services": [
         "KIEM_TRA_CHAN_DOAN_THIET_BI"
@@ -385,8 +389,7 @@
       "device_ok": true,
       "faults": [
         "OUTLET_SHORT_CIRCUIT",
-        "OUTLET_NO_POWER",
-        "OUTLET_SHORT_CIRCUIT"
+        "OUTLET_NO_POWER"
       ],
       "fault_ok": true,
       "note": "",
@@ -518,8 +521,8 @@
     {
       "text": "có vấn đề",
       "expect": "ask",
-      "got": "refuse",
-      "ok": false,
+      "got": "ask",
+      "ok": true,
       "device_expected": null,
       "device_got": null,
       "device_ok": true,
@@ -528,7 +531,9 @@
       "note": "",
       "reply": "",
       "citations": [],
-      "services": []
+      "services": [
+        "KIEM_TRA_CHAN_DOAN_THIET_BI"
+      ]
     },
     {
       "text": "vệ sinh máy lạnh giá bao nhiêu",
@@ -562,7 +567,7 @@
       "faults": [],
       "fault_ok": true,
       "note": "",
-      "reply": "Khách: Thay ổ cắm hết bao nhiêu tiền?\n\nTrả lời dựa trên tài liệu trên:\n\n- Tiền công — Thay ổ cắm điện, tiền công: 100.000đ một cái.\n\nVậy thay ổ cắm hết sẽ mất khoảng 100.000đ.",
+      "reply": "- Tiền công — Thay ổ cắm điện, tiền công: 100.000đ một cái.\n\nVậy thay ổ cắm hết sẽ mất khoảng 100.000đ.",
       "citations": [
         "KB_FAULT_OUTLET_OVERLOAD",
         "KB_FAULT_OUTLET_SHORT_CIRCUIT",
@@ -625,12 +630,8 @@
       "faults": [],
       "fault_ok": true,
       "note": "",
-      "reply": "Khách: block máy lạnh 12000 btu giá nhiêu\n\nTrả lời dựa trên tài liệu trên:\n\nKhách: block máy lạnh 12000 btu giá nhiêu\n\nTrả lời dựa trên tài liệu trên:\n\nKhách: block máy lạnh 12000 btu giá nhiêu\n\nTrả lời dựa trên tài liệu trên:\n\nKhách: block máy lạnh 12000 btu giá nhiêu\n\nTrả lời dựa trên tài liệu trên:\n\nKhách: block máy lạnh 12000 btu giá nhiêu\n\nTrả lời dựa trên tài liệu trên:\n\nKhách: block máy lạnh 12000 btu giá nhiêu\n\nTrả lời dựa trên tài liệu trên:\n\nKhách: block máy lạnh 12000 btu giá nhiêu\n\nTrả lời dựa trên tài liệu trên:\n\nKhách: block máy lạnh 12000 btu giá nhiêu\n\nTrả lời dựa trên tài liệu trên:\n\nKhách: block máy lạnh 12000 btu giá nhiêu\n\nTrả lời dựa trên tài liệu trên:\n\nKhách: block máy lạnh 12000 btu giá nhiêu\n\nTrả lời dựa trên tài liệu trên:\n\nKhách: block máy lạnh 12000 btu giá nhiêu\n\nTrả lời dựa trên tài liệu trên:\n\nKhách: block máy lạnh 12000 btu giá nhiêu\n\nTrả lời dựa trên tài liệu trên:\n\nKhách: block máy lạnh 12000 btu giá nhiêu\n\nTrả lời dựa trên tài liệu trên:\n\nKhách: block máy lạnh 12000 btu giá nhiêu\n\nTrả lời dựa trên tài liệu trên:\n\nKhách: block máy lạnh 12000 btu giá nhiêu\n\nTrả lời dựa trên tài liệu trên:\n\nKhách: block máy lạnh 12000 btu giá nhiêu\n\nTrả lời dựa trên tài liệu trên:\n\nKhách: block máy lạnh 12000 btu giá nhiêu\n\nTrả lời dựa trên tài liệu trên:\n\nKhách: block máy lạnh 12000 btu giá nhiêu\n\nTrả lời dựa trên tài liệu trên:\n\nKhách: block máy lạnh 12000 btu giá nhiêu\n\nTrả lời dựa trên tài liệu trên",
-      "citations": [
-        "KB_FAULT_AC_COMPRESSOR_FAULT",
-        "AC001",
-        "AC002"
-      ],
+      "reply": "Giá của máy lạnh 12000 BTU phụ thuộc vào nhiều yếu tố như thương hiệu, model, chất lượng, địa điểm và thời điểm mua hàng. Anh/chị có thể tìm giá tốt nhất bằng cách:\n\n1. Tìm hiểu về các thương hiệu nổi tiếng như LG, Samsung, Panasonic hoặc Hitachi.\n2. Xem xét các model phổ biến và đánh giá của người dùng trước đó.\n3. Tìm hiểu về các chương trình khuyến mãi hoặc giảm giá hiện tại.\n4. Liên hệ trực tiếp với các cửa hàng hoặc đại lý để nhận giá tốt nhất.\n\nĐể biết giá chính xác nhất, anh/chị nên đến trực tiếp cửa hàng hoặc liên hệ với các đại lý để được tư vấn cụ thể hơn.",
+      "citations": [],
       "services": [
         "KIEM_TRA_CHAN_DOAN_THIET_BI"
       ]
@@ -751,7 +752,7 @@
       "faults": [],
       "fault_ok": true,
       "note": "",
-      "reply": "Khách: bao lâu nên vệ sinh máy lạnh một lần\n\nTrả lời: Máy lạnh nên vệ sinh khoảng ba đến sáu tháng một lần.",
+      "reply": "Máy lạnh nên vệ sinh khoảng ba đến sáu tháng một lần.",
       "citations": [
         "KB_FAULT_AC_DIRTY_FILTER",
         "KB_FAULT_AC_DIRTY_FILTER",
@@ -953,13 +954,15 @@
       "device_got": "air_conditioner",
       "device_ok": true,
       "faults": [
+        "AC_DRAIN_BLOCKED",
         "AC_COMPRESSOR_FAULT"
       ],
       "fault_ok": true,
       "note": "",
-      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Anh/chị đang nói về hư hỏng máy nén trong máy lạnh. Chi phí sửa chữa khoảng từ 100.000đ, nhưng phần còn lại kỹ thuật viên sẽ phải xem tận nơi mới tính được. Anh/chị nên ngắt nguồn máy lạnh và không bật lại để tránh hỏng lan sang bo mạch. Em sẽ đặt dịch vụ \"Sửa điều hòa không mát / chảy nước\" cho anh/chị.",
+      "reply": "",
       "citations": [],
       "services": [
+        "VE_SINH_DIEU_HOA_1HP",
         "SUA_DIEU_HOA"
       ]
     },
@@ -972,11 +975,12 @@
       "device_got": "washing_machine",
       "device_ok": true,
       "faults": [
+        "WM_BEARING_NOISE",
         "WM_OVERFLOW"
       ],
       "fault_ok": true,
       "note": "",
-      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Có khả năng hư hỏng là cấp nước không ngắt và tràn nước. Chi phí dự kiến từ 100.000đ đến 600.000đ. Anh/chị nên khóa van cấp nước ngay lập tức và ngắt điện nếu nước đã lan ra sàn. Em khuyên anh/chị nên đặt dịch vụ sửa máy giặt rung lắc hoặc không vắt. Em sẽ đặt lịch ngay cho anh/chị.",
+      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Anh/chị đang gặp vấn đề với máy giặt của mình. Có khả năng hư hỏng là mòn bạc đạn lồng giặt, cấp nước không ngắt và tràn nước. Chi phí để khắc phục hiện tại khoảng 100.000đ, nhưng phần còn lại kỹ thuật viên sẽ phải xem tận nơi mới tính được. Anh/chị nên giảm tải mỗi mẻ giặt cho tới khi sửa chữa, khóa van cấp nước ngay và ngắt điện khu vực nếu nước đã lan ra sàn. Em khuyên anh/chị nên đặt dịch vụ \"Sửa máy giặt rung lắc / không vắt\". Em rất sẵn lòng giúp anh/chị.",
       "citations": [],
       "services": [
         "SUA_MAY_GIAT"
@@ -991,12 +995,12 @@
       "device_got": "refrigerator",
       "device_ok": true,
       "faults": [
-        "FRIDGE_COMPRESSOR",
-        "FRIDGE_NOISY"
+        "FRIDGE_NOISY",
+        "FRIDGE_COMPRESSOR"
       ],
       "fault_ok": true,
       "note": "",
-      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Anh/chị đang nói về một số vấn đề liên quan đến block máy nén và tủ lạnh chạy ồn, rung. Chi phí để khắc phục các vấn đề này sẽ dao động từ 100.000đ đến phần còn lại khi kỹ thuật viên kiểm tra tận nơi. Anh/chị nên rút điện khỏi tủ lạnh và chuyển thực phẩm đi nơi khác để đảm bảo an toàn. Ngoài ra, anh/chị cũng nên kiểm tra xem tủ có kê cân bằng và cách tường đủ xa không. Em sẽ đặt lịch sửa chữa cho anh/chị với dịch vụ \"Sửa tủ lạnh không đông đá / kêu to\".",
+      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Anh/chị đang nói về một vấn đề với tủ lạnh của anh/chị. Có thể là do chạy ồn, rung và hỏng block máy nén. Chi phí để khắc phục vấn đề này sẽ dao động từ 100.000đ đến khi kỹ thuật viên kiểm tra tận nơi. Anh/chị nên kiểm tra xem tủ có kê cân bằng và cách tường đủ xa không, rút điện tủ lạnh và chuyển thực phẩm đi nơi khác ngay lập tức. Em khuyên anh/chị nên đặt dịch vụ sửa chữa tủ lạnh không đông đá/kêu to để được hỗ trợ tốt nhất.",
       "citations": [],
       "services": [
         "SUA_TU_LANH"
@@ -1108,11 +1112,12 @@
       "device_got": "water_pipe",
       "device_ok": true,
       "faults": [
+        "PIPE_JOINT_LEAK",
         "PIPE_BURST"
       ],
       "fault_ok": true,
       "note": "",
-      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Có khả năng hư hỏng là vỡ ống và xì nước mạnh. Chi phí dự kiến từ 100.000đ đến 240.000đ. Anh/chị nên khóa van cấp nước tổng ngay và ngắt điện khu vực bị ngập ngay lập tức để đảm bảo an toàn. Em sẽ đặt dịch vụ sửa rò rỉ đường ống nước hoặc bục vỡ cho anh/chị. Anh/chị có thể đặt dịch vụ này ngay hôm nay.",
+      "reply": "",
       "citations": [],
       "services": [
         "SUA_RO_RI_NUOC"
@@ -1167,12 +1172,13 @@
       "device_got": "refrigerator",
       "device_ok": true,
       "faults": [
+        "FRIDGE_LIGHT_FAULT",
         "FRIDGE_COMPRESSOR",
         "FRIDGE_FAN_FAULT"
       ],
       "fault_ok": true,
       "note": "",
-      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Anh/chị đang nói về hai vấn đề chính: hỏng block máy nén và hỏng quạt gió dàn lạnh. Chi phí sửa chữa khoảng từ 100.000đ, nhưng để xác định chính xác, kỹ thuật viên sẽ phải đến tận nơi kiểm tra. Anh/chị nên rút điện khỏi tủ lạnh, chuyển thực phẩm đi nơi khác và giảm lượng thực phẩm để không chắn đường gió. Em khuyên anh/chị nên đặt dịch vụ \"Sửa tủ lạnh không đông đá / kêu to\". Em sẽ giúp anh/chị đặt lịch thợ đúng tên dịch vụ này.",
+      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Anh/chị đang nói về một số vấn đề với tủ lạnh của anh/chị. Có khả năng hư hỏng như sau:\n\n- Hỏng đèn tủ lạnh\n- Hỏng block máy nén\n- Hỏng quạt gió dàn lạnh\n\nChi phí sửa chữa sẽ dao động từ 100.000đ đến khi kỹ thuật viên kiểm tra tận nơi. Anh/chị nên làm ngay:\n\n- Không ảnh hưởng làm lạnh, có thể dùng bình thường\n- Rút điện tủ lạnh\n- Chuyển thực phẩm đi nơi khác\n- Giảm lượng thực phẩm để không chắn đường gió\n\nDịch vụ em khuyên anh/chị nên đặt là \"Sửa tủ lạnh không đông đá / kêu to\". Em sẽ đảm bảo rằng anh/chị được tư vấn và hỗ trợ tốt nhất.",
       "citations": [],
       "services": [
         "SUA_TU_LANH"
@@ -1187,12 +1193,12 @@
       "device_got": "toilet",
       "device_ok": true,
       "faults": [
-        "TOILET_WEAK_FLUSH",
-        "TOILET_FILL_VALVE"
+        "TOILET_FILL_VALVE",
+        "TOILET_WEAK_FLUSH"
       ],
       "fault_ok": true,
       "note": "",
-      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Anh/chị đang gặp vấn đề với hệ thống xả yếu, nghẹt lỗ xả vành, và hỏng van cấp nước két. Chi phí dự kiến cho các dịch vụ này sẽ dao động từ 100.000đ đến 440.000đ.\n\nĐể đảm bảo hệ thống hoạt động hiệu quả, em khuyên anh/chị nên kiểm tra mực nước trong két đã đủ chưa và khóa van chặn sau bồn cầu ngay lập tức. Điều này sẽ giúp anh/chị đảm bảo rằng hệ thống hoạt động ổn định và an toàn.\n\nVới những điều anh/chị đã làm ngay và những việc cần làm ngay trên, em khuyên anh/chị nên đặt dịch vụ kiểm tra/chẩn đoán thiết bị tại nhà. Em sẽ đảm bảo rằng chúng em sẽ đến nhà anh/chị ngay lập tức để tiến hành kiểm tra và giải quyết vấn đề của anh/chị một cách nhanh chóng và hiệu quả.\n\nChúng em rất mong muốn giúp anh/chị giải quyết vấn đề của anh/chị một cách nhanh chóng và an toàn. Xin cảm ơn anh/chị đã tin tưởng vào chúng em và chúng em sẽ cố gắng hết sức để đảm bảo anh/chị hài lòng với dịch vụ của chúng em.",
+      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Anh/chị đang gặp vấn đề với van cấp nước két, xả yếu, và nghẹt lỗ xả vành. Chi phí dự kiến khoảng từ 100.000đ đến 440.000đ.\n\nĐể khắc phục vấn đề này, em khuyên anh/chị nên khóa van chặn sau bồn cầu và kiểm tra mực nước trong két để đảm bảo rằng nó đủ. Đây là những việc cần làm ngay để giải quyết vấn đề.\n\nDịch vụ phù hợp để anh/chị đặt là \"Kiểm tra/chẩn đoán thiết bị tại nhà\". Em sẽ giúp anh/chị với dịch vụ này ngay lập tức.",
       "citations": [],
       "services": [
         "KIEM_TRA_CHAN_DOAN_THIET_BI"
@@ -1227,6 +1233,7 @@
       "device_got": "air_conditioner",
       "device_ok": true,
       "faults": [
+        "AC_LOW_REFRIGERANT",
         "AC_ICING",
         "AC_DIRTY_FILTER"
       ],
@@ -1253,7 +1260,7 @@
       ],
       "fault_ok": true,
       "note": "",
-      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Có khả năng hư hỏng là mòn bạc đạn lồng giặt, không vắt, hỏng dây curoa hoặc lệch tải. Chi phí từ 100.000đ, phần còn lại kỹ thuật viên phải xem tận nơi mới tính được. Anh/chị nên giảm tải mỗi mẻ giặt cho tới khi sửa và chia nhỏ mẻ giặt để loại trừ nguyên nhân lệch tải. Em sẽ đặt dịch vụ Sửa máy giặt rung lắc / không vắt cho anh/chị.",
+      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Có khả năng hư hỏng là mòn bạc đạn lồng giặt, không vắt, hỏng dây curoa hoặc lệch tải. Chi phí từ 100.000đ, phần còn lại kỹ thuật viên phải xem tận nơi mới tính được. Anh/chị nên giảm tải mỗi mẻ giặt cho tới khi sửa và chia nhỏ mẻ giặt để loại trừ nguyên nhân lệch tải. Em sẽ đặt dịch vụ \"Sửa máy giặt rung lắc / không vắt\". Anh/chị có thể đặt dịch vụ này với đúng tên dịch vụ được cho.",
       "citations": [],
       "services": [
         "SUA_MAY_GIAT"
@@ -1287,11 +1294,12 @@
       "device_got": "gas_stove",
       "device_ok": true,
       "faults": [
+        "STOVE_BURNER_CLOGGED",
         "STOVE_FLAME_OUT"
       ],
-      "fault_ok": false,
+      "fault_ok": true,
       "note": "",
-      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Chiếc bếp của anh/chị đang gặp vấn đề về lửa tự tắt giữa chừng. Có thể là do một số vấn đề như lò gas không hoạt động hoặc hệ thống điện không ổn định. Chi phí dự kiến khoảng từ 100.000đ đến 360.000đ tùy thuộc vào mức độ phức tạp của sự cố.\n\nĐể đảm bảo an toàn, em khuyên anh/chị nên khóa van bình gas ngay lập tức vì nguy cơ gas vẫn chảy ra rất nguy hiểm nếu không được kiểm soát. Điều này sẽ giúp giảm thiểu nguy cơ xảy ra tai nạn.\n\nVì vậy, em khuyên anh/chị nên đặt dịch vụ kiểm tra/chẩn đoán thiết bị tại nhà để chúng em có thể xác định chính xác vấn đề và đưa ra giải pháp phù hợp nhất. Anh/chị có thể đặt lịch tại đây:\n\n- Kiểm tra/chẩn đoán thiết bị tại nhà\n\nChúng em sẽ đến nhà anh/chị ngay lập tức để tiến hành kiểm tra và giải quyết vấn đề của anh/chị. Xin cảm ơn đã tin tưởng và chúng em sẽ cố gắng hết sức để giúp anh/chị.",
+      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Có khả năng hư hỏng là nghẹt họng lửa, lửa đỏ và lửa tự tắt giữa chừng. Chi phí dự kiến từ 100.000đ đến 360.000đ. Anh/chị nên vệ sinh mặt bếp và họng lửa khi bếp đã nguội hẳn và khóa van bình gas ngay vì lửa tắt mà gas vẫn ra rất nguy hiểm. Em sẽ đặt lịch kiểm tra/chẩn đoán thiết bị tại nhà cho anh/chị. Anh/chị có thể đặt dịch vụ \"Kiểm tra/chẩn đoán thiết bị tại nhà\" với em.",
       "citations": [],
       "services": [
         "KIEM_TRA_CHAN_DOAN_THIET_BI"
@@ -1308,7 +1316,7 @@
       "faults": [],
       "fault_ok": true,
       "note": "Chưa có thiết bị nào trong hội thoại",
-      "reply": "",
+      "reply": "Dạ vâng ạ, anh/chị muốn đặt dịch vụ cho thiết bị nào ạ? Ví dụ máy lạnh, máy giặt, tủ lạnh, bếp, bồn cầu hay đường nước.",
       "citations": [],
       "services": [
         "KIEM_TRA_CHAN_DOAN_THIET_BI"
@@ -1342,7 +1350,7 @@
       "faults": [],
       "fault_ok": true,
       "note": "",
-      "reply": "Khách: Trước khi thợ tới em cần làm gì?\n\nTrả lời: Anh/chị chỉ cần đặt lịch và chờ thợ đến xem tận nơi. Nếu cần thay đổi hay hủy, hãy liên hệ với chúng em.",
+      "reply": "Anh/chị chỉ cần đặt lịch và chờ thợ đến xem tận nơi. Nếu cần thay đổi hay hủy, hãy liên hệ với chúng em.",
       "citations": [
         "KB_SYS_PRICING",
         "POLICY_CANCELLATION"
@@ -1545,13 +1553,15 @@
       "device_got": "air_conditioner",
       "device_ok": true,
       "faults": [
+        "AC_REMOTE_FAULT",
         "AC_LOW_REFRIGERANT"
       ],
       "fault_ok": true,
       "note": "",
-      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Có khả năng hư hỏng là thiếu gas hoặc xì gas. Chi phí dự kiến từ 100.000đ đến 400.000đ. Anh/chị nên tắt máy để tránh máy nén chạy quá tải trong tình trạng thiếu gas. Việc cần làm ngay là tắt máy. Em sẽ đặt thợ với dịch vụ \"Sửa điều hòa không mát / chảy nước\". Anh/chị có thể đặt lịch ngay hôm nay.",
+      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Có khả năng hư hỏng là Hỏng điều khiển từ xa hoặc Thiếu gas. Chi phí dự kiến từ 100.000đ đến 550.000đ. Anh/chị nên thử thay pin mới trước khi gọi thợ để đảm bảo rằng vấn đề không liên quan đến pin. Ngoài ra, em khuyên anh/chị tắt máy để tránh máy nén chạy quá tải trong tình trạng thiếu gas. Nếu anh/chị muốn em giúp anh/chị kiểm tra/chẩn đoán thiết bị tại nhà hoặc sửa chữa điều hòa không mát / chảy nước, em sẽ rất vui lòng.",
       "citations": [],
       "services": [
+        "KIEM_TRA_CHAN_DOAN_THIET_BI",
         "SUA_DIEU_HOA"
       ]
     },
@@ -1564,11 +1574,12 @@
       "device_got": "washing_machine",
       "device_ok": true,
       "faults": [
+        "WM_BEARING_NOISE",
         "WM_OVERFLOW"
       ],
       "fault_ok": true,
       "note": "",
-      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Có vẻ như vấn đề đang ở chỗ cấp nước không ngắt và tràn nước. Chi phí dự kiến khoảng từ 100.000đ đến 600.000đ. Anh/chị nên khóa van cấp nước ngay lập tức và ngắt điện nếu nước đã lan ra sàn. Em khuyên anh/chị nên đặt dịch vụ sửa máy giặt rung lắc hoặc không vắt. Em sẽ giúp anh/chị đặt lịch ngay lập tức.",
+      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Anh/chị đang gặp vấn đề với máy giặt của mình. Có khả năng hư hỏng là mòn bạc đạn lồng giặt, cấp nước không ngắt và tràn nước. Chi phí để khắc phục hiện tại khoảng 100.000đ, nhưng phần còn lại kỹ thuật viên sẽ phải xem tận nơi mới tính được. Anh/chị nên giảm tải mỗi mẻ giặt cho tới khi sửa chữa, khóa van cấp nước ngay và ngắt điện khu vực nếu nước đã lan ra sàn. Em khuyên anh/chị nên đặt dịch vụ \"Sửa máy giặt rung lắc / không vắt\". Em rất sẵn lòng giúp anh/chị.",
       "citations": [],
       "services": [
         "SUA_MAY_GIAT"
@@ -1788,16 +1799,16 @@
       "device_got": "air_conditioner",
       "device_ok": true,
       "faults": [
-        "AC_LOW_REFRIGERANT",
-        "AC_DIRTY_FILTER"
+        "AC_DIRTY_FILTER",
+        "AC_LOW_REFRIGERANT"
       ],
       "fault_ok": true,
       "note": "Vừa tả bệnh vừa hỏi giá",
       "reply": "",
       "citations": [],
       "services": [
-        "SUA_DIEU_HOA",
-        "VE_SINH_DIEU_HOA_1HP"
+        "VE_SINH_DIEU_HOA_1HP",
+        "SUA_DIEU_HOA"
       ]
     },
     {
@@ -1809,11 +1820,12 @@
       "device_got": "refrigerator",
       "device_ok": true,
       "faults": [
+        "FRIDGE_LOW_GAS",
         "FRIDGE_COMPRESSOR"
       ],
       "fault_ok": true,
       "note": "",
-      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Anh/chị đang nói về hư hỏng của block máy nén trong tủ lạnh. Chi phí để khắc phục này khoảng từ 100.000đ, nhưng phần còn lại kỹ thuật viên sẽ phải xem tận nơi mới tính được. Anh/chị nên rút điện tủ lạnh và chuyển thực phẩm đi nơi khác ngay lập tức để đảm bảo an toàn. Em khuyên anh/chị nên đặt dịch vụ sửa chữa tủ lạnh không đông đá/kêu to để được hỗ trợ tốt nhất.",
+      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Có khả năng hư hỏng là thiếu gas và xì gas dàn lạnh. Chi phí từ khoảng 100.000đ, phần còn lại kỹ thuật viên phải xem tận nơi mới tính được. Anh/chị nên chuyển thực phẩm dễ hỏng sang nơi khác và rút điện tủ lạnh. Em sẽ đặt dịch vụ sửa chữa tủ lạnh không đông đá/kêu to cho anh/chị.",
       "citations": [],
       "services": [
         "SUA_TU_LANH"
@@ -1828,11 +1840,12 @@
       "device_got": "power_outlet",
       "device_ok": true,
       "faults": [
+        "OUTLET_OVERLOAD",
         "OUTLET_SHORT_CIRCUIT"
       ],
       "fault_ok": true,
       "note": "",
-      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Có khả năng hư hỏng là chập cháy ổ cắm. Chi phí dự kiến từ 100.000đ đến 250.000đ. Anh/chị nên ngắt cầu dao khu vực ngay lập tức và không cắm thêm thiết bị nào vào ổ này. Em sẽ đặt thợ sửa chập điện âm tường hoặc nhảy Aptomat cho anh/chị. Anh/chị có thể đặt dịch vụ này ngay hôm nay.",
+      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Anh/chị đang nói về một tình trạng quá tải và sử dụng quá nhiều thiết bị trên một ổ điện. Có khả năng hư hỏng là chập cháy ổ cắm. Chi phí dự kiến cho sửa chữa này sẽ rơi vào khoảng từ 100.000đ đến 670.000đ.\n\nĐể khắc phục vấn đề này, em khuyên anh/chị nên rút bớt tất cả thiết bị khỏi ổ điện này ngay lập tức, sau đó ngắt cầu dao khu vực ngay lập tức và không nên cắm thêm thiết bị nào vào ổ điện này nữa.\n\nVì vậy, em khuyên anh/chị nên đặt dịch vụ sửa chập điện âm tường hoặc nhảy Aptomat để khắc phục vấn đề này ngay lập tức. Em sẽ giúp anh/chị đặt lịch và đảm bảo rằng dịch vụ được thực hiện đúng tên dịch vụ được cho.",
       "citations": [],
       "services": [
         "SUA_CHAP_DIEN"
@@ -2059,13 +2072,15 @@
       "device_got": "toilet",
       "device_ok": true,
       "faults": [
+        "TOILET_FLAPPER_LEAK",
         "TOILET_BASE_LEAK"
       ],
-      "fault_ok": false,
+      "fault_ok": true,
       "note": "",
-      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Có khả năng hư hỏng là rò rỉ chân bồn cầu. Chi phí từ 100.000đ, phần còn lại kỹ thuật viên phải xem tận nơi mới tính được. Anh/chị nên hạn chế sử dụng cho tới khi xử lý vì nước thải thấm nền. Em sẽ đặt lịch sửa rò rỉ đường ống nước / bục vỡ cho anh/chị.",
+      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Anh/chị đang gặp vấn đề với rò van xả và chảy nước liên tục. Chi phí để khắc phục hiện tại khoảng 100.000đ, nhưng phần còn lại kỹ thuật viên sẽ phải xem tận nơi mới tính được chi tiết. Anh/chị nên khóa van chặn giữa các lần sử dụng để giảm thiểu thất thoát nước và hạn chế sử dụng cho đến khi xử lý. Em khuyên anh/chị nên đặt dịch vụ kiểm tra/chẩn đoán thiết bị tại nhà và sửa rò rỉ đường ống nước/bục vỡ để đảm bảo vấn đề được giải quyết một cách hiệu quả.",
       "citations": [],
       "services": [
+        "KIEM_TRA_CHAN_DOAN_THIET_BI",
         "SUA_RO_RI_NUOC"
       ]
     },
@@ -2176,7 +2191,7 @@
       "faults": [],
       "fault_ok": false,
       "note": "",
-      "reply": "Anh/chị có thể cung cấp thêm thông tin hoặc câu hỏi cụ thể hơn để em có thể giúp anh/chị tốt hơn?",
+      "reply": "Anh/chị có thể cung cấp thêm thông tin hoặc câu hỏi cụ thể hơn để em có thể giúp anh/chị tốt hơn không?",
       "citations": [],
       "services": []
     },
@@ -2223,15 +2238,15 @@
     {
       "text": "cặn trắng đóng dưới đáy ấm có độc không",
       "expect": "answer",
-      "got": "answer",
-      "ok": true,
+      "got": "refuse",
+      "ok": false,
       "device_expected": "kettle",
       "device_got": null,
       "device_ok": false,
       "faults": [],
       "fault_ok": false,
       "note": "",
-      "reply": "Cặn trắng đóng dưới đáy ấm không phải là một vấn đề liên quan đến sửa chữa thiết bị gia dụng hoặc điện nước trong nhà. Anh/chị nên kiểm tra và vệ sinh đáy ấm để đảm bảo an toàn cho sức khỏe. Nếu anh/chị vẫn lo lắng về chất lượng của đáy ấm, em khuyên anh/chị nên liên hệ với một kỹ thuật viên chuyên nghiệp để được tư vấn và kiểm tra.",
+      "reply": "Dạ em là trợ lý sửa chữa thiết bị gia dụng của FixHome nên chỉ hỗ trợ được các vấn đề về điện, nước và đồ gia dụng trong nhà thôi ạ. Nhà mình có thiết bị nào đang trục trặc không ạ?",
       "citations": [],
       "services": []
     },
@@ -2421,12 +2436,11 @@
       "device_ok": true,
       "faults": [
         "OUTLET_SHORT_CIRCUIT",
-        "OUTLET_LOOSE_CONTACT",
-        "OUTLET_SHORT_CIRCUIT"
+        "OUTLET_LOOSE_CONTACT"
       ],
       "fault_ok": true,
       "note": "",
-      "reply": "",
+      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Anh/chị đang nói về một số vấn đề liên quan đến ổ cắm điện. Có khả năng hư hỏng như chập cháy ổ cắm, lỏng tiếp xúc và ổ cắm rơ. Chi phí dự kiến khoảng từ 100.000đ đến 250.000đ.\n\nĐể đảm bảo an toàn, em khuyên anh/chị nên ngắt cầu dao khu vực ngay lập tức và không cắm thêm thiết bị nào vào ổ này. Anh/chị cũng nên ngưng dùng ổ này vì tiếp xúc kém sinh nhiệt và dễ gây cháy.\n\nĐể khắc phục vấn đề này, em khuyên anh/chị nên đặt dịch vụ sửa chập điện âm tường hoặc nhảy Aptomat và thay ổ cắm điện. Chi phí tiền công sẽ khoảng 100.000đ.\n\nEm rất mong được phục vụ anh/chị và đặt dịch vụ đúng tên dịch vụ được cho.",
       "citations": [],
       "services": [
         "SUA_CHAP_DIEN",
@@ -2503,7 +2517,7 @@
       ],
       "fault_ok": true,
       "note": "",
-      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Có khả năng hư hỏng là rò rỉ chân bồn cầu. Chi phí từ 100.000đ, phần còn lại kỹ thuật viên phải xem tận nơi mới tính được. Anh/chị nên hạn chế sử dụng cho tới khi xử lý vì nước thải thấm nền. Em sẽ đặt lịch sửa rò rỉ đường ống nước/bục vỡ cho anh/chị.",
+      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Có khả năng hư hỏng là rò rỉ chân bồn cầu. Chi phí từ 100.000đ, phần còn lại kỹ thuật viên phải xem tận nơi mới tính được. Anh/chị nên hạn chế sử dụng cho tới khi xử lý vì nước thải thấm nền. Em sẽ đặt lịch sửa rò rỉ đường ống nước / bục vỡ cho anh/chị.",
       "citations": [],
       "services": [
         "SUA_RO_RI_NUOC"
@@ -2538,7 +2552,7 @@
       "faults": [],
       "fault_ok": true,
       "note": "",
-      "reply": "Khách: Bảo hành bao lâu?\n\nTrả lời: Bảo hành công và bảo hành linh kiện có thời hạn riêng và người chịu riêng. Anh/chị nên hỏi cụ thể hơn để biết thời hạn bảo hành của sản phẩm của mình.",
+      "reply": "Bảo hành công và bảo hành linh kiện có thời hạn riêng và người chịu riêng. Anh/chị nên hỏi cụ thể hơn để biết thời hạn bảo hành của sản phẩm của mình.",
       "citations": [
         "KB_SYS_WARRANTY",
         "POLICY_WARRANTY"
@@ -2592,7 +2606,7 @@
       "faults": [],
       "fault_ok": true,
       "note": "",
-      "reply": "Khách: thợ tới rồi mà em không đồng ý giá thì sao\n\nTrả lời: Không duyệt báo giá thì sao. Thì không sửa, và đơn đóng lại. Khách không bị ép trả cho việc không đồng ý.",
+      "reply": "Không duyệt báo giá thì sao. Thì không sửa, và đơn đóng lại. Khách không bị ép trả cho việc không đồng ý.",
       "citations": [
         "KB_SYS_FLOW",
         "TLC030"
@@ -2849,17 +2863,21 @@
     {
       "text": "khoá cửa đặt tay mãi không mở được",
       "expect": "diagnose",
-      "got": "refuse",
-      "ok": false,
+      "got": "diagnose",
+      "ok": true,
       "device_expected": "smart_lock",
-      "device_got": null,
-      "device_ok": false,
-      "faults": [],
-      "fault_ok": false,
+      "device_got": "smart_lock",
+      "device_ok": true,
+      "faults": [
+        "LOCK_FINGERPRINT_FAIL"
+      ],
+      "fault_ok": true,
       "note": "",
-      "reply": "",
+      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Khả năng hư hỏng là khóa vân tay không nhận vân. Chi phí từ 100.000đ, phần còn lại kỹ thuật viên phải xem tận nơi mới tính được. Anh/chị nên làm ngay việc Lau khô đầu đọc và ngón tay, thử vân tay đã đăng ký của người khác. Em sẽ đặt lịch sửa khóa cửa vân tay / thẻ từ cho anh/chị.",
       "citations": [],
-      "services": []
+      "services": [
+        "SUA_KHOA_THONG_MINH"
+      ]
     },
     {
       "text": "khoá vân tay kêu tít tít mỗi lần mở cửa",
@@ -2883,17 +2901,21 @@
     {
       "text": "khoá nhận vân rồi mà cửa vẫn không bật ra",
       "expect": "diagnose",
-      "got": "refuse",
-      "ok": false,
+      "got": "diagnose",
+      "ok": true,
       "device_expected": "smart_lock",
-      "device_got": null,
-      "device_ok": false,
-      "faults": [],
-      "fault_ok": false,
+      "device_got": "smart_lock",
+      "device_ok": true,
+      "faults": [
+        "LOCK_MOTOR_FAULT"
+      ],
+      "fault_ok": true,
       "note": "",
-      "reply": "",
+      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Có khả năng hư hỏng là mô tơ chốt khóa không chạy. Chi phí từ 100.000đ, phần còn lại kỹ thuật viên phải xem tận nơi mới tính được. Anh/chị nên tránh giật mạnh tay nắm, vì chốt kẹt bị cạy sẽ hỏng cả bộ khóa. Em khuyên anh/chị nên đặt dịch vụ \"Sửa khóa cửa vân tay / thẻ từ\".",
       "citations": [],
-      "services": []
+      "services": [
+        "SUA_KHOA_THONG_MINH"
+      ]
     },
     {
       "text": "em đang đứng ngoài cửa không vào nhà được",
@@ -3128,16 +3150,16 @@
       "device_got": "power_outlet",
       "device_ok": true,
       "faults": [
-        "OUTLET_SHORT_CIRCUIT",
-        "OUTLET_LOOSE_CONTACT"
+        "OUTLET_LOOSE_CONTACT",
+        "OUTLET_SHORT_CIRCUIT"
       ],
       "fault_ok": true,
       "note": "",
-      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Anh/chị đang nói về một số vấn đề liên quan đến ổ cắm điện. Có khả năng hư hỏng như chập cháy ổ cắm, lỏng tiếp xúc và ổ cắm rơ. Chi phí dự kiến khoảng từ 100.000đ đến 250.000đ.\n\nĐể đảm bảo an toàn, em khuyên anh/chị nên ngắt cầu dao khu vực ngay lập tức và không cắm thêm thiết bị nào vào ổ này. Anh/chị cũng nên ngưng dùng ổ này vì tiếp xúc kém sinh nhiệt và dễ gây cháy.\n\nĐể khắc phục vấn đề này, em khuyên anh/chị nên đặt dịch vụ sửa chập điện âm tường hoặc nhảy Aptomat và thay ổ cắm điện. Chi phí sẽ dao động từ 100.000đ đến 250.000đ.\n\nEm rất mong được phục vụ anh/chị trong việc này. Anh/chị có thể đặt dịch vụ với tên dịch vụ \"Sửa chập điện âm tường / nhảy Aptomat, Thay ổ cắm điện\" để đảm bảo được hỗ trợ đúng cách.",
+      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Anh/chị đang nói về một số vấn đề liên quan đến ổ cắm điện. Có khả năng hư hỏng như lỏng tiếp xúc, ổ cắm rơ và chập cháy ổ cắm. Chi phí dự kiến khoảng từ 100.000đ đến 250.000đ.\n\nĐể đảm bảo an toàn, em khuyên anh/chị nên ngưng sử dụng ổ này vì nó có tiếp xúc kém và dễ gây cháy. Anh/chị cũng nên ngắt cầu dao tại khu vực ngay lập tức và không nên cắm thêm thiết bị nào vào ổ này nữa.\n\nĐể khắc phục vấn đề, em khuyên anh/chị nên đặt dịch vụ thay ổ cắm điện với tiền công và sửa chập điện âm tường hoặc nhảy Aptomat. Em sẽ giúp anh/chị đặt lịch ngay lập tức.\n\nĐặt dịch vụ: Thay ổ cắm điện - tiền công, Sửa chập điện âm tường / nhảy Aptomat",
       "citations": [],
       "services": [
-        "SUA_CHAP_DIEN",
-        "THAY_O_CAM_DIEN"
+        "THAY_O_CAM_DIEN",
+        "SUA_CHAP_DIEN"
       ]
     },
     {
@@ -3149,11 +3171,12 @@
       "device_got": "electric_fan",
       "device_ok": true,
       "faults": [
+        "FAN_OSCILLATION_FAULT",
         "FAN_CORD_DAMAGE"
       ],
-      "fault_ok": false,
+      "fault_ok": true,
       "note": "",
-      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Có khả năng hư hỏng là đứt hoặc hở dây nguồn. Chi phí dự kiến từ 100.000đ đến 270.000đ. Anh/chị nên rút phích cắm và không dùng cho tới khi thay dây. Em sẽ giúp anh/chị kiểm tra/chẩn đoán thiết bị tại nhà. Anh/chị có thể đặt dịch vụ này ngay hôm nay.",
+      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Anh/chị đang nói về một vấn đề với bộ tuốc năng, không có vấn đề với gió, đứt và hở dây nguồn. Chi phí dự kiến khoảng từ 100.000đ đến 420.000đ. Anh/chị có thể sử dụng tạm thời nhưng chỉ có chức năng đảo gió. Anh/chị nên rút phích cắm và không sử dụng cho đến khi thay dây. Em sẽ giúp anh/chị kiểm tra/chẩn đoán thiết bị tại nhà. Anh/chị có thể đặt dịch vụ này ngay hôm nay.",
       "citations": [],
       "services": [
         "KIEM_TRA_CHAN_DOAN_THIET_BI"
@@ -3265,14 +3288,16 @@
       "device_got": "power_outlet",
       "device_ok": false,
       "faults": [
+        "OUTLET_LOOSE_CONTACT",
         "OUTLET_SHORT_CIRCUIT",
         "OUTLET_NO_POWER"
       ],
       "fault_ok": false,
       "note": "",
-      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Có khả năng hư hỏng là chập cháy ổ cắm hoặc ổ cắm mất điện. Chi phí dự kiến từ 100.000đ đến 400.000đ. Anh/chị nên ngắt cầu dao khu vực ngay lập tức và không cắm thêm thiết bị nào vào ổ này. Hãy kiểm tra Aptomat khu vực đã nhảy chưa. Em sẽ đặt dịch vụ sửa chập điện âm tường hoặc nhảy Aptomat cho anh/chị.",
+      "reply": "",
       "citations": [],
       "services": [
+        "THAY_O_CAM_DIEN",
         "SUA_CHAP_DIEN"
       ]
     },
@@ -3285,12 +3310,13 @@
       "device_got": "electric_fan",
       "device_ok": true,
       "faults": [
+        "FAN_WOBBLE",
         "FAN_CORD_DAMAGE",
         "FAN_WORN_BEARING"
       ],
-      "fault_ok": false,
+      "fault_ok": true,
       "note": "",
-      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Anh/chị đang nói về một số vấn đề như đứt, hở dây nguồn, khô bạc đạn, và mòn bạc trục. Chi phí để khắc phục các vấn đề này sẽ dao động từ 100.000đ đến khi kỹ thuật viên kiểm tra tận nơi. Anh/chị nên rút phích cắm và không sử dụng thiết bị cho đến khi thay dây. Đừng sử dụng thiết bị này để tránh kẹt trục và gây cháy mô tơ. Em khuyên anh/chị nên đặt dịch vụ kiểm tra/chẩn đoán thiết bị tại nhà để được tư vấn chính xác nhất.",
+      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Anh/chị đang nói về các vấn đề như rung lắc, cong cánh, lỏng chân đế, đứt, hở dây nguồn, khô bạc đạn, mòn bạc trục. Chi phí để khắc phục các vấn đề này từ 100.000đ, nhưng phần còn lại kỹ thuật viên sẽ phải xem tận nơi mới tính được. Anh/chị nên đặt quạt trên mặt phẳng và kiểm tra ốc khoá cánh; rút phích cắm và không dùng cho tới khi thay dây; ngưng dùng để tránh kẹt trục làm cháy mô tơ. Em sẽ giúp anh/chị đặt dịch vụ kiểm tra/chẩn đoán thiết bị tại nhà.",
       "citations": [],
       "services": [
         "KIEM_TRA_CHAN_DOAN_THIET_BI"
@@ -3324,11 +3350,12 @@
       "device_got": "kettle",
       "device_ok": true,
       "faults": [
+        "KETTLE_HEATING_BASE",
         "KETTLE_SWITCH"
       ],
       "fault_ok": true,
       "note": "",
-      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Có khả năng hư hỏng là hở công tắc và chân tiếp xúc. Chi phí dự kiến khoảng từ 100.000đ đến 220.000đ. Anh/chị nên rút phích cắm và không sử dụng vật chèn giữ công tắc ngay lập tức. Em sẽ giúp anh/chị kiểm tra/chẩn đoán thiết bị tại nhà. Anh/chị có thể đặt dịch vụ này ngay hôm nay.",
+      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Có khả năng hư hỏng là hỏng mâm nhiệt hoặc chân tiếp xúc. Chi phí dự kiến từ 100.000đ đến 400.000đ. Anh/chị nên rút phích cắm và ngưng sử dụng thiết bị ngay lập tức. Nếu có thể, rút phích cắm và không dùng vật chèn giữ công tắc. Em sẽ kiểm tra/chẩn đoán thiết bị tại nhà. Anh/chị có thể đặt dịch vụ này ngay hôm nay?",
       "citations": [],
       "services": [
         "KIEM_TRA_CHAN_DOAN_THIET_BI"
@@ -3344,12 +3371,11 @@
       "device_ok": true,
       "faults": [
         "CEILFAN_SPEED_SWITCH",
-        "CEILFAN_BEARING",
-        "CEILFAN_SPEED_SWITCH"
+        "CEILFAN_BEARING"
       ],
       "fault_ok": true,
       "note": "",
-      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Anh/chị đang nói về các vấn đề liên quan đến hộp số, chiết áp, khô dầu và mòn bạc trục quạt trần. Chi phí dự kiến cho các dịch vụ này sẽ rơi vào khoảng từ 100.000đ đến 250.000đ.\n\nĐể đảm bảo an toàn, em khuyên anh/chị nên ngắt cầu dao nếu hộp số nóng hoặc có mùi khét, và ngưng sử dụng thiết bị nếu có rung lắc kéo dài, vì điều này có thể làm lỏng chỗ treo.\n\nVì vậy, em khuyến nghị anh/chị nên đặt dịch vụ kiểm tra/chẩn đoán thiết bị tại nhà. Em sẽ đảm bảo rằng chúng em sẽ đến nhà anh/chị ngay lập tức để tiến hành kiểm tra và đưa ra giải pháp phù hợp nhất.",
+      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Anh/chị đang nói về một số vấn đề như hỏng hộp số, chiết áp, khô dầu và mòn bạc trục quạt trần. Chi phí dự kiến khoảng từ 100.000đ đến 250.000đ. Anh/chị nên ngắt cầu dao nếu hộp số nóng hoặc có mùi khét, và ngưng sử dụng nếu có rung lắc kéo dài có thể làm lỏng chỗ treo. Em khuyên anh/chị nên đặt dịch vụ kiểm tra/chẩn đoán thiết bị tại nhà.",
       "citations": [],
       "services": [
         "KIEM_TRA_CHAN_DOAN_THIET_BI"
@@ -3424,11 +3450,12 @@
       "device_got": "oven",
       "device_ok": true,
       "faults": [
+        "OVEN_HEATING_ELEMENT",
         "OVEN_TIMER_FAULT"
       ],
-      "fault_ok": false,
+      "fault_ok": true,
       "note": "",
-      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Có khả năng hư hỏng là Hỏng bộ hẹn giờ và công tắc. Chi phí dự kiến khoảng từ 100.000đ đến 700.000đ. Anh/chị nên rút điện khi dùng xong thay vì dựa vào hẹn giờ để đảm bảo an toàn. Em khuyên anh/chị nên đặt dịch vụ Kiểm tra/chẩn đoán thiết bị tại nhà để được tư vấn chính xác nhất.",
+      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Có khả năng hư hỏng là hở thanh nhiệt hoặc hở bộ hẹn giờ. Chi phí dự kiến từ 100.000đ đến 730.000đ. Anh/chị nên rút điện trước khi kiểm tra để đảm bảo an toàn. Hãy rút điện khi dùng xong thay vì dựa vào hẹn giờ. Em sẽ giúp anh/chị kiểm tra/chẩn đoán thiết bị tại nhà. Anh/chị có thể đặt dịch vụ này ngay hôm nay.",
       "citations": [],
       "services": [
         "KIEM_TRA_CHAN_DOAN_THIET_BI"
@@ -3559,13 +3586,15 @@
       "device_got": "sink",
       "device_ok": true,
       "faults": [
+        "SINK_DRAIN_CORRODED",
         "SINK_CLOGGED"
       ],
-      "fault_ok": false,
+      "fault_ok": true,
       "note": "",
-      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Chiếc bồn rửa của anh/chị đang gặp vấn đề về việc nghẹt đường thoát. Chi phí để khắc phục này sẽ dao động từ 100.000đ, nhưng phần còn lại kỹ thuật viên sẽ phải xem tận nơi mới có thể tính chính xác. Anh/chị nên ngưng đổ dầu mỡ và thức ăn thừa xuống bồn để tránh tình trạng nghẹt thêm. Em khuyên anh/chị nên đặt dịch vụ kiểm tra/chẩn đoán thiết bị tại nhà để được giải quyết vấn đề một cách nhanh chóng và hiệu quả.",
+      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Có khả năng hư hỏng là rỉ sét, mục giỏ thoát, và nghẹt đường thoát bồn rửa. Chi phí từ 100.000đ, phần còn lại kỹ thuật viên phải xem tận nơi mới tính được. Anh/chị nên hạn chế đọng nước lâu trong bồn và ngưng đổ dầu mỡ và thức ăn thừa xuống bồn. Em sẽ đặt lịch thợ với dịch vụ \"Thay siphon/chống rò lavabo\" và \"Kiểm tra/chẩn đoán thiết bị tại nhà\".",
       "citations": [],
       "services": [
+        "THAY_SIPHON_LAVABO",
         "KIEM_TRA_CHAN_DOAN_THIET_BI"
       ]
     },
@@ -3714,11 +3743,12 @@
       "device_got": "oven",
       "device_ok": true,
       "faults": [
+        "OVEN_HEATING_ELEMENT",
         "OVEN_TIMER_FAULT"
       ],
-      "fault_ok": false,
+      "fault_ok": true,
       "note": "",
-      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Có khả năng hư hỏng là Hỏng bộ hẹn giờ và công tắc. Chi phí dự kiến khoảng từ 100.000đ đến 700.000đ. Anh/chị nên rút điện khi dùng xong thay vì dựa vào hẹn giờ để đảm bảo an toàn. Em khuyên anh/chị nên đặt dịch vụ Kiểm tra/chẩn đoán thiết bị tại nhà để được tư vấn chính xác nhất.",
+      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Có khả năng hư hỏng là hở thanh nhiệt hoặc hở bộ hẹn giờ. Chi phí dự kiến từ 100.000đ đến 730.000đ. Anh/chị nên rút điện trước khi kiểm tra để đảm bảo an toàn. Hãy rút điện khi dùng xong thay vì dựa vào hẹn giờ. Em sẽ giúp anh/chị kiểm tra/chẩn đoán thiết bị tại nhà. Anh/chị có thể đặt dịch vụ này ngay hôm nay.",
       "citations": [],
       "services": [
         "KIEM_TRA_CHAN_DOAN_THIET_BI"
@@ -3830,12 +3860,13 @@
       "device_got": "washing_machine",
       "device_ok": false,
       "faults": [
+        "WM_DRAIN_PUMP",
         "WM_OVERFLOW",
         "WM_DOOR_SEAL_LEAK"
       ],
       "fault_ok": false,
       "note": "",
-      "reply": "",
+      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Có khả năng hư hỏng như họng bơm xả, nghẹt đường xả, cấp nước không ngắt, tràn nước, rách gioăng cửa, rò nước. Chi phí dự kiến từ 100.000đ đến 1.080.000đ.\n\nĐể đảm bảo an toàn, em khuyên anh/chị nên khóa van cấp nước ngay lập tức và không mở cửa máy cửa ngang khi còn nước trong lồng. Nếu nước đã lan ra sàn, hãy ngắt điện khu vực đó và lau khô sàn để tránh trơn trượt và chập điện.\n\nĐể khắc phục vấn đề ngay lập tức, em khuyên anh/chị nên đặt dịch vụ sửa máy giặt rung lắc / không vắt. Em sẽ đặt lịch ngay cho anh/chị.",
       "citations": [],
       "services": [
         "SUA_MAY_GIAT"
@@ -4005,11 +4036,12 @@
       "device_got": "light_bulb",
       "device_ok": true,
       "faults": [
+        "LIGHT_DIM",
         "LIGHT_BULB_DEAD"
       ],
-      "fault_ok": false,
+      "fault_ok": true,
       "note": "",
-      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Có khả năng hư hỏng là bóng đèn cháy và hết tuổi thọ. Chi phí dự kiến từ 120.000đ đến 320.000đ. Anh/chị nên tắt công tắc trước khi thay bóng để đảm bảo an toàn. Em khuyên anh/chị nên đặt dịch vụ \"Lắp đèn trần cơ bản\" với tiền công. Xin mời anh/chị đặt dịch vụ với đúng tên dịch vụ được cho.",
+      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Anh/chị đang gặp vấn đề với đèn sáng yếu, điện áp thấp, bóng đèn cháy và hết tuổi thọ. Chi phí dự kiến khoảng từ 100.000đ đến 320.000đ.\n\nĐể khắc phục vấn đề này, em khuyên anh/chị nên kiểm tra xem có đang dùng nhiều thiết bị công suất lớn cùng lúc không. Nếu có, hãy tắt công tắc trước khi thay bóng. Đây là một việc cần làm ngay để đảm bảo hiệu quả sử dụng điện.\n\nVới dịch vụ mà anh/chị cần, em khuyên anh/chị nên đặt dịch vụ \"Lắp đèn trần cơ bản\". Đây là dịch vụ phù hợp với tình trạng hiện tại của anh/chị.\n\nChúc anh/chị may mắn!",
       "citations": [],
       "services": [
         "LAP_DEN_TRAN_CO_BAN"
@@ -4100,11 +4132,12 @@
       "device_got": "electric_fan",
       "device_ok": true,
       "faults": [
+        "FAN_SWITCH_FAULT",
         "FAN_CORD_DAMAGE"
       ],
-      "fault_ok": false,
+      "fault_ok": true,
       "note": "",
-      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Có khả năng hư hỏng là đứt hoặc hở dây nguồn. Chi phí dự kiến từ 100.000đ đến 270.000đ. Anh/chị nên rút phích cắm và không dùng cho tới khi thay dây. Em sẽ giúp anh/chị kiểm tra/chẩn đoán thiết bị tại nhà. Anh/chị có thể đặt dịch vụ này ngay hôm nay.",
+      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Có khả năng hư hỏng là hở dây nguồn và đứt. Chi phí dự kiến từ 100.000đ đến 270.000đ. Anh/chị nên rút phích cắm trước khi tháo bất kỳ bộ phận nào và không dùng cho tới khi thay dây. Em sẽ đặt lịch kiểm tra/chẩn đoán thiết bị tại nhà. Anh/chị có thể đặt dịch vụ \"Kiểm tra/chẩn đoán thiết bị tại nhà\" với em.",
       "citations": [],
       "services": [
         "KIEM_TRA_CHAN_DOAN_THIET_BI"
@@ -4119,16 +4152,17 @@
       "device_got": "sink",
       "device_ok": true,
       "faults": [
+        "SINK_TRAP_LEAK",
         "SINK_CLOGGED",
         "SINK_DRAIN_CORRODED"
       ],
-      "fault_ok": false,
+      "fault_ok": true,
       "note": "",
-      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Anh/chị đang gặp vấn đề với hệ thống bồn rửa, cụ thể là có thể bị nghẹt đường thoát bồn, rỉ sét hoặc mục giỏ thoát. Chi phí để khắc phục sẽ dao động từ 100.000đ đến khi kỹ thuật viên kiểm tra tận nơi mới có thể tính chính xác. \n\nĐể đảm bảo hệ thống hoạt động hiệu quả, em khuyên anh/chị nên ngưng đổ dầu mỡ và thức ăn thừa vào bồn rửa ngay lập tức và hạn chế việc đọng nước lâu trong bồn. \n\nVì vậy, em khuyến nghị anh/chị đặt dịch vụ kiểm tra/chẩn đoán thiết bị tại nhà và thay siphon/chống rò lavabo. Chi phí này sẽ là tiền công của chúng em. \n\nChúng em rất vui lòng giúp anh/chị khắc phục vấn đề này ngay lập tức.",
+      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Có khả năng hư hỏng như rò rỉ ống thoát dưới bồn, nghẹt đường thoát bồn rửa, rỉ sét, mục giỏ thoát. Chi phí từ 100.000đ, phần còn lại kỹ thuật viên phải xem tận nơi mới tính được. Anh/chị nên h支撑 chậu dưới chỗ rò và hạn chế dùng bồn rửa; ngưng đổ dầu mỡ và thức ăn thừa xuống bồn; hạn chế đọng nước lâu trong bồn. Em sẽ đặt dịch vụ thay siphon/chống rò lavabo - tiền công, kiểm tra/chẩn đoán thiết bị tại nhà.",
       "citations": [],
       "services": [
-        "KIEM_TRA_CHAN_DOAN_THIET_BI",
-        "THAY_SIPHON_LAVABO"
+        "THAY_SIPHON_LAVABO",
+        "KIEM_TRA_CHAN_DOAN_THIET_BI"
       ]
     },
     {
@@ -4274,11 +4308,12 @@
       "device_got": "electric_fan",
       "device_ok": true,
       "faults": [
+        "FAN_OSCILLATION_FAULT",
         "FAN_SWITCH_FAULT"
       ],
-      "fault_ok": false,
+      "fault_ok": true,
       "note": "",
-      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Có khả năng hư hỏng là hở công tắc và nút chỉnh tốc độ. Chi phí dự kiến khoảng từ 100.000đ đến 170.000đ. Anh/chị nên rút phích cắm trước khi tháo bất kỳ bộ phận nào để đảm bảo an toàn. Em sẽ giúp anh/chị kiểm tra/chẩn đoán thiết bị tại nhà. Anh/chị có thể đặt dịch vụ này ngay hôm nay.",
+      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Anh/chị đang nói về một số vấn đề liên quan đến bộ tuốc năng và công tắc, không có vấn đề với gió. Chi phí dự kiến cho các dịch vụ này sẽ rơi vào khoảng từ 100.000đ đến 420.000đ.\n\nAnh/chị có thể sử dụng tạm thời với chức năng đảo gió vẫn hoạt động, nhưng chỉ mất chức năng đảo gió. Để đảm bảo an toàn, anh/chị nên rút phích cắm trước khi tháo bất kỳ bộ phận nào.\n\nVì vậy, em khuyên anh/chị nên đặt dịch vụ kiểm tra/chẩn đoán thiết bị tại nhà. Em sẽ đảm bảo rằng chúng em sẽ đến nhà anh/chị để tiến hành kiểm tra và đưa ra giải pháp phù hợp nhất.",
       "citations": [],
       "services": [
         "KIEM_TRA_CHAN_DOAN_THIET_BI"
@@ -4312,11 +4347,12 @@
       "device_got": "kettle",
       "device_ok": true,
       "faults": [
+        "KETTLE_HEATING_BASE",
         "KETTLE_LEAK"
       ],
-      "fault_ok": false,
+      "fault_ok": true,
       "note": "",
-      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Anh/chị đang nói về tình trạng rò nước ở đáy bình. Chi phí dự kiến cho dịch vụ này sẽ rơi vào khoảng từ 100.000đ đến 180.000đ. Em khuyên anh/chị nên ngưng sử dụng ngay vì nước rò xuống phần điện rất nguy hiểm. Anh/chị nên đặt dịch vụ kiểm tra/chẩn đoán thiết bị tại nhà để được tư vấn chính xác nhất.",
+      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Anh/chị đang nói về hư hỏng của mâm nhiệt và rò nước ở đáy bình. Chi phí dự kiến khoảng từ 100.000đ đến 400.000đ. Anh/chị nên rút phích cắm và ngưng sử dụng ngay vì nước rò xuống phần điện rất nguy hiểm. Em khuyên anh/chị nên đặt dịch vụ kiểm tra/chẩn đoán thiết bị tại nhà để được tư vấn chính xác nhất.",
       "citations": [],
       "services": [
         "KIEM_TRA_CHAN_DOAN_THIET_BI"
@@ -4350,12 +4386,13 @@
       "device_got": "microwave_oven",
       "device_ok": true,
       "faults": [
+        "MW_FAN_NOISY",
         "MW_MAGNETRON",
         "MW_TURNTABLE_MOTOR"
       ],
-      "fault_ok": false,
+      "fault_ok": true,
       "note": "",
-      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Có khả năng hư hỏng là hỏng sò cao tần và hỏng mô tơ mâm xoay. Chi phí dự kiến từ 100.000đ đến 780.000đ. Anh/chị nên ngưng sử dụng và rút điện để đảm bảo an toàn. Tuy nhiên, vẫn có thể sử dụng tạm thời nhưng thức ăn sẽ nóng không đều. Em khuyên anh/chị nên đặt dịch vụ kiểm tra/chẩn đoán thiết bị tại nhà để được tư vấn chính xác nhất.",
+      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Anh/chị đang nói về quạt tản nhiệt có vấn đề. Có thể là quạt tản nhiệt bị ồn, nghẹt, hoặc hỏng sò cao tần, hoặc hỏng mô tơ mâm xoay. Chi phí dự kiến từ 100.000đ đến 780.000đ.\n\nNếu anh/chị đang sử dụng quạt tản nhiệt, em khuyên anh/chị nên ngưng sử dụng nếu vỏ máy nóng bất thường. Nếu anh/chị đang sử dụng quạt tản nhiệt, em khuyên anh/chị nên ngưng sử dụng và rút điện. Nếu anh/chị vẫn sử dụng quạt tản nhiệt, em khuyên anh/chị nên dừng sử dụng và chỉ sử dụng trong thời gian ngắn để tránh thức ăn bị nóng không đều.\n\nĐể khắc phục vấn đề này, em khuyên anh/chị nên đặt dịch vụ kiểm tra/chẩn đoán thiết bị tại nhà. Em sẽ giúp anh/chị tìm hiểu rõ hơn về tình trạng của quạt tản nhiệt và đưa ra giải pháp phù hợp nhất.",
       "citations": [],
       "services": [
         "KIEM_TRA_CHAN_DOAN_THIET_BI"
@@ -4370,11 +4407,12 @@
       "device_got": "gas_stove",
       "device_ok": true,
       "faults": [
+        "STOVE_BURNER_CLOGGED",
         "STOVE_FLAME_OUT"
       ],
-      "fault_ok": false,
+      "fault_ok": true,
       "note": "",
-      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Chiếc bếp của anh/chị đang gặp vấn đề về lửa tự tắt giữa chừng. Có thể là do một số vấn đề như lò gas không hoạt động hoặc hệ thống điện không ổn định. Chi phí dự kiến khoảng từ 100.000đ đến 360.000đ tùy thuộc vào mức độ phức tạp của sự cố.\n\nĐể đảm bảo an toàn, em khuyên anh/chị nên khóa van bình gas ngay lập tức vì nguy cơ gas vẫn chảy ra rất nguy hiểm nếu không được kiểm soát. Điều này sẽ giúp giảm thiểu nguy cơ xảy ra tai nạn.\n\nVì vậy, em khuyên anh/chị nên đặt dịch vụ kiểm tra/chẩn đoán thiết bị tại nhà để chúng em có thể xác định chính xác vấn đề và đưa ra giải pháp phù hợp nhất. Anh/chị có thể đặt lịch tại đây:\n\n- Kiểm tra/chẩn đoán thiết bị tại nhà\n\nChúng em sẽ đến nhà anh/chị ngay lập tức để tiến hành kiểm tra và giải quyết vấn đề của anh/chị. Xin cảm ơn đã tin tưởng và chúng em sẽ cố gắng hết sức để giúp anh/chị.",
+      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Có khả năng hư hỏng là nghẹt họng lửa, lửa đỏ và lửa tự tắt giữa chừng. Chi phí dự kiến từ 100.000đ đến 360.000đ. Anh/chị nên vệ sinh mặt bếp và họng lửa khi bếp đã nguội hẳn và khóa van bình gas ngay vì lửa tắt mà gas vẫn ra rất nguy hiểm. Em sẽ đặt lịch kiểm tra/chẩn đoán thiết bị tại nhà cho anh/chị. Anh/chị có thể đặt dịch vụ \"Kiểm tra/chẩn đoán thiết bị tại nhà\" với em.",
       "citations": [],
       "services": [
         "KIEM_TRA_CHAN_DOAN_THIET_BI"
@@ -4393,7 +4431,7 @@
       ],
       "fault_ok": true,
       "note": "",
-      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Chiếc bếp của anh/chị đang gặp vấn đề về lửa tự tắt giữa chừng. Có thể là do một số vấn đề như lò gas không hoạt động hoặc hệ thống điện không ổn định. Chi phí dự kiến khoảng từ 100.000đ đến 360.000đ tùy thuộc vào mức độ phức tạp của sự cố.\n\nĐể đảm bảo an toàn, em khuyên anh/chị nên khóa van bình gas ngay lập tức vì nguy cơ gas vẫn chảy ra rất nguy hiểm nếu không được kiểm soát. Điều này sẽ giúp giảm thiểu nguy cơ xảy ra tai nạn.\n\nVì vậy, em khuyên anh/chị nên đặt dịch vụ kiểm tra/chẩn đoán thiết bị tại nhà để chúng em có thể xác định chính xác vấn đề và đưa ra giải pháp phù hợp nhất. Anh/chị có thể đặt lịch tại đây:\n\n- Kiểm tra/chẩn đoán thiết bị tại nhà\n\nChúng em sẽ đến nhà anh/chị ngay lập tức để tiến hành kiểm tra và giải quyết vấn đề của anh/chị. Xin cảm ơn anh/chị đã tin tưởng và sử dụng dịch vụ của chúng em.",
+      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Chiếc bếp của anh/chị đang gặp vấn đề về lửa tự tắt giữa chừng. Có thể là do một số vấn đề như lò gas không hoạt động hoặc hệ thống điện không ổn định. Chi phí dự kiến khoảng từ 100.000đ đến 360.000đ tùy thuộc vào mức độ phức tạp của sự cố.\n\nĐể đảm bảo an toàn, em khuyên anh/chị nên khóa van bình gas ngay lập tức vì nguy cơ gas vẫn chảy ra rất nguy hiểm nếu không được kiểm soát. Điều này sẽ giúp giảm thiểu nguy cơ xảy ra tai nạn.\n\nVì vậy, em khuyên anh/chị nên đặt dịch vụ kiểm tra/chẩn đoán thiết bị tại nhà để chúng em có thể xác định chính xác vấn đề và đưa ra giải pháp phù hợp nhất. Anh/chị có thể đặt lịch tại đây:\n\n- Kiểm tra/chẩn đoán thiết bị tại nhà\n\nChúng em sẽ đến nhà anh/chị ngay lập tức để tiến hành kiểm tra và giải quyết vấn đề của anh/chị. Xin cảm ơn đã tin tưởng và chúng em sẽ cố gắng hết sức để giúp anh/chị.",
       "citations": [],
       "services": [
         "KIEM_TRA_CHAN_DOAN_THIET_BI"
@@ -4408,11 +4446,12 @@
       "device_got": "microwave_oven",
       "device_ok": true,
       "faults": [
+        "MW_MAGNETRON",
         "MW_DOOR_SWITCH"
       ],
-      "fault_ok": false,
+      "fault_ok": true,
       "note": "",
-      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Anh/chị đang nói về hư hỏng của công tắc cửa. Chi phí dự kiến cho dịch vụ này là từ 100.000đ đến 220.000đ. Anh/chị nên rút điện và không cố gắng chèn cửa để máy chạy. Em sẽ giúp anh/chị kiểm tra/chẩn đoán thiết bị tại nhà. Anh/chị có thể đặt dịch vụ này ngay hôm nay.",
+      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Có khả năng hư hỏng là hở sò cao tần và hở công tắc cửa. Chi phí dự kiến từ 100.000đ đến 780.000đ. Anh/chị nên ngưng sử dụng và rút điện để đảm bảo an toàn. Sau đó, rút điện và không cố gắng chèn cửa để máy chạy. Em sẽ kiểm tra/chẩn đoán thiết bị tại nhà để giúp anh/chị. Anh/chị có thể đặt dịch vụ này ngay hôm nay.",
       "citations": [],
       "services": [
         "KIEM_TRA_CHAN_DOAN_THIET_BI"
@@ -4505,12 +4544,12 @@
       "device_got": "electric_fan",
       "device_ok": true,
       "faults": [
-        "FAN_CORD_DAMAGE",
-        "FAN_CAPACITOR"
+        "FAN_CAPACITOR",
+        "FAN_CORD_DAMAGE"
       ],
       "fault_ok": true,
       "note": "",
-      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Có khả năng hư hỏng là đứt hoặc hở dây nguồn, hoặc hỏng tụ khởi động. Chi phí dự kiến từ 100.000đ đến 270.000đ. Anh/chị nên rút phích cắm và không dùng cho tới khi thay dây. Ngừng dùng và không đẩy cánh bằng tay khi đang cấp điện. Em sẽ kiểm tra/chẩn đoán thiết bị tại nhà. Anh/chị nên đặt dịch vụ này.",
+      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Có khả năng hư hỏng là hở dây nguồn hoặc đứt. Chi phí dự kiến từ 100.000đ đến 270.000đ. Anh/chị nên ngưng sử dụng thiết bị và rút phích cắm để đảm bảo an toàn. Em sẽ kiểm tra/chẩn đoán thiết bị tại nhà. Anh/chị có thể đặt dịch vụ này ngay lập tức.",
       "citations": [],
       "services": [
         "KIEM_TRA_CHAN_DOAN_THIET_BI"
@@ -4545,11 +4584,12 @@
       "device_got": "clothes_dryer",
       "device_ok": true,
       "faults": [
+        "DRYER_NOT_SPINNING",
         "DRYER_NOT_HEATING"
       ],
-      "fault_ok": false,
+      "fault_ok": true,
       "note": "",
-      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Anh/chị đang nói về máy sấy không ra hơi nóng. Chi phí để kiểm tra và chẩn đoán thiết bị tại nhà là từ 100.000đ. Nguyên nhân thường gặp nhất là lưới lọc xơ vải bị tắc. Anh/chị nên kiểm tra lưới lọc xơ vải ngay lập tức. Em sẽ đặt lịch kiểm tra/chẩn đoán thiết bị tại nhà cho anh/chị.",
+      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Chiếc lồng máy sấy không quay và máy sấy không ra hơi nóng là những dấu hiệu của một vấn đề về môi chất hoặc lỗ hổng trong thiết bị. Có thể là do lưới lọc xơ vải bị tắc, điều này thường dẫn đến tình trạng này.\n\nĐể đảm bảo an toàn, em khuyên anh/chị nên tắt máy và kiểm tra lồng không quay nhưng mô tơ vẫn chạy để tránh nguy cơ cháy mô tơ. Sau đó, hãy kiểm tra lưới lọc xơ vải để xem liệu có tắc không.\n\nĐể khắc phục vấn đề này, em khuyên anh/chị nên đặt dịch vụ kiểm tra/chẩn đoán thiết bị tại nhà. Điều này sẽ giúp chúng em xác định chính xác vấn đề và đưa ra giải pháp phù hợp nhất.\n\nVì vậy, em khuyến nghị anh/chị nên đặt dịch vụ kiểm tra/chẩn đoán thiết bị tại nhà để đảm bảo sự an toàn và hiệu quả của thiết bị của anh/chị.",
       "citations": [],
       "services": [
         "KIEM_TRA_CHAN_DOAN_THIET_BI"
@@ -4682,13 +4722,15 @@
       "device_got": "smart_lock",
       "device_ok": true,
       "faults": [
+        "LOCK_LOCKED_OUT",
         "LOCK_LOW_BATTERY"
       ],
-      "fault_ok": false,
+      "fault_ok": true,
       "note": "",
-      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Anh/chị đang nói về khóa thông minh hết pin. Chi phí sửa chữa khoảng từ 100.000đ, nhưng phần còn lại kỹ thuật viên sẽ phải xem tận nơi mới tính được. Anh/chị nên sử dụng chìa cơ hoặc sạc dự phòng qua cổng micro USB dưới thân khóa để đảm bảo an toàn. Em sẽ đặt lịch sửa chữa cho anh/chị với dịch vụ \"Sửa khóa cửa vân tay / thẻ từ\".",
+      "reply": "",
       "citations": [],
       "services": [
+        "MO_KHOA_KHAN_CAP",
         "SUA_KHOA_THONG_MINH"
       ]
     },
@@ -4716,17 +4758,21 @@
     {
       "text": "máy lạnh mô tơ ngoài không chạy",
       "expect": "diagnose",
-      "got": "refuse",
-      "ok": false,
+      "got": "diagnose",
+      "ok": true,
       "device_expected": "air_conditioner",
-      "device_got": null,
-      "device_ok": false,
-      "faults": [],
+      "device_got": "air_conditioner",
+      "device_ok": true,
+      "faults": [
+        "AC_COMPRESSOR_FAULT"
+      ],
       "fault_ok": false,
       "note": "",
-      "reply": "",
+      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Anh/chị đang nói về hư hỏng máy nén trong máy lạnh. Chi phí sửa chữa khoảng từ 100.000đ, nhưng phần còn lại kỹ thuật viên sẽ phải xem tận nơi mới tính được. Anh/chị nên ngắt nguồn máy lạnh và không bật lại để tránh hỏng lan sang bo mạch. Em sẽ đặt dịch vụ \"Sửa điều hòa không mát / chảy nước\" cho anh/chị.",
       "citations": [],
-      "services": []
+      "services": [
+        "SUA_DIEU_HOA"
+      ]
     },
     {
       "text": "bếp gas lửa như đèn dầu",
@@ -4794,12 +4840,13 @@
       "device_got": "electric_fan",
       "device_ok": true,
       "faults": [
+        "FAN_SWITCH_FAULT",
         "FAN_CORD_DAMAGE",
         "FAN_WORN_BEARING"
       ],
-      "fault_ok": false,
+      "fault_ok": true,
       "note": "",
-      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Anh/chị đang nói về một số vấn đề như đứt, hở dây nguồn, khô bạc đạn, và mòn bạc trục. Chi phí để khắc phục các vấn đề này sẽ dao động từ 100.000đ đến khi kỹ thuật viên kiểm tra tận nơi. Anh/chị nên rút phích cắm và không sử dụng thiết bị cho đến khi thay dây. Đừng sử dụng thiết bị này để tránh kẹt trục và gây cháy mô tơ. Em khuyên anh/chị nên đặt dịch vụ kiểm tra/chẩn đoán thiết bị tại nhà để được tư vấn chính xác nhất.",
+      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Có khả năng hư hỏng như: Hỏng công tắc, nút chỉnh tốc độ, Đứt, hở dây nguồn, Khô bạc đạn, mòn bạc trục. Chi phí thay thế khoảng từ 100.000đ, phần còn lại kỹ thuật viên phải xem tận nơi mới tính được. Anh/chị nên rút phích cắm trước khi tháo bất kỳ bộ phận nào, rút phích cắm và không dùng cho tới khi thay dây, ngưng dùng để tránh kẹt trục làm cháy mô tơ. Em sẽ giúp anh/chị đặt dịch vụ kiểm tra/chẩn đoán thiết bị tại nhà.",
       "citations": [],
       "services": [
         "KIEM_TRA_CHAN_DOAN_THIET_BI"
@@ -4814,11 +4861,12 @@
       "device_got": "air_conditioner",
       "device_ok": true,
       "faults": [
+        "AC_CAPACITOR",
         "AC_COMPRESSOR_FAULT"
       ],
-      "fault_ok": false,
+      "fault_ok": true,
       "note": "",
-      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Anh/chị đang nói về hư hỏng máy nén trong máy lạnh. Chi phí sửa chữa khoảng từ 100.000đ, nhưng phần còn lại kỹ thuật viên sẽ phải xem tận nơi mới tính được. Anh/chị nên ngắt nguồn máy lạnh và không bật lại để tránh hỏng lan sang bo mạch. Em sẽ đặt dịch vụ \"Sửa điều hòa không mát / chảy nước\" cho anh/chị.",
+      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Có khả năng hư hỏng là hở tụ điện hoặc hở máy nén. Chi phí từ 100.000đ, phần còn lại kỹ thuật viên phải xem tận nơi mới tính được. Anh/chị nên ngắt nguồn, không dùng vật gì tác động vào cánh quạt; ngắt nguồn máy lạnh; không bật lại để tránh hỏng lan sang bo mạch. Em sẽ đặt lịch sửa chữa cho anh/chị với dịch vụ \"Sửa điều hòa không mát / chảy nước\".",
       "citations": [],
       "services": [
         "SUA_DIEU_HOA"
@@ -4890,11 +4938,12 @@
       "device_got": "electric_fan",
       "device_ok": true,
       "faults": [
+        "FAN_CAPACITOR",
         "FAN_CORD_DAMAGE"
       ],
-      "fault_ok": false,
+      "fault_ok": true,
       "note": "",
-      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Có khả năng hư hỏng là đứt hoặc hở dây nguồn. Chi phí dự kiến từ 100.000đ đến 270.000đ. Anh/chị nên rút phích cắm và không dùng cho tới khi thay dây. Em sẽ giúp anh/chị kiểm tra/chẩn đoán thiết bị tại nhà. Anh/chị có thể đặt dịch vụ này ngay hôm nay.",
+      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Có khả năng hư hỏng là hở dây nguồn. Chi phí dự kiến từ 100.000đ đến 270.000đ. Anh/chị nên ngưng sử dụng và rút phích cắm để đảm bảo an toàn. Em sẽ kiểm tra/chẩn đoán thiết bị tại nhà. Anh/chị có thể đặt dịch vụ này ngay lập tức.",
       "citations": [],
       "services": [
         "KIEM_TRA_CHAN_DOAN_THIET_BI"
@@ -4967,11 +5016,12 @@
       "device_got": "power_outlet",
       "device_ok": true,
       "faults": [
+        "OUTLET_SHORT_CIRCUIT",
         "OUTLET_NO_POWER"
       ],
       "fault_ok": true,
       "note": "",
-      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Có khả năng hư hỏng là ổ cắm mất điện và đứt dây. Chi phí dự kiến từ 100.000đ đến 400.000đ. Anh/chị nên kiểm tra Aptomat khu vực đã nhảy chưa ngay lập tức. Em sẽ đặt dịch vụ sửa chập điện âm tường hoặc nhảy Aptomat cho anh/chị.",
+      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Có khả năng hư hỏng là chập cháy ổ cắm hoặc ổ cắm mất điện. Chi phí dự kiến từ 100.000đ đến 400.000đ. Anh/chị nên ngắt cầu dao khu vực ngay lập tức và không cắm thêm thiết bị nào vào ổ này. Hãy kiểm tra Aptomat khu vực đã nhảy chưa. Em sẽ đặt dịch vụ sửa chập điện âm tường hoặc nhảy Aptomat cho anh/chị.",
       "citations": [],
       "services": [
         "SUA_CHAP_DIEN"
@@ -4986,11 +5036,12 @@
       "device_got": "television",
       "device_ok": true,
       "faults": [
+        "TV_MAIN_BOARD",
         "TV_REMOTE_FAULT"
       ],
-      "fault_ok": false,
+      "fault_ok": true,
       "note": "",
-      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Có khả năng hư hỏng là Hỏng điều khiển và mắt nhận. Chi phí dự kiến từ 100.000đ đến 390.000đ. Anh/chị nên thử thay pin và lau sạch mắt nhận trên tivi ngay lập tức. Em sẽ đặt lịch kiểm tra/chẩn đoán thiết bị tại nhà cho anh/chị.",
+      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Có khả năng hư hỏng là Hỏng bo xử lý tín hiệu hoặc Hỏng điều khiển. Chi phí dự kiến từ 100.000đ đến 1.800.000đ. Anh/chị nên rút điện khoảng năm phút rồi thử khởi động lại một lần, thử thay pin và lau sạch mắt nhận trên tivi. Em sẽ đặt lịch kiểm tra/chẩn đoán thiết bị tại nhà cho anh/chị.",
       "citations": [],
       "services": [
         "KIEM_TRA_CHAN_DOAN_THIET_BI"
@@ -5043,13 +5094,15 @@
       "device_got": "toilet",
       "device_ok": true,
       "faults": [
+        "TOILET_FILL_VALVE",
         "TOILET_BASE_LEAK"
       ],
-      "fault_ok": false,
+      "fault_ok": true,
       "note": "",
-      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Có khả năng hư hỏng là rò rỉ chân bồn cầu. Chi phí từ 100.000đ, phần còn lại kỹ thuật viên phải xem tận nơi mới tính được. Anh/chị nên hạn chế sử dụng cho tới khi xử lý vì nước thải thấm nền. Em sẽ đặt lịch sửa rò rỉ đường ống nước / bục vỡ cho anh/chị.",
+      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Anh/chị đang nói về hư hỏng van cấp nước két và rò rỉ chân bồn cầu. Chi phí để khắc phục hiện tại khoảng 100.000đ, nhưng phần còn lại kỹ thuật viên sẽ phải xem tận nơi mới tính được chi phí chính xác. Anh/chị nên khóa van chặn sau bồn cầu và hạn chế sử dụng cho tới khi xử lý vì nước thải thấm nền. Em sẽ đặt lịch kiểm tra/chẩn đoán thiết bị tại nhà và sửa rò rỉ đường ống nước/bục vỡ. Xin cảm ơn đã thông báo và em rất mong muốn giúp anh/chị.",
       "citations": [],
       "services": [
+        "KIEM_TRA_CHAN_DOAN_THIET_BI",
         "SUA_RO_RI_NUOC"
       ]
     },
@@ -5119,11 +5172,12 @@
       "device_got": "clothes_dryer",
       "device_ok": true,
       "faults": [
+        "DRYER_NOT_HEATING",
         "DRYER_NOT_SPINNING"
       ],
       "fault_ok": true,
       "note": "",
-      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Chiếc lồng máy sấy không quay là một vấn đề phổ biến và có thể do nhiều nguyên nhân khác nhau. Chi phí để kiểm tra và chẩn đoán tại nhà khoảng từ 100.000đ. Nếu anh/chị tắt máy và chỉ để mô tơ chạy, mô tơ có thể bị quá tải và gây cháy. Vì vậy, em khuyên anh/chị nên tắt máy và chỉ để mô tơ chạy. Anh/chị cũng nên đặt dịch vụ kiểm tra/chẩn đoán thiết bị tại nhà để được tư vấn chính xác và tiết kiệm chi phí.",
+      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Chiếc máy sấy của anh/chị không ra hơi nóng và lồng máy sấy không quay. Đây là một số khả năng hư hỏng phổ biến:\n\n- Có thể là lưới lọc xơ vải bị tắc, lọc tắc là nguyên nhân thường gặp nhất.\n- Có thể là mô tơ không hoạt động đúng cách, dẫn đến lồng không quay.\n\nĐể xác định chính xác, anh/chị nên kiểm tra lưới lọc xơ vải và tắt máy, sau đó kiểm tra lồng máy sấy. Nếu lồng không quay nhưng mô tơ vẫn chạy, có thể dẫn đến cháy mô tơ.\n\nAnh/chị nên thực hiện các bước sau để xác định và khắc phục vấn đề:\n\n- Kiểm tra lưới lọc xơ vải.\n- Kiểm tra mô tơ và lồng máy sấy.\n- Nếu cần, hãy tắt máy và chờ qua đêm để xem mô tơ có hoạt động bình thường hay không.\n\nĐể khắc phục vấn đề một cách hiệu quả, anh/chị nên đặt dịch vụ kiểm tra/chẩn đoán thiết bị tại nhà. Em sẽ giúp anh/chị đặt lịch.\n\nĐặt lịch: Kiểm tra/chẩn đoán thiết bị tại nhà",
       "citations": [],
       "services": [
         "KIEM_TRA_CHAN_DOAN_THIET_BI"
@@ -5160,11 +5214,12 @@
       "device_got": "television",
       "device_ok": true,
       "faults": [
+        "TV_MAIN_BOARD",
         "TV_NO_SOUND"
       ],
-      "fault_ok": false,
+      "fault_ok": true,
       "note": "",
-      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Có khả năng hư hỏng là mất tiếng và hỏng loa. Chi phí dự kiến từ 100.000đ đến 630.000đ. Anh/chị nên thử tai nghe hoặc loa ngoài để xác định lỗi ở loa hay ở bo. Em sẽ đặt lịch kiểm tra/chẩn đoán thiết bị tại nhà. Anh/chị có thể đặt dịch vụ \"Kiểm tra/chẩn đoán thiết bị tại nhà\" với em.",
+      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Anh/chị đang gặp vấn đề với hệ thống âm thanh, cụ thể là hỏng bo xử lý tín hiệu, mất tiếng và hỏng loa. Chi phí dự kiến cho dịch vụ này sẽ dao động từ 100.000đ đến 1.800.000đ.\n\nĐể xác định chính xác lỗi, em khuyên anh/chị nên rút điện khoảng năm phút rồi thử khởi động lại một lần. Sau đó, hãy thử tai nghe hoặc loa ngoài để xác định lỗi ở loa hay ở bo. Điều này sẽ giúp chúng em hiểu rõ hơn về tình trạng hiện tại của thiết bị.\n\nVì vậy, em khuyến nghị anh/chị đặt dịch vụ kiểm tra/chẩn đoán thiết bị tại nhà. Em sẽ đảm bảo rằng chúng em sẽ đến nhà anh/chị ngay lập tức để tiến hành kiểm tra và đưa ra giải pháp phù hợp nhất.",
       "citations": [],
       "services": [
         "KIEM_TRA_CHAN_DOAN_THIET_BI"
@@ -5409,11 +5464,12 @@
       "device_got": "electric_fan",
       "device_ok": true,
       "faults": [
+        "FAN_CORD_DAMAGE",
         "FAN_MOTOR_BURNT"
       ],
       "fault_ok": false,
       "note": "",
-      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Có khả năng hư hỏng là cháy cuộn dây mô tơ. Chi phí dự kiến từ 100.000đ đến 650.000đ. Anh/chị nên rút phích cắm ngay và không cắm lại để thử. Em sẽ kiểm tra/chẩn đoán thiết bị tại nhà. Anh/chị có thể đặt dịch vụ này ngay hôm nay.",
+      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Có khả năng hư hỏng là đứt, hở dây nguồn hoặc cháy cuộn dây mô tơ. Chi phí dự kiến từ 100.000đ đến 650.000đ. Anh/chị nên rút phích cắm và không dùng cho tới khi thay dây. Không cắm lại để thử. Em sẽ đặt lịch kiểm tra/chẩn đoán thiết bị tại nhà. Anh/chị có thể đặt dịch vụ này với tên \"Kiểm tra/chẩn đoán thiết bị tại nhà\".",
       "citations": [],
       "services": [
         "KIEM_TRA_CHAN_DOAN_THIET_BI"
@@ -5447,12 +5503,13 @@
       "device_got": "dishwasher",
       "device_ok": true,
       "faults": [
+        "DW_NO_POWER",
         "DW_NOT_DRAINING",
         "DW_NOT_CLEAN"
       ],
-      "fault_ok": false,
+      "fault_ok": true,
       "note": "",
-      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Chiếc máy rửa bát của anh/chị không thoát nước và không rửa sạch. Chi phí để khắc phục vấn đề này từ 100.000đ, nhưng phần còn lại kỹ thuật viên sẽ phải xem tận nơi mới tính được. Anh/chị nên tắt máy và khoá van cấp nước trước khi mở cửa máy. Sau đó, hãy tháo và rửa lưới lọc đáy máy, kiểm tra tay phun có quay tự do không. Em sẽ đặt dịch vụ sửa chữa cho anh/chị, dịch vụ được gọi là \"Sửa máy rửa bát không sạch / tràn nước\".",
+      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Có thể hư hỏng là máy rửa bát không lên nguồn, không thoát nước và không rửa sạch. Chi phí từ 100.000đ, phần còn lại kỹ thuật viên phải xem tận nơi mới tính được. Anh/chị nên kiểm tra ổ cắm bằng một thiết bị khác trước khi gọi thợ, tắt máy và khoá van cấp nước trước khi mở cửa máy, tháo và rửa lưới lọc đáy máy, kiểm tra tay phun có quay tự do không. Em sẽ đặt dịch vụ sửa máy rửa bát không sạch / tràn nước cho anh/chị.",
       "citations": [],
       "services": [
         "SUA_MAY_RUA_CHEN"
@@ -5467,12 +5524,13 @@
       "device_got": "power_outlet",
       "device_ok": false,
       "faults": [
+        "OUTLET_NO_POWER",
         "OUTLET_OVERLOAD",
         "OUTLET_TRIPS_BREAKER"
       ],
       "fault_ok": false,
       "note": "",
-      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Chiếc máy lạnh của anh/chị đang gặp vấn đề về quá tải và sử dụng quá nhiều thiết bị một ổ. Có khả năng là do rò điện làm nhảy Aptomat. Chi phí để khắc phục hiện tại khoảng 100.000đ, nhưng phần còn lại kỹ thuật viên sẽ phải đến tận nơi để kiểm tra và tính toán chi tiết hơn. Anh/chị nên rút bớt thiết bị khỏi ổ này ngay lập tức, ngắt cầu dao và không tự đóng lại nhiều lần. Không chạm vào thiết bị nếu anh/chị nghi ngờ có rò điện. Em sẽ đặt lịch sửa chữa cho anh/chị với dịch vụ \"Sửa chập điện âm tường / nhảy Aptomat\". Xin lỗi nếu có bất tiện.",
+      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Có khả năng hư hỏng là ổ cắm mất điện, đứt dây, quá tải, dùng quá nhiều thiết bị một ổ, rò điện làm nhảy aptomat. Chi phí từ 100.000đ, phần còn lại kỹ thuật viên phải xem tận nơi mới tính được. Anh/chị nên kiểm tra aptomat khu vực đã nhảy chưa, rút bớt thiết bị khỏi ổ này ngay, ngắt cầu dao và không tự đóng lại nhiều lần, không chạm vào thiết bị nghi rò điện. Em sẽ đặt dịch vụ sửa chập điện âm tường / nhảy Aptomat cho anh/chị.",
       "citations": [],
       "services": [
         "SUA_CHAP_DIEN"
@@ -5545,11 +5603,12 @@
       "device_got": "water_pipe",
       "device_ok": true,
       "faults": [
+        "PIPE_JOINT_LEAK",
         "PIPE_BURST"
       ],
-      "fault_ok": false,
+      "fault_ok": true,
       "note": "",
-      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Có khả năng hư hỏng là vỡ ống và xì nước mạnh. Chi phí dự kiến từ 100.000đ đến 240.000đ. Anh/chị nên khóa van cấp nước tổng ngay và ngắt điện khu vực bị ngập ngay lập tức để đảm bảo an toàn. Em sẽ đặt dịch vụ sửa rò rỉ đường ống nước hoặc bục vỡ cho anh/chị. Anh/chị có thể đặt dịch vụ này ngay hôm nay.",
+      "reply": "",
       "citations": [],
       "services": [
         "SUA_RO_RI_NUOC"
@@ -5583,12 +5642,12 @@
       "device_got": "oven",
       "device_ok": true,
       "faults": [
-        "OVEN_FAN_FAULT",
-        "OVEN_DOOR_GLASS"
+        "OVEN_DOOR_GLASS",
+        "OVEN_FAN_FAULT"
       ],
       "fault_ok": true,
       "note": "",
-      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Anh/chị đang nói về hư hỏng của quạt đối lưu, nứt kính cửa và hỏng bản lề. Chi phí dự kiến từ 100.000đ đến 1.400.000đ. Anh/chị có thể sử dụng chế độ không quạt tạm thời nếu cần. Nếu kính cửa đã nứt, hãy ngưng sử dụng vì có thể vỡ khi gặp nhiệt. Anh/chị nên đặt dịch vụ kiểm tra/chẩn đoán thiết bị tại nhà. Em sẽ giúp anh/chị đặt lịch ngay lập tức.",
+      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Anh/chị đang nói về các vấn đề liên quan đến nứt kính cửa, hỏng bản lề và hỏng quạt đối lưu. Chi phí dự kiến cho các dịch vụ này sẽ rơi vào khoảng từ 100.000đ đến 1.400.000đ.\n\nĐể đảm bảo an toàn, em khuyên anh/chị nên ngưng sử dụng thiết bị nếu kính cửa đã nứt vì có thể gây vỡ khi gặp nhiệt. Anh/chị cũng có thể sử dụng chế độ không quạt tạm thời để giảm thiểu nguy cơ.\n\nVì vậy, em khuyên anh/chị nên đặt dịch vụ kiểm tra/chẩn đoán thiết bị tại nhà để được tư vấn và giải quyết vấn đề một cách hiệu quả nhất. Em rất mong được phục vụ anh/chị trong thời gian sớm nhất.",
       "citations": [],
       "services": [
         "KIEM_TRA_CHAN_DOAN_THIET_BI"
@@ -5622,11 +5681,12 @@
       "device_got": "power_outlet",
       "device_ok": true,
       "faults": [
+        "OUTLET_SHORT_CIRCUIT",
         "OUTLET_NO_POWER"
       ],
       "fault_ok": true,
       "note": "",
-      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Có khả năng hư hỏng là ổ cắm mất điện và đứt dây. Chi phí dự kiến từ 100.000đ đến 400.000đ. Anh/chị nên kiểm tra Aptomat khu vực đã nhảy chưa ngay lập tức. Em sẽ đặt dịch vụ sửa chập điện âm tường hoặc nhảy Aptomat cho anh/chị.",
+      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Có khả năng hư hỏng là chập cháy ổ cắm hoặc ổ cắm mất điện. Chi phí dự kiến từ 100.000đ đến 400.000đ. Anh/chị nên ngắt cầu dao khu vực ngay lập tức và không cắm thêm thiết bị nào vào ổ này. Hãy kiểm tra Aptomat khu vực đã nhảy chưa. Em sẽ đặt dịch vụ sửa chập điện âm tường hoặc nhảy Aptomat cho anh/chị.",
       "citations": [],
       "services": [
         "SUA_CHAP_DIEN"
@@ -5693,197 +5753,255 @@
     {
       "text": "kính lò nướng bị rạn",
       "expect": "diagnose",
-      "got": "error",
-      "ok": false,
+      "got": "diagnose",
+      "ok": true,
       "device_expected": "oven",
-      "device_got": null,
-      "device_ok": false,
-      "faults": [],
-      "fault_ok": false,
+      "device_got": "oven",
+      "device_ok": true,
+      "faults": [
+        "OVEN_DOOR_GLASS"
+      ],
+      "fault_ok": true,
       "note": "",
-      "reply": "",
+      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Anh/chị đang nói về một vấn đề với nứt kính cửa và hỏng bản lề. Chi phí dự kiến cho dịch vụ này sẽ rơi vào khoảng từ 100.000đ đến 1.400.000đ. Em khuyên anh/chị nên ngưng sử dụng thiết bị nếu kính đã nứt vì có thể gây vỡ khi gặp nhiệt độ cao. Anh/chị nên đặt dịch vụ kiểm tra/chẩn đoán thiết bị tại nhà để được tư vấn chính xác nhất.",
       "citations": [],
-      "services": []
+      "services": [
+        "KIEM_TRA_CHAN_DOAN_THIET_BI"
+      ]
     },
     {
       "text": "quạt trần chắc quạt cũ quá rồi hả em",
       "expect": "diagnose",
-      "got": "error",
-      "ok": false,
+      "got": "diagnose",
+      "ok": true,
       "device_expected": "ceiling_fan",
-      "device_got": null,
-      "device_ok": false,
-      "faults": [],
-      "fault_ok": false,
+      "device_got": "ceiling_fan",
+      "device_ok": true,
+      "faults": [
+        "CEILFAN_CAPACITOR",
+        "CEILFAN_MOUNT_LOOSE"
+      ],
+      "fault_ok": true,
       "note": "",
-      "reply": "",
+      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Chiếc quạt trần của anh/chị đang gặp vấn đề về tụ điện quạt trần, lỏng bộ treo và mất cân bằng cánh. Chi phí dự kiến cho việc sửa chữa rơi vào khoảng từ 100.000đ đến 250.000đ.\n\nĐể đảm bảo an toàn, em khuyên anh/chị nên ngưng sử dụng quạt để tránh nguy cơ cháy cuộn dây mô tơ. Sau đó, hãy tắt quạt và không đứng dưới quạt cho đến khi em kiểm tra xong.\n\nVì vậy, em khuyên anh/chị nên đặt dịch vụ kiểm tra/chẩn đoán thiết bị tại nhà và lắp quạt trần cơ bản - tiền công. Em sẽ đảm bảo rằng anh/chị được tư vấn và xử lý vấn đề một cách nhanh chóng và hiệu quả.",
       "citations": [],
-      "services": []
+      "services": [
+        "KIEM_TRA_CHAN_DOAN_THIET_BI",
+        "LAP_QUAT_TRAN_CO_BAN"
+      ]
     },
     {
       "text": "quạt điện quạt khô dầu",
       "expect": "diagnose",
-      "got": "error",
-      "ok": false,
+      "got": "diagnose",
+      "ok": true,
       "device_expected": "electric_fan",
-      "device_got": null,
-      "device_ok": false,
-      "faults": [],
-      "fault_ok": false,
+      "device_got": "electric_fan",
+      "device_ok": true,
+      "faults": [
+        "FAN_WORN_BEARING",
+        "FAN_CORD_DAMAGE"
+      ],
+      "fault_ok": true,
       "note": "",
-      "reply": "",
+      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Có khả năng hư hỏng là khô bạc đạn, mòn bạc trục, đứt, hở dây nguồn. Chi phí từ 100.000đ, phần còn lại kỹ thuật viên phải xem tận nơi mới tính được. Anh/chị nên ngưng sử dụng để tránh kẹt trục làm cháy mô tơ và rút phích cắm và không dùng cho tới khi thay dây. Em sẽ đặt lịch kiểm tra/chẩn đoán thiết bị tại nhà.",
       "citations": [],
-      "services": []
+      "services": [
+        "KIEM_TRA_CHAN_DOAN_THIET_BI"
+      ]
     },
     {
       "text": "bếp gas tạch mà không cháy",
       "expect": "diagnose",
-      "got": "error",
-      "ok": false,
+      "got": "diagnose",
+      "ok": true,
       "device_expected": "gas_stove",
-      "device_got": null,
-      "device_ok": false,
-      "faults": [],
-      "fault_ok": false,
+      "device_got": "gas_stove",
+      "device_ok": true,
+      "faults": [
+        "STOVE_IGNITER",
+        "STOVE_FLAME_OUT"
+      ],
+      "fault_ok": true,
       "note": "",
-      "reply": "",
+      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Có khả năng hư hỏng là Hỏng bộ đánh lửa, Lửa tự tắt giữa chừng. Chi phí dự kiến từ 100.000đ đến 470.000đ. Anh/chị nên khóa van bình gas ngay vì lửa tắt mà gas vẫn ra rất nguy hiểm. Em sẽ giúp anh/chị kiểm tra/chẩn đoán thiết bị tại nhà. Anh/chị có thể đặt dịch vụ này ngay hôm nay.",
       "citations": [],
-      "services": []
+      "services": [
+        "KIEM_TRA_CHAN_DOAN_THIET_BI"
+      ]
     },
     {
       "text": "lò vi sóng lò chết hẳn",
       "expect": "diagnose",
-      "got": "error",
-      "ok": false,
+      "got": "diagnose",
+      "ok": true,
       "device_expected": "microwave_oven",
-      "device_got": null,
-      "device_ok": false,
-      "faults": [],
-      "fault_ok": false,
+      "device_got": "microwave_oven",
+      "device_ok": true,
+      "faults": [
+        "MW_NO_POWER"
+      ],
+      "fault_ok": true,
       "note": "",
-      "reply": "",
+      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Có khả năng hư hỏng là không lên nguồn và đứt cầu chì. Chi phí dự kiến từ 100.000đ đến 440.000đ. Anh/chị nên thử ổ cắm khác để loại trừ nguyên nhân nguồn điện. Em sẽ đặt dịch vụ kiểm tra/chẩn đoán thiết bị tại nhà cho anh/chị.",
       "citations": [],
-      "services": []
+      "services": [
+        "KIEM_TRA_CHAN_DOAN_THIET_BI"
+      ]
     },
     {
       "text": "bếp gas lắp van vào bị xì",
       "expect": "diagnose",
-      "got": "error",
-      "ok": false,
+      "got": "diagnose",
+      "ok": true,
       "device_expected": "gas_stove",
-      "device_got": null,
-      "device_ok": false,
-      "faults": [],
-      "fault_ok": false,
+      "device_got": "gas_stove",
+      "device_ok": true,
+      "faults": [
+        "STOVE_REGULATOR",
+        "STOVE_GAS_LEAK"
+      ],
+      "fault_ok": true,
       "note": "",
-      "reply": "",
+      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Anh/chị đang nói về khả năng hư hỏng là hỏng van điều áp, dây dẫn, hoặc rò rỉ gas ở dây dẫn hoặc van. Chi phí dự kiến khoảng từ 100.000đ đến 440.000đ. Anh/chị nên khóa van bình và không tự tháo lắp van điều áp; khóa van bình gas ngay lập tức; mở cửa thông thoáng; tuyệt đối không bật công tắc điện hay đánh lửa. Em sẽ đặt lịch kiểm tra/chẩn đoán thiết bị tại nhà cho anh/chị.",
       "citations": [],
-      "services": []
+      "services": [
+        "KIEM_TRA_CHAN_DOAN_THIET_BI"
+      ]
     },
     {
       "text": "lò vi sóng bật lò là nhảy aptomat",
       "expect": "diagnose",
-      "got": "error",
-      "ok": false,
+      "got": "diagnose",
+      "ok": true,
       "device_expected": "microwave_oven",
-      "device_got": null,
-      "device_ok": false,
-      "faults": [],
-      "fault_ok": false,
+      "device_got": "microwave_oven",
+      "device_ok": true,
+      "faults": [
+        "MW_NO_POWER",
+        "MW_MAGNETRON"
+      ],
+      "fault_ok": true,
       "note": "",
-      "reply": "",
+      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Có khả năng hư hỏng là không lên nguồn, đứt cầu chì và hỏng sò cao tần. Chi phí dự kiến từ 100.000đ đến 780.000đ. Anh/chị nên thử ổ cắm khác để loại trừ nguyên nhân nguồn điện, sau đó ngưng dùng và rút điện. Em sẽ kiểm tra/chẩn đoán thiết bị tại nhà. Anh/chị nên đặt dịch vụ Kiểm tra/chẩn đoán thiết bị tại nhà.",
       "citations": [],
-      "services": []
+      "services": [
+        "KIEM_TRA_CHAN_DOAN_THIET_BI"
+      ]
     },
     {
       "text": "quạt trần kêu cót két",
       "expect": "diagnose",
-      "got": "error",
-      "ok": false,
+      "got": "diagnose",
+      "ok": true,
       "device_expected": "ceiling_fan",
-      "device_got": null,
-      "device_ok": false,
-      "faults": [],
-      "fault_ok": false,
+      "device_got": "ceiling_fan",
+      "device_ok": true,
+      "faults": [
+        "CEILFAN_BEARING"
+      ],
+      "fault_ok": true,
       "note": "",
-      "reply": "",
+      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Có khả năng hư hỏng là khô dầu và mòn bạc trục quạt trần. Chi phí dự kiến khoảng 250.000đ. Anh/chị nên ngưng sử dụng thiết bị vì rung lắc kéo dài có thể làm lỏng chỗ treo. Em sẽ giúp anh/chị kiểm tra/chẩn đoán thiết bị tại nhà. Anh/chị có thể đặt dịch vụ này ngay hôm nay.",
       "citations": [],
-      "services": []
+      "services": [
+        "KIEM_TRA_CHAN_DOAN_THIET_BI"
+      ]
     },
     {
       "text": "bếp gas núm quay tự do",
       "expect": "diagnose",
-      "got": "error",
-      "ok": false,
+      "got": "diagnose",
+      "ok": true,
       "device_expected": "gas_stove",
-      "device_got": null,
-      "device_ok": false,
-      "faults": [],
-      "fault_ok": false,
+      "device_got": "gas_stove",
+      "device_ok": true,
+      "faults": [
+        "STOVE_VALVE_STUCK"
+      ],
+      "fault_ok": true,
       "note": "",
-      "reply": "",
+      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Có khả năng hư hỏng là kẹt núm vặn và hỏng van điều khiển. Chi phí dự kiến khoảng từ 100.000đ đến 500.000đ. Anh/chị nên khóa van bình gas để tắt bếp ngay lập tức để đảm bảo an toàn. Em sẽ giúp anh/chị kiểm tra/chẩn đoán thiết bị tại nhà. Anh/chị có thể đặt dịch vụ này ngay hôm nay.",
       "citations": [],
-      "services": []
+      "services": [
+        "KIEM_TRA_CHAN_DOAN_THIET_BI"
+      ]
     },
     {
       "text": "may say quay ma khong nong",
       "expect": "diagnose",
-      "got": "error",
-      "ok": false,
+      "got": "diagnose",
+      "ok": true,
       "device_expected": "clothes_dryer",
-      "device_got": null,
-      "device_ok": false,
-      "faults": [],
-      "fault_ok": false,
+      "device_got": "clothes_dryer",
+      "device_ok": true,
+      "faults": [
+        "DRYER_NOT_HEATING"
+      ],
+      "fault_ok": true,
       "note": "",
-      "reply": "",
+      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Anh/chị đang nói về máy sấy không ra hơi nóng. Chi phí để kiểm tra và chẩn đoán thiết bị tại nhà là từ 100.000đ. Nguyên nhân thường gặp nhất là lưới lọc xơ vải bị tắc. Anh/chị nên kiểm tra lưới lọc xơ vải ngay lập tức. Em sẽ đặt lịch kiểm tra/chẩn đoán thiết bị tại nhà cho anh/chị.",
       "citations": [],
-      "services": []
+      "services": [
+        "KIEM_TRA_CHAN_DOAN_THIET_BI"
+      ]
     },
     {
       "text": "bếp từ không tắt được",
       "expect": "diagnose",
-      "got": "error",
-      "ok": false,
+      "got": "diagnose",
+      "ok": true,
       "device_expected": "induction_hob",
-      "device_got": null,
-      "device_ok": false,
-      "faults": [],
+      "device_got": "induction_hob",
+      "device_ok": true,
+      "faults": [
+        "HOB_NO_PAN_DETECT"
+      ],
       "fault_ok": false,
       "note": "",
       "reply": "",
       "citations": [],
-      "services": []
+      "services": [
+        "SUA_BEP_TU"
+      ]
     },
     {
       "text": "quạt trần ù mà không quay",
       "expect": "diagnose",
-      "got": "error",
-      "ok": false,
+      "got": "diagnose",
+      "ok": true,
       "device_expected": "ceiling_fan",
-      "device_got": null,
-      "device_ok": false,
-      "faults": [],
+      "device_got": "ceiling_fan",
+      "device_ok": true,
+      "faults": [
+        "CEILFAN_CAPACITOR"
+      ],
       "fault_ok": false,
       "note": "",
-      "reply": "",
+      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Có khả năng hư hỏng là hở tụ điện quạt trần, chi phí dự kiến từ 100.000đ đến 220.000đ. Anh/chị nên ngưng sử dụng để tránh nguy cơ cháy cuộn dây mô tơ. Em sẽ giúp anh/chị kiểm tra/chẩn đoán thiết bị tại nhà. Anh/chị có thể đặt dịch vụ này ngay hôm nay.",
       "citations": [],
-      "services": []
+      "services": [
+        "KIEM_TRA_CHAN_DOAN_THIET_BI"
+      ]
     },
     {
       "text": "khóa cửa thông minh quên mật khẩu khoá cửa rồi",
       "expect": "diagnose",
-      "got": "error",
-      "ok": false,
+      "got": "diagnose",
+      "ok": true,
       "device_expected": "smart_lock",
-      "device_got": null,
-      "device_ok": false,
-      "faults": [],
-      "fault_ok": false,
+      "device_got": "smart_lock",
+      "device_ok": true,
+      "faults": [
+        "LOCK_LOCKED_OUT"
+      ],
+      "fault_ok": true,
       "note": "",
       "reply": "",
       "citations": [],
-      "services": []
+      "services": [
+        "MO_KHOA_KHAN_CAP"
+      ]
     },
     {
       "text": "quạt trần nằm dưới mà không dám ngủ",
@@ -5917,7 +6035,7 @@
       ],
       "fault_ok": true,
       "note": "",
-      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Chiếc bếp của anh/chị đang gặp vấn đề về lửa tự tắt giữa chừng. Có thể là do một số vấn đề như lò gas không hoạt động hoặc hệ thống điện không ổn định. Chi phí dự kiến khoảng từ 100.000đ đến 360.000đ tùy thuộc vào mức độ phức tạp của sự cố.\n\nĐể đảm bảo an toàn, em khuyên anh/chị nên khóa van bình gas ngay lập tức vì nguy cơ gas vẫn chảy ra rất nguy hiểm nếu không được kiểm soát. Điều này sẽ giúp giảm thiểu nguy cơ xảy ra tai nạn.\n\nVì vậy, em khuyên anh/chị nên đặt dịch vụ kiểm tra/chẩn đoán thiết bị tại nhà để chúng em có thể xác định chính xác vấn đề và đưa ra giải pháp phù hợp nhất. Anh/chị có thể đặt lịch tại đây:\n\n- Kiểm tra/chẩn đoán thiết bị tại nhà\n\nChúng em sẽ đến nhà anh/chị ngay lập tức để tiến hành kiểm tra và giải quyết vấn đề của anh/chị. Xin cảm ơn anh/chị đã tin tưởng và sử dụng dịch vụ của chúng em.",
+      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Chiếc bếp của anh/chị đang gặp vấn đề về lửa tự tắt giữa chừng. Có thể là do một số vấn đề như lò gas không hoạt động hoặc hệ thống điện không ổn định. Chi phí dự kiến khoảng từ 100.000đ đến 360.000đ tùy thuộc vào mức độ phức tạp của sự cố.\n\nĐể đảm bảo an toàn, em khuyên anh/chị nên khóa van bình gas ngay lập tức vì nguy cơ gas vẫn chảy ra rất nguy hiểm nếu không được kiểm soát. Điều này sẽ giúp giảm thiểu nguy cơ xảy ra tai nạn.\n\nVì vậy, em khuyên anh/chị nên đặt dịch vụ kiểm tra/chẩn đoán thiết bị tại nhà để chúng em có thể xác định chính xác vấn đề và đưa ra giải pháp phù hợp nhất. Anh/chị có thể đặt lịch tại đây:\n\n- Kiểm tra/chẩn đoán thiết bị tại nhà\n\nChúng em sẽ đến nhà anh/chị ngay lập tức để tiến hành kiểm tra và giải quyết vấn đề của anh/chị. Xin cảm ơn đã tin tưởng và chúng em sẽ cố gắng hết sức để giúp anh/chị.",
       "citations": [],
       "services": [
         "KIEM_TRA_CHAN_DOAN_THIET_BI"
@@ -6028,11 +6146,12 @@
       "device_got": "electric_fan",
       "device_ok": true,
       "faults": [
+        "FAN_CAPACITOR",
         "FAN_CORD_DAMAGE"
       ],
-      "fault_ok": false,
+      "fault_ok": true,
       "note": "",
-      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Có khả năng hư hỏng là đứt hoặc hở dây nguồn. Chi phí dự kiến từ 100.000đ đến 270.000đ. Anh/chị nên rút phích cắm và không dùng cho tới khi thay dây. Em sẽ giúp anh/chị kiểm tra/chẩn đoán thiết bị tại nhà. Anh/chị có thể đặt dịch vụ này ngay hôm nay.",
+      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Có khả năng hư hỏng là hở dây nguồn. Chi phí dự kiến từ 100.000đ đến 270.000đ. Anh/chị nên ngưng sử dụng và rút phích cắm để đảm bảo an toàn. Em sẽ kiểm tra/chẩn đoán thiết bị tại nhà. Anh/chị có thể đặt dịch vụ này ngay lập tức.",
       "citations": [],
       "services": [
         "KIEM_TRA_CHAN_DOAN_THIET_BI"
@@ -6064,11 +6183,12 @@
       "device_got": "oven",
       "device_ok": true,
       "faults": [
+        "OVEN_THERMOSTAT",
         "OVEN_FAN_FAULT"
       ],
-      "fault_ok": false,
+      "fault_ok": true,
       "note": "",
-      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Anh/chị đang nói về hư hỏng quạt đối lưu. Chi phí dự kiến khoảng từ 100.000đ đến 930.000đ. Anh/chị có thể sử dụng chế độ không quạt tạm thời để giải quyết vấn đề ngay lập tức. Em khuyên anh/chị nên đặt dịch vụ kiểm tra/chẩn đoán thiết bị tại nhà để được tư vấn chính xác nhất.",
+      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Anh/chị đang nói về hai vấn đề chính: hỏng rơ le nhiệt và hỏng quạt đối lưu. Chi phí dự kiến cho dịch vụ này sẽ dao động từ 100.000đ đến 930.000đ.\n\nĐể đảm bảo an toàn, em khuyên anh/chị không để lò chạy khi không có người trông. Anh/chị cũng có thể sử dụng chế độ không quạt tạm thời để giảm tải cho thiết bị.\n\nVì vậy, em khuyến nghị anh/chị nên đặt dịch vụ kiểm tra/chẩn đoán thiết bị tại nhà. Em sẽ đảm bảo rằng chúng em sẽ tiến hành kiểm tra ngay lập tức và đưa ra giải pháp phù hợp nhất cho anh/chị.",
       "citations": [],
       "services": [
         "KIEM_TRA_CHAN_DOAN_THIET_BI"
@@ -6083,12 +6203,13 @@
       "device_got": "water_heater",
       "device_ok": true,
       "faults": [
+        "WH_HEATING_ELEMENT",
         "WH_INSTANT_NO_HOT",
         "WH_LOW_PRESSURE"
       ],
-      "fault_ok": false,
+      "fault_ok": true,
       "note": "",
-      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Chiếc máy nước nóng của anh/chị không nóng, nước yếu và có vấn đề với đường vào bình. Có thể là do thiếu môi chất hoặc tắc đường vào bình. Chi phí dự kiến khoảng từ 100.000đ đến 600.000đ. Anh/chị nên tắt nguồn và kiểm tra áp lực nước đầu vào, cũng như kiểm tra van cấp vào bình đã mở hết chưa. Em sẽ đặt thợ đến nhà để kiểm tra và chẩn đoán thiết bị. Anh/chị nên đặt dịch vụ \"Kiểm tra/chẩn đoán thiết bị tại nhà\".",
+      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Anh/chị đang gặp vấn đề với máy nước nóng trực tiếp không nóng, nước yếu và nghẹt đường vào bình. Chi phí dự kiến khoảng từ 100.000đ đến 900.000đ. Anh/chị nên tắt nguồn bình nóng lạnh và kiểm tra áp lực nước đầu vào. Ngoài ra, anh/chị cũng nên kiểm tra van cấp vào bình đã mở hết chưa. Em sẽ đặt lịch kiểm tra/chẩn đoán thiết bị tại nhà cho anh/chị. Anh/chị có thể đặt dịch vụ này với tên dịch vụ \"Kiểm tra/chẩn đoán thiết bị tại nhà\".",
       "citations": [],
       "services": [
         "KIEM_TRA_CHAN_DOAN_THIET_BI"
@@ -6180,12 +6301,12 @@
       "device_got": "refrigerator",
       "device_ok": true,
       "faults": [
-        "FRIDGE_COMPRESSOR",
-        "FRIDGE_NOISY"
+        "FRIDGE_NOISY",
+        "FRIDGE_COMPRESSOR"
       ],
       "fault_ok": true,
       "note": "",
-      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Anh/chị đang nói về một số vấn đề liên quan đến block máy nén và tủ lạnh chạy ồn, rung. Chi phí để khắc phục các vấn đề này sẽ dao động từ 100.000đ đến phần còn lại khi kỹ thuật viên kiểm tra tận nơi. Anh/chị nên rút điện khỏi tủ lạnh và chuyển thực phẩm đi nơi khác để đảm bảo an toàn. Ngoài ra, anh/chị cũng nên kiểm tra xem tủ có kê cân bằng và cách tường đủ xa không. Em sẽ đặt lịch sửa chữa cho anh/chị với dịch vụ \"Sửa tủ lạnh không đông đá / kêu to\".",
+      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Anh/chị đang nói về một vấn đề với tủ lạnh của anh/chị. Có thể là do chạy ồn, rung và hỏng block máy nén. Chi phí để khắc phục vấn đề này sẽ dao động từ 100.000đ đến khi kỹ thuật viên kiểm tra tận nơi. Anh/chị nên kiểm tra xem tủ có kê cân bằng và cách tường đủ xa không, rút điện tủ lạnh và chuyển thực phẩm đi nơi khác ngay lập tức. Em khuyên anh/chị nên đặt dịch vụ sửa chữa tủ lạnh không đông đá/kêu to để được hỗ trợ tốt nhất.",
       "citations": [],
       "services": [
         "SUA_TU_LANH"
@@ -6240,12 +6361,13 @@
       "device_got": "electric_fan",
       "device_ok": true,
       "faults": [
+        "FAN_OSCILLATION_FAULT",
         "FAN_CORD_DAMAGE",
         "FAN_CAPACITOR"
       ],
-      "fault_ok": false,
+      "fault_ok": true,
       "note": "",
-      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Có khả năng hư hỏng là đứt hoặc hở dây nguồn, hoặc hỏng tụ khởi động. Chi phí dự kiến từ 100.000đ đến 270.000đ. Anh/chị nên rút phích cắm và không dùng cho tới khi thay dây. Ngừng dùng và không đẩy cánh bằng tay khi đang cấp điện. Em sẽ kiểm tra/chẩn đoán thiết bị tại nhà. Anh/chị nên đặt dịch vụ này.",
+      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Anh/chị đang nói về một số vấn đề liên quan đến bộ tuốc năng, không đảo gió, đứt, hở dây nguồn và hỏng tụ khởi động. Chi phí dự kiến cho các sửa chữa này sẽ rơi vào khoảng từ 100.000đ đến 420.000đ.\n\nAnh/chị có thể sử dụng tạm thời nhưng chỉ có chức năng đảo gió. Để đảm bảo an toàn, anh/chị nên rút phích cắm và không dùng cho đến khi thay dây. Hãy ngưng dùng và không đẩy cánh bằng tay khi đang cấp điện.\n\nVì vậy, em khuyên anh/chị nên đặt dịch vụ kiểm tra/chẩn đoán thiết bị tại nhà. Em sẽ đảm bảo rằng chúng em sẽ đến nhà anh/chị để tiến hành kiểm tra và đưa ra giải pháp phù hợp nhất.",
       "citations": [],
       "services": [
         "KIEM_TRA_CHAN_DOAN_THIET_BI"
@@ -6264,7 +6386,7 @@
       ],
       "fault_ok": true,
       "note": "",
-      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Chiếc lồng máy sấy không quay là một vấn đề phổ biến và có thể do nhiều nguyên nhân khác nhau. Chi phí để kiểm tra và chẩn đoán tại nhà khoảng từ 100.000đ. Nếu anh/chị tắt máy và chỉ để mô tơ chạy, mô tơ có thể bị quá tải và gây cháy. Vì vậy, em khuyên anh/chị nên tắt máy và chỉ để mô tơ chạy để tránh nguy cơ cháy. Anh/chị cũng nên đặt dịch vụ kiểm tra/chẩn đoán thiết bị tại nhà để được tư vấn chính xác và tiết kiệm chi phí. Em rất mong muốn anh/chị sẽ đặt dịch vụ này ngay lập tức để đảm bảo sự an toàn và hiệu quả của thiết bị của anh/chị.",
+      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Chiếc lồng máy sấy không quay là một vấn đề phổ biến và có thể do nhiều nguyên nhân khác nhau. Chi phí để kiểm tra và chẩn đoán tại nhà khoảng từ 100.000đ. Nếu anh/chị tắt máy và chỉ để mô tơ chạy, mô tơ có thể bị quá tải và gây cháy. Vì vậy, em khuyên anh/chị nên tắt máy và chỉ để mô tơ chạy. Anh/chị cũng nên đặt dịch vụ kiểm tra/chẩn đoán thiết bị tại nhà để được tư vấn chính xác và tiết kiệm chi phí.",
       "citations": [],
       "services": [
         "KIEM_TRA_CHAN_DOAN_THIET_BI"
@@ -6279,11 +6401,12 @@
       "device_got": "electric_fan",
       "device_ok": true,
       "faults": [
+        "FAN_OSCILLATION_FAULT",
         "FAN_CORD_DAMAGE"
       ],
-      "fault_ok": false,
+      "fault_ok": true,
       "note": "",
-      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Có khả năng hư hỏng là đứt hoặc hở dây nguồn. Chi phí dự kiến từ 100.000đ đến 270.000đ. Anh/chị nên rút phích cắm và không dùng cho tới khi thay dây. Em sẽ giúp anh/chị kiểm tra/chẩn đoán thiết bị tại nhà. Anh/chị có thể đặt dịch vụ này ngay hôm nay.",
+      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Anh/chị đang nói về một vấn đề với máy lạnh của anh/chị. Có khả năng hư hỏng là hở dây nguồn và đứt. Chi phí dự kiến khoảng từ 100.000đ đến 420.000đ. Anh/chị có thể sử dụng tạm thời nhưng chỉ chức năng đảo gió sẽ bị ảnh hưởng. Để khắc phục vấn đề, anh/chị nên rút phích cắm và không dùng cho đến khi thay dây nguồn. Em khuyên anh/chị nên đặt dịch vụ kiểm tra/chẩn đoán thiết bị tại nhà để được tư vấn chính xác nhất.",
       "citations": [],
       "services": [
         "KIEM_TRA_CHAN_DOAN_THIET_BI"
@@ -6375,15 +6498,17 @@
       "device_got": "power_outlet",
       "device_ok": true,
       "faults": [
+        "OUTLET_LOOSE_CONTACT",
         "OUTLET_SHORT_CIRCUIT",
         "OUTLET_NO_POWER",
         "OUTLET_SHORT_CIRCUIT"
       ],
-      "fault_ok": false,
+      "fault_ok": true,
       "note": "",
-      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Có khả năng hư hỏng là chập cháy ổ cắm hoặc ổ cắm mất điện. Chi phí dự kiến từ 100.000đ đến 400.000đ. Anh/chị nên ngắt cầu dao khu vực ngay lập tức và không cắm thêm thiết bị nào vào ổ này. Hãy kiểm tra Aptomat khu vực đã nhảy chưa. Em sẽ đặt dịch vụ sửa chập điện âm tường hoặc nhảy Aptomat cho anh/chị.",
+      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Có khả năng hư hỏng là lỏng tiếp xúc, ổ cắm rơ, chập cháy ổ cắm, ổ cắm mất điện, đứt dây, chập cháy ổ cắm. Chi phí dự kiến từ 100.000đ đến 400.000đ.\n\nĐể đảm bảo an toàn, em khuyên anh/chị nên ngưng sử dụng ổ này vì tiếp xúc kém sinh nhiệt và dễ gây cháy. Hãy ngắt cầu dao khu vực ngay lập tức và không cắm thêm thiết bị nào vào ổ này. Kiểm tra aptomat khu vực đã nhảy chưa.\n\nĐể khắc phục vấn đề, em khuyên anh/chị nên đặt dịch vụ thay ổ cắm điện - tiền công và sửa chập điện âm tường / nhảy Aptomat. Em sẽ giúp anh/chị đặt lịch ngay lập tức.",
       "citations": [],
       "services": [
+        "THAY_O_CAM_DIEN",
         "SUA_CHAP_DIEN"
       ]
     },
@@ -6525,17 +6650,17 @@
       "device_got": "power_outlet",
       "device_ok": true,
       "faults": [
+        "OUTLET_LOOSE_CONTACT",
         "OUTLET_OVERLOAD",
-        "OUTLET_BROKEN_FACE",
-        "OUTLET_LOOSE_CONTACT"
+        "OUTLET_BROKEN_FACE"
       ],
       "fault_ok": true,
       "note": "",
-      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Có khả năng hư hỏng là quá tải, dùng quá nhiều thiết bị một ổ, vỡ, nứt mặt ổ cắm, lỏng tiếp xúc, ổ cắm rơ. Chi phí dự kiến từ 100.000đ đến 670.000đ. Anh/chị nên rút bớt thiết bị khỏi ổ này ngay, ngắt cầu dao vì phần mang điện đang hở, ngưng dùng ổ này vì tiếp xúc kém sinh nhiệt và dễ gây cháy. Em sẽ đặt dịch vụ sửa chập điện âm tường / nhảy Aptomat và thay ổ cắm điện với tiền công. Anh/chị có thể đặt dịch vụ này ngay hôm nay.",
+      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Có khả năng hư hỏng là lỏng tiếp xúc, ổ cắm rơ, quá tải, dùng quá nhiều thiết bị một ổ, vỡ, nứt mặt ổ cắm. Chi phí dự kiến từ 100.000đ đến 670.000đ. Anh/chị nên ngưng sử dụng ổ này vì tiếp xúc kém sinh nhiệt và dễ gây cháy; rút bớt thiết bị khỏi ổ này ngay; ngắt cầu dao vì phần mang điện đang hở. Em sẽ đặt lịch thay ổ cắm điện và sửa chập điện âm tường/nhảy Aptomat. Xin lỗi nếu có bất tiện.",
       "citations": [],
       "services": [
-        "SUA_CHAP_DIEN",
-        "THAY_O_CAM_DIEN"
+        "THAY_O_CAM_DIEN",
+        "SUA_CHAP_DIEN"
       ]
     },
     {
@@ -6547,13 +6672,15 @@
       "device_got": "ceiling_fan",
       "device_ok": true,
       "faults": [
+        "CEILFAN_BEARING",
         "CEILFAN_MOUNT_LOOSE"
       ],
-      "fault_ok": false,
+      "fault_ok": true,
       "note": "",
-      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Có khả năng hư hỏng là lỏng bộ treo và mất cân bằng cánh. Chi phí dự kiến là 250.000đ. Anh/chị nên tắt quạt và không đứng bên dưới cho tới khi em kiểm tra xong. Em sẽ giúp anh/chị lắp quạt trần cơ bản với tiền công. Anh/chị có thể đặt dịch vụ này ngay hôm nay.",
+      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Chiếc máy nước nóng của anh/chị đang gặp vấn đề về môi chất, làm cho gió mạnh nhưng không mát. Đây là khả năng hư hỏng chính xác nhất. Chi phí dự kiến để khắc phục là 250.000đ.\n\nĐể đảm bảo an toàn, em khuyên anh/chị nên ngưng sử dụng máy nước nóng này vì rung lắc kéo dài có thể làm lỏng chỗ treo. Anh/chị cũng nên tắt quạt và không đứng bên dưới cho tới khi em kiểm tra xong.\n\nVì vậy, em khuyên anh/chị nên đặt dịch vụ kiểm tra/chẩn đoán thiết bị tại nhà và lắp quạt trần cơ bản với tiền công. Em sẽ giúp anh/chị đặt lịch ngay lập tức.",
       "citations": [],
       "services": [
+        "KIEM_TRA_CHAN_DOAN_THIET_BI",
         "LAP_QUAT_TRAN_CO_BAN"
       ]
     },
@@ -6591,7 +6718,7 @@
       ],
       "fault_ok": true,
       "note": "",
-      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Anh/chị đang nói về một vấn đề với hệ thống đèn nền của máy lạnh. Có thể là lỗi tấm nền hoặc hỏng dải đèn nền. Chi phí thay thế tấm nền thường khoảng 100.000đ, nhưng kỹ thuật viên sẽ phải đến tận nơi để kiểm tra và tính toán chi tiết hơn. Anh/chị không cần xử lý ngay lập tức, chỉ tắt nguồn máy lạnh. Em sẽ tư vấn cụ thể về việc thay thế tấm nền nếu anh/chị muốn. Anh/chị có thể đặt dịch vụ kiểm tra/chẩn đoán thiết bị tại nhà của chúng em.",
+      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Anh/chị đang nói về một vấn đề với hệ thống đèn nền của máy lạnh. Có thể là lỗi tấm nền hoặc hỏng dải đèn nền. Chi phí thay thế tấm nền thường khoảng 100.000đ, nhưng kỹ thuật viên sẽ phải xem tận nơi để tính chính xác. Anh/chị không cần xử lý gấp, chỉ cần tắt nguồn máy lạnh. Em sẽ tư vấn cụ thể về việc thay thế tấm nền nếu anh/chị muốn. Anh/chị có thể đặt dịch vụ kiểm tra/chẩn đoán thiết bị tại nhà của chúng em.",
       "citations": [],
       "services": [
         "KIEM_TRA_CHAN_DOAN_THIET_BI"
@@ -6683,12 +6810,13 @@
       "device_got": "water_purifier",
       "device_ok": true,
       "faults": [
+        "PURIFIER_NO_WATER",
         "PURIFIER_NO_POWER",
         "PURIFIER_LEAK"
       ],
-      "fault_ok": false,
+      "fault_ok": true,
       "note": "",
-      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Có khả năng hư hỏng là máy lọc nước không lên nguồn và rò rỉ nước. Chi phí khoảng 100.000đ, phần còn lại kỹ thuật viên sẽ phải xem tận nơi mới tính được. Anh/chị nên kiểm tra ổ cắm và adapter nguồn của máy, khóa van cấp nước vào máy và rút điện. Em sẽ đặt dịch vụ lắp máy lọc nước cơ bản cho anh/chị.",
+      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Có thể hư hỏng là máy lọc nước không ra nước, không lên nguồn hoặc rò rỉ nước. Chi phí khoảng từ 100.000đ, phần còn lại kỹ thuật viên phải xem tận nơi mới tính được. Anh/chị nên kiểm tra nguồn nước vào và van khoá đã mở chưa; kiểm tra ổ cắm và adapter nguồn của máy; khóa van cấp nước vào máy và rút điện. Em sẽ đặt dịch vụ lắp máy lọc nước cơ bản cho anh/chị.",
       "citations": [],
       "services": [
         "LAP_MAY_LOC_NUOC"
@@ -6939,13 +7067,15 @@
       "device_got": "faucet",
       "device_ok": true,
       "faults": [
+        "FAUCET_DRIP",
         "FAUCET_LOW_FLOW"
       ],
       "fault_ok": true,
       "note": "",
-      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Anh/chị đang gặp vấn đề với hệ thống nước, cụ thể là nghẹt đầu lọc và áp lực nước yếu. Chi phí dự kiến khoảng từ 100.000đ đến 150.000đ. Anh/chị nên tháo đầu lọc ở miệng vòi và rửa cặn nếu thao tác được. Em sẽ giúp anh/chị kiểm tra/chẩn đoán thiết bị tại nhà. Anh/chị có thể đặt dịch vụ này ngay hôm nay.",
+      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Có khả năng hư hỏng như mòn gioăng, rò rỉ vòi nước, nghẹt đầu lọc và áp lực nước yếu. Chi phí dự kiến từ 100.000đ đến 200.000đ. Anh/chị nên khóa van chặn dưới bồn nếu có và tháo đầu lọc ở miệng vòi để rửa cặn nếu thao tác được. Em sẽ đặt dịch vụ thay vòi nước và kiểm tra/chẩn đoán thiết bị tại nhà. Anh/chị có thể đặt dịch vụ này với em ngay hôm nay.",
       "citations": [],
       "services": [
+        "THAY_VOI_NUOC",
         "KIEM_TRA_CHAN_DOAN_THIET_BI"
       ]
     },
@@ -6958,10 +7088,11 @@
       "device_got": "induction_hob",
       "device_ok": true,
       "faults": [
+        "HOB_FAN_NOISY",
         "HOB_NO_PAN_DETECT",
         "HOB_ERROR_CODE"
       ],
-      "fault_ok": false,
+      "fault_ok": true,
       "note": "",
       "reply": "",
       "citations": [],
@@ -7098,12 +7229,13 @@
       "device_got": "water_purifier",
       "device_ok": true,
       "faults": [
+        "PURIFIER_FILTER_DUE",
         "PURIFIER_LEAK",
         "PURIFIER_NO_WATER"
       ],
-      "fault_ok": false,
+      "fault_ok": true,
       "note": "",
-      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Có khả năng hư hỏng là máy lọc nước rò rỉ nước hoặc không ra nước. Chi phí khoảng từ 100.000đ, phần còn lại kỹ thuật viên sẽ phải xem tận nơi mới tính được. Anh/chị nên khóa van cấp nước vào máy và rút điện, sau đó kiểm tra nguồn nước vào và van khoá đã mở chưa. Em sẽ đặt lịch lắp máy lọc nước cơ bản cho anh/chị.",
+      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Có vẻ như anh/chị đang gặp vấn đề với máy lọc nước của mình. Chi phí để khắc phục vấn đề này sẽ dao động từ 100.000đ đến khi kỹ thuật viên kiểm tra tận nơi. Anh/chị nên ngừng uống trực tiếp cho tới khi thay lõi và súc rửa bình chứa. Sau đó, hãy khóa van cấp nước vào máy và rút điện. Cuối cùng, hãy kiểm tra nguồn nước vào và van khoá đã mở chưa. Em sẽ đặt lịch cho anh/chị để lắp máy lọc nước cơ bản.",
       "citations": [],
       "services": [
         "LAP_MAY_LOC_NUOC"
@@ -7218,7 +7350,7 @@
       ],
       "fault_ok": true,
       "note": "",
-      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Có khả năng hư hỏng là nứt vỡ mặt kính bếp từ. Chi phí từ 100.000đ, phần còn lại kỹ thuật viên phải xem tận nơi mới tính được. Anh/chị nên ngừng dùng bếp và rút điện, mặt kính nứt có thể vỡ tiếp khi nóng. Em sẽ đặt lịch sửa bếp từ báo lỗi E / không nhận nồi.",
+      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Có khả năng hư hỏng là nứt vỡ mặt kính bếp từ. Chi phí từ 100.000đ, phần còn lại kỹ thuật viên phải xem tận nơi mới tính được. Anh/chị nên ngừng dùng bếp và rút điện, mặt kính nứt có thể vỡ tiếp khi nóng. Em sẽ đặt lịch sửa bếp từ báo lỗi E / không nhận nồi. Anh/chị có thể đặt dịch vụ này với em?",
       "citations": [],
       "services": [
         "SUA_BEP_TU"
@@ -7237,7 +7369,7 @@
       ],
       "fault_ok": true,
       "note": "",
-      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Có khả năng hư hỏng là lõi lọc hết hạn và nước có mùi vị lạ. Chi phí khoảng 100.000đ, phần còn lại kỹ thuật viên sẽ phải xem tận nơi mới tính được. Anh/chị nên ngừng uống trực tiếp cho tới khi thay lõi và súc rửa bình chứa. Em sẽ đặt lịch cho anh/chị thợ với dịch vụ lắp máy lọc nước cơ bản.",
+      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Có khả năng hư hỏng là lõi lọc hết hạn và nước có mùi vị lạ. Chi phí khoảng 100.000đ, phần còn lại kỹ thuật viên sẽ xem tận nơi mới tính được. Anh/chị nên ngừng uống trực tiếp cho tới khi thay lõi và súc rửa bình chứa. Em sẽ đặt lịch cho anh/chị thợ với dịch vụ lắp máy lọc nước cơ bản.",
       "citations": [],
       "services": [
         "LAP_MAY_LOC_NUOC"
@@ -7368,13 +7500,15 @@
       "device_got": "smart_lock",
       "device_ok": true,
       "faults": [
+        "LOCK_LOCKED_OUT",
         "LOCK_CARD_FAULT"
       ],
-      "fault_ok": false,
+      "fault_ok": true,
       "note": "",
-      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Có khả năng hư hỏng là khóa không đọc thẻ từ và mã số sai. Chi phí thay thế khoảng 100.000đ, phần còn lại kỹ thuật viên sẽ phải xem tận nơi mới tính được. Anh/chị nên thử thẻ từ khác đã đăng ký để biết lỗi ở thẻ hay ở khóa. Em sẽ đặt lịch sửa chữa cho anh/chị với dịch vụ Sửa khóa cửa vân tay / thẻ từ.",
+      "reply": "",
       "citations": [],
       "services": [
+        "MO_KHOA_KHAN_CAP",
         "SUA_KHOA_THONG_MINH"
       ]
     },
@@ -7387,12 +7521,13 @@
       "device_got": "television",
       "device_ok": true,
       "faults": [
+        "TV_BACKLIGHT",
         "TV_NO_SOUND",
         "TV_MAIN_BOARD"
       ],
       "fault_ok": true,
       "note": "",
-      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Anh/chị đang gặp vấn đề với loa hoặc bo xử lý tín hiệu. Chi phí dự kiến từ 100.000đ đến 1.800.000đ. Anh/chị nên thử tai nghe hoặc loa ngoài để xác định lỗi ở loa hay ở bo. Sau đó, rút điện khoảng năm phút rồi thử khởi động lại một lần. Em sẽ kiểm tra/chẩn đoán thiết bị tại nhà. Anh/chị có thể đặt dịch vụ này ngay hôm nay.",
+      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Anh/chị đang gặp vấn đề với dải đèn nền, mất tiếng, hỏng loa và hỏng bo xử lý tín hiệu. Chi phí dự kiến khoảng từ 100.000đ đến 1.800.000đ.\n\nĐể xác định lỗi cụ thể, em khuyên anh/chị nên tắt nguồn, thử tai nghe hoặc loa ngoài để kiểm tra lỗi ở loa hay bo xử lý tín hiệu. Sau đó, rút điện khoảng năm phút rồi thử khởi động lại một lần.\n\nVì vậy, em khuyên anh/chị nên đặt dịch vụ kiểm tra/chẩn đoán thiết bị tại nhà để được hỗ trợ tốt nhất. Em sẽ đảm bảo rằng anh/chị được tư vấn và xử lý đúng cách để khắc phục vấn đề của anh/chị.",
       "citations": [],
       "services": [
         "KIEM_TRA_CHAN_DOAN_THIET_BI"
@@ -7407,12 +7542,12 @@
       "device_got": "toilet",
       "device_ok": true,
       "faults": [
-        "TOILET_CLOGGED",
-        "TOILET_FILL_VALVE"
+        "TOILET_FILL_VALVE",
+        "TOILET_CLOGGED"
       ],
       "fault_ok": true,
       "note": "",
-      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Có khả năng hư hỏng là nghẹt bồn cầu và hỏng van cấp nước két. Chi phí từ 100.000đ, phần còn lại kỹ thuật viên phải xem tận nơi mới tính được. Anh/chị nên ngưng xả nước thêm để tránh tràn và khóa van chặn sau bồn cầu. Em sẽ đặt lịch kiểm tra/chẩn đoán thiết bị tại nhà.",
+      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Có khả năng hư hỏng là hở van cấp nước két và nghẹt bồn cầu. Chi phí khoảng từ 100.000đ, phần còn lại kỹ thuật viên sẽ phải xem tận nơi mới tính được. Anh/chị nên khóa van chặn sau bồn cầu và ngưng xả nước thêm để tránh tràn. Em sẽ đặt lịch kiểm tra/chẩn đoán thiết bị tại nhà. Anh/chị có thể đặt dịch vụ này với tên dịch vụ \"Kiểm tra/chẩn đoán thiết bị tại nhà\".",
       "citations": [],
       "services": [
         "KIEM_TRA_CHAN_DOAN_THIET_BI"
@@ -7560,11 +7695,12 @@
       "device_got": "kettle",
       "device_ok": true,
       "faults": [
+        "KETTLE_HEATING_BASE",
         "KETTLE_LEAK"
       ],
-      "fault_ok": false,
+      "fault_ok": true,
       "note": "",
-      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Anh/chị đang nói về tình trạng rò nước ở đáy bình. Chi phí dự kiến cho dịch vụ này sẽ rơi vào khoảng từ 100.000đ đến 180.000đ. Em khuyên anh/chị nên ngưng sử dụng ngay vì nước rò xuống phần điện rất nguy hiểm. Anh/chị nên đặt dịch vụ kiểm tra/chẩn đoán thiết bị tại nhà để được tư vấn chính xác nhất.",
+      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Anh/chị đang nói về hư hỏng của mâm nhiệt và rò nước ở đáy bình. Chi phí dự kiến khoảng từ 100.000đ đến 400.000đ. Anh/chị nên rút phích cắm và ngưng sử dụng ngay vì nước rò xuống phần điện rất nguy hiểm. Em khuyên anh/chị nên đặt dịch vụ kiểm tra/chẩn đoán thiết bị tại nhà để được tư vấn chính xác nhất.",
       "citations": [],
       "services": [
         "KIEM_TRA_CHAN_DOAN_THIET_BI"
@@ -7599,13 +7735,15 @@
       "device_got": "sink",
       "device_ok": true,
       "faults": [
+        "SINK_TRAP_LEAK",
         "SINK_CLOGGED"
       ],
-      "fault_ok": false,
+      "fault_ok": true,
       "note": "",
-      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Chiếc bồn rửa của anh/chị đang gặp vấn đề về việc nghẹt đường thoát. Chi phí để khắc phục này sẽ dao động từ 100.000đ, nhưng phần còn lại kỹ thuật viên sẽ phải xem tận nơi mới có thể tính chính xác. Anh/chị nên ngưng đổ dầu mỡ và thức ăn thừa xuống bồn để tránh tình trạng nghẹt thêm. Em khuyên anh/chị nên đặt dịch vụ kiểm tra/chẩn đoán thiết bị tại nhà để được giải quyết vấn đề một cách nhanh chóng và hiệu quả.",
+      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Chiếc bồn rửa của anh/chị đang gặp vấn đề về rò rỉ ống thoát dưới bồn và nghẹt đường thoát bồn rửa. Chi phí để khắc phục vấn đề này sẽ dao động từ 100.000đ đến khi kỹ thuật viên kiểm tra tận nơi. Anh/chị nên h支撑 chậu dưới chỗ rò và hạn chế sử dụng bồn rửa để giảm thiểu tình trạng rò rỉ. Ngoài ra, hãy hạn chế đổ dầu mỡ và thức ăn thừa xuống bồn rửa để tránh gây tắc nghẽn. Em khuyên anh/chị nên đặt dịch vụ thay siphon/chống rò lavabo và kiểm tra/chẩn đoán thiết bị tại nhà để đảm bảo hiệu quả và tiết kiệm chi phí.",
       "citations": [],
       "services": [
+        "THAY_SIPHON_LAVABO",
         "KIEM_TRA_CHAN_DOAN_THIET_BI"
       ]
     },
@@ -7654,11 +7792,12 @@
       "device_got": "gas_stove",
       "device_ok": true,
       "faults": [
+        "STOVE_BURNER_CLOGGED",
         "STOVE_FLAME_OUT"
       ],
-      "fault_ok": false,
+      "fault_ok": true,
       "note": "",
-      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Chiếc bếp của anh/chị đang gặp vấn đề về lửa tự tắt giữa chừng. Có thể là do một số vấn đề như lò gas không hoạt động hoặc hệ thống điện không ổn định. Chi phí dự kiến khoảng từ 100.000đ đến 360.000đ tùy thuộc vào mức độ phức tạp của sự cố.\n\nĐể đảm bảo an toàn, em khuyên anh/chị nên khóa van bình gas ngay lập tức vì nguy cơ gas vẫn chảy ra rất nguy hiểm nếu không được kiểm soát. Điều này sẽ giúp giảm thiểu nguy cơ xảy ra tai nạn.\n\nVì vậy, em khuyên anh/chị nên đặt dịch vụ kiểm tra/chẩn đoán thiết bị tại nhà để chúng em có thể xác định chính xác vấn đề và đưa ra giải pháp phù hợp nhất. Anh/chị có thể đặt lịch tại đây:\n\n- Kiểm tra/chẩn đoán thiết bị tại nhà\n\nChúng em sẽ đến nhà anh/chị ngay lập tức để tiến hành kiểm tra và giải quyết vấn đề của anh/chị. Xin cảm ơn anh/chị đã tin tưởng và sử dụng dịch vụ của chúng em.",
+      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Có khả năng hư hỏng là nghẹt họng lửa, lửa đỏ và lửa tự tắt giữa chừng. Chi phí dự kiến từ 100.000đ đến 360.000đ. Anh/chị nên vệ sinh mặt bếp và họng lửa khi bếp đã nguội hẳn và khóa van bình gas ngay vì lửa tắt mà gas vẫn ra rất nguy hiểm. Em sẽ đặt lịch kiểm tra/chẩn đoán thiết bị tại nhà cho anh/chị. Anh/chị có thể đặt dịch vụ \"Kiểm tra/chẩn đoán thiết bị tại nhà\" với em.",
       "citations": [],
       "services": [
         "KIEM_TRA_CHAN_DOAN_THIET_BI"
@@ -7809,12 +7948,13 @@
       "device_got": "television",
       "device_ok": true,
       "faults": [
+        "TV_NO_SOUND",
         "TV_POWER_BOARD",
         "TV_BACKLIGHT"
       ],
-      "fault_ok": false,
+      "fault_ok": true,
       "note": "",
-      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Có khả năng hư hỏng là hở bo nguồn và hở dải đèn nền. Chi phí dự kiến từ 100.000đ đến 1.100.000đ. Anh/chị nên rút phích cắm và thử ổ cắm khác để loại trừ nguyên nhân nguồn điện. Không cần xử lý gấp. Việc anh/chị nên làm ngay là rút phích cắm và thử ổ cắm khác để loại trừ nguyên nhân nguồn điện. Em sẽ kiểm tra/chẩn đoán thiết bị tại nhà. Anh/chị nên đặt dịch vụ Kiểm tra/chẩn đoán thiết bị tại nhà.",
+      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Anh/chị đang gặp vấn đề với loa hoặc bo nguồn. Có thể là hỏng bo nguồn hoặc hỏng dải đèn nền. Chi phí dự kiến từ 100.000đ đến 1.100.000đ. Anh/chị nên thử tai nghe hoặc loa ngoài để xác định lỗi ở loa hay ở bo. Sau đó, rút phích cắm và thử ổ cắm khác để loại trừ nguyên nhân nguồn điện. Tắt nguồn, không cần xử lý gấp. Em sẽ kiểm tra/chẩn đoán thiết bị tại nhà. Anh/chị có thể đặt dịch vụ này ngay hôm nay.",
       "citations": [],
       "services": [
         "KIEM_TRA_CHAN_DOAN_THIET_BI"
@@ -7853,7 +7993,7 @@
       ],
       "fault_ok": true,
       "note": "",
-      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Có khả năng hư hỏng là lõi lọc hết hạn và nước có mùi vị lạ. Chi phí khoảng 100.000đ, phần còn lại kỹ thuật viên sẽ phải xem tận nơi mới tính được. Anh/chị nên ngừng uống trực tiếp cho tới khi thay lõi và súc rửa bình chứa. Em sẽ đặt lịch cho anh/chị thợ với dịch vụ lắp máy lọc nước cơ bản.",
+      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Có khả năng hư hỏng là lõi lọc hết hạn và nước có mùi vị lạ. Chi phí khoảng 100.000đ, phần còn lại kỹ thuật viên sẽ xem tận nơi mới tính được. Anh/chị nên ngừng uống trực tiếp cho tới khi thay lõi và súc rửa bình chứa. Em sẽ đặt lịch cho anh/chị thợ với dịch vụ lắp máy lọc nước cơ bản.",
       "citations": [],
       "services": [
         "LAP_MAY_LOC_NUOC"
@@ -7868,16 +8008,17 @@
       "device_got": "water_pipe",
       "device_ok": true,
       "faults": [
+        "PIPE_NOISY",
         "PIPE_BURST",
         "PIPE_CLOGGED"
       ],
       "fault_ok": true,
       "note": "",
-      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Có khả năng hư hỏng là vỡ ống, xì nước mạnh và nghẹt đường ống thoát. Chi phí dự kiến từ 100.000đ, phần còn lại kỹ thuật viên sẽ xem tận nơi mới tính được. Anh/chị nên khóa van cấp nước tổng ngay lập tức, ngắt điện khu vực bị ngập và ngưng xả nước xuống đường ống đang nghẹt. Em sẽ đặt dịch vụ sửa rò rỉ đường ống nước hoặc bục vỡ và kiểm tra/chẩn đoán thiết bị tại nhà. Xin mời anh/chị đặt dịch vụ đúng tên \"Sửa rò rỉ đường ống nước / bục vỡ, Kiểm tra/chẩn đoán thiết bị tại nhà\".",
+      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Có khả năng hư hỏng là Ống kêu, búa nước, Vỡ ống, xì nước mạnh, Nghẹt đường ống thoát. Chi phí từ 100.000đ, phần còn lại kỹ thuật viên phải xem tận nơi mới tính được. Anh/chị nên làm ngay: khoá vòi từ từ thay vì đóng đột ngột; Khóa van cấp nước tổng ngay; Ngắt điện khu vực bị ngập; Ngưng xả nước xuống đường ống đang nghẹt. Em sẽ đặt lịch kiểm tra/chẩn đoán thiết bị tại nhà và sửa rò rỉ đường ống nước/bục vỡ.",
       "citations": [],
       "services": [
-        "SUA_RO_RI_NUOC",
-        "KIEM_TRA_CHAN_DOAN_THIET_BI"
+        "KIEM_TRA_CHAN_DOAN_THIET_BI",
+        "SUA_RO_RI_NUOC"
       ]
     },
     {
@@ -7908,12 +8049,12 @@
       "device_got": "sink",
       "device_ok": true,
       "faults": [
-        "SINK_CLOGGED",
-        "SINK_SMELL"
+        "SINK_SMELL",
+        "SINK_CLOGGED"
       ],
       "fault_ok": true,
       "note": "",
-      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Anh/chị đang gặp vấn đề với hệ thống bồn rửa, cụ thể là nghẹt đường thoát bồn, hôi cống và khô bẫy nước. Chi phí để khắc phục sẽ dao động từ 100.000đ đến khi kỹ thuật viên kiểm tra tận nơi. Anh/chị nên ngưng đổ dầu mỡ và thức ăn thừa xuống bồn và xả nước vài phút để làm đầy lại bẫy nước. Em sẽ giúp anh/chị kiểm tra và chẩn đoán thiết bị tại nhà. Anh/chị có thể đặt dịch vụ này ngay hôm nay.",
+      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Có khả năng hư hỏng là hôi cống, khô bẫy nước và nghẹt đường thoát bồn rửa. Chi phí từ 100.000đ, phần còn lại kỹ thuật viên phải xem tận nơi mới tính được. Anh/chị nên xả nước vài phút để làm đầy lại bẫy nước và ngưng đổ dầu mỡ và thức ăn thừa xuống bồn. Em sẽ đặt lịch kiểm tra/chẩn đoán thiết bị tại nhà. Anh/chị có thể đặt dịch vụ \"Kiểm tra/chẩn đoán thiết bị tại nhà\" với em.",
       "citations": [],
       "services": [
         "KIEM_TRA_CHAN_DOAN_THIET_BI"
@@ -8120,12 +8261,13 @@
       "device_got": "electric_fan",
       "device_ok": true,
       "faults": [
+        "FAN_SWITCH_FAULT",
         "FAN_CORD_DAMAGE",
         "FAN_CAPACITOR"
       ],
-      "fault_ok": false,
+      "fault_ok": true,
       "note": "",
-      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Có khả năng hư hỏng là đứt hoặc hở dây nguồn, hoặc hỏng tụ khởi động. Chi phí dự kiến từ 100.000đ đến 270.000đ. Anh/chị nên rút phích cắm và không dùng cho tới khi thay dây. Ngừng dùng và không đẩy cánh bằng tay khi đang cấp điện. Em sẽ kiểm tra/chẩn đoán thiết bị tại nhà. Anh/chị nên đặt dịch vụ này.",
+      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Có khả năng hư hỏng như sau:\n\n- Hỏng công tắc\n- Nút chỉnh tốc độ\n- Đứt\n- Hở dây nguồn\n- Hỏng tụ khởi động\n\nChi phí dự kiến khoảng từ 100.000đ đến 270.000đ.\n\nViệc anh/chị nên làm ngay:\n- Rút phích cắm trước khi tháo bất kỳ bộ phận nào\n- Rút phích cắm và không dùng cho tới khi thay dây\n- Ngưng dùng, không đẩy cánh bằng tay khi đang cấp điện\n\nDịch vụ nên đặt:\n- Kiểm tra/chẩn đoán thiết bị tại nhà",
       "citations": [],
       "services": [
         "KIEM_TRA_CHAN_DOAN_THIET_BI"
@@ -8159,11 +8301,12 @@
       "device_got": "television",
       "device_ok": true,
       "faults": [
+        "TV_POWER_BOARD",
         "TV_BACKLIGHT"
       ],
-      "fault_ok": false,
+      "fault_ok": true,
       "note": "",
-      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Có khả năng hư hỏng là hở dải đèn nền. Chi phí dự kiến từ 100.000đ đến 1.100.000đ. Anh/chị không cần xử lý gấp, chỉ cần tắt nguồn. Em sẽ giúp anh/chị kiểm tra/chẩn đoán thiết bị tại nhà. Anh/chị có thể đặt dịch vụ này ngay hôm nay.",
+      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Có khả năng hư hỏng là hở bo nguồn và hở dải đèn nền. Chi phí dự kiến từ 100.000đ đến 1.100.000đ. Anh/chị nên rút phích cắm và thử ổ cắm khác để loại trừ nguyên nhân nguồn điện. Không cần xử lý gấp. Việc anh/chị nên làm ngay là rút phích cắm và thử ổ cắm khác để loại trừ nguyên nhân nguồn điện. Em sẽ kiểm tra/chẩn đoán thiết bị tại nhà. Anh/chị nên đặt dịch vụ Kiểm tra/chẩn đoán thiết bị tại nhà.",
       "citations": [],
       "services": [
         "KIEM_TRA_CHAN_DOAN_THIET_BI"
@@ -8178,12 +8321,13 @@
       "device_got": "power_outlet",
       "device_ok": true,
       "faults": [
+        "OUTLET_LOOSE_CONTACT",
         "OUTLET_BROKEN_FACE",
         "OUTLET_SHORT_CIRCUIT"
       ],
       "fault_ok": true,
       "note": "",
-      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Anh/chị đang nói về một vấn đề với ổ cắm điện. Có khả năng hư hỏng là vỡ hoặc nứt mặt ổ cắm, cũng có thể là chập cháy ổ cắm. Chi phí dự kiến sẽ rơi vào khoảng từ 100.000đ đến 290.000đ.\n\nĐể khắc phục vấn đề, em khuyên anh/chị nên ngắt cầu dao tại khu vực ngay lập tức và ngắt cầu dao tại phần mang điện đang hở. Không nên cắm thêm thiết bị nào vào ổ này nữa.\n\nĐể khắc phục vấn đề, em khuyên anh/chị nên đặt dịch vụ thay ổ cắm điện hoặc sửa chập điện âm tường/nhảy Aptomat. Đây là những dịch vụ phù hợp với tình trạng hiện tại của anh/chị.\n\nChúng em sẽ tiến hành kiểm tra và báo cáo kết quả chính xác nhất sau. Anh/chị có thể đặt lịch ngay hôm nay để chúng em có thể tiến hành kiểm tra và báo cáo kết quả chính xác nhất.",
+      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Có khả năng hư hỏng là lỏng tiếp xúc, ổ cắm rơ, vỡ, nứt mặt ổ cắm, chập cháy ổ cắm. Chi phí dự kiến từ 100.000đ đến 290.000đ. Anh/chị nên ngưng sử dụng ổ này vì tiếp xúc kém sinh nhiệt và dễ gây cháy. Ngắt cầu dao vì phần mang điện đang hở. Ngắt cầu dao khu vực ngay lập tức. Không cắm thêm thiết bị nào vào ổ này. Em sẽ đặt lịch thay ổ cắm điện và sửa chập điện âm tường/nhảy Aptomat. Xin lỗi vì sự不便带来的困扰。",
       "citations": [],
       "services": [
         "THAY_O_CAM_DIEN",
@@ -8237,16 +8381,17 @@
       "device_got": "water_pipe",
       "device_ok": true,
       "faults": [
+        "PIPE_NOISY",
         "PIPE_BURST",
         "PIPE_CLOGGED"
       ],
       "fault_ok": true,
       "note": "",
-      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Có khả năng hư hỏng là vỡ ống, xì nước mạnh và nghẹt đường ống thoát. Chi phí dự kiến từ 100.000đ, phần còn lại kỹ thuật viên sẽ phải xem tận nơi mới tính được. Anh/chị nên khóa van cấp nước tổng ngay lập tức, ngắt điện khu vực bị ngập và ngưng xả nước xuống đường ống đang nghẹt. Em sẽ đặt dịch vụ sửa rò rỉ đường ống nước hoặc bục vỡ và kiểm tra/chẩn đoán thiết bị tại nhà. Xin mời anh/chị đặt dịch vụ đúng tên \"Sửa rò rỉ đường ống nước/bục vỡ\" và \"Kiểm tra/chẩn đoán thiết bị tại nhà\".",
+      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Có khả năng hư hỏng là Ống kêu, búa nước, Vỡ ống, xì nước mạnh, Nghẹt đường ống thoát. Chi phí từ 100.000đ, phần còn lại kỹ thuật viên phải xem tận nơi mới tính được. Anh/chị nên khóa vòi từ từ thay vì đóng đột ngột, khóa van cấp nước tổng ngay, ngắt điện khu vực bị ngập và ngưng xả nước xuống đường ống đang nghẹt. Em sẽ đặt lịch kiểm tra/chẩn đoán thiết bị tại nhà và sửa rò rỉ đường ống nước/bục vỡ.",
       "citations": [],
       "services": [
-        "SUA_RO_RI_NUOC",
-        "KIEM_TRA_CHAN_DOAN_THIET_BI"
+        "KIEM_TRA_CHAN_DOAN_THIET_BI",
+        "SUA_RO_RI_NUOC"
       ]
     },
     {
@@ -8258,12 +8403,13 @@
       "device_got": "water_purifier",
       "device_ok": true,
       "faults": [
+        "PURIFIER_FILTER_DUE",
         "PURIFIER_LEAK",
         "PURIFIER_NO_WATER"
       ],
-      "fault_ok": false,
+      "fault_ok": true,
       "note": "",
-      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Có khả năng hư hỏng là máy lọc nước rò rỉ nước hoặc không ra nước. Chi phí khoảng từ 100.000đ, phần còn lại kỹ thuật viên sẽ phải xem tận nơi mới tính được. Anh/chị nên khóa van cấp nước vào máy và rút điện, sau đó kiểm tra nguồn nước vào và van khoá đã mở chưa. Em sẽ đặt lịch lắp máy lọc nước cơ bản cho anh/chị.",
+      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Có vẻ như anh/chị đang gặp vấn đề với máy lọc nước của mình. Chi phí để khắc phục vấn đề này sẽ dao động từ 100.000đ đến khi kỹ thuật viên kiểm tra tận nơi. Anh/chị nên ngừng uống trực tiếp cho tới khi thay lõi và súc rửa bình chứa. Sau đó, hãy khóa van cấp nước vào máy và rút điện. Cuối cùng, hãy kiểm tra nguồn nước vào và van khoá đã mở chưa. Em sẽ đặt lịch cho anh/chị để lắp máy lọc nước cơ bản.",
       "citations": [],
       "services": [
         "LAP_MAY_LOC_NUOC"
@@ -8297,11 +8443,12 @@
       "device_got": "refrigerator",
       "device_ok": true,
       "faults": [
+        "FRIDGE_LIGHT_FAULT",
         "FRIDGE_COMPRESSOR"
       ],
-      "fault_ok": false,
+      "fault_ok": true,
       "note": "",
-      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Anh/chị đang nói về hư hỏng của block máy nén trong tủ lạnh. Chi phí để khắc phục này khoảng từ 100.000đ, nhưng phần còn lại kỹ thuật viên sẽ phải xem tận nơi mới tính được. Anh/chị nên rút điện tủ lạnh và chuyển thực phẩm đi nơi khác ngay lập tức để đảm bảo an toàn. Em khuyên anh/chị nên đặt dịch vụ sửa chữa tủ lạnh không đông đá/kêu to để được hỗ trợ tốt nhất.",
+      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Anh/chị đang nói về hư hỏng của đèn tủ lạnh và block máy nén. Chi phí sửa chữa khoảng từ 100.000đ, phần còn lại kỹ thuật viên sẽ phải xem tận nơi mới tính được. Anh/chị không ảnh hưởng đến làm lạnh, có thể dùng bình thường. Em khuyên anh/chị rút điện tủ lạnh và chuyển thực phẩm đi nơi khác. Anh/chị nên đặt dịch vụ \"Sửa tủ lạnh không đông đá/kêu to\".",
       "citations": [],
       "services": [
         "SUA_TU_LANH"
@@ -8428,17 +8575,23 @@
     {
       "text": "đường ống nước nước đọng hoài không rút",
       "expect": "diagnose",
-      "got": "refuse",
-      "ok": false,
+      "got": "diagnose",
+      "ok": true,
       "device_expected": "water_pipe",
-      "device_got": null,
-      "device_ok": false,
-      "faults": [],
-      "fault_ok": false,
+      "device_got": "water_pipe",
+      "device_ok": true,
+      "faults": [
+        "PIPE_CLOGGED",
+        "PIPE_JOINT_LEAK"
+      ],
+      "fault_ok": true,
       "note": "",
-      "reply": "",
+      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Anh/chị đang gặp vấn đề với hệ thống nước, cụ thể là nghẹt đường ống thoát và rò rỉ mối nối đường ống. Chi phí để khắc phục hiện tại khoảng 100.000đ, nhưng phần còn lại kỹ thuật viên sẽ phải xem tận nơi mới tính được chi tiết. \n\nĐể hạn chế tình trạng thấm nước, em khuyên anh/chị nên ngưng xả nước xuống đường ống đang nghẹt, khóa van cấp nước tổng và hưng nước tạm để hạn chế thấm. \n\nVì vậy, em khuyên anh/chị nên đặt dịch vụ kiểm tra/chẩn đoán thiết bị tại nhà và sửa rò rỉ đường ống nước/bục vỡ. Em sẽ đảm bảo rằng anh/chị được tư vấn và xử lý đúng cách.",
       "citations": [],
-      "services": []
+      "services": [
+        "KIEM_TRA_CHAN_DOAN_THIET_BI",
+        "SUA_RO_RI_NUOC"
+      ]
     },
     {
       "text": "ổ cắm nóng quá",
@@ -8508,11 +8661,12 @@
       "device_got": "induction_hob",
       "device_ok": true,
       "faults": [
+        "HOB_FAN_NOISY",
         "HOB_TOUCH_FAULT"
       ],
-      "fault_ok": false,
+      "fault_ok": true,
       "note": "",
-      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Chiếc bảng cảm ứng bếp từ không ăn là một vấn đề phổ biến và có thể được khắc phục với chi phí khoảng 100.000đ. Phần còn lại kỹ thuật viên sẽ phải xem tận nơi để tính chính xác chi phí. Anh/chị nên thực hiện việc lau khô mặt kính và nước đọng trên cảm ứng để đảm bảo rằng bếp hiểu đúng thao tác. Em khuyên anh/chị nên đặt dịch vụ sửa bếp từ báo lỗi E / không nhận nồi để giải quyết vấn đề một cách nhanh chóng và hiệu quả.",
+      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Chiếc quạt tản nhiệt bếp từ kêu hoặc hỏng, bảng cảm ứng bếp từ không ăn. Chi phí sửa chữa từ 100.000đ, phần còn lại kỹ thuật viên phải xem tận nơi mới tính được. Anh/chị nên kiểm tra khe thoát nhiệt phía dưới bếp có bị bịt kín không; Lau khô mặt kính, nước đọng trên cảm ứng làm bếp hiểu sai thao tác. Em sẽ đặt lịch sửa chữa cho anh/chị với dịch vụ \"Sửa bếp từ báo lỗi E / không nhận nồi\".",
       "citations": [],
       "services": [
         "SUA_BEP_TU"
@@ -8565,12 +8719,13 @@
       "device_got": "power_outlet",
       "device_ok": true,
       "faults": [
+        "OUTLET_NO_POWER",
         "OUTLET_SHORT_CIRCUIT",
         "OUTLET_OVERLOAD"
       ],
-      "fault_ok": false,
+      "fault_ok": true,
       "note": "",
-      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Có khả năng hư hỏng là chập cháy ổ cắm hoặc quá tải, chi phí dự kiến từ 100.000đ đến 670.000đ. Anh/chị nên ngắt cầu dao khu vực ngay lập tức, không cắm thêm thiết bị nào vào ổ này và rút bớt thiết bị khỏi ổ này ngay. Em sẽ đặt dịch vụ sửa chập điện âm tường / nhảy Aptomat cho anh/chị.",
+      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Có khả năng hư hỏng là ổ cắm mất điện, đứt dây, chập cháy ổ cắm, quá tải hoặc dùng quá nhiều thiết bị một ổ. Chi phí dự kiến từ 100.000đ đến 670.000đ. Anh/chị nên kiểm tra Aptomat khu vực đã nhảy chưa, ngắt cầu dao khu vực ngay lập tức, không cắm thêm thiết bị vào ổ này và rút bớt thiết bị khỏi ổ này ngay. Em sẽ đặt dịch vụ sửa chập điện âm tường / nhảy Aptomat cho anh/chị.",
       "citations": [],
       "services": [
         "SUA_CHAP_DIEN"
@@ -8585,12 +8740,12 @@
       "device_got": "faucet",
       "device_ok": true,
       "faults": [
-        "FAUCET_DRIP",
-        "FAUCET_BASE_LEAK"
+        "FAUCET_BASE_LEAK",
+        "FAUCET_DRIP"
       ],
       "fault_ok": true,
       "note": "",
-      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Có khả năng hư hỏng là mòn gioăng, rò rỉ vòi nước, rò rỉ chân vòi và mối nối. Chi phí dự kiến từ 120.000đ đến 280.000đ. Anh/chị nên khóa van chặn dưới bồn nếu có và khóa van chặn và lau khô để theo dõi chỗ rò. Em sẽ đặt dịch vụ thay vòi nước với tiền công. Anh/chị có thể đặt dịch vụ này với tên dịch vụ \"FixHome\".",
+      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Có khả năng hư hỏng như rò rỉ chân vòi, mối nối, mòn gioăng và rò rỉ vòi nước. Chi phí dự kiến từ 120.000đ đến 280.000đ. Anh/chị nên khóa van chặn và lau khô để theo dõi chỗ rò, nếu có, khóa van chặn dưới bồn. Em khuyên anh/chị nên đặt dịch vụ thay vòi nước với tiền công.",
       "citations": [],
       "services": [
         "THAY_VOI_NUOC"
@@ -8605,14 +8760,16 @@
       "device_got": "power_outlet",
       "device_ok": true,
       "faults": [
+        "OUTLET_LOOSE_CONTACT",
         "OUTLET_OVERLOAD",
         "OUTLET_SHORT_CIRCUIT"
       ],
-      "fault_ok": false,
+      "fault_ok": true,
       "note": "",
-      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Có khả năng hư hỏng là quá tải, dùng quá nhiều thiết bị một ổ, và chập cháy ổ cắm. Chi phí dự kiến từ 100.000đ đến 670.000đ. Anh/chị nên rút bớt thiết bị khỏi ổ này ngay lập tức, ngắt cầu dao khu vực ngay lập tức và không cắm thêm thiết bị nào vào ổ này. Em sẽ đặt dịch vụ sửa chập điện âm tường hoặc nhảy Aptomat cho anh/chị. Anh/chị có thể đặt dịch vụ ngay hôm nay.",
+      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Chiếc ổ cắm điện của anh/chị đang gặp vấn đề về tiếp xúc kém và dễ gây cháy. Có thể là do quá tải hoặc dùng quá nhiều thiết bị một ổ. Anh/chị nên ngưng sử dụng ổ này ngay lập tức vì nguy cơ sinh nhiệt và cháy rất cao. Hãy rút bớt thiết bị khỏi ổ này ngay lập tức và không nên cắm thêm thiết bị nào vào ổ này nữa. Em khuyên anh/chị nên thay ổ cắm điện và sửa chữa chập điện âm tường hoặc nhảy Aptomat để đảm bảo an toàn. Chi phí thay ổ cắm điện và sửa chữa chập điện âm tường/nhảy Aptomat sẽ rơi vào khoảng 100.000đ đến 670.000đ. Em sẽ đặt lịch thợ để tiến hành sửa chữa cho anh/chị ngay lập tức. Anh/chị có thể đặt dịch vụ thay ổ cắm điện hoặc sửa chữa chập điện âm tường/nhảy Aptomat tại FixHome.",
       "citations": [],
       "services": [
+        "THAY_O_CAM_DIEN",
         "SUA_CHAP_DIEN"
       ]
     },
@@ -8625,11 +8782,12 @@
       "device_got": "dishwasher",
       "device_ok": true,
       "faults": [
+        "DW_NOT_DRAINING",
         "DW_DOOR_LEAK"
       ],
-      "fault_ok": false,
+      "fault_ok": true,
       "note": "",
-      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Chiếc máy rửa bát của anh/chị đang gặp vấn đề với rò nước. Chi phí để khắc phục này khoảng từ 100.000đ, nhưng để xác định chính xác, kỹ thuật viên sẽ phải đến tận nơi kiểm tra. Việc anh/chị nên làm ngay bây giờ là lau khô sàn và ngắt điện máy, vì nước rò gần ổ điện rất nguy hiểm. Em khuyên anh/chị nên đặt dịch vụ \"Sửa máy rửa bát không sạch / tràn nước\". Em sẽ giúp anh/chị đặt lịch ngay lập tức.",
+      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Chiếc máy rửa bát của anh/chị không thoát nước và có rò nước cửa máy. Chi phí để khắc phục vấn đề này từ khoảng 100.000đ, nhưng phần còn lại kỹ thuật viên sẽ phải xem tận nơi mới tính được chi phí chính xác. Anh/chị nên tắt máy và khoá van cấp nước trước khi mở cửa máy. Sau đó, hãy lau khô sàn và ngắt điện máy, vì nước rò gần ổ điện rất nguy hiểm. Em khuyên anh/chị nên đặt dịch vụ sửa máy rửa bát không sạch / tràn nước để đảm bảo công việc được thực hiện một cách chính xác và an toàn.",
       "citations": [],
       "services": [
         "SUA_MAY_RUA_CHEN"
@@ -8663,13 +8821,15 @@
       "device_got": "toilet",
       "device_ok": true,
       "faults": [
+        "TOILET_FILL_VALVE",
         "TOILET_BASE_LEAK"
       ],
-      "fault_ok": false,
+      "fault_ok": true,
       "note": "",
-      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Có khả năng hư hỏng là rò rỉ chân bồn cầu. Chi phí từ 100.000đ, phần còn lại kỹ thuật viên phải xem tận nơi mới tính được. Anh/chị nên hạn chế sử dụng cho tới khi xử lý vì nước thải thấm nền. Em sẽ đặt lịch sửa rò rỉ đường ống nước/bục vỡ cho anh/chị.",
+      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Anh/chị đang nói về hư hỏng van cấp nước két và rò rỉ chân bồn cầu. Chi phí để khắc phục hiện tại khoảng 100.000đ, nhưng phần còn lại kỹ thuật viên sẽ phải xem tận nơi mới tính được chi phí chính xác. Anh/chị nên khóa van chặn sau bồn cầu và hạn chế sử dụng cho tới khi xử lý vì nước thải thấm nền. Em sẽ đặt lịch kiểm tra/chẩn đoán thiết bị tại nhà và sửa rò rỉ đường ống nước/bục vỡ. Xin cảm ơn đã thông báo và em rất mong muốn giúp anh/chị.",
       "citations": [],
       "services": [
+        "KIEM_TRA_CHAN_DOAN_THIET_BI",
         "SUA_RO_RI_NUOC"
       ]
     },
@@ -8701,12 +8861,13 @@
       "device_got": "kettle",
       "device_ok": true,
       "faults": [
+        "KETTLE_SWITCH",
         "KETTLE_THERMOSTAT",
         "KETTLE_LEAK"
       ],
-      "fault_ok": false,
+      "fault_ok": true,
       "note": "",
-      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Anh/chị đang gặp vấn đề với hai hư hỏng: Hỏng rơ le nhiệt và Rò nước ở đáy bình. Chi phí dự kiến cho dịch vụ này sẽ rơi vào khoảng từ 100.000đ đến 440.000đ.\n\nĐể đảm bảo an toàn, em khuyên anh/chị nên rút phích cắm ngay sau khi sử dụng và ngưng sử dụng ngay vì nước rò xuống phần điện rất nguy hiểm. Anh/chị cũng nên kiểm tra và thay thế le nhiệt ngay lập tức để tránh nguy cơ điện giật.\n\nVì vậy, em khuyến nghị anh/chị nên đặt dịch vụ kiểm tra/chẩn đoán thiết bị tại nhà để chúng em có thể giúp anh/chị giải quyết vấn đề một cách nhanh chóng và an toàn.",
+      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Anh/chị đang nói về các vấn đề như hỏng công tắc, chân tiếp xúc, hỏng rơ le nhiệt và rò nước ở đáy bình. Chi phí dự kiến cho các dịch vụ này sẽ rơi vào khoảng từ 100.000đ đến 440.000đ.\n\nĐể đảm bảo an toàn, em khuyên anh/chị nên rút phích cắm ngay sau khi sử dụng và ngưng sử dụng ngay nếu nước rò xuống phần điện. Đây là những biện pháp an toàn và cần thiết để tránh nguy cơ.\n\nVì vậy, em khuyến nghị anh/chị nên đặt dịch vụ kiểm tra/chẩn đoán thiết bị tại nhà để chúng em có thể tiến hành kiểm tra và đưa ra giải pháp phù hợp nhất. Em sẽ đặt lịch cho anh/chị ngay lập tức.\n\nChúc anh/chị một ngày tốt lành!",
       "citations": [],
       "services": [
         "KIEM_TRA_CHAN_DOAN_THIET_BI"
@@ -8757,11 +8918,12 @@
       "device_got": "power_outlet",
       "device_ok": true,
       "faults": [
+        "OUTLET_TRIPS_BREAKER",
         "OUTLET_SHORT_CIRCUIT"
       ],
-      "fault_ok": false,
+      "fault_ok": true,
       "note": "",
-      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Có khả năng hư hỏng là chập cháy ổ cắm. Chi phí dự kiến từ 100.000đ đến 250.000đ. Anh/chị nên ngắt cầu dao khu vực ngay lập tức và không cắm thêm thiết bị nào vào ổ này. Em sẽ đặt thợ sửa chập điện âm tường hoặc nhảy Aptomat cho anh/chị. Anh/chị có thể đặt dịch vụ này ngay hôm nay.",
+      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Anh/chị đang nói về tình trạng rò điện làm nhảy aptomat và chập cháy ổ cắm. Chi phí sửa chữa khoảng từ 100.000đ, nhưng phần còn lại kỹ thuật viên sẽ phải xem tận nơi mới tính được. Anh/chị nên ngắt cầu dao và không tự đóng lại nhiều lần; không chạm vào thiết bị nghi rò điện; ngắt cầu dao khu vực ngay lập tức; không cắm thêm thiết bị nào vào ổ này. Em sẽ đặt dịch vụ sửa chập điện âm tường / nhảy Aptomat cho anh/chị.",
       "citations": [],
       "services": [
         "SUA_CHAP_DIEN"
@@ -8776,13 +8938,15 @@
       "device_got": "sink",
       "device_ok": false,
       "faults": [
+        "SINK_TRAP_LEAK",
         "SINK_SMELL"
       ],
       "fault_ok": false,
       "note": "",
-      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Có khả năng hư hỏng là hôi cống và khô bẫy nước. Chi phí khoảng từ 100.000đ, phần còn lại kỹ thuật viên sẽ phải xem tận nơi mới tính được. Anh/chị nên xả nước vài phút để làm đầy lại bẫy nước. Em sẽ đặt lịch kiểm tra/chẩn đoán thiết bị tại nhà. Anh/chị có thể đặt dịch vụ \"Kiểm tra/chẩn đoán thiết bị tại nhà\" đúng tên dịch vụ được cho.",
+      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Anh/chị đang gặp vấn đề với rò rỉ ống thoát dưới bồn, hôi cống và khô bẫy nước. Chi phí để khắc phục hiện tại khoảng 100.000đ, nhưng phần còn lại kỹ thuật viên sẽ phải xem tận nơi mới tính được chi tiết. Anh/chị nên h支撑 chậu dưới chỗ rò và hạn chế sử dụng bồn rửa để giảm thiểu tình trạng này. Ngoài ra, hãy xả nước vài phút để làm đầy lại bẫy nước. Em khuyên anh/chị nên đặt dịch vụ thay siphon/chống rò lavabo và kiểm tra/chẩn đoán thiết bị tại nhà. Em rất sẵn lòng giúp anh/chị với dịch vụ này.",
       "citations": [],
       "services": [
+        "THAY_SIPHON_LAVABO",
         "KIEM_TRA_CHAN_DOAN_THIET_BI"
       ]
     },
@@ -8795,11 +8959,12 @@
       "device_got": "oven",
       "device_ok": true,
       "faults": [
+        "OVEN_TIMER_FAULT",
         "OVEN_FAN_FAULT"
       ],
-      "fault_ok": false,
+      "fault_ok": true,
       "note": "",
-      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Anh/chị đang nói về hư hỏng quạt đối lưu. Chi phí dự kiến khoảng từ 100.000đ đến 930.000đ. Anh/chị có thể sử dụng chế độ không quạt tạm thời để giải quyết vấn đề ngay lập tức. Em khuyên anh/chị nên đặt dịch vụ kiểm tra/chẩn đoán thiết bị tại nhà để được tư vấn chính xác nhất.",
+      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Anh/chị đang nói về hư hỏng của bộ hẹn giờ, công tắc và quạt đối lưu. Chi phí dự kiến cho dịch vụ này sẽ rơi vào khoảng từ 100.000đ đến 930.000đ.\n\nĐể đảm bảo hiệu quả, em khuyên anh/chị nên rút điện khi sử dụng thay vì dựa vào hẹn giờ. Anh/chị cũng có thể sử dụng chế độ không quạt tạm thời nếu cần.\n\nVì vậy, em khuyến nghị anh/chị nên đặt dịch vụ kiểm tra/chẩn đoán thiết bị tại nhà để chúng em có thể xác định chính xác vấn đề và đưa ra giải pháp phù hợp nhất.\n\nChúc anh/chị may mắn!",
       "citations": [],
       "services": [
         "KIEM_TRA_CHAN_DOAN_THIET_BI"
@@ -8833,13 +8998,15 @@
       "device_got": "light_bulb",
       "device_ok": true,
       "faults": [
+        "LIGHT_BULB_DEAD",
         "LIGHT_SWITCH_FAULT"
       ],
       "fault_ok": true,
       "note": "",
-      "reply": "",
+      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Có khả năng hư hỏng là bóng đèn cháy và hết tuổi thọ, hoặc hỏng công tắc đèn. Chi phí dự kiến từ 100.000đ đến 320.000đ. Anh/chị nên tắt công tắc trước khi thay bóng và ngắt cầu dao khu vực nếu công tắc nóng hoặc có mùi khét. Em khuyên anh/chị nên đặt dịch vụ: Lắp đèn trần cơ bản - tiền công hoặc Thay công tắc điện - tiền công. Xin mời anh/chị đặt dịch vụ với đúng tên dịch vụ được cho.",
       "citations": [],
       "services": [
+        "LAP_DEN_TRAN_CO_BAN",
         "THAY_CONG_TAC_DIEN"
       ]
     },
@@ -8872,11 +9039,12 @@
       "device_got": "gas_stove",
       "device_ok": true,
       "faults": [
+        "STOVE_IGNITER",
         "STOVE_FLAME_OUT"
       ],
       "fault_ok": false,
       "note": "",
-      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Chiếc bếp của anh/chị đang gặp vấn đề về lửa tự tắt giữa chừng. Có thể là do một số vấn đề như lò gas không hoạt động hoặc hệ thống điện không ổn định. Chi phí dự kiến khoảng từ 100.000đ đến 360.000đ tùy thuộc vào mức độ phức tạp của sự cố.\n\nĐể đảm bảo an toàn, em khuyên anh/chị nên khóa van bình gas ngay lập tức vì nguy cơ gas vẫn chảy ra rất nguy hiểm nếu không được kiểm soát. Điều này sẽ giúp giảm thiểu nguy cơ xảy ra tai nạn.\n\nVì vậy, em khuyên anh/chị nên đặt dịch vụ kiểm tra/chẩn đoán thiết bị tại nhà để chúng em có thể xác định chính xác vấn đề và đưa ra giải pháp phù hợp nhất. Anh/chị có thể đặt lịch tại đây:\n\n- Kiểm tra/chẩn đoán thiết bị tại nhà\n\nChúng em sẽ đến nhà anh/chị ngay lập tức để tiến hành kiểm tra và giải quyết vấn đề của anh/chị. Xin cảm ơn anh/chị đã tin tưởng và sử dụng dịch vụ của chúng em.",
+      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Có khả năng hư hỏng là Hỏng bộ đánh lửa, Lửa tự tắt giữa chừng. Chi phí dự kiến từ 100.000đ đến 470.000đ. Anh/chị nên khóa van bình gas ngay vì lửa tắt mà gas vẫn ra rất nguy hiểm. Em sẽ giúp anh/chị kiểm tra/chẩn đoán thiết bị tại nhà. Anh/chị có thể đặt dịch vụ này ngay hôm nay.",
       "citations": [],
       "services": [
         "KIEM_TRA_CHAN_DOAN_THIET_BI"
@@ -8966,12 +9134,13 @@
       "device_got": "water_pipe",
       "device_ok": true,
       "faults": [
+        "PIPE_NOISY",
         "PIPE_CLOGGED",
         "PIPE_RUSTY_WATER"
       ],
       "fault_ok": true,
       "note": "",
-      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Anh/chị đang gặp vấn đề với hệ thống nước, cụ thể là nghẹt đường ống thoát, nước đục và rỉ sét đường ống. Chi phí để khắc phục hiện tại khoảng 100.000đ, nhưng phần còn lại kỹ thuật viên sẽ phải xem tận nơi mới tính được chi tiết. Anh/chị nên ngưng xả nước xuống đường ống đang nghẹt và xả bỏ phần nước đầu để tránh sử dụng cho mục đích khác. Em khuyên anh/chị nên đặt dịch vụ kiểm tra/chẩn đoán thiết bị tại nhà để được tư vấn chính xác nhất.",
+      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Có khả năng hư hỏng là Ống kêu, búa nước, Nghẹt đường ống thoát, Nước đục, rỉ sét đường ống. Chi phí từ 100.000đ, phần còn lại kỹ thuật viên phải xem tận nơi mới tính được. Anh/chị nên khóa vòi từ từ thay vì đóng đột ngột, ngưng xả nước xuống đường ống đang nghẹt, xả bỏ phần nước đầu và không dùng để ăn uống cho tới khi kiểm tra. Em sẽ đặt lịch kiểm tra/chẩn đoán thiết bị tại nhà.",
       "citations": [],
       "services": [
         "KIEM_TRA_CHAN_DOAN_THIET_BI"
@@ -9005,12 +9174,13 @@
       "device_got": "oven",
       "device_ok": true,
       "faults": [
+        "OVEN_TIMER_FAULT",
         "OVEN_DOOR_GLASS",
         "OVEN_HEATING_ELEMENT"
       ],
-      "fault_ok": false,
+      "fault_ok": true,
       "note": "",
-      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Anh/chị đang nói về các vấn đề liên quan đến nứt kính cửa, hỏng bản lề và hỏng thanh nhiệt. Chi phí dự kiến cho các dịch vụ này sẽ dao động từ 100.000đ đến 1.400.000đ.\n\nĐể đảm bảo an toàn, em khuyên anh/chị nên ngưng sử dụng nếu kính cửa đã nứt vì có thể gây vỡ khi gặp nhiệt. Ngoài ra, anh/chị cũng nên rút điện trước khi tiến hành kiểm tra để tránh nguy cơ điện giật.\n\nVì vậy, em khuyên anh/chị nên đặt dịch vụ kiểm tra/chẩn đoán thiết bị tại nhà để được tư vấn và thực hiện các biện pháp sửa chữa phù hợp nhất. Em rất mong được phục vụ anh/chị trong thời gian sớm nhất.",
+      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Anh/chị đang nói về các vấn đề như hỏng bộ hẹn giờ, công tắc, nứt kính cửa, hỏng bản lề và hỏng thanh nhiệt. Chi phí dự kiến cho các dịch vụ này sẽ rơi vào khoảng từ 100.000đ đến 1.400.000đ.\n\nĐể đảm bảo an toàn, em khuyên anh/chị nên rút điện khi sử dụng xong thay vì dựa vào hẹn giờ và ngưng dùng nếu kính cửa đã nứt vì có thể vỡ khi gặp nhiệt. Trước khi kiểm tra, anh/chị cũng nên rút điện trước để đảm bảo an toàn.\n\nVì vậy, em khuyên anh/chị nên đặt dịch vụ kiểm tra/chẩn đoán thiết bị tại nhà để chúng em có thể giúp anh/chị giải quyết vấn đề một cách hiệu quả và an toàn nhất.",
       "citations": [],
       "services": [
         "KIEM_TRA_CHAN_DOAN_THIET_BI"
@@ -9064,13 +9234,15 @@
       "device_got": "water_pipe",
       "device_ok": true,
       "faults": [
+        "PIPE_NOISY",
         "PIPE_BURST"
       ],
       "fault_ok": false,
       "note": "",
-      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Có khả năng hư hỏng là vỡ ống và xì nước mạnh. Chi phí dự kiến từ 100.000đ đến 240.000đ. Anh/chị nên khóa van cấp nước tổng ngay và ngắt điện khu vực bị ngập ngay lập tức để đảm bảo an toàn. Em sẽ đặt dịch vụ sửa rò rỉ đường ống nước hoặc bục vỡ cho anh/chị. Anh/chị có thể đặt dịch vụ này ngay hôm nay.",
+      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Có khả năng hư hỏng là Ống kêu, búa nước hoặc Vỡ ống. Chi phí dự kiến từ 100.000đ đến 240.000đ. Anh/chị nên khóa vòi từ từ thay vì đóng đột ngột và khóa van cấp nước tổng ngay. Ngoài ra, em khuyên anh/chị nên ngắt điện khu vực bị ngập. Em sẽ giúp anh/chị kiểm tra/chẩn đoán thiết bị tại nhà và sửa rò rỉ đường ống nước/bục vỡ. Anh/chị có thể đặt dịch vụ này tại nhà.",
       "citations": [],
       "services": [
+        "KIEM_TRA_CHAN_DOAN_THIET_BI",
         "SUA_RO_RI_NUOC"
       ]
     },
@@ -9140,12 +9312,12 @@
       "device_got": "dishwasher",
       "device_ok": true,
       "faults": [
-        "DW_DOOR_LEAK",
-        "DW_NOT_DRAINING"
+        "DW_NOT_DRAINING",
+        "DW_DOOR_LEAK"
       ],
       "fault_ok": true,
       "note": "",
-      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Chiếc máy rửa bát của anh/chị đang gặp vấn đề với việc không thoát nước và có rò nước cửa máy. Chi phí để khắc phục này khoảng từ 100.000đ, nhưng để xác định chính xác sẽ cần kỹ thuật viên đến tận nơi. Anh/chị nên lau khô sàn và ngắt điện máy trước khi mở cửa máy để đảm bảo an toàn. Ngoài ra, em cũng khuyên anh/chị tắt máy và khoá van cấp nước trước khi mở cửa máy để tránh nguy hiểm. Em sẽ đặt lịch sửa chữa cho anh/chị với dịch vụ \"Sửa máy rửa bát không sạch / tràn nước\". Xin cảm ơn đã thông báo và em rất mong muốn giúp anh/chị sớm恢复正常运行。",
+      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Chiếc máy rửa bát của anh/chị không thoát nước và có rò nước cửa máy. Chi phí để khắc phục vấn đề này từ khoảng 100.000đ, nhưng phần còn lại kỹ thuật viên sẽ phải xem tận nơi mới tính được chi phí chính xác. Anh/chị nên tắt máy và khoá van cấp nước trước khi mở cửa máy. Sau đó, hãy lau khô sàn và ngắt điện máy, vì nước rò gần ổ điện rất nguy hiểm. Em khuyên anh/chị nên đặt dịch vụ sửa máy rửa bát không sạch / tràn nước để đảm bảo công việc được thực hiện một cách chính xác và an toàn.",
       "citations": [],
       "services": [
         "SUA_MAY_RUA_CHEN"
@@ -9253,12 +9425,13 @@
       "device_got": "electric_fan",
       "device_ok": true,
       "faults": [
+        "FAN_WOBBLE",
         "FAN_CORD_DAMAGE",
         "FAN_CAPACITOR"
       ],
-      "fault_ok": false,
+      "fault_ok": true,
       "note": "",
-      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Có khả năng hư hỏng là đứt hoặc hở dây nguồn, hoặc hỏng tụ khởi động. Chi phí dự kiến từ 100.000đ đến 270.000đ. Anh/chị nên rút phích cắm và không dùng cho tới khi thay dây, cũng như ngưng dùng và không đẩy cánh bằng tay khi đang cấp điện. Em sẽ giúp anh/chị kiểm tra/chẩn đoán thiết bị tại nhà. Anh/chị có thể đặt dịch vụ này ngay hôm nay.",
+      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Anh/chị đang nói về các vấn đề như rung lắc, cong cánh, lỏng chân đế, đứt, hở dây nguồn, hở tụ khởi động. Chi phí để khắc phục các vấn đề này từ 100.000đ, phần còn lại kỹ thuật viên sẽ phải xem tận nơi mới tính được. Anh/chị nên đặt quạt trên mặt phẳng và kiểm tra ốc khoá cánh; rút phích cắm và không dùng cho tới khi thay dây; ngưng dùng, không đẩy cánh bằng tay khi đang cấp điện. Em sẽ giúp anh/chị đặt dịch vụ kiểm tra/chẩn đoán thiết bị tại nhà.",
       "citations": [],
       "services": [
         "KIEM_TRA_CHAN_DOAN_THIET_BI"
@@ -9297,7 +9470,7 @@
       ],
       "fault_ok": true,
       "note": "",
-      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Có khả năng hư hỏng là hở bo nguồn và hở dải đèn nền. Chi phí dự kiến từ 100.000đ đến 1.100.000đ. Anh/chị nên rút phích cắm và thử ổ cắm khác để loại trừ nguyên nhân nguồn điện. Không cần xử lý gấp. Việc anh/chị nên làm ngay là rút phích cắm và thử ổ cắm khác để loại trừ nguyên nhân nguồn điện. Em sẽ kiểm tra/chẩn đoán thiết bị tại nhà. Anh/chị nên đặt dịch vụ Kiểm tra/chẩn đoán thiết bị tại nhà.",
+      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Anh/chị đang nói về hai vấn đề chính: hỏng bo nguồn và hỏng dải đèn nền. Chi phí dự kiến cho dịch vụ này sẽ rơi vào khoảng từ 100.000đ đến 1.100.000đ.\n\nĐể loại trừ nguyên nhân nguồn điện, em khuyên anh/chị nên rút phích cắm và thử ổ cắm khác. Sau đó, hãy tắt nguồn và không cần xử lý gấp. Điều này giúp chúng em xác định chính xác vấn đề.\n\nVì vậy, em khuyên anh/chị nên đặt dịch vụ kiểm tra/chẩn đoán thiết bị tại nhà. Em sẽ đảm bảo rằng chúng em sẽ đến nhà anh/chị để tiến hành kiểm tra và đưa ra giải pháp phù hợp nhất.\n\nChúng em rất mong muốn giúp anh/chị khắc phục vấn đề này ngay lập tức. Anh/chị có thể đặt lịch tại đây ngay hôm nay không?",
       "citations": [],
       "services": [
         "KIEM_TRA_CHAN_DOAN_THIET_BI"
@@ -9312,11 +9485,12 @@
       "device_got": "smart_lock",
       "device_ok": true,
       "faults": [
+        "LOCK_FINGERPRINT_FAIL",
         "LOCK_MOTOR_FAULT"
       ],
-      "fault_ok": false,
+      "fault_ok": true,
       "note": "",
-      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Có khả năng hư hỏng là mô tơ chốt khóa không chạy. Chi phí từ 100.000đ, phần còn lại kỹ thuật viên phải xem tận nơi mới tính được. Anh/chị nên tránh giật mạnh tay nắm, vì chốt kẹt bị cạy sẽ hỏng cả bộ khóa. Em khuyên anh/chị nên đặt dịch vụ \"Sửa khóa cửa vân tay / thẻ từ\".",
+      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Anh/chị đang gặp vấn đề với khóa vân tay không nhận vân và mô tơ chốt khóa không chạy. Chi phí sửa chữa khoảng 100.000đ, phần còn lại kỹ thuật viên sẽ phải xem tận nơi mới tính được. Anh/chị nên làm ngay việc lau khô đầu đọc và ngón tay, thử vân tay đã đăng ký của người khác. Không giật mạnh tay nắm, chốt kẹt bị cạy sẽ hỏng cả bộ khoá. Em khuyên anh/chị nên đặt dịch vụ \"Sửa khóa cửa vân tay / thẻ từ\".",
       "citations": [],
       "services": [
         "SUA_KHOA_THONG_MINH"
@@ -9350,11 +9524,12 @@
       "device_got": "kettle",
       "device_ok": true,
       "faults": [
+        "KETTLE_SCALE",
         "KETTLE_LEAK"
       ],
-      "fault_ok": false,
+      "fault_ok": true,
       "note": "",
-      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Anh/chị đang nói về tình trạng rò nước ở đáy bình. Chi phí dự kiến cho dịch vụ này sẽ rơi vào khoảng từ 100.000đ đến 180.000đ. Em khuyên anh/chị nên ngưng sử dụng ngay vì nước rò xuống phần điện rất nguy hiểm. Anh/chị nên đặt dịch vụ kiểm tra/chẩn đoán thiết bị tại nhà để được tư vấn chính xác nhất.",
+      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Anh/chị đang gặp vấn đề với bình nước nóng, cụ thể là có cặn vôi trong bình và rò nước ở đáy bình. Chi phí để khắc phục vấn đề này sẽ dao động từ 100.000đ đến khi kỹ thuật viên kiểm tra tận nơi để tính chính xác chi phí. Anh/chị có thể tự khử cặn bằng giấm hoặc chanh loãng để giảm nguy cơ sử dụng bình nước nóng nguy hiểm. Em khuyên anh/chị nên ngưng sử dụng bình ngay lập tức vì nước rò xuống phần điện rất nguy hiểm. Anh/chị nên đặt dịch vụ kiểm tra/chẩn đoán thiết bị tại nhà để được tư vấn chính xác và thực hiện công việc ngay. Em rất mong được phục vụ anh/chị!",
       "citations": [],
       "services": [
         "KIEM_TRA_CHAN_DOAN_THIET_BI"
@@ -9390,11 +9565,12 @@
       "device_got": "refrigerator",
       "device_ok": true,
       "faults": [
+        "FRIDGE_LIGHT_FAULT",
         "FRIDGE_COMPRESSOR"
       ],
       "fault_ok": false,
       "note": "",
-      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Anh/chị đang nói về hư hỏng của block máy nén trong tủ lạnh. Chi phí sửa chữa khoảng từ 100.000đ, nhưng phần còn lại kỹ thuật viên sẽ phải xem tận nơi mới tính được. Anh/chị nên rút điện tủ lạnh và chuyển thực phẩm đi nơi khác ngay lập tức. Em khuyên anh/chị nên đặt dịch vụ \"Sửa tủ lạnh không đông đá / kêu to\". Em sẽ giúp anh/chị đặt lịch ngay lập tức.",
+      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Anh/chị đang nói về hư hỏng của đèn tủ lạnh và block máy nén. Chi phí sửa chữa khoảng từ 100.000đ, phần còn lại kỹ thuật viên sẽ phải xem tận nơi mới tính được. Anh/chị không ảnh hưởng đến làm lạnh, có thể dùng bình thường. Em khuyên anh/chị rút điện tủ lạnh và chuyển thực phẩm đi nơi khác. Anh/chị nên đặt dịch vụ \"Sửa tủ lạnh không đông đá/kêu to\".",
       "citations": [],
       "services": [
         "SUA_TU_LANH"
@@ -9428,11 +9604,12 @@
       "device_got": "electric_fan",
       "device_ok": true,
       "faults": [
+        "FAN_CAPACITOR",
         "FAN_CORD_DAMAGE"
       ],
-      "fault_ok": false,
+      "fault_ok": true,
       "note": "",
-      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Có khả năng hư hỏng là đứt hoặc hở dây nguồn. Chi phí dự kiến từ 100.000đ đến 270.000đ. Anh/chị nên rút phích cắm và không dùng cho tới khi thay dây. Em sẽ giúp anh/chị kiểm tra/chẩn đoán thiết bị tại nhà. Anh/chị có thể đặt dịch vụ này ngay hôm nay.",
+      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Có khả năng hư hỏng là hở dây nguồn hoặc đứt. Chi phí dự kiến từ 100.000đ đến 270.000đ. Anh/chị nên ngưng sử dụng thiết bị và rút phích cắm để đảm bảo an toàn. Em sẽ kiểm tra/chẩn đoán thiết bị tại nhà. Anh/chị có thể đặt dịch vụ này ngay lập tức.",
       "citations": [],
       "services": [
         "KIEM_TRA_CHAN_DOAN_THIET_BI"
@@ -9505,12 +9682,13 @@
       "device_got": "electric_fan",
       "device_ok": true,
       "faults": [
+        "FAN_WOBBLE",
         "FAN_CORD_DAMAGE",
         "FAN_CORD_DAMAGE"
       ],
-      "fault_ok": false,
+      "fault_ok": true,
       "note": "",
-      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Có khả năng hư hỏng là đứt và hở dây nguồn. Chi phí dự kiến từ 100.000đ đến 270.000đ. Anh/chị nên rút phích cắm và không dùng cho tới khi thay dây. Em sẽ đặt lịch kiểm tra/chẩn đoán thiết bị tại nhà. Anh/chị có thể đặt dịch vụ này với tên Kiểm tra/chẩn đoán thiết bị tại nhà.",
+      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Anh/chị đang nói về các vấn đề như rung lắc, cong cánh, lỏng chân đế, đứt, hở dây nguồn, đứt, hở dây nguồn. Chi phí để khắc phục các vấn đề này từ 100.000đ, phần còn lại kỹ thuật viên sẽ phải xem tận nơi mới tính được. Anh/chị nên đặt quạt trên mặt phẳng và kiểm tra ốc khoá cánh; rút phích cắm và không dùng cho tới khi thay dây. Em sẽ giúp anh/chị kiểm tra/chẩn đoán thiết bị tại nhà. Anh/chị có thể đặt dịch vụ này ngay hôm nay.",
       "citations": [],
       "services": [
         "KIEM_TRA_CHAN_DOAN_THIET_BI"
@@ -9563,11 +9741,12 @@
       "device_got": "light_bulb",
       "device_ok": true,
       "faults": [
+        "LIGHT_DIM",
         "LIGHT_BULB_DEAD"
       ],
-      "fault_ok": false,
+      "fault_ok": true,
       "note": "",
-      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Có khả năng hư hỏng là bóng đèn cháy và hết tuổi thọ. Chi phí dự kiến từ 120.000đ đến 320.000đ. Anh/chị nên tắt công tắc trước khi thay bóng để đảm bảo an toàn. Em khuyên anh/chị nên đặt dịch vụ \"Lắp đèn trần cơ bản\" với tiền công. Xin mời anh/chị đặt dịch vụ với đúng tên dịch vụ được cho.",
+      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Anh/chị đang gặp vấn đề với đèn sáng yếu, điện áp thấp, bóng đèn cháy và hết tuổi thọ. Chi phí dự kiến khoảng từ 100.000đ đến 320.000đ.\n\nĐể khắc phục vấn đề này, em khuyên anh/chị nên kiểm tra xem có đang dùng nhiều thiết bị công suất lớn cùng lúc không. Nếu có, hãy tắt công tắc trước khi thay bóng. Đây là một việc cần làm ngay để đảm bảo hiệu quả sử dụng điện.\n\nVới dịch vụ mà anh/chị cần, em khuyên anh/chị nên đặt dịch vụ \"Lắp đèn trần cơ bản\". Đây là dịch vụ phù hợp với tình trạng hiện tại của anh/chị.\n\nChúc anh/chị may mắn!",
       "citations": [],
       "services": [
         "LAP_DEN_TRAN_CO_BAN"
@@ -9582,11 +9761,12 @@
       "device_got": "kettle",
       "device_ok": true,
       "faults": [
+        "KETTLE_THERMOSTAT",
         "KETTLE_SWITCH"
       ],
-      "fault_ok": false,
+      "fault_ok": true,
       "note": "",
-      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Có khả năng hư hỏng là hở công tắc và chân tiếp xúc. Chi phí dự kiến khoảng từ 100.000đ đến 220.000đ. Anh/chị nên rút phích cắm và không sử dụng vật chèn giữ công tắc ngay lập tức. Em sẽ giúp anh/chị kiểm tra/chẩn đoán thiết bị tại nhà. Anh/chị có thể đặt dịch vụ này ngay hôm nay.",
+      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Có khả năng hư hỏng là Hỏng rơ le nhiệt, Hỏng công tắc, hoặc chân tiếp xúc. Chi phí dự kiến từ 100.000đ đến 440.000đ. Anh/chị nên rút phích cắm ngay sau khi dùng và không dùng vật chèn giữ công tắc. Em sẽ kiểm tra/chẩn đoán thiết bị tại nhà. Anh/chị có thể đặt dịch vụ này ngay hôm nay.",
       "citations": [],
       "services": [
         "KIEM_TRA_CHAN_DOAN_THIET_BI"
@@ -9689,17 +9869,21 @@
     {
       "text": "tủ lạnh hư mô tơ",
       "expect": "diagnose",
-      "got": "refuse",
-      "ok": false,
+      "got": "diagnose",
+      "ok": true,
       "device_expected": "refrigerator",
-      "device_got": null,
-      "device_ok": false,
-      "faults": [],
-      "fault_ok": false,
+      "device_got": "refrigerator",
+      "device_ok": true,
+      "faults": [
+        "FRIDGE_COMPRESSOR"
+      ],
+      "fault_ok": true,
       "note": "",
-      "reply": "",
+      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Anh/chị đang nói về hư hỏng của block máy nén trong tủ lạnh. Chi phí để khắc phục này khoảng từ 100.000đ, nhưng phần còn lại kỹ thuật viên sẽ phải xem tận nơi mới tính được. Anh/chị nên rút điện tủ lạnh và chuyển thực phẩm đi nơi khác ngay lập tức để đảm bảo an toàn. Em khuyên anh/chị nên đặt dịch vụ sửa chữa tủ lạnh không đông đá/kêu to để được hỗ trợ tốt nhất.",
       "citations": [],
-      "services": []
+      "services": [
+        "SUA_TU_LANH"
+      ]
     },
     {
       "text": "bếp gas không tắt được bếp",
@@ -9714,7 +9898,7 @@
       ],
       "fault_ok": false,
       "note": "",
-      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Chiếc bếp của anh/chị đang gặp vấn đề về lửa tự tắt giữa chừng. Có thể là do một số vấn đề như lò gas không hoạt động hoặc hệ thống điện không ổn định. Chi phí dự kiến khoảng từ 100.000đ đến 360.000đ tùy thuộc vào mức độ phức tạp của sự cố.\n\nĐể đảm bảo an toàn, em khuyên anh/chị nên khóa van bình gas ngay lập tức vì nguy cơ gas vẫn chảy ra rất nguy hiểm nếu không được kiểm soát. Điều này sẽ giúp giảm thiểu nguy cơ xảy ra tai nạn.\n\nVì vậy, em khuyên anh/chị nên đặt dịch vụ kiểm tra/chẩn đoán thiết bị tại nhà để chúng em có thể xác định chính xác vấn đề và đưa ra giải pháp phù hợp nhất. Anh/chị có thể đặt lịch tại đây:\n\n- Kiểm tra/chẩn đoán thiết bị tại nhà\n\nChúng em sẽ đến nhà anh/chị ngay lập tức để tiến hành kiểm tra và giải quyết vấn đề của anh/chị. Xin cảm ơn anh/chị đã tin tưởng và sử dụng dịch vụ của chúng em.",
+      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Chiếc bếp của anh/chị đang gặp vấn đề về lửa tự tắt giữa chừng. Có thể là do một số vấn đề như lò gas không hoạt động hoặc hệ thống điện không ổn định. Chi phí dự kiến khoảng từ 100.000đ đến 360.000đ tùy thuộc vào mức độ phức tạp của sự cố.\n\nĐể đảm bảo an toàn, em khuyên anh/chị nên khóa van bình gas ngay lập tức vì nguy cơ gas vẫn chảy ra rất nguy hiểm nếu không được kiểm soát. Điều này sẽ giúp giảm thiểu nguy cơ xảy ra tai nạn.\n\nVì vậy, em khuyên anh/chị nên đặt dịch vụ kiểm tra/chẩn đoán thiết bị tại nhà để chúng em có thể xác định chính xác vấn đề và đưa ra giải pháp phù hợp nhất. Anh/chị có thể đặt lịch tại đây:\n\n- Kiểm tra/chẩn đoán thiết bị tại nhà\n\nChúng em sẽ đến nhà anh/chị ngay lập tức để tiến hành kiểm tra và giải quyết vấn đề của anh/chị. Xin cảm ơn đã tin tưởng và chúng em sẽ cố gắng hết sức để giúp anh/chị.",
       "citations": [],
       "services": [
         "KIEM_TRA_CHAN_DOAN_THIET_BI"
@@ -9845,11 +10029,12 @@
       "device_got": "television",
       "device_ok": true,
       "faults": [
+        "TV_MAIN_BOARD",
         "TV_POWER_BOARD"
       ],
-      "fault_ok": false,
+      "fault_ok": true,
       "note": "",
-      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Có khả năng hư hỏng là hở nguồn. Chi phí dự kiến từ 100.000đ đến 1.080.000đ. Anh/chị nên rút phích cắm và thử ổ cắm khác để loại trừ nguyên nhân nguồn điện. Em sẽ kiểm tra/chẩn đoán thiết bị tại nhà. Anh/chị nên đặt dịch vụ Kiểm tra/chẩn đoán thiết bị tại nhà.",
+      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Anh/chị đang nói về một vấn đề liên quan đến bo xử lý tín hiệu và bo nguồn của máy lạnh. Chi phí dự kiến cho việc sửa chữa này rơi vào khoảng từ 100.000đ đến 1.800.000đ.\n\nĐể xác định chính xác vấn đề, em khuyên anh/chị nên rút điện khoảng năm phút và thử khởi động lại máy lạnh một lần. Sau đó, hãy rút phích cắm và thử ổ cắm khác để loại trừ nguyên nhân nguồn điện.\n\nVì vậy, em khuyên anh/chị nên đặt dịch vụ kiểm tra/chẩn đoán thiết bị tại nhà để chúng em có thể xác định chính xác vấn đề và đưa ra giải pháp phù hợp nhất. Em sẽ đảm bảo rằng anh/chị được tư vấn và hỗ trợ một cách tốt nhất.",
       "citations": [],
       "services": [
         "KIEM_TRA_CHAN_DOAN_THIET_BI"
@@ -9887,7 +10072,7 @@
       ],
       "fault_ok": true,
       "note": "",
-      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Có khả năng hư hỏng là mòn gioăng và rò rỉ vòi nước. Chi phí dự kiến khoảng từ 120.000đ đến 200.000đ. Em khuyên anh/chị khóa van chặn dưới bồn nếu có để đảm bảo an toàn. Anh/chị cũng nên đặt dịch vụ thay vòi nước với tiền công. Em sẽ giúp anh/chị đặt lịch ngay lập tức.",
+      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Có khả năng hư hỏng là mòn gioăng và rò rỉ vòi nước. Chi phí dự kiến khoảng từ 120.000đ đến 200.000đ. Anh/chị nên khóa van chặn dưới bồn nếu có để đảm bảo an toàn. Em khuyên anh/chị nên đặt dịch vụ thay vòi nước với tiền công. Anh/chị có thể đặt dịch vụ này với tên dịch vụ \"Thay vòi nước\".",
       "citations": [],
       "services": [
         "THAY_VOI_NUOC"
@@ -9940,11 +10125,12 @@
       "device_got": "power_outlet",
       "device_ok": true,
       "faults": [
+        "OUTLET_NO_POWER",
         "OUTLET_SHORT_CIRCUIT"
       ],
-      "fault_ok": false,
+      "fault_ok": true,
       "note": "",
-      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Có khả năng hư hỏng là chập cháy ổ cắm. Chi phí dự kiến từ 100.000đ đến 250.000đ. Anh/chị nên ngắt cầu dao khu vực ngay lập tức và không cắm thêm thiết bị nào vào ổ này. Em sẽ đặt thợ sửa chập điện âm tường hoặc nhảy Aptomat cho anh/chị. Anh/chị có thể đặt dịch vụ này ngay hôm nay.",
+      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Có khả năng hư hỏng là ổ cắm mất điện, đứt dây, hoặc chập cháy ổ cắm. Chi phí dự kiến từ 100.000đ đến 400.000đ. Anh/chị nên kiểm tra Aptomat khu vực đã nhảy chưa, ngắt cầu dao khu vực ngay lập tức và không cắm thêm thiết bị nào vào ổ này. Em sẽ đặt dịch vụ sửa chập điện âm tường hoặc nhảy Aptomat cho anh/chị.",
       "citations": [],
       "services": [
         "SUA_CHAP_DIEN"
@@ -9959,11 +10145,12 @@
       "device_got": "kettle",
       "device_ok": true,
       "faults": [
+        "KETTLE_THERMOSTAT",
         "KETTLE_SWITCH"
       ],
-      "fault_ok": false,
+      "fault_ok": true,
       "note": "",
-      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Có khả năng hư hỏng là hở công tắc và chân tiếp xúc. Chi phí dự kiến khoảng từ 100.000đ đến 220.000đ. Anh/chị nên rút phích cắm và không sử dụng vật chèn giữ công tắc ngay lập tức. Em sẽ giúp anh/chị kiểm tra/chẩn đoán thiết bị tại nhà. Anh/chị có thể đặt dịch vụ này ngay hôm nay.",
+      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Có khả năng hư hỏng là Hỏng rơ le nhiệt, Hỏng công tắc, hoặc chân tiếp xúc. Chi phí dự kiến từ 100.000đ đến 440.000đ. Anh/chị nên rút phích cắm ngay sau khi dùng và không dùng vật chèn giữ công tắc. Em sẽ kiểm tra/chẩn đoán thiết bị tại nhà. Anh/chị có thể đặt dịch vụ này ngay hôm nay.",
       "citations": [],
       "services": [
         "KIEM_TRA_CHAN_DOAN_THIET_BI"
@@ -10075,11 +10262,12 @@
       "device_got": "kettle",
       "device_ok": false,
       "faults": [
+        "KETTLE_SCALE",
         "KETTLE_LEAK"
       ],
       "fault_ok": false,
       "note": "",
-      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Anh/chị đang nói về tình trạng rò nước ở đáy bình. Chi phí dự kiến cho dịch vụ này sẽ rơi vào khoảng từ 100.000đ đến 180.000đ. Em khuyên anh/chị nên ngưng sử dụng ngay vì nước rò xuống phần điện rất nguy hiểm. Anh/chị nên đặt dịch vụ kiểm tra/chẩn đoán thiết bị tại nhà để được tư vấn chính xác nhất.",
+      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Anh/chị đang gặp vấn đề với bình nước nóng, cụ thể là có cặn vôi trong bình và rò nước ở đáy bình. Chi phí để khắc phục vấn đề này sẽ dao động từ 100.000đ đến khi kỹ thuật viên kiểm tra tận nơi. Anh/chị có thể tự xử lý vấn đề bằng cách sử dụng giấm hoặc chanh để khử cặn, nhưng hãy ngừng sử dụng ngay vì nước rò xuống phần điện rất nguy hiểm. Em khuyên anh/chị nên đặt dịch vụ kiểm tra/chẩn đoán thiết bị tại nhà để đảm bảo vấn đề được giải quyết một cách chính xác và an toàn.",
       "citations": [],
       "services": [
         "KIEM_TRA_CHAN_DOAN_THIET_BI"
@@ -10094,12 +10282,13 @@
       "device_got": "smart_lock",
       "device_ok": true,
       "faults": [
+        "LOCK_FINGERPRINT_FAIL",
         "LOCK_MOTOR_FAULT",
         "LOCK_LOW_BATTERY"
       ],
-      "fault_ok": false,
+      "fault_ok": true,
       "note": "",
-      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Anh/chị đang gặp vấn đề với mô tơ chốt khóa không chạy và khóa thông minh hết pin. Chi phí sửa chữa khoảng 100.000đ, nhưng phần còn lại kỹ thuật viên sẽ phải xem tận nơi mới tính được. Anh/chị nên tránh giật mạnh tay nắm, vì nếu chốt kẹt bị cạy sẽ hỏng cả bộ khóa. Hãy sử dụng chìa cơ hoặc sạc dự phòng qua cổng micro USB dưới thân khóa. Em khuyên anh/chị nên đặt dịch vụ \"Sửa khóa cửa vân tay / thẻ từ\". Em rất sẵn lòng giúp anh/chị.",
+      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Anh/chị đang gặp vấn đề với khóa vân tay không nhận vân, mô tơ chốt khóa không chạy và khóa thông minh hết pin. Chi phí sửa chữa từ 100.000đ, phần còn lại kỹ thuật viên phải xem tận nơi mới tính được. Anh/chị nên làm ngay việc lau khô đầu đọc và ngón tay, thử vân tay đã đăng ký của người khác. Không giật mạnh tay nắm, chốt kẹt bị cạy sẽ hỏng cả bộ khoá. Sử dụng chìa cơ hoặc sạc dự phòng qua cổng micro USB dưới thân khoá. Em sẽ đặt lịch sửa chữa cho anh/chị với dịch vụ Sửa khóa cửa vân tay / thẻ từ.",
       "citations": [],
       "services": [
         "SUA_KHOA_THONG_MINH"
@@ -10250,13 +10439,15 @@
       "device_got": "toilet",
       "device_ok": true,
       "faults": [
+        "TOILET_FLAPPER_LEAK",
         "TOILET_BASE_LEAK"
       ],
-      "fault_ok": false,
+      "fault_ok": true,
       "note": "",
-      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Có khả năng hư hỏng là rò rỉ chân bồn cầu. Chi phí từ 100.000đ, phần còn lại kỹ thuật viên phải xem tận nơi mới tính được. Anh/chị nên hạn chế sử dụng cho tới khi xử lý vì nước thải thấm nền. Em sẽ đặt lịch sửa rò rỉ đường ống nước / bục vỡ cho anh/chị.",
+      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Anh/chị đang gặp vấn đề với rò van xả và chảy nước liên tục. Chi phí để khắc phục hiện tại khoảng 100.000đ, nhưng phần còn lại kỹ thuật viên sẽ phải xem tận nơi mới tính được chi tiết. Anh/chị nên khóa van chặn giữa các lần sử dụng để giảm thiểu thất thoát nước và hạn chế sử dụng cho đến khi xử lý. Em khuyên anh/chị nên đặt dịch vụ kiểm tra/chẩn đoán thiết bị tại nhà và sửa rò rỉ đường ống nước/bục vỡ để đảm bảo vấn đề được giải quyết một cách hiệu quả.",
       "citations": [],
       "services": [
+        "KIEM_TRA_CHAN_DOAN_THIET_BI",
         "SUA_RO_RI_NUOC"
       ]
     },
@@ -10288,11 +10479,12 @@
       "device_got": "television",
       "device_ok": true,
       "faults": [
+        "TV_MAIN_BOARD",
         "TV_PANEL_DAMAGE"
       ],
-      "fault_ok": false,
+      "fault_ok": true,
       "note": "",
-      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Có khả năng hư hỏng là vỡ hoặc lỗi tấm nền. Chi phí từ 100.000đ, phần còn lại kỹ thuật viên phải xem tận nơi mới tính được. Việc anh/chị nên làm ngay là thay tấm nền thường không kinh tế, kỹ thuật viên sẽ tư vấn cụ thể. Em sẽ tư vấn cụ thể về dịch vụ kiểm tra/chẩn đoán thiết bị tại nhà. Anh/chị có thể đặt dịch vụ này với em?",
+      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Có khả năng hư hỏng là Hỏng bo xử lý tín hiệu, Vỡ, hoặc Lỗi tấm nền. Chi phí thay thế khoảng từ 100.000đ, phần còn lại kỹ thuật viên sẽ phải xem tận nơi mới tính được. Anh/chị nên rút điện khoảng năm phút rồi thử khởi động lại một lần; thay tấm nền thường không kinh tế, kỹ thuật viên sẽ tư vấn cụ thể. Em sẽ đặt lịch kiểm tra/chẩn đoán thiết bị tại nhà cho anh/chị.",
       "citations": [],
       "services": [
         "KIEM_TRA_CHAN_DOAN_THIET_BI"
@@ -10326,11 +10518,12 @@
       "device_got": "water_purifier",
       "device_ok": true,
       "faults": [
+        "PURIFIER_NO_WATER",
         "PURIFIER_PUMP_RUNS_ON"
       ],
-      "fault_ok": false,
+      "fault_ok": true,
       "note": "",
-      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Anh/chị đang nói về việc bơm máy lọc nước chạy liên tục. Chi phí để khắc phục này khoảng từ 100.000đ, nhưng phần còn lại kỹ thuật viên sẽ phải xem tận nơi mới tính được. Anh/chị nên rút điện máy để bơm không chạy khô và cháy. Em sẽ đặt dịch vụ lắp máy lọc nước cơ bản cho anh/chị.",
+      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Chiếc máy lọc nước của anh/chị không ra nước, và bơm máy lọc vẫn chạy liên tục. Chi phí để khắc phục vấn đề này từ khoảng 100.000đ, nhưng phần còn lại kỹ thuật viên sẽ phải xem tận nơi mới tính được chi phí chính xác. Anh/chị nên kiểm tra nguồn nước vào và van khoá đã mở chưa, sau đó rút điện máy để bơm không chạy khô và cháy. Em sẽ đặt lịch cho anh/chị lắp máy lọc nước cơ bản.",
       "citations": [],
       "services": [
         "LAP_MAY_LOC_NUOC"
@@ -10345,13 +10538,14 @@
       "device_got": "ceiling_fan",
       "device_ok": true,
       "faults": [
+        "CEILFAN_CAPACITOR",
         "CEILFAN_MOTOR_BURNT",
         "CEILFAN_MOUNT_LOOSE",
         "CEILFAN_MOUNT_LOOSE"
       ],
-      "fault_ok": false,
+      "fault_ok": true,
       "note": "",
-      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Có khả năng hư hỏng như: Cháy cuộn dây mô tơ quạt trần, Lỏng bộ treo, mất cân bằng cánh. Chi phí dự kiến khoảng từ 250.000đ đến 800.000đ. Anh/chị nên ngắt cầu dao khu vực ngay và tắt quạt và không đứng bên dưới cho tới khi kiểm tra xong. Em sẽ đặt lịch kiểm tra/chẩn đoán thiết bị tại nhà và lắp quạt trần cơ bản - tiền công.",
+      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Có khả năng hư hỏng là hở tụ điện quạt trần, cháy cuộn dây mô tơ quạt trần, lỏng bộ treo, mất cân bằng cánh. Chi phí dự kiến từ 100.000đ đến 800.000đ. Anh/chị nên ngưng sử dụng để tránh cháy cuộn dây mô tơ, ngắt cầu dao khu vực ngay, tắt quạt và không đứng bên dưới cho tới khi kiểm tra xong. Em sẽ đặt lịch kiểm tra/chẩn đoán thiết bị tại nhà và lắp quạt trần cơ bản - tiền công.",
       "citations": [],
       "services": [
         "KIEM_TRA_CHAN_DOAN_THIET_BI",
@@ -10466,16 +10660,16 @@
       "device_got": "faucet",
       "device_ok": true,
       "faults": [
-        "FAUCET_LOW_FLOW",
-        "FAUCET_CARTRIDGE"
+        "FAUCET_CARTRIDGE",
+        "FAUCET_LOW_FLOW"
       ],
       "fault_ok": true,
       "note": "",
-      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Anh/chị đang gặp vấn đề với hệ thống nước, cụ thể là:\n\n- Nghẹt đầu lọc\n- Áp lực nước yếu\n- Hỏng lõi vòi trộn\n\nChi phí dự kiến cho các dịch vụ sửa chữa sẽ dao động từ 100.000đ đến 310.000đ. Anh/chị nên thực hiện các bước sau ngay:\n\n- Tháo đầu lọc ở miệng vòi và rửa cặn nếu thao tác được\n- Khóa van chặn trước khi tháo\n\nDịch vụ phù hợp để anh/chị đặt là:\n\n- Kiểm tra/chẩn đoán thiết bị tại nhà\n- Thay vòi nước - tiền công\n\nChúng em sẽ cử nhân viên kỹ thuật đến nhà anh/chị ngay lập tức để tiến hành sửa chữa. Xin cảm ơn đã tin tưởng và chúng em rất mong được phục vụ anh/chị!",
+      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Anh/chị đang gặp vấn đề với vòi trộn, cụ thể là có thể bị hở lõi hoặc nghẹt đầu lọc. Chi phí dự kiến khoảng từ 100.000đ đến 310.000đ. Anh/chị nên khóa van chặn trước khi tháo để tránh nước chảy ra. Sau đó, hãy tháo đầu lọc ở miệng vòi và rửa cặn nếu có thể. Điều này sẽ giúp cải thiện tình trạng hiện tại của anh/chị. Em khuyên anh/chị nên đặt dịch vụ thay vòi nước và kiểm tra/chẩn đoán thiết bị tại nhà. Em sẽ đặt lịch cho anh/chị ngay lập tức.",
       "citations": [],
       "services": [
-        "KIEM_TRA_CHAN_DOAN_THIET_BI",
-        "THAY_VOI_NUOC"
+        "THAY_VOI_NUOC",
+        "KIEM_TRA_CHAN_DOAN_THIET_BI"
       ]
     },
     {
@@ -10487,11 +10681,12 @@
       "device_got": "electric_fan",
       "device_ok": true,
       "faults": [
+        "FAN_OSCILLATION_FAULT",
         "FAN_WOBBLE"
       ],
-      "fault_ok": false,
+      "fault_ok": true,
       "note": "",
-      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Anh/chị đang nói về các vấn đề như rung lắc, cong cánh, và lỏng chân đế. Chi phí để khắc phục các vấn đề này sẽ dao động từ 100.000đ đến khi kỹ thuật viên kiểm tra tận nơi. Anh/chị nên đặt quạt trên mặt phẳng và kiểm tra ốc khoá cánh ngay lập tức. Em sẽ giúp anh/chị đặt dịch vụ kiểm tra/chẩn đoán thiết bị tại nhà.",
+      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Anh/chị đang nói về một số vấn đề như hỏng bộ tuốc năng, không đảo gió, rung lắc, cong cánh và lỏng chân đế. Chi phí để khắc phục các vấn đề này từ khoảng 100.000đ, nhưng phần còn lại kỹ thuật viên sẽ phải xem tận nơi mới tính được chi phí chính xác. Anh/chị vẫn có thể sử dụng tạm thời, chỉ mất chức năng đảo gió. Em khuyên anh/chị nên đặt quạt trên mặt phẳng và kiểm tra ốc khoá cánh ngay lập tức. Anh/chị cũng nên đặt dịch vụ kiểm tra/chẩn đoán thiết bị tại nhà để đảm bảo sự chính xác và hiệu quả nhất. Em rất mong được phục vụ anh/chị trong thời gian sớm nhất.",
       "citations": [],
       "services": [
         "KIEM_TRA_CHAN_DOAN_THIET_BI"
@@ -10624,13 +10819,15 @@
       "device_got": "water_pipe",
       "device_ok": true,
       "faults": [
+        "PIPE_NOISY",
         "PIPE_BURST"
       ],
-      "fault_ok": false,
+      "fault_ok": true,
       "note": "",
-      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Có khả năng hư hỏng là vỡ ống và xì nước mạnh. Chi phí dự kiến từ 100.000đ đến 240.000đ. Anh/chị nên khóa van cấp nước tổng ngay và ngắt điện khu vực bị ngập ngay lập tức để đảm bảo an toàn. Em sẽ đặt dịch vụ sửa rò rỉ đường ống nước hoặc bục vỡ cho anh/chị. Anh/chị có thể đặt dịch vụ này ngay hôm nay.",
+      "reply": "Em đã đọc và kiểm tra thông tin anh/chị gửi. Có khả năng hư hỏng là Ống kêu, búa nước hoặc Vỡ ống. Chi phí dự kiến từ 100.000đ đến 240.000đ. Anh/chị nên khóa vòi từ từ thay vì đóng đột ngột và khóa van cấp nước tổng ngay. Ngoài ra, em khuyên anh/chị nên ngắt điện khu vực bị ngập. Em sẽ giúp anh/chị kiểm tra/chẩn đoán thiết bị tại nhà và sửa rò rỉ đường ống nước/bục vỡ. Anh/chị nên đặt dịch vụ Kiểm tra/chẩn đoán thiết bị tại nhà và Sửa rò rỉ đường ống nước/bục vỡ.",
       "citations": [],
       "services": [
+        "KIEM_TRA_CHAN_DOAN_THIET_BI",
         "SUA_RO_RI_NUOC"
       ]
     },

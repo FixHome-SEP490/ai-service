@@ -4,7 +4,7 @@
 The abstraction is kept for the reason it was introduced: endpoints depend on a
 stable async contract, never on how a diagnosis is produced. What changed is the
 set of implementations. The service no longer calls hosted Gemini or OpenAI
-models; the self-hosted YOLOv8n plus Qwen2.5-VL pipeline is the only engine, and
+models; the self-hosted YOLO11s plus Qwen2.5-VL pipeline is the only engine, and
 a deterministic mock stands in for tests and CI.
 """
 

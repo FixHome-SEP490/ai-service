@@ -129,6 +129,35 @@ Luật, đã ghi trong mã nguồn nhưng vẫn bị vi phạm bốn lần:
    mà **quên đổi đ thành d**, nên `[a-z0-9]+` xoá luôn chữ đ: `bị rò điện` vào
    tới nơi thành `bi ro ien`.
 
+## Nợ đã đo: `devices_named_in` vẫn khớp chuỗi con
+
+**51 trong 2.154 câu triệu chứng của kho tri thức bị gán sai thiết bị** — đo bằng
+cách cho mỗi câu đi qua `devices_named_in` rồi so với thiết bị mà tài liệu chứa nó
+thuộc về. Đây là lần thứ **năm** loại lỗi bỏ dấu này xuất hiện, và lần này ở hàm
+**trung tâm nhất**: alias được khớp bằng `in`, không phải trọn từ.
+
+Thủ phạm nhiều nhất:
+
+| alias | nằm ẩn trong | số ca |
+|---|---|---|
+| `ấm điện` → `am dien` | **cắm điện** → `cam dien` | 8 |
+| `ống nước` | các câu có "ống" khác | 8 |
+| `ổ điện` | câu về điện nói chung | 4 |
+| `rửa bát`, `máy giặt` | câu của thiết bị khác nhắc tới | 6 |
+
+Một alias gõ sai đã xoá: `power_outlet` có `'ổ mà'`, chắc là gõ nhầm `'ổ cắm'`, và
+nó bỏ dấu thành `o ma` nằm lọt trong `do may` của câu "**d-o ma-y** quá lạnh" — một
+mình nó gây 14 ca. Xoá xong 65 xuống 51.
+
+Vì sao chưa sửa: đổi `devices_named_in` sang khớp trọn từ là **thay đổi lõi**, nó
+quyết định thiết bị nào được chọn nên ảnh hưởng toàn bộ truy hồi, ghim an toàn và
+mọi con số đã công bố. Phải làm khi có thời gian đo lại đầy đủ, không vá vội.
+
+Khi làm, đo đúng bốn thứ này trước và sau: **51 ca gán sai** này, **472/472** danh
+sách bệnh, **10/10 ghim an toàn**, và bộ 564 ca với mô hình thật. Và nhớ luật đã
+ghi bốn lần: alias dưới bốn ký tự không được tự quyết định, và `"ấm"` trần không
+được thêm vào vì nó trùng `"ẩm"` và `"âm"`.
+
 ## Những chỗ tuyệt đối không được làm hỏng
 
 **Ghim cảnh báo an toàn 10/10.** Cảnh báo được ghim theo mã bệnh **xếp hạng

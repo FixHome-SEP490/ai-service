@@ -43,7 +43,7 @@ _URGENCY_COLOR = {"LOW": "#2e7d32", "MEDIUM": "#ef6c00", "HIGH": "#c62828"}
 
 _STAGE_ROLE_VI = {
     "session": "Trí nhớ hội thoại — ghép lời khách qua nhiều lượt, nhớ thiết bị đã biết",
-    "detector": "YOLOv8n — nhận loại thiết bị từ ảnh và cắt vùng thiết bị",
+    "detector": "YOLO11s — nhận loại thiết bị từ ảnh và cắt vùng thiết bị",
     "retrieval": "RAG — tra bảng bệnh, rút danh sách ngắn để Qwen chọn",
     "vlm": "Qwen2.5-VL — đọc ảnh cắt và lời khách, chọn mã trong danh sách",
     "knowledge_base": "Bảng bệnh — dịch mã sang tiếng Việt, ghép giá, việc nên làm",

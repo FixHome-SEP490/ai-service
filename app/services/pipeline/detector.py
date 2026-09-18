@@ -1,7 +1,7 @@
 # app/services/pipeline/detector.py
 """Device detector stage.
 
-YOLOv8n locates the appliance in the photo and classifies it into the closed
+YOLO11s locates the appliance in the photo and classifies it into the closed
 catalog, then hands the crop downstream. Two reasons this stage exists instead
 of asking the VLM directly: a small detector trained on the team's own photos
 identifies Vietnamese household appliances more reliably than a general 3B
@@ -63,7 +63,7 @@ class StubDetector:
 
 
 class YoloDetector:
-    """Ultralytics YOLOv8n wrapper.
+    """Ultralytics YOLO wrapper, currently YOLO11s.
 
     Deliberately not imported at module scope: the service must start and the
     test suite must run on machines with no torch and no weights.

@@ -53,9 +53,11 @@ running out means starting over on a new machine.
 """
 
 _ESTIMATED_HOURS = {"RTX_3060": 7, "RTX_3090": 4, "RTX_4090": 3, "RTX_A5000": 5}
-"""Rough wall-clock for 100 epochs of YOLOv8n on 22745 images at 640px.
+"""Rough wall-clock for a full run at 640px, batch 48.
 
-Guesses, replaced by measurement as soon as the smoke test reports an epoch.
+Now anchored to a real one rather than to a guess: detector-v2 was yolo11s over
+70 epochs on 23,678 images, and took 3 hours 20 minutes on a rented RTX 3090 for
+72 US cents. The 3060 figure is about double that.
 """
 
 
@@ -681,9 +683,66 @@ def cmd_address(args: argparse.Namespace) -> None:
         )
     port = mapping[0].get("HostPort")
     base = f"http://{str(host).strip()}:{port}"
+
+    # Ask the box whether it is actually answering before handing the address to
+    # anybody. A published port is not a working service: the container can be
+    # up while the model is still loading, and one host published the port and
+    # never routed to it at all. Pasting a dead address into Backend's .env and
+    # then debugging Backend is the expensive version of this mistake.
+    state = _serve_health(base)
     print(f"AI_SERVICE_URL={base}")
+    print(f"  {state}")
+    print()
+    print("Paste into the consumer that needs it:")
+    print()
+    print(f"  Backend  .env          AI_SERVICE_URL={base}")
+    print(f"  Mobile   .env          EXPO_PUBLIC_AI_SERVICE_URL={base}")
+    print(f"  Eval     shell         AI_SERVICE_URL={base}")
+    print()
+    print(f"  chat     {base}/chat")
     print(f"  health   {base}/health")
     print(f"  diagnose {base}/api/v1/diagnosis/analyze-upload")
+
+    if args.write_env:
+        target = Path(args.write_env)
+        lines = []
+        if target.exists():
+            lines = [
+                line
+                for line in target.read_text(encoding="utf-8").splitlines()
+                if not line.startswith(("AI_SERVICE_URL=", "EXPO_PUBLIC_AI_SERVICE_URL="))
+            ]
+        lines += [f"AI_SERVICE_URL={base}", f"EXPO_PUBLIC_AI_SERVICE_URL={base}"]
+        target.write_text("\n".join(lines) + "\n", encoding="utf-8", newline="\n")
+        print()
+        print(f"Written to {target} (previous AI_SERVICE_URL lines replaced)")
+
+
+def _serve_health(base: str) -> str:
+    """One line on whether the service behind this address is ready.
+
+    Deliberately not a hard failure: the address is still worth printing while
+    the model loads, and the caller usually wants to paste it and wait. What it
+    must not do is stay silent, because "the port is published" and "the AI
+    works" are three and a half minutes apart on the fastest host measured.
+    """
+    try:
+        import urllib.request
+
+        with urllib.request.urlopen(f"{base}/health", timeout=10) as reply:
+            payload = json.loads(reply.read().decode("utf-8"))
+    except Exception as error:  # noqa: BLE001 - reported, never raised
+        return f"not answering yet ({type(error).__name__}) — models load in about 3m30s"
+
+    vlm = (payload.get("vlm") or {}).get("attached")
+    detector = (payload.get("detector") or {}).get("attached")
+    chunks = (payload.get("knowledge") or {}).get("chunks")
+    if vlm and detector:
+        return f"READY — Qwen and detector attached, {chunks} knowledge passages"
+    missing = ", ".join(
+        name for name, ok in (("Qwen", vlm), ("detector", detector)) if not ok
+    )
+    return f"answering, but {missing} not attached yet — {chunks} passages loaded"
 
 
 def _instance_id_for(explicit: Optional[int], path: Path) -> int:
@@ -817,15 +876,18 @@ def main() -> None:
     train = sub.add_parser("train", help="rent a machine and start training on it")
     train.add_argument("--offer", required=True, type=int)
     train.add_argument("--epochs", type=int, default=100)
-    train.add_argument("--batch", type=int, default=16)
-    train.add_argument("--run-name", default="detector-v1")
+    train.add_argument("--batch", type=int, default=48)
+    train.add_argument("--run-name", default="detector-v3")
     train.add_argument(
         "--model",
-        default="yolov8n.pt",
+        default="yolo11s.pt",
         help=(
-            "starting weights. yolo11s.pt is the accuracy pick and costs about "
-            "three times the epoch time of yolov8n.pt; both fit a 12GB card at "
-            "640px. Changing this changes what the numbers mean, so record it "
+            "starting weights. yolo11s.pt is what detector-v2 was trained on and "
+            "what every published figure refers to: 9.4M parameters, roughly "
+            "three times the epoch time of yolov8n.pt, and it fits a 12GB card "
+            "at 640px beside Qwen. The default used to be yolov8n.pt, which "
+            "meant an unattended run produced a model nothing could be compared "
+            "against. Changing this changes what the numbers mean, so record it "
             "in the run name."
         ),
     )
@@ -889,6 +951,17 @@ def main() -> None:
     serve.add_argument("--max-len", type=int, default=8192)
 
     address = sub.add_parser("address", help="where the served API answers")
+    address.add_argument(
+        "--write-env",
+        default="",
+        metavar="PATH",
+        help=(
+            "also write AI_SERVICE_URL and EXPO_PUBLIC_AI_SERVICE_URL into this "
+            ".env file, replacing any previous lines. Every rental publishes a "
+            "different host and port, so this is the step that is otherwise done "
+            "by hand and got wrong."
+        ),
+    )
     address.add_argument("--instance", type=int)
 
     destroy = sub.add_parser("destroy", help="stop the billing")

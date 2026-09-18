@@ -20,7 +20,8 @@ Frontend and Mobile must call providers only through Backend/the approved AI ser
 - FastAPI 0.115 and Uvicorn 0.32
 - Pydantic 2 and pydantic-settings 2
 - HTTPX for outbound calls to the model server
-- YOLOv8n via Ultralytics for device detection, Qwen2.5-VL-3B-Instruct AWQ served by vLLM
+- YOLO11s via Ultralytics for device detection across 22 classes,
+  Qwen2.5-VL-3B-Instruct AWQ served by vLLM
 - Pillow for image handling
 - python-dotenv and multipart support
 - Pytest and pytest-asyncio
@@ -41,7 +42,7 @@ Uvicorn
   -> `get_ai_provider()` factory
   -> `AIProvider` contract
      -> LocalPipelineProvider | MockAIProvider
-        -> Detector (YOLOv8n): locate and classify the appliance, crop the region
+        -> Detector (YOLO11s): locate and classify the appliance, crop the region
         -> Retriever: rank candidate faults for that device from the knowledge base
         -> VLM (Qwen2.5-VL): read surface damage on the crop, reason over the Vietnamese
            description, choose fault codes from the shortlist

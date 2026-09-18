@@ -59,7 +59,7 @@ Hai chỗ cần anh quyết, vì là dữ liệu nghiệp vụ chứ không ph�
 
 Thứ nhất, danh mục linh kiện không có bóng đèn và không có ổ cắm. Bảng công ghi rõ "tiền công", nên `LIGHT_BULB_DEAD` và `OUTLET_BROKEN_FACE` hiện chỉ báo được tiền công, không báo được tiền vật tư; hỏi "thay bóng đèn bao nhiêu" thì không có dòng giá nào trả về. Em không tự điền giá vào đây.
 
-Thứ hai, một khối 100 mã thuộc nhóm "Đồ điện gia dụng" đang gắn cùng lúc cho năm loại thiết bị (quạt bàn, quạt trần, bình nóng lạnh, đèn, ổ cắm), và trong khối đó còn sót linh kiện bếp từ — mà bếp từ không nằm trong 17 thiết bị. Đã kiểm: không rò ra câu trả lời, vì tên linh kiện có chữ "bếp từ" nên không khớp câu hỏi về đèn hay ổ cắm. Ghi lại để dọn khi rảnh, không phải việc gấp.
+Thứ hai, một khối 100 mã thuộc nhóm "Đồ điện gia dụng" đang gắn cùng lúc cho năm loại thiết bị (quạt bàn, quạt trần, bình nóng lạnh, đèn, ổ cắm), và trong khối đó còn sót linh kiện bếp từ. Khi ghi chú này được viết, bếp từ chưa nằm trong danh mục nên không thể rò ra câu trả lời; **nay bếp từ là một trong 22 thiết bị**, nên lập luận đó không còn đúng và chỗ này cần dọn thật chứ không phải để khi rảnh.
 
 Việc còn lại:
 
