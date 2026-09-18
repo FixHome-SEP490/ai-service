@@ -6,7 +6,7 @@ from __future__ import annotations
 import re
 import time
 import unicodedata
-from typing import Any, List, Optional
+from typing import Any, List, Optional, Sequence
 
 import logging
 
@@ -253,25 +253,52 @@ def _asks_about_the_business(question: str) -> bool:
     not cooling and was told to go and check their warranty first, which is a
     repair company talking its own customer out of the job.
     """
-    folded = unicodedata.normalize("NFD", question.lower())
-    folded = "".join(c for c in folded if unicodedata.category(c) != "Mn")
-    folded = folded.replace("đ", "d")
-    return any(word in folded for word in _BUSINESS_WORDS)
+    return _mentions(question, _BUSINESS_WORDS)
 
 
 _MONEY_WORDS = ("gia", "tien", "bao nhieu", "chi phi", "cost", "het bao", "mac", "re")
 """What makes a question one about cost.
 
-Substring matching is deliberate here and safe: the price tables are only ever
-added to what is already retrieved, never used to decide whether to answer."""
+Matched as whole words. Substring matching was called safe here on the grounds
+that price rows are only ever added to what is already retrieved and never
+decide whether to answer — and that was true and still not safe, because the
+price row is added *first*, and the first passage is the one the model answers
+from.
+
+Two words collide once the diacritics come off, and both of them collide with
+something customers type constantly:
+
+    gia  is also "giặt", which folds to "giat" — so every single question about
+         a washing machine was read as a question about price. "Máy giặt nhà em
+         không vắt được" was answered with the cost of a door glass.
+
+    re   is also "remote" — so every question about a handset was too.
+
+Four appliances of the twenty-two are named with one of those two strings
+inside. This is the fourth time this class of bug has been found in this
+codebase; the rule written down after the third was whole-word matching and
+never an alias under four characters, and this list predates it."""
+
+
+def _mentions(question: str, words: Sequence[str]) -> bool:
+    """Whether the question uses any of these words, as whole words.
+
+    One function for both keyword lists, because the bug it fixes was written
+    twice: each list had its own copy of fold-then-substring, and a fix applied
+    to one would have left the other to be found again later.
+
+    Padded with spaces on both sides so a phrase of two words matches on its
+    own boundaries too — " bao nhieu " is found inside " het bao nhieu tien "
+    and not inside a longer word at either end.
+    """
+    folded = _fold_vi(question)
+    padded = " " + " ".join(re.findall(r"[a-z0-9]+", folded)) + " "
+    return any(f" {word} " in padded for word in words)
 
 
 def _asks_about_money(question: str) -> bool:
     """Whether the customer is asking what something costs."""
-    folded = unicodedata.normalize("NFD", question.lower())
-    folded = "".join(c for c in folded if unicodedata.category(c) != "Mn")
-    folded = folded.replace("đ", "d")
-    return any(word in folded for word in _MONEY_WORDS)
+    return _mentions(question, _MONEY_WORDS)
 
 
 logger = logging.getLogger(__name__)
