@@ -162,6 +162,22 @@ display driver / cuda driver combination" after the image has been pulled.
 """
 
 
+SERVE_MIN_DOWNLOAD_MBPS = 3000
+"""What the serving image needs of the host's link, measured rather than guessed.
+
+The image is 8.74 GB across forty-three layers and one of those layers is
+5.12 GB, inherited from the vLLM base. A single blob that size does not resume:
+a stalled transfer restarts, so a slow link does not pull the image slowly, it
+fails to pull it at all. Three rentals demonstrated this in one afternoon. At
+545 and 1,355 Mbps the pull retried for thirty-three and nineteen minutes
+without finishing; at 6,662 Mbps it completed in under a minute, and at
+6,902 Mbps in about three.
+
+Deliberately far above the 200 Mbps default for `offers`, which sizes a 2.4 GB
+dataset archive rather than this image.
+"""
+
+
 def _cuda(offer: dict) -> float:
     try:
         return float(offer.get("cuda_max_good") or 0)
@@ -240,8 +256,21 @@ def cmd_offers(args: argparse.Namespace) -> None:
 
     # Remember every offer shown, not just the ones printed, so `train` can say
     # which card an id belongs to and refuse one the image cannot run.
+    # The card's name, and the two facts that decide whether the serving image
+    # can run at all. Storing only the name meant `serve` had nothing to check
+    # against and accepted a host whose driver was too old for the image.
     OFFER_CACHE.write_text(
-        json.dumps({str(o["id"]): o["gpu_name"] for o in offers}, indent=1),
+        json.dumps(
+            {
+                str(o["id"]): {
+                    "gpu_name": o["gpu_name"],
+                    "cuda": _cuda(o),
+                    "inet_down": o.get("inet_down") or 0,
+                }
+                for o in offers
+            },
+            indent=1,
+        ),
         encoding="utf-8",
     )
 
@@ -268,13 +297,85 @@ reading of the card that does not depend on guessing.
 """
 
 
-def _cached_gpu(offer_id: int) -> Optional[str]:
+def _cached_offer(offer_id: int) -> Optional[dict]:
+    """What the last `offers` run recorded about this id, or None.
+
+    Tolerates a cache written before the entry became a dictionary, so an
+    upgrade does not make every stored id look unknown.
+    """
     if not OFFER_CACHE.exists():
         return None
     try:
-        return json.loads(OFFER_CACHE.read_text(encoding="utf-8")).get(str(offer_id))
+        entry = json.loads(OFFER_CACHE.read_text(encoding="utf-8")).get(str(offer_id))
     except (json.JSONDecodeError, OSError):
         return None
+    if entry is None:
+        return None
+    if isinstance(entry, str):
+        return {"gpu_name": entry, "cuda": 0.0, "inet_down": 0}
+    return entry
+
+
+def _cached_gpu(offer_id: int) -> Optional[str]:
+    entry = _cached_offer(offer_id)
+    return entry.get("gpu_name") if entry else None
+
+
+def _check_serve_host(offer_id: int, force: bool) -> None:
+    """Refuse a host the serving image cannot run on, before renting it.
+
+    Two unsuitabilities, both visible in the offer listing and both discovered
+    the expensive way instead. A driver below CUDA 13.0 accepts the rental,
+    pulls nine gigabytes and then fails at engine initialisation with
+    "unsupported display driver / cuda driver combination". A link below a few
+    gigabits per second never finishes pulling the image's 5 GB layer.
+
+    Unknown is not treated as unsuitable: an id typed off the website is
+    legitimate. It says what it could not check instead.
+    """
+    entry = _cached_offer(offer_id)
+    if entry is None:
+        print(
+            f"Offer {offer_id} was not in the last `offers` listing, so its driver\n"
+            f"and link speed could not be checked. The image needs CUDA "
+            f"{SERVE_MIN_CUDA} or\nnewer and at least "
+            f"{SERVE_MIN_DOWNLOAD_MBPS} Mbps; below either, the rental is wasted."
+        )
+        return
+
+    cuda = float(entry.get("cuda") or 0)
+    down = float(entry.get("inet_down") or 0)
+    print(
+        f"Offer {offer_id}: {entry.get('gpu_name', '?')}, "
+        f"CUDA {cuda or 'unknown'}, {down:.0f} Mbps"
+    )
+
+    problems = []
+    if cuda and cuda < SERVE_MIN_CUDA:
+        problems.append(
+            f"CUDA {cuda} is below the {SERVE_MIN_CUDA} this image needs. vLLM "
+            "would fail at engine initialisation after the image had been pulled."
+        )
+    if down and down < SERVE_MIN_DOWNLOAD_MBPS:
+        problems.append(
+            f"{down:.0f} Mbps is below {SERVE_MIN_DOWNLOAD_MBPS}. The image's "
+            "5 GB layer does not resume, so a slow link fails rather than waits."
+        )
+    if problems and not force:
+        raise SystemExit(
+            "\n".join(
+                ["", "This host cannot serve the image:"]
+                + [f"  - {line}" for line in problems]
+                + [
+                    "",
+                    "Find a suitable one with:",
+                    f"    python tools/rent_gpu.py offers --min-cuda {SERVE_MIN_CUDA}"
+                    f" --min-download {SERVE_MIN_DOWNLOAD_MBPS}",
+                    "",
+                    "Or pass --force-host to rent it anyway.",
+                ]
+            )
+        )
 
 
 def _check_gpu_supported(offer_id: int, force: bool) -> None:
@@ -466,6 +567,8 @@ def cmd_serve(args: argparse.Namespace) -> None:
             f"{SERVE_INSTANCE_FILE.read_text().strip()}.\n"
             "Destroy it first, or delete the file if it is stale."
         )
+
+    _check_serve_host(args.offer, args.force_host)
 
     env = " ".join(
         [
@@ -721,6 +824,11 @@ def main() -> None:
             "names 86.2 percent correctly against v1's 83.9, measured on the "
             "same images. See docs/DETECTOR-V2.md."
         ),
+    )
+    serve.add_argument(
+        "--force-host",
+        action="store_true",
+        help="rent a host whose driver or link the image needs more of",
     )
     serve.add_argument("--max-len", type=int, default=8192)
 
