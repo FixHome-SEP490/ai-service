@@ -72,6 +72,28 @@ trước ngoài việc **ưu tiên host đã từng làm được việc** — n
 Tổng tiền cho bốn lần thất bại: khoảng **$0.09**. Tổng thời gian mất: hơn một
 giờ. Tiền không đáng kể, thời gian mới đáng.
 
+### Lần thứ sáu, 18/09 chiều: thử RTX 3060 12GB
+
+PO hỏi có thuê 3060 12GB rẻ hơn được không, miễn hiệu năng không giảm. Câu trả
+lời **chưa biết**, vì máy 3060 duy nhất đạt chuẩn lại hỏng theo kiểu số 4:
+container chạy hoàn chỉnh — log có `Qwen is answering` và `Uvicorn running on
+0.0.0.0:8000` — nhưng cổng bên ngoài không route, `curl` treo 12 giây rồi timeout.
+Huỷ, quay lại A4000.
+
+Vì vậy **3060 chưa bị loại, chỉ là chưa đo được**. Nếu lần sau muốn thử lại, đây
+là những gì cần biết trước:
+
+- Trên giấy 3060 có băng thông bộ nhớ 360 GB/s so với 448 GB/s của A4000, tức
+  **thấp hơn khoảng 20%**. Sinh chữ là tác vụ nghẽn băng thông, nên nhiều khả
+  năng độ trễ tăng cỡ đó. Phải đo mới biết, đừng suy từ con số này.
+- VRAM 12GB so với 16GB. Với `GPU_FRACTION=0.70` thì Qwen được 8,4GB thay vì
+  11,2GB; model chiếm 3,32GB nên vẫn vừa, nhưng KV cache hẹp hơn hẳn.
+- Giá $0,081/giờ so với $0,108–0,123. Tiết kiệm khoảng **$0,03/giờ**, tức là
+  chưa tới một đô cho cả một ngày làm việc. Không đáng đánh đổi lấy rủi ro.
+
+Kết luận thực dụng: **cứ dùng A4000 27076**, trừ khi có ai đó cần chạy rất nhiều
+giờ liên tục thì mới bõ công đo 3060.
+
 ---
 
 ## Cách nhận ra đang hỏng, đừng chờ mù
