@@ -206,6 +206,32 @@ Deliberately far above the 200 Mbps default for `offers`, which sizes a 2.4 GB
 dataset archive rather than this image.
 """
 
+SERVE_MIN_COMPUTE_CAP = 750
+"""The card's own generation, which no other filter catches.
+
+The model is AWQ 4-bit, and vLLM refuses AWQ below compute capability 7.5:
+
+    The quantization method auto_awq is not supported for the current GPU.
+    Minimum capability: 75. Current capability: 70.
+
+That rules out Volta and everything older, and a Tesla V100 is the trap,
+because on every other measure it looks like the best machine on the list --
+32 GB of VRAM, a 14.6 Gb/s link, reliability 0.999, CUDA 13.0. It was
+recommended as the first fallback on exactly that reasoning, rented, and never
+loaded the model. Nothing about "V100" tells you 7.0; the number does.
+
+vast.ai reports it as an integer scaled by a hundred, so 750 here is 7.5. The
+floor admits Turing (T4, RTX 20xx) and everything after it: Ampere at 8.0-8.6,
+Ada at 8.9, Hopper and Blackwell above that.
+"""
+
+
+def _compute_cap(offer: dict) -> int:
+    try:
+        return int(offer.get("compute_cap") or 0)
+    except (TypeError, ValueError):
+        return 0
+
 
 def _cuda(offer: dict) -> float:
     try:
@@ -234,6 +260,10 @@ def cmd_offers(args: argparse.Namespace) -> None:
         # reports gpu_ram in megabytes, so the obvious 12*1024 matches nothing
         # at all and reads like there are no 3060s left.
         f"gpu_ram>={args.min_vram}",
+        # The card's generation, not its size. Below 7.5 vLLM refuses the AWQ
+        # weights outright, which is how a 32 GB V100 with a 14.6 Gb/s link and
+        # 0.999 reliability turned out to be unrentable for this image.
+        f"compute_cap>={SERVE_MIN_COMPUTE_CAP}",
         f"dph<={args.max_price}",
         "reliability>0.98",
         f"inet_down>={args.min_download}",
@@ -325,6 +355,7 @@ def cmd_offers(args: argparse.Namespace) -> None:
                     "gpu_name": o["gpu_name"],
                     "cuda": _cuda(o),
                     "inet_down": o.get("inet_down") or 0,
+                    "compute_cap": _compute_cap(o),
                 }
                 for o in offers
             },
@@ -371,7 +402,7 @@ def _cached_offer(offer_id: int) -> Optional[dict]:
     if entry is None:
         return None
     if isinstance(entry, str):
-        return {"gpu_name": entry, "cuda": 0.0, "inet_down": 0}
+        return {"gpu_name": entry, "cuda": 0.0, "inet_down": 0, "compute_cap": 0}
     return entry
 
 
@@ -404,12 +435,22 @@ def _check_serve_host(offer_id: int, force: bool) -> None:
 
     cuda = float(entry.get("cuda") or 0)
     down = float(entry.get("inet_down") or 0)
+    cap = int(entry.get("compute_cap") or 0)
     print(
         f"Offer {offer_id}: {entry.get('gpu_name', '?')}, "
-        f"CUDA {cuda or 'unknown'}, {down:.0f} Mbps"
+        f"CUDA {cuda or 'unknown'}, {down:.0f} Mbps, "
+        f"compute {cap / 100 if cap else 'unknown'}"
     )
 
     problems = []
+    if cap and cap < SERVE_MIN_COMPUTE_CAP:
+        problems.append(
+            f"compute capability {cap / 100} is below "
+            f"{SERVE_MIN_COMPUTE_CAP / 100}, and the model is AWQ 4-bit. vLLM "
+            "refuses to start: \"The quantization method auto_awq is not "
+            "supported for the current GPU.\" No amount of VRAM or bandwidth "
+            "makes up for it - a V100 has 32 GB and still cannot run this."
+        )
     if cuda and cuda < SERVE_MIN_CUDA:
         problems.append(
             f"CUDA {cuda} is below the {SERVE_MIN_CUDA} this image needs. vLLM "

@@ -108,3 +108,36 @@ class TestDestroyFindsTheBoxYouRented:
         # The message has to point somewhere, or it reads as "all clear".
         assert "status" in str(refused.value)
         assert "--instance" in str(refused.value)
+
+
+class TestTheCardGenerationIsChecked:
+    """AWQ needs compute capability 7.5, and nothing else in the listing says so.
+
+    A Tesla V100 looks like the best machine available on every visible
+    measure - 32 GB of VRAM, a 14.6 Gb/s link, reliability 0.999, CUDA 13.0 -
+    and it cannot run this model at all. It was recommended as the first
+    fallback for exactly those reasons, rented, and vLLM refused:
+
+        The quantization method auto_awq is not supported for the current GPU.
+        Minimum capability: 75. Current capability: 70.
+    """
+
+    def test_volta_is_below_the_floor(self):
+        assert rent_gpu._compute_cap({"compute_cap": 700}) < rent_gpu.SERVE_MIN_COMPUTE_CAP
+
+    def test_pascal_is_below_the_floor(self):
+        assert rent_gpu._compute_cap({"compute_cap": 610}) < rent_gpu.SERVE_MIN_COMPUTE_CAP
+
+    def test_turing_is_the_oldest_that_passes(self):
+        assert rent_gpu._compute_cap({"compute_cap": 750}) >= rent_gpu.SERVE_MIN_COMPUTE_CAP
+
+    def test_ampere_and_ada_pass(self):
+        for cap in (860, 890, 1200):
+            assert rent_gpu._compute_cap({"compute_cap": cap}) >= rent_gpu.SERVE_MIN_COMPUTE_CAP
+
+    def test_a_missing_or_unparseable_value_reads_as_unknown(self):
+        # Unknown must not be treated as unsuitable: an offer id typed off the
+        # website is legitimate, and the check says what it could not verify.
+        assert rent_gpu._compute_cap({}) == 0
+        assert rent_gpu._compute_cap({"compute_cap": None}) == 0
+        assert rent_gpu._compute_cap({"compute_cap": "n/a"}) == 0

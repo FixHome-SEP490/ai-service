@@ -36,6 +36,49 @@ rộng; thứ hiếm không phải GPU mà là **CUDA ≥ 13.0 cộng đường 
 Chọn máy thì **ưu tiên reliability rồi mới tới giá**. Chênh lệch giá cả ngày
 chưa tới một đô; một lần thuê hỏng mất 15–30 phút.
 
+### Điều kiện thứ tư: đời card, không phải dung lượng card
+
+Model là AWQ 4-bit, và vLLM từ chối AWQ trên card có **compute capability dưới
+7.5**, tức là loại sạch Volta trở về trước.
+
+Tesla V100 là cái bẫy. Trên mọi thước đo nhìn thấy được, nó là máy tốt nhất danh
+sách — 32GB VRAM, đường truyền 14,6 Gb/s, reliability 0,999, CUDA 13.0 — và nó
+**không bao giờ chạy được model này**. Nó đã được đề xuất làm máy dự phòng số
+một đúng vì những con số đó, được thuê, và vLLM từ chối:
+
+```
+The quantization method auto_awq is not supported for the current GPU.
+Minimum capability: 75. Current capability: 70.
+```
+
+Không có gì trong chữ "V100" nói lên 7.0; chỉ con số nói. Nay `offers` lọc sẵn
+`compute_cap>=750` và `serve` từ chối trước khi tiêu tiền. Ngưỡng đó cho phép
+Turing (T4, RTX 20xx) trở đi: Ampere 8.0–8.6, Ada 8.9, Hopper và Blackwell cao
+hơn.
+
+### Danh sách máy dự phòng, quét ngày 18/09/2026
+
+Đây là **machine id**, số cố định của từng máy vật lý — khác offer id vốn đổi
+mỗi ngày. Dùng `offers --machine <id>` để lấy offer id hiện tại.
+
+| machine | $/hr | GPU | down | cc | CUDA | rely | nơi đặt |
+|---|---|---|---|---|---|---|---|
+| **27076** | 0,108 | RTX A4000 16GB | 6,8 Gb/s | 8.6 | 13.0 | 0,999 | Delaware, US |
+| **31435** | 0,201 | RTX 4060 Ti 16GB | 7,9 Gb/s | 8.9 | 13.3 | 0,998 | Texas, US |
+| **136951** | 0,335 | RTX 3090 24GB | 4,2 Gb/s | 8.6 | 13.2 | 0,998 | Texas, US |
+| **143773** | 0,161 | RTX 4070 Ti 12GB | 3,1 Gb/s | 8.9 | 13.2 | 0,997 | Minnesota, US |
+| 47212 | 0,336 | RTX PRO 4000 24GB | 8,0 Gb/s | 12.0 | 13.2 | 0,996 | Na Uy |
+| 141939 | 0,303 | RTX PRO 4000 24GB | 3,9 Gb/s | 12.0 | 13.2 | 0,995 | North Carolina, US |
+| 140204 | 0,240 | RTX 5060 Ti 16GB | 3,4 Gb/s | 12.0 | 13.2 | 0,989 | Đan Mạch |
+| 149622 | 0,092 | RTX A4000 16GB | 3,9 Gb/s | 8.6 | 13.2 | 0,988 | Nhật |
+
+Thứ tự nên thử: **27076 → 31435 → 136951 → 143773**, cả bốn reliability từ 0,997
+trở lên. Hai dòng cuối để cuối vì dưới 0,99 — con 3060 làm mất nửa tiếng cũng
+chỉ 0,982.
+
+**Bảng này là ảnh chụp một thời điểm.** Máy có thể bị thuê, đổi giá, hoặc chủ máy
+tắt đi. Luôn quét lại trước khi kết luận, đừng thuê mù theo bảng.
+
 ---
 
 ## Máy serve: chốt con A4000 này
