@@ -106,6 +106,14 @@ _NOT_HOUSEHOLD = (
     "may bay", "xe may", "o to", "xe hoi", "xe oto", "laptop", "may tinh",
     "dien thoai", "iphone", "android", "may anh", "dong ho", "xe dap",
 )
+_STILL_HOUSEHOLD = ("dong ho nuoc", "dong ho dien")
+"""Reads as one of the refusals above and is squarely in the trade.
+
+A water meter is plumbing and an electricity meter is electrics, and both are
+"đồng hồ" — the same two words as the wristwatch FixHome does not repair. "Đồng
+hồ nước bị rò" is a leak.
+"""
+
 """Things with electricity or an engine that FixHome does not repair.
 
 The trade words are coarse by design, and coarse let these through: "xe máy
@@ -155,8 +163,33 @@ def _is_greeting(text: str) -> bool:
 
 
 def _is_not_household(text: str) -> bool:
+    """Whether the customer is reporting something FixHome does not repair.
+
+    Whole words, never substrings. "Ô tô" folds to "o to", which sits inside
+    "thợ tới" — so every message containing the commonest phrase in the trade,
+    "bao lâu thợ tới", "khi nào thợ tới nhà em", "cần thợ tới sửa tủ lạnh", was
+    answered with a refusal explaining that FixHome does not repair cars.
+
+    This refusal fires before every other branch, which is why it had to be the
+    coarsest check in the file and why a false positive here is the most
+    expensive one: the customer is told their question is out of scope and the
+    turn ends.
+    """
     folded = _fold_vi(text)
-    return any(word in folded for word in _NOT_HOUSEHOLD)
+    padded = " " + " ".join(re.findall(r"[a-z0-9]+", folded)) + " "
+    if any(phrase in padded for phrase in _STILL_HOUSEHOLD):
+        return False
+    for word in _NOT_HOUSEHOLD:
+        at = padded.find(f" {word} ")
+        if at < 0:
+            continue
+        # "Kêu như máy bay" is how a customer describes a noisy washing machine,
+        # and it was refused as a question about aircraft. A comparison names the
+        # thing it compares to; it does not report it.
+        if padded[max(0, at - 5):at + 1].endswith(" nhu "):
+            continue
+        return True
+    return False
 
 
 def _is_identification(text: str) -> bool:
@@ -167,22 +200,112 @@ def _is_identification(text: str) -> bool:
     return not any(w in folded for w in _SYMPTOM_WORDS)
 
 
-_BOOKING_INTENT = (
-    "muon dat", "dat lich", "dat tho", "dat dich vu", "cho dat",
-    "goi tho", "book lich", "book tho", "dang ky dich vu", "hen tho",
-    "cho minh dat", "toi muon dat", "em muon dat", "anh muon dat",
-)
-"""The customer has stopped describing and started buying.
+_BOOKING_VERBS = frozenset({
+    "dat", "book", "thue", "hen", "goi", "keu", "can", "xin", "chot", "muon",
+})
+"""Words that turn a sentence from describing into buying, as whole words.
 
-Asked "bây giờ anh muốn đặt lịch vệ sinh máy lạnh", the service answered with
-a diagnosis: two possible faults, a price range and a list of things to try
-first. Nobody asked what was wrong. Diagnosing someone who is trying to book
-puts a wall of text between them and the thing they came to do.
+Matched against a word list rather than as substrings, so "đặt" in "đặt nồi lên
+bếp" is seen but produces nothing on its own — a verb only counts alongside one
+of the objects below.
+"""
+
+_BOOKING_WHO = (
+    "tho", "lich", "dich vu", "don", "ban tho",
+    "nguoi toi", "nguoi sua", "nguoi den",
+)
+"""A person or a booking. Unambiguous: nobody asks for a thợ to describe one.
+
+Split from the service words below because one verb is too weak to count
+against those but strong enough against these. "Cho em một bạn thợ tới xem máy
+giặt" is a request for a technician; "cho em hỏi cái này có sửa được không" is
+not, and both are "cho" plus something.
+"""
+
+_BOOKING_WHAT = (
+    "ve sinh", "sua", "thong tac", "lap dat", "bao duong", "bao tri",
+)
+"""The work itself. Needs a verb with more intent behind it than "cho"."""
+
+_WEAK_BOOKING_VERBS = frozenset({"cho"})
+"""Verbs that only count alongside a person or a booking, never a service word."""
+
+_BOOKING_PHRASES = (
+    "dang ky dich vu", "dat cho toi", "dat cho minh", "dat giup",
+    "book giup", "lam sao de dat", "dat nhu nao", "dat the nao",
+    "co nhan", "co sua", "co lam", "co ve sinh", "co thong tac",
+    "nhan sua", "nhan ve sinh", "nhan lam",
+    # "Yêu cầu" cannot be reached through the verb list: "yêu" folds onto "yếu",
+    # which is in half the symptom lists in the corpus — a weak flame, weak
+    # water pressure, a fan running weakly — so it is matched only beside the
+    # person being requested.
+    "yeu cau tho", "yeu cau nguoi",
+    # A verb with the object left implied, which is how a customer who has
+    # already been shown a service says yes.
+    "dat luon", "chot luon",
+    "cho toi dat", "cho em dat", "cho anh dat", "cho chi dat", "cho minh dat",
+)
+"""Forms that carry the intent without a verb-and-object pair in reach.
+
+"Bên mình có nhận vệ sinh máy lạnh không" is a buying question with no buying
+verb in it: the customer is asking whether the service exists, and the useful
+answer is the service and its price, not a diagnosis of a machine they have not
+described.
+"""
+
+_ALREADY_BOOKED = (
+    "da dat", "dat roi", "dat hom qua", "dat hom truoc", "lich dat",
+    "bi huy", "chua toi", "chua den", "sai vi tri", "truoc khi",
+    "tho toi chua", "da den chua", "bao lau thi tho",
+)
+"""Sentences about a booking that already exists, which must not be read as a
+new one.
+
+"Tôi đã đặt lịch rồi mà thợ chưa tới" was read as booking intent and answered
+with a service and a booking button, which is the one reply that cannot help
+someone whose complaint is that the booking they made has not produced anybody.
+Checked before the positive patterns, because the positive words are all present
+in these sentences too.
 """
 
 
 def _wants_to_book(text: str) -> bool:
-    return any(phrase in _fold_vi(text) for phrase in _BOOKING_INTENT)
+    """Whether the customer has stopped describing and started buying.
+
+    Asked "bây giờ anh muốn đặt lịch vệ sinh máy lạnh", the service used to
+    answer with a diagnosis: two possible faults, a price range and a list of
+    things to try first. Nobody asked what was wrong. Diagnosing someone who is
+    trying to book puts a wall of text between them and the thing they came to
+    do, so this path must be wide — a customer who says plainly that they want a
+    technician gets the service and the button, and no diagnosis.
+    """
+    folded = _fold_vi(text)
+    padded = " " + " ".join(re.findall(r"[a-z0-9]+", folded)) + " "
+
+    if any(phrase in padded for phrase in _ALREADY_BOOKED):
+        return False
+
+    if any(phrase in padded for phrase in _BOOKING_PHRASES):
+        return True
+
+    words = set(padded.split())
+
+    # "Book" is an English loanword in Vietnamese and is only ever used for
+    # this, so it needs no object: "muốn book", "book giúp em". Whole-word
+    # matching keeps it out of "facebook".
+    if "book" in words:
+        return True
+
+    # Padded on both sides, never as a bare substring. Matching "tho" inside a
+    # word made eight real symptom phrases read as requests to book: "thoi" in
+    # "lò chạy cho vui thôi", "thoat" in "chỗ thoát nước bị hoen", "thong" in
+    # "khoá thông minh kêu nhưng không mở". The same mistake has now been found
+    # three times in this file, in three different keyword lists.
+    if words & _BOOKING_VERBS:
+        return any(f" {obj} " in padded for obj in _BOOKING_WHO + _BOOKING_WHAT)
+    if words & _WEAK_BOOKING_VERBS:
+        return any(f" {obj} " in padded for obj in _BOOKING_WHO)
+    return False
 
 
 _BUSINESS_WORDS = (
@@ -411,6 +534,12 @@ class LocalPipeline:
         in_scope = (
             bool(request.images)
             or chat.device_type is not None
+            # Someone asking to book is in the trade by definition, whatever
+            # else the sentence contains. "Cho mình đặt lịch" and "đặt luôn đi"
+            # carry no appliance and no symptom, so the trade check refused them
+            # as off-topic — a customer saying plainly that they want to book,
+            # told the question was out of scope.
+            or _wants_to_book(request.description)
             or self._is_in_the_trade(chat.customer_text())
         )
         if not in_scope:
@@ -954,7 +1083,7 @@ class LocalPipeline:
             chat.customer_text(), self._kb
         )
         if device_type is None:
-            return None
+            return self._booking_needs_the_appliance(request, chat, trace)
 
         # Which service, from the faults that fit what they have said. A
         # cleaning and a repair are different services at different prices, and
@@ -993,6 +1122,19 @@ class LocalPipeline:
                         )
                     )
         if not services:
+            # Booking intent with an appliance and no symptom, which is the
+            # commonest way a customer asks: "cho em một bạn thợ tới xem máy
+            # giặt" names the machine and describes nothing. Retrieval finds no
+            # fault, so there was no service and the turn fell through to a
+            # clarification with nothing to press — the one outcome this whole
+            # path exists to prevent. The appliance alone is enough: derive the
+            # service from its own faults instead of from symptoms it has none
+            # of. "Đặt thợ sửa máy giặt" only ever worked because "sửa" happens
+            # to appear in the symptom lists.
+            services = self._services_for_device(device_type)
+        if not services:
+            services = self._fallback_offer()
+        if not services:
             return None
 
         name = self._kb.device_name_vi(device_type) or device_type
@@ -1020,6 +1162,61 @@ class LocalPipeline:
             device=self._resolve_device(None, chat),
             recommended_services=services[:1],
             message_vi=message,
+            confidence=0.0,
+            model_info=self._model_info,
+            trace=trace.stages,
+            disclaimer_vi=settings.AI_DISCLAIMER_VI,
+        )
+
+    def _services_for_device(self, device_type: str) -> List[RecommendedService]:
+        """The service this appliance is most often booked for.
+
+        Counted across the appliance's own faults rather than chosen by hand, so
+        a device added to the catalogue is covered without touching this. The
+        inspection fallback is set aside while counting: it is the answer for a
+        fault that cannot be priced unseen, not the answer for "book someone to
+        look at my washing machine".
+        """
+        counts: dict = {}
+        names: dict = {}
+        fallback = self._kb.fallback_service()
+        for fault in self._kb.faults_for_device(device_type):
+            for ref in self._kb.services_for_fault(fault.fault_code):
+                if fallback and ref.service_code == fallback.service_code:
+                    continue
+                counts[ref.service_code] = counts.get(ref.service_code, 0) + 1
+                names[ref.service_code] = ref.name_vi
+        if not counts:
+            return []
+        code = max(counts, key=lambda c: counts[c])
+        return [RecommendedService(service_code=code, name_vi=names[code])]
+
+    def _booking_needs_the_appliance(
+        self, request: DiagnosisRequest, chat: Conversation, trace: "_Trace"
+    ) -> DiagnosisResponse:
+        """They want to book and have not said what. Ask, and still offer.
+
+        "Cho mình đặt lịch" and "đặt luôn đi" name nothing, so the appliance has
+        to be asked for. What must not happen is what used to: falling through
+        to the ordinary clarification, which for a message carrying no symptom
+        either had nothing to offer, so a customer who said plainly that they
+        wanted to book was left with no way to do it.
+        """
+        question = (
+            "Dạ vâng ạ, anh/chị muốn đặt dịch vụ cho thiết bị nào ạ? "
+            "Ví dụ máy lạnh, máy giặt, tủ lạnh, bếp, bồn cầu hay đường nước."
+        )
+        chat.add("assistant", question)
+        trace.add("scope", True, "Khách muốn đặt lịch nhưng chưa nói thiết bị")
+        return DiagnosisResponse(
+            request_id=request.request_id,
+            session_id=chat.session_id,
+            status=DiagnosisStatus.NEEDS_CLARIFICATION,
+            engine=Engine.LOCAL_PIPELINE,
+            device=self._resolve_device(None, chat),
+            recommended_services=self._fallback_offer(),
+            clarification=Clarification(questions_vi=[question]),
+            message_vi=question,
             confidence=0.0,
             model_info=self._model_info,
             trace=trace.stages,
