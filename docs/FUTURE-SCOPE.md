@@ -68,7 +68,7 @@ sai. Cách đang dùng — hỏi khách một câu — vẫn là cách tốt nh�
 
 Nếu sau này đổi sang model VLM lớn hơn thì đo lại, đừng tin kết luận này mãi.
 
-## Đổi sang YOLOv8s
+## Đổi sang model lớn hơn — ĐÃ LÀM, nhưng sang yolo11s chứ không phải YOLOv8s
 
 Đòn mạnh nhất còn lại để tăng độ chính xác. Cùng dữ liệu, thường được thêm 3–5
 điểm mAP. Tốn khoảng 7 tiếng và 1,5 đô trên máy thuê.

@@ -60,7 +60,7 @@ Máy lạnh không còn là vấn đề. Cộng các nguồn lại được hơn
 
 Những con số dưới đây là **ước lượng để biết khi nào nên lo**, không phải kết quả đo được. Số thật chỉ có sau khi train và đo trên test split.
 
-Với YOLOv8n, 15 lớp, khoảng 300-500 ảnh mỗi lớp:
+Với YOLO11s, 22 lớp, khoảng 300-500 ảnh mỗi lớp:
 
 | Đo trên | mAP50 | Top-1 loại thiết bị |
 | --- | --- | --- |
@@ -244,7 +244,7 @@ Kéo weights về máy mình sau khi train:
 | Train detector | RTX 3060 12GB | 60GB | 16GB | ~1 giờ | 0.08–0.12 USD/giờ |
 | Serve cả pipeline | RTX 3060 12GB | 40GB | 16GB | theo nhu cầu | 0.06–0.10 USD/giờ |
 
-Cả ba thành phần nằm chung một card 12GB được: Qwen2.5-VL-3B AWQ khoảng 5-6GB gồm KV cache, YOLOv8n
+Cả ba thành phần nằm chung một card 12GB được: Qwen2.5-VL-3B AWQ khoảng 5-6GB gồm KV cache, YOLO11s
 khoảng 1GB, embedding cho retrieval khoảng 1GB. Không cần load/unload luân phiên, vì làm vậy chỉ
 thêm vài giây độ trễ mỗi lần đổi.
 
@@ -258,7 +258,7 @@ số đo không so sánh được với lần trước, đúng thứ mà một t
 
 ## 5. Báo cáo kết quả
 
-Luôn chạy baseline YOLOv8n chưa fine-tune trước để có mốc so sánh. Nếu bản train không hơn baseline
+Luôn chạy baseline YOLO11s chưa fine-tune trước để có mốc so sánh. Nếu bản train không hơn baseline
 thì đừng deploy, và bản thân kết quả đó cũng đáng viết vào báo cáo.
 
 Số đo chính là mAP50-95 và accuracy trên test split, kèm confusion matrix. Confusion matrix chỉ ra

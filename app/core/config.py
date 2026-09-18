@@ -10,7 +10,7 @@ class Settings(BaseSettings):
     # Engine selection: "local" runs the self-hosted pipeline, "mock" is for CI.
     AI_ENGINE: str = "local"
 
-    # Detector stage (YOLOv8n). Empty weights path falls back to the stub.
+    # Detector stage (YOLO11s). Empty weights path falls back to the stub.
     YOLO_WEIGHTS_PATH: str = ""
     DETECTOR_CONFIDENCE_THRESHOLD: float = 0.45
 

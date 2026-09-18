@@ -53,9 +53,11 @@ running out means starting over on a new machine.
 """
 
 _ESTIMATED_HOURS = {"RTX_3060": 7, "RTX_3090": 4, "RTX_4090": 3, "RTX_A5000": 5}
-"""Rough wall-clock for 100 epochs of YOLOv8n on 22745 images at 640px.
+"""Rough wall-clock for a full run at 640px, batch 48.
 
-Guesses, replaced by measurement as soon as the smoke test reports an epoch.
+Now anchored to a real one rather than to a guess: detector-v2 was yolo11s over
+70 epochs on 23,678 images, and took 3 hours 20 minutes on a rented RTX 3090 for
+72 US cents. The 3060 figure is about double that.
 """
 
 
@@ -817,15 +819,18 @@ def main() -> None:
     train = sub.add_parser("train", help="rent a machine and start training on it")
     train.add_argument("--offer", required=True, type=int)
     train.add_argument("--epochs", type=int, default=100)
-    train.add_argument("--batch", type=int, default=16)
-    train.add_argument("--run-name", default="detector-v1")
+    train.add_argument("--batch", type=int, default=48)
+    train.add_argument("--run-name", default="detector-v3")
     train.add_argument(
         "--model",
-        default="yolov8n.pt",
+        default="yolo11s.pt",
         help=(
-            "starting weights. yolo11s.pt is the accuracy pick and costs about "
-            "three times the epoch time of yolov8n.pt; both fit a 12GB card at "
-            "640px. Changing this changes what the numbers mean, so record it "
+            "starting weights. yolo11s.pt is what detector-v2 was trained on and "
+            "what every published figure refers to: 9.4M parameters, roughly "
+            "three times the epoch time of yolov8n.pt, and it fits a 12GB card "
+            "at 640px beside Qwen. The default used to be yolov8n.pt, which "
+            "meant an unattended run produced a model nothing could be compared "
+            "against. Changing this changes what the numbers mean, so record it "
             "in the run name."
         ),
     )
