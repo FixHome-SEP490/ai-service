@@ -36,6 +36,36 @@ rộng; thứ hiếm không phải GPU mà là **CUDA ≥ 13.0 cộng đường 
 Chọn máy thì **ưu tiên reliability rồi mới tới giá**. Chênh lệch giá cả ngày
 chưa tới một đô; một lần thuê hỏng mất 15–30 phút.
 
+### Danh sách máy dự phòng, quét ngày 18/09/2026
+
+Đây là **machine id**, số cố định của từng máy vật lý — khác với offer id vốn
+đổi mỗi ngày. Dùng `offers --machine <id>` để lấy offer id hiện tại của nó.
+
+| machine | $/hr | GPU | down | CUDA | rely | nơi đặt |
+|---|---|---|---|---|---|---|
+| **27076** | 0,108 | RTX A4000 16GB | 6,8 Gb/s | 13.0 | 0,999 | Delaware, US |
+| **8565** | 0,261 | Tesla V100 32GB | **14,6 Gb/s** | 13.0 | 0,999 | Minnesota, US |
+| **32334** | 0,268 | Tesla V100 32GB | 7,9 Gb/s | 13.0 | 0,999 | Minnesota, US |
+| **136951** | 0,335 | RTX 3090 24GB | 4,2 Gb/s | 13.2 | 0,998 | Texas, US |
+| 141939 | 0,287 | RTX PRO 4000 24GB | 3,9 Gb/s | 13.2 | 0,995 | North Carolina, US |
+| 47212 | 0,336 | RTX PRO 4000 24GB | 8,0 Gb/s | 13.2 | 0,996 | Norway, NO |
+| 87895 | 0,361 | RTX 4090 24GB | 5,5 Gb/s | 13.2 | 0,995 | North Carolina, US |
+| 75262 | 0,402 | RTX 3090 24GB | 7,1 Gb/s | 13.0 | 0,997 | Hà Lan, NL |
+| 149626 | 0,092 | RTX A4000 16GB | 3,9 Gb/s | 13.2 | 0,988 | Nhật, JP |
+| 140204 | 0,240 | RTX 5060 Ti 16GB | 3,4 Gb/s | 13.2 | 0,989 | Đan Mạch, DK |
+| 143773 | 0,161 | RTX 4070 Ti 12GB | 3,1 Gb/s | 13.2 | 0,997 | Minnesota, US |
+
+Thứ tự nên thử khi 27076 bận: **8565** hoặc **32334** (V100, reliability 0,999,
+đường truyền nhanh nhất danh sách — đắt hơn gấp đôi nhưng vẫn là hai hào rưỡi một
+giờ), rồi **136951** (3090, 0,998).
+
+Ba máy cuối bảng để cuối vì lý do cụ thể, không phải vì giá: 149626 và 140204 có
+reliability dưới 0,99 — con 3060 hỏng hôm qua cũng 0,982; 143773 là card 12GB
+nên vừa khít mức tối thiểu, không còn chỗ thở cho KV cache.
+
+**Bảng này là ảnh chụp một thời điểm.** Máy có thể bị thuê, đổi giá, hoặc chủ máy
+tắt đi. Luôn quét lại trước khi kết luận, đừng thuê mù theo bảng.
+
 ---
 
 ## Máy serve: chốt con A4000 này
