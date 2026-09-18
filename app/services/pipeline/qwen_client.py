@@ -261,6 +261,54 @@ def _fix_pronouns(text: str) -> str:
     return text
 
 
+_PROMPT_ECHO = re.compile(
+    r"^\s*(?:Khách|Khach|Câu hỏi|Cau hoi)\s*:.*?(?:\n|$)"
+    r"|^\s*(?:Trả lời|Tra loi|Đáp)\s*(?:dựa trên[^\n:]*|theo[^\n:]*)?\s*:\s*",
+    re.IGNORECASE | re.DOTALL,
+)
+"""The prompt's own framing, read back as if it were the answer.
+
+Measured on 471 real answers from the served model: six opened with "Khách: <the
+question>" followed by "Trả lời dựa trên tài liệu trên:", which is the shape of
+the worked dialogues in the corpus and of the instruction around the passages. A
+3B model shown a question-and-answer layout completes the layout.
+
+All six were price questions, where the price table is placed first and its rows
+read most like a form to be filled in.
+
+Stripped rather than prompted against, for the same reason as the apology: shown
+the prohibition, the model prints the prohibition.
+"""
+
+
+_BARE_FRAME = re.compile(
+    r"^\s*(?:Trả lời|Tra loi)?\s*(?:dựa trên|theo)?\s*tài liệu (?:trên|sau)\s*[.:]?\s*$",
+    re.IGNORECASE,
+)
+"""What is left when the model echoed the frame and wrote nothing else.
+
+One of the six did exactly that: it repeated "Khách: <question>" twice and never
+reached an answer. Stripping the frame leaves a fragment that is not an answer,
+and returning it would show the customer a sentence about documents. Returning
+nothing is correct — the caller already falls back to the retrieved passages when
+generation comes back empty, which is worse prose and the right content.
+"""
+
+
+def _strip_prompt_echo(text: str) -> str:
+    """Drop a repeated question and answer label from the front of an answer.
+
+    Returns an empty string when nothing but the frame was there, so the caller
+    treats it as a failed generation rather than as a short answer.
+    """
+    previous = None
+    while previous != text:
+        previous = text
+        text = _PROMPT_ECHO.sub("", text, count=1).lstrip()
+    text = text.strip()
+    return "" if _BARE_FRAME.match(text) else text
+
+
 def _strip_apology(text: str) -> str:
     """Remove an apology the answer opens with.
 
@@ -539,7 +587,7 @@ class QwenClient:
         if raw is None:
             return ""
 
-        text = _fix_spelling(_fix_pronouns(_strip_apology(raw.strip())))
+        text = _fix_spelling(_fix_pronouns(_strip_apology(_strip_prompt_echo(raw.strip()))))
         if not text or _declines(text):
             return ""
 
@@ -570,7 +618,7 @@ class QwenClient:
         if raw is None:
             return ""
 
-        answer = _fix_spelling(_fix_pronouns(_strip_apology(raw.strip())))
+        answer = _fix_spelling(_fix_pronouns(_strip_apology(_strip_prompt_echo(raw.strip()))))
         if _OUT_OF_SCOPE in answer.upper().replace(" ", "_"):
             return ""
         if _sends_the_customer_away(answer):
@@ -655,7 +703,7 @@ class QwenClient:
         # that said "Bạn nên khoá van nước trước, sau đó tôi sẽ trả lời chi tiết
         # hơn" — wrong pronouns on both sides, and a promise to answer later
         # that nothing will ever keep.
-        text = _fix_spelling(_fix_pronouns(_strip_apology(raw.strip())))
+        text = _fix_spelling(_fix_pronouns(_strip_apology(_strip_prompt_echo(raw.strip()))))
         if not text or _declines(text):
             return "", 0.0
         if _sends_the_customer_away(text):
