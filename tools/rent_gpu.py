@@ -244,8 +244,14 @@ def cmd_offers(args: argparse.Namespace) -> None:
     # have a 3060 in it.
     if args.machine:
         query.append(f"machine_id={args.machine}")
-    else:
+    elif args.gpu:
         query.append(f"gpu_name={args.gpu}")
+    # An empty --gpu searches every card. The pinned host is one physical
+    # machine belonging to one provider, so the day somebody else rents it the
+    # question becomes "what else will serve this image" - and that question is
+    # not about a card name, it is about CUDA, link speed and VRAM. Without
+    # this, dropping --machine fell back to the default card and reported no
+    # candidates while two A4000s sat there rentable.
     offers = _json_cli("search", "offers", " ".join(query), "-o", "dph")
     if not offers:
         if args.machine:
@@ -263,8 +269,8 @@ def cmd_offers(args: argparse.Namespace) -> None:
                 )
             )
         raise SystemExit(
-            f"No {args.gpu} under ${args.max_price}/hr met the filters.\n"
-            "Try a different card or raise --max-price."
+            f"No {args.gpu or 'GPU'} under ${args.max_price}/hr met the filters.\n"
+            'Try `--gpu ""` to search every card, or raise --max-price.'
         )
 
     if args.min_cuda:
@@ -276,7 +282,8 @@ def cmd_offers(args: argparse.Namespace) -> None:
         offers = [o for o in offers if _cuda(o) >= args.min_cuda]
         if not offers:
             raise SystemExit(
-                f"No {args.gpu} offer has a driver supporting CUDA {args.min_cuda}."
+                f"No {args.gpu or 'GPU'} offer has a driver supporting CUDA "
+                f"{args.min_cuda}."
             )
 
     print(
@@ -297,7 +304,10 @@ def cmd_offers(args: argparse.Namespace) -> None:
     hours = _ESTIMATED_HOURS.get(args.gpu, 7)
     cheapest = offers[0]
     print(
-        f"\nA 100-epoch run is roughly {hours} hours on a {args.gpu.replace('_', ' ')},"
+        f"\nA 100-epoch run is roughly {hours} hours on a "
+        # Named from the cheapest offer when no card was asked for, because
+        # "roughly 7 hours on a , so about $0.64" is what it printed otherwise.
+        f"{args.gpu.replace('_', ' ') if args.gpu else cheapest.get('gpu_name', 'GPU')},"
         f" so about ${cheapest['dph_total'] * hours:.2f} at the cheapest offer above."
         "\nThat is an estimate; the two-epoch smoke test gives the real number."
     )
@@ -868,7 +878,15 @@ def main() -> None:
     sub = parser.add_subparsers(dest="command", required=True)
 
     offers = sub.add_parser("offers", help="what is available and what it costs")
-    offers.add_argument("--gpu", default="RTX_3060")
+    offers.add_argument(
+        "--gpu",
+        default="RTX_3060",
+        help=(
+            "card to search for, as vast.ai names it: RTX_3060, RTX_A4000. "
+            'Pass an empty string ("") to search every card, which is what to '
+            "do when the pinned host is taken."
+        ),
+    )
     offers.add_argument("--max-price", type=float, default=0.40)
     offers.add_argument(
         "--min-vram",

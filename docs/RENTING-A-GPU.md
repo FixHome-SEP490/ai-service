@@ -9,6 +9,35 @@ Có hai loại máy, đừng lẫn: **máy train** (chạy YOLO, dùng một l�
 
 ---
 
+## Khi máy đã chốt bị người khác thuê
+
+`machine_id 27076` là **một máy vật lý của một người cho thuê**, không phải một
+loại máy. Ai thuê trước thì nó biến mất khỏi danh sách cho tới khi trả, và điều
+đó sẽ xảy ra.
+
+Trước khi kết luận là mất máy, chạy `status` — máy do **chính mình** đang thuê
+cũng không còn xuất hiện trong danh sách cho thuê, và đó là nhầm lẫn hay gặp
+nhất.
+
+Nếu máy bận thật, tìm theo tiêu chuẩn thay vì theo tên card:
+
+```
+python tools/rent_gpu.py offers --gpu "" --min-vram 12 --min-cuda 13.0 --min-download 3000
+```
+
+`--gpu ""` là tìm **mọi loại card**. Không có nó thì lệnh ngầm lọc đúng RTX 3060
+theo mặc định và báo không có máy nào, trong khi A4000 vẫn đang rảnh — đã dính
+một lần.
+
+Đo ngày 18/09: câu lệnh trên trả về **11 máy đạt chuẩn**, từ A4000 $0,092 tới
+RTX 3090 $0,402, gồm cả 4070 Ti, 5060 Ti, V100, 4090. Nói cách khác nguồn cung
+rộng; thứ hiếm không phải GPU mà là **CUDA ≥ 13.0 cộng đường truyền ≥ 3 Gb/s**.
+
+Chọn máy thì **ưu tiên reliability rồi mới tới giá**. Chênh lệch giá cả ngày
+chưa tới một đô; một lần thuê hỏng mất 15–30 phút.
+
+---
+
 ## Máy serve: chốt con A4000 này
 
     machine_id 27076    host_id 150602
