@@ -68,7 +68,7 @@ _TRADE_WORDS = (
     # "mấy", the word every counting question ends with: "2 cộng 2 bằng mấy"
     # was answered because of it. Appliances are recognised by name through
     # devices_named_in, which is the better signal anyway.
-    "lap dat", "thiet bi", "bong", "o cam", "cong tac", "voi", "bon",
+    "lap dat", "thiet bi", "bong", "den", "o cam", "cong tac", "voi", "bon",
     "ong ", "quat", "lo ", "bep", "tu ", "binh ", "aptomat", "gas",
     # Asking what to book is the point of the whole conversation, and it was
     # being refused as off-topic: "giờ tôi nên thuê dịch vụ nào" came back with
@@ -1287,8 +1287,14 @@ class LocalPipeline:
         """
         if device_hint.devices_named_in(question, self._kb):
             return True
-        folded = unicodedata.normalize("NFD", question.lower())
-        folded = "".join(c for c in folded if unicodedata.category(c) != "Mn")
+        # _fold_vi, not a local copy of it. The copy that was here normalised and
+        # stripped combining marks but never mapped đ to d, and the tokeniser
+        # that follows keeps only [a-z0-9] — so every đ was deleted rather than
+        # folded. "Bị rò điện" arrived as "bi ro ien" and "bóng đèn" as "bong
+        # en", which means a message about electricity or lighting — two of the
+        # four things FixHome repairs — matched no trade word at all and was
+        # refused as off-topic whenever it did not also name an appliance.
+        folded = _fold_vi(question)
         # Whole words. Substring matching on folded text let three off-topic
         # questions through in a live run, each on a word that is not there:
         # "2 cộng 2 bằng mấy" contains "ong " and was read as a pipe, "trời đẹp
