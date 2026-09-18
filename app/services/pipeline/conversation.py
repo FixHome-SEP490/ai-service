@@ -69,6 +69,21 @@ class Turn:
     text_vi: str
     at: float = field(default_factory=time.time)
 
+    carried_a_symptom: bool = True
+    """Whether this turn said anything the retriever could work with.
+
+    Set False for a turn the service answered by asking what the appliance was,
+    because such a turn has no symptom in it by definition. It stays in the
+    thread the model is shown - the conversation has to read like one - but it
+    is kept out of the retrieval query, where it does damage.
+
+    "nhà em có cái máy bị hỏng" is the case that found this. On its own it says
+    nothing, yet every word of it is a word the symptom lists use, so joined
+    with a later real symptom it out-scored it: the same sentence that
+    retrieves a gas shortage in a fresh conversation retrieved a broken remote
+    control two turns into one, and the advice came back as "thử thay pin".
+    """
+
 
 @dataclass
 class Conversation:
@@ -134,6 +149,32 @@ class Conversation:
         retriever is given the lot.
         """
         return " ".join(t.text_vi for t in self.turns if t.role == "customer")
+
+    def symptom_text(self) -> str:
+        """The same, minus the turns that carried no symptom.
+
+        For retrieval only. Everything else — the prompt, the scope check, the
+        device hint — still sees the whole conversation, because a turn with no
+        symptom in it can still name the appliance, and because the model has
+        to see what was actually said.
+
+        Falls back to the full text when every turn has been marked, so a
+        conversation that is all questions still retrieves something rather
+        than searching for the empty string.
+        """
+        kept = [
+            turn.text_vi
+            for turn in self.turns
+            if turn.role == "customer" and turn.carried_a_symptom
+        ]
+        return " ".join(kept) if kept else self.customer_text()
+
+    def this_turn_had_no_symptom(self) -> None:
+        """Mark the newest customer turn as contributing nothing to retrieval."""
+        for turn in reversed(self.turns):
+            if turn.role == "customer":
+                turn.carried_a_symptom = False
+                return
 
     def remember_device(self, device_type: str, confidence: float, source_vi: str) -> None:
         self.device_type = device_type

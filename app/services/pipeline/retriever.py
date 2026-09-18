@@ -37,6 +37,7 @@ _STOPWORDS = frozenset(
     mot hai ba cac nhung moi tung ca het rat qua lam hoi
     ra vao len xuong di ve lai nua con chi moi vua
     xin nho giup hoi sua kiem tra xem nao
+    cai chiec
     """.split()
 )
 """Eight fillers are deliberately absent. Seven for one reason and one for another.
