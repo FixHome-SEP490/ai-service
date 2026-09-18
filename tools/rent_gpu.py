@@ -757,7 +757,28 @@ def _instance_id_for(explicit: Optional[int], path: Path) -> int:
 
 
 def _instance_id(explicit: Optional[int]) -> int:
-    return _instance_id_for(explicit, INSTANCE_FILE)
+    """The instance a bare `destroy` should act on.
+
+    Either file will do, because there is only ever one of each and the
+    question being asked is "the machine I rented". Looking only in the
+    trainer's file was a trap: serving is the thing rented most days, so the
+    common case was `destroy` refusing with "no .vast-instance" while an A4000
+    kept billing, and the operator reading that as "nothing is rented".
+
+    The serving file is checked first for the same reason - it is the one that
+    is usually there, and the one that never self-destructs.
+    """
+    if explicit:
+        return explicit
+    for path in (SERVE_INSTANCE_FILE, INSTANCE_FILE):
+        if path.exists():
+            return int(path.read_text().strip())
+    raise SystemExit(
+        "No instance id given, and neither "
+        f"{SERVE_INSTANCE_FILE.name} nor {INSTANCE_FILE.name} exists.\n"
+        "Run `status` to list what is actually rented, then\n"
+        "`destroy --instance <id>`."
+    )
 
 
 def _instances() -> List[dict]:
