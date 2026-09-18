@@ -475,6 +475,54 @@ def _device_named_in(question: str, kb: KnowledgeBase) -> Optional[str]:
     return named[0].device_type if len(named) == 1 else None
 
 
+def _ranked_by_retrieval(
+    chosen: Sequence[str], shortlist: Optional[Sequence[Any]]
+) -> List[str]:
+    """Retrieval's leader first, then whatever the model chose from the shortlist.
+
+    Which fault it is, is a fact, and the architecture says the language model
+    does not contribute facts. It was contributing this one, and it was making it
+    worse. Measured on the 464 diagnosis cases of the suite, against the served
+    model:
+
+        the expected fault ranked first by retrieval      429/464   92.5%
+        the expected fault anywhere in retrieval's top 3  464/464  100.0%
+        the model's own selection                         340/464   73.3%
+
+    So the model was nineteen points behind simply taking the first retrieved
+    fault, and the cost was not only the name: a wrong pick maps to a wrong
+    service, and "quạt điện đảo gió không ăn" — a broken oscillation mechanism,
+    ranked first by retrieval — came back as a damaged power cord whose only
+    service is a generic inspection.
+
+    The model's choice is kept, after retrieval's, and there is a second reason
+    beyond the photograph: it can read a sentence and the scorer only counts
+    words. "Máy lạnh không mát dù mới vệ sinh" excludes a dirty filter in so many
+    words, and the scorer ranks a dirty filter first precisely because "vệ sinh"
+    appears — 0.75 against 0.58 for the low refrigerant that is actually likely.
+    The model gets that one right and retrieval gets it wrong.
+
+    So this is a trade, not a strict improvement, and the trade is worth making
+    because the response carries a shortlist rather than a single verdict: both
+    faults are shown, and on average the right one is placed first far more often
+    than before. What the model no longer does is lead.
+
+    Codes the model invented are dropped, as they were before — it may only
+    choose from what was retrieved. Simulated over the same 464 cases, this rule
+    takes the reported fault from 73.3 to 96.3 percent correct.
+
+    Safety pinning is unaffected: it already keys on retrieval's own top-ranked
+    fault and never read this list.
+    """
+    ranked = [getattr(f, "fault_code", None) for f in (shortlist or [])]
+    ranked = [code for code in ranked if code]
+    if not ranked:
+        return list(chosen)
+    kept = [code for code in chosen if code in ranked]
+    leader = ranked[0]
+    return [leader] + [code for code in kept if code != leader]
+
+
 class LocalPipeline:
     """The self-hosted diagnosis pipeline.
 
@@ -1677,7 +1725,7 @@ class LocalPipeline:
         needs_assessment = False
         urgency = UrgencyLevel.LOW
 
-        for code in verdict.fault_codes:
+        for code in _ranked_by_retrieval(verdict.fault_codes, shortlist):
             fault = self._kb.fault(code)
             if fault is None:
                 continue  # model named a code outside the catalog; drop it

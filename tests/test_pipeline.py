@@ -109,8 +109,15 @@ async def test_vietnamese_content_comes_from_knowledge_base():
     )
     response = await _after_the_either_or(pipeline, "Quạt kêu cộc cộc", [_png()])
 
-    fault = kb.fault("FAN_WORN_BEARING")
-    assert response.suspected_faults[0].name_vi == fault.name_vi
+    # Every reported name comes from the catalogue, whichever fault leads. This
+    # used to name FAN_WORN_BEARING and read the first entry, which stopped
+    # holding when retrieval rather than the model began deciding the order —
+    # and what the test is really for is that no Vietnamese is invented here.
+    assert response.suspected_faults
+    for suspected in response.suspected_faults:
+        assert suspected.name_vi == kb.fault(suspected.fault_code).name_vi
+
+    fault = kb.fault(response.suspected_faults[0].fault_code)
     assert response.price_estimate.min == fault.price_min
     if fault.requires_assessment:
         # No labour row covers re-oiling a fan bearing and no part stands in for
@@ -180,7 +187,15 @@ async def test_text_only_request_still_works_without_detector_signal():
 
     assert response.status == DiagnosisStatus.OK
     assert response.device is None
-    assert response.suspected_faults[0].fault_code == "AC_LOW_REFRIGERANT"
+    # Present, but no longer first, and this case is why that trade-off is
+    # written down rather than assumed away. "Dù mới vệ sinh" rules out a dirty
+    # filter in so many words, and the lexical scorer ranks a dirty filter first
+    # *because* "vệ sinh" is in the sentence — 0.75 against 0.58. The model reads
+    # the exclusion and retrieval cannot, so here the model is right; across the
+    # 464 diagnosis cases of the suite it was nineteen points worse than taking
+    # the first retrieved fault. Both are reported, and retrieval leads.
+    codes = [f.fault_code for f in response.suspected_faults]
+    assert "AC_LOW_REFRIGERANT" in codes, codes
 
 
 @pytest.mark.asyncio
