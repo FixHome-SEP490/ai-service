@@ -238,3 +238,71 @@ class TestTheCollisionsThatHaveBittenBefore:
     def test_a_switch_is_not_a_drain(self, kb):
         # `cống` folds to `cong`, and so does `công`.
         assert lp._device_asked_for_now("thay công tắc điện", kb) == "power_outlet"
+
+
+# ---------------------------------------------------------------------------
+# Driven through the pipeline, because the helper being right was never enough
+# ---------------------------------------------------------------------------
+#
+# Every case above passed while the running service got fourteen of sixteen
+# wrong. The helper understood the sentence; only one of the two routes that
+# reach it asked. "Bỏ máy lạnh đi, đặt tủ lạnh" carries no booking verb, so it
+# arrives on the diagnosis path, which was not consulting the helper at all.
+#
+# These drive the whole pipeline with a session in play, which is the shape the
+# service is actually used in.
+
+
+class _NoDetector:
+    async def detect(self, image):
+        return []
+
+
+def _pipeline():
+    from app.services.pipeline.local_pipeline import LocalPipeline
+    from app.services.pipeline.retriever import Retriever
+    from app.services.pipeline.vlm import StubVlm
+
+    knowledge = get_knowledge_base()
+    return LocalPipeline(
+        detector=_NoDetector(),
+        vlm=StubVlm(),
+        retriever=Retriever(knowledge),
+        kb=knowledge,
+    )
+
+
+SWITCHING_END_TO_END = [
+    ("bỏ máy lạnh đi, đặt tủ lạnh", "TU_LANH"),
+    ("không phải máy lạnh đâu, tủ lạnh", "TU_LANH"),
+    ("huỷ máy lạnh, đặt tủ lạnh giúp em", "TU_LANH"),
+    ("thôi không máy lạnh nữa, tủ lạnh đi", "TU_LANH"),
+    ("em nhầm rồi, là tủ lạnh", "TU_LANH"),
+    ("đổi sang thợ sửa máy giặt", "MAY_GIAT"),
+    ("đặt cho tôi thợ sửa ống nước", "NUOC"),
+]
+
+
+@pytest.mark.asyncio
+@pytest.mark.parametrize(
+    "sentence,expected", list(both_spellings(SWITCHING_END_TO_END))
+)
+async def test_the_service_offered_follows_the_change_of_mind(sentence, expected):
+    from app.schemas.diagnosis import DiagnosisRequest
+
+    pipeline = _pipeline()
+    first = await pipeline.diagnose(
+        DiagnosisRequest(description="máy lạnh nhà em không mát")
+    )
+    switched = await pipeline.diagnose(
+        DiagnosisRequest(description=sentence, session_id=first.session_id)
+    )
+
+    codes = [service.service_code for service in switched.recommended_services]
+    assert codes, "a turn that names an appliance must always offer something"
+    assert any(expected in code for code in codes), (
+        f"{sentence!r} still offering {codes}"
+    )
+    assert not any("DIEU_HOA" in code for code in codes), (
+        f"{sentence!r} kept the appliance it was moving away from: {codes}"
+    )
