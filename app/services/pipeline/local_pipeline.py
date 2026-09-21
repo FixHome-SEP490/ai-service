@@ -305,6 +305,15 @@ def _wants_to_book(text: str) -> bool:
         return any(f" {obj} " in padded for obj in _BOOKING_WHO + _BOOKING_WHAT)
     if words & _WEAK_BOOKING_VERBS:
         return any(f" {obj} " in padded for obj in _BOOKING_WHO)
+
+    # Redirecting an order is ordering. "Đổi sang thợ sửa tủ lạnh giúp em"
+    # carries none of the verbs above, so it read as a description and came
+    # back as a diagnosis of the appliance the customer had just moved away
+    # from. Someone who is changing what they are about to book has already
+    # stopped describing.
+    if any(f" {phrase} " in padded for phrase in _WANTS_THE_ONE_AFTER):
+        return any(f" {obj} " in padded for obj in _BOOKING_WHO + _BOOKING_WHAT)
+
     return False
 
 
@@ -473,6 +482,59 @@ def _device_named_in(question: str, kb: KnowledgeBase) -> Optional[str]:
     """
     named = device_hint.devices_named_in(question, kb)
     return named[0].device_type if len(named) == 1 else None
+
+
+_WANTS_THE_ONE_BEFORE = ("thay vi", "thay cho", "chu khong phai", "khong phai")
+"""Switch phrases where the appliance the customer wants is named first.
+
+"thợ điện nước thay vì thợ máy lạnh" — the plumber is wanted, the air
+conditioning is what they are moving away from.
+"""
+
+_WANTS_THE_ONE_AFTER = ("doi sang", "doi qua", "doi thanh", "chuyen sang", "chuyen qua")
+"""And where it is named second: "đổi sang vệ sinh máy lạnh"."""
+
+
+def _device_asked_for_now(latest: str, kb: KnowledgeBase) -> Optional[str]:
+    """The appliance this turn asks for, when it is changing the subject.
+
+    A session remembers the appliance so a bare follow-up still means
+    something, and that is right until the customer changes their mind. Then it
+    is exactly wrong: told "máy lạnh không mát" and then "em đổi ý, đặt thợ sửa
+    ống nước nhé", the service offered stayed air conditioning, because the
+    remembered appliance beat the sentence that had just replaced it. Measured
+    on the running service: every way of asking to switch came back with the
+    original service.
+
+    Two shapes, and they point opposite ways. "A thay vì B" wants A; "đổi sang
+    B" wants B. Naming both without a switch phrase is not a change of mind —
+    it is one sentence mentioning two appliances, which the resolver already
+    refuses to guess at.
+
+    Returns None when this turn is not changing anything, which is the common
+    case and leaves the session in charge.
+    """
+    folded = _fold_vi(latest)
+    padded = " " + " ".join(re.findall(r"[a-z0-9]+", folded)) + " "
+
+    for phrase in _WANTS_THE_ONE_AFTER:
+        position = padded.find(f" {phrase} ")
+        if position >= 0:
+            wanted = _device_named_in(padded[position + len(phrase) :], kb)
+            if wanted:
+                return wanted
+
+    for phrase in _WANTS_THE_ONE_BEFORE:
+        position = padded.find(f" {phrase} ")
+        if position >= 0:
+            wanted = _device_named_in(padded[:position], kb)
+            if wanted:
+                return wanted
+
+    # No switch phrase. A turn that names one appliance on its own still
+    # changes the subject - "tủ lạnh cũng hỏng nữa" is about the fridge now -
+    # and a turn naming none leaves the session's appliance alone.
+    return _device_named_in(latest, kb)
 
 
 def _ranked_by_retrieval(
@@ -1141,11 +1203,30 @@ class LocalPipeline:
         đặt lịch" on its own does not say what to book and the ordinary path
         already asks that well.
         """
-        device_type = chat.device_type or _device_named_in(
-            chat.customer_text(), self._kb
+        # This turn first, because a customer who says "đổi sang thợ điện
+        # nước" has changed the subject and the pinned booking has to follow
+        # them. The session's appliance is the fallback, not the authority:
+        # holding on to it meant every way of asking to switch came back with
+        # the service they were trying to move away from.
+        changed_to = _device_asked_for_now(request.description, self._kb)
+        device_type = (
+            changed_to
+            or chat.device_type
+            or _device_named_in(chat.customer_text(), self._kb)
         )
         if device_type is None:
             return self._booking_needs_the_appliance(request, chat, trace)
+
+        if changed_to and changed_to != chat.device_type:
+            # Remembered, or the next bare follow-up would snap back to the
+            # appliance they had just replaced.
+            chat.remember_device(changed_to, 0.0, "description")
+            trace.add(
+                "device",
+                True,
+                f"Khách đổi sang {changed_to}",
+                device=changed_to,
+            )
 
         # Which service, from the faults that fit what they have said. A
         # cleaning and a repair are different services at different prices, and
