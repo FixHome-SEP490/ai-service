@@ -311,7 +311,7 @@ def _wants_to_book(text: str) -> bool:
     # back as a diagnosis of the appliance the customer had just moved away
     # from. Someone who is changing what they are about to book has already
     # stopped describing.
-    if any(f" {phrase} " in padded for phrase in _WANTS_THE_ONE_AFTER):
+    if any(f" {phrase} " in padded for phrase in _ASKS_FOR):
         return any(f" {obj} " in padded for obj in _BOOKING_WHO + _BOOKING_WHAT)
 
     return False
@@ -484,15 +484,52 @@ def _device_named_in(question: str, kb: KnowledgeBase) -> Optional[str]:
     return named[0].device_type if len(named) == 1 else None
 
 
-_WANTS_THE_ONE_BEFORE = ("thay vi", "thay cho", "chu khong phai", "khong phai")
-"""Switch phrases where the appliance the customer wants is named first.
+_ASKS_FOR = ("doi sang", "doi qua", "doi thanh", "chuyen sang", "chuyen qua", "doi lai thanh")
+"""Phrases where the appliance the customer wants is named straight after.
 
-"thợ điện nước thay vì thợ máy lạnh" — the plumber is wanted, the air
-conditioning is what they are moving away from.
+"đổi sang vệ sinh máy lạnh", "chuyển qua tủ lạnh đi". There is nothing to work
+out: the next appliance named is the one they asked for.
 """
 
-_WANTS_THE_ONE_AFTER = ("doi sang", "doi qua", "doi thanh", "chuyen sang", "chuyen qua")
-"""And where it is named second: "đổi sang vệ sinh máy lạnh"."""
+_REJECTS = (
+    "thay vi", "thay cho", "chu khong phai", "khong phai", "khong con",
+    "bo", "huy", "thoi khong", "khong lay", "khong can", "dung dat",
+)
+"""Phrases where the appliance named next is the one being turned down.
+
+This is the shape that the first version got wrong, because it assumed the
+rejection always came second. Customers put it on either side:
+
+    "thợ tủ lạnh thay vì thợ máy lạnh"      the air conditioning is refused
+    "không phải máy lạnh đâu, tủ lạnh"      the air conditioning is refused
+    "bỏ máy lạnh đi, đặt tủ lạnh"           the air conditioning is refused
+
+In all three the marker sits immediately before the appliance being dropped,
+and what the customer wants is simply the other one they named. Reading the
+position of the wanted appliance instead of the position of the refusal made
+half of these resolve to nothing.
+"""
+
+
+def _first_device_in(folded_text: str, kb: KnowledgeBase) -> Optional[str]:
+    """The appliance named earliest in an already-folded string.
+
+    Needed because a refusal marker is followed by the appliance being refused
+    and then, often, by the one being asked for: "bỏ máy lạnh đi, đặt tủ lạnh".
+    Resolving the whole tail finds two appliances and gives up, which left
+    every sentence of this shape changing nothing.
+    """
+    earliest: Optional[str] = None
+    earliest_at = len(folded_text) + 1
+
+    for hint in device_hint.devices_named_in(folded_text, kb):
+        for alias in kb.aliases_vi(hint.device_type):
+            at = folded_text.find(_fold_vi(alias).strip())
+            if 0 <= at < earliest_at:
+                earliest_at = at
+                earliest = hint.device_type
+
+    return earliest
 
 
 def _device_asked_for_now(latest: str, kb: KnowledgeBase) -> Optional[str]:
@@ -506,32 +543,49 @@ def _device_asked_for_now(latest: str, kb: KnowledgeBase) -> Optional[str]:
     on the running service: every way of asking to switch came back with the
     original service.
 
-    Two shapes, and they point opposite ways. "A thay vì B" wants A; "đổi sang
-    B" wants B. Naming both without a switch phrase is not a change of mind —
-    it is one sentence mentioning two appliances, which the resolver already
-    refuses to guess at.
+    Three steps, in order of how directly the customer said it. An explicit
+    "đổi sang X" names X and needs no reasoning. Otherwise anything marked as
+    refused is removed, and if exactly one appliance is left standing, that is
+    the one. Failing both, a sentence naming a single appliance changes the
+    subject to it.
 
-    Returns None when this turn is not changing anything, which is the common
-    case and leaves the session in charge.
+    Naming two appliances with no marker at all still resolves to nothing:
+    "máy lạnh với tủ lạnh nhà em đều cũ rồi" is one sentence about two
+    machines, and guessing which to book is worse than leaving the session in
+    charge.
+
+    Returns None when this turn changes nothing, which is the common case.
     """
     folded = _fold_vi(latest)
     padded = " " + " ".join(re.findall(r"[a-z0-9]+", folded)) + " "
 
-    for phrase in _WANTS_THE_ONE_AFTER:
+    for phrase in _ASKS_FOR:
         position = padded.find(f" {phrase} ")
         if position >= 0:
             wanted = _device_named_in(padded[position + len(phrase) :], kb)
             if wanted:
                 return wanted
 
-    for phrase in _WANTS_THE_ONE_BEFORE:
+    refused = set()
+    for phrase in _REJECTS:
         position = padded.find(f" {phrase} ")
-        if position >= 0:
-            wanted = _device_named_in(padded[:position], kb)
-            if wanted:
-                return wanted
+        while position >= 0:
+            # Only as far as the next refusal or the end: "bỏ máy lạnh đi, đặt
+            # tủ lạnh" must refuse the air conditioner without also refusing
+            # the fridge that follows it.
+            after = padded[position + len(phrase) + 1 :]
+            dropped = _first_device_in(after, kb)
+            if dropped:
+                refused.add(dropped)
+            position = padded.find(f" {phrase} ", position + 1)
 
-    # No switch phrase. A turn that names one appliance on its own still
+    if refused:
+        named = [d.device_type for d in device_hint.devices_named_in(padded, kb)]
+        left = [d for d in named if d not in refused]
+        if len(left) == 1:
+            return left[0]
+
+    # No marker at all. A turn that names one appliance on its own still
     # changes the subject - "tủ lạnh cũng hỏng nữa" is about the fridge now -
     # and a turn naming none leaves the session's appliance alone.
     return _device_named_in(latest, kb)

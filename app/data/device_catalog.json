@@ -232,7 +232,11 @@
         "bồn cầu",
         "bon cau",
         "toilet",
-        "cầu tiêu"
+        "cầu tiêu",
+        "thông tắc bồn cầu",
+        "thông bồn cầu",
+        "nghẹt bồn cầu",
+        "tắc bồn cầu"
       ],
       "confusable_with": []
     },
@@ -252,7 +256,11 @@
         "ổ cắm tường",
         "chỗ cắm điện",
         "cắm sạc",
-        "phích"
+        "phích",
+        "công tắc",
+        "cong tac",
+        "thay công tắc",
+        "công tắc tường"
       ],
       "confusable_with": [
         "light_bulb"
@@ -274,7 +282,19 @@
         "công tắc đèn",
         "đèn nhà tắm",
         "đèn phòng",
-        "bóng đèn nhà tắm"
+        "bóng đèn nhà tắm",
+        "lắp đèn",
+        "lap den",
+        "sửa đèn",
+        "sua den",
+        "thay đèn",
+        "thay bóng",
+        "lắp bóng đèn",
+        "đèn hỏng",
+        "đèn cháy",
+        "đèn không sáng",
+        "đèn chớp",
+        "đèn nhấp nháy"
       ],
       "confusable_with": [
         "power_outlet"
@@ -295,7 +315,14 @@
         "đường cống",
         "nước máy",
         "cống nhà tắm",
-        "cống thoát"
+        "cống thoát",
+        "thông cống",
+        "thong cong",
+        "thông tắc cống",
+        "tắc cống",
+        "nghẹt cống",
+        "cống bị tắc",
+        "thoát nước bị tắc"
       ],
       "confusable_with": [],
       "source_note": "774 anh tu thu thap, bat detector_class sau khi co du lieu"
@@ -314,7 +341,11 @@
         "bình tắm nóng lạnh",
         "bình nước nóng",
         "bình nóng",
-        "nước nóng"
+        "nước nóng",
+        "nóng lạnh",
+        "nong lanh",
+        "máy nóng lạnh",
+        "bình nước nóng lạnh"
       ],
       "confusable_with": []
     },
