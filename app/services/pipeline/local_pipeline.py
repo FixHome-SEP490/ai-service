@@ -781,8 +781,29 @@ class LocalPipeline:
         device_type, _hint = device_hint.resolve(
             request.description, detected, self._kb
         )
+
+        # A change of mind is not always phrased as an order. "Em nhầm rồi, là
+        # tủ lạnh" and "bỏ máy lạnh đi, đặt tủ lạnh" carry no booking verb, so
+        # they arrive here rather than on the booking path, and until this was
+        # added the appliance they replaced stayed in place: measured on the
+        # running service, fourteen of sixteen switch phrasings came back with
+        # the air conditioning they were moving away from. The unit tests
+        # passed throughout, because the understanding was never the problem -
+        # only half the routes consulted it.
+        switched_to = _device_asked_for_now(request.description, self._kb)
+        changed_appliance = bool(
+            switched_to and chat.device_type and switched_to != chat.device_type
+        )
+
         if detection is not None:
             chat.remember_device(detection.device_type, detection.confidence, "image")
+        elif changed_appliance and switched_to:
+            # Ahead of the photograph guard below, because a customer who names
+            # a different appliance in words has said something the photograph
+            # cannot contradict: the picture was of the old one.
+            chat.remember_device(switched_to, 0.0, "description")
+            device_type = switched_to
+            trace.add("device", True, f"Khách đổi sang {switched_to}", device=switched_to)
         elif device_type and chat.device_source_vi != "image":
             # Only when nothing better is already known. Without the guard this
             # overwrote the appliance a photograph had established — including
@@ -795,8 +816,15 @@ class LocalPipeline:
         # with no subject, so the retriever sees everything said so far - minus
         # the turns that were answered by asking which appliance it was, which
         # carry no symptom and do measurable harm when joined in.
+        #
+        # Unless the appliance just changed. Then the accumulated symptoms
+        # belong to the machine being abandoned, and searching for them under
+        # the new one finds nothing: "máy lạnh không mát" retrieved against a
+        # toilet matched no fault at all, and the answer fell back to a generic
+        # inspection. Symptoms accumulate per appliance, not per conversation.
+        searched = request.description if changed_appliance else chat.symptom_text()
         candidates = self._retriever.candidate_faults(
-            description=chat.symptom_text(),
+            description=searched,
             device_type=device_type,
             top_k=settings.VLM_SHORTLIST_SIZE,
         )
