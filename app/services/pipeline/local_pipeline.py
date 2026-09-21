@@ -1313,8 +1313,18 @@ class LocalPipeline:
         # Which service, from the faults that fit what they have said. A
         # cleaning and a repair are different services at different prices, and
         # "đặt lịch vệ sinh máy lạnh" names the cheaper one outright.
+        #
+        # After a switch, only this turn. The accumulated symptoms belong to
+        # the appliance being abandoned, and searching for them under the new
+        # one matches nothing in particular: "máy lạnh không mát" against a
+        # water pipe found no fault worth the name, and which service came back
+        # then depended on how ties broke - so the same sentence gave a pipe
+        # repair on one machine and a generic inspection on another, and CI and
+        # a developer's laptop disagreed about it.
         candidates = self._retriever.candidate_faults(
-            chat.symptom_text(), device_type, top_k=settings.VLM_SHORTLIST_SIZE
+            request.description if changed_to else chat.symptom_text(),
+            device_type,
+            top_k=settings.VLM_SHORTLIST_SIZE,
         )
         services: List[RecommendedService] = []
         # The catalogue's own price, kept beside the service it belongs to. The
