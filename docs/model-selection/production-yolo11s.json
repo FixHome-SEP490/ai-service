@@ -1,0 +1,292 @@
+{
+  "weights": "weights/detector-v2-yolo11s/detector-v2-yolo11s/weights/best.pt",
+  "split": "test",
+  "classes": [
+    {
+      "class": "air_conditioner",
+      "n": 461,
+      "correct": 435,
+      "missed": 8,
+      "wrong": 18,
+      "accuracy": 0.9436,
+      "confused_with": {
+        "water_heater": 4,
+        "water_purifier": 3,
+        "dishwasher": 3
+      }
+    },
+    {
+      "class": "power_outlet",
+      "n": 128,
+      "correct": 105,
+      "missed": 6,
+      "wrong": 17,
+      "accuracy": 0.8203,
+      "confused_with": {
+        "kettle": 3,
+        "smart_lock": 3,
+        "water_pipe": 2
+      }
+    },
+    {
+      "class": "kettle",
+      "n": 112,
+      "correct": 93,
+      "missed": 8,
+      "wrong": 11,
+      "accuracy": 0.8304,
+      "confused_with": {
+        "light_bulb": 2,
+        "oven": 2,
+        "toilet": 2
+      }
+    },
+    {
+      "class": "sink",
+      "n": 112,
+      "correct": 103,
+      "missed": 2,
+      "wrong": 7,
+      "accuracy": 0.9196,
+      "confused_with": {
+        "gas_stove": 2,
+        "faucet": 2,
+        "dishwasher": 1
+      }
+    },
+    {
+      "class": "electric_fan",
+      "n": 111,
+      "correct": 94,
+      "missed": 7,
+      "wrong": 10,
+      "accuracy": 0.8468,
+      "confused_with": {
+        "gas_stove": 1,
+        "ceiling_fan": 1,
+        "oven": 1
+      }
+    },
+    {
+      "class": "gas_stove",
+      "n": 97,
+      "correct": 85,
+      "missed": 2,
+      "wrong": 10,
+      "accuracy": 0.8763,
+      "confused_with": {
+        "oven": 2,
+        "water_pipe": 2,
+        "electric_fan": 2
+      }
+    },
+    {
+      "class": "smart_lock",
+      "n": 96,
+      "correct": 86,
+      "missed": 2,
+      "wrong": 8,
+      "accuracy": 0.8958,
+      "confused_with": {
+        "gas_stove": 2,
+        "induction_hob": 2,
+        "refrigerator": 1
+      }
+    },
+    {
+      "class": "light_bulb",
+      "n": 94,
+      "correct": 68,
+      "missed": 3,
+      "wrong": 23,
+      "accuracy": 0.7234,
+      "confused_with": {
+        "toilet": 3,
+        "water_heater": 2,
+        "power_outlet": 2
+      }
+    },
+    {
+      "class": "television",
+      "n": 90,
+      "correct": 79,
+      "missed": 3,
+      "wrong": 8,
+      "accuracy": 0.8778,
+      "confused_with": {
+        "air_conditioner": 3,
+        "smart_lock": 2,
+        "water_purifier": 1
+      }
+    },
+    {
+      "class": "water_pipe",
+      "n": 87,
+      "correct": 68,
+      "missed": 1,
+      "wrong": 18,
+      "accuracy": 0.7816,
+      "confused_with": {
+        "smart_lock": 4,
+        "faucet": 3,
+        "light_bulb": 3
+      }
+    },
+    {
+      "class": "faucet",
+      "n": 86,
+      "correct": 78,
+      "missed": 0,
+      "wrong": 8,
+      "accuracy": 0.907,
+      "confused_with": {
+        "sink": 2,
+        "oven": 1,
+        "water_pipe": 1
+      }
+    },
+    {
+      "class": "toilet",
+      "n": 82,
+      "correct": 68,
+      "missed": 3,
+      "wrong": 11,
+      "accuracy": 0.8293,
+      "confused_with": {
+        "water_heater": 2,
+        "electric_fan": 2,
+        "ceiling_fan": 1
+      }
+    },
+    {
+      "class": "clothes_dryer",
+      "n": 81,
+      "correct": 56,
+      "missed": 2,
+      "wrong": 23,
+      "accuracy": 0.6914,
+      "confused_with": {
+        "washing_machine": 9,
+        "dishwasher": 3,
+        "toilet": 3
+      }
+    },
+    {
+      "class": "microwave_oven",
+      "n": 78,
+      "correct": 60,
+      "missed": 2,
+      "wrong": 16,
+      "accuracy": 0.7692,
+      "confused_with": {
+        "oven": 5,
+        "water_pipe": 3,
+        "water_heater": 2
+      }
+    },
+    {
+      "class": "induction_hob",
+      "n": 78,
+      "correct": 66,
+      "missed": 1,
+      "wrong": 11,
+      "accuracy": 0.8462,
+      "confused_with": {
+        "gas_stove": 5,
+        "clothes_dryer": 1,
+        "sink": 1
+      }
+    },
+    {
+      "class": "washing_machine",
+      "n": 75,
+      "correct": 60,
+      "missed": 1,
+      "wrong": 14,
+      "accuracy": 0.8,
+      "confused_with": {
+        "clothes_dryer": 5,
+        "light_bulb": 2,
+        "induction_hob": 2
+      }
+    },
+    {
+      "class": "ceiling_fan",
+      "n": 73,
+      "correct": 64,
+      "missed": 2,
+      "wrong": 7,
+      "accuracy": 0.8767,
+      "confused_with": {
+        "electric_fan": 2,
+        "power_outlet": 2,
+        "light_bulb": 1
+      }
+    },
+    {
+      "class": "dishwasher",
+      "n": 72,
+      "correct": 62,
+      "missed": 2,
+      "wrong": 8,
+      "accuracy": 0.8611,
+      "confused_with": {
+        "clothes_dryer": 3,
+        "smart_lock": 1,
+        "sink": 1
+      }
+    },
+    {
+      "class": "refrigerator",
+      "n": 72,
+      "correct": 64,
+      "missed": 2,
+      "wrong": 6,
+      "accuracy": 0.8889,
+      "confused_with": {
+        "television": 1,
+        "smart_lock": 1,
+        "oven": 1
+      }
+    },
+    {
+      "class": "oven",
+      "n": 68,
+      "correct": 55,
+      "missed": 2,
+      "wrong": 11,
+      "accuracy": 0.8088,
+      "confused_with": {
+        "microwave_oven": 4,
+        "gas_stove": 2,
+        "washing_machine": 1
+      }
+    },
+    {
+      "class": "water_heater",
+      "n": 53,
+      "correct": 41,
+      "missed": 0,
+      "wrong": 12,
+      "accuracy": 0.7736,
+      "confused_with": {
+        "water_pipe": 2,
+        "microwave_oven": 2,
+        "faucet": 2
+      }
+    },
+    {
+      "class": "water_purifier",
+      "n": 45,
+      "correct": 38,
+      "missed": 0,
+      "wrong": 7,
+      "accuracy": 0.8444,
+      "confused_with": {
+        "clothes_dryer": 2,
+        "water_heater": 1,
+        "dishwasher": 1
+      }
+    }
+  ]
+}

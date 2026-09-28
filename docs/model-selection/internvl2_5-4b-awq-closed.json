@@ -1,0 +1,506 @@
+{
+  "model": "OpenGVLab/InternVL2_5-4B-AWQ",
+  "mode": "closed",
+  "served_by": "vllm/vllm-openai:v0.29.0, stock image, temperature 0",
+  "input": "whole photograph, no detector, no crop",
+  "question": "Look at the photograph and name the one household appliance it shows.\nAnswer with exactly one label from this list and nothing else:\n- air_conditioner (Máy lạnh)\n- ceiling_fan (Quạt trần)\n- electric_fan (Quạt điện)\n- washing_machine (Máy giặt)\n- refrigerator (Tủ lạnh)\n- microwave_oven (Lò vi sóng)\n- oven (Lò nướng)\n- gas_stove (Bếp gas)\n- kettle (Ấm đun nước)\n- television (Tivi)\n- sink (Bồn rửa)\n- faucet (Vòi nước)\n- toilet (Bồn cầu)\n- power_outlet (Ổ cắm điện)\n- light_bulb (Bóng đèn)\n- water_pipe (Đường ống nước)\n- water_heater (Máy nước nóng)\n- induction_hob (Bếp từ)\n- dishwasher (Máy rửa bát)\n- clothes_dryer (Máy sấy quần áo)\n- water_purifier (Máy lọc nước)\n- smart_lock (Khóa cửa thông minh)",
+  "split": "test",
+  "scorable": 2251,
+  "failed_calls": 0,
+  "correct": 1664,
+  "unparsed": 2,
+  "accuracy": 0.7392,
+  "accuracy_of_parsed": 0.7399,
+  "latency_s_median": 4.265,
+  "latency_s_p95": 6.872,
+  "per_class": [
+    {
+      "class": "air_conditioner",
+      "n": 461,
+      "correct": 354,
+      "unparsed": 0,
+      "wrong": 107,
+      "accuracy": 0.7679,
+      "confused_with": {
+        "power_outlet": 18,
+        "ceiling_fan": 16,
+        "washing_machine": 14
+      }
+    },
+    {
+      "class": "power_outlet",
+      "n": 128,
+      "correct": 115,
+      "unparsed": 0,
+      "wrong": 13,
+      "accuracy": 0.8984,
+      "confused_with": {
+        "smart_lock": 9,
+        "air_conditioner": 1,
+        "sink": 1
+      }
+    },
+    {
+      "class": "kettle",
+      "n": 112,
+      "correct": 67,
+      "unparsed": 0,
+      "wrong": 45,
+      "accuracy": 0.5982,
+      "confused_with": {
+        "water_purifier": 19,
+        "water_heater": 13,
+        "gas_stove": 4
+      }
+    },
+    {
+      "class": "sink",
+      "n": 112,
+      "correct": 99,
+      "unparsed": 0,
+      "wrong": 13,
+      "accuracy": 0.8839,
+      "confused_with": {
+        "water_pipe": 4,
+        "water_purifier": 2,
+        "dishwasher": 2
+      }
+    },
+    {
+      "class": "electric_fan",
+      "n": 111,
+      "correct": 90,
+      "unparsed": 0,
+      "wrong": 21,
+      "accuracy": 0.8108,
+      "confused_with": {
+        "ceiling_fan": 15,
+        "water_purifier": 3,
+        "air_conditioner": 1
+      }
+    },
+    {
+      "class": "gas_stove",
+      "n": 97,
+      "correct": 73,
+      "unparsed": 1,
+      "wrong": 23,
+      "accuracy": 0.7526,
+      "confused_with": {
+        "induction_hob": 16,
+        "ceiling_fan": 2,
+        "oven": 1
+      }
+    },
+    {
+      "class": "smart_lock",
+      "n": 96,
+      "correct": 88,
+      "unparsed": 0,
+      "wrong": 8,
+      "accuracy": 0.9167,
+      "confused_with": {
+        "power_outlet": 4,
+        "faucet": 2,
+        "induction_hob": 1
+      }
+    },
+    {
+      "class": "light_bulb",
+      "n": 94,
+      "correct": 72,
+      "unparsed": 1,
+      "wrong": 21,
+      "accuracy": 0.766,
+      "confused_with": {
+        "ceiling_fan": 7,
+        "power_outlet": 4,
+        "smart_lock": 3
+      }
+    },
+    {
+      "class": "television",
+      "n": 90,
+      "correct": 83,
+      "unparsed": 0,
+      "wrong": 7,
+      "accuracy": 0.9222,
+      "confused_with": {
+        "power_outlet": 4,
+        "induction_hob": 1,
+        "light_bulb": 1
+      }
+    },
+    {
+      "class": "water_pipe",
+      "n": 87,
+      "correct": 40,
+      "unparsed": 0,
+      "wrong": 47,
+      "accuracy": 0.4598,
+      "confused_with": {
+        "faucet": 19,
+        "water_purifier": 13,
+        "water_heater": 8
+      }
+    },
+    {
+      "class": "faucet",
+      "n": 86,
+      "correct": 65,
+      "unparsed": 0,
+      "wrong": 21,
+      "accuracy": 0.7558,
+      "confused_with": {
+        "water_purifier": 13,
+        "sink": 3,
+        "water_heater": 2
+      }
+    },
+    {
+      "class": "toilet",
+      "n": 82,
+      "correct": 57,
+      "unparsed": 0,
+      "wrong": 25,
+      "accuracy": 0.6951,
+      "confused_with": {
+        "water_purifier": 9,
+        "faucet": 6,
+        "sink": 4
+      }
+    },
+    {
+      "class": "clothes_dryer",
+      "n": 81,
+      "correct": 18,
+      "unparsed": 0,
+      "wrong": 63,
+      "accuracy": 0.2222,
+      "confused_with": {
+        "washing_machine": 48,
+        "water_purifier": 4,
+        "electric_fan": 4
+      }
+    },
+    {
+      "class": "microwave_oven",
+      "n": 78,
+      "correct": 42,
+      "unparsed": 0,
+      "wrong": 36,
+      "accuracy": 0.5385,
+      "confused_with": {
+        "induction_hob": 9,
+        "oven": 8,
+        "power_outlet": 6
+      }
+    },
+    {
+      "class": "induction_hob",
+      "n": 78,
+      "correct": 68,
+      "unparsed": 0,
+      "wrong": 10,
+      "accuracy": 0.8718,
+      "confused_with": {
+        "television": 5,
+        "water_purifier": 1,
+        "gas_stove": 1
+      }
+    },
+    {
+      "class": "washing_machine",
+      "n": 75,
+      "correct": 59,
+      "unparsed": 0,
+      "wrong": 16,
+      "accuracy": 0.7867,
+      "confused_with": {
+        "power_outlet": 6,
+        "dishwasher": 5,
+        "water_purifier": 2
+      }
+    },
+    {
+      "class": "ceiling_fan",
+      "n": 73,
+      "correct": 66,
+      "unparsed": 0,
+      "wrong": 7,
+      "accuracy": 0.9041,
+      "confused_with": {
+        "electric_fan": 2,
+        "air_conditioner": 2,
+        "sink": 1
+      }
+    },
+    {
+      "class": "dishwasher",
+      "n": 72,
+      "correct": 50,
+      "unparsed": 0,
+      "wrong": 22,
+      "accuracy": 0.6944,
+      "confused_with": {
+        "washing_machine": 5,
+        "microwave_oven": 5,
+        "water_purifier": 5
+      }
+    },
+    {
+      "class": "refrigerator",
+      "n": 72,
+      "correct": 65,
+      "unparsed": 0,
+      "wrong": 7,
+      "accuracy": 0.9028,
+      "confused_with": {
+        "smart_lock": 2,
+        "oven": 1,
+        "sink": 1
+      }
+    },
+    {
+      "class": "oven",
+      "n": 68,
+      "correct": 35,
+      "unparsed": 0,
+      "wrong": 33,
+      "accuracy": 0.5147,
+      "confused_with": {
+        "microwave_oven": 10,
+        "induction_hob": 9,
+        "water_purifier": 5
+      }
+    },
+    {
+      "class": "water_heater",
+      "n": 53,
+      "correct": 16,
+      "unparsed": 0,
+      "wrong": 37,
+      "accuracy": 0.3019,
+      "confused_with": {
+        "water_purifier": 26,
+        "power_outlet": 4,
+        "faucet": 3
+      }
+    },
+    {
+      "class": "water_purifier",
+      "n": 45,
+      "correct": 42,
+      "unparsed": 0,
+      "wrong": 3,
+      "accuracy": 0.9333,
+      "confused_with": {
+        "sink": 1,
+        "faucet": 1,
+        "refrigerator": 1
+      }
+    }
+  ],
+  "sample_replies": [
+    {
+      "image": "hcmus-38m1y_google_0187_jpg.rf.8afc0f97be53eb4478e292dd21dd37ed.jpg",
+      "truth": "air_conditioner",
+      "reply": "- water_heater (Máy nước nóng)"
+    },
+    {
+      "image": "hcmus-38m1y_google_0189_jpg.rf.53d6ed5290d3c87fa54c9ff8846e5a29.jpg",
+      "truth": "air_conditioner",
+      "reply": "- air_conditioner (Máy lạnh)"
+    },
+    {
+      "image": "hcmus-38m1y_google_0211_jpg.rf.84ab1fa80367350e0a66aae26ab58c5b.jpg",
+      "truth": "air_conditioner",
+      "reply": "- air_conditioner (Máy lạnh)"
+    },
+    {
+      "image": "hcmus-38m1y_google_0277_png_jpg.rf.f12976c9a5ddcbd54a3ccb4d03e7678b.jpg",
+      "truth": "air_conditioner",
+      "reply": "- air_conditioner (Máy lạnh)"
+    },
+    {
+      "image": "gas_stove_11b1f5a09397.jpg",
+      "truth": "gas_stove",
+      "reply": "- induction_hob (Bếp từ)"
+    },
+    {
+      "image": "faucet_1a942330d235.jpg",
+      "truth": "faucet",
+      "reply": "- water_purifier (Máy lọc nước)"
+    },
+    {
+      "image": "1a63a6364f21d33e.jpg",
+      "truth": "gas_stove",
+      "reply": "- gas_stove (Bếp gas)"
+    },
+    {
+      "image": "001ae5e9e1c9ab0d.jpg",
+      "truth": "light_bulb",
+      "reply": "- light_bulb (Bóng đèn)"
+    },
+    {
+      "image": "207924af61331cfb.jpg",
+      "truth": "kettle",
+      "reply": "- kettle (Ấm đun nước)"
+    },
+    {
+      "image": "40a4bb00fd2bfd8a.jpg",
+      "truth": "microwave_oven",
+      "reply": "- microwave_oven (Lò vi sóng)"
+    },
+    {
+      "image": "hcmus-38m1y_google_0450_jpg.rf.95fe6ca1e737217f6041531f863d694e.jpg",
+      "truth": "air_conditioner",
+      "reply": "- air_conditioner (Máy lạnh)"
+    },
+    {
+      "image": "hcmus-38m1y_naver_0013_jpg.rf.7875a3f9b50519d971cdf705194b8b9c.jpg",
+      "truth": "air_conditioner",
+      "reply": "smart_lock (Khóa cửa thông minh)"
+    },
+    {
+      "image": "hcmus-38m1y_naver_0115_jpg.rf.b41a1c754d06127804495cbd7a9dcacc.jpg",
+      "truth": "air_conditioner",
+      "reply": "- air_conditioner (Máy lạnh)"
+    },
+    {
+      "image": "hcmus-38m1y_naver_0426_jpg.rf.4e3210d3dbab8d318ab78c6e4b641ab0.jpg",
+      "truth": "air_conditioner",
+      "reply": "- washing_machine (Máy giặt)"
+    },
+    {
+      "image": "induction_hob_753c6987afa7.jpg",
+      "truth": "induction_hob",
+      "reply": "- induction_hob (Bếp từ)"
+    },
+    {
+      "image": "hcmus-38m1y_naver_0110_jpg.rf.87e54d75d57809102e3ed08c1d8c91e7.jpg",
+      "truth": "air_conditioner",
+      "reply": "- water_heater (Máy nước nóng)"
+    },
+    {
+      "image": "hcmus-38m1y_naver_0443_jpg.rf.15cfc46c0bbb18ca2f2799251fe40e63.jpg",
+      "truth": "air_conditioner",
+      "reply": "- air_conditioner (Máy lạnh)"
+    },
+    {
+      "image": "hcmus-38m1y_naver_0055_jpg.rf.f2a2bd07de5baacf3046e6a625b3f23a.jpg",
+      "truth": "air_conditioner",
+      "reply": "- water_heater (Máy nước nóng)"
+    },
+    {
+      "image": "kettle_137d83273823.jpg",
+      "truth": "kettle",
+      "reply": "- kettle (Ấm đun nước)"
+    },
+    {
+      "image": "kettle_76ccac130240.jpg",
+      "truth": "kettle",
+      "reply": "- kettle (Ấm đun nước)"
+    },
+    {
+      "image": "kettle_d9fc50bd648a.jpg",
+      "truth": "kettle",
+      "reply": "- kettle (Ấm đun nước)"
+    },
+    {
+      "image": "induction_hob_bbfc2a85b4c7.jpg",
+      "truth": "induction_hob",
+      "reply": "- induction_hob (Bếp từ)"
+    },
+    {
+      "image": "light_bulb_f65052ec368b.jpg",
+      "truth": "light_bulb",
+      "reply": "- light_bulb (Bóng đèn)"
+    },
+    {
+      "image": "power_outlet_354d4676e146.jpg",
+      "truth": "power_outlet",
+      "reply": "- power_outlet (Ổ cắm điện)"
+    },
+    {
+      "image": "power_outlet_278244bcf8f7.jpg",
+      "truth": "power_outlet",
+      "reply": "- power_outlet (Ổ cắm điện)"
+    },
+    {
+      "image": "sink_31f5b7f49239.jpg",
+      "truth": "sink",
+      "reply": "- sink (Bồn rửa)"
+    },
+    {
+      "image": "power_outlet_d9bb9dcc757a.jpg",
+      "truth": "power_outlet",
+      "reply": "- power_outlet (Ổ cắm điện)"
+    },
+    {
+      "image": "sink_73a7e5e3003d.jpg",
+      "truth": "sink",
+      "reply": "- sink (Bồn rửa)"
+    },
+    {
+      "image": "sink_95d3a8d13640.jpg",
+      "truth": "sink",
+      "reply": "- sink (Bồn rửa)"
+    },
+    {
+      "image": "sink_47d41c497001.jpg",
+      "truth": "sink",
+      "reply": "- sink (Bồn rửa)"
+    },
+    {
+      "image": "sink_c72c6472d5ff.jpg",
+      "truth": "sink",
+      "reply": "- sink (Bồn rửa)"
+    },
+    {
+      "image": "television_da8db5f12a11.jpg",
+      "truth": "television",
+      "reply": "- television (Tivi)"
+    },
+    {
+      "image": "water_heater_19a7a1e8beb7.jpg",
+      "truth": "water_heater",
+      "reply": "- water_purifier (Máy lọc nước)"
+    },
+    {
+      "image": "washing_machine_f7b245437dc0.jpg",
+      "truth": "washing_machine",
+      "reply": "- washing_machine (Máy giặt)"
+    },
+    {
+      "image": "0e8a380f9b9511c9.jpg",
+      "truth": "gas_stove",
+      "reply": "- gas_stove (Bếp gas)"
+    },
+    {
+      "image": "water_pipe_b90cc1bae696.jpg",
+      "truth": "water_pipe",
+      "reply": "- water_pipe (Đường ống nước)"
+    },
+    {
+      "image": "4280b0f35b945288.jpg",
+      "truth": "electric_fan",
+      "reply": "- electric_fan (Quạt điện)"
+    },
+    {
+      "image": "water_heater_c3e7f064fddb.jpg",
+      "truth": "water_heater",
+      "reply": "- water_purifier (Máy lọc nước)"
+    },
+    {
+      "image": "air_conditioner_15ebccc2ce62.jpg",
+      "truth": "air_conditioner",
+      "reply": "- power_outlet (Ổ cắm điện)"
+    },
+    {
+      "image": "air_conditioner_afa5288c4ffa.jpg",
+      "truth": "air_conditioner",
+      "reply": "- water_purifier (Máy lọc nước)"
+    }
+  ]
+}
