@@ -1,0 +1,60 @@
+{
+  "prices_source": "developers.openai.com/api/docs/pricing, standard tier, read 2026-09-28",
+  "image_token_source": "developers.openai.com/api/docs/guides/images-vision",
+  "assumptions": {
+    "image_px": [
+      1024,
+      768
+    ],
+    "text_in_tokens": 1500,
+    "text_out_tokens": 250,
+    "calls_per_user_per_month": 10,
+    "rented_gpu_usd_per_hour": 0.108,
+    "owned_gpu_electricity_usd_per_month": 13.0
+  },
+  "self_host_usd_per_month": {
+    "rented": 78.84,
+    "owned": 13.0
+  },
+  "api": [
+    {
+      "model": "gpt-4o",
+      "image_tokens": 765,
+      "usd_per_call": 0.00816,
+      "usd_per_month": {
+        "100": 8.16,
+        "1000": 81.62,
+        "5000": 408.12,
+        "10000": 816.25
+      },
+      "users_where_rented_gpu_is_cheaper": 966,
+      "users_where_owned_gpu_is_cheaper": 159
+    },
+    {
+      "model": "gpt-4o-mini",
+      "image_tokens": 25501,
+      "usd_per_call": 0.0042,
+      "usd_per_month": {
+        "100": 4.2,
+        "1000": 42.0,
+        "5000": 210.01,
+        "10000": 420.01
+      },
+      "users_where_rented_gpu_is_cheaper": 1877,
+      "users_where_owned_gpu_is_cheaper": 310
+    },
+    {
+      "model": "gpt-4.1-mini",
+      "image_tokens": 1245,
+      "usd_per_call": 0.0015,
+      "usd_per_month": {
+        "100": 1.5,
+        "1000": 14.98,
+        "5000": 74.9,
+        "10000": 149.8
+      },
+      "users_where_rented_gpu_is_cheaper": 5263,
+      "users_where_owned_gpu_is_cheaper": 868
+    }
+  ]
+}

@@ -1,0 +1,79 @@
+{
+  "conditions": {
+    "dataset": "phamductoan3883/fixhome-devices",
+    "split": "test, persisted in datasets/split.json, seed 20260915",
+    "scored_on": "AMD64 Family 25 Model 80 Stepping 0, AuthenticAMD, CPU, ultralytics 8.3.253",
+    "same_for_every_run": "dataset, split, seed, 640 px, 30 epochs, batch 16"
+  },
+  "models": [
+    {
+      "run": "select-yolo11s-e30",
+      "architecture": "DetectionModel",
+      "map50": 0.8044,
+      "map50_95": 0.7047,
+      "precision": 0.7862,
+      "recall": 0.7413,
+      "top1": 0.8534,
+      "top1_correct": 1921,
+      "scorable": 2251,
+      "no_box": 60,
+      "params_m": 9.42,
+      "gflops": 21.3,
+      "cpu_ms_median": 234.5,
+      "cpu_latency_images": 100,
+      "gpu_speed": {
+        "preprocess_ms": 0.6,
+        "inference_ms": 2.3,
+        "postprocess_ms": 0.6,
+        "total_ms": 3.5,
+        "gpu": "NVIDIA GeForce RTX 3090"
+      }
+    },
+    {
+      "run": "select-yolov10s-e30",
+      "architecture": "DetectionModel",
+      "map50": 0.809,
+      "map50_95": 0.7125,
+      "precision": 0.7925,
+      "recall": 0.7363,
+      "top1": 0.8441,
+      "top1_correct": 1900,
+      "scorable": 2251,
+      "no_box": 127,
+      "params_m": 7.23,
+      "gflops": 21.5,
+      "cpu_ms_median": 212.3,
+      "cpu_latency_images": 100,
+      "gpu_speed": {
+        "preprocess_ms": 0.7,
+        "inference_ms": 2.3,
+        "postprocess_ms": 0.1,
+        "total_ms": 3.1,
+        "gpu": "NVIDIA GeForce RTX 3090"
+      }
+    },
+    {
+      "run": "select-rtdetr-l-e30",
+      "architecture": "RTDETRDetectionModel",
+      "map50": 0.7878,
+      "map50_95": 0.6965,
+      "precision": 0.811,
+      "recall": 0.7676,
+      "top1": 0.8983,
+      "top1_correct": 2022,
+      "scorable": 2251,
+      "no_box": 1,
+      "params_m": 32.03,
+      "gflops": 105.4,
+      "cpu_ms_median": 916.1,
+      "cpu_latency_images": 100,
+      "gpu_speed": {
+        "preprocess_ms": 0.7,
+        "inference_ms": 7.9,
+        "postprocess_ms": 0.3,
+        "total_ms": 8.9,
+        "gpu": "NVIDIA GeForce RTX 3090"
+      }
+    }
+  ]
+}
