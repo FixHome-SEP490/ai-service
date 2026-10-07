@@ -1,5 +1,7 @@
 <h1 align="center">FixHome — AI Service</h1>
 
+> Ngữ cảnh hiện hành của repo (luồng, hợp đồng, quyết định, việc đang dở) nằm ở [`docs/CONTEXT.md`](docs/CONTEXT.md); khi file này lệch với code hoặc với CONTEXT.md, CONTEXT.md và code là chuẩn.
+
 <p align="center">
   <strong>Chẩn đoán sơ bộ thiết bị gia dụng từ ảnh và mô tả của khách</strong><br>
   <em>Tự host hoàn toàn. Không gọi API của bên thứ ba nào.</em>
@@ -33,7 +35,9 @@ chẩn đoán.
 
 **Mọi con số và mọi lời khuyên an toàn khách đọc đều đến từ một đoạn văn bản đã
 truy hồi ra, và đoạn đó được trả về làm trích dẫn.** Sai một câu là truy được về
-đúng tài liệu gây ra nó.
+đúng tài liệu gây ra nó. Ngoại lệ duy nhất là trạng thái `general_knowledge` của
+`/chat/ask`: không truy hồi được gì nhưng câu hỏi nằm trong nghề, mô hình trả lời
+bằng hiểu biết chung, **không có trích dẫn**, và câu trả lời nào nêu tiền thì bị bỏ.
 
 ## Vì sao chia việc như vậy — đã đo, không phải phỏng đoán
 
@@ -77,6 +81,11 @@ lò vi sóng với lò nướng thì đã không cần gửi ảnh. Hỏi **đú
 **phủ định**: "không phải trần" là câu trả lời *quạt điện*. Và "không rõ" **không
 phải** là "không".
 
+Hỏi cũng có giới hạn. Khi đã biết thiết bị, khách tả đủ ý và điểm truy hồi đạt
+ngưỡng quyết định (`RETRIEVAL_DECISIVE_SCORE`), dịch vụ trả lời luôn dù độ tin cậy
+dưới ngưỡng. Và sau `MAX_CLARIFYING_TURNS` = 2 lượt hỏi, nó trả lời theo thứ hạng
+truy hồi thay vì hỏi tiếp, để độ tin cậy nói mức chắc chắn.
+
 Điều này quan trọng hơn cái tên, vì **lời khuyên an toàn của hai thiết bị trong
 một cặp có thể trái ngược nhau**: bếp từ được tư vấn như bếp gas sẽ được dặn khoá
 van bình gas — vô nghĩa cho thiết bị cắm điện, và tệ hơn là làm khách tin rằng vấn
@@ -97,7 +106,10 @@ toán đã bị revert vì nó.
 ## Chạy tại máy, không cần GPU
 
 Không có GPU thì detector và Qwen không nạp, nhưng **truy hồi, tri thức, hội thoại
-và toàn bộ luật nghiệp vụ vẫn chạy** — đủ để phát triển và để chạy 1.906 test.
+và toàn bộ luật nghiệp vụ vẫn chạy** — đủ để phát triển và để chạy 2.112 test.
+
+CI và ruff nhắm **Python 3.11** (`.python-version`); máy local chạy được trên 3.13
+như lệnh dưới.
 
 ```bash
 py -3.13 -m venv .venv
@@ -107,8 +119,9 @@ py -3.13 -m venv .venv
 
 Mở `http://127.0.0.1:8000/chat` để chat, `http://127.0.0.1:8000/health` để kiểm.
 
-`/health` **từ chối báo khoẻ nếu kho tri thức nạp về ít hơn 1.000 đoạn**, nên một
-lần triển khai thiếu dữ liệu không thể lặng lẽ chạy với bộ não rỗng.
+Dịch vụ **từ chối khởi động nếu kho tri thức nạp về ít hơn 1.000 đoạn** (kiểm ở
+`app/main.py` lúc import), nên một lần triển khai thiếu dữ liệu không thể lặng lẽ
+chạy với bộ não rỗng. `/health` chỉ báo số đoạn ở `knowledge.chunks`.
 
 ## Chạy đầy đủ mô hình trên GPU thuê
 
@@ -132,6 +145,9 @@ CUDA, torch và vLLM đã khớp sẵn.
 > `Serving image` xong (~13 phút) rồi mới dựng máy, nếu không là test đúng code cũ.
 
 Muốn build tay: `gh workflow run "Serving image"`.
+
+Hai workflow này chỉ build và đẩy image; **chưa có workflow triển khai**. Dựng máy
+vẫn làm tay bằng `tools/rent_gpu.py` như các bước dưới.
 
 ### 2. Thuê máy — đã chốt một con
 
@@ -237,7 +253,8 @@ corpus       19/19   100%      im lặng      15/15  100%
 business      9/9    100%
 ```
 
-**Gate** — `ruff check app tests tools && pytest -q` → **1.906 test**.
+**Gate** — `ruff check app tests tools && pytest -q` → **2.112 test** trong 28 file
+(CI chạy `ruff check app tests`).
 
 ## API
 
@@ -252,7 +269,15 @@ Sáu endpoint, chỉ Backend gọi, client không gọi trực tiếp:
 | `GET /api/v1/meta/catalog` | danh mục thiết bị và dịch vụ |
 | `GET /health` | sống chưa, và mô hình đã nạp chưa |
 
-Phản hồi dùng camelCase cho client TypeScript của Backend.
+Ngoài ra `GET /chat` là trang chat demo, không phải API.
+
+Phản hồi dùng camelCase cho client TypeScript của Backend; trường form của
+`analyze-upload` cũng camelCase (`requestId`, `sessionId`, `categoryHint`,
+`includeTrace`).
+
+`/chat/ask` trả trạng thái `ok | out_of_scope | general_knowledge | no_grounding`
+và cũng trả `recommendedServices` như chẩn đoán; `diagnosis/analyze` nhận ra ý định
+đặt lịch và trả dịch vụ để client hiện nút đặt.
 
 **Phiên chat:** id do **server phát**, không nhận id client tự đặt — trường này nhận
 chuỗi bất kỳ nên hai client cùng gửi `"guest"` sẽ dùng chung hội thoại, tức thiết bị
@@ -296,7 +321,7 @@ docker/
   serve/          image cả dịch vụ
   train/          image train YOLO
 tools/            rent_gpu, hub, eval_*, build_dataset, autolabel, ...
-tests/            1.906 test
+tests/            2.112 test, 28 file
 docs/             số đo, thiết kế, hợp đồng với Backend
 ```
 

@@ -1,18 +1,21 @@
-# AI-FixHome AI Technical Guide
+# ai-service AI Technical Guide
+
+> Ngữ cảnh hiện hành của repo (luồng, hợp đồng, quyết định, việc đang dở) nằm ở [`docs/CONTEXT.md`](CONTEXT.md); khi file này lệch với code hoặc với CONTEXT.md, CONTEXT.md và code là chuẩn.
 
 This document governs every human and AI change in the independent FastAPI service. The service is
 advisory: probabilistic output is never an authoritative FixHome business decision.
 
 ## 1. Repository Purpose
 
-AI-FixHome owns the preliminary home-repair diagnosis API, the grounded advisory chatbot, the
+`ai-service` owns the preliminary home-repair diagnosis API, the grounded advisory chatbot, the
 Pydantic request/response contract, confidence/clarification behavior, the self-hosted inference
 pipeline, the curated knowledge base, the mock engine, and safe fallback signaling consumed by
-Backend-FixHome.
+`backend`. The GitHub organisation FixHome-SEP490 holds the sibling repositories `backend`, `web`,
+`mobile`, `ai-service` and `docs`.
 
 It does not authenticate FixHome users, authorize actions, assign technicians, approve quotations,
-write the FixHome database, or transition Service Orders. Backend-FixHome owns those responsibilities.
-Frontend and Mobile must call providers only through Backend/the approved AI service flow.
+write the FixHome database, or transition Service Orders. `backend` owns those responsibilities.
+`web` and `mobile` must call providers only through Backend/the approved AI service flow.
 
 ## 2. Technology Stack
 
@@ -37,52 +40,64 @@ Do not upgrade model runtimes or FastAPI as part of unrelated work. Pin model ve
 Uvicorn
   -> FastAPI app (`app/main.py`)
   -> versioned API router (`app/api/v1/router.py`)
-  -> diagnosis endpoint
+  -> endpoints: POST /api/v1/diagnosis/analyze, POST /api/v1/diagnosis/analyze-upload,
+     POST /api/v1/chat/ask, GET /api/v1/chat/acknowledgements, GET /api/v1/meta/catalog
+     (plus GET /health in `app/main.py` and the GET /chat demo page in `app/web/routes.py`)
   -> Pydantic request validation
   -> `get_ai_provider()` factory
   -> `AIProvider` contract
      -> LocalPipelineProvider | MockAIProvider
         -> Detector (YOLO11s): locate and classify the appliance, crop the region
         -> Retriever: rank candidate faults for that device from the knowledge base
-        -> VLM (Qwen2.5-VL): read surface damage on the crop, reason over the Vietnamese
-           description, choose fault codes from the shortlist
+        -> VLM (Qwen2.5-VL served by vLLM): read surface damage on the crop, reason over the
+           Vietnamese description, choose fault codes from the shortlist
         -> KnowledgeBase: resolve codes to Vietnamese names, service codes, price, urgency
-  -> normalized DiagnosisResponse, clarification response, or structured error
-  -> Backend-FixHome
+  -> normalized DiagnosisResponse / ChatResponse, clarification response, or structured error
+  -> backend
 ```
 
 Why the stages are split this way. The detector is a small model trained on the team's own photos
 and identifies Vietnamese household appliances more reliably than a general 3B model; cropping also
 lets the VLM spend its attention on the device rather than the room. Retrieval narrows the candidate
-faults before generation, which is what keeps output inside the catalog. The VLM contributes the two
-things neither of the other stages can: reading surface damage off the image, and understanding a
-Vietnamese description in context rather than by keyword.
+faults before generation. Output is kept inside the catalog by post-hoc validation, not by
+decode-time constrained decoding: `_parse_verdict` in `qwen_client.py` drops any code outside the
+shortlist/catalog, and narration that contains a number it was not given is discarded. The VLM
+contributes the two things neither of the other stages can: reading surface damage off the image,
+and understanding a Vietnamese description in context rather than by keyword.
 
 Every Vietnamese string, service code and price returned to customers is looked up from
 `app/data/`, never generated. A code the model produces that is absent from the catalog is dropped.
 Changing wording or pricing means editing JSON, not retraining.
 
 `app/core/config.py` loads environment settings. `MockAIProvider` makes unit CI deterministic, and
-the stub detector and stub VLM let the real pipeline run without weights or a GPU. The health
-endpoint exposes only non-sensitive operational metadata.
+the stub detector and stub VLM let the real pipeline run without weights or a GPU. There are no
+hosted Gemini/OpenAI adapters. Startup raises if the knowledge corpus has fewer than 1000 chunks;
+the health endpoint only reports the chunk count, alongside other non-sensitive operational
+metadata.
 
 Preserve this abstraction. Do not put engine conditionals or raw model output into routes.
 
 ## 4. Folder Structure
 
-- `.github/workflows/`: independent Python CI.
+- `.github/workflows/`: independent Python CI (`ci.yml`) plus `serving-image.yml` and
+  `trainer-image.yml`, which build and push the serving and training images. There is no
+  deployment workflow.
 - `app/main.py`: FastAPI construction, CORS, handlers, routers, health.
-- `app/api/v1/`: versioned router and endpoint transport logic.
+- `app/api/v1/`: versioned router and endpoint transport logic (diagnosis, chat, meta).
+- `app/web/`: the `/chat` demo page.
 - `app/schemas/`: Pydantic contracts and enums.
 - `app/services/`: provider interface, factory, and the mock engine.
 - `app/services/pipeline/`: detector, retriever, VLM adapter, knowledge-base loader, orchestrator.
 - `app/data/`: device catalog, fault knowledge base and service mapping. Curated by the team; the
   single source of every Vietnamese string, price range and urgency the service returns.
-- `tools/`: Gradio demo, dataset builder, image collector and auto-labeller. Never imported by the
-  service, and never a runtime dependency.
+- `tools/`: GPU rental (`rent_gpu.py`), Hugging Face sync, evaluation scripts, demos, dataset
+  builder, image collector and auto-labeller. Never imported by the service, and never a runtime
+  dependency.
+- `docker/serve/`: the serving image (vLLM + Qwen + detector + retrieval + API).
 - `docker/train/`: pinned training image and its entry point. See `docs/DATASET-AND-TRAINING.md`.
 - `app/core/`: configuration and service exception behavior.
-- `tests/`: health and provider-contract unit tests.
+- `tests/`: about 2112 tests across 28 files covering API, pipeline, retrieval, conversation,
+  clarification, booking intent, safety, detector and tooling.
 - `requirements.txt`: runtime/test packages currently needed by the service.
 - `requirements-model.txt`: detector/VLM runtime, deliberately excluded from CI.
 - `requirements-dev.txt`: CI lint dependencies layered on runtime requirements.
@@ -118,10 +133,17 @@ Preserve this abstraction. Do not put engine conditionals or raw model output in
 - Fault codes belong to this service; service codes belong to Backend and live in
   `service_mapping.json`. An empty mapping means `recommendedServices` is empty, which is a valid
   state and not an error.
-- Confidence is between 0 and 1. Below `AI_CONFIDENCE_THRESHOLD` the service returns
-  `needs_clarification` with suggested questions and manual service groups. It never guesses.
-- The advisory chatbot answers only from retrieved passages and returns citations. With no
-  grounding it declines; it never recommends a service or creates booking intent.
+- Confidence is between 0 and 1. Below `AI_CONFIDENCE_THRESHOLD` the service normally returns
+  `needs_clarification` with suggested questions and manual service groups. Two exceptions: a
+  decisive retrieval score (`RETRIEVAL_DECISIVE_SCORE`, with a known device and enough descriptive
+  words) bypasses the threshold, and after `MAX_CLARIFYING_TURNS` (2) it answers from the retrieval
+  ranking and lets confidence carry the doubt.
+- The advisory chatbot (`/chat/ask`) returns status `ok`, `out_of_scope`, `general_knowledge` or
+  `no_grounding`. `ok` answers are grounded in retrieved passages with citations; in-trade
+  questions with nothing retrieved may be answered as `general_knowledge` from the model, with no
+  citations and no numbers or warranty terms. `ChatResponse.recommendedServices` may carry a
+  bookable service, and diagnosis detects booking intent so the client can show the booking
+  button. Neither creates a booking.
 - Provider failure, timeout, rate limit, unsupported/invalid input, or insufficient information must
   preserve a manual service-selection fallback. AI failure cannot block Booking.
 - Estimated cost is indicative, non-negative, ordered (`min <= max`), and denominated explicitly; it
@@ -178,14 +200,15 @@ start Uvicorn and GET /health
 ```
 
 All steps are blocking. Do not use `continue-on-error`, real provider keys, or external model calls
-in baseline CI. Deployment needs a separate approved workflow with health/readiness, secret store,
-timeouts, and rollback controls.
+in baseline CI. `serving-image.yml` and `trainer-image.yml` only build and push images (on push to
+`main` for their paths, or manual dispatch); they do not deploy. Deployment needs a separate approved
+workflow with health/readiness, secret store, timeouts, and rollback controls; none exists yet.
 
 ## 10. AI Development Workflow
 
 ```text
 Task
--> read this guide and relevant Docs-FixHome/Backend contracts
+-> read this guide and relevant `docs`/`backend` contracts
 -> inspect endpoint/schema/provider/tests/config/dependencies
 -> BA analysis: actor, requirement, input/output, advisory rule, validation, permission boundary,
    API/state, error/fallback, edge cases, affected repositories
