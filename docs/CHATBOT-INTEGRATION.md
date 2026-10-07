@@ -39,19 +39,23 @@ python tools/rent_gpu.py address
 ```
 
 ```
-AI_SERVICE_URL=http://38.29.145.157:40347
+AI_SERVICE_URL=http://<địa-chỉ-máy-GPU>:<cổng>
   READY — Qwen and detector attached, 3319 knowledge passages
 
 Paste into the consumer that needs it:
 
-  Backend  .env          AI_SERVICE_URL=http://38.29.145.157:40347
-  Mobile   .env          EXPO_PUBLIC_AI_SERVICE_URL=http://38.29.145.157:40347
-  Eval     shell         AI_SERVICE_URL=http://38.29.145.157:40347
+  Backend  .env          AI_SERVICE_URL=http://<địa-chỉ-máy-GPU>:<cổng>
+  Mobile   .env          EXPO_PUBLIC_AI_SERVICE_URL=http://<địa-chỉ-máy-GPU>:<cổng>
+  Eval     shell         AI_SERVICE_URL=http://<địa-chỉ-máy-GPU>:<cổng>
 
-  chat     http://38.29.145.157:40347/chat
-  health   http://38.29.145.157:40347/health
-  diagnose http://38.29.145.157:40347/api/v1/diagnosis/analyze-upload
+  chat     http://<địa-chỉ-máy-GPU>:<cổng>/chat
+  health   http://<địa-chỉ-máy-GPU>:<cổng>/health
+  diagnose http://<địa-chỉ-máy-GPU>:<cổng>/api/v1/diagnosis/analyze-upload
 ```
+
+`<địa-chỉ-máy-GPU>:<cổng>` là chỗ giữ, không phải địa chỉ thật: địa chỉ thật đổi
+theo từng lần thuê và chỉ lấy từ `python tools/rent_gpu.py address`, không chép
+từ tài liệu.
 
 Ghi thẳng vào file `.env`, thay dòng cũ:
 
@@ -73,7 +77,7 @@ Backend** (khuyến nghị, xem mục 6) thì mobile không cần biến này.
 
 ---
 
-## 3. Sáu endpoint, và hai cái thật sự cần cho chatbot
+## 3. Sáu endpoint API, và hai cái thật sự cần cho chatbot
 
 | Method | Path | Dùng khi |
 |---|---|---|
@@ -83,6 +87,9 @@ Backend** (khuyến nghị, xem mục 6) thì mobile không cần biến này.
 | GET | `/api/v1/chat/acknowledgements` | câu "em đang xem ạ" cho client hiện trong lúc chờ |
 | GET | `/api/v1/meta/catalog` | danh mục thiết bị và dịch vụ |
 | GET | `/health` | máy sẵn sàng chưa |
+
+Ngoài sáu endpoint trên, `GET /chat` là trang chat demo dịch vụ tự phục vụ trên
+cùng cổng, không phải API cho client.
 
 Chatbot chỉ cần **`diagnosis/analyze` và `chat/ask`**. Quy tắc chọn:
 
@@ -113,7 +120,8 @@ Content-Type: application/json
 - `images` nhận **tối đa 3 ảnh**, mỗi ảnh **≤ 8 MB** sau khi giải mã
 - Nhận cả **data URI** (`data:image/jpeg;base64,...`) và **base64 trần**
 - MIME cho phép: `image/jpeg`, `image/png`, `image/webp`
-- `description` là **bắt buộc** nhưng **được để chuỗi rỗng** nếu khách chỉ gửi ảnh
+- `description` là **bắt buộc** và **không được rỗng** (1–2.000 ký tự); chuỗi rỗng
+  bị trả 422, kể cả khi khách chỉ gửi ảnh
 
 ### Cách B — multipart
 
@@ -121,12 +129,14 @@ Content-Type: application/json
 POST /api/v1/diagnosis/analyze-upload
 Content-Type: multipart/form-data
 
-files=<file>&files=<file>&description=...&session_id=...
+files=<file>&files=<file>&description=...&sessionId=...
 ```
 
-> **Chú ý dễ sai:** endpoint multipart dùng **snake_case** (`session_id`,
-> `request_id`, `category_hint`, `include_trace`, `files`), còn JSON và mọi phản
-> hồi dùng **camelCase** (`sessionId`). Hai kiểu đặt tên trong cùng một API.
+> **Chú ý dễ sai:** các trường form của endpoint multipart cũng dùng **camelCase**
+> giống JSON và mọi phản hồi: `requestId`, `sessionId`, `categoryHint`,
+> `includeTrace`, cộng `description` và `files`. Gửi `session_id` kiểu snake_case
+> thì trường đó **bị bỏ qua lặng lẽ**, không báo lỗi, và mỗi tin nhắn mở một phiên
+> mới.
 
 Ảnh nên **resize trước khi gửi** từ mobile. Ảnh điện thoại 4000px không cho kết quả
 tốt hơn: detector chạy ở 640px, và ảnh lớn chỉ tốn băng thông và thời gian giải mã.
@@ -284,6 +294,12 @@ của bot. **Vẫn có `recommendedServices`** — thường là gói kiểm tra
 `answerVi` **luôn có nội dung** ở endpoint này. `citations` dùng để debug hoặc hiện
 "theo chính sách của FixHome", không bắt buộc hiện.
 
+`status: "general_knowledge"` → không truy hồi được đoạn nào nhưng câu hỏi nằm trong
+nghề, mô hình trả lời bằng hiểu biết chung: **`citations` rỗng**, và câu trả lời
+không được nêu con số hay điều khoản bảo hành. Client nên hiện khác câu `ok` có
+trích dẫn. `recommendedServices` có thể có dịch vụ đặt được (thường là gói kiểm tra
+khi đã biết thiết bị), và rỗng cũng là câu trả lời hợp lệ.
+
 `status: "out_of_scope"` hoặc `"no_grounding"` → `answerVi` là câu từ chối lịch sự,
 **hiện y nguyên**. Đừng thay bằng câu lỗi của app.
 
@@ -295,8 +311,8 @@ của bot. **Vẫn có `recommendedServices`** — thường là gói kiểm tra
 **30 giây**, đừng đặt 5. Trong lúc chờ hiện câu lấy từ
 `/api/v1/chat/acknowledgements` thay vì spinner trắng.
 
-**Đừng hardcode địa chỉ AI.** Mỗi lần thuê là một IP và port khác. Dùng
-`rent_gpu.py address --write-env`.
+**Đừng hardcode địa chỉ AI.** Mỗi lần thuê là một IP và port khác. Lấy bằng
+`python tools/rent_gpu.py address`, ghi vào env bằng `--write-env`.
 
 **Đừng gửi id phiên do client tự đặt.** Sẽ bị bỏ qua, và nếu server có nhận thì hai
 khách dùng chung hội thoại.
@@ -355,10 +371,9 @@ chọn mã bệnh. Đừng trích số nào cho hai thứ đó.
 3. **[CHATBOT-NEXT.md](CHATBOT-NEXT.md)** — vòng lặp cải tiến và nợ đã đo, nếu cần
    sửa chính AI.
 
-Ranh giới quyền hạn hiện tại: `repo/ai-service` được commit, mở PR, merge.
-`repo/backend` và `repo/mobile` **chỉ sửa file và báo cáo — không commit, không
-push, không PR**. Việc chatbot nằm phần lớn ở hai repo đó, nên cần PO nới quyền
-trước khi bắt đầu.
+Ranh giới quyền hạn (ai được commit, merge vào nhánh nào ở repo nào) đã đổi sau
+ngày viết tài liệu này; đoạn cũ ở đây không còn đúng. Xem
+[CONTEXT.md](CONTEXT.md) cho quy định hiện hành.
 
 Còn chờ quyết định: có gắn kết quả chẩn đoán vào `bookings` hay không (mục 7), và AI
 hiện trả `serviceCode` mà **chưa trả `serviceId`** nên Backend phải tự tra — xem
