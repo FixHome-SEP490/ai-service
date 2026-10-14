@@ -336,6 +336,25 @@ Small on purpose. It separates ties without being able to overturn a real
 difference in coverage."""
 
 
+_NEGATORS = frozenset({"khong", "chang"})
+
+
+def _with_negations(tokens: List[str]) -> List[str]:
+    """The tokens, plus one token for each "không X".
+
+    "Không" is filler to the scorer, and it has to be: it is in most messages
+    and most symptom lists. But "không vắt" and "vắt" are opposite complaints,
+    and without the negation a machine that will not spin tied with one that
+    is loud while spinning. "khong_vat" is a word of its own here, rare, and
+    only the symptom lists that say it have it.
+    """
+    out = list(tokens)
+    for a, b in zip(tokens, tokens[1:]):
+        if a in _NEGATORS and b not in _NEGATORS:
+            out.append(f"khong_{b}")
+    return out
+
+
 def _phrase_overlap(query: Sequence[str], symptoms: Sequence[str]) -> float:
     """Share of the query's adjacent word pairs the symptom text also has.
 
@@ -349,6 +368,16 @@ def _phrase_overlap(query: Sequence[str], symptoms: Sequence[str]) -> float:
         return 0.0
     theirs = {(a, b) for a, b in zip(symptoms, symptoms[1:])}
     return len(pairs & theirs) / len(pairs)
+
+
+def _symptom_tokens(fault: Fault) -> List[str]:
+    """A fault's symptom words, with "không X" pairs counted within each phrase."""
+    out: List[str] = []
+    for phrase in fault.symptoms_vi:
+        tokens = _normalize(phrase)
+        out += tokens
+        out += _with_negations(tokens)[len(tokens):]
+    return out
 
 
 class _SymptomIndex:
@@ -431,7 +460,7 @@ class _SymptomIndex:
     def __init__(self, faults: Sequence[Fault]) -> None:
         self._df: Dict[str, int] = {}
         for fault in faults:
-            seen = set(_normalize(" ".join(fault.symptoms_vi)))
+            seen = set(_symptom_tokens(fault))
             for token in seen:
                 self._df[token] = self._df.get(token, 0) + 1
         self._total = max(len(faults), 1)
@@ -460,7 +489,7 @@ class _SymptomIndex:
         blocked toilet is one of the faults that has to warn before it answers.
         """
         tokens = list(query_tokens)
-        symptoms = _normalize(" ".join(fault.symptoms_vi))
+        symptoms = _symptom_tokens(fault)
         if all(token in _STOPWORDS for token in tokens):
             # Rarity can judge filler words on its own. A word common enough to
             # be filler is common enough across the symptom lists to weigh
@@ -468,6 +497,7 @@ class _SymptomIndex:
             query, target = tokens, set(symptoms)
         else:
             query, target = _content_tokens(tokens), set(_content_tokens(symptoms))
+        query = query + [t for t in _with_negations(tokens)[len(tokens):] if t not in query]
         weights = {t: self.weight(t) for t in set(query)}
         total = sum(weights.values())
         if total <= 0.0:
@@ -477,7 +507,12 @@ class _SymptomIndex:
         # additive, so nothing that scored before can now fall below a
         # threshold — the two earlier attempts at this failed because they took
         # weight away, and one of them cost two safety pins.
-        return min(1.0, covered + _PHRASE_BONUS * _phrase_overlap(query, symptoms))
+        plain = [t for t in query if "_" not in t]
+        return min(
+            1.0,
+            covered
+            + _PHRASE_BONUS * _phrase_overlap(plain, _normalize(" ".join(fault.symptoms_vi))),
+        )
 
     def phrase_overlap(self, query_tokens: Iterable[str], fault: Fault) -> float:
         """The same phrase measure, for breaking ties rather than scoring.
@@ -558,12 +593,21 @@ class Retriever:
         description: str,
         device_type: Optional[str],
         top_k: int = 5,
+        exclude: Optional[Iterable[str]] = None,
+        penalties: Optional[Dict[str, float]] = None,
     ) -> List[ScoredFault]:
         """Rank faults by symptom overlap, restricted to the detected device.
 
         Restricting by device is what makes the detector worth its cost: it cuts
         the candidate space before the VLM ever sees it.
+
+        `exclude` and `penalties` carry what the conversation has established
+        (see dialogue_state.py): faults the customer has ruled out are not
+        offered again, and faults whose symptom they said is absent are scored
+        down. With neither given, the ranking is exactly what it always was.
         """
+        excluded = set(exclude or ())
+        factors = dict(penalties or {})
         pool = (
             self._kb.faults_for_device(device_type)
             if device_type
@@ -579,7 +623,13 @@ class Retriever:
         # settles that with no list of words to delete, which an earlier fix had
         # needed and which had quietly deleted "nuoc" from plumbing messages.
         index = self._symptom_index(device_type)
-        scored = [ScoredFault(fault=f, score=index.score(tokens, f)) for f in pool]
+        scored = [
+            ScoredFault(
+                fault=f, score=index.score(tokens, f) * factors.get(f.fault_code, 1.0)
+            )
+            for f in pool
+            if f.fault_code not in excluded
+        ]
         # Equal scores were left in the order the JSON file happens to list
         # them. Saying it the way the symptom list says it decides instead.
         scored.sort(
@@ -702,8 +752,14 @@ class Retriever:
         top_k: Optional[int] = None,
         min_score: Optional[float] = None,
         exclude: Iterable[str] = (),
+        ruled_out: Iterable[str] = (),
     ) -> List[ScoredChunk]:
         """Written prose about this appliance that covers the question.
+
+        `ruled_out` are faults the customer has excluded in the conversation.
+        Their sections are not returned: prose about cleaning the filter, handed
+        to the model after the customer said it was just cleaned, is how the
+        model came to recommend cleaning it again.
 
         Two filters run before anything is scored, and they matter more than the
         scoring does.
@@ -753,6 +809,7 @@ class Retriever:
         index = _corpus_index()
         wanted = set(fault_codes)
         seen = set(exclude)
+        banned = set(ruled_out)
         scored: List[ScoredChunk] = []
         for position, chunk in enumerate(index.chunks):
             if chunk.doc_type not in ("fault", "device"):
@@ -762,6 +819,8 @@ class Retriever:
             if not index.is_retrievable(chunk):
                 continue
             if f"{chunk.source_file}::{chunk.heading_vi}" in seen:
+                continue
+            if chunk.fault_code and chunk.fault_code in banned:
                 continue
             score = index.score(position, tokens) * index.presentation_weight(chunk)
             if chunk.fault_code and chunk.fault_code in wanted:

@@ -1,0 +1,2649 @@
+{
+  "version": "1.0.0",
+  "_comment_vi": "Tri thức để hiểu hội thoại nhiều lượt: chuẩn hoá cách gõ (teencode, vùng miền, Telex), nhận phủ định, nhận việc khách đã làm, và với từng lỗi: việc gì đã làm hay bằng chứng gì thì loại được lỗi đó. Viết bởi nhóm, chưa có kỹ thuật viên duyệt (needs_technician_review). Lỗi an toàn (never_exclude) không bao giờ bị loại chỉ vì lời khách, chỉ hạ thứ hạng.",
+  "needs_technician_review": true,
+  "normalize": {
+    "_comment_vi": "with_diacritics: thay khi khách gõ có dấu, vì có dấu thì không nhập nhằng (hông = không, còn hong không dấu có thể là hỏng). folded: thay sau khi bỏ dấu, chỉ áp cho từ không có trong từ vựng kho tri thức. phrases: cụm nhiều từ, so sau khi bỏ dấu.",
+    "with_diacritics": {
+      "hông": "không",
+      "hổng": "không",
+      "hôk": "không",
+      "hok": "không",
+      "hem": "không",
+      "khum": "không",
+      "khôm": "không",
+      "hum": "không",
+      "chẳng": "không",
+      "chả": "không",
+      "chớ": "chứ",
+      "răng": "sao",
+      "rứa": "vậy",
+      "mô": "đâu",
+      "tê": "kia",
+      "ni": "này",
+      "nớ": "đó",
+      "hắn": "nó",
+      "nhữ": "như",
+      "bựa": "bữa",
+      "mần": "làm",
+      "đặng": "để",
+      "rầy": "này",
+      "dị": "vậy",
+      "dzị": "vậy",
+      "zị": "vậy",
+      "dzậy": "vậy",
+      "zậy": "vậy",
+      "hư": "hỏng",
+      "bể": "vỡ",
+      "lủng": "thủng",
+      "thiệt": "thật",
+      "rầu": "rồi",
+      "zồi": "rồi",
+      "dồi": "rồi",
+      "nhứt": "nhất",
+      "nhen": "nhé",
+      "nghen": "nhé",
+      "ổng": "ông ấy",
+      "bả": "bà ấy",
+      "tui": "tôi",
+      "tớ": "tôi",
+      "tau": "tôi",
+      "mình": "tôi",
+      "điều hoà": "điều hòa",
+      "hoà": "hòa",
+      "khoá": "khóa",
+      "thuỷ": "thủy",
+      "luỹ": "lũy",
+      "nỏ": "không",
+      "ờ": "",
+      "ừm": "",
+      "ờm": "",
+      "ơ": "",
+      "hử": "",
+      "rùi": "rồi",
+      "roài": "rồi",
+      "khôg": "không",
+      "khômg": "không"
+    },
+    "folded": {
+      "ko": "khong",
+      "k": "khong",
+      "kg": "khong",
+      "kh": "khong",
+      "khg": "khong",
+      "khog": "khong",
+      "hk": "khong",
+      "hok": "khong",
+      "hem": "khong",
+      "khum": "khong",
+      "kum": "khong",
+      "hum": "khong",
+      "kp": "khong phai",
+      "kbt": "khong biet",
+      "kb": "khong biet",
+      "dc": "duoc",
+      "dk": "duoc",
+      "dcj": "duoc",
+      "j": "gi",
+      "z": "vay",
+      "dz": "vay",
+      "zay": "vay",
+      "dzay": "vay",
+      "v": "vay",
+      "r": "roi",
+      "rui": "roi",
+      "rùi": "roi",
+      "ruj": "roi",
+      "roy": "roi",
+      "xog": "xong",
+      "xg": "xong",
+      "ms": "moi",
+      "mk": "minh",
+      "mik": "minh",
+      "mjk": "minh",
+      "mjnh": "minh",
+      "bik": "biet",
+      "bit": "biet",
+      "bjk": "biet",
+      "pit": "biet",
+      "trc": "truoc",
+      "trk": "truoc",
+      "ntn": "nhu the nao",
+      "sao z": "sao vay",
+      "lun": "luon",
+      "lunn": "luon",
+      "cx": "cung",
+      "cg": "cung",
+      "cug": "cung",
+      "vk": "vo",
+      "ck": "chong",
+      "ns": "noi",
+      "nt": "nhan tin",
+      "nc": "nuoc",
+      "nuk": "nuoc",
+      "ng": "nguoi",
+      "ngta": "nguoi ta",
+      "mn": "moi nguoi",
+      "lm": "lam",
+      "lmj": "lam gi",
+      "ah": "a",
+      "uh": "u",
+      "um": "u",
+      "uk": "u",
+      "hix": "",
+      "huhu": "",
+      "hic": "",
+      "kkk": "",
+      "haha": "",
+      "hihi": "",
+      "keke": "",
+      "ạ": "",
+      "dh": "dieu hoa",
+      "ml": "may lanh",
+      "mg": "may giat",
+      "mnn": "may nuoc nong",
+      "bnl": "binh nong lanh",
+      "fan": "quat",
+      "filter": "luoi loc",
+      "phin": "luoi loc",
+      "block": "may nen",
+      "gaz": "gas",
+      "ga": "gas",
+      "bt": "binh thuong",
+      "bth": "binh thuong",
+      "btw": "",
+      "pls": "",
+      "plz": "",
+      "vl": "rat",
+      "vcl": "rat",
+      "hok co": "khong co",
+      "thog": "thong",
+      "thoog": "thong",
+      "roai": "roi",
+      "roi`": "roi",
+      "kog": "khong"
+    },
+    "phrases": {
+      "ve sinh": "ve sinh",
+      "vs may": "ve sinh may",
+      "vs lai": "ve sinh lai",
+      "vs xong": "ve sinh xong",
+      "vs roi": "ve sinh roi",
+      "di vs": "di ve sinh",
+      "moi vs": "moi ve sinh",
+      "vua vs": "vua ve sinh",
+      "da vs": "da ve sinh",
+      "goi vs": "goi ve sinh",
+      "can vs": "can ve sinh",
+      "bao duong": "bao duong",
+      "bao tri": "bao duong",
+      "rua may": "ve sinh may",
+      "xit rua": "ve sinh",
+      "suc rua": "ve sinh",
+      "lam sach": "ve sinh",
+      "lau chui": "ve sinh",
+      "chui rua": "ve sinh",
+      "don dep": "ve sinh",
+      "bom gas": "nap gas",
+      "bom ga": "nap gas",
+      "sac gas": "nap gas",
+      "nap ga": "nap gas",
+      "them gas": "nap gas",
+      "dieu khien tu xa": "dieu khien",
+      "cuc dieu khien": "dieu khien",
+      "cai remote": "dieu khien",
+      "cuc nong": "cuc nong",
+      "dan nong": "cuc nong",
+      "dan lanh": "dan lanh",
+      "cuc lanh": "dan lanh",
+      "khong he": "khong",
+      "chang he": "khong",
+      "deo co": "khong co",
+      "dech co": "khong co",
+      "deu khong": "khong",
+      "dau co": "khong co",
+      "co dau": "khong co",
+      "remote": "dieu khien",
+      "rimot": "dieu khien",
+      "ri mot": "dieu khien",
+      "remot": "dieu khien",
+      "cai dieu khien": "dieu khien",
+      "hong phai": "khong phai",
+      "hok phai": "khong phai",
+      "hem phai": "khong phai",
+      "noi chung la": "",
+      "kieu la": "",
+      "kieu nhu la": "",
+      "thi la": "",
+      "dau co phai": "khong phai",
+      "co phai dau": "khong phai"
+    }
+  },
+  "terms": [
+    "mô tơ",
+    "mô tả",
+    "mô đun",
+    "mô men",
+    "mô hình",
+    "mô phỏng",
+    "mô tưa",
+    "tê tay",
+    "tê chân",
+    "tê người",
+    "tê nhẹ",
+    "tê tê",
+    "tê rần",
+    "tê buốt",
+    "bể chứa",
+    "bể phốt",
+    "bể ngầm",
+    "bể nước",
+    "bể cá",
+    "bể bơi",
+    "bể tự hoại",
+    "răng cưa",
+    "răng mòn",
+    "răng cũ",
+    "răng khía",
+    "bánh răng",
+    "răng rắc",
+    "dị vật",
+    "dị ứng",
+    "dị dạng",
+    "dị thường",
+    "hông tủ",
+    "hông máy",
+    "bên hông",
+    "phía hông",
+    "thiệt hại",
+    "ni lông",
+    "nilon",
+    "tê liệt",
+    "hư hỏng",
+    "hư hại"
+  ],
+  "_terms_comment_vi": "Cụm thuật ngữ có chứa một từ phương ngữ nhưng không mang nghĩa phương ngữ: 'mô tơ' không phải 'đâu tơ', 'tê tay' (điện giật) không phải 'kia tay', 'hông tủ' không phải 'không tủ', 'răng cưa' là bánh răng. Từ trong các cụm này được giữ nguyên.",
+  "negators": [
+    "khong",
+    "chang",
+    "cha",
+    "chua",
+    "deo",
+    "dech",
+    "chua he",
+    "khong co",
+    "dau co",
+    "khoi"
+  ],
+  "_negators_comment_vi": "Từ phủ định sau khi đã chuẩn hoá và bỏ dấu. 'chua' (chưa) phủ định việc đã làm. 'het' (hết) dùng như 'hết chảy nước rồi'. 'khoi' (khỏi) là không cần.",
+  "done_markers": [
+    "da",
+    "moi",
+    "vua",
+    "roi",
+    "xong",
+    "hom qua",
+    "hom truoc",
+    "tuan truoc",
+    "thang truoc",
+    "tuan roi",
+    "thang roi",
+    "nam ngoai",
+    "dot truoc",
+    "lan truoc",
+    "gan day",
+    "hoi nay",
+    "sang nay",
+    "chieu qua",
+    "toi qua",
+    "may hom truoc",
+    "may ngay truoc",
+    "hoi chieu",
+    "bua truoc",
+    "bua hom",
+    "van"
+  ],
+  "_done_markers_comment_vi": "Dấu hiệu việc đã xảy ra. 'thi' ở đây là 'thì đã ...'. Một mệnh đề có việc làm cộng một trong các dấu hiệu này, và không có 'chua' hay ý định ('dinh', 'muon', 'nen', 'co nen', 'se'), là việc đã làm.",
+  "intent_markers": [
+    "dinh",
+    "muon",
+    "nen",
+    "co nen",
+    "se",
+    "sap",
+    "can",
+    "phai",
+    "tinh",
+    "chuan bi",
+    "de",
+    "giup",
+    "dat",
+    "goi",
+    "bao nhieu",
+    "gia",
+    "co can",
+    "lieu",
+    "nhu the nao",
+    "the nao",
+    "sao"
+  ],
+  "_intent_markers_comment_vi": "Mệnh đề nói về ý định, câu hỏi hay việc chưa làm. 'Có nên vệ sinh không', 'định vệ sinh', 'vệ sinh giá bao nhiêu' không phải là đã vệ sinh.",
+  "denial_patterns": [
+    "khong phai",
+    "chang phai",
+    "dau phai",
+    "deu khong phai",
+    "khong the nao",
+    "khong the",
+    "khong lien quan",
+    "loai tru",
+    "khong do",
+    "chac khong phai",
+    "khong co le",
+    "dau co phai",
+    "deo phai",
+    "dech phai",
+    "kp",
+    "dau co phai",
+    "co phai dau",
+    "khong phai la",
+    "khong phai tai",
+    "khong phai vi",
+    "khong co phai",
+    "chang phai la",
+    "khong phai do",
+    "dau phai do"
+  ],
+  "_denial_patterns_comment_vi": "Mở đầu một câu bác bỏ nguyên nhân: 'không phải do bẩn', 'không thể nào do gas', 'đâu phải tại remote'.",
+  "post_denials": [
+    "không phải",
+    "chẳng phải",
+    "đâu phải",
+    "thì không phải",
+    "không phải đâu",
+    "ổn",
+    "vẫn ổn",
+    "ổn mà",
+    "bình thường",
+    "không sao",
+    "vẫn tốt",
+    "còn tốt",
+    "ok",
+    "không có vấn đề",
+    "không bị gì",
+    "không hư",
+    "không hỏng",
+    "vẫn chạy tốt",
+    "không liên quan"
+  ],
+  "_post_denials_comment_vi": "Phủ nhận đứng sau tên nguyên nhân: 'lưới lọc thì không phải rồi', 'tụ ổn mà', 'gas thì em kiểm tra rồi, không sao'. Chỉ xét trong năm chữ ngay sau nguyên nhân, cùng một mệnh đề.",
+  "suspicion_markers": [
+    "có phải",
+    "phải không",
+    "hay là",
+    "hay do",
+    "chắc là",
+    "chắc do",
+    "chắc tại",
+    "chắc bị",
+    "hình như",
+    "có lẽ",
+    "có khi",
+    "nghi",
+    "nghi là",
+    "nghi do",
+    "liệu có",
+    "liệu",
+    "không biết có",
+    "chẳng biết có",
+    "đoán là",
+    "sợ là",
+    "sợ bị",
+    "chắc chắn là",
+    "hay bị",
+    "có bị",
+    "phải chăng",
+    "có thể do",
+    "có thể là",
+    "bị gì",
+    "do gì",
+    "không biết có phải",
+    "không rõ có phải",
+    "chẳng biết có phải",
+    "có phải là",
+    "phải chăng là"
+  ],
+  "_suspicion_markers_comment_vi": "Dấu hiệu khách đang tự nghi một nguyên nhân. Chỉ khi có một trong các cụm này đứng trước tên nguyên nhân trong cùng mệnh đề thì nguyên nhân đó mới được cộng điểm. Thiếu luật này thì 'mất thẻ từ' bị hiểu là nghi hỏng đầu đọc thẻ.",
+  "hedges": [
+    "em không biết",
+    "mình không biết",
+    "tôi không biết",
+    "không biết",
+    "chẳng biết",
+    "không rõ",
+    "chả biết",
+    "hổng biết",
+    "ko biết"
+  ],
+  "_hedges_comment_vi": "Lời rào đón, bỏ khỏi văn bản đưa cho bộ tìm kiếm: chữ 'không' trong 'không biết' không nói gì về thiết bị nhưng vẫn khớp các triệu chứng có chữ 'không'.",
+  "previous_denials": [
+    "khong phai",
+    "sai roi",
+    "khong dung",
+    "chua dung",
+    "dau phai",
+    "khong phai dau",
+    "khong phai vay",
+    "khong phai cai do",
+    "khong phai loi do",
+    "khong phai benh do",
+    "ko phai",
+    "sai",
+    "khong chuan",
+    "doan sai",
+    "nham roi",
+    "khong co dau",
+    "trat lat",
+    "trat lat roi",
+    "trat roi",
+    "sai bet",
+    "sai het roi",
+    "khong dung roi",
+    "khong phai roi",
+    "khong co phai",
+    "nham"
+  ],
+  "_previous_denials_comment_vi": "Câu bác lại chẩn đoán vừa đưa ra mà không nói tên nguyên nhân. Chỉ áp dụng khi lượt trước đã có chẩn đoán và câu này không đổi sang thiết bị khác.",
+  "confirmations": [
+    "dung roi",
+    "chuan roi",
+    "chuan",
+    "y chang",
+    "dung vay",
+    "dung la vay",
+    "dung the",
+    "phai roi",
+    "chinh xac",
+    "dung y"
+  ],
+  "clause_connectors": [
+    "nhung",
+    "ma",
+    "ma con",
+    "voi lai",
+    "con",
+    "tuy",
+    "du",
+    "duy",
+    "the ma",
+    "vay ma",
+    "nhung ma",
+    "chu",
+    "luc do",
+    "sau do",
+    "va"
+  ],
+  "_clause_connectors_comment_vi": "Từ nối tách mệnh đề. 'Đã vệ sinh rồi mà vẫn không mát' thành 'đã vệ sinh rồi' và 'vẫn không mát'.",
+  "keep_together": [
+    "vẫn còn",
+    "còn nguyên",
+    "còn mới",
+    "còn tốt",
+    "còn chạy",
+    "còn hoạt động",
+    "còn sáng",
+    "còn lạnh",
+    "còn nóng",
+    "còn ăn",
+    "còn nhạy",
+    "còn bảo hành",
+    "còn sạch",
+    "còn kêu",
+    "còn rỉ",
+    "còn chảy",
+    "còn hạn",
+    "còn pin",
+    "còn điện",
+    "mà vẫn"
+  ],
+  "_keep_together_comment_vi": "Cặp từ có chứa từ nối nhưng không được cắt đôi: 'mặt kính còn nguyên' là một ý, cắt ở 'còn' thì mất luôn ý 'kính không nứt'. Cụm triệu chứng trong KB và cụm loại trừ có chứa từ nối cũng được tự thêm vào khi nạp.",
+  "gap_words": [
+    "cái",
+    "chiếc",
+    "con",
+    "cho",
+    "lại",
+    "luôn",
+    "hết",
+    "đi",
+    "qua",
+    "mấy",
+    "các",
+    "một",
+    "những",
+    "bớt",
+    "sạch",
+    "kỹ",
+    "kĩ",
+    "hẳn",
+    "mới",
+    "giúp",
+    "thử",
+    "rồi"
+  ],
+  "_gap_words_comment_vi": "Chữ được phép chen giữa các chữ của một cụm loại trừ, tối đa hai chữ: 'thông cái lỗ thoát nước', 'thay luôn cái tụ', 'vệ sinh sạch sẽ lưới lọc'.",
+  "ack": {
+    "done": "Dạ, anh/chị đã {phrase} rồi nên em loại khả năng {fault} ra ạ.",
+    "cause": "Dạ, anh/chị cho biết không phải do {phrase} nên em loại khả năng {fault} ra ạ.",
+    "absent": "Dạ, anh/chị cho biết {phrase} nên em loại khả năng {fault} ra ạ.",
+    "previous": "Dạ, vậy em loại khả năng {fault} ra ạ.",
+    "next": "Khả năng còn lại là {fault}."
+  },
+  "faults": {
+    "AC_LOW_REFRIGERANT": {
+      "cause": [
+        "thiếu gas",
+        "hết gas",
+        "xì gas",
+        "gas"
+      ]
+    },
+    "AC_DIRTY_FILTER": {
+      "done": [
+        "vệ sinh",
+        "bảo dưỡng",
+        "vệ sinh máy",
+        "vệ sinh lưới lọc",
+        "rửa lưới lọc",
+        "vệ sinh dàn lạnh",
+        "giặt lưới lọc",
+        "thay lưới lọc",
+        "lau lưới lọc",
+        "lau sạch lưới lọc",
+        "chùi lưới lọc",
+        "lau dàn lạnh",
+        "rửa máy",
+        "rửa",
+        "xịt rửa",
+        "lau sạch",
+        "lau chùi"
+      ],
+      "cause": [
+        "bẩn",
+        "dơ",
+        "bụi",
+        "do bẩn",
+        "lưới lọc",
+        "bám bụi",
+        "nghẹt bụi"
+      ],
+      "absent": [
+        "lưới lọc sạch",
+        "dàn lạnh sạch",
+        "máy sạch",
+        "còn sạch",
+        "sạch sẽ",
+        "sạch bong",
+        "không có bụi",
+        "lưới lọc vẫn sạch",
+        "mới tinh",
+        "không bẩn",
+        "không dơ",
+        "không có bẩn",
+        "đâu có bẩn",
+        "chẳng bẩn",
+        "hết bẩn"
+      ]
+    },
+    "AC_DRAIN_BLOCKED": {
+      "done": [
+        "thông ống thoát nước",
+        "thông ống nước thải",
+        "thông đường thoát nước"
+      ],
+      "cause": [
+        "ống thoát nước",
+        "nghẹt ống nước",
+        "ống xả nước"
+      ],
+      "absent": [
+        "không chảy nước",
+        "không nhỏ nước",
+        "không rỉ nước",
+        "không có nước nhỏ giọt",
+        "không bị chảy nước",
+        "không có nước",
+        "khô ráo",
+        "không rò nước"
+      ]
+    },
+    "AC_COMPRESSOR_FAULT": {
+      "cause": [
+        "máy nén",
+        "lốc",
+        "block"
+      ]
+    },
+    "AC_PCB_FAULT": {
+      "cause": [
+        "bo mạch",
+        "board",
+        "mạch"
+      ]
+    },
+    "AC_INDOOR_FAN_MOTOR": {
+      "cause": [
+        "quạt dàn lạnh",
+        "mô tơ quạt"
+      ],
+      "absent": [
+        "gió vẫn thổi mạnh",
+        "gió vẫn ra mạnh",
+        "quạt dàn lạnh vẫn quay",
+        "gió ra mạnh",
+        "gió vẫn mạnh",
+        "vẫn có gió"
+      ]
+    },
+    "AC_OUTDOOR_FAN_MOTOR": {
+      "cause": [
+        "quạt cục nóng"
+      ],
+      "absent": [
+        "quạt cục nóng vẫn quay",
+        "cục nóng vẫn quay",
+        "quạt cục nóng vẫn chạy",
+        "cục nóng quạt vẫn chạy"
+      ]
+    },
+    "AC_CAPACITOR": {
+      "done": [
+        "thay tụ"
+      ],
+      "cause": [
+        "tụ",
+        "tụ điện"
+      ]
+    },
+    "AC_ICING": {
+      "done": [],
+      "cause": [
+        "đóng tuyết",
+        "đóng đá",
+        "bám tuyết"
+      ],
+      "absent": [
+        "không đóng tuyết",
+        "không có tuyết",
+        "không đóng đá",
+        "không bám tuyết",
+        "không thấy tuyết",
+        "không có đá"
+      ],
+      "tried": [
+        "tắt máy cho tan đá",
+        "cho tan đá"
+      ]
+    },
+    "AC_REMOTE_FAULT": {
+      "cause": [
+        "điều khiển",
+        "remote",
+        "pin điều khiển"
+      ],
+      "absent": [
+        "điều khiển vẫn bật tắt được",
+        "điều khiển vẫn dùng được",
+        "điều khiển vẫn ăn",
+        "điều khiển vẫn bình thường",
+        "điều khiển vẫn chỉnh được",
+        "bấm điều khiển vẫn tít",
+        "vẫn chỉnh nhiệt độ được",
+        "điều khiển vẫn nhận",
+        "vẫn bật tắt được",
+        "bật tắt bằng điều khiển vẫn được",
+        "điều khiển vẫn hoạt động"
+      ],
+      "tried": [
+        "thay pin điều khiển",
+        "thay pin remote",
+        "thay pin"
+      ]
+    },
+    "AC_NOISY_INDOOR": {
+      "cause": [
+        "ồn",
+        "rung"
+      ],
+      "absent": [
+        "máy chạy êm",
+        "chạy êm",
+        "không kêu",
+        "không ồn",
+        "không rung",
+        "êm ru"
+      ]
+    },
+    "AC_SMELL_BURNT": {
+      "never_exclude": true,
+      "cause": [
+        "chập điện",
+        "cháy"
+      ]
+    },
+    "CEILFAN_CAPACITOR": {
+      "done": [
+        "thay tụ"
+      ],
+      "cause": [
+        "tụ"
+      ]
+    },
+    "CEILFAN_BEARING": {
+      "done": [
+        "tra dầu",
+        "thay bạc",
+        "thay bạc đạn",
+        "tra mỡ",
+        "bôi dầu"
+      ],
+      "cause": [
+        "khô dầu",
+        "bạc",
+        "bạc đạn"
+      ]
+    },
+    "CEILFAN_MOUNT_LOOSE": {
+      "done": [
+        "siết lại ốc",
+        "siết ốc",
+        "siết lại bộ treo",
+        "siết lại",
+        "vặn chặt",
+        "bắt lại ốc"
+      ],
+      "cause": [
+        "lỏng",
+        "lỏng ốc"
+      ],
+      "absent": [
+        "treo chắc chắn",
+        "không lung lay",
+        "không lắc"
+      ]
+    },
+    "CEILFAN_SPEED_SWITCH": {
+      "done": [
+        "thay hộp số",
+        "thay chiết áp"
+      ],
+      "cause": [
+        "hộp số",
+        "chiết áp"
+      ]
+    },
+    "CEILFAN_MOTOR_BURNT": {
+      "cause": [
+        "cháy mô tơ",
+        "cháy cuộn dây"
+      ],
+      "absent": [
+        "không có mùi khét",
+        "không khét"
+      ]
+    },
+    "FAN_WORN_BEARING": {
+      "done": [
+        "tra dầu",
+        "thay bạc",
+        "thay bạc đạn",
+        "tra mỡ",
+        "bôi dầu",
+        "nhỏ dầu"
+      ],
+      "cause": [
+        "khô dầu",
+        "bạc đạn",
+        "bạc"
+      ]
+    },
+    "FAN_CAPACITOR": {
+      "done": [
+        "thay tụ"
+      ],
+      "cause": [
+        "tụ"
+      ]
+    },
+    "FAN_MOTOR_BURNT": {
+      "cause": [
+        "cháy mô tơ",
+        "cháy cuộn dây"
+      ],
+      "absent": [
+        "không có mùi khét",
+        "không khét"
+      ]
+    },
+    "FAN_SWITCH_FAULT": {
+      "done": [
+        "thay công tắc",
+        "thay nút bấm",
+        "thay phím"
+      ],
+      "cause": [
+        "công tắc",
+        "nút bấm"
+      ],
+      "absent": [
+        "nút bấm vẫn ăn",
+        "bấm nút vẫn đổi số"
+      ]
+    },
+    "FAN_OSCILLATION_FAULT": {
+      "done": [
+        "thay tuốc năng",
+        "thay bộ đảo gió"
+      ],
+      "cause": [
+        "tuốc năng",
+        "đảo gió"
+      ],
+      "absent": [
+        "vẫn đảo được",
+        "vẫn quay qua lại",
+        "đảo gió bình thường"
+      ]
+    },
+    "FAN_CORD_DAMAGE": {
+      "done": [
+        "thay dây nguồn",
+        "thay dây điện",
+        "nối lại dây"
+      ],
+      "cause": [
+        "dây nguồn",
+        "dây điện"
+      ],
+      "absent": [
+        "dây nguồn còn tốt",
+        "dây còn nguyên",
+        "dây không sao"
+      ]
+    },
+    "FAN_WOBBLE": {
+      "done": [
+        "siết lại",
+        "siết ốc",
+        "thay cánh",
+        "vặn chặt chân"
+      ],
+      "cause": [
+        "cong cánh",
+        "lỏng chân"
+      ],
+      "absent": [
+        "không rung",
+        "không lắc",
+        "đứng vững"
+      ]
+    },
+    "WM_DRAIN_PUMP": {
+      "done": [
+        "thay bơm xả"
+      ],
+      "cause": [
+        "bơm xả",
+        "ống xả"
+      ],
+      "absent": [
+        "xả nước bình thường",
+        "vẫn xả được nước",
+        "xả nước hết",
+        "nước xả ra bình thường"
+      ],
+      "tried": [
+        "vệ sinh lưới lọc bơm xả",
+        "vệ sinh bẫy xả",
+        "thông ống xả"
+      ]
+    },
+    "WM_NO_SPIN": {
+      "done": [],
+      "cause": [
+        "dây curoa",
+        "curoa",
+        "lệch tải",
+        "lệch đồ"
+      ],
+      "tried": [
+        "chia đều đồ",
+        "chia đều quần áo",
+        "dàn đều đồ",
+        "xếp lại đồ",
+        "bớt đồ",
+        "giảm bớt đồ",
+        "lấy bớt đồ ra"
+      ]
+    },
+    "WM_NO_WATER_INLET": {
+      "done": [
+        "thay van cấp",
+        "vệ sinh lưới lọc van cấp"
+      ],
+      "cause": [
+        "van cấp",
+        "cấp nước"
+      ],
+      "absent": [
+        "nước vào bình thường",
+        "vẫn cấp nước",
+        "cấp nước bình thường",
+        "nước vẫn vào"
+      ]
+    },
+    "WM_BEARING_NOISE": {
+      "done": [
+        "thay bạc đạn",
+        "thay bạc"
+      ],
+      "cause": [
+        "bạc đạn"
+      ],
+      "absent": [
+        "chạy êm",
+        "không kêu",
+        "không ồn"
+      ]
+    },
+    "WM_PCB_FAULT": {
+      "cause": [
+        "bo mạch",
+        "board",
+        "mạch"
+      ]
+    },
+    "WM_DOOR_SEAL_LEAK": {
+      "done": [
+        "thay gioăng cửa",
+        "thay ron cửa",
+        "thay gioăng"
+      ],
+      "cause": [
+        "gioăng",
+        "ron cửa"
+      ],
+      "absent": [
+        "gioăng cửa còn tốt",
+        "gioăng còn nguyên",
+        "không rò cửa"
+      ]
+    },
+    "WM_DOOR_LOCK": {
+      "done": [
+        "thay khóa cửa"
+      ],
+      "cause": [
+        "khóa cửa"
+      ],
+      "absent": [
+        "cửa vẫn khóa bình thường",
+        "cửa vẫn đóng mở bình thường",
+        "khóa cửa bình thường"
+      ]
+    },
+    "WM_SMELL_MOLD": {
+      "done": [
+        "vệ sinh lồng giặt",
+        "tẩy lồng giặt",
+        "vệ sinh máy giặt",
+        "vệ sinh"
+      ],
+      "cause": [
+        "mốc",
+        "cặn bẩn",
+        "bẩn"
+      ],
+      "absent": [
+        "không hôi",
+        "không có mùi"
+      ]
+    },
+    "WM_MOTOR_FAULT": {
+      "cause": [
+        "mô tơ",
+        "motor"
+      ]
+    },
+    "WM_OVERFLOW": {
+      "cause": [
+        "tràn nước"
+      ],
+      "absent": [
+        "không tràn",
+        "nước không tràn",
+        "cấp nước có ngắt"
+      ]
+    },
+    "FRIDGE_LOW_GAS": {
+      "cause": [
+        "thiếu gas",
+        "hết gas",
+        "xì gas",
+        "gas"
+      ]
+    },
+    "FRIDGE_DEFROST_FAULT": {
+      "done": [],
+      "cause": [
+        "đóng tuyết",
+        "đóng đá",
+        "xả đá"
+      ],
+      "absent": [
+        "không đóng tuyết",
+        "không đóng đá",
+        "không có tuyết",
+        "không bám tuyết",
+        "không thấy đá bám"
+      ],
+      "tried": [
+        "rã đông",
+        "xả đá",
+        "tắt tủ cho tan đá"
+      ]
+    },
+    "FRIDGE_COMPRESSOR": {
+      "cause": [
+        "máy nén",
+        "lốc",
+        "block"
+      ]
+    },
+    "FRIDGE_DOOR_GASKET": {
+      "done": [
+        "thay gioăng",
+        "thay ron",
+        "thay gioăng cửa",
+        "thay ron cửa"
+      ],
+      "cause": [
+        "gioăng",
+        "ron cửa",
+        "hở cửa"
+      ],
+      "absent": [
+        "gioăng còn kín",
+        "gioăng còn tốt",
+        "cửa đóng kín",
+        "đóng cửa kín",
+        "gioăng còn nguyên",
+        "cửa không hở"
+      ]
+    },
+    "FRIDGE_FAN_FAULT": {
+      "done": [
+        "thay quạt"
+      ],
+      "cause": [
+        "quạt"
+      ],
+      "absent": [
+        "quạt vẫn quay",
+        "nghe quạt vẫn chạy",
+        "quạt vẫn chạy",
+        "vẫn có gió lạnh"
+      ]
+    },
+    "FRIDGE_DRAIN_BLOCKED": {
+      "done": [
+        "thông lỗ thoát nước",
+        "thông lỗ thoát"
+      ],
+      "cause": [
+        "lỗ thoát nước"
+      ],
+      "absent": [
+        "không đọng nước",
+        "không chảy nước",
+        "không có nước đọng",
+        "khô ráo"
+      ]
+    },
+    "FRIDGE_LIGHT_FAULT": {
+      "done": [
+        "thay bóng đèn",
+        "thay bóng",
+        "thay đèn"
+      ],
+      "cause": [
+        "bóng đèn",
+        "đèn"
+      ]
+    },
+    "FRIDGE_NOISY": {
+      "cause": [
+        "ồn",
+        "rung"
+      ],
+      "absent": [
+        "chạy êm",
+        "không kêu",
+        "không ồn",
+        "không rung"
+      ]
+    },
+    "MW_MAGNETRON": {
+      "cause": [
+        "sò cao tần",
+        "magnetron"
+      ]
+    },
+    "MW_DOOR_SWITCH": {
+      "done": [
+        "thay công tắc cửa"
+      ],
+      "cause": [
+        "công tắc cửa"
+      ],
+      "absent": [
+        "cửa đóng kín",
+        "đóng cửa vẫn kêu tách"
+      ]
+    },
+    "MW_TURNTABLE_MOTOR": {
+      "done": [
+        "thay mô tơ mâm"
+      ],
+      "cause": [
+        "mâm xoay",
+        "mô tơ mâm"
+      ],
+      "absent": [
+        "mâm vẫn quay",
+        "đĩa vẫn quay",
+        "mâm quay bình thường"
+      ]
+    },
+    "MW_SPARKING": {
+      "never_exclude": true,
+      "cause": [
+        "tia lửa"
+      ]
+    },
+    "MW_NO_POWER": {
+      "done": [
+        "thay cầu chì"
+      ],
+      "cause": [
+        "cầu chì",
+        "mất nguồn"
+      ],
+      "absent": [
+        "vẫn lên nguồn",
+        "đèn vẫn sáng",
+        "vẫn sáng đèn",
+        "vẫn có điện",
+        "màn hình vẫn sáng",
+        "vẫn quay"
+      ]
+    },
+    "MW_FAN_NOISY": {
+      "done": [
+        "vệ sinh quạt"
+      ],
+      "cause": [
+        "quạt tản nhiệt"
+      ],
+      "absent": [
+        "chạy êm",
+        "không kêu",
+        "không ồn"
+      ]
+    },
+    "OVEN_HEATING_ELEMENT": {
+      "done": [
+        "thay thanh nhiệt",
+        "thay thanh đốt"
+      ],
+      "cause": [
+        "thanh nhiệt",
+        "thanh đốt"
+      ],
+      "absent": [
+        "thanh nhiệt vẫn đỏ",
+        "thanh nhiệt vẫn nóng đỏ"
+      ]
+    },
+    "OVEN_THERMOSTAT": {
+      "done": [
+        "thay rơ le",
+        "thay rơ le nhiệt"
+      ],
+      "cause": [
+        "rơ le",
+        "rơ le nhiệt"
+      ]
+    },
+    "OVEN_TIMER_FAULT": {
+      "done": [
+        "thay hẹn giờ",
+        "thay bộ hẹn giờ",
+        "thay công tắc"
+      ],
+      "cause": [
+        "hẹn giờ",
+        "timer"
+      ],
+      "absent": [
+        "hẹn giờ vẫn chạy",
+        "đồng hồ vẫn chạy"
+      ]
+    },
+    "OVEN_DOOR_GLASS": {
+      "done": [
+        "thay kính",
+        "thay bản lề"
+      ],
+      "cause": [
+        "kính cửa",
+        "bản lề"
+      ],
+      "absent": [
+        "kính còn nguyên",
+        "kính cửa còn nguyên",
+        "cửa đóng kín"
+      ]
+    },
+    "OVEN_FAN_FAULT": {
+      "done": [
+        "thay quạt"
+      ],
+      "cause": [
+        "quạt đối lưu",
+        "quạt"
+      ],
+      "absent": [
+        "quạt vẫn quay",
+        "quạt đối lưu vẫn quay"
+      ]
+    },
+    "STOVE_IGNITER": {
+      "cause": [
+        "đánh lửa",
+        "bộ đánh lửa",
+        "pin"
+      ],
+      "tried": [
+        "thay pin",
+        "thay pin đánh lửa"
+      ]
+    },
+    "STOVE_BURNER_CLOGGED": {
+      "done": [
+        "vệ sinh đầu đốt",
+        "vệ sinh họng lửa",
+        "vệ sinh chia lửa",
+        "thông họng lửa",
+        "thông lỗ lửa",
+        "vệ sinh bếp",
+        "chà rửa đầu đốt",
+        "vệ sinh"
+      ],
+      "cause": [
+        "nghẹt họng lửa",
+        "bẩn",
+        "nghẹt"
+      ],
+      "absent": [
+        "lửa xanh đều",
+        "lửa vẫn xanh",
+        "lửa đều"
+      ]
+    },
+    "STOVE_GAS_LEAK": {
+      "never_exclude": true,
+      "cause": [
+        "rò gas",
+        "xì gas"
+      ],
+      "absent": [
+        "không có mùi gas",
+        "không ngửi thấy mùi gas",
+        "không thấy mùi gas",
+        "không mùi gas"
+      ]
+    },
+    "STOVE_VALVE_STUCK": {
+      "done": [
+        "thay van",
+        "thay núm"
+      ],
+      "cause": [
+        "núm vặn",
+        "van"
+      ],
+      "absent": [
+        "núm vặn bình thường",
+        "vặn núm vẫn nhẹ"
+      ]
+    },
+    "STOVE_FLAME_OUT": {
+      "done": [
+        "thay cảm biến nhiệt",
+        "thay kim cảm biến"
+      ],
+      "cause": [
+        "cảm biến"
+      ]
+    },
+    "STOVE_REGULATOR": {
+      "done": [
+        "thay van điều áp",
+        "thay van gas",
+        "thay van bình",
+        "thay dây gas",
+        "thay dây dẫn"
+      ],
+      "cause": [
+        "van điều áp",
+        "dây dẫn gas",
+        "van gas"
+      ],
+      "absent": [
+        "bình gas còn đầy",
+        "gas vẫn còn nhiều"
+      ]
+    },
+    "KETTLE_THERMOSTAT": {
+      "done": [
+        "thay rơ le"
+      ],
+      "cause": [
+        "rơ le"
+      ],
+      "absent": [
+        "sôi vẫn tự ngắt",
+        "vẫn tự ngắt",
+        "tự tắt bình thường"
+      ]
+    },
+    "KETTLE_HEATING_BASE": {
+      "done": [
+        "thay mâm nhiệt"
+      ],
+      "cause": [
+        "mâm nhiệt"
+      ]
+    },
+    "KETTLE_LEAK": {
+      "cause": [
+        "rò nước",
+        "rỉ nước"
+      ],
+      "absent": [
+        "không rò nước",
+        "không rỉ nước",
+        "đáy khô",
+        "không chảy nước"
+      ]
+    },
+    "KETTLE_SCALE": {
+      "done": [
+        "tẩy cặn",
+        "vệ sinh ấm",
+        "đun giấm",
+        "đun chanh",
+        "rửa cặn",
+        "vệ sinh",
+        "đánh cặn",
+        "tẩy cặn vôi"
+      ],
+      "cause": [
+        "cặn",
+        "cặn vôi"
+      ],
+      "absent": [
+        "không có cặn",
+        "lòng ấm sạch",
+        "ấm còn sạch",
+        "còn sạch"
+      ]
+    },
+    "KETTLE_SWITCH": {
+      "done": [
+        "thay công tắc"
+      ],
+      "cause": [
+        "công tắc"
+      ],
+      "absent": [
+        "đèn công tắc vẫn sáng",
+        "bật vẫn sáng đèn"
+      ]
+    },
+    "TV_BACKLIGHT": {
+      "done": [
+        "thay đèn nền",
+        "thay led"
+      ],
+      "cause": [
+        "đèn nền",
+        "led"
+      ]
+    },
+    "TV_POWER_BOARD": {
+      "done": [
+        "thay bo nguồn",
+        "thay nguồn"
+      ],
+      "cause": [
+        "bo nguồn",
+        "nguồn"
+      ],
+      "absent": [
+        "đèn chờ vẫn sáng",
+        "vẫn có đèn đỏ",
+        "vẫn lên đèn"
+      ]
+    },
+    "TV_MAIN_BOARD": {
+      "done": [
+        "thay bo mạch",
+        "thay main"
+      ],
+      "cause": [
+        "bo mạch",
+        "main"
+      ]
+    },
+    "TV_PANEL_DAMAGE": {
+      "cause": [
+        "màn hình vỡ",
+        "tấm nền"
+      ],
+      "absent": [
+        "màn hình còn nguyên",
+        "màn hình không vỡ",
+        "không bị va đập",
+        "không bị rơi"
+      ]
+    },
+    "TV_NO_SOUND": {
+      "done": [
+        "thay loa"
+      ],
+      "cause": [
+        "loa"
+      ],
+      "absent": [
+        "vẫn có tiếng",
+        "âm thanh bình thường",
+        "vẫn nghe tiếng"
+      ]
+    },
+    "TV_REMOTE_FAULT": {
+      "done": [
+        "thay điều khiển"
+      ],
+      "cause": [
+        "điều khiển",
+        "remote",
+        "pin điều khiển"
+      ],
+      "absent": [
+        "bấm nút trên tivi cũng không được",
+        "nút trên tivi cũng không ăn",
+        "điều khiển vẫn dùng được",
+        "điều khiển vẫn bình thường",
+        "bấm trên thân máy cũng không được"
+      ],
+      "tried": [
+        "thay pin điều khiển",
+        "thay pin remote",
+        "thay pin"
+      ]
+    },
+    "SINK_CLOGGED": {
+      "cause": [
+        "nghẹt",
+        "tắc"
+      ],
+      "absent": [
+        "nước vẫn thoát nhanh",
+        "thoát nước bình thường",
+        "không nghẹt",
+        "không tắc"
+      ],
+      "tried": [
+        "đổ nước sôi",
+        "dùng thuốc thông",
+        "thụt",
+        "dùng cây thông"
+      ]
+    },
+    "SINK_TRAP_LEAK": {
+      "done": [
+        "thay ống thoát",
+        "thay xi phông",
+        "thay siphon"
+      ],
+      "cause": [
+        "ống thoát",
+        "xi phông"
+      ],
+      "absent": [
+        "không rò nước",
+        "dưới bồn khô",
+        "không rỉ nước",
+        "dưới tủ khô ráo"
+      ]
+    },
+    "SINK_SMELL": {
+      "done": [
+        "đổ nước vào xi phông",
+        "thay bẫy nước",
+        "lắp bẫy mùi"
+      ],
+      "cause": [
+        "hôi cống",
+        "mùi hôi"
+      ],
+      "absent": [
+        "không hôi",
+        "không có mùi"
+      ]
+    },
+    "SINK_DRAIN_CORRODED": {
+      "done": [
+        "thay giỏ thoát",
+        "thay rọ thoát"
+      ],
+      "cause": [
+        "rỉ sét",
+        "mục"
+      ]
+    },
+    "FAUCET_DRIP": {
+      "done": [
+        "thay gioăng",
+        "thay ron",
+        "thay ron cao su",
+        "thay gioăng cao su"
+      ],
+      "cause": [
+        "gioăng",
+        "ron"
+      ],
+      "absent": [
+        "vặn chặt không còn nhỏ giọt",
+        "không nhỏ giọt"
+      ]
+    },
+    "FAUCET_CARTRIDGE": {
+      "done": [
+        "thay lõi vòi",
+        "thay lõi",
+        "thay củ sen"
+      ],
+      "cause": [
+        "lõi vòi",
+        "lõi"
+      ]
+    },
+    "FAUCET_LOW_FLOW": {
+      "done": [
+        "vệ sinh đầu lọc",
+        "tháo rửa đầu lọc",
+        "vệ sinh sục khí",
+        "vệ sinh lưới lọc",
+        "vệ sinh đầu vòi",
+        "vệ sinh"
+      ],
+      "cause": [
+        "nghẹt đầu lọc",
+        "cặn",
+        "đầu lọc"
+      ],
+      "absent": [
+        "vòi khác vẫn mạnh",
+        "nước nhà vẫn mạnh",
+        "chỗ khác nước vẫn mạnh"
+      ]
+    },
+    "FAUCET_BASE_LEAK": {
+      "done": [
+        "quấn băng tan",
+        "siết lại chân vòi",
+        "thay dây cấp"
+      ],
+      "cause": [
+        "chân vòi",
+        "mối nối"
+      ],
+      "absent": [
+        "chân vòi khô",
+        "chân vòi khô ráo",
+        "không rò chân vòi"
+      ]
+    },
+    "TOILET_CLOGGED": {
+      "cause": [
+        "nghẹt",
+        "tắc"
+      ],
+      "absent": [
+        "xả vẫn trôi",
+        "vẫn trôi bình thường",
+        "không nghẹt",
+        "không tắc"
+      ],
+      "tried": [
+        "dùng cây thông",
+        "thụt",
+        "đổ nước nóng",
+        "dùng thuốc thông"
+      ]
+    },
+    "TOILET_FILL_VALVE": {
+      "done": [
+        "thay phao",
+        "thay van cấp",
+        "thay van phao"
+      ],
+      "cause": [
+        "phao",
+        "van cấp"
+      ],
+      "absent": [
+        "két vẫn đầy nước",
+        "nước vào két bình thường"
+      ]
+    },
+    "TOILET_FLAPPER_LEAK": {
+      "done": [
+        "thay van xả",
+        "thay cao su xả",
+        "thay nắp xả",
+        "thay ron van xả"
+      ],
+      "cause": [
+        "van xả",
+        "cao su xả"
+      ],
+      "absent": [
+        "không chảy nước liên tục",
+        "nước không chảy xuống lòng bồn"
+      ]
+    },
+    "TOILET_BASE_LEAK": {
+      "done": [
+        "trám lại chân",
+        "bắn keo chân bồn cầu",
+        "thay gioăng chân"
+      ],
+      "cause": [
+        "chân bồn cầu"
+      ],
+      "absent": [
+        "chân bồn cầu khô",
+        "chân bồn cầu khô ráo",
+        "không rò chân"
+      ]
+    },
+    "TOILET_WEAK_FLUSH": {
+      "done": [],
+      "cause": [
+        "xả yếu"
+      ]
+    },
+    "TOILET_SEAT_BROKEN": {
+      "done": [
+        "thay nắp",
+        "thay nắp bồn cầu"
+      ],
+      "cause": [
+        "nắp"
+      ],
+      "absent": [
+        "nắp vẫn chắc",
+        "nắp còn nguyên"
+      ]
+    },
+    "OUTLET_SHORT_CIRCUIT": {
+      "never_exclude": true,
+      "cause": [
+        "chập",
+        "cháy"
+      ],
+      "absent": [
+        "không có mùi khét",
+        "không khét",
+        "không thấy cháy"
+      ]
+    },
+    "OUTLET_LOOSE_CONTACT": {
+      "done": [
+        "thay ổ cắm",
+        "thay ổ mới",
+        "thay ổ"
+      ],
+      "cause": [
+        "lỏng",
+        "rơ"
+      ],
+      "absent": [
+        "cắm vẫn chặt",
+        "phích cắm vẫn chặt"
+      ]
+    },
+    "OUTLET_NO_POWER": {
+      "cause": [
+        "mất điện",
+        "đứt dây"
+      ],
+      "absent": [
+        "ổ vẫn có điện",
+        "vẫn có điện",
+        "cắm cái khác vẫn chạy",
+        "bút thử điện vẫn sáng"
+      ],
+      "tried": [
+        "thử cắm thiết bị khác",
+        "cắm thử cái khác",
+        "bật lại aptomat"
+      ]
+    },
+    "OUTLET_TRIPS_BREAKER": {
+      "never_exclude": true,
+      "cause": [
+        "rò điện",
+        "nhảy aptomat"
+      ]
+    },
+    "OUTLET_OVERLOAD": {
+      "done": [
+        "rút bớt thiết bị",
+        "rút bớt",
+        "cắm ít lại",
+        "tách ra ổ khác",
+        "chỉ cắm một cái"
+      ],
+      "cause": [
+        "quá tải",
+        "cắm nhiều"
+      ],
+      "absent": [
+        "chỉ cắm một thiết bị",
+        "chỉ cắm một cái",
+        "không cắm nhiều"
+      ]
+    },
+    "OUTLET_BROKEN_FACE": {
+      "done": [
+        "thay mặt ổ",
+        "thay mặt ổ cắm"
+      ],
+      "cause": [
+        "vỡ mặt",
+        "nứt mặt"
+      ],
+      "absent": [
+        "mặt ổ còn nguyên",
+        "không vỡ",
+        "không nứt"
+      ]
+    },
+    "LIGHT_BULB_DEAD": {
+      "done": [
+        "thay bóng",
+        "thay bóng mới",
+        "thay bóng đèn",
+        "lắp bóng mới",
+        "thay đèn mới",
+        "đổi bóng khác",
+        "thử bóng khác",
+        "lắp bóng khác"
+      ],
+      "cause": [
+        "bóng",
+        "bóng cháy",
+        "hết tuổi thọ"
+      ],
+      "absent": [
+        "bóng còn mới",
+        "bóng mới mua"
+      ]
+    },
+    "LIGHT_FLICKERING": {
+      "done": [
+        "thay driver",
+        "thay chấn lưu",
+        "thay tăng phô"
+      ],
+      "cause": [
+        "driver",
+        "chấn lưu",
+        "tăng phô"
+      ]
+    },
+    "LIGHT_SWITCH_FAULT": {
+      "done": [
+        "thay công tắc"
+      ],
+      "cause": [
+        "công tắc"
+      ],
+      "absent": [
+        "công tắc vẫn ăn",
+        "công tắc bình thường",
+        "bật công tắc vẫn tách"
+      ]
+    },
+    "LIGHT_DIM": {
+      "cause": [
+        "điện yếu",
+        "điện áp thấp"
+      ],
+      "absent": [
+        "điện nhà vẫn mạnh",
+        "đèn khác vẫn sáng bình thường"
+      ]
+    },
+    "LIGHT_FIXTURE_LEAK": {
+      "done": [
+        "thay máng đèn",
+        "làm lại chống thấm"
+      ],
+      "cause": [
+        "thấm nước",
+        "máng đèn"
+      ],
+      "absent": [
+        "không thấm",
+        "máng đèn khô"
+      ]
+    },
+    "WH_HEATING_ELEMENT": {
+      "done": [
+        "thay thanh đốt",
+        "thay thanh nhiệt",
+        "thay mayso"
+      ],
+      "cause": [
+        "thanh đốt",
+        "thanh nhiệt",
+        "mayso"
+      ]
+    },
+    "WH_THERMOSTAT": {
+      "done": [
+        "thay rơ le",
+        "thay rơ le nhiệt",
+        "thay cảm biến nhiệt"
+      ],
+      "cause": [
+        "rơ le",
+        "rơ le nhiệt"
+      ]
+    },
+    "WH_ELCB_TRIPS": {
+      "never_exclude": true,
+      "cause": [
+        "rò điện",
+        "chống giật"
+      ]
+    },
+    "WH_SCALE_BUILDUP": {
+      "done": [
+        "súc rửa bình",
+        "vệ sinh bình",
+        "súc bình",
+        "xả cặn",
+        "tẩy cặn",
+        "vệ sinh"
+      ],
+      "cause": [
+        "cặn",
+        "cặn canxi"
+      ],
+      "absent": [
+        "nước không đục",
+        "không có cặn"
+      ]
+    },
+    "WH_TANK_LEAK": {
+      "never_exclude": true,
+      "cause": [
+        "thủng bình",
+        "rò bình"
+      ],
+      "absent": [
+        "không rò nước",
+        "bình khô ráo",
+        "không rỉ nước"
+      ]
+    },
+    "WH_LOW_PRESSURE": {
+      "done": [
+        "vệ sinh van một chiều",
+        "thông đường nước vào",
+        "vệ sinh lưới lọc"
+      ],
+      "cause": [
+        "nước yếu",
+        "áp lực yếu"
+      ],
+      "absent": [
+        "nước lạnh vẫn mạnh",
+        "nước vẫn mạnh"
+      ]
+    },
+    "WH_INSTANT_NO_HOT": {
+      "cause": [
+        "không nóng"
+      ]
+    },
+    "PIPE_JOINT_LEAK": {
+      "done": [
+        "quấn băng tan",
+        "thay khớp nối",
+        "dán keo mối nối",
+        "thay co nối"
+      ],
+      "cause": [
+        "mối nối",
+        "khớp nối"
+      ],
+      "absent": [
+        "mối nối khô",
+        "không rò mối nối"
+      ]
+    },
+    "PIPE_BURST": {
+      "cause": [
+        "vỡ ống",
+        "bể ống"
+      ],
+      "absent": [
+        "ống không vỡ",
+        "không xì mạnh",
+        "không phun nước"
+      ]
+    },
+    "PIPE_CLOGGED": {
+      "cause": [
+        "nghẹt",
+        "tắc"
+      ],
+      "absent": [
+        "thoát nước bình thường",
+        "không nghẹt",
+        "không tắc"
+      ],
+      "tried": [
+        "dùng thuốc thông",
+        "đổ nước sôi",
+        "thụt"
+      ]
+    },
+    "PIPE_LOW_PRESSURE": {
+      "cause": [
+        "áp lực yếu",
+        "nước yếu"
+      ],
+      "absent": [
+        "nước vẫn mạnh",
+        "áp lực nước bình thường"
+      ]
+    },
+    "PIPE_NOISY": {
+      "done": [
+        "lắp chống búa nước",
+        "lắp van chống va"
+      ],
+      "cause": [
+        "búa nước",
+        "ống kêu"
+      ],
+      "absent": [
+        "ống không kêu",
+        "không kêu"
+      ]
+    },
+    "PIPE_RUSTY_WATER": {
+      "done": [
+        "thay ống mới",
+        "thay ống inox",
+        "thay ống nhựa"
+      ],
+      "cause": [
+        "rỉ sét",
+        "nước đục"
+      ],
+      "absent": [
+        "nước trong",
+        "nước không đục"
+      ]
+    },
+    "HOB_NO_PAN_DETECT": {
+      "cause": [
+        "không nhận nồi",
+        "nồi"
+      ],
+      "tried": [
+        "đổi nồi khác",
+        "thử nồi khác",
+        "dùng nồi inox"
+      ]
+    },
+    "HOB_ERROR_CODE": {
+      "cause": [
+        "mã lỗi"
+      ],
+      "absent": [
+        "không báo lỗi",
+        "không hiện mã lỗi",
+        "không có mã lỗi"
+      ]
+    },
+    "HOB_FAN_NOISY": {
+      "done": [
+        "vệ sinh quạt",
+        "thay quạt"
+      ],
+      "cause": [
+        "quạt tản nhiệt",
+        "quạt"
+      ],
+      "absent": [
+        "quạt chạy êm",
+        "không kêu"
+      ]
+    },
+    "HOB_TOUCH_FAULT": {
+      "done": [],
+      "cause": [
+        "cảm ứng",
+        "bảng điều khiển"
+      ],
+      "absent": [
+        "cảm ứng vẫn nhạy",
+        "bấm vẫn ăn",
+        "cảm ứng bình thường"
+      ]
+    },
+    "HOB_NO_POWER": {
+      "cause": [
+        "mất nguồn",
+        "mất điện"
+      ],
+      "absent": [
+        "vẫn lên nguồn",
+        "vẫn sáng đèn",
+        "vẫn có điện",
+        "màn hình vẫn sáng"
+      ]
+    },
+    "HOB_GLASS_CRACKED": {
+      "done": [
+        "thay mặt kính"
+      ],
+      "cause": [
+        "nứt kính",
+        "vỡ kính"
+      ],
+      "absent": [
+        "mặt kính còn nguyên",
+        "kính không nứt",
+        "kính không vỡ"
+      ]
+    },
+    "DW_NOT_CLEAN": {
+      "done": [],
+      "cause": [
+        "tay phun",
+        "lưới lọc"
+      ],
+      "tried": [
+        "vệ sinh lưới lọc",
+        "đổi viên rửa",
+        "thêm muối"
+      ]
+    },
+    "DW_NOT_DRAINING": {
+      "done": [],
+      "cause": [
+        "ống xả",
+        "bơm xả"
+      ],
+      "absent": [
+        "vẫn thoát nước",
+        "nước xả hết",
+        "thoát nước bình thường"
+      ]
+    },
+    "DW_NO_WATER": {
+      "done": [
+        "thay van cấp"
+      ],
+      "cause": [
+        "van cấp",
+        "cấp nước"
+      ],
+      "absent": [
+        "vẫn cấp nước",
+        "nước vào bình thường",
+        "nước vẫn vào"
+      ]
+    },
+    "DW_DOOR_LEAK": {
+      "done": [
+        "thay gioăng cửa",
+        "thay ron cửa",
+        "thay gioăng"
+      ],
+      "cause": [
+        "gioăng cửa",
+        "gioăng"
+      ],
+      "absent": [
+        "cửa không rò",
+        "gioăng còn tốt"
+      ]
+    },
+    "DW_NO_POWER": {
+      "cause": [
+        "mất nguồn"
+      ],
+      "absent": [
+        "vẫn lên nguồn",
+        "vẫn sáng đèn",
+        "vẫn có điện"
+      ]
+    },
+    "DRYER_NOT_HEATING": {
+      "done": [
+        "thay điện trở",
+        "thay thanh nhiệt"
+      ],
+      "cause": [
+        "thanh nhiệt",
+        "điện trở"
+      ],
+      "absent": [
+        "vẫn ra hơi nóng",
+        "vẫn nóng",
+        "hơi vẫn nóng"
+      ]
+    },
+    "DRYER_LINT_CLOGGED": {
+      "done": [
+        "vệ sinh lọc xơ",
+        "vệ sinh lưới lọc xơ",
+        "vệ sinh lưới lọc",
+        "gỡ xơ vải",
+        "vệ sinh ống thoát ẩm",
+        "vệ sinh"
+      ],
+      "cause": [
+        "xơ vải",
+        "lọc xơ",
+        "nghẹt"
+      ],
+      "absent": [
+        "lưới lọc sạch",
+        "lọc xơ sạch",
+        "không có xơ"
+      ]
+    },
+    "DRYER_NOISY": {
+      "done": [
+        "thay bạc đạn",
+        "thay con lăn",
+        "thay dây curoa"
+      ],
+      "cause": [
+        "ồn",
+        "rơ lồng"
+      ],
+      "absent": [
+        "chạy êm",
+        "không kêu"
+      ]
+    },
+    "DRYER_NOT_SPINNING": {
+      "done": [
+        "thay dây curoa",
+        "thay curoa"
+      ],
+      "cause": [
+        "dây curoa",
+        "curoa"
+      ],
+      "absent": [
+        "lồng vẫn quay",
+        "vẫn quay",
+        "lồng quay bình thường"
+      ]
+    },
+    "DRYER_NO_POWER": {
+      "cause": [
+        "mất nguồn"
+      ],
+      "absent": [
+        "vẫn lên nguồn",
+        "vẫn sáng đèn",
+        "vẫn có điện"
+      ]
+    },
+    "PURIFIER_NO_WATER": {
+      "done": [
+        "thay van điện từ"
+      ],
+      "cause": [
+        "van cấp",
+        "nghẹt lõi"
+      ],
+      "absent": [
+        "vẫn ra nước",
+        "nước vẫn ra đều",
+        "vẫn có nước"
+      ]
+    },
+    "PURIFIER_LEAK": {
+      "done": [
+        "siết lại cút nối",
+        "thay cút nối",
+        "thay dây"
+      ],
+      "cause": [
+        "rò nước",
+        "cút nối"
+      ],
+      "absent": [
+        "không rò nước",
+        "không rỉ nước",
+        "khô ráo",
+        "sàn khô"
+      ]
+    },
+    "PURIFIER_FILTER_DUE": {
+      "done": [
+        "thay lõi lọc",
+        "thay lõi",
+        "thay lõi mới",
+        "thay màng ro",
+        "thay lõi số 1",
+        "thay bộ lõi"
+      ],
+      "cause": [
+        "lõi lọc",
+        "hết hạn lõi"
+      ],
+      "absent": [
+        "lõi còn mới",
+        "lõi mới thay",
+        "nước không có mùi"
+      ]
+    },
+    "PURIFIER_PUMP_RUNS_ON": {
+      "done": [
+        "thay rơ le áp",
+        "thay van một chiều"
+      ],
+      "cause": [
+        "bơm"
+      ],
+      "absent": [
+        "bơm vẫn tắt bình thường",
+        "bơm tự ngắt",
+        "bơm không chạy liên tục"
+      ]
+    },
+    "PURIFIER_NO_POWER": {
+      "done": [
+        "thay adapter",
+        "thay nguồn",
+        "thay bộ nguồn"
+      ],
+      "cause": [
+        "adapter",
+        "mất nguồn"
+      ],
+      "absent": [
+        "vẫn lên nguồn",
+        "vẫn sáng đèn",
+        "vẫn có điện"
+      ]
+    },
+    "LOCK_FINGERPRINT_FAIL": {
+      "done": [],
+      "cause": [
+        "vân tay",
+        "đầu đọc vân tay"
+      ],
+      "absent": [
+        "vân tay vẫn nhận",
+        "vân tay bình thường"
+      ],
+      "tried": [
+        "lau đầu đọc",
+        "lau sạch tay",
+        "cài lại vân tay",
+        "đăng ký lại vân tay"
+      ]
+    },
+    "LOCK_LOW_BATTERY": {
+      "done": [
+        "thay pin",
+        "thay pin mới",
+        "sạc pin",
+        "thay pin khóa",
+        "thay 4 viên pin",
+        "thay bộ pin"
+      ],
+      "cause": [
+        "pin",
+        "hết pin"
+      ],
+      "absent": [
+        "pin còn mới",
+        "pin mới thay",
+        "pin vẫn đầy"
+      ]
+    },
+    "LOCK_MOTOR_FAULT": {
+      "cause": [
+        "mô tơ",
+        "chốt khóa"
+      ],
+      "absent": [
+        "chốt vẫn chạy",
+        "nghe mô tơ vẫn chạy",
+        "chốt vẫn rút ra"
+      ]
+    },
+    "LOCK_LOCKED_OUT": {
+      "cause": [
+        "kẹt ngoài",
+        "không vào được"
+      ],
+      "absent": [
+        "vẫn vào được nhà",
+        "đang ở trong nhà"
+      ]
+    },
+    "LOCK_CARD_FAULT": {
+      "done": [],
+      "cause": [
+        "thẻ từ",
+        "mã số"
+      ],
+      "absent": [
+        "thẻ vẫn nhận",
+        "mã vẫn mở được"
+      ]
+    }
+  },
+  "generic_tried": [
+    "khởi động lại",
+    "rút điện ra cắm lại",
+    "rút điện cắm lại",
+    "rút phích cắm lại",
+    "tắt đi bật lại",
+    "tắt nguồn bật lại",
+    "reset",
+    "reset lại",
+    "cắm lại điện",
+    "tắt aptomat bật lại"
+  ],
+  "_generic_tried_comment_vi": "Việc khách đã thử nhưng không loại được lỗi nào: khởi động lại, rút điện cắm lại. Bỏ khỏi văn bản tìm kiếm cho khỏi nhiễu, phần sau 'vẫn' được giữ. Mục 'tried' của từng lỗi cũng vậy: 'chia đều đồ rồi mà vẫn không vắt' chỉ loại một nguyên nhân phụ (lệch tải), lỗi không vắt vẫn còn (có thể do dây curoa).",
+  "if_persists": {
+    "AC_DIRTY_FILTER": [
+      "AC_LOW_REFRIGERANT",
+      "AC_CAPACITOR",
+      "AC_OUTDOOR_FAN_MOTOR"
+    ],
+    "AC_DRAIN_BLOCKED": [
+      "AC_ICING",
+      "AC_LOW_REFRIGERANT"
+    ],
+    "AC_CAPACITOR": [
+      "AC_COMPRESSOR_FAULT",
+      "AC_PCB_FAULT"
+    ],
+    "AC_REMOTE_FAULT": [
+      "AC_PCB_FAULT"
+    ],
+    "CEILFAN_CAPACITOR": [
+      "CEILFAN_MOTOR_BURNT",
+      "CEILFAN_SPEED_SWITCH"
+    ],
+    "CEILFAN_BEARING": [
+      "CEILFAN_MOUNT_LOOSE",
+      "CEILFAN_MOTOR_BURNT"
+    ],
+    "CEILFAN_MOUNT_LOOSE": [
+      "CEILFAN_BEARING"
+    ],
+    "CEILFAN_SPEED_SWITCH": [
+      "CEILFAN_CAPACITOR",
+      "CEILFAN_MOTOR_BURNT"
+    ],
+    "FAN_WORN_BEARING": [
+      "FAN_CAPACITOR",
+      "FAN_MOTOR_BURNT"
+    ],
+    "FAN_CAPACITOR": [
+      "FAN_MOTOR_BURNT",
+      "FAN_WORN_BEARING"
+    ],
+    "FAN_SWITCH_FAULT": [
+      "FAN_CORD_DAMAGE",
+      "FAN_MOTOR_BURNT"
+    ],
+    "FAN_CORD_DAMAGE": [
+      "FAN_SWITCH_FAULT",
+      "FAN_MOTOR_BURNT"
+    ],
+    "FAN_WOBBLE": [
+      "FAN_WORN_BEARING"
+    ],
+    "WM_DRAIN_PUMP": [
+      "WM_PCB_FAULT"
+    ],
+    "WM_NO_WATER_INLET": [
+      "WM_PCB_FAULT"
+    ],
+    "WM_BEARING_NOISE": [
+      "WM_MOTOR_FAULT"
+    ],
+    "WM_DOOR_SEAL_LEAK": [
+      "WM_DRAIN_PUMP"
+    ],
+    "WM_DOOR_LOCK": [
+      "WM_PCB_FAULT"
+    ],
+    "WM_SMELL_MOLD": [
+      "WM_DRAIN_PUMP"
+    ],
+    "FRIDGE_DOOR_GASKET": [
+      "FRIDGE_LOW_GAS",
+      "FRIDGE_FAN_FAULT"
+    ],
+    "FRIDGE_FAN_FAULT": [
+      "FRIDGE_DEFROST_FAULT",
+      "FRIDGE_LOW_GAS"
+    ],
+    "FRIDGE_DRAIN_BLOCKED": [
+      "FRIDGE_DEFROST_FAULT",
+      "FRIDGE_DOOR_GASKET"
+    ],
+    "MW_DOOR_SWITCH": [
+      "MW_NO_POWER",
+      "MW_MAGNETRON"
+    ],
+    "MW_NO_POWER": [
+      "MW_DOOR_SWITCH"
+    ],
+    "MW_FAN_NOISY": [
+      "MW_TURNTABLE_MOTOR"
+    ],
+    "OVEN_HEATING_ELEMENT": [
+      "OVEN_THERMOSTAT",
+      "OVEN_TIMER_FAULT"
+    ],
+    "OVEN_THERMOSTAT": [
+      "OVEN_HEATING_ELEMENT",
+      "OVEN_TIMER_FAULT"
+    ],
+    "OVEN_TIMER_FAULT": [
+      "OVEN_THERMOSTAT"
+    ],
+    "STOVE_BURNER_CLOGGED": [
+      "STOVE_REGULATOR",
+      "STOVE_IGNITER"
+    ],
+    "STOVE_VALVE_STUCK": [
+      "STOVE_REGULATOR"
+    ],
+    "STOVE_FLAME_OUT": [
+      "STOVE_REGULATOR",
+      "STOVE_BURNER_CLOGGED"
+    ],
+    "STOVE_REGULATOR": [
+      "STOVE_BURNER_CLOGGED",
+      "STOVE_VALVE_STUCK"
+    ],
+    "KETTLE_THERMOSTAT": [
+      "KETTLE_SWITCH",
+      "KETTLE_HEATING_BASE"
+    ],
+    "KETTLE_HEATING_BASE": [
+      "KETTLE_SWITCH",
+      "KETTLE_THERMOSTAT"
+    ],
+    "KETTLE_SCALE": [
+      "KETTLE_THERMOSTAT"
+    ],
+    "KETTLE_SWITCH": [
+      "KETTLE_THERMOSTAT",
+      "KETTLE_HEATING_BASE"
+    ],
+    "TV_BACKLIGHT": [
+      "TV_POWER_BOARD",
+      "TV_MAIN_BOARD"
+    ],
+    "TV_POWER_BOARD": [
+      "TV_MAIN_BOARD"
+    ],
+    "TV_MAIN_BOARD": [
+      "TV_PANEL_DAMAGE"
+    ],
+    "TV_NO_SOUND": [
+      "TV_MAIN_BOARD"
+    ],
+    "TV_REMOTE_FAULT": [
+      "TV_MAIN_BOARD"
+    ],
+    "SINK_TRAP_LEAK": [
+      "SINK_DRAIN_CORRODED"
+    ],
+    "SINK_SMELL": [
+      "SINK_CLOGGED"
+    ],
+    "SINK_DRAIN_CORRODED": [
+      "SINK_TRAP_LEAK"
+    ],
+    "FAUCET_DRIP": [
+      "FAUCET_CARTRIDGE"
+    ],
+    "FAUCET_CARTRIDGE": [
+      "FAUCET_DRIP",
+      "FAUCET_BASE_LEAK"
+    ],
+    "FAUCET_LOW_FLOW": [
+      "FAUCET_CARTRIDGE"
+    ],
+    "FAUCET_BASE_LEAK": [
+      "FAUCET_DRIP"
+    ],
+    "TOILET_FILL_VALVE": [
+      "TOILET_FLAPPER_LEAK"
+    ],
+    "TOILET_FLAPPER_LEAK": [
+      "TOILET_FILL_VALVE"
+    ],
+    "OUTLET_LOOSE_CONTACT": [
+      "OUTLET_NO_POWER"
+    ],
+    "OUTLET_OVERLOAD": [
+      "OUTLET_TRIPS_BREAKER",
+      "OUTLET_LOOSE_CONTACT"
+    ],
+    "LIGHT_BULB_DEAD": [
+      "LIGHT_SWITCH_FAULT",
+      "LIGHT_FLICKERING"
+    ],
+    "LIGHT_FLICKERING": [
+      "LIGHT_DIM",
+      "LIGHT_SWITCH_FAULT"
+    ],
+    "LIGHT_SWITCH_FAULT": [
+      "LIGHT_BULB_DEAD"
+    ],
+    "PIPE_JOINT_LEAK": [
+      "PIPE_BURST"
+    ],
+    "WH_HEATING_ELEMENT": [
+      "WH_THERMOSTAT",
+      "WH_ELCB_TRIPS"
+    ],
+    "WH_THERMOSTAT": [
+      "WH_HEATING_ELEMENT",
+      "WH_ELCB_TRIPS"
+    ],
+    "WH_SCALE_BUILDUP": [
+      "WH_HEATING_ELEMENT",
+      "WH_LOW_PRESSURE"
+    ],
+    "WH_LOW_PRESSURE": [
+      "PIPE_LOW_PRESSURE"
+    ],
+    "HOB_FAN_NOISY": [
+      "HOB_ERROR_CODE"
+    ],
+    "HOB_GLASS_CRACKED": [
+      "HOB_TOUCH_FAULT"
+    ],
+    "DW_NO_WATER": [
+      "DW_NO_POWER"
+    ],
+    "DRYER_NOT_HEATING": [
+      "DRYER_LINT_CLOGGED"
+    ],
+    "DRYER_LINT_CLOGGED": [
+      "DRYER_NOT_HEATING"
+    ],
+    "DRYER_NOISY": [
+      "DRYER_NOT_SPINNING"
+    ],
+    "DRYER_NOT_SPINNING": [
+      "DRYER_NOISY"
+    ],
+    "PURIFIER_NO_WATER": [
+      "PURIFIER_FILTER_DUE"
+    ],
+    "PURIFIER_FILTER_DUE": [
+      "PURIFIER_NO_WATER"
+    ],
+    "PURIFIER_PUMP_RUNS_ON": [
+      "PURIFIER_LEAK"
+    ],
+    "LOCK_LOW_BATTERY": [
+      "LOCK_MOTOR_FAULT"
+    ]
+  },
+  "_if_persists_comment_vi": "Thứ tự kiểm tra tiếp theo khi khách đã làm cách sửa của một lỗi mà máy vẫn hỏng: đã thay thanh đốt mà vẫn không nóng thì nghi rơ le nhiệt, đã thay gioăng mà vẫn nhỏ giọt thì nghi lõi vòi. Các lỗi này được tăng điểm, không thay thế kết quả tìm kiếm. Cần kỹ thuật viên duyệt."
+}

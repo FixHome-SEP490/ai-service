@@ -159,6 +159,22 @@ class DiagnosisRequest(BaseModel):
     ] = []
     category_hint: Annotated[Optional[str], Field(max_length=64)] = None
 
+    history: Annotated[
+        List[Annotated[str, Field(min_length=1, max_length=2000)]],
+        Field(max_length=20),
+    ] = []
+    """What the customer said earlier in this conversation, oldest first.
+
+    Used only when `session_id` names a conversation this service no longer
+    holds - it restarted, the session sat idle past the hour, or the store was
+    full - so the customer's "mới vệ sinh rồi" from three messages ago is not
+    lost with it. Ignored whenever the session is still held: the service's own
+    memory is the record, and a client cannot rewrite it.
+
+    Customer turns only, on purpose. The assistant's earlier answers are not
+    accepted from the client, because whatever is replayed here is read as
+    fact, and a reply the service never gave is not one."""
+
     include_trace: bool = False
     """Ask for the stage-by-stage trace. For the admin dashboard, not customers."""
 

@@ -811,6 +811,15 @@ def build_context_prompt(ctx) -> str:
             "ĐÃ HỎI KHÁCH RỒI, đừng hỏi lại: " + "; ".join(ctx.already_asked[-4:]),
         ]
 
+    facts = getattr(ctx, "facts", None) or []
+    if facts:
+        lines += [
+            "",
+            "ĐIỀU KHÁCH ĐÃ NÓI RÕ TRONG CUỘC TRÒ CHUYỆN (tôn trọng tuyệt đối, "
+            "không nêu lại lỗi đã loại, không khuyên lại việc khách đã làm):",
+        ]
+        lines += [f"  {line}" for line in facts[:8]]
+
     lines += ["", "CÁC KHẢ NĂNG HƯ HỎNG (chỉ được chọn trong đây):"]
     for index, candidate in enumerate(ctx.candidates, start=1):
         fault = candidate.fault

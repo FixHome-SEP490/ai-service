@@ -26,10 +26,13 @@ at all, and the shape below is what a Redis-backed store would implement.
 
 from __future__ import annotations
 
+import asyncio
 import time
 import uuid
 from dataclasses import dataclass, field
 from typing import Dict, List, Optional
+
+from app.services.pipeline.dialogue_state import DialogueState, TurnReading
 
 SESSION_TTL_SECONDS = 60 * 60
 """How long a conversation survives without a message.
@@ -68,6 +71,15 @@ class Turn:
 
     text_vi: str
     at: float = field(default_factory=time.time)
+
+    retrieval_vi: Optional[str] = None
+    """The clauses of this turn that describe what is happening, normalised.
+
+    Set by `Conversation.observe`. None means the turn was never read, and the
+    raw text is used as before. An empty string means the turn said only what is
+    *not* the case - "mới vệ sinh rồi", "không phải đâu" - and contributes
+    nothing to retrieval, where its words would have counted as a match for the
+    very thing being denied."""
 
     carried_a_symptom: bool = True
     """Whether this turn said anything the retriever could work with.
@@ -133,6 +145,9 @@ class Conversation:
     shortlist: List[str] = field(default_factory=list)
     """Fault codes still in play, narrowed as answers come in."""
 
+    state: DialogueState = field(default_factory=DialogueState)
+    """What the customer has ruled out or said is absent. See dialogue_state.py."""
+
     updated_at: float = field(default_factory=time.time)
 
     def add(self, role: str, text_vi: str) -> None:
@@ -163,11 +178,52 @@ class Conversation:
         than searching for the empty string.
         """
         kept = [
-            turn.text_vi
+            turn.text_vi if turn.retrieval_vi is None else turn.retrieval_vi
             for turn in self.turns
             if turn.role == "customer" and turn.carried_a_symptom
         ]
+        kept = [text for text in kept if text]
         return " ".join(kept) if kept else self.customer_text()
+
+    def observe(self, reading: TurnReading, never_exclude) -> None:
+        """Record what the newest customer turn established."""
+        for turn in reversed(self.turns):
+            if turn.role == "customer":
+                turn.retrieval_vi = reading.retrieval_text
+                break
+        self.state.apply(reading, set(never_exclude))
+        self.updated_at = time.time()
+
+    def facts_vi(self, kb) -> List[str]:
+        """What the whole conversation has established, for the model to read.
+
+        The thread is shown to the model too, but a 3B model reading twelve
+        turns does not reliably notice that turn three ruled something out. These
+        lines say it once, plainly, next to the list it chooses from.
+        """
+        def name(code: str) -> str:
+            fault = kb.fault(code)
+            return fault.name_vi if fault else code
+
+        lines: List[str] = []
+        for code, exclusion in self.state.excluded.items():
+            how = {
+                "done": f"khách đã {exclusion.phrase_vi}",
+                "cause": f"khách khẳng định không phải do {exclusion.phrase_vi}",
+                "absent": f"khách nói {exclusion.phrase_vi}",
+                "previous": "khách bác câu trả lời trước",
+            }.get(exclusion.kind, "khách đã loại")
+            lines.append(f"ĐÃ LOẠI {code} — {name(code)} ({how})")
+        for code, factor in self.state.boosts.items():
+            if factor > 1.0 and code not in self.state.excluded:
+                lines.append(f"KHÁCH TỰ NGHI {code} — {name(code)}")
+        for code, factor in self.state.persist.items():
+            if code not in self.state.excluded:
+                lines.append(f"NÊN KIỂM TRA TIẾP {code} — {name(code)} (cách sửa trước không ăn thua)")
+        for code, factor in self.state.penalties.items():
+            if factor < 1.0 and code not in self.state.excluded:
+                lines.append(f"ÍT KHẢ NĂNG {code} — {name(code)} (khách nói không có triệu chứng của nó)")
+        return lines
 
     def this_turn_had_no_symptom(self) -> None:
         """Mark the newest customer turn as contributing nothing to retrieval."""
@@ -200,6 +256,7 @@ class ConversationStore:
         self._ttl = ttl_seconds
         self._max = max_sessions
         self._sessions: Dict[str, Conversation] = {}
+        self._locks: Dict[str, asyncio.Lock] = {}
 
     def get_or_create(self, session_id: Optional[str]) -> Conversation:
         """Return the conversation this id names, or start one and name it.
@@ -234,10 +291,37 @@ class ConversationStore:
         self._evict_overflow()
         return conversation
 
+    def lock(self, session_id: Optional[str]) -> asyncio.Lock:
+        """One turn at a time per conversation.
+
+        A double-tapped send, or a photo and a message fired together, would
+        otherwise run two turns over the same conversation at once: both read
+        the state, both append, and whichever finishes second decides what the
+        conversation believes. A turn with no id yet has nobody to race with
+        and gets a lock of its own.
+        """
+        if not session_id:
+            return asyncio.Lock()
+        existing = self._locks.get(session_id)
+        if existing is None:
+            existing = asyncio.Lock()
+            self._locks[session_id] = existing
+        return existing
+
+    def resumed(self, conversation: Conversation, requested_id: Optional[str]) -> bool:
+        """Whether this conversation was just started in place of one the
+        client named and the store no longer holds."""
+        return bool(requested_id) and requested_id != conversation.session_id and not conversation.turns
+
     def _evict_expired(self) -> None:
         cutoff = time.time() - self._ttl
         for key in [k for k, v in self._sessions.items() if v.updated_at < cutoff]:
             del self._sessions[key]
+        self._drop_idle_locks()
+
+    def _drop_idle_locks(self) -> None:
+        for key in [k for k, lock in self._locks.items() if k not in self._sessions and not lock.locked()]:
+            del self._locks[key]
 
     def _evict_overflow(self) -> None:
         """Drop the least recently used until the store is back within its cap.
@@ -252,6 +336,7 @@ class ConversationStore:
         by_age = sorted(self._sessions.items(), key=lambda kv: kv[1].updated_at)
         for key, _ in by_age[: len(self._sessions) - self._max]:
             del self._sessions[key]
+        self._drop_idle_locks()
 
     def __len__(self) -> int:
         self._evict_expired()
