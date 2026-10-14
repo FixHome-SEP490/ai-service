@@ -32,6 +32,7 @@ from app.schemas.diagnosis import (
 from app.services.pipeline import clarifier
 from app.services.pipeline import context
 from app.services.pipeline import device_hint
+from app.services.pipeline import dialogue_state
 from app.services.pipeline.conversation import Conversation, get_conversation_store
 from app.services.pipeline.detector import Detection, Detector
 from app.services.pipeline.images import ImagePayload, load_base64_image
@@ -342,7 +343,7 @@ Enough to follow a reference back a couple of exchanges, short enough that a
 documents."""
 
 
-def _recent_dialogue(chat: Conversation) -> str:
+def _recent_dialogue(chat: Conversation, kb: Optional[KnowledgeBase] = None) -> str:
     """The last few turns, labelled, oldest first.
 
     customer_text() joins only what the customer said, which is right for
@@ -353,6 +354,13 @@ def _recent_dialogue(chat: Conversation) -> str:
         ("Khách" if t.role == "customer" else "Bạn") + f": {t.text_vi}"
         for t in chat.turns[-_DIALOGUE_TURNS:]
     ]
+    # What the whole thread established, not only the turns that fit: a cause
+    # ruled out eight messages ago is still ruled out.
+    if kb is not None:
+        facts = chat.facts_vi(kb)
+        if facts:
+            lines += ["", "Điều khách đã nói rõ (không được nêu lại lỗi đã loại):"]
+            lines += [f"- {line}" for line in facts[:8]]
     return "\n".join(lines)
 
 
@@ -365,7 +373,15 @@ def _standalone_question(question: str, chat: Conversation, kb: KnowledgeBase) -
     true about a different subject. It is not a new question; it is the end of
     the previous one.
     """
-    earlier = [t.text_vi for t in chat.turns if t.role == "customer"][:-1]
+    # The cleaned form of each earlier turn where there is one: "mới vệ sinh
+    # rồi" said nothing that is happening, and prefixed to the next question it
+    # retrieved cleaning advice for a customer who had just ruled cleaning out.
+    earlier = [
+        t.text_vi if t.retrieval_vi is None else t.retrieval_vi
+        for t in chat.turns
+        if t.role == "customer"
+    ][:-1]
+    earlier = [text for text in earlier if text]
     if not earlier:
         return question
     if len(_fold_vi(question).split()) > _FOLLOW_UP_MAX_WORDS:
@@ -596,6 +612,7 @@ def _ranked_by_retrieval(
     shortlist: Optional[Sequence[Any]],
     *,
     saw_a_photograph: bool,
+    excluded: Optional[set] = None,
 ) -> List[str]:
     """Retrieval's leader first, then whatever the model chose from the shortlist.
 
@@ -640,10 +657,15 @@ def _ranked_by_retrieval(
     Safety pinning is unaffected: it already keys on retrieval's own top-ranked
     fault and never read this list.
     """
+    # Nothing the customer has ruled out comes back, whoever proposed it. The
+    # model reads the conversation and usually respects a denial; usually is
+    # not good enough for the one thing the customer has just said is wrong.
+    banned = excluded or set()
+    chosen = [code for code in chosen if code not in banned]
     if saw_a_photograph:
         return list(chosen)
     ranked = [getattr(f, "fault_code", None) for f in (shortlist or [])]
-    ranked = [code for code in ranked if code]
+    ranked = [code for code in ranked if code and code not in banned]
     if not ranked:
         return list(chosen)
     kept = [code for code in chosen if code in ranked]
@@ -680,10 +702,133 @@ class LocalPipeline:
             knowledge_base_version=kb_version,
         )
 
+    def _read_turn(
+        self,
+        chat: Conversation,
+        text: str,
+        device_type: Optional[str],
+        trace: Optional["_Trace"] = None,
+    ) -> dialogue_state.TurnReading:
+        """Read what this message establishes, before anything retrieves on it.
+
+        Against the appliance being talked about when it is known, and against
+        every appliance when it is not; exclusions are per fault code, so the
+        wider read cannot leak into another appliance's shortlist.
+        """
+        pool = (
+            self._kb.faults_for_device(device_type)
+            if device_type
+            else [f for d in self._kb.device_types for f in self._kb.faults_for_device(d)]
+        )
+        reading = dialogue_state.read_turn(
+            text,
+            pool,
+            previous_codes=chat.shortlist,
+            lexicon=dialogue_state.get_lexicon(self._kb),
+        )
+        chat.observe(reading, dialogue_state.never_excluded_codes())
+        if trace is not None and (
+            reading.exclusions or reading.penalties or reading.reinstated
+        ):
+            trace.add(
+                "dialogue",
+                True,
+                "Khách loại trừ: "
+                + (", ".join(e.fault_code for e in reading.exclusions) or "không")
+                + (f"; hạ điểm: {', '.join(reading.penalties)}" if reading.penalties else ""),
+                excluded=[
+                    {"code": e.fault_code, "how": e.kind, "phrase": e.phrase_vi}
+                    for e in reading.exclusions
+                ],
+                penalized=dict(reading.penalties),
+                reinstated=list(reading.reinstated),
+                retrieval_text=reading.retrieval_text,
+            )
+        return reading
+
+    def _acknowledgement(
+        self, chat: Conversation, device_type: Optional[str], next_code: Optional[str]
+    ) -> Optional[str]:
+        """The sentence that tells the customer what they ruled out was heard.
+
+        Only for what this turn newly ruled out, and only for the appliance the
+        answer is about: read against every appliance, "đã vệ sinh" also rules
+        out a scaled kettle, which nobody in this conversation mentioned.
+        """
+
+        def name_of(code: str) -> Optional[str]:
+            fault = self._kb.fault(code)
+            return fault.name_vi if fault else None
+
+        fresh = []
+        for exclusion in chat.state.last_new:
+            fault = self._kb.fault(exclusion.fault_code)
+            if fault is None:
+                continue
+            if device_type is not None and fault.device_type != device_type:
+                continue
+            fresh.append(exclusion)
+        if not fresh:
+            return None
+        nxt = None
+        if next_code and next_code not in chat.state.excluded:
+            nxt = name_of(next_code)
+        return dialogue_state.acknowledgement_vi(fresh, name_of, nxt)
+
+    def _resume(self, chat: Conversation, requested_id: Optional[str], history) -> None:
+        """Rebuild a lost conversation from what the customer said before.
+
+        Only into a conversation that was just created in place of the one the
+        client named; see `history` on the request. Each earlier message is read
+        the way it was read the first time, so what it ruled out is ruled out
+        again, and the device it named is the device again.
+        """
+        if not history or not self._conversations.resumed(chat, requested_id):
+            return
+        for text in list(history)[-20:]:
+            text = (text or "").strip()[:2000]
+            if not text:
+                continue
+            chat.add("customer", text)
+            named = _device_named_in(text, self._kb)
+            if named and chat.device_type is None:
+                chat.remember_device(named, 0.6, "memory")
+            self._read_turn(chat, text, named or chat.device_type)
+        # What the replay ruled out was acknowledged when it was first said.
+        chat.state.last_new = []
+
     async def diagnose(self, request: DiagnosisRequest) -> DiagnosisResponse:
+        async with self._conversations.lock(request.session_id):
+            return await self._diagnose_locked(request)
+
+    async def _diagnose_locked(self, request: DiagnosisRequest) -> DiagnosisResponse:
+        response = await self._diagnose_turn(request)
+        if not response.session_id:
+            return response
+        chat = self._conversations.get_or_create(response.session_id)
+        device_type = (
+            response.device.device_type if response.device else chat.device_type
+        )
+        next_code = (
+            response.suspected_faults[0].fault_code if response.suspected_faults else None
+        )
+        ack = self._acknowledgement(chat, device_type, next_code)
+        if not ack:
+            return response
+        message = f"{ack} {response.message_vi}" if response.message_vi else ack
+        return response.model_copy(update={"message_vi": message})
+
+    async def _diagnose_turn(self, request: DiagnosisRequest) -> DiagnosisResponse:
         trace = _Trace(request.include_trace)
         chat = self._conversations.get_or_create(request.session_id)
+        self._resume(chat, request.session_id, request.history)
         chat.add("customer", request.description)
+        reading = self._read_turn(
+            chat,
+            request.description,
+            _device_named_in(request.description, self._kb) or chat.device_type,
+            trace,
+        )
         trace.add(
             "session",
             True,
@@ -822,11 +967,20 @@ class LocalPipeline:
         # the new one finds nothing: "máy lạnh không mát" retrieved against a
         # toilet matched no fault at all, and the answer fell back to a generic
         # inspection. Symptoms accumulate per appliance, not per conversation.
-        searched = request.description if changed_appliance else chat.symptom_text()
+        # The cleaned text throughout: what the customer ruled out or said is
+        # absent is not searched for, and the faults they excluded are not
+        # offered back to them. See dialogue_state.py.
+        searched = (
+            (reading.retrieval_text or request.description)
+            if changed_appliance
+            else chat.symptom_text()
+        )
         candidates = self._retriever.candidate_faults(
             description=searched,
             device_type=device_type,
             top_k=settings.VLM_SHORTLIST_SIZE,
+            exclude=chat.state.excluded_codes(),
+            penalties=chat.state.factors(),
         )
         trace.add(
             "retrieval",
@@ -1008,8 +1162,32 @@ class LocalPipeline:
         Kept separate from diagnosis: it may discuss maintenance intervals and
         platform policy, but it never recommends a service or a booking.
         """
+        async with self._conversations.lock(request.session_id):
+            return await self._answer_locked(request)
+
+    async def _answer_locked(self, request: ChatRequest) -> ChatResponse:
         chat = self._conversations.get_or_create(request.session_id)
+        self._resume(chat, request.session_id, request.history)
         chat.add("customer", request.question)
+        reading = self._read_turn(
+            chat,
+            request.question,
+            chat.device_type
+            or request.device_type
+            or _device_named_in(request.question, self._kb),
+        )
+        response = await self._answer_turn(request, chat, reading)
+        ack = self._acknowledgement(chat, chat.device_type or request.device_type, None)
+        if ack and response.answer_vi:
+            return response.model_copy(update={"answer_vi": f"{ack} {response.answer_vi}"})
+        return response
+
+    async def _answer_turn(
+        self,
+        request: ChatRequest,
+        chat: Conversation,
+        reading: dialogue_state.TurnReading,
+    ) -> ChatResponse:
 
         # Policy text and price rows are both grounding, and a question about
         # cost is the commonest thing a customer asks first. The two tables were
@@ -1018,7 +1196,9 @@ class LocalPipeline:
         # the answer sitting in a file the service had already read.
         # A follow-up is not a new question. Everything below retrieves on the
         # resolved form; the model is still shown the words the customer typed.
-        asked = _standalone_question(request.question, chat, self._kb)
+        asked = _standalone_question(
+            reading.retrieval_text or request.question, chat, self._kb
+        )
         policies = self._retriever.policy_passages(
             asked, top_k=settings.RETRIEVAL_TOP_K
         )
@@ -1043,8 +1223,18 @@ class LocalPipeline:
         device_type = chat.device_type or request.device_type or _device_named_in(
             asked, self._kb
         )
+        # Faults are ranked on everything the customer has said is happening,
+        # not on the question alone: "vậy giờ là bị gì" names no symptom, and
+        # the answer to it is the fault the earlier turns point to once the
+        # ruled-out ones are taken away.
+        customer_turns = sum(1 for t in chat.turns if t.role == "customer")
         candidates = (
-            self._retriever.candidate_faults(asked, device_type)
+            self._retriever.candidate_faults(
+                chat.symptom_text() if customer_turns > 1 else asked,
+                device_type,
+                exclude=chat.state.excluded_codes(),
+                penalties=chat.state.factors(),
+            )
             if device_type
             else []
         )
@@ -1066,6 +1256,7 @@ class LocalPipeline:
             device_type=device_type,
             fault_codes=codes,
             exclude=pinned,
+            ruled_out=chat.state.excluded_codes(),
         )
 
         # Order by what was asked. Asked "vệ sinh máy lạnh giá bao nhiêu" with
@@ -1112,7 +1303,7 @@ class LocalPipeline:
         answer_vi, confidence = await self._vlm.answer(
             question=request.question,
             passages_vi=passages_vi,
-            history_vi=_recent_dialogue(chat),
+            history_vi=_recent_dialogue(chat, self._kb),
             safety_vi="\n\n".join(s.chunk.as_passage_vi() for s in safety) or None,
         )
         if not answer_vi:
@@ -1124,7 +1315,7 @@ class LocalPipeline:
             session_id=chat.session_id,
             status=AnswerStatus.OK,
             answer_vi=answer_vi,
-            recommended_services=self._services_for_answer(codes, device_type),
+            recommended_services=self._services_for_answer(codes, device_type, chat),
             # Only what the answer could have come from. Sending ten candidate
             # rows and citing all ten put three refrigerator boards under an
             # answer about a gas stove igniter: the figure was right and the
@@ -1325,12 +1516,27 @@ class LocalPipeline:
             request.description if changed_to else chat.symptom_text(),
             device_type,
             top_k=settings.VLM_SHORTLIST_SIZE,
+            exclude=chat.state.excluded_codes(),
+            penalties=chat.state.factors(),
         )
         services: List[RecommendedService] = []
         # The catalogue's own price, kept beside the service it belongs to. The
         # fault's floor is a number from our labour table and named 100.000đ
         # under "Sửa tủ lạnh" — a different row from the one being booked.
         base: Optional[int] = None
+        # A service the customer has in effect already had goes last, not first:
+        # booking a cleaning straight after "mới vệ sinh rồi" is the repeat the
+        # customer complained about, in the one place they act on it.
+        spent = self._spent_services(chat)
+        if spent:
+            candidates = sorted(
+                candidates,
+                key=lambda c: all(
+                    ref.service_code in spent
+                    for ref in self._kb.services_for_fault(c.fault.fault_code)
+                )
+                and bool(self._kb.services_for_fault(c.fault.fault_code)),
+            )
         for scored in candidates:
             refs = self._kb.services_for_fault(scored.fault.fault_code)
             if not refs:
@@ -1725,7 +1931,7 @@ class LocalPipeline:
             # answer the question, but they no longer have to wait for the
             # answer before they can book anybody.
             recommended_services=self._service_to_offer(
-                shortlist, chat.device_type if chat else None
+                shortlist, chat.device_type if chat else None, chat
             ),
             # Asking which appliance it is does not make a burning smell less
             # urgent. "Cháy khét" is two words and settles nothing, so it is
@@ -1739,7 +1945,7 @@ class LocalPipeline:
         )
 
     def _services_for_answer(
-        self, codes: List[str], device_type: Optional[str]
+        self, codes: List[str], device_type: Optional[str], chat: Optional[Conversation] = None
     ) -> List[RecommendedService]:
         """What a chat answer leaves the customer able to book.
 
@@ -1750,10 +1956,30 @@ class LocalPipeline:
         if device_type is None or not codes:
             return []
         faults = [self._kb.fault(code) for code in codes]
-        return self._service_to_offer([f for f in faults if f], device_type)
+        return self._service_to_offer([f for f in faults if f], device_type, chat)
+
+    def _spent_services(self, chat: Optional[Conversation]) -> set:
+        """Services the customer has, in effect, already had.
+
+        "Mới vệ sinh rồi" rules out the dirty filter, and with it the cleaning
+        service: offering to book a cleaning to someone who just had one is the
+        same mistake as naming the dirty filter again, one field over. Only
+        exclusions of the kind "done" spend a service; a cause the customer
+        denies says nothing about what they have paid for.
+        """
+        if chat is None:
+            return set()
+        spent = set()
+        for code, exclusion in chat.state.excluded.items():
+            if exclusion.kind == "done":
+                spent.update(ref.service_code for ref in self._kb.services_for_fault(code))
+        return spent
 
     def _service_to_offer(
-        self, shortlist: Optional[List], device_type: Optional[str]
+        self,
+        shortlist: Optional[List],
+        device_type: Optional[str],
+        chat: Optional[Conversation] = None,
     ) -> List[RecommendedService]:
         """One service the customer could book right now, even mid-question.
 
@@ -1780,6 +2006,9 @@ class LocalPipeline:
             for ref in self._kb.services_for_fault(getattr(fault, "fault_code", "")):
                 if ref.service_code not in codes:
                     codes.append(ref.service_code)
+        spent = self._spent_services(chat)
+        if spent and any(code not in spent for code in codes):
+            codes = [code for code in codes if code not in spent]
         if len(codes) == 1:
             ref = next(
                 r
@@ -1787,6 +2016,7 @@ class LocalPipeline:
                 for r in self._kb.services_for_fault(
                     getattr(getattr(entry, "fault", entry), "fault_code", "")
                 )
+                if r.service_code == codes[0]
             )
             return [
                 RecommendedService(service_code=ref.service_code, name_vi=ref.name_vi)
@@ -1920,7 +2150,10 @@ class LocalPipeline:
         urgency = UrgencyLevel.LOW
 
         for code in _ranked_by_retrieval(
-            verdict.fault_codes, shortlist, saw_a_photograph=detection is not None
+            verdict.fault_codes,
+            shortlist,
+            saw_a_photograph=detection is not None,
+            excluded=chat.state.excluded_codes() if chat is not None else None,
         ):
             fault = self._kb.fault(code)
             if fault is None:

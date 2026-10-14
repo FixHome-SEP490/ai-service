@@ -73,6 +73,8 @@ class DiagnosisContext:
     latest_message: str
     history: List[str] = field(default_factory=list)
     already_asked: List[str] = field(default_factory=list)
+    facts: List[str] = field(default_factory=list)
+    """What the conversation has established: ruled out, suspected, absent."""
     candidates: List[ScoredFault] = field(default_factory=list)
     policies: List[ScoredPolicy] = field(default_factory=list)
     price_rows: List[PriceRow] = field(default_factory=list)
@@ -159,8 +161,14 @@ def build(
     codes = [c.fault.fault_code for c in candidates]
     safety = retriever.safety_passages(codes)
     pinned = [f"{s.chunk.source_file}::{s.chunk.heading_vi}" for s in safety]
+    # Prose is looked up on what is happening, not on everything said: "mới
+    # vệ sinh rồi" in `said` pulls the cleaning section back in.
     passages = retriever.corpus_passages(
-        said, device_type=device_type, fault_codes=codes, exclude=pinned
+        chat.symptom_text() or said,
+        device_type=device_type,
+        fault_codes=codes,
+        exclude=pinned,
+        ruled_out=chat.state.excluded_codes(),
     )
     business = retriever.business_passages(said)
 
@@ -172,6 +180,7 @@ def build(
         latest_message=latest_message,
         history=history,
         already_asked=list(chat.asked_symptoms),
+        facts=chat.facts_vi(kb),
         candidates=list(candidates),
         policies=policies,
         price_rows=prices[:MAX_PRICE_ROWS],

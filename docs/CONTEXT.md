@@ -1,6 +1,6 @@
 # Context repo ai-service — FixHome
 
-> Cập nhật lần cuối: 2026-10-07 14:43 (UTC+7) · Người cập nhật (git): ToanAltF4 · Nhánh: docs/repo-context
+> Cập nhật lần cuối: 2026-10-14 15:28 (UTC+7) · Người cập nhật (git): ToanAltF4 · Nhánh: feat/dialogue-context
 
 ## 0. Quy tắc cập nhật file này (bắt buộc)
 
@@ -96,8 +96,10 @@ Luật nghiệp vụ gốc nằm ở tài liệu dự án (bản chính thức c
 - Chatbot: trả `ok`, `out_of_scope`, `general_knowledge` hoặc `no_grounding`; có trả `recommendedServices`.
 - Tên tiếng Việt, mã dịch vụ, giá và mức khẩn cấp lấy từ `app/data/`, không lấy từ chữ tự do của mô hình. Mã không có trong danh mục bị bỏ. Luôn kèm lời miễn trừ.
 - Kho tri thức: 166 file markdown trong `app/data/knowledge/` (3319 đoạn), 134 lỗi ánh xạ tới 21 mã dịch vụ của `backend`, 827 linh kiện.
-- Phiên trò chuyện lưu trong bộ nhớ tiến trình (1 giờ, 40 lượt, tối đa 5000 phiên), mất khi khởi động lại, không chia sẻ giữa nhiều worker.
-- Hơn 2.100 test trong `tests/`.
+- Hiểu ngữ cảnh cả cuộc trò chuyện (`dialogue_state.py`): mỗi lượt khách được đọc thành sự kiện. Gồm việc đã làm ("mới vệ sinh rồi"), nguyên nhân bị phủ nhận đặt trước hoặc sau ("không phải do bẩn", "lưới lọc thì không phải"), bằng chứng ngược ("lưới lọc sạch"), bác câu trả lời trước ("sai rồi"), điều khách tự nghi ("có phải hết gas không"), cách sửa đã thử mà vẫn hỏng (gợi ý bước kiểm tra kế tiếp). Lỗi đã loại không quay lại trong danh sách, dịch vụ, tài liệu đưa cho Qwen; Qwen được nhận danh sách điều khách đã xác nhận; câu trả lời mở đầu bằng câu ghi nhận lời khách. Lỗi an toàn (rò gas, chập điện...) không bao giờ bị loại bằng lời. Chuẩn hoá cách gõ: không dấu, teencode, phương ngữ Bắc Trung Nam, Telex sót, lặp chữ, lỗi gõ một ký tự.
+- Truy hồi hiểu cụm phủ định: "không vắt", "không mát" là một đơn vị, không còn lẫn với "kêu to khi vắt".
+- Phiên trò chuyện lưu trong bộ nhớ tiến trình (1 giờ, 40 lượt, tối đa 5000 phiên). Khi phiên đã mất (khởi động lại, hết hạn), client có thể gửi `history` (lời khách các lượt trước) để dựng lại ngữ cảnh; phiên còn giữ thì `history` bị bỏ qua. Mỗi phiên xử lý tuần tự một lượt một lúc.
+- Hơn 2.100 test trong `tests/`, gồm bộ hội thoại nhiều lượt (`tests/test_dialogue_context.py`).
 
 ## 4. Kiến trúc và thư mục chính
 
@@ -106,9 +108,9 @@ Luật nghiệp vụ gốc nằm ở tài liệu dự án (bản chính thức c
 - `app/schemas/`: schema Pydantic, tên trường camelCase trên dây, `extra="forbid"`.
 - `app/services/ai_provider.py`: `AIProvider`, `MockAIProvider`, `LocalPipelineProvider`. Engine nào cũng nằm sau adapter này.
 - `app/services/pipeline/`: detector, truy hồi (BM25), kho tri thức, VLM (`QwenVlm`, `StubVlm`), `local_pipeline.py` điều phối, quản lý phiên, câu hỏi làm rõ.
-- `app/data/`: danh mục thiết bị, lỗi, ánh xạ dịch vụ, giá công, linh kiện, câu chờ.
+- `app/data/`: danh mục thiết bị, lỗi, ánh xạ dịch vụ, giá công, linh kiện, câu chờ. `dialogue_knowledge.json`: từ điển chuẩn hoá cách gõ, dấu hiệu phủ định, cụm loại trừ theo từng lỗi, thứ tự kiểm tra kế tiếp (`if_persists`), thuật ngữ giữ nguyên.
 - `docker/serve/`: image chạy vLLM, YOLO và API trong một container. `docker/train/`: image huấn luyện YOLO.
-- `tools/`: `rent_gpu.py` (thuê, theo dõi, huỷ máy GPU), công cụ đánh giá, dữ liệu, gán nhãn. `app/` không import `tools/`.
+- `tools/`: `rent_gpu.py` (thuê, theo dõi, huỷ máy GPU), công cụ đánh giá, dữ liệu, gán nhãn. `eval_dialogue.py` chấm hội thoại nhiều lượt (viết tay ở `dialogue_cases.py`, sinh tự động theo vùng miền, tính cách, kiểu gõ ở `dialogue_corpus.py`), `--app-root` để chạy trên bản khác mà so sánh. `app/` không import `tools/`.
 
 ## 5. Hợp đồng với repo khác
 
@@ -116,8 +118,8 @@ Luật nghiệp vụ gốc nằm ở tài liệu dự án (bản chính thức c
 
 | Phương thức | Đường dẫn | Ghi chú |
 | --- | --- | --- |
-| POST | `/api/v1/diagnosis/analyze` | JSON; `description` 1 đến 2000 ký tự (bắt buộc), `images` tối đa 3 (base64 hoặc data URI, mỗi ảnh tối đa 8 MiB, chỉ ảnh đầu được phân tích), `sessionId`, `requestId`, `categoryHint` tối đa 64 |
-| POST | `/api/v1/chat/ask` | `question` 1 đến 1000 ký tự, `deviceType` và `sessionId` tối đa 64 |
+| POST | `/api/v1/diagnosis/analyze` | JSON; `description` 1 đến 2000 ký tự (bắt buộc), `images` tối đa 3 (base64 hoặc data URI, mỗi ảnh tối đa 8 MiB, chỉ ảnh đầu được phân tích), `sessionId`, `requestId`, `categoryHint` tối đa 64, `history` tuỳ chọn (tối đa 20 chuỗi, mỗi chuỗi 1 đến 2000 ký tự, chỉ lời khách) |
+| POST | `/api/v1/chat/ask` | `question` 1 đến 1000 ký tự, `deviceType` và `sessionId` tối đa 64, `history` như trên |
 | GET | `/api/v1/chat/acknowledgements` | câu chờ cho client lưu sẵn |
 
 Ngoài ra có `POST /api/v1/diagnosis/analyze-upload` (multipart), `GET /api/v1/meta/catalog`, `GET /health`, và trang thử `GET /chat`.
@@ -137,6 +139,7 @@ Ngoài ra có `POST /api/v1/diagnosis/analyze-upload` (multipart), `GET /api/v1/
 - Gate trước mỗi commit: `ruff check app tests`, `pytest`, `python -m compileall -q app tests`, kiểm import, và khởi động thử rồi gọi `/health` nếu đụng `app/`.
 - CI `ci.yml` chạy các gate trên khi push hoặc PR vào `main`. `serving-image.yml` và `trainer-image.yml` build và đẩy image khi `main` đổi; chưa có workflow triển khai.
 - Repo chỉ có nhánh `main`: tách nhánh từ `main`, PR vào `main`, CI xanh mới merge.
+- Đổi cách đọc hội thoại hoặc truy hồi thì chạy thêm `python tools/eval_dialogue.py --generated 6000` và so với bản trước bằng `--app-root`.
 
 ## 7. Quyết định đã chốt
 
@@ -152,11 +155,13 @@ Ngoài ra có `POST /api/v1/diagnosis/analyze-upload` (multipart), `GET /api/v1/
 - Ràng buộc đầu ra là kiểm tra sau khi sinh (`_parse_verdict`), chưa ràng buộc lúc giải mã.
 - Trường hợp xấu nhất của chatbot (câu an toàn 25 giây cộng trả lời chung 8 giây) có thể vượt timeout 30 giây của `backend`; tính từ code, CHƯA KIỂM CHỨNG bằng đo thật.
 - `categoryHint` được nhận nhưng chưa dùng; chỉ ảnh đầu tiên được phân tích.
-- Phiên chỉ trong bộ nhớ; nhiều worker hoặc khởi động lại sẽ mất ngữ cảnh.
+- Phiên chỉ trong bộ nhớ; nhiều worker hoặc khởi động lại sẽ mất ngữ cảnh nếu client không gửi `history`. `backend` chưa gửi `history`.
+- Cụm loại trừ và thứ tự kiểm tra kế tiếp trong `dialogue_knowledge.json` do đội viết, chờ kỹ thuật viên xác nhận. Đo trên 6.000 hội thoại sinh: 98,6% không lặp lỗi khách đã loại, 99,5% không loại nhầm; yếu nhất là tin nhắn có lỗi gõ ở đúng từ khoá (khoảng 91%).
 - Văn phong persona dùng "em", "anh/chị" và "đ", khác chuẩn "bạn" và "₫" của `FIXHOME-DESIGN-SYSTEM.md`; chờ PO chọn.
 - 821 mục kho tri thức chờ kỹ thuật viên xác nhận, 36 giá chờ admin duyệt (xem `docs/CAN-THO-XAC-NHAN.md`).
 - Một số tài liệu trong `docs/` đã cũ: `DATASET-AND-TRAINING.md`, `KB-NEXT-STEPS.md`, `LIVE-RUN.md`.
 
 ## 9. Nhật ký cập nhật context
 
+- 2026-10-14 15:28 (UTC+7) | ToanAltF4 | feat/dialogue-context | Ghi lớp hiểu ngữ cảnh hội thoại, trường history để dựng lại phiên đã mất, truy hồi hiểu cụm phủ định và công cụ chấm hội thoại nhiều lượt
 - 2026-10-07 14:43 (UTC+7) | ToanAltF4 | docs/repo-context | Tạo file context theo bộ quy tắc chung của bốn repo, ghi hiện trạng sau đợt sửa lỗi ngày 07/10/2026
