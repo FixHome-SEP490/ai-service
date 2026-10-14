@@ -444,6 +444,128 @@ def test_danger_stays_described_after_a_denial(kb):
 
 
 # ---------------------------------------------------------------------------
+# Answers, corrections, a wrong guess
+# ---------------------------------------------------------------------------
+
+
+def _ac_discriminator(kb, text):
+    return next(d for d in kb.discriminators_for_device("air_conditioner") if d.question_vi.startswith(text))
+
+
+@pytest.mark.parametrize("reply, yes", [("không", False), ("dạ không ạ", False), ("chưa", False), ("có", True), ("dạ có", True), ("rồi", True)])
+def test_a_bare_yes_or_no_answers_the_question_asked(kb, lexicon, reply, yes):
+    entry = _ac_discriminator(kb, "Cục nóng ngoài trời có chạy không")
+    answer = ds.answer_to(entry.question_vi, reply, kb.faults_for_device("air_conditioner"), [entry], lexicon)
+    assert answer is not None and answer.yes is yes
+    favoured = entry.favours_if_yes if yes else entry.favours_if_no
+    assert all(answer.factors[c] > 1.0 for c in favoured if c in answer.factors)
+
+
+def test_a_symptom_starting_with_khong_is_not_an_answer(kb, lexicon):
+    entry = _ac_discriminator(kb, "Cục nóng ngoài trời có chạy không")
+    assert ds.answer_to(entry.question_vi, "không mát lắm", kb.faults_for_device("air_conditioner"), [entry], lexicon) is None
+
+
+def test_a_yes_to_a_symptom_question_is_searched_as_said(kb, lexicon):
+    answer = ds.answer_to("Thiết bị có hiện tượng kêu to khi vắt không?", "có ạ", kb.faults_for_device("washing_machine"), [], lexicon)
+    assert answer.yes and answer.said == "keu to khi vat"
+
+
+def test_the_answer_reaches_the_ranking(kb):
+    pipeline = _pipeline(kb)
+
+    async def run():
+        first = await pipeline.diagnose(DiagnosisRequest(description="máy lạnh nhà em bị sao ấy"))
+        asked = first.clarification.questions_vi[0] if first.clarification else None
+        await pipeline.diagnose(DiagnosisRequest(description="không", sessionId=first.session_id))
+        return asked, pipeline._conversations.get_or_create(first.session_id)
+
+    asked, chat = asyncio.run(run())
+    assert asked, "a vague message should be met with a question"
+    entry = next((d for d in kb.discriminators_for_device("air_conditioner") if d.question_vi == asked), None)
+    if entry is not None:
+        factors = chat.state.factors()
+        assert any(factors.get(c, 1.0) > 1.0 for c in entry.favours_if_no)
+
+
+def test_taking_back_a_fix_brings_the_fault_back(kb, lexicon):
+    state = ds.DialogueState()
+    never = ds.never_excluded_codes()
+    state.apply(_read(kb, lexicon, "air_conditioner", "mới vệ sinh lưới lọc rồi"), never)
+    assert "AC_DIRTY_FILTER" in state.excluded_codes()
+    reading = _read(kb, lexicon, "air_conditioner", "à nhầm, thật ra chưa vệ sinh lưới lọc", ["AC_LOW_REFRIGERANT"])
+    assert not reading.denied_previous, "correcting oneself is not rejecting the answer"
+    state.apply(reading, never)
+    assert "AC_DIRTY_FILTER" not in state.excluded_codes()
+
+
+@pytest.mark.parametrize(
+    "text, device",
+    [
+        ("à nhầm, khônggggg phải máy sấy mà là tivi", "television"),
+        ("nhà mình nói nhầm, là cais tur lạnh chứ không phải bồn cầu", "refrigerator"),
+        ("sửa lại: ổ cắm nha hông phải máy rửa chén", "power_outlet"),
+        ("à nhầm, k phải quạt máy mà là bóng đèn", "light_bulb"),
+        ("cái quạt trần cũng bị nè", "ceiling_fan"),
+    ],
+)
+def test_a_corrected_appliance_is_followed(kb, text, device):
+    assert lp._device_asked_for_now(text, kb, strong=True) == device
+
+
+def test_accents_decide_a_name_when_typed(kb):
+    """"Âm trần" is a recessed light, not "ấm"."""
+    assert lp._device_asked_for_now("đèn âm trần chảy nước", kb, strong=True) is None
+
+
+def test_a_correction_holds_on_the_next_turn(kb):
+    pipeline = _pipeline(kb)
+
+    async def run():
+        chat = pipeline._conversations.get_or_create(None)
+        chat.remember_device("toilet", 0.9, "image")
+        sid = chat.session_id
+        await pipeline.diagnose(DiagnosisRequest(description="bồn cầu chảy nước liên tục", sessionId=sid))
+        await pipeline.diagnose(DiagnosisRequest(description="à nhầm, là cái bóng đèn chứ không phải bồn cầu", sessionId=sid))
+        await pipeline.diagnose(DiagnosisRequest(description="bấm công tắc không lên đèn", sessionId=sid))
+        return pipeline._conversations.get_or_create(sid)
+
+    assert asyncio.run(run()).device_type == "light_bulb"
+
+
+def test_a_wrong_guess_moves_to_the_next_one_the_conversation_points_to(kb):
+    pipeline = _pipeline(kb)
+
+    async def run():
+        chat = pipeline._conversations.get_or_create(None)
+        chat.remember_device("air_conditioner", 0.9, "image")
+        sid = chat.session_id
+        first = await pipeline.diagnose(DiagnosisRequest(description="máy lạnh không mát, chạy lâu mới mát", sessionId=sid))
+        held = pipeline._conversations.get_or_create(sid)
+        before = [c.fault.fault_code for c in pipeline._retriever.candidate_faults(held.symptom_text(), "air_conditioner", 5)]
+        second = await pipeline.diagnose(DiagnosisRequest(description="không phải đâu", sessionId=sid))
+        return first, before, second
+
+    first, before, second = asyncio.run(run())
+    led = first.suspected_faults[0].fault_code
+    nxt = second.suspected_faults[0].fault_code
+    assert nxt != led
+    assert nxt in [c for c in before if c != led][:3]
+
+
+def test_a_no_that_says_what_it_is_instead_is_a_no(kb, lexicon):
+    reading = _read(kb, lexicon, "gas_stove", "hông phải dzậy, nó vặn nặng tay", ["STOVE_REGULATOR"])
+    assert reading.denied_previous
+    # What it is instead is still searched.
+    assert "nang tay" in reading.retrieval_text
+
+
+def test_a_no_that_names_a_cause_denies_only_the_cause(kb, lexicon):
+    reading = _read(kb, lexicon, "air_conditioner", "hông phải dơ đâu", ["AC_LOW_REFRIGERANT"])
+    assert {e.fault_code for e in reading.exclusions} == {"AC_DIRTY_FILTER"}
+
+
+# ---------------------------------------------------------------------------
 # Whole conversations
 # ---------------------------------------------------------------------------
 

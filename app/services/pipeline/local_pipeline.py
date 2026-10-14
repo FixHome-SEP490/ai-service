@@ -509,24 +509,40 @@ def _named_spans(text: str, kb: KnowledgeBase) -> List[tuple]:
     considering the devices it accepts.
     """
     allowed = {h.device_type for h in device_hint.devices_named_in(text, kb)}
-    words = re.findall(r"[a-z0-9]+", _fold_vi(text))
-    padded = " " + " ".join(words) + " "
+    typed = re.findall(r"[^\W_]+", unicodedata.normalize("NFC", text.lower()))
+    folded = [_fold_vi(w) for w in typed]
     spans = []
     for device in allowed:
         for alias in kb.aliases_vi(device):
-            needle = " " + " ".join(re.findall(r"[a-z0-9]+", _fold_vi(alias))) + " "
-            if needle.strip() == "":
+            wanted = re.findall(r"[^\W_]+", unicodedata.normalize("NFC", alias.lower()))
+            if not wanted:
                 continue
-            at = padded.find(needle)
-            while at >= 0:
-                spans.append((device, alias, at, at + len(needle)))
-                at = padded.find(needle, at + 1)
-    spans.sort(key=lambda span: span[2] - span[3])  # longest first
+            n = len(wanted)
+            for i in range(len(typed) - n + 1):
+                if folded[i : i + n] != [_fold_vi(w) for w in wanted]:
+                    continue
+                # Accents decide where the customer typed them: "âm trần" is a
+                # recessed light, not "ấm", whatever the letters fold to.
+                if any(
+                    typed[i + j] != _fold_vi(typed[i + j])
+                    and wanted[j] != _fold_vi(wanted[j])
+                    and typed[i + j] != wanted[j]
+                    for j in range(n)
+                ):
+                    continue
+                spans.append((device, alias, i, i + n))
+    # Most specific first: length without the classifier, so "quạt trần" beats
+    # "cái quạt" over the same words of "cái quạt trần".
+    spans.sort(
+        key=lambda span: -sum(
+            1 for w in re.findall(r"[^\W_]+", _fold_vi(span[1])) if w not in ("cai", "chiec")
+        )
+    )
     kept: List[tuple] = []
     for span in spans:
         # Overlapping is the same mention: "cái quạt trần" holds both "cái quạt"
         # and "quạt trần", and it is one ceiling fan.
-        if any(span[2] < k[3] - 1 and k[2] < span[3] - 1 for k in kept):
+        if any(span[2] < k[3] and k[2] < span[3] for k in kept):
             continue
         kept.append(span)
     return kept
@@ -633,6 +649,14 @@ def _device_asked_for_now(latest: str, kb: KnowledgeBase, strong: bool = False) 
 
     Returns None when this turn changes nothing, which is the common case.
     """
+    if strong:
+        # Typed the way people type: "khônggggg phải", "hông phải", "cais tur
+        # lạnh", "lof nướng". With an appliance to drift from, names and
+        # markers are read on the normalised text, accents kept.
+        from app.services.pipeline import dialogue_state
+
+        latest = dialogue_state.get_lexicon(kb).normalize_accented(latest)
+
     folded = _fold_vi(latest)
     padded = " " + " ".join(re.findall(r"[a-z0-9]+", folded)) + " "
 
@@ -668,17 +692,6 @@ def _device_asked_for_now(latest: str, kb: KnowledgeBase, strong: bool = False) 
     # will do, because there is nothing to drift away from.
     if not strong:
         return _device_named_in(latest, kb)
-
-    # Typed the way people type: "tiviiii", "bình nóóng lạnh", "lof nướng".
-    # The names are looked for again in the normalised text, so a name that
-    # only a keyboard slip hid still changes the subject.
-    if _strongly_named_in(latest, kb) is None:
-        from app.services.pipeline import dialogue_state
-
-        normalised = dialogue_state.get_lexicon(kb).normalize(latest)
-        again = _strongly_named_in(normalised, kb)
-        if again:
-            return again
 
     # No marker at all. A turn that names one appliance on its own still
     # changes the subject - "tủ lạnh cũng hỏng nữa" is about the fridge now -
@@ -801,12 +814,45 @@ class LocalPipeline:
             if device_type
             else [f for d in self._kb.device_types for f in self._kb.faults_for_device(d)]
         )
+        lexicon = dialogue_state.get_lexicon(self._kb)
         reading = dialogue_state.read_turn(
             text,
             pool,
             previous_codes=chat.shortlist,
-            lexicon=dialogue_state.get_lexicon(self._kb),
+            lexicon=lexicon,
         )
+        # The answer to the question we just asked. Read before anything else
+        # has a chance to call "không" a denial of the last answer.
+        question, chat.pending_question = chat.pending_question, None
+        if question and not chat.awaiting_confusion_about:
+            answer = dialogue_state.answer_to(
+                question,
+                text,
+                pool,
+                self._kb.discriminators_for_device(device_type),
+                lexicon,
+            )
+            if answer is not None:
+                reading.exclusions = [
+                    e for e in reading.exclusions if e.kind != "previous"
+                ]
+                reading.denied_previous = False
+                for code, factor in answer.factors.items():
+                    if factor >= 1.0:
+                        reading.boosts[code] = max(factor, reading.boosts.get(code, 1.0))
+                    else:
+                        reading.penalties[code] = min(factor, reading.penalties.get(code, 1.0))
+                reading.retrieval_text = " ".join(
+                    part for part in (answer.said, reading.retrieval_text if answer.rest else "") if part
+                )
+                if trace is not None:
+                    trace.add(
+                        "dialogue",
+                        True,
+                        f"Khách trả lời {'có' if answer.yes else 'không'} cho: {question}",
+                        answer="yes" if answer.yes else "no",
+                        factors=answer.factors,
+                    )
         chat.observe(reading, dialogue_state.never_excluded_codes())
         if trace is not None and (
             reading.exclusions or reading.penalties or reading.reinstated
@@ -1027,9 +1073,17 @@ class LocalPipeline:
 
         # The photograph is ambiguous between a microwave and an oven; a
         # sentence saying "lò vi sóng" is not. Believe the words.
-        device_type, _hint = device_hint.resolve(
-            request.description, detected, self._kb
-        )
+        if detection is None and chat.device_type and detected == chat.device_type:
+            # Remembered, not seen: the words of a follow-up decide only when
+            # they name another machine outright (see _DEVICE_HEADS). Letting
+            # resolve() believe any mention here undid a correction one turn
+            # later - "bấm công tắc không lên đèn" moved a conversation the
+            # customer had just set to the light back onto sockets.
+            device_type = detected
+        else:
+            device_type, _hint = device_hint.resolve(
+                request.description, detected, self._kb
+            )
 
         # A change of mind is not always phrased as an order. "Em nhầm rồi, là
         # tủ lạnh" and "bỏ máy lạnh đi, đặt tủ lạnh" carry no booking verb, so
@@ -2031,6 +2085,7 @@ class LocalPipeline:
         if chat is not None:
             chat.times_asked += 1
             chat.remember_questions(questions)
+            chat.pending_question = questions[0] if questions else None
             for question in questions:
                 chat.add("assistant", question)
 

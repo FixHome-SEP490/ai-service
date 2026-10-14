@@ -68,11 +68,29 @@ async def _run_one(pipeline, kb, dialogue, ChatRequest, DiagnosisRequest) -> Opt
     session = chat.session_id
     response = None
     led_before_last = None
+    asked_before_last = None
+    ranked_before_last: List[str] = []
     for index, turn in enumerate(dialogue.turns):
         last = index == len(dialogue.turns) - 1
         if last and response is not None:
             led = [f.fault_code for f in getattr(response, "suspected_faults", []) or []]
             led_before_last = led[0] if led else None
+            clarification = getattr(response, "clarification", None)
+            asked = getattr(clarification, "questions_vi", None) or []
+            asked_before_last = asked[0] if asked else None
+            # What the conversation pointed to before the last turn, so a "no"
+            # can be checked against it: the next guess must come from here.
+            held = pipeline._conversations.get_or_create(session)
+            state = getattr(held, "state", None)
+            try:
+                before = pipeline._retriever.candidate_faults(
+                    held.symptom_text(), held.device_type or dialogue.device, 5,
+                    state.excluded_codes() or None if state else None,
+                    state.factors() if state is not None and hasattr(state, "factors") else None,
+                )
+            except TypeError:
+                before = pipeline._retriever.candidate_faults(held.symptom_text(), held.device_type or dialogue.device, 5)
+            ranked_before_last = [c.fault.fault_code for c in before]
         if last and dialogue.via == "ask":
             response = await pipeline.answer(ChatRequest(question=turn, sessionId=session))
         else:
@@ -99,6 +117,12 @@ async def _run_one(pipeline, kb, dialogue, ChatRequest, DiagnosisRequest) -> Opt
 
     # What else a conversation has to get right, beyond what was ruled out.
     checks: Dict[str, Optional[bool]] = {}
+    if getattr(dialogue, "deny_last", False) and led_before_last and not getattr(dialogue, "expect_top3", None):
+        # "Không phải đâu" and nothing else: the next guess is the next thing
+        # the conversation already pointed to, not something new.
+        nexts = [c for c in ranked_before_last if c != led_before_last][:3]
+        if nexts and top:
+            checks["next_guess"] = top in nexts
     if getattr(dialogue, "keep_top", False) and led_before_last:
         checks["keep_top"] = top == led_before_last
     if getattr(dialogue, "expect_device", ""):
@@ -110,6 +134,24 @@ async def _run_one(pipeline, kb, dialogue, ChatRequest, DiagnosisRequest) -> Opt
     if getattr(dialogue, "expect_urgent", False):
         urgency = getattr(response, "urgency", None)
         checks["urgent"] = getattr(urgency, "value", urgency) == "HIGH"
+    if getattr(dialogue, "answers", "") and asked_before_last:
+        # Which faults the answer favours, from the same table the question came from.
+        device = chat.device_type or dialogue.device
+        wanted = set()
+        for entry in kb.discriminators_for_device(device):
+            if entry.question_vi.strip() == asked_before_last.strip():
+                wanted = set(entry.favours_if_yes if dialogue.answers == "yes" else entry.favours_if_no)
+        symptom = None
+        if not wanted and asked_before_last.startswith("Thiết bị có hiện tượng "):
+            symptom = asked_before_last[len("Thiết bị có hiện tượng "):].rstrip("?").rsplit(" không", 1)[0]
+        lead = ranked_codes[0] if ranked_codes else None
+        if wanted:
+            in_play = wanted & {f.fault_code for f in kb.faults_for_device(device)}
+            if in_play and lead:
+                checks["answer"] = lead in in_play
+        elif symptom and lead:
+            has = symptom in (kb.fault(lead).symptoms_vi if kb.fault(lead) else [])
+            checks["answer"] = has if dialogue.answers == "yes" else not has
     if getattr(dialogue, "expect_status", ""):
         status = getattr(response, "status", None)
         status = getattr(status, "value", status)
@@ -130,6 +172,8 @@ async def _run_one(pipeline, kb, dialogue, ChatRequest, DiagnosisRequest) -> Opt
 
             if led_before_last in never_excluded_codes():
                 return None  # a safety fault is never ruled out by a sentence, by design
+            if led_before_last in set(getattr(dialogue, "expect_top3", None) or []):
+                return None  # the hint names the fault the answer already led with
         except ImportError:
             pass
         must_not.add(led_before_last)

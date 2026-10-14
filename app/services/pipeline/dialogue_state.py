@@ -137,7 +137,11 @@ one-word cue acts on such a token only when the customer typed the accent."""
 
 _PREVERBAL = frozenset({"da", "moi", "vua"})
 
-_LEADING_FILLERS = frozenset({"a", "u", "o", "thi", "ma", "nhung", "thoi", "ah", "uh", "e", "em", "anh", "chi", "da"})
+_LEADING_FILLERS = frozenset({"a", "u", "o", "thi", "ma", "nhung", "thoi", "ah", "uh", "da"})
+"""Fillers that may open a "no" to the last answer. Not pronouns: "em nhầm
+rồi" is the customer correcting themselves, not the assistant."""
+
+_SELF_CORRECTION = frozenset({"a nham", "em nham", "minh nham", "toi nham", "noi nham", "nho nham", "go nham", "viet nham"})
 
 _META_FILLERS = frozenset(
     """vay the gio nay do kia oi nhe nhi nha ne ha he a ah u um ok thi la
@@ -382,6 +386,12 @@ class DialogueLexicon:
         self.off_topic_terms: Tuple[str, ...] = tuple(fold(t) for t in data.get("off_topic_terms", []))
         self.danger_cues: Tuple[Phrase, ...] = _phrases(data.get("danger_cues", []))
         self.danger_exceptions: Tuple[Phrase, ...] = _phrases(data.get("danger_exceptions", []))
+        self.yes_words: Tuple[Tuple[str, ...], ...] = tuple(
+            sorted((tuple(fold(w).split()) for w in data.get("yes_words", [])), key=len, reverse=True)
+        )
+        self.no_words: Tuple[Tuple[str, ...], ...] = tuple(
+            sorted((tuple(fold(w).split()) for w in data.get("no_words", [])), key=len, reverse=True)
+        )
         self.suspicion_markers: Tuple[str, ...] = tuple(
             fold(m) for m in data.get("suspicion_markers", [])
         )
@@ -571,6 +581,14 @@ class DialogueLexicon:
 
     def normalize(self, text: str) -> str:
         return " ".join(_folded_text(c) for c in self.clauses(text))
+
+    def normalize_accented(self, text: str) -> str:
+        """The same normalisation, keeping the accents where they were typed.
+
+        For finding names: "âm trần" and "ấm" fold to the same letters, and a
+        recessed ceiling light was taken for a kettle.
+        """
+        return " , ".join(" ".join(t.a or t.f for t in c) for c in self.clauses(text))
 
 
 @lru_cache(maxsize=1)
@@ -952,6 +970,10 @@ class _ClauseReader:
         if not self.previous:
             return False
         # "À, hông phải dzậy", "ờ sai rồi": a filler in front is still a no.
+        if any(_contains(text, marker) for marker in _SELF_CORRECTION):
+            # "À nhầm, thật ra chưa vệ sinh": the customer taking back their own
+            # words, which must not take the assistant's answer away with them.
+            return False
         words = text.split()
         while words and words[0] in _LEADING_FILLERS:
             words = words[1:]
@@ -1010,7 +1032,13 @@ def read_turn(
         reading.reinstated += [c for c in reinstated if c not in reading.reinstated]
         for code, factor in penalties.items():
             reading.penalties[code] = min(factor, reading.penalties.get(code, 1.0))
-        denied = not exclusions and reader.denies_previous(folded_text)
+        # A "no" that goes on to say what it is instead ("không phải đâu, nó
+        # vặn nặng tay") is still a no. One that names a cause ("hông phải dơ
+        # đâu") denies that cause, not the whole last answer.
+        denied = reader.denies_previous(folded_text) and not any(
+            e.kind == "cause" or e.fault_code == (reader.previous[0] if reader.previous else None)
+            for e in exclusions
+        )
         if denied:
             reading.denied_previous = True
             code = reader.previous[0]
@@ -1088,6 +1116,105 @@ class DialogueState:
                 * (DANGER_BOOST if code in danger else 1.0)
             )
         return out
+
+
+ANSWER_BOOST = 1.6
+"""Multiplier for the faults a customer's yes or no to our question points at,
+and its inverse for the ones it points away from."""
+
+_SYMPTOM_QUESTION = re.compile(r"^Thiết bị có hiện tượng (.+) không\?$")
+
+
+@dataclass
+class Answer:
+    yes: bool
+    factors: Dict[str, float]
+    said: str
+    """The symptom the customer confirmed, to be searched as if they had said it."""
+    rest: str
+    """Whatever followed the yes or no, still to be read as usual."""
+
+
+def _answer_word(folded: List[str], lex: DialogueLexicon) -> Optional[Tuple[bool, int]]:
+    """Yes or no at the start of the reply, and how many words it took."""
+    words = list(folded)
+    skip = 0
+    while words and words[0] in _LEADING_FILLERS and words[0] not in ("da",):
+        words = words[1:]
+        skip += 1
+    best: Optional[Tuple[bool, int]] = None
+    for yes, table in ((False, lex.no_words), (True, lex.yes_words)):
+        for phrase in table:
+            if tuple(words[: len(phrase)]) == phrase and (best is None or len(phrase) > best[1] - skip):
+                best = (yes, skip + len(phrase))
+    return best
+
+
+def answer_to(
+    question: str,
+    text: str,
+    faults: Sequence,
+    discriminators: Sequence = (),
+    lexicon: Optional[DialogueLexicon] = None,
+) -> Optional[Answer]:
+    """Read a reply as the answer to the question the assistant just asked.
+
+    The assistant asks one question at a time ("Cục nóng ngoài trời có chạy
+    không?") and the customer answers in a word. "Không" on its own says nothing
+    to a retriever, and before this the answer to the question the service had
+    chosen as the most informative one was thrown away.
+
+    Two kinds of question are asked. A hand-written discriminator says which
+    faults a yes favours and which a no favours. A templated one ("Thiết bị có
+    hiện tượng X không?") names a symptom: yes means it is happening, so it is
+    searched; no means the faults that list it are less likely.
+    """
+    lex = lexicon or get_lexicon()
+    clauses = lex.clauses(text)
+    if not clauses:
+        return None
+    first = [t.f for t in clauses[0]]
+    found = _answer_word(first, lex)
+    if found is None:
+        return None
+    yes, used = found
+    rest_words = first[used:]
+    # "Không" followed by a symptom of its own is a description, not an answer:
+    # "không mát lắm" is not "no".
+    if rest_words and not all(w in _PARTICLES or w in _META_FILLERS for w in rest_words[:2]):
+        if not yes and rest_words[0] not in ("nha", "a", "dau", "co", "thay", "luon", "em", "anh", "chi", "ha", "nhe"):
+            return None
+    rest = " ".join(
+        [" ".join(rest_words)] + [" ".join(t.f for t in c) for c in clauses[1:]]
+    ).strip()
+
+    codes = {f.fault_code for f in faults}
+    factors: Dict[str, float] = {}
+    said = ""
+    for entry in discriminators:
+        if entry.question_vi.strip() != question.strip():
+            continue
+        up = entry.favours_if_yes if yes else entry.favours_if_no
+        down = entry.favours_if_no if yes else entry.favours_if_yes
+        for code in up:
+            if code in codes:
+                factors[code] = ANSWER_BOOST
+        for code in down:
+            if code in codes and code not in factors:
+                factors[code] = 1 / ANSWER_BOOST
+        return Answer(yes, factors, said, rest)
+
+    match = _SYMPTOM_QUESTION.match(question.strip())
+    if match:
+        symptom = match.group(1).strip()
+        if yes:
+            said = fold(symptom)
+        else:
+            for fault in faults:
+                if any(fold(s) == fold(symptom) for s in fault.symptoms_vi):
+                    factors[fault.fault_code] = NEGATED_PENALTY
+        return Answer(yes, factors, said, rest)
+    return None
 
 
 def is_off_topic(text: str, lexicon: Optional[DialogueLexicon] = None) -> bool:

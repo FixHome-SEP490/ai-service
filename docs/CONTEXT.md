@@ -1,6 +1,6 @@
 # Context repo ai-service — FixHome
 
-> Cập nhật lần cuối: 2026-10-14 17:04 (UTC+7) · Người cập nhật (git): ToanAltF4 · Nhánh: feat/dialogue-coverage
+> Cập nhật lần cuối: 2026-10-14 17:50 (UTC+7) · Người cập nhật (git): ToanAltF4 · Nhánh: feat/dialogue-answers
 
 ## 0. Quy tắc cập nhật file này (bắt buộc)
 
@@ -99,6 +99,7 @@ Luật nghiệp vụ gốc nằm ở tài liệu dự án (bản chính thức c
 - Hiểu ngữ cảnh cả cuộc trò chuyện (`dialogue_state.py`): mỗi lượt khách được đọc thành sự kiện. Gồm việc đã làm ("mới vệ sinh rồi"), nguyên nhân bị phủ nhận đặt trước hoặc sau ("không phải do bẩn", "lưới lọc thì không phải"), bằng chứng ngược ("lưới lọc sạch"), bác câu trả lời trước ("sai rồi"), điều khách tự nghi ("có phải hết gas không"), cách sửa đã thử mà vẫn hỏng (gợi ý bước kiểm tra kế tiếp). Lỗi đã loại không quay lại trong danh sách, dịch vụ, tài liệu đưa cho Qwen; Qwen được nhận danh sách điều khách đã xác nhận; câu trả lời mở đầu bằng câu ghi nhận lời khách. Lỗi an toàn (rò gas, chập điện...) không bao giờ bị loại bằng lời. Chuẩn hoá cách gõ: không dấu, teencode, phương ngữ Bắc Trung Nam, Telex sót, lặp chữ, lỗi gõ một ký tự.
 - Truy hồi hiểu cụm phủ định: "không vắt", "không mát" là một đơn vị, không còn lẫn với "kêu to khi vắt".
 - Giữ mạch hội thoại: đã có thiết bị thì chỉ đổi khi khách gọi đúng tên máy ("tủ lạnh", "máy sấy"), không đổi vì tên bộ phận ("phích cắm", "nóng lạnh", "công tắc"); tên thiết bị so theo ranh giới từ và đọc cả khi gõ sai. Câu xã giao ("đúng rồi", "cảm ơn", "có nguy hiểm không", "bao nhiêu tiền") không đưa vào tìm kiếm; "đúng rồi" giữ kết luận đang có. Câu lạc đề giữa chừng (bóng đá, giá vàng, bitcoin) được từ chối mà không làm mất ngữ cảnh. Khách tả khói, khét, chập, giật, mùi gas (không phủ định) thì cả phiên đánh dấu nguy hiểm, lỗi an toàn được đẩy lên đầu, kể cả khi sau đó khách nói "chắc không phải cháy".
+- Hiểu câu trả lời: trợ lý hỏi ngược một câu thì câu "có"/"không"/"rồi"/"chưa" của khách được đọc là trả lời câu đó (bảng `discriminators` hoặc câu hỏi triệu chứng) và đổi thứ hạng. Khách tự sửa lời ("à nhầm, thật ra chưa vệ sinh") thì lỗi quay lại, không bị hiểu là bác câu trả lời. Khách sửa thiết bị ("không phải máy lạnh mà là tủ lạnh", kể cả gõ sai) thì đổi và giữ ở lượt sau. Khách bác ("không phải đâu") thì lỗi kế tiếp lấy từ chính những gì khách đã kể; bác kèm triệu chứng mới thì triệu chứng đó được tìm.
 - Phiên trò chuyện lưu trong bộ nhớ tiến trình (1 giờ, 40 lượt, tối đa 5000 phiên). Khi phiên đã mất (khởi động lại, hết hạn), client có thể gửi `history` (lời khách các lượt trước) để dựng lại ngữ cảnh; phiên còn giữ thì `history` bị bỏ qua. Mỗi phiên xử lý tuần tự một lượt một lúc.
 - Hơn 2.100 test trong `tests/`, gồm bộ hội thoại nhiều lượt (`tests/test_dialogue_context.py`).
 
@@ -157,13 +158,14 @@ Ngoài ra có `POST /api/v1/diagnosis/analyze-upload` (multipart), `GET /api/v1/
 - Trường hợp xấu nhất của chatbot (câu an toàn 25 giây cộng trả lời chung 8 giây) có thể vượt timeout 30 giây của `backend`; tính từ code, CHƯA KIỂM CHỨNG bằng đo thật.
 - `categoryHint` được nhận nhưng chưa dùng; chỉ ảnh đầu tiên được phân tích.
 - Phiên chỉ trong bộ nhớ; nhiều worker hoặc khởi động lại sẽ mất ngữ cảnh nếu client không gửi `history`. `backend` chưa gửi `history`.
-- Cụm loại trừ, thứ tự kiểm tra kế tiếp, dấu hiệu nguy hiểm và chủ đề lạc đề trong `dialogue_knowledge.json` do đội viết, chờ kỹ thuật viên xác nhận. Đo trên 4.800 hội thoại sinh (22 loại tình huống): 99,2% không lặp lỗi khách đã loại, 99,5% không loại nhầm, 98,5% giữ mạch hội thoại; yếu nhất là khách phủ nhận nguyên nhân an toàn (khoảng 91%) và tin nhắn gõ sai đúng từ khoá.
+- Cụm loại trừ, thứ tự kiểm tra kế tiếp, dấu hiệu nguy hiểm và chủ đề lạc đề trong `dialogue_knowledge.json` do đội viết, chờ kỹ thuật viên xác nhận. Đo trên 5.600 hội thoại sinh (28 loại tình huống): 99,4% không lặp lỗi khách đã loại, 99,5% không loại nhầm, 97,4% giữ mạch hội thoại, 98,5% đoán tiếp đúng sau khi bị bác; yếu nhất là sửa thiết bị kèm triệu chứng thuộc thiết bị khác và bác kèm gợi ý (khoảng 91%).
 - Văn phong persona dùng "em", "anh/chị" và "đ", khác chuẩn "bạn" và "₫" của `FIXHOME-DESIGN-SYSTEM.md`; chờ PO chọn.
 - 821 mục kho tri thức chờ kỹ thuật viên xác nhận, 36 giá chờ admin duyệt (xem `docs/CAN-THO-XAC-NHAN.md`).
 - Một số tài liệu trong `docs/` đã cũ: `DATASET-AND-TRAINING.md`, `KB-NEXT-STEPS.md`, `LIVE-RUN.md`.
 
 ## 9. Nhật ký cập nhật context
 
+- 2026-10-14 17:50 (UTC+7) | ToanAltF4 | feat/dialogue-answers | Ghi việc hiểu câu trả lời có/không, tự sửa lời, sửa thiết bị và đoán tiếp sau khi bị bác
 - 2026-10-14 17:04 (UTC+7) | ToanAltF4 | feat/dialogue-coverage | Ghi việc giữ mạch hội thoại: bám thiết bị, câu xã giao, câu lạc đề, dấu hiệu nguy hiểm giữ suốt phiên
 - 2026-10-14 15:28 (UTC+7) | ToanAltF4 | feat/dialogue-context | Ghi lớp hiểu ngữ cảnh hội thoại, trường history để dựng lại phiên đã mất, truy hồi hiểu cụm phủ định và công cụ chấm hội thoại nhiều lượt
 - 2026-10-07 14:43 (UTC+7) | ToanAltF4 | docs/repo-context | Tạo file context theo bộ quy tắc chung của bốn repo, ghi hiện trạng sau đợt sửa lỗi ngày 07/10/2026
