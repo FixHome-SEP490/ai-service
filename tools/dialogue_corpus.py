@@ -713,7 +713,12 @@ def _one(
     )
 
 
-def generate(limit: int = 2000, seed: int = 20261014, devices: Optional[Sequence[str]] = None) -> List[Dialogue]:
+def generate(
+    limit: int = 2000,
+    seed: int = 20261014,
+    devices: Optional[Sequence[str]] = None,
+    interleave: bool = False,
+) -> List[Dialogue]:
     """`limit` dialogues, reproducibly from `seed`, spread over every appliance."""
     by_device, cues = _load()
     names = sorted(d for d in by_device if d in DEVICE_NAMES and (not devices or d in devices))
@@ -723,8 +728,13 @@ def generate(limit: int = 2000, seed: int = 20261014, devices: Optional[Sequence
     attempts = 0
     while len(out) < limit and attempts < limit * 30:
         attempts += 1
-        device = names[attempts % len(names)]
-        category = CATEGORIES[(attempts // len(names)) % len(CATEGORIES)]
+        if interleave:
+            # Every kind of conversation early, for a short run on a rented box.
+            category = CATEGORIES[attempts % len(CATEGORIES)]
+            device = names[(attempts // len(CATEGORIES)) % len(names)]
+        else:
+            device = names[attempts % len(names)]
+            category = CATEGORIES[(attempts // len(names)) % len(CATEGORIES)]
         dialogue = _one(category, device, by_device[device], cues, rng, by_device)
         if dialogue is None:
             continue
