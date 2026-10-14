@@ -57,6 +57,17 @@ class Dialogue:
     """Start as if a photograph had identified the appliance; False to make the
     service find it in the text."""
     category: str = ""
+    keep_top: bool = False
+    """The fault leading before the last turn must still lead after it: "đúng
+    rồi", "cảm ơn em", a question about price or danger change nothing."""
+    expect_device: str = ""
+    """The appliance the conversation must be about after the last turn."""
+    expect_top3: List[str] = field(default_factory=list)
+    """At least one of these must be among the three faults ranked first."""
+    expect_urgent: bool = False
+    """The answer must carry HIGH urgency: a safety fault was described."""
+    expect_status: str = ""
+    """The status the last answer must carry, e.g. "out_of_scope"."""
 
 
 D = Dialogue

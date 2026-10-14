@@ -482,6 +482,67 @@ class _Trace:
         self.mark()
 
 
+_DEVICE_HEADS = frozenset(
+    """may tu quat lo bep am binh tivi ti tv bon chau voi sen o bong den ong duong
+    khoa toilet lavabo microwave dieu cau cay be bet""".split()
+)
+"""First words of a name that names an appliance rather than a part of one.
+
+"Tủ lạnh", "máy sấy", "ổ cắm", "vòi nước" name a machine. Several aliases do
+not: "nóng lạnh" is a setting on a mixer tap, "phích cắm" is the plug on every
+appliance, "rửa bát" is what a sink is used for. Those are fine for finding the
+appliance when nothing else is known, and wrong for deciding that the customer
+has moved on from the one they were talking about: a tap that "không chỉnh được
+nóng lạnh" was turned into a water heater, a fan whose "phích cắm nóng" into a
+socket, and every word said after that was searched against the wrong machine.
+"""
+
+
+def _named_spans(text: str, kb: KnowledgeBase) -> List[tuple]:
+    """(device, alias, start, end) for each appliance named, on word boundaries.
+
+    `devices_named_in` matches inside words, so "nám" holds "ấm" and "quạt trần"
+    holds "quạt": a sentence about a ceiling fan named two appliances and
+    resolved to none. Here an alias must stand as whole words, and one that sits
+    inside a longer match is the same mention, not a second appliance. Its
+    disqualifiers ("máy sấy tóc" is not a clothes dryer) are kept by only
+    considering the devices it accepts.
+    """
+    allowed = {h.device_type for h in device_hint.devices_named_in(text, kb)}
+    words = re.findall(r"[a-z0-9]+", _fold_vi(text))
+    padded = " " + " ".join(words) + " "
+    spans = []
+    for device in allowed:
+        for alias in kb.aliases_vi(device):
+            needle = " " + " ".join(re.findall(r"[a-z0-9]+", _fold_vi(alias))) + " "
+            if needle.strip() == "":
+                continue
+            at = padded.find(needle)
+            while at >= 0:
+                spans.append((device, alias, at, at + len(needle)))
+                at = padded.find(needle, at + 1)
+    spans.sort(key=lambda span: span[2] - span[3])  # longest first
+    kept: List[tuple] = []
+    for span in spans:
+        # Overlapping is the same mention: "cái quạt trần" holds both "cái quạt"
+        # and "quạt trần", and it is one ceiling fan.
+        if any(span[2] < k[3] - 1 and k[2] < span[3] - 1 for k in kept):
+            continue
+        kept.append(span)
+    return kept
+
+
+def _strongly_named_in(text: str, kb: KnowledgeBase) -> Optional[str]:
+    """The one appliance this text names by a machine's name, if exactly one."""
+    devices = {
+        device
+        for device, alias, _start, _end in _named_spans(text, kb)
+        if ([w for w in re.findall(r"[a-z0-9]+", _fold_vi(alias)) if w not in ("cai", "chiec")] or [""])[0]
+        in _DEVICE_HEADS
+    }
+    return devices.pop() if len(devices) == 1 else None
+
+
 def _device_named_in(question: str, kb: KnowledgeBase) -> Optional[str]:
     """The appliance the customer named, when nobody passed one in.
 
@@ -548,7 +609,7 @@ def _first_device_in(folded_text: str, kb: KnowledgeBase) -> Optional[str]:
     return earliest
 
 
-def _device_asked_for_now(latest: str, kb: KnowledgeBase) -> Optional[str]:
+def _device_asked_for_now(latest: str, kb: KnowledgeBase, strong: bool = False) -> Optional[str]:
     """The appliance this turn asks for, when it is changing the subject.
 
     A session remembers the appliance so a bare follow-up still means
@@ -601,10 +662,30 @@ def _device_asked_for_now(latest: str, kb: KnowledgeBase) -> Optional[str]:
         if len(left) == 1:
             return left[0]
 
+    # With an appliance already in the conversation (`strong`), only a
+    # machine's name moves it - see _DEVICE_HEADS. Without one, or when the
+    # customer is asking for a tradesman ("đặt cho anh thợ điện"), any mention
+    # will do, because there is nothing to drift away from.
+    if not strong:
+        return _device_named_in(latest, kb)
+
+    # Typed the way people type: "tiviiii", "bình nóóng lạnh", "lof nướng".
+    # The names are looked for again in the normalised text, so a name that
+    # only a keyboard slip hid still changes the subject.
+    if _strongly_named_in(latest, kb) is None:
+        from app.services.pipeline import dialogue_state
+
+        normalised = dialogue_state.get_lexicon(kb).normalize(latest)
+        again = _strongly_named_in(normalised, kb)
+        if again:
+            return again
+
     # No marker at all. A turn that names one appliance on its own still
     # changes the subject - "tủ lạnh cũng hỏng nữa" is about the fridge now -
-    # and a turn naming none leaves the session's appliance alone.
-    return _device_named_in(latest, kb)
+    # and a turn naming none leaves the session's appliance alone. Named, not
+    # mentioned: a part or a setting ("phích cắm", "nóng lạnh") is not a new
+    # subject. See _DEVICE_HEADS.
+    return _strongly_named_in(latest, kb)
 
 
 def _ranked_by_retrieval(
@@ -790,7 +871,11 @@ class LocalPipeline:
             if not text:
                 continue
             chat.add("customer", text)
-            named = _device_named_in(text, self._kb)
+            named = (
+                _device_asked_for_now(text, self._kb, strong=True)
+                if chat.device_type
+                else _device_named_in(text, self._kb)
+            )
             if named and chat.device_type is None:
                 chat.remember_device(named, 0.6, "memory")
             self._read_turn(chat, text, named or chat.device_type)
@@ -826,7 +911,16 @@ class LocalPipeline:
         reading = self._read_turn(
             chat,
             request.description,
-            _device_named_in(request.description, self._kb) or chat.device_type,
+            # Read against the appliance in question. A part named in passing
+            # ("công tắc", "phích cắm") is not a new appliance, and reading
+            # "không phải công tắc đâu" against sockets ruled out a socket fault
+            # while the light switch the customer meant stayed in the answer.
+            (
+                _device_asked_for_now(request.description, self._kb, strong=True)
+                if chat.device_type
+                else _device_named_in(request.description, self._kb)
+            )
+            or chat.device_type,
             trace,
         )
         trace.add(
@@ -847,6 +941,16 @@ class LocalPipeline:
         # is entirely on topic as the third message of a thread about a washing
         # machine; judging each message alone threw that away.
         if _is_not_household(request.description):
+            return self._out_of_scope_response(request, chat, trace)
+
+        # Off the subject, in the middle of a conversation that is on it: "kể
+        # chuyện cười đi", "giá vàng hôm nay". The conversation being about an
+        # air conditioner made the whole thread look in scope, so the joke was
+        # diagnosed as an air conditioner symptom. Refused politely, and the
+        # turn is kept out of everything retrieved later, so the conversation
+        # picks up where it was.
+        if self._is_off_topic(request.description) and not request.images:
+            chat.this_turn_had_no_symptom()
             return self._out_of_scope_response(request, chat, trace)
 
         if _is_greeting(request.description) and chat.device_type is None:
@@ -935,7 +1039,7 @@ class LocalPipeline:
         # the air conditioning they were moving away from. The unit tests
         # passed throughout, because the understanding was never the problem -
         # only half the routes consulted it.
-        switched_to = _device_asked_for_now(request.description, self._kb)
+        switched_to = _device_asked_for_now(request.description, self._kb, strong=True)
         changed_appliance = bool(
             switched_to and chat.device_type and switched_to != chat.device_type
         )
@@ -1188,6 +1292,14 @@ class LocalPipeline:
         chat: Conversation,
         reading: dialogue_state.TurnReading,
     ) -> ChatResponse:
+
+        # Off the subject mid-conversation: refused, and kept out of what is
+        # retrieved later. "Bitcoin giá bao nhiêu" asked after a water heater
+        # was answered with the price of a thermostat, because the question was
+        # read together with everything said before it.
+        if self._is_off_topic(request.question):
+            chat.this_turn_had_no_symptom()
+            return self._ungrounded_answer(request, chat, in_the_trade=False)
 
         # Policy text and price rows are both grounding, and a question about
         # cost is the commonest thing a customer asks first. The two tables were
@@ -1717,6 +1829,21 @@ class LocalPipeline:
             trace=trace.stages,
             disclaimer_vi=settings.AI_DISCLAIMER_VI,
         )
+
+    def _is_off_topic(self, text: str) -> bool:
+        """A subject FixHome has nothing to say on, and nothing about the trade.
+
+        The trade check runs on what is left once the off-topic subject is taken
+        out: "đá bóng" holds "bóng", and a football question was let through as
+        a question about light bulbs.
+        """
+        lexicon = dialogue_state.get_lexicon(self._kb)
+        if not dialogue_state.is_off_topic(text, lexicon):
+            return False
+        rest = " " + lexicon.normalize(text) + " "
+        for term in lexicon.off_topic_terms:
+            rest = rest.replace(f" {term} ", " ")
+        return not self._is_in_the_trade(rest)
 
     def _is_in_the_trade(self, question: str) -> bool:
         """Whether this is about a household appliance, plumbing or electrics.

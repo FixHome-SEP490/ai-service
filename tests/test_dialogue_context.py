@@ -17,6 +17,7 @@ import pytest
 from app.schemas.chat import ChatRequest
 from app.schemas.diagnosis import DiagnosisRequest
 from app.services.pipeline import dialogue_state as ds
+from app.services.pipeline import local_pipeline as lp
 from app.services.pipeline.conversation import ConversationStore
 from app.services.pipeline.knowledge_base import get_knowledge_base
 from app.services.pipeline.local_pipeline import LocalPipeline
@@ -335,6 +336,114 @@ def test_reading_a_long_message_is_fast(kb, lexicon):
 
 
 # ---------------------------------------------------------------------------
+# Staying on the subject
+# ---------------------------------------------------------------------------
+
+
+@pytest.mark.parametrize(
+    "text",
+    ["ko chỉnh dc nóng lạnh", "phích cắm nóng", "rửa bát lâu lắm", "chỗ công tắc bị nóng", "không phải công tắc đâu"],
+)
+def test_a_part_named_in_passing_does_not_change_the_appliance(kb, text):
+    """A mixer tap's "nóng lạnh" is not a water heater, a plug is not a socket."""
+    assert lp._device_asked_for_now(text, kb, strong=True) is None
+
+
+@pytest.mark.parametrize(
+    "text, device",
+    [
+        ("à còn cái tủ lạnh nhà em nữa, đọng nước dưới đáy tủ", "refrigerator"),
+        ("hỏi luôn cái quạt trần: ù mà không quay", "ceiling_fan"),
+        ("thôi khoan, giờ cái máy sấy mới gấp, may say nong bat thuong", "clothes_dryer"),
+        ("à còn cái tiviiiii nhà em nữa", "television"),
+        ("cái lof nướng cũng bij nè", "oven"),
+        ("giờ cái lò vi ba mới gấp", "microwave_oven"),
+    ],
+)
+def test_a_new_appliance_named_outright_is_followed(kb, text, device):
+    assert lp._device_asked_for_now(text, kb, strong=True) == device
+
+
+def test_the_conversation_keeps_its_appliance_through_a_part_name(kb):
+    pipeline = _pipeline(kb)
+
+    async def run():
+        chat = pipeline._conversations.get_or_create(None)
+        chat.remember_device("light_bulb", 0.9, "image")
+        await pipeline.diagnose(DiagnosisRequest(description="bấm công tắc không lên đèn", sessionId=chat.session_id))
+        await pipeline.diagnose(DiagnosisRequest(description="không phải công tắc đâu", sessionId=chat.session_id))
+        return pipeline._conversations.get_or_create(chat.session_id)
+
+    chat = asyncio.run(run())
+    assert chat.device_type == "light_bulb"
+    assert "LIGHT_SWITCH_FAULT" in chat.state.excluded_codes()
+
+
+@pytest.mark.parametrize("text", ["đúng rồi", "cảm ơn em nhé", "có nguy hiểm không", "vậy giờ sửa sao", "chào em", "sửa cái đó hết bao nhiêu tiền"])
+def test_talk_about_the_conversation_is_not_searched_as_a_symptom(kb, lexicon, text):
+    reading = _read(kb, lexicon, "air_conditioner", text)
+    assert reading.retrieval_text == ""
+    assert reading.meta_only
+
+
+def test_a_yes_keeps_the_answer_it_agrees_with(kb, lexicon):
+    reading = _read(kb, lexicon, "air_conditioner", "đúng rồi đó em", ["AC_CAPACITOR"])
+    assert reading.boosts.get("AC_CAPACITOR", 1.0) > 1.0
+
+
+@pytest.mark.parametrize("text", ["kể chuyện cười đi", "bitcoin giá bao nhiêu", "em có biết đá bóng tối nay không", "cho hỏi giá vàng hôm nay"])
+def test_off_topic_mid_conversation_is_refused_and_the_thread_kept(kb, text):
+    pipeline = _pipeline(kb)
+
+    async def run():
+        chat = pipeline._conversations.get_or_create(None)
+        chat.remember_device("water_heater", 0.9, "image")
+        await pipeline.diagnose(DiagnosisRequest(description="bình nóng lạnh không nóng", sessionId=chat.session_id))
+        off = await pipeline.answer(ChatRequest(question=text, sessionId=chat.session_id))
+        back = await pipeline.answer(ChatRequest(question="vậy giờ sửa sao", sessionId=chat.session_id))
+        return off, back, pipeline._conversations.get_or_create(chat.session_id)
+
+    from app.core.config import settings
+
+    off, back, chat = asyncio.run(run())
+    assert off.answer_vi == settings.OUT_OF_SCOPE_MESSAGE_VI
+    assert chat.device_type == "water_heater"
+    assert "bitcoin" not in chat.symptom_text() and "bong" not in chat.symptom_text().split()
+
+
+@pytest.mark.parametrize(
+    "text, danger",
+    [
+        ("khói ra từ máy lạnh", True),
+        ("máy lạnh có mùi khét", True),
+        ("ổ cắm bị chập cháy", True),
+        ("không có mùi khét", False),
+        ("ổ cắm điện thiết bị chập chờn", False),
+        ("bếp gas bếp cháy một lúc rồi tắt", False),
+        ("lò nướng bị cháy bánh", False),
+    ],
+)
+def test_danger_is_read_when_it_is_described(kb, lexicon, text, danger):
+    assert _read(kb, lexicon, "air_conditioner", text).danger is danger
+
+
+def test_danger_stays_described_after_a_denial(kb):
+    """Smoke is still smoke after "chắc không phải cháy đâu"."""
+    pipeline = _pipeline(kb)
+
+    async def run():
+        chat = pipeline._conversations.get_or_create(None)
+        chat.remember_device("air_conditioner", 0.9, "image")
+        await pipeline.diagnose(DiagnosisRequest(description="máy lạnh có mùi khét khi bật", sessionId=chat.session_id))
+        return await pipeline.diagnose(
+            DiagnosisRequest(description="chắc không phải cháy đâu", sessionId=chat.session_id)
+        )
+
+    reply = asyncio.run(run())
+    assert reply.urgency.value == "HIGH"
+
+
+# ---------------------------------------------------------------------------
 # Whole conversations
 # ---------------------------------------------------------------------------
 
@@ -355,12 +464,16 @@ def test_hand_written_conversations():
 def test_generated_conversations():
     """Every appliance, every way of pushing back, every voice and keyboard.
 
-    Thresholds sit just under what was measured on 6,000 (98.6% and 99.5%), so
-    a change that costs a point fails here rather than in a customer's chat.
+    Thresholds sit just under what was measured on 4,800 (99.2%, 99.5% and
+    98.5% staying on the subject), so a change that costs a point fails here
+    rather than in a customer's chat.
     """
-    dialogues: list[Dialogue] = generate(limit=500, seed=20261014)
+    dialogues: list[Dialogue] = generate(limit=600, seed=20261014)
     rows = asyncio.run(run_dialogues(dialogues))
-    assert len(rows) >= 450
-    assert 1 - _rate(rows, "repeated") >= 0.96
+    assert len(rows) >= 550
+    assert 1 - _rate(rows, "repeated") >= 0.97
     assert 1 - _rate(rows, "wrongly_excluded") >= 0.98
     assert 1 - _rate(rows, "service_bad") >= 0.98
+    # Staying on the subject: a yes, a thanks, a question about price or
+    # danger, an off-topic aside, a new appliance named outright.
+    assert _rate(rows, "checks_ok") >= 0.95
