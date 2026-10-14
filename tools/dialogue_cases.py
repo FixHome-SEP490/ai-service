@@ -67,6 +67,9 @@ class Dialogue:
     expect_urgent: bool = False
     """The answer must carry HIGH urgency: a safety fault was described."""
     expect_status: str = ""
+    answers: str = ""
+    """"yes" or "no": the last turn answers the question the assistant asked
+    before it, and the faults that answer favours must lead afterwards."""
     """The status the last answer must carry, e.g. "out_of_scope"."""
 
 

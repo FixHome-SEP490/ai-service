@@ -388,7 +388,23 @@ CATEGORIES = [
     "confirm", "thanks", "price_followup", "safety", "safety_denied", "switch_device",
     "offtopic", "offtopic_return", "added_symptom", "greeting_first", "split_symptom",
     "worry_question",
+    # Answering the question the assistant asked, and taking things back.
+    "answer_yes", "answer_no", "retract", "correct_device", "pronoun",
+    # The guess was wrong and the customer says what it is instead.
+    "deny_and_hint",
 ]
+
+_VAGUE = [
+    "{n} nhà {me} bị sao ấy", "{n} có vấn đề {end}", "{n} dạo này lạ lắm", "{n} chạy không bình thường",
+    "{n} nhà {me} trục trặc", "{n} bị gì đó {end}", "{n} hoạt động kỳ kỳ",
+]
+_YES = ["có", "có ạ", "dạ có", "có chứ", "có luôn", "rồi", "dạ rồi", "đúng rồi", "ừ có", "vâng", "có nha", "có em"]
+_NO = ["không", "không ạ", "dạ không", "không có", "chưa", "chưa ạ", "không có đâu", "hông", "không thấy", "dạ chưa"]
+_RETRACT = [
+    "à nhầm, thật ra chưa {d}", "xin lỗi em nhớ nhầm, chưa {d} đâu", "à không, {me} chưa {d}",
+    "khoan, hình như chưa {d}",
+]
+_PRONOUN = ["nó còn {s} nữa", "giờ nó {s}", "nó bị {s} luôn", "mà nó {s} nữa"]
 
 _CONFIRM = {
     "bac": ["đúng rồi", "chuẩn rồi đấy", "đúng thế", "ừ đúng rồi em", "chính xác", "đúng là vậy"],
@@ -452,6 +468,7 @@ def _one(
     if cue.get("never_exclude") and category in ("done", "cause", "absent", "multi", "ask"):
         return None
     keep_top = False
+    answers = ""
     expect_device = ""
     expect_top3: List[str] = []
     expect_urgent = False
@@ -563,6 +580,49 @@ def _one(
         turns.append(_fill(rng.choice(["không có {s}", "không bị {s} gì hết", "có {s} đâu", "{me} không thấy {s}"]),
                            rng, region, s=s))
         must_keep = [code]
+    elif category in ("answer_yes", "answer_no"):
+        if rng.random() < 0.6:
+            turns = [_fill(rng.choice(_VAGUE), rng, region, n=name)]
+        turns.append(rng.choice(_YES if category == "answer_yes" else _NO))
+        answers = "yes" if category == "answer_yes" else "no"
+    elif category == "deny_and_hint":
+        others = [f for f in faults if f["fault_code"] != code and f.get("symptoms_vi")]
+        if not others:
+            return None
+        other = rng.choice(others)
+        turns.append(_fill(rng.choice([
+            "{no}, mà nó còn {s}", "{no}, {me} thấy {s}", "{no} đâu, nó {s} cơ", "{no}, kiểu như là {s}",
+            "{no}. Nó {s}",
+        ]), rng, region, no=rng.choice(_PREVIOUS[region]), s=rng.choice(other["symptoms_vi"])))
+        deny_last = True
+        expect_top3 = [other["fault_code"]]
+    elif category == "retract":
+        if not cue.get("done") or cue.get("never_exclude"):
+            return None
+        d = rng.choice(cue["done"])
+        turns.append(_fill(f"{rng.choice(_DONE_BEFORE)} {d} {rng.choice(_DONE_AFTER)}", rng, region))
+        turns.append(_fill(rng.choice(_RETRACT), rng, region, d=d))
+        must_keep = [code]
+    elif category == "correct_device":
+        others = [d for d in (by_device or {}) if d != device and d in DEVICE_NAMES]
+        if not others:
+            return None
+        other = rng.choice(others)
+        ofault = rng.choice([f for f in by_device[other] if f.get("symptoms_vi")])
+        oname = rng.choice(DEVICE_NAMES[other][region])
+        turns.append(_fill(rng.choice([
+            "à nhầm, không phải {n0} mà là {n}", "{me} nói nhầm, là cái {n} chứ không phải {n0}",
+            "không phải {n0} đâu, {n} mới đúng", "sửa lại: {n} nhé, không phải {n0}",
+        ]), rng, region, n=oname, n0=name))
+        turns.append(rng.choice(ofault["symptoms_vi"]))
+        expect_device = other
+    elif category == "pronoun":
+        others = [s for s in target["symptoms_vi"] if s != symptom]
+        if not others:
+            return None
+        turns.append(_fill(rng.choice(_PRONOUN), rng, region, s=rng.choice(others)))
+        expect_device = device
+        expect_top3 = [code]
     elif category == "confirm":
         turns.append(rng.choice(_CONFIRM[region]))
         keep_top = True
@@ -649,6 +709,7 @@ def _one(
         expect_top3=expect_top3,
         expect_urgent=expect_urgent,
         expect_status=expect_status,
+        answers=answers,
     )
 
 

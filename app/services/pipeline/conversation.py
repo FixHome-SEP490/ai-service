@@ -145,6 +145,10 @@ class Conversation:
     shortlist: List[str] = field(default_factory=list)
     """Fault codes still in play, narrowed as answers come in."""
 
+    pending_question: Optional[str] = None
+    """The question the assistant asked last, until the customer replies, so a
+    bare "không" can be read as the answer to it."""
+
     state: DialogueState = field(default_factory=DialogueState)
     """What the customer has ruled out or said is absent. See dialogue_state.py."""
 
