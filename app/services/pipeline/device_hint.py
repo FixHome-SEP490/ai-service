@@ -43,9 +43,12 @@ NOT_THIS_DEVICE = {
     # dry clothes, they are sold under the same search terms, and they are not
     # the machine the 350.000d service cleans — that one has a lint filter, a
     # vent duct and a drum, none of which a fabric tent has.
+    # The dish, shoe and hand dryers are named with "sấy" in front: as bare
+    # words "bát" also folds from "bất" and "tay" sits in "vân tay", so "máy sấy
+    # nóng bất thường" was taken back as a dish dryer and named no appliance.
     "clothes_dryer": (
-        "toc", "bat", "chen", "giay", "tay", "quat suoi",
-        "tu say", "gian phoi", "mac phoi", "sao phoi",
+        "toc", "say bat", "say chen", "bat dia", "chen bat", "say giay", "say tay",
+        "quat suoi", "tu say", "gian phoi", "mac phoi", "sao phoi",
     ),
     "water_heater": ("nuoc nong lanh", "binh thuy"),
     "electric_fan": ("quat thong gio", "quat hut mui"),

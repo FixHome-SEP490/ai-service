@@ -94,12 +94,44 @@ async def _run_one(pipeline, kb, dialogue, ChatRequest, DiagnosisRequest) -> Opt
 
     faults = [f.fault_code for f in getattr(response, "suspected_faults", []) or []]
     services = [s.service_code for s in getattr(response, "recommended_services", []) or []]
+    top = faults[0] if faults else (ranked_codes[0] if ranked_codes else None)
     message = getattr(response, "message_vi", None) or getattr(response, "answer_vi", None) or ""
+
+    # What else a conversation has to get right, beyond what was ruled out.
+    checks: Dict[str, Optional[bool]] = {}
+    if getattr(dialogue, "keep_top", False) and led_before_last:
+        checks["keep_top"] = top == led_before_last
+    if getattr(dialogue, "expect_device", ""):
+        checks["device"] = chat.device_type == dialogue.expect_device and (
+            top is None or kb.fault(top) is None or kb.fault(top).device_type == dialogue.expect_device
+        )
+    if getattr(dialogue, "expect_top3", None):
+        checks["top3"] = bool(set(dialogue.expect_top3) & (set(faults) | set(ranked_codes[:3])))
+    if getattr(dialogue, "expect_urgent", False):
+        urgency = getattr(response, "urgency", None)
+        checks["urgent"] = getattr(urgency, "value", urgency) == "HIGH"
+    if getattr(dialogue, "expect_status", ""):
+        status = getattr(response, "status", None)
+        status = getattr(status, "value", status)
+        if dialogue.expect_status == "refused":
+            from app.core.config import settings
+
+            asked = getattr(getattr(response, "clarification", None), "questions_vi", None) or []
+            checks["status"] = settings.OUT_OF_SCOPE_MESSAGE_VI in [message, *asked]
+        else:
+            checks["status"] = status == dialogue.expect_status
 
     must_not = set(dialogue.must_not)
     if getattr(dialogue, "deny_last", False):
         if led_before_last is None:
             return None  # nothing was named, so there is nothing to deny
+        try:
+            from app.services.pipeline.dialogue_state import never_excluded_codes
+
+            if led_before_last in never_excluded_codes():
+                return None  # a safety fault is never ruled out by a sentence, by design
+        except ImportError:
+            pass
         must_not.add(led_before_last)
     repeated = bool(must_not & set(faults)) or bool(ranked_codes and ranked_codes[0] in must_not)
 
@@ -147,6 +179,8 @@ async def _run_one(pipeline, kb, dialogue, ChatRequest, DiagnosisRequest) -> Opt
         "message": message,
         "repeated": repeated,
         "wrongly_excluded": wrongly_excluded,
+        "checks": checks,
+        "checks_ok": None if not checks else all(checks.values()),
         "service_bad": service_bad,
         "leader_ok": leader_ok,
         "heard": heard,
@@ -183,7 +217,7 @@ def _rate(rows, key) -> str:
     scored = [r[key] for r in rows if r[key] is not None]
     if not scored:
         return "   -"
-    good = sum(1 for v in scored if v) if key in ("leader_ok", "heard") else sum(
+    good = sum(1 for v in scored if v) if key in ("leader_ok", "heard", "checks_ok") else sum(
         1 for v in scored if not v
     )
     return f"{good}/{len(scored)} {100 * good / len(scored):5.1f}%"
@@ -220,13 +254,22 @@ def main() -> None:
     print(f"{'dịch vụ không dính lỗi đã loại':36s} {_rate(rows, 'service_bad')}")
     print(f"{'lỗi đứng đầu đúng':36s} {_rate(rows, 'leader_ok')}")
     print(f"{'có câu ghi nhận lời khách':36s} {_rate(rows, 'heard')}")
+    print(f"{'giữ mạch hội thoại (loại mới)':36s} {_rate(rows, 'checks_ok')}")
+    kinds: Dict[str, Counter] = defaultdict(Counter)
+    for row in rows:
+        for name, ok in row["checks"].items():
+            kinds[name]["n"] += 1
+            kinds[name]["ok"] += int(bool(ok))
+    for name in sorted(kinds):
+        c = kinds[name]
+        print(f"  {name:34s} {c['ok']}/{c['n']} {100 * c['ok'] / c['n']:5.1f}%")
 
     by: Dict[str, Counter] = defaultdict(Counter)
     for row in rows:
         for label in ("category", "style", "region", "persona"):
             key = f"{label}:{row[label] or '-'}"
             by[key]["n"] += 1
-            by[key]["bad"] += int(bool(row["repeated"] or row["wrongly_excluded"]))
+            by[key]["bad"] += int(bool(row["repeated"] or row["wrongly_excluded"] or row["checks_ok"] is False))
     print("\ntheo loại / kiểu gõ / vùng miền / tính cách (sai = lặp lỗi đã loại hoặc loại nhầm):")
     for key in sorted(by):
         c = by[key]
@@ -235,6 +278,7 @@ def main() -> None:
     failures = [
         r for r in rows
         if r["repeated"] or r["service_bad"] or r["leader_ok"] is False or r["wrongly_excluded"]
+        or r["checks_ok"] is False
     ]
     print(f"\nlỗi ({len(failures)}), in {min(args.show, len(failures))}:")
     for row in failures[: args.show]:
@@ -245,6 +289,7 @@ def main() -> None:
                 ("LOẠI NHẦM", row["wrongly_excluded"]),
                 ("DỊCH VỤ", row["service_bad"]),
                 ("ĐẦU SAI", row["leader_ok"] is False),
+                ("MẠCH: " + ",".join(k for k, v in row["checks"].items() if not v), row["checks_ok"] is False),
             )
             if bad
         ]

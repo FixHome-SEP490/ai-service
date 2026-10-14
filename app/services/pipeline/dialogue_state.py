@@ -89,6 +89,17 @@ way to know that - after the exclusion it only sees "không nóng", which fits t
 thermostat and a blocked inlet alike. The order comes from `if_persists` in the
 lexicon, curated per fault."""
 
+CONFIRMED_BOOST = 1.5
+"""Multiplier for the fault the last answer led with, when the customer says
+"đúng rồi". It was the leader already; this keeps it there against whatever
+the next message's words happen to match."""
+
+DANGER_BOOST = 2.5
+"""Multiplier for the appliance's safety faults once the customer has described
+danger: smoke, a burning smell, sparks, a shock, gas. Ranking decides which
+warning is pinned, and a fault that is fourth on the words "khói ra từ máy lạnh"
+is a warning nobody gets."""
+
 SAFETY_PENALTY = 0.6
 """Multiplier for a safety fault the customer ruled out in words.
 
@@ -117,13 +128,24 @@ _PARTICLES = frozenset(
 _AMBIGUOUS_BARE = frozenset(
     {"do", "den", "tu", "o", "cua", "voi", "u", "ga", "bi", "de", "an", "ma", "la", "co",
      "thi", "the", "ro", "ri", "ne", "mo", "to", "bo", "ban", "nong", "on", "bom", "loi",
-     "nut", "hu", "ho", "chay", "be", "mat", "ve", "tat", "rung", "sau", "keo", "khoa"}
+     "nut", "hu", "ho", "chay", "be", "mat", "ve", "tat", "rung", "sau", "keo", "khoa",
+     "khoi", "no", "chap"}
 )
 """One-word cues that, typed without accents, are several different words:
 "do" is "do", "đó", "đỏ" and "dơ"; "chay" is "chạy", "cháy" and "chảy". A
 one-word cue acts on such a token only when the customer typed the accent."""
 
 _PREVERBAL = frozenset({"da", "moi", "vua"})
+
+_LEADING_FILLERS = frozenset({"a", "u", "o", "thi", "ma", "nhung", "thoi", "ah", "uh", "e", "em", "anh", "chi", "da"})
+
+_META_FILLERS = frozenset(
+    """vay the gio nay do kia oi nhe nhi nha ne ha he a ah u um ok thi la
+    co khong ko k di nua luon voi cho hoi xin tu de minh toi tui ban ad shop
+    sua may nao nhieu khoang tam lam qua bay ma roi ca ui""".split()
+)
+"""Words that may sit around a meta phrase without making it about the
+appliance: "vậy giờ sửa sao nhỉ", "cho mình hỏi luôn bao nhiêu tiền"."""
 
 _MAX_TYPO_LENGTH = 12
 """Longest word the typo corrector will try. The longest Vietnamese syllable is
@@ -350,6 +372,16 @@ class DialogueLexicon:
         self.post_denials: Tuple[str, ...] = tuple(
             sorted((fold(p) for p in data.get("post_denials", [])), key=len, reverse=True)
         )
+        self.meta_phrases: Tuple[Tuple[str, ...], ...] = tuple(
+            sorted(
+                (tuple(fold(m).split()) for m in data.get("meta_phrases", [])),
+                key=len,
+                reverse=True,
+            )
+        )
+        self.off_topic_terms: Tuple[str, ...] = tuple(fold(t) for t in data.get("off_topic_terms", []))
+        self.danger_cues: Tuple[Phrase, ...] = _phrases(data.get("danger_cues", []))
+        self.danger_exceptions: Tuple[Phrase, ...] = _phrases(data.get("danger_exceptions", []))
         self.suspicion_markers: Tuple[str, ...] = tuple(
             fold(m) for m in data.get("suspicion_markers", [])
         )
@@ -615,6 +647,10 @@ class TurnReading:
     """What a technician checks next, after a fix the customer reports did not work."""
     denied_previous: bool = False
     confirmed_previous: bool = False
+    danger: bool = False
+    """The customer described danger in this turn, and did not negate it."""
+    meta_only: bool = False
+    """Every clause was about the conversation, none about the appliance."""
 
 
 _SYMPTOM_CACHE: Dict[str, Tuple[Phrase, ...]] = {}
@@ -856,6 +892,48 @@ class _ClauseReader:
 
         return exclusions, reinstated, penalties, (boosts, persist), factual, self._without_hedges(folded)
 
+    def describes_danger(self, tokens: List[Tok]) -> bool:
+        folded = [t.f for t in tokens]
+        harmless = [
+            found
+            for phrase in self.lex.danger_exceptions
+            for found in [phrase.span(tokens)]
+            if found is not None
+        ]
+        for phrase in self.lex.danger_cues:
+            found = phrase.span(tokens)
+            if found is None:
+                continue
+            if any(start <= found[0] < end for start, end in harmless):
+                continue
+            before = " ".join(folded[: found[0]])
+            if self._negated_at(folded, found[0]) or any(
+                _contains(before, p) for p in self.lex.denial_patterns
+            ):
+                # "Không có mùi khét": the shorter "khét" inside it is negated
+                # with it, not a fresh mention.
+                harmless.append(found)
+                continue
+            return True
+        return False
+
+    def is_meta(self, folded: List[str]) -> bool:
+        """The clause says nothing about the appliance: "cảm ơn em", "đúng rồi",
+        "có nguy hiểm không", "vậy giờ sửa sao"."""
+        rest: List[str] = []
+        i = 0
+        while i < len(folded):
+            for phrase in self.lex.meta_phrases:
+                if tuple(folded[i : i + len(phrase)]) == phrase:
+                    i += len(phrase)
+                    break
+            else:
+                rest.append(folded[i])
+                i += 1
+        if len(rest) == len(folded):
+            return False
+        return all(w in _PARTICLES or w in _META_FILLERS for w in rest)
+
     def _without_hedges(self, folded: List[str]) -> str:
         """The clause without "không biết" and the like, for retrieval."""
         out: List[str] = []
@@ -873,6 +951,11 @@ class _ClauseReader:
     def denies_previous(self, text: str) -> bool:
         if not self.previous:
             return False
+        # "À, hông phải dzậy", "ờ sai rồi": a filler in front is still a no.
+        words = text.split()
+        while words and words[0] in _LEADING_FILLERS:
+            words = words[1:]
+        text = " ".join(words)
         return any(text == p or text.startswith(p + " ") for p in self.lex.previous_denials)
 
     def confirms_previous(self, text: str) -> bool:
@@ -897,6 +980,7 @@ def read_turn(
     reading = TurnReading(retrieval_text="")
     seen: Set[str] = set()
     named: List[Tuple[str, str]] = []
+    metas = clauses = 0
     for tokens in lex.clauses(text):
         if not tokens:
             continue
@@ -912,6 +996,8 @@ def read_turn(
             continue
         exclusions, reinstated, penalties, (boosts, persist), factual, folded_text = reader.read(tokens)
         named = list(reader.named)
+        if reader.describes_danger(tokens):
+            reading.danger = True
         for code, factor in persist.items():
             reading.persist[code] = max(factor, reading.persist.get(code, 1.0))
         for code, factor in boosts.items():
@@ -933,9 +1019,18 @@ def read_turn(
                 reading.exclusions.append(Exclusion(code, "previous", ""))
         if reader.confirms_previous(folded_text):
             reading.confirmed_previous = True
-        if not (factual or denied):
+        meta = not (factual or denied) and reader.is_meta(folded_text.split())
+        if meta:
+            metas += 1
+        if not (factual or denied or meta):
             kept.append(folded_text)
+        clauses += 1
     reading.retrieval_text = " ".join(kept)
+    reading.meta_only = clauses > 0 and metas == clauses
+    # "Đúng rồi" to the last answer keeps its leader leading.
+    if reading.confirmed_previous and reader.previous and not reading.exclusions:
+        code = reader.previous[0]
+        reading.boosts[code] = max(CONFIRMED_BOOST, reading.boosts.get(code, 1.0))
     return reading
 
 
@@ -950,6 +1045,8 @@ class DialogueState:
     penalties: Dict[str, float] = field(default_factory=dict)
     boosts: Dict[str, float] = field(default_factory=dict)
     persist: Dict[str, float] = field(default_factory=dict)
+    danger: bool = False
+    """Sticky: once danger is described it stays described for the session."""
     last_new: List[Exclusion] = field(default_factory=list)
     """Exclusions this turn added, for the acknowledgement."""
 
@@ -971,6 +1068,8 @@ class DialogueState:
             self.boosts[code] = max(factor, self.boosts.get(code, 1.0))
         for code, factor in reading.persist.items():
             self.persist[code] = max(factor, self.persist.get(code, 1.0))
+        if reading.danger:
+            self.danger = True
 
     def excluded_codes(self) -> Set[str]:
         return set(self.excluded)
@@ -980,13 +1079,22 @@ class DialogueState:
         out: Dict[str, float] = {}
         # Separate reasons multiply: the customer suspects gas *and* has already
         # cleaned the filter, and each is evidence on its own.
-        for code in set(self.penalties) | set(self.boosts) | set(self.persist):
+        danger = never_excluded_codes() if self.danger else set()
+        for code in set(self.penalties) | set(self.boosts) | set(self.persist) | danger:
             out[code] = (
                 self.penalties.get(code, 1.0)
                 * self.boosts.get(code, 1.0)
                 * self.persist.get(code, 1.0)
+                * (DANGER_BOOST if code in danger else 1.0)
             )
         return out
+
+
+def is_off_topic(text: str, lexicon: Optional[DialogueLexicon] = None) -> bool:
+    """Whether the message is about a subject FixHome has nothing to say on."""
+    lex = lexicon or get_lexicon()
+    folded = " ".join(t.f for clause in lex.clauses(text) for t in clause)
+    return any(_contains(folded, term) for term in lex.off_topic_terms)
 
 
 def never_excluded_codes() -> Set[str]:

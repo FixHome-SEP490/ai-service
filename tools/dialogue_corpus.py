@@ -384,7 +384,33 @@ def _short(symptom: str) -> str:
 CATEGORIES = [
     "done", "done", "cause", "cause", "absent", "previous", "ask", "keep_not_yet",
     "keep_intent", "keep_new_symptom", "keep_negated_other", "multi",
+    # What else a customer does in a conversation, beyond ruling things out.
+    "confirm", "thanks", "price_followup", "safety", "safety_denied", "switch_device",
+    "offtopic", "offtopic_return", "added_symptom", "greeting_first", "split_symptom",
+    "worry_question",
 ]
+
+_CONFIRM = {
+    "bac": ["đúng rồi", "chuẩn rồi đấy", "đúng thế", "ừ đúng rồi em", "chính xác", "đúng là vậy"],
+    "trung": ["đúng rồi", "đúng rứa", "chuẩn rồi", "ừ đúng"],
+    "nam": ["đúng rồi đó", "chuẩn luôn", "y chang vậy á", "đúng rồi á em", "ừa đúng"],
+}
+_THANKS = ["cảm ơn em nhé", "ok cảm ơn", "cám ơn nhiều nha", "thanks em", "dạ em cảm ơn", "ok em", "tks"]
+_PRICE = [
+    "sửa cái đó hết bao nhiêu tiền", "vậy sửa bao nhiêu", "giá sửa khoảng bao nhiêu", "chi phí tầm bao nhiêu",
+    "sửa cái này mất nhiêu tiền", "hết khoảng nhiêu vậy",
+]
+_WORRY = [
+    "có nguy hiểm không", "tự sửa được không", "có cần gọi thợ không", "để vậy dùng tiếp được không",
+    "sửa mất bao lâu", "có phải thay mới không",
+]
+_OFFTOPIC = [
+    "à mà hôm nay thời tiết thế nào", "cho hỏi giá vàng hôm nay", "em có biết đá bóng tối nay không",
+    "bitcoin giá bao nhiêu", "kể chuyện cười đi",
+]
+_RETURN = ["thôi quay lại cái máy, giờ sửa sao", "vậy cái máy kia giờ sao", "rồi quay lại vụ lúc nãy, giờ làm sao"]
+_GREET = ["chào em", "alo", "shop ơi", "chào bạn", "xin chào", "hello"]
+_SAFETY_DENY = ["không phải {c} đâu", "chắc không phải {c} đâu", "{c} thì không phải rồi"]
 
 
 def _one(
@@ -393,6 +419,7 @@ def _one(
     faults: List[dict],
     cues: Dict[str, dict],
     rng: random.Random,
+    by_device: Optional[Dict[str, List[dict]]] = None,
 ) -> Optional[Dialogue]:
     region = rng.choice(list(REGIONS))
     persona = rng.choice(PERSONAS)
@@ -405,7 +432,12 @@ def _one(
         return rng.choice(pool) if pool else None
 
     target: Optional[dict]
-    if category in ("done", "keep_not_yet", "keep_intent"):
+    if category in ("safety", "safety_denied"):
+        pool = [f for f in faults if cues.get(f["fault_code"], {}).get("never_exclude")]
+        if category == "safety_denied":
+            pool = [f for f in pool if cues[f["fault_code"]].get("cause")]
+        target = rng.choice(pool) if pool else None
+    elif category in ("done", "keep_not_yet", "keep_intent"):
         target = pick("done")
     elif category == "cause":
         target = pick("cause")
@@ -419,7 +451,20 @@ def _one(
     cue = cues.get(code, {})
     if cue.get("never_exclude") and category in ("done", "cause", "absent", "multi", "ask"):
         return None
+    keep_top = False
+    expect_device = ""
+    expect_top3: List[str] = []
+    expect_urgent = False
+    expect_status = ""
     symptom = rng.choice(target["symptoms_vi"])
+    if category in ("safety", "safety_denied"):
+        # Only symptoms that describe danger in words: "máy lạnh chạy" is in a
+        # safety fault's list for retrieval reasons and warns of nothing.
+        danger = ("khói", "khét", "cháy", "tia lửa", "chập", "nổ", "giật", "rò điện", "mùi gas", "hơi gas", "rò gas", "tê tay", "xẹt")
+        loud = [s for s in target["symptoms_vi"] if any(w in s.lower() for w in danger)]
+        if not loud:
+            return None
+        symptom = rng.choice(loud)
     if category.startswith("keep") and any(_fold(d).lower() in _fold(symptom).lower() for d in cue.get("done", [])):
         # The symptom itself reports the fix ("mới thay pin tháng trước mà đã
         # hết"); a "keep" case built on it would contradict its own opening.
@@ -518,6 +563,68 @@ def _one(
         turns.append(_fill(rng.choice(["không có {s}", "không bị {s} gì hết", "có {s} đâu", "{me} không thấy {s}"]),
                            rng, region, s=s))
         must_keep = [code]
+    elif category == "confirm":
+        turns.append(rng.choice(_CONFIRM[region]))
+        keep_top = True
+    elif category == "thanks":
+        turns.append(rng.choice(_THANKS))
+        keep_top = True
+        via = "ask"
+    elif category == "price_followup":
+        kinds = [k for k in ("done", "cause", "absent") if cue.get(k)]
+        if kinds and not cue.get("never_exclude") and rng.random() < 0.6:
+            turns.append({"done": done_turn, "cause": cause_turn, "absent": absent_turn}[rng.choice(kinds)]())
+            must_not = [code]
+        turns.append(rng.choice(_PRICE))
+        via = "ask"
+    elif category == "worry_question":
+        turns.append(rng.choice(_WORRY))
+        keep_top = True
+        via = "ask"
+    elif category == "safety":
+        expect_urgent = True
+    elif category == "safety_denied":
+        turns.append(_fill(rng.choice(_SAFETY_DENY), rng, region, c=rng.choice(cue["cause"])))
+        # Never switched off by a sentence: the warning stays.
+        expect_urgent = True
+        must_keep = [code]
+    elif category == "switch_device":
+        others = [d for d in (by_device or {}) if d != device and d in DEVICE_NAMES]
+        if not others:
+            return None
+        other = rng.choice(others)
+        ofault = rng.choice([f for f in by_device[other] if f.get("symptoms_vi")])
+        oname = rng.choice(DEVICE_NAMES[other][region])
+        turns.append(_fill(rng.choice([
+            "à còn cái {n} nhà {me} nữa, {s}", "thôi khoan, giờ cái {n} mới gấp, {s}",
+            "cái {n} cũng bị nè, {s}", "hỏi luôn cái {n}: {s}",
+        ]), rng, region, n=oname, s=rng.choice(ofault["symptoms_vi"])))
+        expect_device = other
+    elif category == "offtopic":
+        turns.append(rng.choice(_OFFTOPIC))
+        via = "ask"
+        expect_status = "refused"
+    elif category == "offtopic_return":
+        turns.append(rng.choice(_OFFTOPIC))
+        turns.append(rng.choice(_RETURN))
+        via = "ask"
+        expect_device = device
+        keep_top = True
+    elif category == "added_symptom":
+        others = [s for s in target["symptoms_vi"] if s != symptom]
+        if not others:
+            return None
+        turns.append(_fill(rng.choice(["còn {s} nữa", "với lại {s}", "à quên, {s} luôn"]), rng, region, s=rng.choice(others)))
+        expect_top3 = [code]
+    elif category == "greeting_first":
+        turns = [rng.choice(_GREET), opening]
+        expect_top3 = [code]
+    elif category == "split_symptom":
+        others = [s for s in target["symptoms_vi"] if s != symptom]
+        if not others:
+            return None
+        turns = [f"{name} nhà {REGIONS[region]['self'][0]} bị hỏng", symptom, rng.choice(others)]
+        expect_top3 = [code]
     else:
         raise ValueError(category)
 
@@ -537,6 +644,11 @@ def _one(
         seed_device=seed,
         category=category,
         note="generated",
+        keep_top=keep_top,
+        expect_device=expect_device,
+        expect_top3=expect_top3,
+        expect_urgent=expect_urgent,
+        expect_status=expect_status,
     )
 
 
@@ -552,7 +664,7 @@ def generate(limit: int = 2000, seed: int = 20261014, devices: Optional[Sequence
         attempts += 1
         device = names[attempts % len(names)]
         category = CATEGORIES[(attempts // len(names)) % len(CATEGORIES)]
-        dialogue = _one(category, device, by_device[device], cues, rng)
+        dialogue = _one(category, device, by_device[device], cues, rng, by_device)
         if dialogue is None:
             continue
         key = (dialogue.device, tuple(dialogue.turns), dialogue.via)
