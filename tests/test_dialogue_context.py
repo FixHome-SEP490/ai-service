@@ -666,3 +666,18 @@ def test_generated_conversations():
     # Staying on the subject: a yes, a thanks, a question about price or
     # danger, an off-topic aside, a new appliance named outright.
     assert _rate(rows, "checks_ok") >= 0.95
+
+
+def test_the_reply_carries_notes_for_the_technician(kb):
+    pipeline = _pipeline(kb)
+
+    async def run():
+        first = await pipeline.diagnose(DiagnosisRequest(description="máy lạnh không mát"))
+        return await pipeline.diagnose(
+            DiagnosisRequest(description="mới vệ sinh tuần trước rồi, em nghĩ có phải hết gas không", sessionId=first.session_id)
+        )
+
+    notes = asyncio.run(run()).model_dump(by_alias=True)["notesVi"]
+    assert "Khách đã vệ sinh rồi, đã loại bẩn lưới lọc và dàn lạnh." in notes
+    assert any(n.startswith("Khách nghi thiếu gas") for n in notes)
+    assert not any("_" in n for n in notes), "no fault codes"

@@ -1,6 +1,6 @@
 # Context repo ai-service — FixHome
 
-> Cập nhật lần cuối: 2026-10-16 03:30 (UTC+7) · Người cập nhật (git): ToanAltF4 · Nhánh: feat/multi-intent-tone
+> Cập nhật lần cuối: 2026-10-16 03:46 (UTC+7) · Người cập nhật (git): ToanAltF4 · Nhánh: feat/conversation-notes
 
 ## 0. Quy tắc cập nhật file này (bắt buộc)
 
@@ -125,6 +125,8 @@ Luật nghiệp vụ gốc nằm ở tài liệu dự án (bản chính thức c
 | --- | --- | --- |
 | POST | `/api/v1/diagnosis/analyze` | JSON; `description` 1 đến 2000 ký tự (bắt buộc), `images` tối đa 3 (base64 hoặc data URI, mỗi ảnh tối đa 8 MiB, chỉ ảnh đầu được phân tích), `sessionId`, `requestId`, `categoryHint` tối đa 64, `history` tuỳ chọn (tối đa 20 chuỗi, mỗi chuỗi 1 đến 2000 ký tự, chỉ lời khách) |
 | POST | `/api/v1/chat/ask` | `question` 1 đến 1000 ký tự, `deviceType` và `sessionId` tối đa 64, `history` như trên |
+
+Cả hai câu trả lời có thêm `notesVi` (mảng chuỗi, tối đa 6): điều cuộc trò chuyện đã xác lập bằng lời ("Khách đã vệ sinh rồi, đã loại bẩn lưới lọc và dàn lạnh.", "Khách nghi thiếu gas, xì gas."), không có mã, để backend đưa vào tóm tắt cho kỹ thuật viên.
 | GET | `/api/v1/chat/acknowledgements` | câu chờ cho client lưu sẵn |
 
 Ngoài ra có `POST /api/v1/diagnosis/analyze-upload` (multipart), `GET /api/v1/meta/catalog`, `GET /health`, và trang thử `GET /chat`.
@@ -168,6 +170,7 @@ Ngoài ra có `POST /api/v1/diagnosis/analyze-upload` (multipart), `GET /api/v1/
 
 ## 9. Nhật ký cập nhật context
 
+- 2026-10-16 03:46 (UTC+7) | ToanAltF4 | feat/conversation-notes | Câu trả lời có notesVi: điều khách đã thử, đã loại, đang nghi, cho tóm tắt gửi kỹ thuật viên
 - 2026-10-16 03:30 (UTC+7) | ToanAltF4 | feat/multi-intent-tone | Nhiều thiết bị một tin nhắn, giọng theo tâm trạng và cách xưng hô, công cụ biến phản hồi sai thành ca test
 - 2026-10-16 01:58 (UTC+7) | ToanAltF4 | feat/answer-guard | Ghi lớp chặn lời mô hình, số đo trên GPU thật và các công cụ chống lái, thử tải
 - 2026-10-14 17:50 (UTC+7) | ToanAltF4 | feat/dialogue-answers | Ghi việc hiểu câu trả lời có/không, tự sửa lời, sửa thiết bị và đoán tiếp sau khi bị bác

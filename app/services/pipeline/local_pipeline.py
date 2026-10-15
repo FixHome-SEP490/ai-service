@@ -972,9 +972,12 @@ class LocalPipeline:
                     ]
                 }
             )
-        if message == response.message_vi and clarification is response.clarification:
+        notes = chat.notes_vi(self._kb)
+        if message == response.message_vi and clarification is response.clarification and not notes:
             return response
-        return response.model_copy(update={"message_vi": message, "clarification": clarification})
+        return response.model_copy(
+            update={"message_vi": message, "clarification": clarification, "notes_vi": notes}
+        )
 
     def _framed(self, chat: Conversation, message: Optional[str], urgent: bool) -> Optional[str]:
         """Open for the mood, close with what is waiting, speak as the customer asked.
@@ -1468,9 +1471,10 @@ class LocalPipeline:
             answer = self._framed(chat, answer, False)
         else:
             answer = dialogue_state.address_as(answer, chat.address)
-        if answer == response.answer_vi:
+        notes = chat.notes_vi(self._kb)
+        if answer == response.answer_vi and not notes:
             return response
-        return response.model_copy(update={"answer_vi": answer})
+        return response.model_copy(update={"answer_vi": answer, "notes_vi": notes})
 
     async def _answer_turn(
         self,
