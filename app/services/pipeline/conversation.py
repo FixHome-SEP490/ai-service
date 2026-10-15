@@ -198,6 +198,33 @@ class Conversation:
         self.state.apply(reading, set(never_exclude))
         self.updated_at = time.time()
 
+    def plain_facts_vi(self, kb) -> str:
+        """The same facts as one plain sentence, with no codes and no headings.
+
+        For the advisory prompt, where the facts sit beside the conversation:
+        on the served model the coded lines ("ĐÃ LOẠI KETTLE_THERMOSTAT — ...")
+        were copied into the customer's answer word for word. A sentence the
+        model can follow is a sentence it has no reason to recite.
+        """
+        def name(code: str) -> str:
+            fault = kb.fault(code)
+            return (fault.name_vi if fault else "").lower()
+
+        ruled = [name(c) for c in self.state.excluded if name(c)]
+        suspected = [
+            name(c) for c, f in self.state.boosts.items()
+            if f > 1.0 and c not in self.state.excluded and name(c)
+        ]
+        nexts = [name(c) for c in self.state.persist if c not in self.state.excluded and name(c)]
+        parts = []
+        if ruled:
+            parts.append("khách đã loại " + ", ".join(ruled[:4]))
+        if suspected:
+            parts.append("khách đang nghi " + ", ".join(suspected[:2]))
+        if nexts:
+            parts.append("nên nghĩ tới " + ", ".join(nexts[:3]))
+        return ("Lưu ý: " + "; ".join(parts) + ".") if parts else ""
+
     def facts_vi(self, kb) -> List[str]:
         """What the whole conversation has established, for the model to read.
 

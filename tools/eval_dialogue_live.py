@@ -113,7 +113,11 @@ def run(url: str, dialogues, kb, cues) -> List[Dict[str, Any]]:
             led_before = [f.get("faultCode") for f in before.get("suspectedFaults") or []]
             must_not = set(dialogue.must_not)
             if dialogue.deny_last and led_before:
-                must_not.add(led_before[0])
+                from app.services.pipeline.dialogue_state import never_excluded_codes
+
+                # A safety fault is never ruled out by a sentence, by design.
+                if led_before[0] not in never_excluded_codes():
+                    must_not.add(led_before[0])
             checks: Dict[str, bool] = {}
             if must_not:
                 checks["repeated"] = not (must_not & set(faults))

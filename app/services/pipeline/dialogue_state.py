@@ -588,7 +588,17 @@ class DialogueLexicon:
         For finding names: "âm trần" and "ấm" fold to the same letters, and a
         recessed ceiling light was taken for a kettle.
         """
-        return " , ".join(" ".join(t.a or t.f for t in c) for c in self.clauses(text))
+        # Connectors stay: "chứ không phải", "mà là" are how a correction is
+        # said, and clauses() drops them as clause boundaries.
+        out = []
+        for segment in _BOUNDARY_RE.split(text or ""):
+            tokens: List[Tok] = []
+            for raw in _WORD_RE.findall(segment):
+                tokens.extend(self._canonical(raw))
+            tokens = self._apply_phrases([t for t in tokens if t.f])
+            if tokens:
+                out.append(" ".join(t.a or t.f for t in tokens))
+        return " , ".join(out)
 
 
 @lru_cache(maxsize=1)
