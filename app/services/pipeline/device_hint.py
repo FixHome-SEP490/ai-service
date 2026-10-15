@@ -112,6 +112,20 @@ def _folded_words(folded: str) -> str:
     return " " + " ".join(re.findall(r"[a-z0-9]+", folded)) + " "
 
 
+_FALSE_FRIENDS = {"bật": "batt"}
+"""Typed words that fold onto a disqualifier and mean something else.
+
+"Máy sấy bật lên không thấy gì chạy" folds to "may say bat len", which holds
+"say bat", the dish dryer; a clothes dryer that would not start was taken back
+as a dish dryer and named no appliance at all. Where the customer typed the
+accent, the word is kept apart before folding."""
+
+
+def _keep_false_friends_apart(text: str) -> str:
+    words = re.split(r"(\W+)", unicodedata.normalize("NFC", text.lower()))
+    return "".join(_FALSE_FRIENDS.get(w, w) for w in words)
+
+
 def devices_named_in(description: str, kb: KnowledgeBase) -> List[DeviceHint]:
     """Every device the text names, longest alias first.
 
@@ -123,7 +137,7 @@ def devices_named_in(description: str, kb: KnowledgeBase) -> List[DeviceHint]:
     the wrong appliance carries the wrong faults, the wrong prices and — in at
     least one case — the wrong safety warning.
     """
-    folded = _fold(description)
+    folded = _fold(_keep_false_friends_apart(description))
     hits: List[DeviceHint] = []
 
     for device_type in kb.device_types:

@@ -216,7 +216,16 @@
       "kieu nhu la": "",
       "thi la": "",
       "dau co phai": "khong phai",
-      "co phai dau": "khong phai"
+      "co phai dau": "khong phai",
+      "khong phia": "khong phai",
+      "dau phia": "dau phai",
+      "ko phia": "ko phai",
+      "k phia": "k phai",
+      "chang phia": "chang phai",
+      "hong phia": "hong phai",
+      "kp phia": "khong phai",
+      "khong phiai": "khong phai",
+      "khong phaii": "khong phai"
     }
   },
   "terms": [
@@ -926,7 +935,12 @@
         "quạt cục nóng vẫn quay",
         "cục nóng vẫn quay",
         "quạt cục nóng vẫn chạy",
-        "cục nóng quạt vẫn chạy"
+        "cục nóng quạt vẫn chạy",
+        "quạt vẫn quay bình thường",
+        "cục nóng quạt vẫn quay",
+        "quạt ngoài vẫn quay",
+        "quạt cục nóng quay bình thường",
+        "cục nóng vẫn chạy bình thường"
       ]
     },
     "AC_CAPACITOR": {
