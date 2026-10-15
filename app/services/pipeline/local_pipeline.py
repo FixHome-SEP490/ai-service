@@ -33,6 +33,7 @@ from app.services.pipeline import answer_guard
 from app.services.pipeline import clarifier
 from app.services.pipeline import context
 from app.services.pipeline import device_hint
+from app.services.pipeline import error_codes
 from app.services.pipeline import dialogue_state
 from app.services.pipeline.conversation import Conversation, day_vi, get_conversation_store
 from app.services.pipeline.detector import Detection, Detector
@@ -836,6 +837,10 @@ class LocalPipeline:
             previous_codes=chat.shortlist,
             lexicon=lexicon,
         )
+        shown = self._display_code(chat, text, device_type)
+        if shown is not None and shown.entry is not None:
+            for code in shown.entry.faults:
+                chat.state.from_codes[code] = error_codes.CODE_BOOST
         # The answer to the question we just asked. Read before anything else
         # has a chance to call "không" a denial of the last answer.
         question, chat.pending_question = chat.pending_question, None
@@ -962,7 +967,9 @@ class LocalPipeline:
         message = response.message_vi
         if ack:
             message = f"{ack} {message}" if message else ack
-        message = self._framed(chat, message, response.urgency == UrgencyLevel.HIGH)
+        urgent = response.urgency == UrgencyLevel.HIGH
+        code_line = self._error_code_line(chat, request.description, urgent)
+        message = self._framed(chat, message, urgent, extra=code_line)
         clarification = response.clarification
         if clarification is not None and chat.address:
             clarification = clarification.model_copy(
@@ -1015,7 +1022,42 @@ class LocalPipeline:
             "Nếu là lỗi cũ quay lại, anh/chị cứ kể với thợ để thợ xem lại lần sửa trước ạ."
         )
 
-    def _framed(self, chat: Conversation, message: Optional[str], urgent: bool) -> Optional[str]:
+    def _display_code(self, chat: Conversation, text: str, device_type: Optional[str]):
+        """The code this message reports, read against the brand's table."""
+        book = error_codes.get_error_code_book()
+        brand = book.brand_in(text)
+        if brand:
+            chat.brand = brand
+        following_up = bool(chat.error_codes or chat.pending_code)
+        reading = book.read(text, chat.brand, device_type, following_up)
+        if reading is None and brand and chat.pending_code:
+            reading = book.read(f"báo {chat.pending_code}", chat.brand, device_type)
+        return reading
+
+    def _error_code_line(self, chat: Conversation, text: str, urgent: bool) -> Optional[str]:
+        """What the code on the display means, from the brand's own table.
+
+        Once per code. A code reported before the brand is known is held, and
+        read when the customer names the brand.
+        """
+        reading = self._display_code(chat, text, chat.device_type or _device_named_in(text, self._kb))
+        if reading is None or reading.token in chat.error_codes:
+            return None
+        if reading.table is None:
+            if chat.pending_code == reading.token:
+                return None
+            chat.pending_code = reading.token
+        else:
+            chat.pending_code = None
+            chat.error_codes.append(reading.token)
+            note = error_codes.note_vi(reading)
+            if note and note not in chat.code_notes:
+                chat.code_notes.append(note)
+        return error_codes.reply_vi(reading, urgent)
+
+    def _framed(
+        self, chat: Conversation, message: Optional[str], urgent: bool, extra: Optional[str] = None
+    ) -> Optional[str]:
         """Open for the mood, close with what is waiting, speak as the customer asked.
 
         Templated sentences only; nothing the model wrote is changed apart from
@@ -1040,7 +1082,7 @@ class LocalPipeline:
                 + 'trước, anh/chị nhắn "xem tiếp" để em xem tiếp nhé.'
             )
         recall = self._recall(chat, urgent) if message else None
-        parts = [p for p in (opener, message, recall, closer) if p]
+        parts = [p for p in (opener, message, extra, recall, closer) if p]
         if not parts:
             return message
         return dialogue_state.address_as(" ".join(parts), chat.address)
@@ -1506,9 +1548,14 @@ class LocalPipeline:
             answer = f"{ack} {answer}"
         # A refusal or a steering reply is a fixed sentence; it is addressed
         # but not given a mood opener.
+        code_line = None
+        if response.status != AnswerStatus.OUT_OF_SCOPE:
+            code_line = self._error_code_line(chat, request.question, False)
         if response.status in (AnswerStatus.OK, AnswerStatus.GENERAL_KNOWLEDGE):
-            answer = self._framed(chat, answer, False)
+            answer = self._framed(chat, answer, False, extra=code_line)
         else:
+            if code_line:
+                answer = f"{answer} {code_line}" if answer else code_line
             answer = dialogue_state.address_as(answer, chat.address)
         notes = chat.notes_vi(self._kb)
         if answer == response.answer_vi and not notes:

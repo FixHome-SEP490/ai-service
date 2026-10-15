@@ -1083,6 +1083,8 @@ class DialogueState:
     penalties: Dict[str, float] = field(default_factory=dict)
     boosts: Dict[str, float] = field(default_factory=dict)
     persist: Dict[str, float] = field(default_factory=dict)
+    from_codes: Dict[str, float] = field(default_factory=dict)
+    """Faults the error code on the display points at, per the brand's table."""
     danger: bool = False
     """Sticky: once danger is described it stays described for the session."""
     last_new: List[Exclusion] = field(default_factory=list)
@@ -1118,11 +1120,12 @@ class DialogueState:
         # Separate reasons multiply: the customer suspects gas *and* has already
         # cleaned the filter, and each is evidence on its own.
         danger = never_excluded_codes() if self.danger else set()
-        for code in set(self.penalties) | set(self.boosts) | set(self.persist) | danger:
+        for code in set(self.penalties) | set(self.boosts) | set(self.persist) | set(self.from_codes) | danger:
             out[code] = (
                 self.penalties.get(code, 1.0)
                 * self.boosts.get(code, 1.0)
                 * self.persist.get(code, 1.0)
+                * self.from_codes.get(code, 1.0)
                 * (DANGER_BOOST if code in danger else 1.0)
             )
         return out

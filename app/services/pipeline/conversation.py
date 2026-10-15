@@ -168,6 +168,18 @@ class Conversation:
     appliance code it was matched to ("device", empty when none matched)."""
 
     recalled: List[str] = field(default_factory=list)
+
+    brand: Optional[str] = None
+    """The appliance's brand, once the customer names it ("máy lạnh Daikin")."""
+
+    error_codes: List[str] = field(default_factory=list)
+    """Codes already explained, so each is explained once."""
+
+    pending_code: Optional[str] = None
+    """A code reported before the brand was known; read once the brand is named."""
+
+    code_notes: List[str] = field(default_factory=list)
+    """What each reported code means per the brand, for the technician."""
     """Appliances whose earlier booking was already mentioned, so it is said once."""
 
     state: DialogueState = field(default_factory=DialogueState)
@@ -252,7 +264,7 @@ class Conversation:
         for code, factor in self.state.boosts.items():
             if factor > 1.0 and code not in self.state.excluded and name(code):
                 lines.append(f"Khách nghi {name(code)}.")
-        tail: List[str] = []
+        tail: List[str] = list(self.code_notes[-2:])
         job = self.past_job()
         if job:
             line = f'Khách từng đặt "{job["service"]}" ngày {day_vi(job["date"])}'
@@ -316,6 +328,9 @@ class Conversation:
         for code, factor in self.state.persist.items():
             if code not in self.state.excluded:
                 lines.append(f"NÊN KIỂM TRA TIẾP {code} — {name(code)} (cách sửa trước không ăn thua)")
+        for code in self.state.from_codes:
+            if code not in self.state.excluded:
+                lines.append(f"MÁY BÁO MÃ LỖI chỉ tới {code} — {name(code)} (theo bảng mã của hãng)")
         for code, factor in self.state.penalties.items():
             if factor < 1.0 and code not in self.state.excluded:
                 lines.append(f"ÍT KHẢ NĂNG {code} — {name(code)} (khách nói không có triệu chứng của nó)")
