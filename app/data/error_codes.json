@@ -1,0 +1,104 @@
+{
+  "_comment_vi": "Ma loi theo hang, CHI lay tu tai lieu chinh thuc cua hang (source.url). meaning_en chep nguyen van tai lieu; meaning_vi la ban dich; action_vi chi co khi tai lieu hang co huong dan cho nguoi dung. faults la ma loi trong fault_knowledge_base.json ma ma hang nay chi ro (de trong neu khong chac). Ma khong co trong bang thi tro ly KHONG doan. Ma co the khac theo dong may, tro ly luon noi ro dieu do.",
+  "tables": [
+    {
+      "brand": "daikin",
+      "brand_vi": "Daikin",
+      "aliases": ["daikin", "dai kin", "đai kin", "đaikin"],
+      "device_type": "air_conditioner",
+      "source": {
+        "title": "Daikin Industries, Simple Self-Diagnosis by Malfunction Code (SM-TS3), After Sales Service Division",
+        "url": "https://www.daikin.com/-/media/Project/Daikin/daikin_com/products/ac/services/error_codes/pdf/sm-ts3_p1-6_errorcode-pdf.pdf",
+        "read_on": "2026-10-16"
+      },
+      "codes": {
+        "A1": {"meaning_en": "Malfunction of indoor unit PCB", "meaning_vi": "lỗi bo mạch dàn lạnh", "faults": ["AC_PCB_FAULT"]},
+        "A3": {"meaning_en": "Drain Level Control System Abnormality", "meaning_vi": "bất thường ở hệ thống kiểm soát mức nước xả (nước ngưng)", "faults": ["AC_DRAIN_BLOCKED"]},
+        "A5": {"meaning_en": "High pressure control in heating, freeze-up protection control in cooling", "meaning_vi": "bảo vệ áp suất cao khi sưởi, bảo vệ chống đóng băng khi làm lạnh", "faults": ["AC_ICING"]},
+        "A6": {"meaning_en": "Malfunction of fan motor", "meaning_vi": "lỗi mô tơ quạt dàn lạnh", "faults": ["AC_INDOOR_FAN_MOTOR"]},
+        "A7": {"meaning_en": "Malfunction of swing flap motor", "meaning_vi": "lỗi mô tơ cánh đảo gió", "faults": []},
+        "C4": {"meaning_en": "Malfunction of liquid pipe thermistor for heat exchanger", "meaning_vi": "lỗi cảm biến nhiệt ống lỏng của dàn trao đổi nhiệt dàn lạnh", "faults": []},
+        "C5": {"meaning_en": "Malfunction of gas pipe thermistor for heat exchanger", "meaning_vi": "lỗi cảm biến nhiệt ống gas của dàn trao đổi nhiệt dàn lạnh", "faults": []},
+        "C7": {"meaning_en": "Front panel driving motor fault", "meaning_vi": "lỗi mô tơ đóng mở mặt nạ trước", "faults": []},
+        "C9": {"meaning_en": "Malfunction of suction air thermistor", "meaning_vi": "lỗi cảm biến nhiệt độ gió hồi", "faults": []},
+        "E1": {"meaning_en": "Defective outdoor unit PCB", "meaning_vi": "lỗi bo mạch dàn nóng", "faults": ["AC_PCB_FAULT"]},
+        "E3": {"meaning_en": "Actuation of high pressure switch (HPS)", "meaning_vi": "công tắc áp suất cao tác động", "faults": []},
+        "E5": {"meaning_en": "Inverter compressor motor or overheat", "meaning_vi": "lỗi mô tơ máy nén biến tần hoặc máy nén quá nhiệt", "faults": ["AC_COMPRESSOR_FAULT"]},
+        "E6": {"meaning_en": "STD compressor motor overcurrent/lock", "meaning_vi": "máy nén thường quá dòng hoặc bị kẹt", "faults": ["AC_COMPRESSOR_FAULT"]},
+        "E7": {"meaning_en": "Malfunction of outdoor unit fan motor system", "meaning_vi": "lỗi hệ thống mô tơ quạt dàn nóng", "faults": ["AC_OUTDOOR_FAN_MOTOR"]},
+        "E8": {"meaning_en": "Overcurrent of inverter compressor", "meaning_vi": "máy nén biến tần quá dòng", "faults": ["AC_COMPRESSOR_FAULT"]},
+        "E9": {"meaning_en": "Malfunction of electronic expansion valve coil", "meaning_vi": "lỗi cuộn dây van tiết lưu điện tử", "faults": []},
+        "EA": {"meaning_en": "Malfunction of four way valve or cool/heat switching", "meaning_vi": "lỗi van bốn ngả hoặc chuyển chế độ lạnh/sưởi", "faults": []},
+        "F3": {"meaning_en": "Malfunction of discharge pipe temperature", "meaning_vi": "nhiệt độ ống đẩy của máy nén bất thường", "faults": []},
+        "F6": {"meaning_en": "Abnormal high pressure or refrigerant overcharged", "meaning_vi": "áp suất cao bất thường hoặc nạp thừa môi chất lạnh", "faults": []},
+        "H6": {"meaning_en": "Malfunction of position detection sensor", "meaning_vi": "lỗi cảm biến dò vị trí", "faults": []},
+        "H7": {"meaning_en": "Malfunction of outdoor unit fan motor signal", "meaning_vi": "lỗi tín hiệu mô tơ quạt dàn nóng", "faults": ["AC_OUTDOOR_FAN_MOTOR"]},
+        "H8": {"meaning_en": "Malfunction of compressor input (CT) system", "meaning_vi": "lỗi hệ thống đo dòng vào máy nén (CT)", "faults": []},
+        "H9": {"meaning_en": "Malfunction of outdoor air thermistor", "meaning_vi": "lỗi cảm biến nhiệt độ không khí ngoài trời", "faults": []},
+        "J3": {"meaning_en": "Malfunction of discharge pipe thermistor", "meaning_vi": "lỗi cảm biến nhiệt ống đẩy", "faults": []},
+        "J6": {"meaning_en": "Malfunction of heat exchanger thermistor", "meaning_vi": "lỗi cảm biến nhiệt dàn trao đổi nhiệt dàn nóng", "faults": []},
+        "L3": {"meaning_en": "El.compo. box temperature rise", "meaning_vi": "nhiệt độ hộp linh kiện điện tăng cao", "faults": []},
+        "L4": {"meaning_en": "Malfunction of inverter radiation fin temperature rise", "meaning_vi": "cánh tản nhiệt của bộ biến tần quá nóng", "faults": []},
+        "L5": {"meaning_en": "Inverter instantaneous overcurrent (DC output)", "meaning_vi": "bộ biến tần quá dòng tức thời (ngõ ra DC)", "faults": []},
+        "P4": {"meaning_en": "Malfunction of radiation fin temperature sensor", "meaning_vi": "lỗi cảm biến nhiệt cánh tản nhiệt", "faults": []},
+        "U0": {"meaning_en": "Shortage of refrigerant", "meaning_vi": "thiếu môi chất lạnh (thiếu gas)", "faults": ["AC_LOW_REFRIGERANT"]},
+        "U2": {"meaning_en": "Malfunction of power supply or instantaneous power failure", "meaning_vi": "lỗi nguồn điện hoặc mất điện tức thời", "faults": []},
+        "U4": {"meaning_en": "Malfunction of transmission between indoor and outdoor unit", "meaning_vi": "lỗi truyền tín hiệu giữa dàn lạnh và dàn nóng", "faults": []},
+        "UA": {"meaning_en": "Improper combination of indoor and outdoor units", "meaning_vi": "dàn lạnh và dàn nóng không tương thích", "faults": []}
+      }
+    },
+    {
+      "brand": "samsung",
+      "brand_vi": "Samsung",
+      "aliases": ["samsung", "sam sung", "samsum"],
+      "device_type": "washing_machine",
+      "source": {
+        "title": "Samsung Singapore Support, About the Information Codes On a Samsung washing machine",
+        "url": "https://www.samsung.com/sg/support/home-appliances/check-out-the-information-codes-on-my-washing-machine/",
+        "read_on": "2026-10-16"
+      },
+      "codes": {
+        "4C": {"same_as": ["4E", "E1"], "meaning_en": "No water supply", "meaning_vi": "máy không có nước cấp vào", "action_vi": "mở hết vòi nước, xem ống cấp có bị gập, tắc hay đóng băng không, kiểm tra áp lực nước và vệ sinh lưới lọc ở đầu ống cấp", "faults": ["WM_NO_WATER_INLET"]},
+        "5C": {"same_as": ["5E"], "meaning_en": "Water not draining", "meaning_vi": "nước không xả ra được", "action_vi": "xem ống xả có bị tắc, gập hay đóng băng không, đặt ống đúng vị trí, duỗi thẳng ống và vệ sinh bộ lọc cặn", "faults": ["WM_DRAIN_PUMP"]},
+        "DC": {"same_as": ["DE"], "meaning_en": "Door open during operation", "meaning_vi": "cửa đang mở khi máy chạy", "action_vi": "đóng chặt cửa và xem có quần áo kẹt ở cửa không", "faults": []},
+        "OC": {"same_as": ["OE", "OF"], "meaning_en": "Water overflow", "meaning_vi": "nước tràn", "action_vi": "cho máy vắt xong rồi khởi động lại", "faults": ["WM_OVERFLOW"]},
+        "UB": {"same_as": ["UE"], "meaning_en": "Spin not working", "meaning_vi": "máy không vắt được (đồ giặt lệch)", "action_vi": "dàn đều đồ giặt trong lồng và đặt máy trên mặt phẳng, chắc chắn", "faults": ["WM_NO_SPIN"]},
+        "AC": {"same_as": ["AE"], "meaning_en": "Communication fault between main and sub PBAs", "meaning_vi": "lỗi giao tiếp giữa bo mạch chính và bo mạch phụ", "action_vi": "tắt máy rồi chạy lại chương trình", "faults": ["WM_PCB_FAULT"]},
+        "4C2": {"same_as": ["4E2"], "meaning_en": "Cold supply hose connected to the hot tap", "meaning_vi": "ống cấp nước lạnh đang nối vào vòi nước nóng", "action_vi": "nối ống cấp nước lạnh vào vòi nước lạnh rồi tắt máy, khởi động lại", "faults": []},
+        "DC1": {"same_as": ["DE1"], "meaning_en": "Main door lock malfunction", "meaning_vi": "lỗi khóa cửa chính", "action_vi": "tắt máy rồi khởi động lại", "faults": ["WM_DOOR_LOCK"]},
+        "LC": {"same_as": ["LC1", "LE", "LE1"], "meaning_en": "Drain hose problem", "meaning_vi": "trục trặc ở ống xả", "action_vi": "giữ đầu ống xả không chạm sàn và không bị tắc", "faults": ["WM_DRAIN_PUMP"]},
+        "3C": {"same_as": ["3E"], "meaning_en": "Drum motor problem", "meaning_vi": "trục trặc mô tơ lồng giặt", "action_vi": "chạy lại chương trình", "faults": ["WM_MOTOR_FAULT"]},
+        "8C": {"same_as": ["8E"], "meaning_en": "Vibration sensor fault (imbalance detection)", "meaning_vi": "lỗi cảm biến rung (phát hiện lệch tải)", "action_vi": "tắt máy rồi khởi động lại", "faults": []},
+        "UC": {"same_as": ["9E1", "9E2", "9C1", "9C2"], "meaning_en": "Power interruption or irregular current", "meaning_vi": "điện bị ngắt hoặc dòng điện không ổn định", "action_vi": "kiểm tra nguồn điện và dây nguồn đã cắm chắc chưa", "faults": []},
+        "HC": {"same_as": ["HE"], "meaning_en": "Heating system problem", "meaning_vi": "trục trặc hệ thống làm nóng nước", "action_vi": "tắt máy rồi khởi động lại", "faults": []},
+        "1C": {"same_as": ["1E"], "meaning_en": "Water level sensor malfunction", "meaning_vi": "lỗi cảm biến mực nước", "action_vi": "tắt máy rồi khởi động lại", "faults": []},
+        "PC": {"same_as": ["PE", "PC1", "PE1"], "meaning_en": "Clutch position cannot be detected, or the clutch hall signal fails", "meaning_vi": "không xác định được vị trí bộ ly hợp", "faults": []}
+      }
+    },
+    {
+      "brand": "lg",
+      "brand_vi": "LG",
+      "aliases": ["lg"],
+      "device_type": "washing_machine",
+      "source": {
+        "title": "LG Electronics India, LG Washing Machine Error Codes Explained",
+        "url": "https://www.lg.com/in/magazine/lg-washing-machine-error-codes-explained/",
+        "read_on": "2026-10-16"
+      },
+      "codes": {
+        "IE": {"meaning_en": "Inlet error: water isn't filling", "meaning_vi": "máy không cấp được nước vào", "action_vi": "mở hết vòi nước, xem ống cấp có bị gập không và vệ sinh lưới lọc đầu cấp", "faults": ["WM_NO_WATER_INLET"]},
+        "OE": {"meaning_en": "Outlet error: water isn't draining", "meaning_vi": "nước không xả ra được", "action_vi": "vệ sinh bộ lọc xả, duỗi thẳng ống xả và xem có chỗ nào tắc không", "faults": ["WM_DRAIN_PUMP"]},
+        "UE": {"meaning_en": "Unbalance error: load is bunched to one side", "meaning_vi": "đồ giặt bị dồn lệch một bên", "action_vi": "dàn đều đồ giặt, đồ to như chăn mền thì giặt riêng từng cái", "faults": ["WM_NO_SPIN"]},
+        "VS": {"same_as": ["US"], "meaning_en": "Vibration sensor error", "meaning_vi": "lỗi cảm biến rung", "action_vi": "chỉnh chân máy cho cân, kê máy cách xa tường và bớt đồ giặt", "faults": []},
+        "DL": {"meaning_en": "Door not locked", "meaning_vi": "cửa chưa khóa được", "action_vi": "lấy vật kẹt ở chốt cửa ra và đóng cửa chặt; vẫn còn thì cần thợ", "faults": ["WM_DOOR_LOCK"]},
+        "PE": {"meaning_en": "Pressure sensor error: water level can't be read", "meaning_vi": "lỗi cảm biến áp suất, máy không đọc được mực nước", "action_vi": "rút điện rồi khởi động lại; vẫn còn thì cần thợ", "faults": []},
+        "FE": {"meaning_en": "Overfill error: tub filled past its limit", "meaning_vi": "nước cấp vào quá mức", "action_vi": "rút điện, cắm lại rồi khởi động lại", "faults": ["WM_OVERFLOW"]},
+        "E3": {"meaning_en": "Drain motor error", "meaning_vi": "lỗi mô tơ xả", "action_vi": "khởi động lại máy", "faults": ["WM_DRAIN_PUMP"]},
+        "FF": {"meaning_en": "Freeze failure", "meaning_vi": "máy bị đông lạnh", "action_vi": "chuyển máy khỏi chỗ quá lạnh, chờ tan rồi khởi động lại", "faults": []},
+        "PF": {"meaning_en": "Power failure: power was cut mid-cycle", "meaning_vi": "mất điện giữa chừng", "action_vi": "không cần làm gì, máy tự chạy tiếp khi có điện lại", "faults": []},
+        "CL": {"meaning_en": "Child lock active (not a fault)", "meaning_vi": "khóa trẻ em đang bật, không phải lỗi", "action_vi": "giữ nút khóa trẻ em 3 đến 5 giây để mở (tùy dòng máy)", "faults": []},
+        "TCL": {"meaning_en": "Tub clean reminder (not a fault)", "meaning_vi": "nhắc vệ sinh lồng giặt, không phải lỗi", "action_vi": "chạy chương trình vệ sinh lồng giặt", "faults": []}
+      }
+    }
+  ]
+}
