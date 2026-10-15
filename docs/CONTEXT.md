@@ -1,6 +1,6 @@
 # Context repo ai-service — FixHome
 
-> Cập nhật lần cuối: 2026-10-16 04:10 (UTC+7) · Người cập nhật (git): ToanAltF4 · Nhánh: feat/past-jobs
+> Cập nhật lần cuối: 2026-10-16 04:38 (UTC+7) · Người cập nhật (git): ToanAltF4 · Nhánh: feat/kb-review
 
 ## 0. Quy tắc cập nhật file này (bắt buộc)
 
@@ -115,7 +115,7 @@ Luật nghiệp vụ gốc nằm ở tài liệu dự án (bản chính thức c
 - `app/services/pipeline/`: detector, truy hồi (BM25), kho tri thức, VLM (`QwenVlm`, `StubVlm`), `local_pipeline.py` điều phối, quản lý phiên, câu hỏi làm rõ.
 - `app/data/`: danh mục thiết bị, lỗi, ánh xạ dịch vụ, giá công, linh kiện, câu chờ. `dialogue_knowledge.json`: từ điển chuẩn hoá cách gõ, dấu hiệu phủ định, cụm loại trừ theo từng lỗi, thứ tự kiểm tra kế tiếp (`if_persists`), thuật ngữ giữ nguyên.
 - `docker/serve/`: image chạy vLLM, YOLO và API trong một container. `docker/train/`: image huấn luyện YOLO.
-- `tools/`: `rent_gpu.py` (thuê, theo dõi, huỷ máy GPU), công cụ đánh giá, dữ liệu, gán nhãn. `eval_dialogue_live.py` chạy cùng bộ hội thoại qua HTTP với mô hình thật, `eval_injection.py` thử lái trợ lý, `load_test.py` thử tải nhiều người cùng lúc. `feedback_to_cases.py` lấy các câu trả lời khách báo chưa đúng (backend `GET /admin/ai-quality`) thành bản nháp hội thoại để duyệt rồi đưa vào bộ test (bỏ số điện thoại, email). `eval_dialogue.py` chấm hội thoại nhiều lượt (viết tay ở `dialogue_cases.py`, sinh tự động theo vùng miền, tính cách, kiểu gõ ở `dialogue_corpus.py`), `--app-root` để chạy trên bản khác mà so sánh. `app/` không import `tools/`.
+- `tools/`: `rent_gpu.py` (thuê, theo dõi, huỷ máy GPU), công cụ đánh giá, dữ liệu, gán nhãn. `eval_dialogue_live.py` chạy cùng bộ hội thoại qua HTTP với mô hình thật, `eval_injection.py` thử lái trợ lý, `load_test.py` thử tải nhiều người cùng lúc. `feedback_to_cases.py` lấy các câu trả lời khách báo chưa đúng (backend `GET /admin/ai-quality`) thành bản nháp hội thoại để duyệt rồi đưa vào bộ test (bỏ số điện thoại, email). `kb_review.py`: `confusions` đo các cặp lỗi bộ tìm kiếm hay xếp sát nhau mà chưa có câu hỏi phân biệt; `export --out x.xlsx` xuất bảng cho thợ duyệt (sheet Lỗi và Câu hỏi phân biệt, cột Duyệt Đúng/Sửa/Bỏ); `apply --file x.xlsx --write` chỉ chuyển câu nháp được duyệt vào bảng đang dùng, còn lại in ra cho người sửa tay (cần openpyxl, không phải phụ thuộc của service). Câu hỏi phân biệt nháp ở `app/data/discriminators_draft.json` (33 câu cho các cặp lẫn nhiều nhất), service không đọc file này. `eval_dialogue.py` chấm hội thoại nhiều lượt (viết tay ở `dialogue_cases.py`, sinh tự động theo vùng miền, tính cách, kiểu gõ ở `dialogue_corpus.py`), `--app-root` để chạy trên bản khác mà so sánh. `app/` không import `tools/`.
 
 ## 5. Hợp đồng với repo khác
 
@@ -172,6 +172,7 @@ Ngoài ra có `POST /api/v1/diagnosis/analyze-upload` (multipart), `GET /api/v1/
 
 ## 9. Nhật ký cập nhật context
 
+- 2026-10-16 04:38 (UTC+7) | ToanAltF4 | feat/kb-review | 33 câu hỏi phân biệt nháp chờ thợ duyệt và công cụ kb_review (đo cặp lẫn, xuất bảng duyệt, nhận lại câu được duyệt)
 - 2026-10-16 04:10 (UTC+7) | ToanAltF4 | feat/past-jobs | Nhận pastJobs (đơn cũ của khách đăng nhập): nhắc một lần khi đúng thiết bị, thêm dòng cho thợ trong notesVi
 - 2026-10-16 03:46 (UTC+7) | ToanAltF4 | feat/conversation-notes | Câu trả lời có notesVi: điều khách đã thử, đã loại, đang nghi, cho tóm tắt gửi kỹ thuật viên
 - 2026-10-16 03:30 (UTC+7) | ToanAltF4 | feat/multi-intent-tone | Nhiều thiết bị một tin nhắn, giọng theo tâm trạng và cách xưng hô, công cụ biến phản hồi sai thành ca test
