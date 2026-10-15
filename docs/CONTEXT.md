@@ -1,6 +1,6 @@
 # Context repo ai-service — FixHome
 
-> Cập nhật lần cuối: 2026-10-16 03:46 (UTC+7) · Người cập nhật (git): ToanAltF4 · Nhánh: feat/conversation-notes
+> Cập nhật lần cuối: 2026-10-16 04:10 (UTC+7) · Người cập nhật (git): ToanAltF4 · Nhánh: feat/past-jobs
 
 ## 0. Quy tắc cập nhật file này (bắt buộc)
 
@@ -127,6 +127,8 @@ Luật nghiệp vụ gốc nằm ở tài liệu dự án (bản chính thức c
 | POST | `/api/v1/chat/ask` | `question` 1 đến 1000 ký tự, `deviceType` và `sessionId` tối đa 64, `history` như trên |
 
 Cả hai câu trả lời có thêm `notesVi` (mảng chuỗi, tối đa 6): điều cuộc trò chuyện đã xác lập bằng lời ("Khách đã vệ sinh rồi, đã loại bẩn lưới lọc và dàn lạnh.", "Khách nghi thiếu gas, xì gas."), không có mã, để backend đưa vào tóm tắt cho kỹ thuật viên.
+
+Hai request nhận thêm `pastJobs` (không bắt buộc, tối đa 5, mỗi mục `serviceVi`, `deviceVi?`, `faultVi?`, `date` dạng YYYY-MM-DD, cấm trường lạ): các đơn trước của chính khách đã đăng nhập, backend gửi mỗi lượt, service chỉ lấy lần đầu của phiên và tự khớp thiết bị bằng `device_hint`. Khi thiết bị đang nói trùng một đơn cũ, câu trả lời có lời đầu tiên kèm một câu "Em thấy ngày dd/mm/yyyy anh/chị đã đặt \"…\". Nếu là lỗi cũ quay lại, anh/chị cứ kể với thợ…" (một lần mỗi thiết bị, không nói khi đang cảnh báo nguy hiểm), và `notesVi` có dòng "Khách từng đặt … ngày …, khi đó trợ lý nghi …" cho thợ. Không đổi chẩn đoán, không lưu ngoài phiên. Backend phải chạy service có trường này trước khi gửi, vì request cấm trường lạ.
 | GET | `/api/v1/chat/acknowledgements` | câu chờ cho client lưu sẵn |
 
 Ngoài ra có `POST /api/v1/diagnosis/analyze-upload` (multipart), `GET /api/v1/meta/catalog`, `GET /health`, và trang thử `GET /chat`.
@@ -170,6 +172,7 @@ Ngoài ra có `POST /api/v1/diagnosis/analyze-upload` (multipart), `GET /api/v1/
 
 ## 9. Nhật ký cập nhật context
 
+- 2026-10-16 04:10 (UTC+7) | ToanAltF4 | feat/past-jobs | Nhận pastJobs (đơn cũ của khách đăng nhập): nhắc một lần khi đúng thiết bị, thêm dòng cho thợ trong notesVi
 - 2026-10-16 03:46 (UTC+7) | ToanAltF4 | feat/conversation-notes | Câu trả lời có notesVi: điều khách đã thử, đã loại, đang nghi, cho tóm tắt gửi kỹ thuật viên
 - 2026-10-16 03:30 (UTC+7) | ToanAltF4 | feat/multi-intent-tone | Nhiều thiết bị một tin nhắn, giọng theo tâm trạng và cách xưng hô, công cụ biến phản hồi sai thành ca test
 - 2026-10-16 01:58 (UTC+7) | ToanAltF4 | feat/answer-guard | Ghi lớp chặn lời mô hình, số đo trên GPU thật và các công cụ chống lái, thử tải

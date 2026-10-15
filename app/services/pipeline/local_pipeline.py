@@ -34,7 +34,7 @@ from app.services.pipeline import clarifier
 from app.services.pipeline import context
 from app.services.pipeline import device_hint
 from app.services.pipeline import dialogue_state
-from app.services.pipeline.conversation import Conversation, get_conversation_store
+from app.services.pipeline.conversation import Conversation, day_vi, get_conversation_store
 from app.services.pipeline.detector import Detection, Detector
 from app.services.pipeline.images import ImagePayload, load_base64_image
 from app.services.pipeline.knowledge_base import KnowledgeBase, ServiceRef
@@ -979,6 +979,42 @@ class LocalPipeline:
             update={"message_vi": message, "clarification": clarification, "notes_vi": notes}
         )
 
+    def _remember_past_jobs(self, chat: Conversation, jobs) -> None:
+        """Keep the customer's earlier bookings, each matched to an appliance.
+
+        Taken once per conversation: the backend sends the same list every turn,
+        and what was matched the first time stays matched.
+        """
+        if chat.past_jobs or not jobs:
+            return
+        for job in list(jobs)[:5]:
+            text = f"{job.device_vi or ''} {job.service_vi}"
+            hits = device_hint.devices_named_in(text, self._kb)
+            chat.past_jobs.append(
+                {
+                    "service": job.service_vi.strip(),
+                    "date": job.date,
+                    "fault": (job.fault_vi or "").strip(),
+                    "device": hits[0].device_type if hits else "",
+                }
+            )
+
+    def _recall(self, chat: Conversation, urgent: bool) -> Optional[str]:
+        """Once per appliance: "you had this one repaired on ...".
+
+        Nothing is concluded from it. Whether it is the same fault is for the
+        technician, who gets the earlier booking in the notes; the customer is
+        only told it is worth mentioning. Not while something is dangerous.
+        """
+        job = chat.past_job()
+        if urgent or not job or chat.device_type in chat.recalled:
+            return None
+        chat.recalled.append(chat.device_type)
+        return (
+            f'Em thấy ngày {day_vi(job["date"])} anh/chị đã đặt "{job["service"]}". '
+            "Nếu là lỗi cũ quay lại, anh/chị cứ kể với thợ để thợ xem lại lần sửa trước ạ."
+        )
+
     def _framed(self, chat: Conversation, message: Optional[str], urgent: bool) -> Optional[str]:
         """Open for the mood, close with what is waiting, speak as the customer asked.
 
@@ -1003,7 +1039,8 @@ class LocalPipeline:
                 + (f"{current} " if current else "")
                 + 'trước, anh/chị nhắn "xem tiếp" để em xem tiếp nhé.'
             )
-        parts = [p for p in (opener, message, closer) if p]
+        recall = self._recall(chat, urgent) if message else None
+        parts = [p for p in (opener, message, recall, closer) if p]
         if not parts:
             return message
         return dialogue_state.address_as(" ".join(parts), chat.address)
@@ -1068,6 +1105,7 @@ class LocalPipeline:
         trace = _Trace(request.include_trace)
         chat = self._conversations.get_or_create(request.session_id)
         self._resume(chat, request.session_id, request.history)
+        self._remember_past_jobs(chat, request.past_jobs)
         mood, address = dialogue_state.mood_of(request.description, dialogue_state.get_lexicon(self._kb))
         chat.mood = mood
         chat.address = address or chat.address
@@ -1448,6 +1486,7 @@ class LocalPipeline:
     async def _answer_locked(self, request: ChatRequest) -> ChatResponse:
         chat = self._conversations.get_or_create(request.session_id)
         self._resume(chat, request.session_id, request.history)
+        self._remember_past_jobs(chat, request.past_jobs)
         mood, address = dialogue_state.mood_of(request.question, dialogue_state.get_lexicon(self._kb))
         chat.mood = mood
         chat.address = address or chat.address
