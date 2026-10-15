@@ -67,6 +67,11 @@ class Dialogue:
     expect_urgent: bool = False
     """The answer must carry HIGH urgency: a safety fault was described."""
     expect_status: str = ""
+    expect_words: List[str] = field(default_factory=list)
+    """Words the final reply must contain (an apology to an upset customer)."""
+    forbid_words: List[str] = field(default_factory=list)
+    """Words the final reply must not contain ("anh/chị" to a customer who
+    calls themself "bác")."""
     answers: str = ""
     """"yes" or "no": the last turn answers the question the assistant asked
     before it, and the faults that answer favours must lead afterwards."""

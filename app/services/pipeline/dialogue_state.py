@@ -1227,6 +1227,55 @@ def answer_to(
     return None
 
 
+_UPSET = [
+    "lam an kieu gi", "chan that", "chan qua", "buc minh", "buc qua", "buc that", "tuc qua", "tuc that",
+    "met moi", "do te", "te qua", "sua hoai", "hu hoai", "lan thu", "bao lan", "qua that vong", "that vong",
+]
+_WORRIED = ["so qua", "lo qua", "co nguy hiem khong", "nguy hiem khong", "co sao khong", "hoang qua", "run qua", "so lam"]
+_ADDRESS = {
+    "bac": ["nha bac", "chau oi", "bac hoi", "bac nho", "bac dang", "bac muon"],
+    "co": ["nha co", "co hoi", "co nho", "co dang", "co muon"],
+    "chu": ["nha chu", "chu hoi", "chu nho", "chu dang", "chu muon"],
+    "ba": ["nha ba", "ba hoi", "ba nho", "ba dang", "ba muon"],
+    "ong": ["nha ong", "ong hoi", "ong nho", "ong dang", "ong muon"],
+}
+_ADDRESS_VI = {"bac": "bác", "co": "cô", "chu": "chú", "ba": "bà", "ong": "ông"}
+
+
+def mood_of(text: str, lexicon: Optional[DialogueLexicon] = None) -> Tuple[Optional[str], Optional[str]]:
+    """How the customer sounds and how they name themself, from one message.
+
+    The answer is the same whoever asks; how it opens should not be. Somebody
+    writing "làm ăn kiểu gì mà máy hư hoài" wants an apology before the
+    diagnosis, somebody writing "em sợ quá" wants to hear it is in hand, and an
+    older customer who writes "nhà bác" is not "anh/chị".
+    """
+    lex = lexicon or get_lexicon()
+    folded = " " + " ".join(t.f for clause in lex.clauses(text) for t in clause) + " "
+    letters = [c for c in text if c.isalpha()]
+    shouting = len(letters) >= 12 and sum(1 for c in letters if c.isupper()) / len(letters) > 0.7
+    mood: Optional[str] = None
+    if shouting or text.count("!") >= 3 or any(f" {p} " in folded for p in _UPSET):
+        mood = "upset"
+    elif any(f" {p} " in folded for p in _WORRIED):
+        mood = "worried"
+    address = None
+    raw = " " + fold(text) + " "
+    for key, cues in _ADDRESS.items():
+        if any(f" {cue} " in raw for cue in cues):
+            address = _ADDRESS_VI[key]
+            break
+    return mood, address
+
+
+def address_as(text: str, address: Optional[str]) -> str:
+    """Speak to the customer the way they named themself."""
+    if not text or not address:
+        return text
+    out = text.replace("Anh/chị", address.capitalize()).replace("anh/chị", address)
+    return out.replace("Anh/Chị", address.capitalize())
+
+
 def is_off_topic(text: str, lexicon: Optional[DialogueLexicon] = None) -> bool:
     """Whether the message is about a subject FixHome has nothing to say on."""
     lex = lexicon or get_lexicon()

@@ -392,6 +392,8 @@ CATEGORIES = [
     "answer_yes", "answer_no", "retract", "correct_device", "pronoun",
     # The guess was wrong and the customer says what it is instead.
     "deny_and_hint",
+    # Two appliances in one message; how the customer sounds; how they name themself.
+    "two_devices", "upset", "elder_address",
 ]
 
 _VAGUE = [
@@ -469,6 +471,8 @@ def _one(
         return None
     keep_top = False
     answers = ""
+    expect_words: List[str] = []
+    forbid_words: List[str] = []
     expect_device = ""
     expect_top3: List[str] = []
     expect_urgent = False
@@ -585,6 +589,31 @@ def _one(
             turns = [_fill(rng.choice(_VAGUE), rng, region, n=name)]
         turns.append(rng.choice(_YES if category == "answer_yes" else _NO))
         answers = "yes" if category == "answer_yes" else "no"
+    elif category == "two_devices":
+        others = [d for d in (by_device or {}) if d != device and d in DEVICE_NAMES]
+        if not others:
+            return None
+        other = rng.choice(others)
+        ofault = rng.choice([f for f in by_device[other] if f.get("symptoms_vi")])
+        oname = rng.choice(DEVICE_NAMES[other][region])
+        osym = rng.choice(ofault["symptoms_vi"])
+        joiner = rng.choice([", còn {n} nhà {me} cũng {s}", ", với lại {n} {s}", ". Còn {n} thì {s}", ", ngoài ra {n} {s}"])
+        turns = [f"{name} {symptom}" + _fill(joiner, rng, region, n=oname, s=osym)]
+        turns.append(rng.choice(["xem tiếp", "xem tiếp giúp em", "tiếp đi", f"còn {oname} thì sao", "còn cái kia thì sao"]))
+        expect_device = other
+        expect_top3 = [ofault["fault_code"]]
+        seed = False
+    elif category == "upset":
+        turns = [rng.choice([
+            f"làm ăn kiểu gì mà {name} {symptom} hoài vậy",
+            f"{name} lại {symptom} nữa, chán thật sự",
+            f"bực mình quá, {name} {symptom}!!!",
+        ])]
+        expect_words = ["xin lỗi"]
+    elif category == "elder_address":
+        who = rng.choice(["bác", "cô", "bà", "ông", "chú"])
+        turns = [f"Cháu ơi, {name} nhà {who} {symptom}", rng.choice(["vậy là bị gì cháu", "giờ sửa sao cháu", "có tốn nhiều không cháu"])]
+        forbid_words = ["anh/chị"]
     elif category == "deny_and_hint":
         others = [f for f in faults if f["fault_code"] != code and f.get("symptoms_vi")]
         if not others:
@@ -710,6 +739,8 @@ def _one(
         expect_urgent=expect_urgent,
         expect_status=expect_status,
         answers=answers,
+        expect_words=expect_words,
+        forbid_words=forbid_words,
     )
 
 

@@ -566,6 +566,73 @@ def test_a_no_that_names_a_cause_denies_only_the_cause(kb, lexicon):
 
 
 # ---------------------------------------------------------------------------
+# Several appliances in one message; how the customer sounds
+# ---------------------------------------------------------------------------
+
+
+def test_two_appliances_in_one_message_are_taken_one_at_a_time(kb):
+    pipeline = _pipeline(kb)
+
+    async def run():
+        first = await pipeline.diagnose(
+            DiagnosisRequest(description="máy lạnh không mát, còn tủ lạnh nhà em cũng chảy nước ra sàn")
+        )
+        chat = pipeline._conversations.get_or_create(first.session_id)
+        queued = list(chat.queued)
+        second = await pipeline.diagnose(DiagnosisRequest(description="xem tiếp", sessionId=first.session_id))
+        return first, queued, second, pipeline._conversations.get_or_create(first.session_id)
+
+    first, queued, second, chat = asyncio.run(run())
+    assert [f.fault_code for f in first.suspected_faults][:1] == ["AC_LOW_REFRIGERANT"]
+    assert queued == ["refrigerator"]
+    assert "xem tiếp" in (first.message_vi or "")
+    assert chat.device_type == "refrigerator"
+    assert [f.fault_code for f in second.suspected_faults][:1] == ["FRIDGE_DRAIN_BLOCKED"]
+
+
+def test_a_correction_is_not_split_into_two_appliances(kb):
+    pipeline = _pipeline(kb)
+
+    async def run():
+        chat = pipeline._conversations.get_or_create(None)
+        chat.remember_device("air_conditioner", 0.9, "image")
+        await pipeline.diagnose(DiagnosisRequest(description="à nhầm, không phải máy lạnh mà là tủ lạnh", sessionId=chat.session_id))
+        return pipeline._conversations.get_or_create(chat.session_id)
+
+    chat = asyncio.run(run())
+    assert chat.device_type == "refrigerator" and not chat.queued
+
+
+@pytest.mark.parametrize(
+    "text, mood, address",
+    [
+        ("làm ăn kiểu gì mà máy giặt không vắt hoài vậy", "upset", None),
+        ("MÁY LẠNH NHÀ TÔI KHÔNG MÁT GÌ CẢ", "upset", None),
+        ("ổ cắm nóng quá em sợ quá", "worried", None),
+        ("cháu ơi bình nóng lạnh nhà bác không nóng", None, "bác"),
+        ("máy lạnh nhà cô chảy nước", None, "cô"),
+        ("máy lạnh không mát", None, None),
+    ],
+)
+def test_mood_and_address_are_read(lexicon, text, mood, address):
+    assert ds.mood_of(text, lexicon) == (mood, address)
+
+
+def test_the_customer_is_addressed_as_they_asked():
+    assert ds.address_as("Dạ anh/chị yên tâm. Anh/chị đặt dịch vụ giúp em.", "bác") == "Dạ bác yên tâm. Bác đặt dịch vụ giúp em."
+    assert ds.address_as("Dạ anh/chị yên tâm.", None) == "Dạ anh/chị yên tâm."
+
+
+def test_an_upset_customer_gets_an_apology_first(kb):
+    pipeline = _pipeline(kb)
+
+    async def run():
+        return await pipeline.diagnose(DiagnosisRequest(description="làm ăn kiểu gì mà máy giặt nhà tôi không vắt hoài vậy!!!"))
+
+    assert (asyncio.run(run()).message_vi or "").startswith("Dạ em xin lỗi")
+
+
+# ---------------------------------------------------------------------------
 # Whole conversations
 # ---------------------------------------------------------------------------
 
