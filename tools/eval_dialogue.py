@@ -134,6 +134,13 @@ async def _run_one(pipeline, kb, dialogue, ChatRequest, DiagnosisRequest) -> Opt
     if getattr(dialogue, "expect_urgent", False):
         urgency = getattr(response, "urgency", None)
         checks["urgent"] = getattr(urgency, "value", urgency) == "HIGH"
+    if getattr(dialogue, "expect_words", None) or getattr(dialogue, "forbid_words", None):
+        asked_now = getattr(getattr(response, "clarification", None), "questions_vi", None) or []
+        said = " ".join([message, *asked_now]).lower()
+        if said.strip():
+            checks["voice"] = all(w in said for w in dialogue.expect_words) and not any(
+                w in said for w in dialogue.forbid_words
+            )
     if getattr(dialogue, "answers", "") and asked_before_last:
         # Which faults the answer favours, from the same table the question came from.
         device = chat.device_type or dialogue.device

@@ -704,6 +704,18 @@ def _device_asked_for_now(latest: str, kb: KnowledgeBase, strong: bool = False) 
     return _strongly_named_in(latest, kb)
 
 
+_NEXT_ONE = ("xem tiep", "tiep di", "tiep theo", "cai kia", "cai con lai", "con lai", "xem cai kia", "the con", "tiep", "xem tip", "tip di")
+"""Asking for the appliance that was waiting: "xem tiếp", "còn cái kia thì sao"."""
+
+_CORRECTION_MARKERS = (
+    "khong phai", "chu khong", "ma la", "nham", "sua lai", "doi sang", "doi qua", "chuyen sang", "chuyen qua",
+    "thay vi", "bo", "huy", "hong phai", "ko phai", "k phai", "kp", "no phai", "dau phai",
+)
+
+_SEGMENT_RE = re.compile(r"[,.;!?\n]+|\s(?:còn|với lại|với cả|ngoài ra|thêm nữa|cũng như)\s", re.IGNORECASE)
+"""Where one message moves from one appliance to the next."""
+
+
 def _ranked_by_retrieval(
     chosen: Sequence[str],
     shortlist: Optional[Sequence[Any]],
@@ -947,15 +959,119 @@ class LocalPipeline:
             response.suspected_faults[0].fault_code if response.suspected_faults else None
         )
         ack = self._acknowledgement(chat, device_type, next_code)
-        if not ack:
+        message = response.message_vi
+        if ack:
+            message = f"{ack} {message}" if message else ack
+        message = self._framed(chat, message, response.urgency == UrgencyLevel.HIGH)
+        clarification = response.clarification
+        if clarification is not None and chat.address:
+            clarification = clarification.model_copy(
+                update={
+                    "questions_vi": [
+                        dialogue_state.address_as(q, chat.address) for q in clarification.questions_vi
+                    ]
+                }
+            )
+        if message == response.message_vi and clarification is response.clarification:
             return response
-        message = f"{ack} {response.message_vi}" if response.message_vi else ack
-        return response.model_copy(update={"message_vi": message})
+        return response.model_copy(update={"message_vi": message, "clarification": clarification})
+
+    def _framed(self, chat: Conversation, message: Optional[str], urgent: bool) -> Optional[str]:
+        """Open for the mood, close with what is waiting, speak as the customer asked.
+
+        Templated sentences only; nothing the model wrote is changed apart from
+        how the customer is addressed.
+        """
+        if not message:
+            message = None
+        opener = None
+        if chat.mood == "upset":
+            opener = "Dạ em xin lỗi vì sự bất tiện này ạ."
+        elif chat.mood == "worried" and not urgent:
+            opener = "Dạ anh/chị yên tâm, em xem giúp ngay ạ."
+        closer = None
+        if chat.just_queued:
+            names = [
+                (self._kb.device_name_vi(d) or d).lower() for d in chat.just_queued
+            ]
+            current = (self._kb.device_name_vi(chat.device_type) or "").lower() if chat.device_type else ""
+            closer = (
+                f"Anh/chị có nhắc thêm {', '.join(names)}; em xem "
+                + (f"{current} " if current else "")
+                + 'trước, anh/chị nhắn "xem tiếp" để em xem tiếp nhé.'
+            )
+        parts = [p for p in (opener, message, closer) if p]
+        if not parts:
+            return message
+        return dialogue_state.address_as(" ".join(parts), chat.address)
+
+    def _take_one_appliance(self, chat: Conversation, text: str) -> str:
+        """The part of the message about one appliance; the rest waits its turn.
+
+        "Máy lạnh không mát, tủ lạnh cũng chảy nước" is two problems. Searched
+        as one they matched neither well, and the answer was about whichever
+        appliance the session already had. Now the first is answered, the
+        second is kept with what was said about it, and "xem tiếp" brings it.
+        """
+        chat.just_queued = []
+        lexicon = dialogue_state.get_lexicon(self._kb)
+        # Read the way it was typed: "tiếppp đi", "xem tieeps", "bìnhhhh nóng lạnh".
+        folded = " " + lexicon.normalize(text) + " "
+        if chat.queued:
+            wanted = None
+            if any(f" {p} " in folded for p in _NEXT_ONE):
+                wanted = next(iter(chat.queued))
+            else:
+                named = _strongly_named_in(lexicon.normalize_accented(text), self._kb)
+                if named in chat.queued:
+                    wanted = named
+            if wanted:
+                said = chat.queued.pop(wanted)
+                # Named in the text, so the ordinary switch takes it from here
+                # and searches only what was said about this appliance.
+                name = self._kb.device_name_vi(wanted) or ""
+                return f"{name} {said}".strip()
+
+        # A correction is one message about one appliance: "không phải máy lạnh
+        # mà là tủ lạnh" names two and means the second. The switch handles it.
+        if any(f" {m} " in folded for m in _CORRECTION_MARKERS + _REJECTS + _ASKS_FOR):
+            return text
+        segments = [s.strip() for s in _SEGMENT_RE.split(text) if s and s.strip()]
+        if len(segments) < 2:
+            return text
+        owned: List[tuple] = []
+        current = None
+        for segment in segments:
+            named = _strongly_named_in(lexicon.normalize_accented(segment), self._kb)
+            if named:
+                current = named
+            owned.append((current, segment))
+        devices = list(dict.fromkeys(d for d, _ in owned if d))
+        if len(devices) < 2:
+            return text
+        primary = chat.device_type if chat.device_type in devices else devices[0]
+        # Segments before the first named appliance belong to it.
+        first = devices[0]
+        owned = [(d or first, seg) for d, seg in owned]
+        for device in devices:
+            if device == primary:
+                continue
+            said = " ".join(seg for d, seg in owned if d == device)
+            chat.queued[device] = (chat.queued.get(device, "") + " " + said).strip()
+            chat.just_queued.append(device)
+        return " ".join(seg for d, seg in owned if d == primary)
 
     async def _diagnose_turn(self, request: DiagnosisRequest) -> DiagnosisResponse:
         trace = _Trace(request.include_trace)
         chat = self._conversations.get_or_create(request.session_id)
         self._resume(chat, request.session_id, request.history)
+        mood, address = dialogue_state.mood_of(request.description, dialogue_state.get_lexicon(self._kb))
+        chat.mood = mood
+        chat.address = address or chat.address
+        one = self._take_one_appliance(chat, request.description)
+        if one != request.description:
+            request = request.model_copy(update={"description": one})
+            trace.add("dialogue", True, "Tin nhắn nói về nhiều thiết bị; xem từng cái", queued=list(chat.queued))
         chat.add("customer", request.description)
         reading = self._read_turn(
             chat,
@@ -1329,6 +1445,10 @@ class LocalPipeline:
     async def _answer_locked(self, request: ChatRequest) -> ChatResponse:
         chat = self._conversations.get_or_create(request.session_id)
         self._resume(chat, request.session_id, request.history)
+        mood, address = dialogue_state.mood_of(request.question, dialogue_state.get_lexicon(self._kb))
+        chat.mood = mood
+        chat.address = address or chat.address
+        chat.just_queued = []
         chat.add("customer", request.question)
         reading = self._read_turn(
             chat,
@@ -1339,9 +1459,18 @@ class LocalPipeline:
         )
         response = await self._answer_turn(request, chat, reading)
         ack = self._acknowledgement(chat, chat.device_type or request.device_type, None)
-        if ack and response.answer_vi:
-            return response.model_copy(update={"answer_vi": f"{ack} {response.answer_vi}"})
-        return response
+        answer = response.answer_vi
+        if ack and answer:
+            answer = f"{ack} {answer}"
+        # A refusal or a steering reply is a fixed sentence; it is addressed
+        # but not given a mood opener.
+        if response.status in (AnswerStatus.OK, AnswerStatus.GENERAL_KNOWLEDGE):
+            answer = self._framed(chat, answer, False)
+        else:
+            answer = dialogue_state.address_as(answer, chat.address)
+        if answer == response.answer_vi:
+            return response
+        return response.model_copy(update={"answer_vi": answer})
 
     async def _answer_turn(
         self,

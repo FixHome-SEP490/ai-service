@@ -102,3 +102,19 @@ def test_the_injection_set_holds_in_process():
     from tools.eval_injection import main
 
     assert main([]) == 0
+
+
+def test_feedback_drafts_keep_the_words_and_drop_contact_details():
+    from tools.feedback_to_cases import render
+
+    text = render([
+        {
+            "customerText": "máy lạnh không mát / mới vệ sinh rồi, gọi 0901234567",
+            "deviceName": "Máy lạnh",
+            "note": "em đã nói vệ sinh rồi, mail a@b.vn",
+            "reply": "Dạ khả năng cao là bẩn lưới lọc.",
+        }
+    ])
+    assert '"máy lạnh không mát"' in text
+    assert "0901234567" not in text and "a@b.vn" not in text
+    compile(text, "draft", "exec")

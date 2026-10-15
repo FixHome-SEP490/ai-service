@@ -145,6 +145,20 @@ class Conversation:
     shortlist: List[str] = field(default_factory=list)
     """Fault codes still in play, narrowed as answers come in."""
 
+    queued: Dict[str, str] = field(default_factory=dict)
+    """Other appliances named in the same message, with what was said about
+    each, waiting for "xem tiếp". One message, one appliance at a time."""
+
+    just_queued: List[str] = field(default_factory=list)
+    """Appliances queued by the turn being answered, for the sentence that says so."""
+
+    address: Optional[str] = None
+    """How the customer names themself ("bác", "cô"...), used in place of
+    "anh/chị" for the rest of the conversation."""
+
+    mood: Optional[str] = None
+    """"upset" or "worried" for the turn being answered, None otherwise."""
+
     pending_question: Optional[str] = None
     """The question the assistant asked last, until the customer replies, so a
     bare "không" can be read as the answer to it."""

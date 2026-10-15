@@ -104,14 +104,21 @@ def violations(reply: str, grounding: str = "") -> List[str]:
         number = _digits(match.group(1))
         if number and (number == "0" or number not in allowed_numbers):
             found.append(f"giá không có trong tài liệu: {match.group(0).strip()}")
+    # Words compared on letters and digits only, so "miễn phí." in a document
+    # still counts as the document having said it.
+    said_words = " " + " ".join(re.findall(r"[a-z0-9]+", said)) + " "
+    allowed_words = " " + " ".join(re.findall(r"[a-z0-9]+", allowed)) + " "
     for phrase in _FREE + _PROMISES:
-        if f" {phrase} " in said.replace(",", " ").replace(".", " ") and f" {phrase} " not in allowed:
+        if f" {phrase} " in said_words and f" {phrase} " not in allowed_words:
             found.append(f"hứa hẹn: {phrase}")
     for name in _COMPETITORS:
-        if f" {name} " in said.replace(",", " ").replace(".", " "):
+        if f" {name} " in said_words and f" {name} " not in allowed_words:
             found.append(f"đối thủ: {name}")
+    # An insult only when it is about FixHome: the documents describe "linh
+    # kiện kém chất lượng" and a technician's "tệ hại" wiring as a matter of course.
+    about_us = any(w in said_words for w in (" fixhome ", " ben em ", " cong ty ", " nen tang "))
     for word in _INSULTS:
-        if word in said:
+        if f" {word} " in said_words and f" {word} " not in allowed_words and (about_us or word in ("lua dao", "scam")):
             found.append(f"nói xấu: {word}")
     for marker in _LEAKS:
         # A heading the documents themselves use ("Bốn việc phải nói ngay") is
