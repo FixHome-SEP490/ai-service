@@ -212,6 +212,37 @@ class Conversation:
         self.state.apply(reading, set(never_exclude))
         self.updated_at = time.time()
 
+    def notes_vi(self, kb) -> List[str]:
+        """What the customer told us beyond the symptom, one short line each.
+
+        Written for the technician who takes the job: "Khách đã vệ sinh rồi"
+        saves a visit spent on a cleaning, and "Khách nghi thiếu gas" is where
+        they will start. Curated phrases and fault names only.
+        """
+        def name(code: str) -> str:
+            fault = kb.fault(code)
+            return (fault.name_vi if fault else "").lower()
+
+        lines: List[str] = []
+        for code, exclusion in self.state.excluded.items():
+            fault = name(code)
+            if not fault:
+                continue
+            if exclusion.kind == "done":
+                lines.append(f"Khách đã {exclusion.phrase_vi} rồi, đã loại {fault}.")
+            elif exclusion.kind == "cause":
+                lines.append(f"Khách cho biết không phải do {exclusion.phrase_vi} ({fault}).")
+            elif exclusion.kind == "absent":
+                lines.append(f"Khách cho biết {exclusion.phrase_vi}, đã loại {fault}.")
+            else:
+                lines.append(f"Khách bác khả năng {fault}.")
+        for code, factor in self.state.boosts.items():
+            if factor > 1.0 and code not in self.state.excluded and name(code):
+                lines.append(f"Khách nghi {name(code)}.")
+        if self.state.danger:
+            lines.append("Khách có tả dấu hiệu nguy hiểm (khói, khét, chập, giật hoặc mùi gas).")
+        return lines[:6]
+
     def plain_facts_vi(self, kb) -> str:
         """The same facts as one plain sentence, with no codes and no headings.
 

@@ -87,6 +87,11 @@ class ChatResponse(BaseModel):
     books a technician after asking how long the warranty lasts.
     """
 
+    notes_vi: List[str] = Field(default_factory=list)
+    """What the conversation has established, in plain words: what the customer
+    already tried or ruled out, what they suspect. For the booking summary the
+    technician reads, so nobody asks the customer to tell it all again."""
+
     disclaimer_vi: str
 
     model_config = ConfigDict(alias_generator=to_camel, populate_by_name=True)
