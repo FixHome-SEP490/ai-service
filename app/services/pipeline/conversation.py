@@ -163,6 +163,13 @@ class Conversation:
     """The question the assistant asked last, until the customer replies, so a
     bare "không" can be read as the answer to it."""
 
+    past_jobs: List[Dict[str, str]] = field(default_factory=list)
+    """The customer's earlier bookings, as the backend sent them, each with the
+    appliance code it was matched to ("device", empty when none matched)."""
+
+    recalled: List[str] = field(default_factory=list)
+    """Appliances whose earlier booking was already mentioned, so it is said once."""
+
     state: DialogueState = field(default_factory=DialogueState)
     """What the customer has ruled out or said is absent. See dialogue_state.py."""
 
@@ -212,6 +219,12 @@ class Conversation:
         self.state.apply(reading, set(never_exclude))
         self.updated_at = time.time()
 
+    def past_job(self) -> Optional[Dict[str, str]]:
+        """The newest earlier booking for the appliance being talked about."""
+        if not self.device_type:
+            return None
+        return next((job for job in self.past_jobs if job.get("device") == self.device_type), None)
+
     def notes_vi(self, kb) -> List[str]:
         """What the customer told us beyond the symptom, one short line each.
 
@@ -239,9 +252,16 @@ class Conversation:
         for code, factor in self.state.boosts.items():
             if factor > 1.0 and code not in self.state.excluded and name(code):
                 lines.append(f"Khách nghi {name(code)}.")
+        tail: List[str] = []
+        job = self.past_job()
+        if job:
+            line = f'Khách từng đặt "{job["service"]}" ngày {day_vi(job["date"])}'
+            if job.get("fault"):
+                line += f', khi đó trợ lý nghi {job["fault"].lower()}'
+            tail.append(line + ".")
         if self.state.danger:
-            lines.append("Khách có tả dấu hiệu nguy hiểm (khói, khét, chập, giật hoặc mùi gas).")
-        return lines[:6]
+            tail.append("Khách có tả dấu hiệu nguy hiểm (khói, khét, chập, giật hoặc mùi gas).")
+        return lines[: 6 - len(tail)] + tail
 
     def plain_facts_vi(self, kb) -> str:
         """The same facts as one plain sentence, with no codes and no headings.
@@ -427,3 +447,12 @@ def get_conversation_store() -> ConversationStore:
     if _STORE is None:
         _STORE = ConversationStore()
     return _STORE
+
+
+def day_vi(iso_day: str) -> str:
+    """2026-08-03 -> 03/08/2026, the way a Vietnamese customer writes a date."""
+    parts = (iso_day or "").split("-")
+    if len(parts) != 3:
+        return iso_day
+    year, month, day = parts
+    return f"{day}/{month}/{year}"

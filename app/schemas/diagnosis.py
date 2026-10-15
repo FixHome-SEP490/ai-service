@@ -91,6 +91,20 @@ class SuspectedFault(BaseModel):
     model_config = ConfigDict(alias_generator=to_camel, populate_by_name=True)
 
 
+class PastJob(BaseModel):
+    """One earlier booking of the same customer. See `past_jobs`."""
+
+    service_vi: Annotated[str, Field(min_length=1, max_length=120)]
+    device_vi: Annotated[Optional[str], Field(max_length=80)] = None
+    fault_vi: Annotated[Optional[str], Field(max_length=120)] = None
+    """What the assistant suspected then, if the booking came from it. A guess
+    at the time, so it goes to the technician as one and never to the customer."""
+    date: Annotated[str, Field(pattern=r"^\d{4}-\d{2}-\d{2}$")]
+    """The booked day in Vietnam, YYYY-MM-DD."""
+
+    model_config = ConfigDict(alias_generator=to_camel, populate_by_name=True, extra="forbid")
+
+
 class RecommendedService(BaseModel):
     service_code: str
     name_vi: str
@@ -174,6 +188,15 @@ class DiagnosisRequest(BaseModel):
     Customer turns only, on purpose. The assistant's earlier answers are not
     accepted from the client, because whatever is replayed here is read as
     fact, and a reply the service never gave is not one."""
+
+    past_jobs: Annotated[List[PastJob], Field(max_length=5)] = []
+    """The customer's own earlier bookings, newest first, from the backend.
+
+    Only for a signed-in customer, and only what tells a technician something:
+    the service, the appliance, the day. No address, no technician, no money.
+    When the appliance in this conversation is one they had repaired, the
+    assistant says so once and the note reaches the technician; nothing else
+    is done with it, and it is not kept beyond the conversation."""
 
     include_trace: bool = False
     """Ask for the stage-by-stage trace. For the admin dashboard, not customers."""

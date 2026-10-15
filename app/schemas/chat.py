@@ -12,7 +12,7 @@ from typing import Annotated, List, Optional
 from pydantic import BaseModel, ConfigDict, Field
 from pydantic.alias_generators import to_camel
 
-from app.schemas.diagnosis import RecommendedService
+from app.schemas.diagnosis import PastJob, RecommendedService
 
 
 class AnswerStatus(str, Enum):
@@ -63,6 +63,15 @@ class ChatRequest(BaseModel):
     Customer turns only, on purpose. The assistant's earlier answers are not
     accepted from the client, because whatever is replayed here is read as
     fact, and a reply the service never gave is not one."""
+
+    past_jobs: Annotated[List[PastJob], Field(max_length=5)] = []
+    """The customer's own earlier bookings, newest first, from the backend.
+
+    Only for a signed-in customer, and only what tells a technician something:
+    the service, the appliance, the day. No address, no technician, no money.
+    When the appliance in this conversation is one they had repaired, the
+    assistant says so once and the note reaches the technician; nothing else
+    is done with it, and it is not kept beyond the conversation."""
 
     model_config = ConfigDict(alias_generator=to_camel, populate_by_name=True, extra="forbid")
 
