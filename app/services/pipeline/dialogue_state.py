@@ -1263,10 +1263,28 @@ def mood_of(text: str, lexicon: Optional[DialogueLexicon] = None) -> Tuple[Optio
     elif any(f" {p} " in folded for p in _WORRIED):
         mood = "worried"
     address = None
-    raw = " " + fold(text) + " "
+    typed = re.findall(r"\w+", unicodedata.normalize("NFC", text.lower()))
+    folded_words = [fold(w) for w in typed]
+    has_accents = any(t != f for t, f in zip(typed, folded_words))
     for key, cues in _ADDRESS.items():
-        if any(f" {cue} " in raw for cue in cues):
-            address = _ADDRESS_VI[key]
+        word = _ADDRESS_VI[key]
+        for cue in cues:
+            parts = cue.split()
+            for at in range(len(folded_words) - len(parts) + 1):
+                if folded_words[at:at + len(parts)] != parts:
+                    continue
+                if key not in parts:  # "cháu ơi": no pronoun of its own
+                    address = word
+                    break
+                said = typed[at + parts.index(key)]
+                # With accents typed, they decide: "nhà có mùi gas" is not
+                # "nhà cô". Without them, "co" is far more often "có": not read.
+                if (has_accents and said == word) or (not has_accents and key != "co"):
+                    address = word
+                    break
+            if address:
+                break
+        if address:
             break
     return mood, address
 

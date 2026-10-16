@@ -452,6 +452,21 @@ def _asks_about_money(question: str) -> bool:
 
 logger = logging.getLogger(__name__)
 
+_VAGUE_WORDS = {
+    "hu", "hong", "loi", "bi", "sao", "roi", "van", "de", "truc", "trac", "nua", "lai", "nha", "em",
+    "anh", "chi", "minh", "toi", "cai", "chiec", "may", "giup", "voi", "di", "a", "nhe", "oi", "gi",
+}
+"""Words that say something is wrong without saying what: "máy lạnh hư rồi"."""
+
+_VAGUE_ACCENTED = {
+    "hư", "hỏng", "lỗi", "bị", "sao", "rồi", "vấn", "đề", "trục", "trặc", "nữa", "lại", "nhà", "em",
+    "anh", "chị", "mình", "tôi", "cái", "chiếc", "máy", "giúp", "với", "đi", "à", "nhé", "ơi", "gì",
+}
+
+_CLEAR_LEAD = 0.3
+"""How far the first fault must lead the second for a two-word report to be
+answered without a question back."""
+
 _URGENCY_RANK = {UrgencyLevel.LOW: 0, UrgencyLevel.MEDIUM: 1, UrgencyLevel.HIGH: 2}
 
 
@@ -978,6 +993,18 @@ class LocalPipeline:
         if ack:
             message = f"{ack} {message}" if message else ack
         urgent = response.urgency == UrgencyLevel.HIGH
+        if urgent and not response.suggested_actions_vi and chat.state.danger:
+            # "hôi mùi gas" alone: urgency was right, but the reply was only a
+            # question about the stove, and the customer was told nothing to do
+            # while the house smelt of gas. The steps come first, before any
+            # question, from the knowledge base and never from the model.
+            steps = self._safety_steps(request.description, device_type)
+            if steps:
+                response = response.model_copy(update={"suggested_actions_vi": steps})
+                lead = "Dạ đây là dấu hiệu nguy hiểm, anh/chị làm ngay giúp em: " + "; ".join(
+                    step[:1].lower() + step[1:] for step in steps
+                ) + "."
+                message = f"{lead} {message}" if message else lead
         code_line = self._error_code_line(chat, request.description, urgent)
         message = self._framed(chat, message, urgent, extra=code_line)
         clarification = response.clarification
@@ -1043,6 +1070,15 @@ class LocalPipeline:
         if reading is None and brand and chat.pending_code:
             reading = book.read(f"báo {chat.pending_code}", chat.brand, device_type)
         return reading
+
+    def _safety_steps(self, text: str, device_type: Optional[str]) -> List[str]:
+        """What to do now, from the most likely urgent fault for these words."""
+        for device in ([device_type] if device_type else []) + [None]:
+            for scored in self._retriever.candidate_faults(text, device, 5):
+                fault = scored.fault
+                if str(fault.urgency).upper().endswith("HIGH") and fault.suggested_actions_vi:
+                    return list(fault.suggested_actions_vi)[:3]
+        return []
 
     def _error_code_line(self, chat: Conversation, text: str, urgent: bool) -> Optional[str]:
         """What the code on the display means, from the brand's own table.
@@ -1304,6 +1340,10 @@ class LocalPipeline:
                     detected,
                     self._kb,
                 )
+            if device_type is None:
+                # "Em đang đứng ngoài cửa không vào nhà được" names no appliance
+                # and describes exactly one: a smart lock.
+                device_type = self._device_from_symptom(request.description)
 
         # A change of mind is not always phrased as an order. "Em nhầm rồi, là
         # tủ lạnh" and "bỏ máy lạnh đi, đặt tủ lạnh" carry no booking verb, so
@@ -1480,6 +1520,24 @@ class LocalPipeline:
         # at the model's confidence. Retrieval being certain is evidence too,
         # and here it is the better evidence: it matched the customer's own
         # words against symptoms the team wrote.
+        said = self._retriever.content_words(chat.customer_text())
+        # "lavabo bị tắc", "ổ cắm không lên": two words, the appliance and one
+        # symptom, and one fault far ahead of the rest. That is a complete
+        # report; asking "bắt đầu từ khi nào?" back was the assistant not
+        # listening. A tie ("tivi bị đơ" fits three faults equally) still asks.
+        clear_lead = (
+            device_type is not None
+            and self._names_a_symptom(chat.customer_text(), device_type)
+            and bool(candidates)
+            and candidates[0].score >= settings.RETRIEVAL_DECISIVE_SCORE
+            and (len(candidates) == 1 or candidates[0].score - candidates[1].score >= _CLEAR_LEAD)
+        )
+        # "máy lạnh hư rồi" is three words and says nothing about what is wrong;
+        # it was answered with a remote-control battery.
+        names_something = device_type is None or self._names_a_symptom(chat.customer_text(), device_type)
+        enough_said = (said >= settings.DECISIVE_MIN_WORDS and names_something) or (
+            said == settings.DECISIVE_MIN_WORDS - 1 and clear_lead
+        )
         decisive = (
             bool(candidates)
             # Never without knowing the appliance. Retrieval then searches all
@@ -1491,8 +1549,7 @@ class LocalPipeline:
             # And the customer actually described something. The score divides
             # by the query's own length, so "hư rồi" matches a symptom
             # perfectly and scores 1.00 while saying nothing at all.
-            and self._retriever.content_words(chat.customer_text())
-            >= settings.DECISIVE_MIN_WORDS
+            and enough_said
         )
 
         # Too little was said for anyone to answer, the model included. The
@@ -1506,10 +1563,7 @@ class LocalPipeline:
         # Only when nothing else is known. A photograph or an earlier message
         # settles the appliance, and then "nó không chạy" is a complete thing to
         # say about it.
-        if device_type is None or (
-            self._retriever.content_words(chat.customer_text())
-            < settings.DECISIVE_MIN_WORDS
-        ):
+        if device_type is None or not enough_said:
             return await self._clarification_response(
                 request, confidence, shortlist, detection, chat, trace
             )
@@ -2219,6 +2273,58 @@ class LocalPipeline:
             rest = rest.replace(f" {term} ", " ")
         return not self._is_in_the_trade(rest)
 
+    def _names_a_symptom(self, text: str, device_type: str) -> bool:
+        """Whether, beyond the appliance's name, the text says what is wrong."""
+        tokens = re.findall(r"[a-z0-9]+", _fold_vi(text))
+        padded = f" {' '.join(tokens)} "
+        # Only the appliance's own name is taken out, and the shortest form of
+        # it that was used: some aliases carry a symptom ("nghẹt bồn cầu"), and
+        # removing those words took "nghẹt" out of "bồn cầu bị nghẹt".
+        present = [
+            words for words in (re.findall(r"[a-z0-9]+", _fold_vi(a)) for a in self._kb.aliases_vi(device_type))
+            if words and f" {' '.join(words)} " in padded
+        ]
+        name = set(min(present, key=len)) if present else set()
+        typed = re.findall(r"\w+", unicodedata.normalize("NFC", (text or "").lower()))
+        for word in typed:
+            folded = _fold_vi(word)
+            if folded in name or not folded:
+                continue
+            # Typed with accents, the accents decide: "lõi" is a part, "lỗi" is
+            # a vague word. Without them, "loi" could be either, and counts as vague.
+            if word != folded and word not in _VAGUE_ACCENTED:
+                return True
+            if word == folded and folded not in _VAGUE_WORDS:
+                return True
+        return False
+
+    def _symptom_index(self) -> dict:
+        """Every knowledge-base symptom of three words or more, folded, with the
+        appliances it belongs to."""
+        cached = getattr(self, "_symptom_index_cache", None)
+        if cached is None:
+            cached = {}
+            for device in self._kb.device_types:
+                for fault in self._kb.faults_for_device(device):
+                    for symptom in fault.symptoms_vi:
+                        words = re.findall(r"[a-z0-9]+", _fold_vi(symptom))
+                        if len(words) >= 3:
+                            cached.setdefault(f" {' '.join(words)} ", set()).add(device)
+            self._symptom_index_cache = cached
+        return cached
+
+    def _symptom_phrases(self) -> List[str]:
+        return list(self._symptom_index())
+
+    def _device_from_symptom(self, text: str) -> Optional[str]:
+        """The appliance a message describes word for word, when only one fits."""
+        padded = " " + " ".join(re.findall(r"[a-z0-9]+", _fold_vi(text))) + " "
+        devices = set()
+        for phrase, owners in self._symptom_index().items():
+            if len(phrase.split()) >= 4 and phrase in padded:
+                devices |= owners
+        return devices.pop() if len(devices) == 1 else None
+
     def _is_in_the_trade(self, question: str) -> bool:
         """Whether this is about a household appliance, plumbing or electrics.
 
@@ -2246,6 +2352,12 @@ class LocalPipeline:
         # some of these entries were there in the first place.
         words = re.findall(r"[a-z0-9]+", folded)
         padded = f" {' '.join(words)} "
+        # "Em đang đứng ngoài cửa không vào nhà được" names no appliance and no
+        # trade word, and is word for word a symptom of a smart lock that has
+        # locked its owner out. A symptom the knowledge base lists, three words
+        # or longer, is in the trade.
+        if any(phrase in padded for phrase in self._symptom_phrases()):
+            return True
         for phrase in _TRADE_WORDS:
             phrase = phrase.strip()
             if " " in phrase:
