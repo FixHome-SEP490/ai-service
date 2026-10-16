@@ -200,7 +200,14 @@
         "chậu rửa",
         "lavabo",
         "bồn rửa mặt",
-        "bon rua"
+        "bon rua",
+        "chỗ rửa bát",
+        "chỗ rửa chén",
+        "bồn rửa bát",
+        "chậu rửa bát",
+        "chậu rửa chén",
+        "cho rua bat",
+        "cho rua chen"
       ],
       "confusable_with": [
         "faucet"
