@@ -53,6 +53,16 @@ except ImportError:  # run as a script from tools/
 _ROOT = Path(__file__).resolve().parents[1]
 _KB_PATH = _ROOT / "app" / "data" / "fault_knowledge_base.json"
 _LEXICON_PATH = _ROOT / "app" / "data" / "dialogue_knowledge.json"
+_CODES_PATH = _ROOT / "app" / "data" / "error_codes.json"
+# Shown on no appliance we hold a table for; used to ask about a code that is not there.
+_NOT_A_CODE = ["Q7", "Z3", "K9", "Y5", "X8"]
+
+
+def _code_tables(device: str) -> List[dict]:
+    if not _CODES_PATH.exists():
+        return []
+    tables = json.loads(_CODES_PATH.read_text(encoding="utf-8"))["tables"]
+    return [t for t in tables if t["device_type"] == device]
 
 
 # ---------------------------------------------------------------------------
@@ -394,6 +404,9 @@ CATEGORIES = [
     "deny_and_hint",
     # Two appliances in one message; how the customer sounds; how they name themself.
     "two_devices", "upset", "elder_address",
+    # The code on the display, read from the brand's own table; a code without
+    # the brand; a code the table does not hold (never guessed at).
+    "error_code", "error_code_no_brand", "unknown_code",
 ]
 
 _VAGUE = [
@@ -642,6 +655,8 @@ def _one(
         turns.append(_fill(rng.choice([
             "à nhầm, không phải {n0} mà là {n}", "{me} nói nhầm, là cái {n} chứ không phải {n0}",
             "không phải {n0} đâu, {n} mới đúng", "sửa lại: {n} nhé, không phải {n0}",
+            # Typed in a hurry: "phi" for "phải".
+            "à nhầm, không phi {n0} mà là {n}", "ko phi {n0} đâu, là {n}",
         ]), rng, region, n=oname, n0=name))
         turns.append(rng.choice(ofault["symptoms_vi"]))
         expect_device = other
@@ -714,6 +729,34 @@ def _one(
             return None
         turns = [f"{name} nhà {REGIONS[region]['self'][0]} bị hỏng", symptom, rng.choice(others)]
         expect_top3 = [code]
+    elif category in ("error_code", "error_code_no_brand", "unknown_code"):
+        tables = _code_tables(device)
+        if not tables:
+            return None
+        table = rng.choice(tables)
+        brand = rng.choice([table["brand_vi"], table["brand_vi"].lower()])
+        # Codes are typed as shown, so no style that rewrites letters.
+        style = rng.choice(["chuẩn", "không dấu", "emoji"])
+        if category == "unknown_code":
+            code = rng.choice(_NOT_A_CODE)
+            turns = [_fill(rng.choice(["{n} {b} báo lỗi {c}", "{n} nhà {me} hãng {b} hiện mã {c}"]), rng, region, n=name, b=brand, c=code)]
+            expect_words = ["không đoán"]
+        else:
+            code, entry = rng.choice(list(table["codes"].items()))
+            if category == "error_code":
+                turns = [_fill(rng.choice([
+                    "{n} {b} báo lỗi {c}", "{n} nhà {me} hãng {b} hiện mã {c} {end}",
+                    "{n} {b} cứ nháy lỗi {c}, là bị gì vậy", "{b} báo mã {c} là sao {end}",
+                ]), rng, region, n=name, b=brand, c=code)]
+            else:
+                turns = [
+                    _fill(rng.choice(["{n} báo lỗi {c}", "{n} nhà {me} hiện mã {c}"]), rng, region, n=name, c=code),
+                    _fill(rng.choice(["hãng {b}", "của {b} {end}", "máy {b} ạ"]), rng, region, b=brand),
+                ]
+            expect_words = ["theo bảng mã lỗi", f"mã {code.lower()}"]
+            if entry.get("faults"):
+                expect_top3 = [entry["faults"][0]]
+        must_not = []
     else:
         raise ValueError(category)
 

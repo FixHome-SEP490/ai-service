@@ -841,6 +841,16 @@ class LocalPipeline:
         if shown is not None and shown.entry is not None:
             for code in shown.entry.faults:
                 chat.state.from_codes[code] = error_codes.CODE_BOOST
+            # "hãng daikin" or "báo lỗi E8" carries no symptom, and a boost on a
+            # fault the search scored at nothing is still nothing. The fault the
+            # brand's table names is searched for by its name and symptoms too.
+            names = []
+            for c in shown.entry.faults:
+                fault = self._kb.fault(c)
+                if fault is not None:
+                    names += [fault.name_vi, *fault.symptoms_vi[:2]]
+            if names:
+                reading.retrieval_text = " ".join([reading.retrieval_text or text, *names])
         # The answer to the question we just asked. Read before anything else
         # has a chance to call "không" a denial of the last answer.
         question, chat.pending_question = chat.pending_question, None
@@ -1286,6 +1296,14 @@ class LocalPipeline:
             device_type, _hint = device_hint.resolve(
                 request.description, detected, self._kb
             )
+            if device_type is None:
+                # "điuề hoà", "máy lạnhhh": read the way the lexicon reads the
+                # rest of the message before deciding no appliance was named.
+                device_type, _hint = device_hint.resolve(
+                    dialogue_state.get_lexicon(self._kb).normalize_accented(request.description),
+                    detected,
+                    self._kb,
+                )
 
         # A change of mind is not always phrased as an order. "Em nhầm rồi, là
         # tủ lạnh" and "bỏ máy lạnh đi, đặt tủ lạnh" carry no booking verb, so
@@ -1299,6 +1317,11 @@ class LocalPipeline:
         changed_appliance = bool(
             switched_to and chat.device_type and switched_to != chat.device_type
         )
+        if switched_to and not chat.device_type and detection is None:
+            # Nothing settled yet, and the sentence is a correction: "không phải
+            # điều hoà mà là ổ cắm" names both, and the one asked for is the
+            # second, not the longer name resolve() would pick.
+            device_type = switched_to
 
         if detection is not None:
             chat.remember_device(detection.device_type, detection.confidence, "image")
@@ -1713,7 +1736,7 @@ class LocalPipeline:
         broken = answer_guard.violations(
             answer_vi,
             "\n".join(passages_vi + [s.chunk.as_passage_vi() for s in safety]),
-        )
+        ) + answer_guard.ruled_out_named(answer_vi, self._ruled_out_names(chat))
         if broken:
             # Said something only the business may say, or recited its notes.
             # Discarded, not edited; the answer is written from the facts.
@@ -1780,6 +1803,17 @@ class LocalPipeline:
             text += " Thợ xem tận nơi sẽ chốt được chính xác ạ."
         return text
 
+    def _ruled_out_names(self, chat: Optional[Conversation]) -> List[str]:
+        """Names of the faults the customer has ruled out, for the guard."""
+        if chat is None:
+            return []
+        names = []
+        for code in chat.state.excluded:
+            fault = self._kb.fault(code)
+            if fault is not None:
+                names.append(fault.name_vi)
+        return names
+
     async def _reasoned_answer(
         self, request: ChatRequest, chat: Conversation
     ) -> ChatResponse:
@@ -1811,7 +1845,9 @@ class LocalPipeline:
         )
         if not answer_vi:
             return self._ungrounded_answer(request, chat)
-        broken = answer_guard.violations(answer_vi)
+        broken = answer_guard.violations(answer_vi) + answer_guard.ruled_out_named(
+            answer_vi, self._ruled_out_names(chat)
+        )
         if broken:
             logger.warning("General answer discarded: %s", "; ".join(broken))
             return self._ungrounded_answer(request, chat)
@@ -1844,6 +1880,7 @@ class LocalPipeline:
         price_max: Optional[int],
         actions: List[str],
         services: List[RecommendedService],
+        ruled_out: Sequence[str] = (),
     ) -> Optional[str]:
         """Hand the finished answer to the model to phrase, nothing more.
 
@@ -1878,7 +1915,9 @@ class LocalPipeline:
         except Exception:  # pragma: no cover - narration is never load-bearing
             logger.warning("narration_failed")
             return None
-        broken = answer_guard.violations(narrated or "", "\n".join(lines))
+        broken = answer_guard.violations(narrated or "", "\n".join(lines)) + answer_guard.ruled_out_named(
+            narrated or "", list(ruled_out)
+        )
         if broken:
             logger.warning("Narration discarded: %s", "; ".join(broken))
             return None
@@ -2684,6 +2723,7 @@ class LocalPipeline:
         message_vi = await self._narrate(
             device, faults, price_min, None if needs_assessment else price_max,
             actions, services,
+            ruled_out=self._ruled_out_names(chat) if chat is not None else (),
         )
 
         return DiagnosisResponse(
