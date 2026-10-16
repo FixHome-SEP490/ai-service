@@ -47,6 +47,13 @@ class VlmVerdict:
     reasoning_vi: Optional[str] = None
     """Kept for logging and report analysis; never returned to customers."""
 
+    def __post_init__(self) -> None:
+        # A confidence is a probability. Scores multiplied by what the
+        # conversation established ("sửa rồi vẫn hỏng" x1.5) went past 1, and
+        # the response model refused it: the customer got "AI unavailable" on
+        # the served model while the stub never took that path.
+        object.__setattr__(self, "confidence", min(1.0, max(0.0, float(self.confidence or 0.0))))
+
 
 class VisionLanguageModel(Protocol):
     async def assess(
