@@ -341,4 +341,20 @@ DIALOGUES: List[Dialogue] = [
       ["khóa cửa thông minh hết pin rồi làm sao"],
       must_not=[], expect_any=["LOCK_LOW_BATTERY"], via="ask", persona="khách hỏi",
       note="hết pin là triệu chứng, không phải phủ định"),
+
+    # =====================================================================
+    # TỪ LẦN CHẠY GPU THẬT 16/10 CHIỀU (bốn ca lệch, giữ lại để không tái phát)
+    # =====================================================================
+    D("faucet",
+      ["vòi nước nước phun lệch, nhà tui đã kiểm tra nguồn điện ổn định", "tui tự clean đầu lọc xong mà chẳng ăn thua gì"],
+      must_not=["FAUCET_LOW_FLOW"], persona="trộn tiếng anh", note="clean = vệ sinh"),
+    D("kettle",
+      ["ấm siêu tốc đun lâu sôi", "mới tẩy cặn bằng giấm hôm qua rồi"],
+      must_not=["KETTLE_SCALE"], persona="khách bình thường", note="mô hình từng giảng lại cách tẩy cặn"),
+    D("kettle",
+      ["ấm siêu tốc ấm siêu tốc kh ngắt", "sai rùi"],
+      deny_last=True, persona="teencode", note="bác câu trả lời thì đoán tiếp"),
+    D("air_conditioner",
+      ["anh ơi, điuề hoà nhà tôi nước nhỏ giọt vào giường, nhờ kiểm tra giúp ạ", "à nhầm, không phi điều hoà mà là ổ cắm", "cắm gì vào cũgn không ăn"],
+      seed_device=False, expect_device="power_outlet", persona="lỗi gõ", note="gõ sai tên máy và chữ phải"),
 ]

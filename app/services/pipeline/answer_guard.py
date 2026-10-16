@@ -90,6 +90,34 @@ def _digits(value: str) -> str:
     return re.sub(r"[^\d]", "", value)
 
 
+_GENERIC_HEADS = ("hong ", "loi ", "bi ")
+
+
+def ruled_out_named(reply: str, fault_names: List[str]) -> List[str]:
+    """Faults the customer already ruled out that the reply still talks about.
+
+    The model is given only the faults still standing, but it also reads the
+    documents, and a 3B model will happily explain the cause the customer just
+    said they fixed ("tẩy cặn bằng giấm" after "mới tẩy cặn rồi"). The name is
+    compared without its generic first word and only up to the comma, so
+    "Hỏng rơ le nhiệt" is caught as "rơ le nhiệt"; a name shorter than two
+    words after that is not checked, it would match too much.
+    """
+    if not reply or not fault_names:
+        return []
+    said = " " + " ".join(re.findall(r"[a-z0-9]+", _fold(reply))) + " "
+    found = []
+    for name in fault_names:
+        core = " ".join(re.findall(r"[a-z0-9]+", _fold((name or "").split(",")[0])))
+        for head in _GENERIC_HEADS:
+            if core.startswith(head):
+                core = core[len(head):]
+                break
+        if len(core.split()) >= 2 and f" {core} " in said:
+            found.append(f"nhắc lỗi khách đã loại: {name}")
+    return found
+
+
 def violations(reply: str, grounding: str = "") -> List[str]:
     """What in the reply only the business may say. Empty means it may be shown."""
     if not reply:

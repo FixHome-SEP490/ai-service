@@ -161,7 +161,14 @@
       "thoog": "thong",
       "roai": "roi",
       "roi`": "roi",
-      "kog": "khong"
+      "kog": "khong",
+      "clean": "ve sinh",
+      "cleaning": "ve sinh",
+      "check": "kiem tra",
+      "fix": "sua",
+      "repair": "sua",
+      "reset": "khoi dong lai",
+      "restart": "khoi dong lai"
     },
     "phrases": {
       "ve sinh": "ve sinh",
@@ -225,7 +232,14 @@
       "hong phia": "hong phai",
       "kp phia": "khong phai",
       "khong phiai": "khong phai",
-      "khong phaii": "khong phai"
+      "khong phaii": "khong phai",
+      "khong phi": "khong phai",
+      "ko phi": "ko phai",
+      "k phi": "k phai",
+      "dau phi": "dau phai",
+      "hong phi": "hong phai",
+      "chang phi": "chang phai",
+      "kp phi": "khong phai"
     }
   },
   "terms": [
