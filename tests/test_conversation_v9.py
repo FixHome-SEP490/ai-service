@@ -140,3 +140,48 @@ def test_a_tie_or_a_word_that_says_nothing_still_asks(kb, text):
     assert reply.status.value == "needs_clarification"
     # A vague report is not a danger report.
     assert not (reply.message_vi or "").startswith("Dạ đây là dấu hiệu nguy hiểm")
+
+
+# 6 ------------------------------------------- a confidence is never above 1
+
+
+def test_a_verdict_confidence_stays_a_probability():
+    from app.services.pipeline.vlm import VlmVerdict
+
+    assert VlmVerdict(confidence=1.157).confidence == 1.0
+    assert VlmVerdict(confidence=-0.2).confidence == 0.0
+    assert VlmVerdict(confidence=0.42).confidence == 0.42
+
+
+class _UndecidedVlm(StubVlm):
+    """A served model that will not choose, so retrieval answers alone."""
+
+    async def assess_context(self, *args, **kwargs):
+        verdict = await super().assess_context(*args, **kwargs)
+        from app.services.pipeline.vlm import VlmVerdict
+
+        return VlmVerdict(fault_codes=[], confidence=0.0, reasoning_vi=verdict.reasoning_vi)
+
+
+@pytest.mark.parametrize(
+    "turns",
+    [
+        ["ấm siêu tốc đun lâu sôi", "mới tẩy cặn bằng giấm hôm qua rồi"],
+        ["vòi nước chảy yếu", "tháo rửa đầu lọc rồi mà vẫn yếu"],
+    ],
+)
+def test_boosted_retrieval_answers_without_crashing(kb, turns):
+    # Seen on the served model 16/10: HTTP 503 on exactly these conversations.
+    pipeline = LocalPipeline(detector=_NoDetector(), vlm=_UndecidedVlm(), retriever=Retriever(kb), kb=kb)
+    pipeline._conversations = ConversationStore()
+
+    async def run():
+        session = None
+        for text in turns:
+            reply = await pipeline.diagnose(DiagnosisRequest(description=text, sessionId=session))
+            session = reply.session_id
+        return reply
+
+    reply = asyncio.run(run())
+    assert all(0.0 <= f.confidence <= 1.0 for f in reply.suspected_faults)
+    assert 0.0 <= reply.confidence <= 1.0
