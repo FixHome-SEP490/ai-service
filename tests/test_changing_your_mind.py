@@ -144,7 +144,7 @@ class TestThePinnedBookingFollowsTheCustomer:
         first = await pipeline.diagnose(
             DiagnosisRequest(description="máy lạnh nhà em không mát")
         )
-        assert any(code.endswith("DIEU_HOA") or "DIEU_HOA" in code for code in _codes(first))
+        assert any(code.startswith("AC-") for code in _codes(first))
 
         second = await pipeline.diagnose(
             DiagnosisRequest(
@@ -153,7 +153,7 @@ class TestThePinnedBookingFollowsTheCustomer:
             )
         )
         assert _codes(second), "a booking turn must always offer something"
-        assert not any("DIEU_HOA" in code for code in _codes(second)), (
+        assert not any(code.startswith("AC-") for code in _codes(second)), (
             f"still offering air conditioning after the customer switched: {_codes(second)}"
         )
 
@@ -170,12 +170,12 @@ class TestThePinnedBookingFollowsTheCustomer:
                 session_id=first.session_id,
             )
         )
-        assert any("TU_LANH" in code for code in _codes(switched))
+        assert any(code.startswith("FR-") for code in _codes(switched))
 
         # A bare follow-up must not snap back to the air conditioner.
         after = await pipeline.diagnose(
             DiagnosisRequest(description="đặt giúp em luôn", session_id=first.session_id)
         )
-        assert not any("DIEU_HOA" in code for code in _codes(after)), (
+        assert not any(code.startswith("AC-") for code in _codes(after)), (
             f"the session forgot the switch: {_codes(after)}"
         )

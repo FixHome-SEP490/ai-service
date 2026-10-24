@@ -273,13 +273,13 @@ def _pipeline():
 
 
 SWITCHING_END_TO_END = [
-    ("bỏ máy lạnh đi, đặt tủ lạnh", "TU_LANH"),
-    ("không phải máy lạnh đâu, tủ lạnh", "TU_LANH"),
-    ("huỷ máy lạnh, đặt tủ lạnh giúp em", "TU_LANH"),
-    ("thôi không máy lạnh nữa, tủ lạnh đi", "TU_LANH"),
-    ("em nhầm rồi, là tủ lạnh", "TU_LANH"),
-    ("đổi sang thợ sửa máy giặt", "MAY_GIAT"),
-    ("đặt cho tôi thợ sửa ống nước", "NUOC"),
+    ("bỏ máy lạnh đi, đặt tủ lạnh", "FR-"),
+    ("không phải máy lạnh đâu, tủ lạnh", "FR-"),
+    ("huỷ máy lạnh, đặt tủ lạnh giúp em", "FR-"),
+    ("thôi không máy lạnh nữa, tủ lạnh đi", "FR-"),
+    ("em nhầm rồi, là tủ lạnh", "FR-"),
+    ("đổi sang thợ sửa máy giặt", "WM-"),
+    ("đặt cho tôi thợ sửa ống nước", "PI-"),
 ]
 
 
@@ -300,9 +300,9 @@ async def test_the_service_offered_follows_the_change_of_mind(sentence, expected
 
     codes = [service.service_code for service in switched.recommended_services]
     assert codes, "a turn that names an appliance must always offer something"
-    assert any(expected in code for code in codes), (
+    assert any(code.startswith(expected) for code in codes), (
         f"{sentence!r} still offering {codes}"
     )
-    assert not any("DIEU_HOA" in code for code in codes), (
+    assert not any(code.startswith("AC-") for code in codes), (
         f"{sentence!r} kept the appliance it was moving away from: {codes}"
     )

@@ -40,7 +40,7 @@ from app.services.pipeline import dialogue_state
 from app.services.pipeline.conversation import Conversation, day_vi, get_conversation_store
 from app.services.pipeline.detector import Detection, Detector
 from app.services.pipeline.images import ImagePayload, load_base64_image
-from app.services.pipeline.knowledge_base import KnowledgeBase, ServiceRef
+from app.services.pipeline.knowledge_base import KnowledgeBase
 from app.services.pipeline.retriever import Retriever
 from app.services.pipeline.vlm import VisionLanguageModel, VlmVerdict
 
@@ -2020,10 +2020,8 @@ class LocalPipeline:
             answer_vi=answer_vi,
             # Nothing was retrieved, so there is no shortlist to name a service
             # from — but the appliance is known and it is broken enough to ask
-            # about, and the inspection is always bookable.
-            recommended_services=(
-                self._fallback_offer() if device_type else []
-            ),
+            # about, and its repair is booked on inspection anyway.
+            recommended_services=self._fallback_offer(device_type),
             confidence=0.4,
             disclaimer_vi=settings.AI_DISCLAIMER_VI,
         )
@@ -2180,21 +2178,10 @@ class LocalPipeline:
                 and bool(self._kb.services_for_fault(c.fault.fault_code)),
             )
         for scored in candidates:
+            # Only what Backend sells. Before catalogue V2 a fault with no
+            # service fell back to its labour row's code, which Backend never
+            # knew; now an empty list means the service is not open yet.
             refs = self._kb.services_for_fault(scored.fault.fault_code)
-            if not refs:
-                # Same fallback the diagnosis path uses: every fault names the
-                # labour row its floor price came from, so the service is known
-                # even where Backend has not issued a code for it.
-                labour = self._kb.labour_row(scored.fault.labour_code)
-                if labour is None:
-                    continue
-                refs = [
-                    ServiceRef(
-                        service_code=labour.code,
-                        name_vi=labour.name_vi,
-                        base_price=labour.price_min,
-                    )
-                ]
             for ref in refs:
                 if all(s.service_code != ref.service_code for s in services):
                     if not services:
@@ -2216,9 +2203,9 @@ class LocalPipeline:
             # to appear in the symptom lists.
             services = self._services_for_device(device_type)
         if not services:
-            services = self._fallback_offer()
+            services = self._fallback_offer(device_type)
         if not services:
-            return None
+            return self._not_open_response(request, chat, trace, device_type)
 
         name = self._kb.device_name_vi(device_type) or device_type
         price = (
@@ -2251,22 +2238,53 @@ class LocalPipeline:
             disclaimer_vi=settings.AI_DISCLAIMER_VI,
         )
 
+    def _not_open_note(self, device_type: Optional[str]) -> Optional[str]:
+        """Said when the appliance is known and Backend sells nothing for it yet.
+
+        Microwave, TV and dishwasher repair are in the catalogue but not open.
+        Before catalogue V2 they fell back to a generic call-out; that service
+        is gone, and a button that books something Backend refuses is worse
+        than saying so."""
+        if not device_type:
+            return None
+        name = (self._kb.device_name_vi(device_type) or "").lower()
+        if not name:
+            return None
+        return (
+            f"Hiện FixHome chưa mở dịch vụ sửa {name} nên em chưa đặt thợ cho "
+            "thiết bị này được ạ. Anh/chị cần sửa thiết bị khác thì nhắn em nhé."
+        )
+
+    def _not_open_response(
+        self, request: DiagnosisRequest, chat: Conversation, trace: "_Trace", device_type: str
+    ) -> DiagnosisResponse:
+        message = "Dạ " + (self._not_open_note(device_type) or "")
+        chat.add("assistant", message)
+        trace.add("scope", True, f"Khách muốn đặt {device_type}, backend chưa mở dịch vụ này")
+        return DiagnosisResponse(
+            request_id=request.request_id,
+            session_id=chat.session_id,
+            status=DiagnosisStatus.OK,
+            engine=Engine.LOCAL_PIPELINE,
+            device=self._resolve_device(None, chat),
+            recommended_services=[],
+            message_vi=message,
+            confidence=0.0,
+            model_info=self._model_info,
+            trace=trace.stages,
+            disclaimer_vi=settings.AI_DISCLAIMER_VI,
+        )
+
     def _services_for_device(self, device_type: str) -> List[RecommendedService]:
         """The service this appliance is most often booked for.
 
         Counted across the appliance's own faults rather than chosen by hand, so
-        a device added to the catalogue is covered without touching this. The
-        inspection fallback is set aside while counting: it is the answer for a
-        fault that cannot be priced unseen, not the answer for "book someone to
-        look at my washing machine".
+        a device added to the catalogue is covered without touching this.
         """
         counts: dict = {}
         names: dict = {}
-        fallback = self._kb.fallback_service()
         for fault in self._kb.faults_for_device(device_type):
             for ref in self._kb.services_for_fault(fault.fault_code):
-                if fallback and ref.service_code == fallback.service_code:
-                    continue
                 counts[ref.service_code] = counts.get(ref.service_code, 0) + 1
                 names[ref.service_code] = ref.name_vi
         if not counts:
@@ -2297,7 +2315,8 @@ class LocalPipeline:
             status=DiagnosisStatus.NEEDS_CLARIFICATION,
             engine=Engine.LOCAL_PIPELINE,
             device=self._resolve_device(None, chat),
-            recommended_services=self._fallback_offer(),
+            # The appliance is what is missing, and every service is for one.
+            recommended_services=[],
             clarification=Clarification(questions_vi=[question]),
             message_vi=question,
             confidence=0.0,
@@ -2775,17 +2794,16 @@ class LocalPipeline:
         arrived at a booking. Naming a service alongside the question costs the
         customer nothing and gives the app something to put a button on.
 
-        Never a confident repair when the fault is still open. If the faults
+        Never a confident cleaning when the fault is still open. If the faults
         under consideration all book the same service, that is the one; where
-        they disagree, the honest offer is the call-out, because that is
+        they disagree, the appliance's repair, which is priced on inspection:
         literally what is being proposed — somebody comes and looks.
         """
-        # The specific service only once the appliance is settled. Without this
-        # guard "hư rồi" — two words naming nothing — was offered a
-        # refrigerator repair, because the shortlist it retrieved happened to be
-        # all one device.
+        # Nothing until the appliance is settled. Without this guard "hư rồi"
+        # — two words naming nothing — was offered a refrigerator repair,
+        # because the shortlist it retrieved happened to be all one device.
         if device_type is None:
-            return self._fallback_offer()
+            return []
 
         codes = []
         for entry in shortlist or []:
@@ -2809,11 +2827,13 @@ class LocalPipeline:
                 RecommendedService(service_code=ref.service_code, name_vi=ref.name_vi)
             ]
 
-        return self._fallback_offer()
+        return self._fallback_offer(device_type)
 
-    def _fallback_offer(self) -> List[RecommendedService]:
-        """The on-site inspection, in Backend's code so the app can book it."""
-        ref = self._kb.fallback_service()
+    def _fallback_offer(self, device_type: Optional[str]) -> List[RecommendedService]:
+        """The appliance's own repair, in Backend's code so the app can book it.
+
+        Nothing for an unknown appliance or one whose repair is not open."""
+        ref = self._kb.fallback_service(device_type)
         return (
             [RecommendedService(service_code=ref.service_code, name_vi=ref.name_vi)]
             if ref
@@ -2954,15 +2974,6 @@ class LocalPipeline:
                 )
             )
             refs = self._kb.services_for_fault(fault.fault_code)
-            if not refs:
-                # Backend has not agreed a service catalogue, and waiting for it
-                # meant answering "giờ tôi nên thuê dịch vụ nào" with nothing at
-                # all. Every fault already names the labour row its floor price
-                # came from, so the service is known — only its Backend code is
-                # not, and that is the part Backend owns.
-                labour = self._kb.labour_row(fault.labour_code)
-                if labour is not None:
-                    refs = [ServiceRef(service_code=labour.code, name_vi=labour.name_vi)]
             for ref in refs:
                 if all(s.service_code != ref.service_code for s in services):
                     services.append(
@@ -3010,6 +3021,10 @@ class LocalPipeline:
             actions, services,
             ruled_out=self._ruled_out_names(chat) if chat is not None else (),
         )
+        if not services:
+            note = self._not_open_note(faults and self._kb.fault(faults[0].fault_code).device_type)
+            if note:
+                message_vi = f"{message_vi} {note}" if message_vi else note
 
         return DiagnosisResponse(
             request_id=request.request_id,

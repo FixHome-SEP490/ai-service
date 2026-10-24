@@ -95,6 +95,19 @@ ASKING_TO_BOOK = [
     "ben minh co nhan sua may giat khong",
 ]
 
+# Asking to book without saying for what. Every catalogue V2 service is for
+# one appliance, so these are asked which one.
+NAMES_NO_APPLIANCE = {
+    "muốn đặt lịch", "cho mình đặt lịch", "em muốn đặt thợ", "book thợ",
+    "đăng ký dịch vụ", "hẹn thợ", "gọi thợ", "kêu thợ tới giúp em với",
+    "yêu cầu thợ tới nhà", "mình muốn thuê thợ", "đặt luôn đi", "chốt đơn luôn",
+    "cho anh đặt", "muốn book", "book giúp em", "làm sao để đặt lịch",
+    "giờ đặt như nào", "muon dat lich", "cho minh dat tho",
+}
+
+# Appliances whose repair Backend has not opened yet (phase M3).
+NOT_OPEN_YET = {"bên em có sửa máy rửa bát không"}
+
 NOT_ASKING_TO_BOOK = [
     # symptoms that merely contain the letters
     "đặt nồi lên bếp mà bếp không nóng",
@@ -148,38 +161,54 @@ async def test_a_request_to_book_always_ends_in_something_bookable(text):
     diagnosis in the way. Five of these used to come back as a clarification
     with no service at all, because the service was derived from retrieved
     faults and a customer naming an appliance without a symptom retrieves none.
+
+    Two honest exceptions: no appliance named (asked which one, since there is
+    no generic service any more), and an appliance whose repair is not open.
     """
     response = await _pipeline().diagnose(DiagnosisRequest(description=text))
 
-    assert response.recommended_services, text
     assert not response.suspected_faults, (text, response.suspected_faults)
+    if text in NAMES_NO_APPLIANCE:
+        assert response.status.value == "needs_clarification", text
+        assert "thiết bị nào" in response.message_vi, text
+    elif text in NOT_OPEN_YET:
+        assert response.recommended_services == [], text
+        assert "chưa mở dịch vụ" in response.message_vi, text
+    else:
+        assert response.recommended_services, text
+        assert all("-" in s.service_code for s in response.recommended_services), text
 
 
 @pytest.mark.asyncio
 async def test_naming_the_appliance_gets_that_appliance_service():
     pipeline = _pipeline()
     for text, expected in [
-        ("cho mình đặt thợ sửa máy giặt", "SUA_MAY_GIAT"),
-        ("tôi cần thợ tới sửa tủ lạnh", "SUA_TU_LANH"),
-        ("bây giờ anh muốn đặt lịch vệ sinh máy lạnh", "VE_SINH"),
+        ("cho mình đặt thợ sửa máy giặt", "WM-01"),
+        ("tôi cần thợ tới sửa tủ lạnh", "FR-01"),
+        ("bây giờ anh muốn đặt lịch vệ sinh máy lạnh", "AC-02"),
     ]:
         response = await pipeline.diagnose(DiagnosisRequest(description=text))
         codes = [s.service_code for s in response.recommended_services]
-        assert any(expected in code for code in codes), (text, codes)
+        assert codes[:1] == [expected], (text, codes)
 
 
 @pytest.mark.asyncio
-async def test_not_naming_the_appliance_asks_but_still_offers():
+async def test_not_naming_the_appliance_asks_which_one():
     """"Cho mình đặt lịch" does not say what to book, so it has to ask.
 
-    What it must not do is ask with nothing attached, which is what happened:
-    the message carries no appliance and no symptom, so the ordinary
-    clarification had nothing to offer either.
+    It used to attach the generic call-out to the question. Backend retired
+    that service with catalogue V2, so the question names the appliances
+    instead, and the answer to it is what gets the button.
     """
-    response = await _pipeline().diagnose(DiagnosisRequest(description="cho mình đặt lịch"))
+    pipeline = _pipeline()
+    response = await pipeline.diagnose(DiagnosisRequest(description="cho mình đặt lịch"))
 
     assert response.status.value == "needs_clarification"
-    assert response.recommended_services
+    assert response.recommended_services == []
+    answered = await pipeline.diagnose(
+        DiagnosisRequest(description="máy giặt", session_id=response.session_id)
+    )
+    assert [s.service_code for s in answered.recommended_services][:1] == ["WM-01"]
 
 
 @pytest.mark.asyncio
@@ -187,13 +216,16 @@ async def test_a_photograph_still_gets_diagnosed():
     """Booking intent short-circuits the diagnosis; a photograph must not be.
 
     Someone who sends a picture has given evidence to read, and the gate is
-    written to skip the short circuit when there is an image.
+    written to skip the short circuit when there is an image. This photograph
+    shows nothing the detector knows, so the diagnosis asks which appliance it
+    is rather than handing over a booking for nothing in particular.
     """
     response = await _pipeline().diagnose(
-        DiagnosisRequest(description="đặt thợ sửa cái này", images=[_png()])
+        DiagnosisRequest(description="đặt thợ sửa cái này", images=[_png()], include_trace=True)
     )
 
-    assert response.recommended_services
+    assert "Đặt thợ ngay" not in (response.message_vi or "")
+    assert any(stage.name == "detector" for stage in response.trace)
 
 
 # --------------------------------------------------------------- scope

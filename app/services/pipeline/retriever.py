@@ -1032,7 +1032,14 @@ class Retriever:
                 policy=Policy(
                     doc_id=row.code, title_vi=row.name_vi, content_vi=row.as_text_vi()
                 ),
-                score=_price_score(tokens, row.name_vi, aliases),
+                # A catalogue variant is named "service: condition" ("Lắp hoặc
+                # thay thiết bị vệ sinh: Thay vòi sen siphon chuẩn"). The service
+                # half is shared by every variant and outweighed the condition
+                # the question was about, so either half may carry the match.
+                score=max(
+                    _price_score(tokens, row.name_vi, aliases),
+                    _price_score(tokens, row.name_vi.split(": ", 1)[-1], aliases),
+                ),
             )
             for row in rows
         ]

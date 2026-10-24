@@ -61,7 +61,7 @@ async def test_asking_to_book_gets_the_service_not_a_diagnosis():
     assert response.status == DiagnosisStatus.OK
     assert response.suspected_faults == []
     assert response.recommended_services
-    assert response.recommended_services[0].service_code == "VE_SINH_DIEU_HOA_1HP"
+    assert response.recommended_services[0].service_code == "AC-02"
     assert "Đặt thợ ngay" in response.message_vi
 
 
@@ -72,7 +72,7 @@ async def test_booking_a_repair_names_the_repair_service_not_the_clean():
         DiagnosisRequest(description="cho mình đặt thợ sửa tủ lạnh")
     )
 
-    assert response.recommended_services[0].service_code == "SUA_TU_LANH"
+    assert response.recommended_services[0].service_code == "FR-01"
 
 
 @pytest.mark.asyncio
@@ -138,16 +138,27 @@ async def test_a_question_still_offers_something_to_book():
     """Analyse and stop is how these conversations died.
 
     The customer read a question, answered it, was asked again, and never
-    reached a booking. Asking and offering are not exclusive.
+    reached a booking. Asking and offering are not exclusive: once the
+    appliance is known, the question comes with its repair attached.
+    """
+    response = await _pipeline().diagnose(DiagnosisRequest(description="máy giặt hư rồi"))
+
+    assert response.status == DiagnosisStatus.NEEDS_CLARIFICATION
+    assert [s.service_code for s in response.recommended_services] == ["WM-01"]
+
+
+@pytest.mark.asyncio
+async def test_with_no_appliance_there_is_nothing_generic_to_book():
+    """Catalogue V2 retired the generic call-out (KIEM_TRA_CHAN_DOAN_THIET_BI).
+
+    Every service is for one appliance, so "hư rồi" is asked which one and
+    offered nothing: a button for a code Backend no longer sells fails at the
+    booking step, which is worse than the question.
     """
     response = await _pipeline().diagnose(DiagnosisRequest(description="hư rồi"))
 
     assert response.status == DiagnosisStatus.NEEDS_CLARIFICATION
-    assert response.recommended_services
-    assert (
-        response.recommended_services[0].service_code
-        == "KIEM_TRA_CHAN_DOAN_THIET_BI"
-    )
+    assert response.recommended_services == []
 
 
 @pytest.mark.asyncio
@@ -160,7 +171,7 @@ async def test_an_unsettled_appliance_is_never_offered_a_specific_repair():
     response = await _pipeline().diagnose(DiagnosisRequest(description="cứu em với"))
 
     codes = [s.service_code for s in response.recommended_services]
-    assert codes == ["KIEM_TRA_CHAN_DOAN_THIET_BI"]
+    assert codes == []
 
 
 @pytest.mark.asyncio
@@ -171,7 +182,7 @@ async def test_a_chat_answer_about_an_appliance_can_be_booked():
     )
 
     assert response.recommended_services
-    assert response.recommended_services[0].service_code == "SUA_MAY_GIAT"
+    assert response.recommended_services[0].service_code == "WM-01"
 
 
 @pytest.mark.asyncio

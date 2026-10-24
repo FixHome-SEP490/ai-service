@@ -134,9 +134,9 @@ def build(
         by_code = {row.code: row for row in kb.price_rows}
         for candidate in candidates[:3]:
             fault = candidate.fault
-            labour = kb.labour_row(fault.labour_code)
-            if labour is not None and labour not in prices:
-                prices.append(labour)
+            for labour in kb.labour_rows(fault.labour_code):
+                if labour not in prices:
+                    prices.append(labour)
             for code in fault.part_codes:
                 row = by_code.get(code)
                 if row is not None and row not in prices:

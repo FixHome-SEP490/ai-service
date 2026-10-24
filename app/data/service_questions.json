@@ -1,0 +1,361 @@
+{
+ "version": "2026-10-24",
+ "_comment_vi": "Câu hỏi để chọn đúng biến thể giá cố định (loại máy, công suất...), theo bảng V3. Chỉ dịch vụ có biến thể backend đặt theo mã. Sinh bởi tools/sync_catalog_v3.py.",
+ "questions": [
+  {
+   "service_code": "AC-02",
+   "attribute": "loai_may",
+   "question_vi": "Máy lạnh nhà mình là loại treo tường, âm trần hay tủ đứng ạ?",
+   "options": [
+    {
+     "value": "am_tran",
+     "label_vi": "Âm trần",
+     "variants": [
+      "AC-02-03"
+     ]
+    },
+    {
+     "value": "treo_tuong",
+     "label_vi": "Treo tường",
+     "variants": [
+      "AC-02-01",
+      "AC-02-02"
+     ]
+    },
+    {
+     "value": "tu_dung",
+     "label_vi": "Tủ đứng",
+     "variants": [
+      "AC-02-31"
+     ]
+    }
+   ]
+  },
+  {
+   "service_code": "AC-02",
+   "attribute": "cong_suat",
+   "question_vi": "Máy khoảng bao nhiêu ngựa (HP) ạ? Mình xem tem bên hông dàn lạnh: 9.000 hoặc 12.000 BTU là 1–1,5 HP, 18.000 hoặc 24.000 BTU là 2–2,5 HP.",
+   "options": [
+    {
+     "value": "2_2_5hp",
+     "label_vi": "2–2,5 HP",
+     "variants": [
+      "AC-02-02"
+     ]
+    },
+    {
+     "value": "le_1_5hp",
+     "label_vi": "1–1,5 HP",
+     "variants": [
+      "AC-02-01"
+     ]
+    }
+   ]
+  },
+  {
+   "service_code": "AC-03",
+   "attribute": "loai_may",
+   "question_vi": "Máy lạnh nhà mình là loại treo tường, âm trần hay tủ đứng ạ?",
+   "options": [
+    {
+     "value": "treo_tuong",
+     "label_vi": "Treo tường",
+     "variants": [
+      "AC-03-04"
+     ]
+    }
+   ]
+  },
+  {
+   "service_code": "WM-02",
+   "attribute": "cua",
+   "question_vi": "Máy giặt nhà mình là cửa trên hay cửa ngang (cửa trước) ạ?",
+   "options": [
+    {
+     "value": "cua_ngang",
+     "label_vi": "Cửa ngang",
+     "variants": [
+      "WM-02-07",
+      "WM-02-08"
+     ]
+    },
+    {
+     "value": "cua_tren",
+     "label_vi": "Cửa trên",
+     "variants": [
+      "WM-02-05",
+      "WM-02-06"
+     ]
+    }
+   ]
+  },
+  {
+   "service_code": "WM-02",
+   "attribute": "kg",
+   "question_vi": "Máy giặt được bao nhiêu ký ạ? Số ký ghi ở tem dán trên máy hoặc nắp máy.",
+   "options": [
+    {
+     "value": "gt_9",
+     "label_vi": "Trên 9 kg",
+     "variants": [
+      "WM-02-06",
+      "WM-02-08"
+     ]
+    },
+    {
+     "value": "le_9",
+     "label_vi": "Từ 9 kg trở xuống",
+     "variants": [
+      "WM-02-05",
+      "WM-02-07"
+     ]
+    }
+   ]
+  },
+  {
+   "service_code": "WM-02",
+   "attribute": "co_say",
+   "question_vi": "Máy cửa ngang này có chức năng sấy luôn không ạ?",
+   "options": [
+    {
+     "value": "co",
+     "label_vi": "Có sấy",
+     "variants": [
+      "WM-02-34"
+     ]
+    }
+   ]
+  },
+  {
+   "service_code": "WM-05",
+   "attribute": "kieu_say",
+   "question_vi": "Máy sấy có ống to dẫn hơi ra ngoài không ạ? Nếu không có ống thì máy có hộc chứa nước cần đổ không, hay nước thoát thẳng ra ống?",
+   "options": [
+    {
+     "value": "bom_nhiet",
+     "label_vi": "Bơm nhiệt (Heat Pump)",
+     "variants": [
+      "WM-05-12"
+     ]
+    },
+    {
+     "value": "ngung_tu",
+     "label_vi": "Có hộc chứa nước (ngưng tụ)",
+     "variants": [
+      "WM-05-11"
+     ]
+    },
+    {
+     "value": "thong_hoi",
+     "label_vi": "Có ống thoát hơi (thông hơi)",
+     "variants": [
+      "WM-05-10"
+     ]
+    }
+   ]
+  },
+  {
+   "service_code": "LF-02",
+   "attribute": "loai_quat",
+   "question_vi": "",
+   "options": [
+    {
+     "value": "quat_dung",
+     "label_vi": "quat_dung",
+     "variants": [
+      "LF-02-19"
+     ]
+    },
+    {
+     "value": "quat_tran",
+     "label_vi": "quat_tran",
+     "variants": [
+      "LF-02-20"
+     ]
+    }
+   ]
+  },
+  {
+   "service_code": "SA-02",
+   "attribute": "thiet_bi",
+   "question_vi": "",
+   "options": [
+    {
+     "value": "bon_cau",
+     "label_vi": "bon_cau",
+     "variants": [
+      "SA-02-24"
+     ]
+    },
+    {
+     "value": "lavabo",
+     "label_vi": "lavabo",
+     "variants": [
+      "SA-02-23"
+     ]
+    },
+    {
+     "value": "voi_sen_siphon",
+     "label_vi": "voi_sen_siphon",
+     "variants": [
+      "SA-02-22"
+     ]
+    }
+   ]
+  },
+  {
+   "service_code": "SA-03",
+   "attribute": "diem_tac",
+   "question_vi": "",
+   "options": [
+    {
+     "value": "bon_cau",
+     "label_vi": "Bồn cầu",
+     "variants": [
+      "SA-03-26"
+     ]
+    },
+    {
+     "value": "chau",
+     "label_vi": "Chậu, lavabo",
+     "variants": [
+      "SA-03-25"
+     ]
+    },
+    {
+     "value": "thoat_san",
+     "label_vi": "Thoát sàn",
+     "variants": [
+      "SA-03-63"
+     ]
+    }
+   ]
+  },
+  {
+   "service_code": "TV-01",
+   "attribute": "co_tv",
+   "question_vi": "Tivi nhà mình khoảng bao nhiêu inch ạ?",
+   "options": [
+    {
+     "value": "duoi_65",
+     "label_vi": "Dưới 65 inch",
+     "variants": [
+      "TV-01-27"
+     ]
+    },
+    {
+     "value": "tu_65",
+     "label_vi": "Từ 65 inch",
+     "variants": [
+      "TV-01-64"
+     ]
+    }
+   ]
+  },
+  {
+   "service_code": "WM-06",
+   "attribute": "cach_dat",
+   "question_vi": "Mình muốn đặt máy sấy dưới sàn/kệ hay chồng lên máy giặt ạ?",
+   "options": [
+    {
+     "value": "chong",
+     "label_vi": "Chồng lên máy giặt",
+     "variants": [
+      "WM-06-39"
+     ]
+    },
+    {
+     "value": "dat_san",
+     "label_vi": "Đặt sàn hoặc kệ",
+     "variants": [
+      "WM-06-38"
+     ]
+    }
+   ]
+  },
+  {
+   "service_code": "FR-02",
+   "attribute": "kieu_tu",
+   "question_vi": "Tủ lạnh nhà mình là tủ mini, tủ 2 cửa (ngăn đá trên hoặc dưới), hay tủ side-by-side/nhiều cửa ạ?",
+   "options": [
+    {
+     "value": "hai_cua",
+     "label_vi": "2 cửa",
+     "variants": [
+      "FR-02-44"
+     ]
+    },
+    {
+     "value": "mini",
+     "label_vi": "Mini, 1 cửa",
+     "variants": [
+      "FR-02-43"
+     ]
+    },
+    {
+     "value": "sbs",
+     "label_vi": "Side-by-side, nhiều cửa",
+     "variants": [
+      "FR-02-45"
+     ]
+    }
+   ]
+  },
+  {
+   "service_code": "WH-03",
+   "attribute": "kieu_binh",
+   "question_vi": "Nhà mình dùng bình nóng lạnh có bình chứa to treo tường, hay máy nước nóng trực tiếp dạng hộp nhỏ gắn cạnh vòi sen ạ?",
+   "options": [
+    {
+     "value": "gian_tiep",
+     "label_vi": "Có bình chứa (gián tiếp)",
+     "variants": [
+      "WH-03-46"
+     ]
+    },
+    {
+     "value": "truc_tiep",
+     "label_vi": "Hộp nhỏ cạnh sen (trực tiếp)",
+     "variants": [
+      "WH-03-47"
+     ]
+    }
+   ]
+  },
+  {
+   "service_code": "KT-06",
+   "attribute": "mat_da",
+   "question_vi": "Mặt đá đã khoét sẵn lỗ vừa bếp chưa ạ?",
+   "options": [
+    {
+     "value": "khoet_san",
+     "label_vi": "Đã khoét sẵn",
+     "variants": [
+      "KT-06-50"
+     ]
+    }
+   ]
+  },
+  {
+   "service_code": "KT-10",
+   "attribute": "kieu_may",
+   "question_vi": "Máy rửa bát đặt độc lập hay lắp âm trong tủ bếp ạ?",
+   "options": [
+    {
+     "value": "am_tu",
+     "label_vi": "Âm tủ",
+     "variants": [
+      "KT-10-56"
+     ]
+    },
+    {
+     "value": "doc_lap",
+     "label_vi": "Độc lập",
+     "variants": [
+      "KT-10-55"
+     ]
+    }
+   ]
+  }
+ ]
+}
