@@ -28,6 +28,7 @@ from __future__ import annotations
 
 import re
 import unicodedata
+from functools import lru_cache
 from typing import List
 
 STEERING_REPLY_VI = (
@@ -37,6 +38,7 @@ STEERING_REPLY_VI = (
 )
 
 
+@lru_cache(maxsize=16384)
 def _fold(text: str) -> str:
     lowered = unicodedata.normalize("NFD", (text or "").lower())
     return "".join(c for c in lowered if unicodedata.category(c) != "Mn").replace("đ", "d")

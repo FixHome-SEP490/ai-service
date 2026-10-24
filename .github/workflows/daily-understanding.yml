@@ -1,0 +1,78 @@
+name: Daily understanding check
+
+# Every night, the assistant meets combinations of speaker, region, typing style
+# and appliance name it has never been scored on: the seed is the date. No GPU,
+# no model; retrieval, conversation reading and services run for real with the
+# stub model, exactly as `eval_understanding.py` and `eval_dialogue.py` do on a
+# laptop. A red run means understanding fell below the floor the team set.
+
+on:
+  schedule:
+    - cron: "0 19 * * *" # 02:00 giờ Việt Nam
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  understanding:
+    name: Unseen phrasings, unseen conversations
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    env:
+      AI_ENGINE: local
+      VLM_BASE_URL: ""
+      YOLO_WEIGHTS_PATH: ""
+      PYTHONIOENCODING: utf-8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version-file: '.python-version'
+          cache: 'pip'
+      - name: Install dependencies
+        run: pip install -r requirements-dev.txt
+      - name: Today's seed
+        run: echo "SEED=$(date -u +%Y%m%d)" >> "$GITHUB_ENV"
+      - name: Curated retrieval suite
+        run: |
+          python tools/eval_retrieval.py | tail -7 | tee retrieval.txt
+          echo '### Bộ truy hồi viết tay' >> "$GITHUB_STEP_SUMMARY"
+          echo '```' >> "$GITHUB_STEP_SUMMARY"; cat retrieval.txt >> "$GITHUB_STEP_SUMMARY"; echo '```' >> "$GITHUB_STEP_SUMMARY"
+      - name: Held-out descriptions, said a new way today
+        run: |
+          set -o pipefail
+          python tools/eval_understanding.py --split test --per-phrase 30 --seed "$SEED" --show 25 \
+            --out understanding.json --fail-under top3=0.50,not_wrong=0.78,device=0.75,offtopic_refused=0.95 \
+            | tee understanding.txt
+      - name: Six thousand new conversations
+        run: |
+          python tools/eval_dialogue.py --generated 6000 --only-generated --seed "$SEED" --show 25 \
+            --out dialogue.json | tee dialogue.txt
+          python - <<'PY'
+          import json, sys
+          rows = json.load(open("dialogue.json", encoding="utf-8"))["rows"]
+          repeated = sum(1 for r in rows if r["repeated"]) / len(rows)
+          wrong = sum(1 for r in rows if r.get("wrongly_excluded")) / len(rows)
+          print(f"lặp lỗi đã loại {repeated:.3%}, loại nhầm {wrong:.3%}")
+          if repeated > 0.015 or wrong > 0.01:
+              sys.exit("DƯỚI NGƯỠNG: hội thoại")
+          PY
+      - name: Summary
+        if: always()
+        run: |
+          echo "### Hạt giống $SEED" >> "$GITHUB_STEP_SUMMARY"
+          echo '```' >> "$GITHUB_STEP_SUMMARY"
+          sed -n '1,30p' understanding.txt >> "$GITHUB_STEP_SUMMARY" || true
+          grep -v '^  \[' dialogue.txt | grep -v '^      ' | sed -n '1,20p' >> "$GITHUB_STEP_SUMMARY" || true
+          echo '```' >> "$GITHUB_STEP_SUMMARY"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: understanding-${{ env.SEED }}
+          path: |
+            understanding.json
+            dialogue.json
+            understanding.txt
+            dialogue.txt
+          retention-days: 30

@@ -171,6 +171,7 @@ _OLD_TONE = {
 # ---------------------------------------------------------------------------
 
 
+@lru_cache(maxsize=65536)
 def fold(text: str) -> str:
     """Lowercase and strip diacritics. "Điều hòa" -> "dieu hoa"."""
     lowered = unicodedata.normalize("NFD", text.lower())
@@ -178,6 +179,7 @@ def fold(text: str) -> str:
     return stripped.replace("đ", "d")
 
 
+@lru_cache(maxsize=65536)
 def _accented(text: str) -> str:
     """Lowercase NFC with tone marks in the modern position."""
     word = unicodedata.normalize("NFC", text.lower())
@@ -408,6 +410,9 @@ class DialogueLexicon:
                 reverse=True,
             )
         )
+        self.framing: Tuple[Tuple[str, ...], ...] = tuple(
+            sorted((tuple(fold(f).split()) for f in data.get("framing", [])), key=len, reverse=True)
+        )
         self.connectors: frozenset = frozenset(fold(c) for c in data.get("clause_connectors", []))
         self.ack: Dict[str, str] = dict(data.get("ack", {}))
         self.gap_words: frozenset = frozenset(fold(w) for w in data.get("gap_words", []))
@@ -519,12 +524,12 @@ class DialogueLexicon:
     def _telex(self, word: str) -> Optional[str]:
         """Residue of a Telex keyboard that did not convert: "khoong", "mats"."""
         attempts = []
-        if len(word) > 2 and word[-1] in "sfrxj":
+        if len(word) > 1 and word[-1] in "sfrxj":
             attempts.append(word[:-1])
         collapsed = re.sub(r"(aa|ee|oo|dd)", lambda m: m.group(0)[0], word)
         collapsed = collapsed.replace("ow", "o").replace("uw", "u").replace("aw", "a")
         attempts.append(collapsed)
-        if len(collapsed) > 2 and collapsed[-1] in "sfrxj":
+        if len(collapsed) > 1 and collapsed[-1] in "sfrxj":
             attempts.append(collapsed[:-1])
         for attempt in attempts:
             if attempt != word and attempt in self.vocabulary:
@@ -534,10 +539,11 @@ class DialogueLexicon:
     def _apply_phrases(self, tokens: List[Tok]) -> List[Tok]:
         if not self.phrases:
             return tokens
+        by_first = self._phrases_by_first_word()
         out: List[Tok] = []
         i = 0
         while i < len(tokens):
-            for source, target in self.phrases:
+            for source, target in by_first.get(tokens[i].f, ()):
                 n = len(source)
                 if tuple(t.f for t in tokens[i : i + n]) == source:
                     out.extend(Tok(w, None) for w in target)
@@ -547,6 +553,22 @@ class DialogueLexicon:
                 out.append(tokens[i])
                 i += 1
         return out
+
+    def _phrases_by_first_word(self) -> Dict[str, List[Tuple[Tuple[str, ...], Tuple[str, ...]]]]:
+        """The phrase table grouped by its first word, longest first as before.
+
+        Every phrase was tried at every word of every message, a few hundred
+        tuple comparisons per word. Only phrases starting with the word at hand
+        can match there, and keeping each group in the table's own order keeps
+        which one wins exactly as it was."""
+        index = getattr(self, "_phrase_index", None)
+        if index is None:
+            index = {}
+            for source, target in self.phrases:
+                if source:
+                    index.setdefault(source[0], []).append((source, target))
+            self._phrase_index = index
+        return index
 
     def clauses(self, text: str) -> List[List[Tok]]:
         """Normalised clauses of one message."""
@@ -694,6 +716,7 @@ def _symptom_phrases(fault) -> Tuple[Phrase, ...]:
 
 class _ClauseReader:
     def __init__(self, lexicon: DialogueLexicon, faults: Sequence, previous: Sequence[str]):
+        self.meta_text = ""
         self.lex = lexicon
         self.faults = list(faults)
         self.codes = {f.fault_code for f in self.faults}
@@ -909,16 +932,16 @@ class _ClauseReader:
             if "van" in tail:
                 rest = tail[tail.index("van") + 1 :]
                 if rest:
-                    return exclusions, reinstated, penalties, (boosts, persist), False, self._without_hedges(rest)
+                    return exclusions, reinstated, penalties, (boosts, persist), False, self._for_retrieval(rest)
 
         if tried_spans and not factual:
             drop = {i for start, end in tried_spans for i in range(start, end)}
             rest = [w for i, w in enumerate(folded) if i not in drop]
             if "van" in rest:
                 rest = rest[rest.index("van") + 1 :]
-            return exclusions, reinstated, penalties, (boosts, persist), False, self._without_hedges(rest)
+            return exclusions, reinstated, penalties, (boosts, persist), False, self._for_retrieval(rest)
 
-        return exclusions, reinstated, penalties, (boosts, persist), factual, self._without_hedges(folded)
+        return exclusions, reinstated, penalties, (boosts, persist), factual, self._for_retrieval(folded)
 
     def describes_danger(self, tokens: List[Tok]) -> bool:
         folded = [t.f for t in tokens]
@@ -962,12 +985,22 @@ class _ClauseReader:
             return False
         return all(w in _PARTICLES or w in _META_FILLERS for w in rest)
 
-    def _without_hedges(self, folded: List[str]) -> str:
+    def _for_retrieval(self, folded: List[str]) -> str:
+        """The clause as the search reads it: without hedges, and without the
+        framing around a report ("nhờ xem giúp", "mẹ em bảo", "lo quá không
+        biết làm sao"). Whether the clause is small talk is still judged on
+        the clause with only its hedges removed, kept in `meta_text`, so
+        "có nguy hiểm không" stays a question about the conversation."""
+        self.meta_text = self._without_hedges(folded)
+        return self._without_hedges(self.meta_text.split(), self.lex.framing)
+
+    def _without_hedges(self, folded: List[str], extra: Tuple[Tuple[str, ...], ...] = ()) -> str:
         """The clause without "không biết" and the like, for retrieval."""
+        phrases = sorted(self.lex.hedges + extra, key=len, reverse=True) if extra else self.lex.hedges
         out: List[str] = []
         i = 0
         while i < len(folded):
-            for hedge in self.lex.hedges:
+            for hedge in phrases:
                 if tuple(folded[i : i + len(hedge)]) == hedge:
                     i += len(hedge)
                     break
@@ -1057,7 +1090,7 @@ def read_turn(
                 reading.exclusions.append(Exclusion(code, "previous", ""))
         if reader.confirms_previous(folded_text):
             reading.confirmed_previous = True
-        meta = not (factual or denied) and reader.is_meta(folded_text.split())
+        meta = not (factual or denied) and reader.is_meta(reader.meta_text.split())
         if meta:
             metas += 1
         if not (factual or denied or meta):
@@ -1160,7 +1193,27 @@ def _answer_word(folded: List[str], lex: DialogueLexicon) -> Optional[Tuple[bool
         for phrase in table:
             if tuple(words[: len(phrase)]) == phrase and (best is None or len(phrase) > best[1] - skip):
                 best = (yes, skip + len(phrase))
+    # A one-word answer typed in a hurry: "cha" for "chưa", "khogn" for
+    # "không". "Dạ cha" read as a polite yes when it was a no.
+    if words and (best is None or (best[0] and words[0] in ("da", "vang") and len(words) > 1)):
+        at = 0 if best is None else 1
+        for yes, table in ((False, lex.no_words), (True, lex.yes_words)):
+            if any(len(p) == 1 and _near(words[at], p[0]) for p in table):
+                return (yes, skip + at + 1)
     return best
+
+
+def _near(typed: str, word: str) -> bool:
+    """One letter off a word of three letters or more."""
+    if typed == word or len(word) < 3 or len(typed) < 2 or abs(len(typed) - len(word)) > 1:
+        return False
+    previous = list(range(len(word) + 1))
+    for i, a in enumerate(typed, 1):
+        current = [i]
+        for j, b in enumerate(word, 1):
+            current.append(min(previous[j] + 1, current[j - 1] + 1, previous[j - 1] + (a != b)))
+        previous = current
+    return previous[-1] == 1
 
 
 def answer_to(
@@ -1195,7 +1248,8 @@ def answer_to(
     # "Không" followed by a symptom of its own is a description, not an answer:
     # "không mát lắm" is not "no".
     if rest_words and not all(w in _PARTICLES or w in _META_FILLERS for w in rest_words[:2]):
-        if not yes and rest_words[0] not in ("nha", "a", "dau", "co", "thay", "luon", "em", "anh", "chi", "ha", "nhe"):
+        tails = ("nha", "a", "dau", "co", "thay", "luon", "em", "anh", "chi", "ha", "nhe")
+        if not yes and rest_words[0] not in tails and not any(_near(rest_words[0], t) for t in tails):
             return None
     rest = " ".join(
         [" ".join(rest_words)] + [" ".join(t.f for t in c) for c in clauses[1:]]

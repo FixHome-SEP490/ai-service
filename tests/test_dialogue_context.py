@@ -514,8 +514,10 @@ def test_a_corrected_appliance_is_followed(kb, text, device):
 
 
 def test_accents_decide_a_name_when_typed(kb):
-    """"Âm trần" is a recessed light, not "ấm"."""
-    assert lp._device_asked_for_now("đèn âm trần chảy nước", kb, strong=True) is None
+    """"Âm trần" is a recessed light, not "ấm". Once "đèn âm trần" became a
+    name for a light, the light is the answer; the kettle never is."""
+    assert lp._device_asked_for_now("đèn âm trần chảy nước", kb, strong=True) == "light_bulb"
+    assert lp._device_asked_for_now("máy âm trần chảy nước", kb, strong=True) != "kettle"
 
 
 def test_a_correction_holds_on_the_next_turn(kb):

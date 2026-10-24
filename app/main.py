@@ -1,4 +1,6 @@
 # FixHome AI Service
+import asyncio
+
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
@@ -6,6 +8,7 @@ from app.core.config import settings
 from app.core.exceptions import AIServiceException, ai_exception_handler
 from app.api.v1.router import api_router
 from app.web.routes import router as web_router
+from app.services.pipeline import service_catalog
 from app.services.pipeline.corpus import get_corpus
 
 
@@ -50,6 +53,22 @@ app.add_middleware(
     allow_headers=["Content-Type", "X-API-Key"],
 )
 
+@app.on_event("startup")
+async def _follow_the_service_catalog() -> None:
+    """Keep up with the services Backend sells, without a redeploy.
+
+    Off unless BACKEND_CATALOG_URL is set, so tests and a laptop run on the
+    static mapping exactly as before. See `service_catalog`."""
+    if settings.BACKEND_CATALOG_URL:
+        asyncio.get_running_loop().create_task(
+            service_catalog.refresh_forever(
+                settings.BACKEND_CATALOG_URL,
+                settings.CATALOG_REFRESH_SECONDS,
+                settings.CATALOG_TIMEOUT_SECONDS,
+            )
+        )
+
+
 # Include API routes
 app.include_router(api_router)
 # The page the service serves about itself, at /chat on the same port the API
@@ -85,4 +104,7 @@ async def health_check():
         # no reason to publish.
         "detector": {"attached": bool(settings.YOLO_WEIGHTS_PATH)},
         "knowledge": {"chunks": len(get_corpus())},
+        # How many of Backend's services are being followed live; 0 means the
+        # static mapping is in use (no URL, or Backend not reached yet).
+        "catalog": {"liveServices": len(service_catalog.current().services)},
     }

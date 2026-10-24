@@ -12,6 +12,7 @@ methods; nothing else in the pipeline changes.
 
 from __future__ import annotations
 
+import json
 import math
 import re
 import unicodedata
@@ -21,7 +22,7 @@ from typing import Dict, Iterable, List, Optional, Sequence, Tuple
 
 from app.core.config import settings
 from app.services.pipeline.corpus import Chunk, get_corpus
-from app.services.pipeline.knowledge_base import Fault, KnowledgeBase, Policy
+from app.services.pipeline.knowledge_base import DATA_DIR, Fault, KnowledgeBase, Policy
 
 _TOKEN_RE = re.compile(r"[a-z0-9]+")
 
@@ -96,10 +97,22 @@ def _normalize(text: str) -> List[str]:
     Diacritics are dropped so that a customer typing without tone marks still
     matches the curated symptom phrasing.
     """
+    return list(_normalized(text))
+
+
+@lru_cache(maxsize=65536)
+def _normalized(text: str) -> Tuple[str, ...]:
+    """The work behind `_normalize`, done once per distinct string.
+
+    Most of what gets normalised is the corpus itself: every heading and every
+    symptom list, on every question. Measured with the stub model, folding
+    those same strings again took two thirds of a turn's CPU, and a turn holds
+    the event loop for everyone else waiting on the service.
+    """
     lowered = unicodedata.normalize("NFD", text.lower())
     stripped = "".join(c for c in lowered if unicodedata.category(c) != "Mn")
     stripped = stripped.replace("\u0111", "d")
-    return _TOKEN_RE.findall(stripped)
+    return tuple(_TOKEN_RE.findall(stripped))
 
 
 @dataclass(frozen=True)
@@ -170,6 +183,28 @@ from and what still needs checking. It is how the corpus stays honest, and it
 would be bizarre in front of someone whose fridge is broken."""
 
 
+_DESCRIBING_HEADINGS = frozenset(
+    {
+        "khach noi the nao",
+        "khach go khong dau go tat",
+        "khach tu chan doan roi noi ket luan",
+        "khach mo ta day du thi trong the nao",
+        "khach mo ta cut",
+        "khach goi ten bo phan theo dan gian",
+        "khach mo ta bang he qua",
+        "khach mo ta bang am thanh",
+    }
+)
+"""Sections of a fault file written in the customer's words.
+
+`symptoms_vi` is a dozen short phrases per fault. Each fault file has far more
+than that: how a customer tells it in full, in two words, by its sound, by what
+it led to, by the folk name of the part. Those sections are what the shortlist
+reads besides the symptom list. Sections that discuss other faults ("Phân biệt
+với ...", "Lẫn với bệnh nào") and the scripted dialogues are left out, since
+they are full of the wording of the fault they are being told apart from."""
+
+
 def _heading_key(heading: str) -> str:
     return " ".join(_normalize(heading))
 
@@ -207,6 +242,34 @@ class _CorpusIndex:
             self._length.append(len(tokens))
             for token in counts:
                 document_freq[token] = document_freq.get(token, 0) + 1
+
+        # Fixed for the life of the process, so worked out once here instead
+        # of on every question for every one of the 3,319 sections.
+        self._retrievable: List[bool] = [
+            _heading_key(chunk.heading_vi) not in _META_HEADINGS for chunk in self.chunks
+        ]
+        self._presentation: List[float] = [
+            _presentation_weight(chunk) for chunk in self.chunks
+        ]
+        self._prose: Dict[Optional[str], List[int]] = {None: []}
+        self._system: List[int] = []
+        self._describing: Dict[Optional[str], List[int]] = {None: []}
+        for position, chunk in enumerate(self.chunks):
+            if not self._retrievable[position]:
+                continue
+            if chunk.doc_type in ("fault", "device"):
+                self._prose[None].append(position)
+                if chunk.device_type is not None:
+                    self._prose.setdefault(chunk.device_type, []).append(position)
+                if (
+                    chunk.fault_code
+                    and chunk.device_type is not None
+                    and _heading_key(chunk.heading_vi) in _DESCRIBING_HEADINGS
+                ):
+                    self._describing[None].append(position)
+                    self._describing.setdefault(chunk.device_type, []).append(position)
+            elif chunk.doc_type == "system":
+                self._system.append(position)
 
         total = max(len(self.chunks), 1)
         self._avg_length = (sum(self._length) / total) or 1.0
@@ -252,10 +315,42 @@ class _CorpusIndex:
         return _heading_key(chunk.heading_vi) not in _META_HEADINGS
 
     def presentation_weight(self, chunk: Chunk) -> float:
-        key = _heading_key(chunk.heading_vi)
-        if key.startswith("khach noi the nao") or key.startswith("khach go khong dau"):
-            return _PHRASING_PENALTY
-        return 1.0
+        return _presentation_weight(chunk)
+
+    def prose_positions(self, device_type: Optional[str]) -> List[int]:
+        """Retrievable fault and device sections, in corpus order, for one
+        appliance or for all of them."""
+        return self._prose.get(device_type, [])
+
+    def system_positions(self) -> List[int]:
+        """Retrievable sections of the business layer, in corpus order."""
+        return self._system
+
+    def presentation_at(self, position: int) -> float:
+        return self._presentation[position]
+
+    def fault_evidence(
+        self, query_tokens: Sequence[str], device_type: Optional[str]
+    ) -> Dict[str, float]:
+        """For each fault, how well the sections describing it cover the words.
+
+        The best section per fault, by the same BM25 as `corpus_passages`."""
+        best: Dict[str, float] = {}
+        if not query_tokens:
+            return best
+        for position in self._describing.get(device_type, []):
+            code = self.chunks[position].fault_code
+            value = self.score(position, query_tokens)
+            if value > best.get(code, 0.0):
+                best[code] = value
+        return best
+
+
+def _presentation_weight(chunk: Chunk) -> float:
+    key = _heading_key(chunk.heading_vi)
+    if key.startswith("khach noi the nao") or key.startswith("khach go khong dau"):
+        return _PHRASING_PENALTY
+    return 1.0
 
 
 @lru_cache(maxsize=1)
@@ -263,8 +358,13 @@ def _corpus_index() -> _CorpusIndex:
     return _CorpusIndex(get_corpus())
 
 
+@lru_cache(maxsize=4096)
+def _target_words(target: str) -> frozenset:
+    return frozenset(_content_tokens(_normalize(target)))
+
+
 def _overlap_score(query_tokens: List[str], target: str) -> float:
-    target_tokens = set(_content_tokens(_normalize(target)))
+    target_tokens = _target_words(target)
     query_tokens = _content_tokens(query_tokens)
     if not target_tokens or not query_tokens:
         return 0.0
@@ -464,6 +564,19 @@ class _SymptomIndex:
             for token in seen:
                 self._df[token] = self._df.get(token, 0) + 1
         self._total = max(len(faults), 1)
+        self._faults: Dict[str, "_FaultTokens"] = {}
+
+    def _tokens_of(self, fault: Fault) -> "_FaultTokens":
+        """A fault's symptom words in every form scoring needs, built once.
+
+        The symptom lists never change while the service runs, and folding
+        them again for each fault on each question was most of the cost of a
+        shortlist."""
+        found = self._faults.get(fault.fault_code)
+        if found is None or found.symptoms_vi is not fault.symptoms_vi:
+            found = _FaultTokens.of(fault)
+            self._faults[fault.fault_code] = found
+        return found
 
     def weight(self, token: str) -> float:
         """Zero for a word no symptom list uses.
@@ -489,14 +602,14 @@ class _SymptomIndex:
         blocked toilet is one of the faults that has to warn before it answers.
         """
         tokens = list(query_tokens)
-        symptoms = _symptom_tokens(fault)
+        cached = self._tokens_of(fault)
         if all(token in _STOPWORDS for token in tokens):
             # Rarity can judge filler words on its own. A word common enough to
             # be filler is common enough across the symptom lists to weigh
             # almost nothing, so the rare one in the message decides.
-            query, target = tokens, set(symptoms)
+            query, target = tokens, cached.all_words
         else:
-            query, target = _content_tokens(tokens), set(_content_tokens(symptoms))
+            query, target = _content_tokens(tokens), cached.content_words
         query = query + [t for t in _with_negations(tokens)[len(tokens):] if t not in query]
         weights = {t: self.weight(t) for t in set(query)}
         total = sum(weights.values())
@@ -510,8 +623,7 @@ class _SymptomIndex:
         plain = [t for t in query if "_" not in t]
         return min(
             1.0,
-            covered
-            + _PHRASE_BONUS * _phrase_overlap(plain, _normalize(" ".join(fault.symptoms_vi))),
+            covered + _PHRASE_BONUS * _phrase_overlap(plain, cached.joined),
         )
 
     def phrase_overlap(self, query_tokens: Iterable[str], fault: Fault) -> float:
@@ -530,9 +642,9 @@ class _SymptomIndex:
         cost two safety warnings.
         """
         tokens = list(query_tokens)
-        symptoms = _normalize(" ".join(fault.symptoms_vi))
+        cached = self._tokens_of(fault)
         if all(t in _STOPWORDS for t in tokens):
-            return _phrase_overlap(tokens, symptoms)
+            return _phrase_overlap(tokens, cached.joined)
         # Both sides filtered, which the bonus inside score() does not do: it
         # compares the query with filler removed against symptoms with filler
         # left in. "Bep tu khong tat duoc" becomes the pair (tu, tat) on one
@@ -540,7 +652,30 @@ class _SymptomIndex:
         # (tu, khong), (khong, tat) on the other, so a word-for-word match
         # measures zero overlap. Correcting it inside score() would move every
         # score; here it only orders faults that already tied.
-        return _phrase_overlap(_content_tokens(tokens), _content_tokens(symptoms))
+        return _phrase_overlap(_content_tokens(tokens), cached.joined_content)
+
+
+@dataclass(frozen=True)
+class _FaultTokens:
+    """One fault's symptom list, folded every way the scorer reads it."""
+
+    symptoms_vi: Sequence[str]
+    all_words: frozenset
+    content_words: frozenset
+    joined: Tuple[str, ...]
+    joined_content: Tuple[str, ...]
+
+    @classmethod
+    def of(cls, fault: Fault) -> "_FaultTokens":
+        symptoms = _symptom_tokens(fault)
+        joined = _normalize(" ".join(fault.symptoms_vi))
+        return cls(
+            symptoms_vi=fault.symptoms_vi,
+            all_words=frozenset(symptoms),
+            content_words=frozenset(_content_tokens(symptoms)),
+            joined=tuple(joined),
+            joined_content=tuple(_content_tokens(joined)),
+        )
 
 
 def _device_alias_tokens(question: str, kb: KnowledgeBase) -> List[str]:
@@ -562,10 +697,76 @@ def _device_alias_tokens(question: str, kb: KnowledgeBase) -> List[str]:
     return extra
 
 
+_SUPPLIES = frozenset({"dien", "nuoc", "nong", "lanh", "gas", "ga", "khi", "lua", "gio"})
+
+
+@dataclass(frozen=True)
+class _Learned:
+    """A fault's learned phrasings, shaped like a fault for `_SymptomIndex`."""
+
+    fault_code: str
+    symptoms_vi: Tuple[str, ...]
+
+
+@lru_cache(maxsize=1)
+def load_phrasebook() -> Dict[str, Tuple[str, ...]]:
+    """`learned_phrasings.json`: how customers have described each fault.
+
+    Kept apart from `symptoms_vi` on purpose. The symptom lists are the team's
+    curated vocabulary and every threshold in this file was measured against
+    them; the phrasebook is what the service has since learned customers
+    actually type, and it grows. Mixing the two would move every rarity weight
+    each time a phrase is added. Read once at start-up, so adding phrasings is
+    an edit and a restart, never a retraining."""
+    path = DATA_DIR / "learned_phrasings.json"
+    if not path.exists():
+        return {}
+    data = json.loads(path.read_text(encoding="utf-8"))
+    return {
+        code: tuple(p for p in phrases if p and p.strip())
+        for code, phrases in data.get("faults", {}).items()
+    }
+
+
 class Retriever:
-    def __init__(self, kb: KnowledgeBase) -> None:
+    def __init__(
+        self, kb: KnowledgeBase, phrasebook: Optional[Dict[str, Sequence[str]]] = None
+    ) -> None:
         self._kb = kb
         self._symptom_indexes: Dict[Optional[str], _SymptomIndex] = {}
+        self._phrasebook = load_phrasebook() if phrasebook is None else phrasebook
+        self._learned_indexes: Dict[Optional[str], Tuple[_SymptomIndex, List[_Learned]]] = {}
+        self._name_tokens: Dict[str, List[Tuple[str, ...]]] = {}
+        self._vocabularies: Dict[Optional[str], frozenset] = {}
+        self._name_only: Dict[str, frozenset] = {}
+
+    def _learned_index(self, device_type: Optional[str]) -> Tuple[_SymptomIndex, List[_Learned]]:
+        """Rarity over one appliance's learned phrasings, built on first use."""
+        if device_type not in self._learned_indexes:
+            pool = (
+                self._kb.faults_for_device(device_type)
+                if device_type
+                else [f for d in self._kb.device_types for f in self._kb.faults_for_device(d)]
+            )
+            learned = [
+                _Learned(f.fault_code, tuple(self._phrasebook[f.fault_code]))
+                for f in pool
+                if self._phrasebook.get(f.fault_code)
+            ]
+            self._learned_indexes[device_type] = (_SymptomIndex(learned), learned)
+        return self._learned_indexes[device_type]
+
+    def _learned_evidence(self, tokens: Sequence[str], device_type: Optional[str]) -> Dict[str, float]:
+        """How much of the message each fault's learned phrasings cover, 0..1."""
+        if settings.RETRIEVAL_LEARNED_WEIGHT <= 0.0 or not self._phrasebook:
+            return {}
+        index, learned = self._learned_index(device_type)
+        out: Dict[str, float] = {}
+        for entry in learned:
+            value = index.score(tokens, entry)
+            if value > 0.0:
+                out[entry.fault_code] = value
+        return out
 
     def _symptom_index(self, device_type: Optional[str]) -> _SymptomIndex:
         """Built once per appliance, on first use.
@@ -623,23 +824,158 @@ class Retriever:
         # settles that with no list of words to delete, which an earlier fix had
         # needed and which had quietly deleted "nuoc" from plumbing messages.
         index = self._symptom_index(device_type)
-        scored = [
-            ScoredFault(
-                fault=f, score=index.score(tokens, f) * factors.get(f.fault_code, 1.0)
-            )
-            for f in pool
-            if f.fault_code not in excluded
-        ]
+        # The appliance's own name is in every one of its sections, and the
+        # written corpus weighs words by how rare they are across all
+        # appliances, where "quạt" is rare. Left in, the name outvoted the
+        # symptom: "quạt điện quạt chỉ chạy số 3" ranked a damaged cord first.
+        about = self._without_device_name(tokens, device_type)
+        evidence = self._written_evidence(about, device_type)
+        learned = self._learned_evidence(about, device_type)
+        written_weight = settings.RETRIEVAL_WRITTEN_WEIGHT
+        learned_weight = settings.RETRIEVAL_LEARNED_WEIGHT
+        raw: Dict[str, float] = {}
+        scored = []
+        kept = [f for f in pool if f.fault_code not in excluded]
+        base = {f.fault_code: index.score(tokens, f) for f in kept}
+        gate = 1.0
+        if (evidence or learned) and settings.RETRIEVAL_EVIDENCE_GATE > 0.0 and base:
+            gate = max(settings.RETRIEVAL_EVIDENCE_GATE_FLOOR, 1.0 - settings.RETRIEVAL_EVIDENCE_GATE * max(base.values()))
+        for f in kept:
+            code = f.fault_code
+            value = base[code]
+            if evidence:
+                value += gate * written_weight * evidence.get(code, 0.0)
+            if learned:
+                value += gate * learned_weight * learned.get(code, 0.0)
+            value *= factors.get(code, 1.0)
+            raw[code] = value
+            # The new evidence decides the order, and only the order. The score
+            # handed on keeps meaning what every threshold downstream was
+            # measured against: how well the curated symptom list matched.
+            # Adding evidence to it moved the second fault up behind a perfect
+            # match and turned "ổ cắm không lên" from an answer into a question.
+            # A fault only the new evidence found had no score before and was
+            # dropped; it now enters the shortlist, held below anything that
+            # could decide without asking.
+            if base[code] > 0.0 or not (evidence or learned):
+                shown = base[code] * factors.get(code, 1.0)
+            else:
+                shown = min(settings.RETRIEVAL_EVIDENCE_ONLY_CAP, value)
+            scored.append(ScoredFault(fault=f, score=shown))
         # Equal scores were left in the order the JSON file happens to list
         # them. Saying it the way the symptom list says it decides instead.
         scored.sort(
-            key=lambda s: (s.score, index.phrase_overlap(tokens, s.fault)),
+            key=lambda s: (
+                raw[s.fault.fault_code],
+                learned.get(s.fault.fault_code, 0.0),
+                evidence.get(s.fault.fault_code, 0.0),
+                index.phrase_overlap(tokens, s.fault),
+            ),
             reverse=True,
         )
         # Drop zero-overlap faults. Handing the VLM every fault of a device
         # whenever the description says nothing useful invites a confident
         # guess; an empty shortlist correctly ends in a clarification instead.
         return [s for s in scored[:top_k] if s.score > 0.0]
+
+    def names_a_symptom_pair(
+        self, text: str, device_type: Optional[str], ignore: Iterable[str] = ()
+    ) -> bool:
+        """Whether "không X" in the text is a complaint some symptom list makes."""
+        vocabulary = self.symptom_vocabulary(device_type)
+        skip = {f"khong_{w}" for w in ignore}
+        tokens = _normalize(text)
+        return any(
+            pair in vocabulary and pair not in skip
+            for pair in _with_negations(tokens)[len(tokens):]
+        )
+
+    def name_only_words(self, device_type: str) -> frozenset:
+        """Words that only ever name this appliance and never describe a fault.
+
+        Every word of its names, minus the words its symptom lists use once the
+        names are taken out of them: "khóa vân tay" is all name, but "nghẹt"
+        in the alias "nghẹt bồn cầu" is also how a blocked toilet is reported
+        ("bồn cầu bị nghẹt") and stays a symptom word."""
+        cached = self._name_only.get(device_type)
+        if cached is None:
+            names = {w for form in self._device_name_tokens(device_type) for w in form}
+            described: set = set()
+            for fault in self._kb.faults_for_device(device_type):
+                for phrase in fault.symptoms_vi:
+                    described.update(self._without_device_name(_normalize(phrase), device_type))
+            # What a missing supply is called is never just a name: "ổ cắm không
+            # có điện", "máy lọc không ra nước", "bếp không lên gas".
+            cached = frozenset(names - described - _SUPPLIES)
+            self._name_only[device_type] = cached
+        return cached
+
+    def symptom_vocabulary(self, device_type: Optional[str]) -> frozenset:
+        """Words that describe something wrong with this appliance.
+
+        Every word of its curated symptom lists and of its learned phrasings,
+        minus filler. "Dạo này hơi lạ" shares none of them with any appliance;
+        "kêu rè rè", "không lên đèn" do."""
+        cached = self._vocabularies.get(device_type)
+        if cached is None:
+            pool = (
+                self._kb.faults_for_device(device_type)
+                if device_type
+                else [f for d in self._kb.device_types for f in self._kb.faults_for_device(d)]
+            )
+            words: set = set()
+            for fault in pool:
+                for phrase in list(fault.symptoms_vi) + list(self._phrasebook.get(fault.fault_code, ())):
+                    tokens = _normalize(phrase)
+                    words.update(_with_negations(tokens))
+            # "không lên" is two filler words and one complaint: the pair is kept.
+            cached = frozenset(w for w in words if w not in _STOPWORDS)
+            self._vocabularies[device_type] = cached
+        return cached
+
+    def _without_device_name(self, tokens: Sequence[str], device_type: Optional[str]) -> List[str]:
+        """The message with every naming of the appliance taken out."""
+        out = list(tokens)
+        if not device_type:
+            return out
+        names = self._device_name_tokens(device_type)
+        i = 0
+        kept: List[str] = []
+        while i < len(out):
+            for name in names:
+                if tuple(out[i : i + len(name)]) == name:
+                    i += len(name)
+                    break
+            else:
+                kept.append(out[i])
+                i += 1
+        return kept or out
+
+    def _device_name_tokens(self, device_type: str) -> List[Tuple[str, ...]]:
+        cached = self._name_tokens.get(device_type)
+        if cached is None:
+            forms = list(self._kb.aliases_vi(device_type))
+            name = self._kb.device_name_vi(device_type)
+            if name:
+                forms.append(name)
+            cached = sorted(
+                {tuple(_normalize(form)) for form in forms if _normalize(form)},
+                key=len,
+                reverse=True,
+            )
+            self._name_tokens[device_type] = cached
+        return cached
+
+    def _written_evidence(
+        self, tokens: Sequence[str], device_type: Optional[str]
+    ) -> Dict[str, float]:
+        """How strongly each fault's own customer-language sections match, 0..1."""
+        if settings.RETRIEVAL_WRITTEN_WEIGHT <= 0.0:
+            return {}
+        raw = _corpus_index().fault_evidence(_content_tokens(list(tokens)), device_type)
+        floor = settings.RETRIEVAL_WRITTEN_FLOOR
+        cap = settings.RETRIEVAL_WRITTEN_CAP
+        return {code: min(1.0, value / cap) for code, value in raw.items() if value >= floor}
 
     def content_words(self, text: str) -> int:
         """How many words carry meaning, once function words are dropped.
@@ -811,18 +1147,13 @@ class Retriever:
         seen = set(exclude)
         banned = set(ruled_out)
         scored: List[ScoredChunk] = []
-        for position, chunk in enumerate(index.chunks):
-            if chunk.doc_type not in ("fault", "device"):
-                continue
-            if device_type and chunk.device_type != device_type:
-                continue
-            if not index.is_retrievable(chunk):
-                continue
-            if f"{chunk.source_file}::{chunk.heading_vi}" in seen:
+        for position in index.prose_positions(device_type or None):
+            chunk = index.chunks[position]
+            if seen and f"{chunk.source_file}::{chunk.heading_vi}" in seen:
                 continue
             if chunk.fault_code and chunk.fault_code in banned:
                 continue
-            score = index.score(position, tokens) * index.presentation_weight(chunk)
+            score = index.score(position, tokens) * index.presentation_at(position)
             if chunk.fault_code and chunk.fault_code in wanted:
                 score *= _FAULT_MATCH_WEIGHT
             scored.append(ScoredChunk(chunk=chunk, score=score))
@@ -851,9 +1182,8 @@ class Retriever:
 
         index = _corpus_index()
         scored = [
-            ScoredChunk(chunk=chunk, score=index.score(position, tokens))
-            for position, chunk in enumerate(index.chunks)
-            if chunk.doc_type == "system" and index.is_retrievable(chunk)
+            ScoredChunk(chunk=index.chunks[position], score=index.score(position, tokens))
+            for position in index.system_positions()
         ]
         scored.sort(key=lambda s: (-s.score, s.chunk.source_file, s.chunk.heading_vi))
         return [s for s in scored[:top_k] if s.score >= threshold]

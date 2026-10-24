@@ -17,9 +17,12 @@ feel like it is not listening.
 
 from __future__ import annotations
 
+import json
 import re
 import unicodedata
 from dataclasses import dataclass
+from pathlib import Path
+from functools import lru_cache
 from typing import List, Optional, Sequence
 
 from app.services.pipeline.knowledge_base import KnowledgeBase
@@ -32,6 +35,7 @@ class DeviceHint:
     """The words that produced this, so a log shows why rather than just what."""
 
 
+@lru_cache(maxsize=65536)
 def _fold(text: str) -> str:
     lowered = unicodedata.normalize("NFD", text.lower())
     stripped = "".join(c for c in lowered if unicodedata.category(c) != "Mn")
@@ -107,6 +111,7 @@ def _overlaps_a_disqualifier(device_type: str, folded: str, alias: str) -> bool:
     return False
 
 
+@lru_cache(maxsize=16384)
 def _folded_words(folded: str) -> str:
     """The folded text reduced to space-separated words, padded at both ends."""
     return " " + " ".join(re.findall(r"[a-z0-9]+", folded)) + " "
@@ -162,7 +167,118 @@ def devices_named_in(description: str, kb: KnowledgeBase) -> List[DeviceHint]:
         hits.append(DeviceHint(device_type=device_type, matched_alias=best))
 
     hits.sort(key=lambda h: -len(h.matched_alias))
+    if not hits:
+        # Nothing on the alias list. People also say "tủ Toshiba", "con
+        # Daikin", "máy giặc": the brand or a slip of the keyboard, not a
+        # missing word. Tried only now, so no alias match is ever overruled.
+        hits = _by_brand(folded, kb) or _misspelt(folded, kb)
     return hits
+
+
+_NAMING_PATH = Path(__file__).resolve().parents[2] / "data" / "device_naming.json"
+_CLASSIFIERS = ("con", "cai", "chiec", "may", "bo", "cay")
+
+
+@lru_cache(maxsize=1)
+def _naming() -> dict:
+    if not _NAMING_PATH.exists():
+        return {"brands": {}, "heads": {}, "cues": {}}
+    data = json.loads(_NAMING_PATH.read_text(encoding="utf-8"))
+    return {
+        key: {tuple(k.split()): tuple(v) for k, v in data.get(key, {}).items()}
+        for key in ("brands", "heads", "cues")
+    }
+
+
+def _spans(tokens: List[str], phrase: tuple) -> List[int]:
+    n = len(phrase)
+    return [i for i in range(len(tokens) - n + 1) if tuple(tokens[i : i + n]) == phrase]
+
+
+def _by_brand(folded: str, kb: KnowledgeBase) -> List[DeviceHint]:
+    """The appliance a brand names, once the words around it leave only one.
+
+    "Con Daikin" is an air conditioner: Daikin makes nothing else we repair.
+    "Tủ Toshiba" is a fridge, because "tủ" is said only of the fridge among
+    the appliances Toshiba makes. "Con Electrolux cửa trước" is a washing
+    machine. "Cái Panasonic" stays unknown and the customer is asked, since
+    Panasonic makes ten of them."""
+    naming = _naming()
+    tokens = _folded_words(folded).split()
+    known = set(kb.device_types)
+    found: List[DeviceHint] = []
+    for brand, makes in naming["brands"].items():
+        for at in _spans(tokens, brand):
+            candidates = [d for d in makes if d in known]
+            start = at
+            # The word naming the kind of thing comes just before the brand:
+            # "tủ Toshiba", "bếp từ Bosch", "cái quạt Mitsubishi".
+            best_head: Optional[tuple] = None
+            for head in naming["heads"]:
+                for h in _spans(tokens[max(0, at - 4) : at], head):
+                    end = max(0, at - 4) + h + len(head)
+                    if end <= at and (best_head is None or len(head) > len(best_head)):
+                        best_head, start = head, max(0, at - 4) + h
+            if best_head is not None:
+                narrowed = [d for d in candidates if d in naming["heads"][best_head]]
+                candidates = narrowed or candidates
+            if len(candidates) > 1:
+                rest = tokens[:start] + tokens[at + len(brand) :]
+                for cue, points_to in naming["cues"].items():
+                    if _spans(rest, cue):
+                        narrowed = [d for d in candidates if d in points_to]
+                        candidates = narrowed or candidates
+            if len(candidates) == 1:
+                found.append(
+                    DeviceHint(device_type=candidates[0], matched_alias=" ".join(tokens[start : at + len(brand)]))
+                )
+    devices = {h.device_type for h in found}
+    return found if len(devices) == 1 else []
+
+
+def _one_edit(a: str, b: str) -> int:
+    """Edit distance between two short words, stopping once past one."""
+    if a == b:
+        return 0
+    if abs(len(a) - len(b)) > 1:
+        return 2
+    previous = list(range(len(b) + 1))
+    for i, ca in enumerate(a, 1):
+        current = [i]
+        for j, cb in enumerate(b, 1):
+            current.append(min(previous[j] + 1, current[j - 1] + 1, previous[j - 1] + (ca != cb)))
+        previous = current
+    return previous[-1]
+
+
+def _misspelt(folded: str, kb: KnowledgeBase) -> List[DeviceHint]:
+    """An alias typed with one letter wrong: "máy giặc", "đìu hòa", "bồn càu".
+
+    Only aliases of two words or more and six letters or more, only with the
+    first letter right, and only when every such near miss points at the same
+    appliance. A one-letter slip in a short word is a different word too often
+    to guess at."""
+    tokens = _folded_words(folded).split()
+    devices = set()
+    hits: List[DeviceHint] = []
+    for device_type in kb.device_types:
+        for alias in kb.aliases_vi(device_type):
+            words = _fold(alias).split()
+            if len(words) < 2 or sum(len(w) for w in words) < 6:
+                continue
+            n = len(words)
+            for i in range(len(tokens) - n + 1):
+                window = tokens[i : i + n]
+                if window[0][:1] != words[0][:1]:
+                    continue
+                edits = [(_one_edit(x, y), y) for x, y in zip(window, words)]
+                # The slip has to be in a word long enough to keep its identity:
+                # "quạt gắn" is one letter from "quạt bàn" and means a ceiling.
+                if sum(e for e, _ in edits) == 1 and all(len(y) >= 4 for e, y in edits if e):
+                    devices.add(device_type)
+                    hits.append(DeviceHint(device_type=device_type, matched_alias=" ".join(window)))
+                    break
+    return hits[:1] if len(devices) == 1 else []
 
 
 def resolve(
