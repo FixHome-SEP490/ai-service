@@ -1,6 +1,6 @@
 # Context repo ai-service — FixHome
 
-> Cập nhật lần cuối: 2026-10-25 00:10 (UTC+7) · Người cập nhật (git): ToanAltF4 · Nhánh: feat/catalog-v3-multi-device
+> Cập nhật lần cuối: 2026-10-25 00:23 (UTC+7) · Người cập nhật (git): ToanAltF4 · Nhánh: fix/named-appliance-leads
 
 ## 0. Quy tắc cập nhật file này (bắt buộc)
 
@@ -179,6 +179,7 @@ Ngoài ra có `POST /api/v1/diagnosis/analyze-upload` (multipart), `GET /api/v1/
 
 ## 9. Nhật ký cập nhật context
 
+- 2026-10-25 00:23 (UTC+7) | ToanAltF4 | fix/named-appliance-leads | Nhiều ảnh: thiết bị khách nói tới dẫn đầu kể cả khi không ảnh nào chụp nó, các thiết bị trong ảnh chờ xem tiếp; thêm tools/eval_multi_device.py (đo trên detector thật: dẫn đầu đúng 44/60 -> 57/60)
 - 2026-10-25 00:10 (UTC+7) | ToanAltF4 | feat/catalog-v3-multi-device | V12: danh mục dịch vụ V2/V3 (mã AC-01..., snapshot service_catalog.json, giá S+P, bỏ KIEM_TRA, dịch vụ chưa mở thì báo chưa nhận); nhận diện tối đa 3 ảnh/3 thiết bị, response.devices[] + mỗi thiết bị 1 dịch vụ; lời nói theo từng thiết bị; tài liệu RAG theo luồng đặt lịch mới
 - 2026-10-24 23:11 (UTC+7) | ToanAltF4 | feat/rag-v11 | Hiểu cùng một lỗi dù nói kiểu gì (bằng chứng từ mục lời khách và câu tả đã học, lời đưa đẩy, tên hãng, câu mơ hồ), danh mục dịch vụ đọc từ backend, CPU mỗi lượt nhanh 15 lần, chạy kiểm tra hằng đêm
 - 2026-10-16 17:47 (UTC+7) | ToanAltF4 | fix/confidence-cap | Độ tin cậy luôn trong 0..1, hết lỗi 503 khi điểm truy hồi được nhân vượt 1
