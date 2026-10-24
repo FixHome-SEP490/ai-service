@@ -220,3 +220,23 @@ def test_what_was_said_about_one_appliance_is_not_searched_for_another():
     assert "không mát" not in chat.device_text()
     assert "kêu to" in chat.device_text()
     assert all(f.fault_code.startswith("FRIDGE") for f in after.suspected_faults)
+
+
+def test_the_appliance_named_leads_even_when_no_photograph_shows_it():
+    """"Máy lạnh không mát" with a photograph the detector cannot read and one
+    of the washing machine used to be answered about the washing machine alone;
+    the air conditioner the customer was talking about vanished."""
+    reply = _run(
+        _pipeline(),
+        description="máy lạnh nhà em không mát",
+        images=[_blank(), _photo("washing_machine")],
+    )
+    assert [d.device_type for d in reply.devices] == ["air_conditioner", "washing_machine"]
+    assert reply.devices[0].is_primary and reply.devices[0].image_index is None
+    assert reply.devices[1].image_index == 1
+    assert [s.service_code for s in reply.recommended_services][1:] == ["WM-01"]
+
+
+def test_one_photograph_still_decides_with_the_words_as_before():
+    reply = _run(_pipeline(), description="máy lạnh nhà em không mát", images=[_photo("washing_machine")])
+    assert reply.devices == [] or reply.devices[0].is_primary

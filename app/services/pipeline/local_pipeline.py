@@ -2792,7 +2792,16 @@ class LocalPipeline:
         if not seen:
             return None
         named = _device_named_in(description, self._kb)
-        lead = next((d for _, d in seen if d.device_type == named), seen[0][1])
+        lead = next((d for _, d in seen if d.device_type == named), None)
+        if lead is None and not (named and len(images) > 1):
+            lead = seen[0][1]
+        # With several photographs and an appliance named that none of them
+        # shows, the words lead and every photographed appliance waits its
+        # turn. Taking the first photograph instead answered "máy lạnh không
+        # mát" about the fan in the second picture, and the air conditioner the
+        # customer was talking about was not in the reply at all. One photograph
+        # keeps the old rule: it is the appliance in question, and the words
+        # and the detector are reconciled by device_hint.resolve as before.
         by_device: dict = {}
         for index, d in seen:
             by_device.setdefault(d.device_type, (index, d))
@@ -2801,7 +2810,7 @@ class LocalPipeline:
             memo = chat.memo.setdefault(d.device_type, {})
             memo["image_index"] = index
             memo["confidence"] = d.confidence
-            if d.device_type == lead.device_type or d.device_type == chat.device_type:
+            if (lead is not None and d.device_type == lead.device_type) or d.device_type == chat.device_type:
                 continue
             if d.device_type not in chat.queued:
                 chat.queued[d.device_type] = memo.get("text", "")
