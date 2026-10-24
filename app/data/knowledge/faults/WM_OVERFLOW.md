@@ -500,8 +500,7 @@ Hãng và độ sẵn có của linh kiện.
 Có phải lắp thêm van khoá cho đường nước không. Đây là hạng mục nhỏ nhưng đáng
 làm.
 
-Vì phạm vi chỉ biết được sau khi mở ra, ca này gắn với công kiểm tra tại nhà
-trước, rồi báo giá phần việc sau.
+Vì phạm vi chỉ biết được sau khi mở ra, ca này đặt theo dịch vụ "Sửa máy giặt": thợ kiểm tra tại nhà trước, rồi báo giá phần việc sau.
 
 ## Nghiệm thu sau khi sửa
 

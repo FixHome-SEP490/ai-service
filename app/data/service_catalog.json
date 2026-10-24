@@ -1,0 +1,1146 @@
+{
+ "version": "2026-10-24",
+ "_comment_vi": "Danh mục dịch vụ của backend (catalog V2/V3), sinh bởi tools/sync_catalog_v3.py từ mã nguồn backend. active = backend đang mở. Giá là tiền công, chưa gồm linh kiện.",
+ "services": [
+  {
+   "code": "AC-01",
+   "name_vi": "Sửa điều hòa",
+   "category_code": "CAT_AC",
+   "category_vi": "Điều hòa",
+   "phase": "M1",
+   "pricing": "inspection",
+   "kind": "repair",
+   "reference_text_vi": "200–250k tham khảo",
+   "variants": [],
+   "type_refs": [
+    {
+     "condition_vi": "Treo tường",
+     "price_vnd": 249000
+    },
+    {
+     "condition_vi": "Âm trần, tủ đứng",
+     "price_vnd": 449000
+    }
+   ],
+   "reference_vnd": 249000,
+   "active": true,
+   "device_types": [
+    "air_conditioner"
+   ],
+   "price_min_vnd": 249000,
+   "price_max_vnd": 449000
+  },
+  {
+   "code": "AC-02",
+   "name_vi": "Vệ sinh điều hòa",
+   "category_code": "CAT_AC",
+   "category_vi": "Điều hòa",
+   "phase": "M1",
+   "pricing": "fixed",
+   "kind": "clean",
+   "reference_text_vi": "190–220k treo tường; 400–500k âm trần",
+   "variants": [
+    {
+     "code": "AC-02-01",
+     "condition_vi": "Treo tường <=1.5 HP",
+     "price_vnd": 199000
+    },
+    {
+     "code": "AC-02-02",
+     "condition_vi": "Treo tường 2–2.5 HP",
+     "price_vnd": 219000
+    },
+    {
+     "code": "AC-02-03",
+     "condition_vi": "Âm trần cassette tiêu chuẩn",
+     "price_vnd": 449000
+    },
+    {
+     "code": "AC-02-31",
+     "condition_vi": "Điều hòa tủ đứng",
+     "price_vnd": 449000
+    }
+   ],
+   "type_refs": [],
+   "reference_vnd": null,
+   "active": true,
+   "device_types": [
+    "air_conditioner"
+   ],
+   "price_min_vnd": 199000,
+   "price_max_vnd": 449000
+  },
+  {
+   "code": "AC-03",
+   "name_vi": "Lắp đặt điều hòa",
+   "category_code": "CAT_AC",
+   "category_vi": "Điều hòa",
+   "phase": "M1",
+   "pricing": "fixed",
+   "kind": "install",
+   "reference_text_vi": "400–500k/bộ chuẩn",
+   "variants": [
+    {
+     "code": "AC-03-04",
+     "condition_vi": "Lắp điều hòa treo tường chuẩn",
+     "price_vnd": 449000
+    }
+   ],
+   "type_refs": [],
+   "reference_vnd": null,
+   "active": true,
+   "device_types": [
+    "air_conditioner"
+   ],
+   "price_min_vnd": 449000,
+   "price_max_vnd": 449000
+  },
+  {
+   "code": "AC-04",
+   "name_vi": "Tháo hoặc di dời điều hòa",
+   "category_code": "CAT_AC",
+   "category_vi": "Điều hòa",
+   "phase": "M2",
+   "pricing": "inspection",
+   "kind": "install",
+   "reference_text_vi": "Từ 550k tham khảo; khảo sát",
+   "variants": [],
+   "type_refs": [],
+   "reference_vnd": 699000,
+   "active": true,
+   "device_types": [
+    "air_conditioner"
+   ],
+   "price_min_vnd": 699000,
+   "price_max_vnd": 699000
+  },
+  {
+   "code": "EL-01",
+   "name_vi": "Sửa sự cố điện dân dụng",
+   "category_code": "CAT_ELECTRIC",
+   "category_vi": "Điện dân dụng",
+   "phase": "M1",
+   "pricing": "inspection",
+   "kind": "repair",
+   "reference_text_vi": "200–300k công tham khảo",
+   "variants": [],
+   "type_refs": [],
+   "reference_vnd": 249000,
+   "active": true,
+   "device_types": [
+    "power_outlet",
+    "light_bulb"
+   ],
+   "price_min_vnd": 249000,
+   "price_max_vnd": 249000
+  },
+  {
+   "code": "EL-02",
+   "name_vi": "Lắp hoặc thay thiết bị điện",
+   "category_code": "CAT_ELECTRIC",
+   "category_vi": "Điện dân dụng",
+   "phase": "M1",
+   "pricing": "fixed",
+   "kind": "install",
+   "reference_text_vi": "100–150k/điểm tiêu chuẩn + P",
+   "variants": [
+    {
+     "code": "EL-02-17",
+     "condition_vi": "Thay công tắc ổ cắm CB 1 điểm",
+     "price_vnd": 119000
+    }
+   ],
+   "type_refs": [],
+   "reference_vnd": null,
+   "active": true,
+   "device_types": [
+    "power_outlet"
+   ],
+   "price_min_vnd": 119000,
+   "price_max_vnd": 119000
+  },
+  {
+   "code": "FR-01",
+   "name_vi": "Sửa tủ lạnh",
+   "category_code": "CAT_FRIDGE",
+   "category_vi": "Tủ lạnh",
+   "phase": "M1",
+   "pricing": "inspection",
+   "kind": "repair",
+   "reference_text_vi": "200–250k tham khảo nội bộ",
+   "variants": [],
+   "type_refs": [
+    {
+     "condition_vi": "Tủ mini, 1 cửa",
+     "price_vnd": 199000
+    },
+    {
+     "condition_vi": "Tủ 2 cửa",
+     "price_vnd": 249000
+    },
+    {
+     "condition_vi": "Side-by-side, nhiều cửa",
+     "price_vnd": 399000
+    }
+   ],
+   "reference_vnd": 249000,
+   "active": true,
+   "device_types": [
+    "refrigerator"
+   ],
+   "price_min_vnd": 199000,
+   "price_max_vnd": 399000
+  },
+  {
+   "code": "FR-02",
+   "name_vi": "Vệ sinh, bảo dưỡng tủ lạnh",
+   "category_code": "CAT_FRIDGE",
+   "category_vi": "Tủ lạnh",
+   "phase": "M1",
+   "pricing": "fixed",
+   "kind": "clean",
+   "reference_text_vi": "150–300k mini; 300–400k 2 cửa; 400–600k side-by-side",
+   "variants": [
+    {
+     "code": "FR-02-43",
+     "condition_vi": "Tủ lạnh mini hoặc 1 cửa",
+     "price_vnd": 249000
+    },
+    {
+     "code": "FR-02-44",
+     "condition_vi": "Tủ lạnh 2 cửa",
+     "price_vnd": 349000
+    },
+    {
+     "code": "FR-02-45",
+     "condition_vi": "Tủ lạnh side-by-side hoặc nhiều cửa",
+     "price_vnd": 499000
+    }
+   ],
+   "type_refs": [],
+   "reference_vnd": null,
+   "active": true,
+   "device_types": [
+    "refrigerator"
+   ],
+   "price_min_vnd": 249000,
+   "price_max_vnd": 499000
+  },
+  {
+   "code": "KT-01",
+   "name_vi": "Sửa bếp từ",
+   "category_code": "CAT_KITCHEN",
+   "category_vi": "Thiết bị nhà bếp",
+   "phase": "M2",
+   "pricing": "inspection",
+   "kind": "repair",
+   "reference_text_vi": "200–250k tham khảo nội bộ",
+   "variants": [],
+   "type_refs": [
+    {
+     "condition_vi": "Bếp đơn",
+     "price_vnd": 249000
+    },
+    {
+     "condition_vi": "Bếp đôi trở lên",
+     "price_vnd": 349000
+    }
+   ],
+   "reference_vnd": 249000,
+   "active": true,
+   "device_types": [
+    "induction_hob"
+   ],
+   "price_min_vnd": 249000,
+   "price_max_vnd": 349000
+  },
+  {
+   "code": "KT-02",
+   "name_vi": "Vệ sinh máy hút mùi",
+   "category_code": "CAT_KITCHEN",
+   "category_vi": "Thiết bị nhà bếp",
+   "phase": "M2",
+   "pricing": "fixed",
+   "kind": "clean",
+   "reference_text_vi": "300–350k/máy tiêu chuẩn",
+   "variants": [
+    {
+     "code": "KT-02-16",
+     "condition_vi": "Vệ sinh máy hút mùi gia đình",
+     "price_vnd": 349000
+    }
+   ],
+   "type_refs": [],
+   "reference_vnd": null,
+   "active": true,
+   "device_types": [],
+   "price_min_vnd": 349000,
+   "price_max_vnd": 349000
+  },
+  {
+   "code": "KT-03",
+   "name_vi": "Sửa máy hút mùi",
+   "category_code": "CAT_KITCHEN",
+   "category_vi": "Thiết bị nhà bếp",
+   "phase": "M2",
+   "pricing": "inspection",
+   "kind": "repair",
+   "reference_text_vi": "180–250k tham khảo nội bộ",
+   "variants": [],
+   "type_refs": [],
+   "reference_vnd": 199000,
+   "active": true,
+   "device_types": [],
+   "price_min_vnd": 199000,
+   "price_max_vnd": 199000
+  },
+  {
+   "code": "KT-04",
+   "name_vi": "Sửa máy rửa bát",
+   "category_code": "CAT_KITCHEN",
+   "category_vi": "Thiết bị nhà bếp",
+   "phase": "LATER",
+   "pricing": "inspection",
+   "kind": "repair",
+   "reference_text_vi": "Chưa chốt; khảo sát",
+   "variants": [],
+   "type_refs": [],
+   "reference_vnd": 249000,
+   "active": false,
+   "device_types": [
+    "dishwasher"
+   ],
+   "price_min_vnd": 249000,
+   "price_max_vnd": 249000
+  },
+  {
+   "code": "KT-05",
+   "name_vi": "Sửa lò vi sóng",
+   "category_code": "CAT_KITCHEN",
+   "category_vi": "Thiết bị nhà bếp",
+   "phase": "GATE",
+   "pricing": "inspection",
+   "kind": "repair",
+   "reference_text_vi": "Chưa chốt; chỉ khi đủ năng lực",
+   "variants": [],
+   "type_refs": [],
+   "reference_vnd": 249000,
+   "active": false,
+   "device_types": [
+    "microwave_oven"
+   ],
+   "price_min_vnd": 249000,
+   "price_max_vnd": 249000
+  },
+  {
+   "code": "KT-06",
+   "name_vi": "Lắp bếp từ, bếp điện âm",
+   "category_code": "CAT_KITCHEN",
+   "category_vi": "Thiết bị nhà bếp",
+   "phase": "M2",
+   "pricing": "fixed",
+   "kind": "install",
+   "reference_text_vi": "200–300k mặt đá khoét sẵn",
+   "variants": [
+    {
+     "code": "KT-06-50",
+     "condition_vi": "Lắp bếp âm mặt đá đã khoét sẵn",
+     "price_vnd": 249000
+    }
+   ],
+   "type_refs": [],
+   "reference_vnd": null,
+   "active": true,
+   "device_types": [
+    "induction_hob"
+   ],
+   "price_min_vnd": 249000,
+   "price_max_vnd": 249000
+  },
+  {
+   "code": "KT-07",
+   "name_vi": "Sửa bếp gas",
+   "category_code": "CAT_KITCHEN",
+   "category_vi": "Thiết bị nhà bếp",
+   "phase": "M2",
+   "pricing": "inspection",
+   "kind": "repair",
+   "reference_text_vi": "150–350k công tham khảo",
+   "variants": [],
+   "type_refs": [
+    {
+     "condition_vi": "Bếp dương",
+     "price_vnd": 199000
+    },
+    {
+     "condition_vi": "Bếp âm",
+     "price_vnd": 299000
+    }
+   ],
+   "reference_vnd": 199000,
+   "active": true,
+   "device_types": [
+    "gas_stove"
+   ],
+   "price_min_vnd": 199000,
+   "price_max_vnd": 299000
+  },
+  {
+   "code": "KT-08",
+   "name_vi": "Sửa lò nướng",
+   "category_code": "CAT_KITCHEN",
+   "category_vi": "Thiết bị nhà bếp",
+   "phase": "M2",
+   "pricing": "inspection",
+   "kind": "repair",
+   "reference_text_vi": "150–450k công tham khảo",
+   "variants": [],
+   "type_refs": [
+    {
+     "condition_vi": "Lò để bàn",
+     "price_vnd": 199000
+    },
+    {
+     "condition_vi": "Lò âm tủ",
+     "price_vnd": 349000
+    }
+   ],
+   "reference_vnd": 199000,
+   "active": true,
+   "device_types": [
+    "oven"
+   ],
+   "price_min_vnd": 199000,
+   "price_max_vnd": 349000
+  },
+  {
+   "code": "KT-09",
+   "name_vi": "Sửa ấm siêu tốc, bình thủy điện",
+   "category_code": "CAT_KITCHEN",
+   "category_vi": "Thiết bị nhà bếp",
+   "phase": "M2",
+   "pricing": "inspection",
+   "kind": "repair",
+   "reference_text_vi": "100–200k công tham khảo",
+   "variants": [],
+   "type_refs": [],
+   "reference_vnd": 149000,
+   "active": true,
+   "device_types": [
+    "kettle"
+   ],
+   "price_min_vnd": 149000,
+   "price_max_vnd": 149000
+  },
+  {
+   "code": "KT-10",
+   "name_vi": "Lắp đặt máy rửa bát",
+   "category_code": "CAT_KITCHEN",
+   "category_vi": "Thiết bị nhà bếp",
+   "phase": "LATER",
+   "pricing": "fixed",
+   "kind": "install",
+   "reference_text_vi": "450–550k độc lập; 600–900k âm tủ",
+   "variants": [
+    {
+     "code": "KT-10-55",
+     "condition_vi": "Lắp máy rửa bát độc lập",
+     "price_vnd": 449000
+    },
+    {
+     "code": "KT-10-56",
+     "condition_vi": "Lắp máy rửa bát âm tủ",
+     "price_vnd": 749000
+    }
+   ],
+   "type_refs": [],
+   "reference_vnd": null,
+   "active": false,
+   "device_types": [
+    "dishwasher"
+   ],
+   "price_min_vnd": 449000,
+   "price_max_vnd": 749000
+  },
+  {
+   "code": "LF-01",
+   "name_vi": "Lắp hoặc thay đèn",
+   "category_code": "CAT_LIGHT_FAN",
+   "category_vi": "Đèn & quạt",
+   "phase": "M1",
+   "pricing": "fixed",
+   "kind": "install",
+   "reference_text_vi": "100–150k/bộ chuẩn + P",
+   "variants": [
+    {
+     "code": "LF-01-18",
+     "condition_vi": "Lắp thay 1 bộ đèn",
+     "price_vnd": 119000
+    }
+   ],
+   "type_refs": [],
+   "reference_vnd": null,
+   "active": true,
+   "device_types": [
+    "light_bulb"
+   ],
+   "price_min_vnd": 119000,
+   "price_max_vnd": 119000
+  },
+  {
+   "code": "LF-02",
+   "name_vi": "Lắp quạt trần hoặc quạt treo",
+   "category_code": "CAT_LIGHT_FAN",
+   "category_vi": "Đèn & quạt",
+   "phase": "M2",
+   "pricing": "fixed",
+   "kind": "install",
+   "reference_text_vi": "Treo tường 150–250k; trần 250–350k có móc chờ",
+   "variants": [
+    {
+     "code": "LF-02-19",
+     "condition_vi": "Lắp quạt treo tường",
+     "price_vnd": 199000
+    },
+    {
+     "code": "LF-02-20",
+     "condition_vi": "Lắp quạt trần có móc đạt chuẩn",
+     "price_vnd": 299000
+    }
+   ],
+   "type_refs": [],
+   "reference_vnd": null,
+   "active": true,
+   "device_types": [
+    "ceiling_fan",
+    "electric_fan"
+   ],
+   "price_min_vnd": 199000,
+   "price_max_vnd": 299000
+  },
+  {
+   "code": "LF-03",
+   "name_vi": "Sửa quạt điện",
+   "category_code": "CAT_LIGHT_FAN",
+   "category_vi": "Đèn & quạt",
+   "phase": "M2",
+   "pricing": "inspection",
+   "kind": "repair",
+   "reference_text_vi": "120–180k công tham khảo nội bộ",
+   "variants": [],
+   "type_refs": [
+    {
+     "condition_vi": "Quạt cây, bàn, treo tường",
+     "price_vnd": 149000
+    },
+    {
+     "condition_vi": "Quạt trần",
+     "price_vnd": 299000
+    }
+   ],
+   "reference_vnd": 149000,
+   "active": true,
+   "device_types": [
+    "ceiling_fan",
+    "electric_fan"
+   ],
+   "price_min_vnd": 149000,
+   "price_max_vnd": 299000
+  },
+  {
+   "code": "LK-01",
+   "name_vi": "Mở khóa khẩn cấp",
+   "category_code": "CAT_LOCK",
+   "category_vi": "Khóa cửa",
+   "phase": "GATE",
+   "pricing": "inspection",
+   "kind": "repair",
+   "reference_text_vi": "Khóa cơ từ 150k; điện tử khảo sát đến 400k",
+   "variants": [],
+   "type_refs": [],
+   "reference_vnd": 149000,
+   "active": false,
+   "device_types": [
+    "smart_lock"
+   ],
+   "price_min_vnd": 149000,
+   "price_max_vnd": 149000
+  },
+  {
+   "code": "LK-02",
+   "name_vi": "Sửa khóa cửa/khóa thông minh",
+   "category_code": "CAT_LOCK",
+   "category_vi": "Khóa cửa",
+   "phase": "M2",
+   "pricing": "inspection",
+   "kind": "repair",
+   "reference_text_vi": "180–250k công tham khảo nội bộ",
+   "variants": [],
+   "type_refs": [],
+   "reference_vnd": 199000,
+   "active": true,
+   "device_types": [
+    "smart_lock"
+   ],
+   "price_min_vnd": 199000,
+   "price_max_vnd": 199000
+  },
+  {
+   "code": "LK-03",
+   "name_vi": "Lắp khóa thông minh",
+   "category_code": "CAT_LOCK",
+   "category_vi": "Khóa cửa",
+   "phase": "M2",
+   "pricing": "fixed",
+   "kind": "install",
+   "reference_text_vi": "300–450k tiêu chuẩn tham khảo",
+   "variants": [
+    {
+     "code": "LK-03-28",
+     "condition_vi": "Lắp khóa thông minh cửa phù hợp",
+     "price_vnd": 399000
+    }
+   ],
+   "type_refs": [],
+   "reference_vnd": null,
+   "active": true,
+   "device_types": [
+    "smart_lock"
+   ],
+   "price_min_vnd": 399000,
+   "price_max_vnd": 399000
+  },
+  {
+   "code": "PI-01",
+   "name_vi": "Sửa rò rỉ hoặc sự cố đường ống nước",
+   "category_code": "CAT_PIPE",
+   "category_vi": "Đường ống nước",
+   "phase": "M1",
+   "pricing": "inspection",
+   "kind": "repair",
+   "reference_text_vi": "150–250k công tham khảo",
+   "variants": [],
+   "type_refs": [
+    {
+     "condition_vi": "Ống nổi",
+     "price_vnd": 199000
+    },
+    {
+     "condition_vi": "Ống âm tường, âm sàn",
+     "price_vnd": 499000
+    }
+   ],
+   "reference_vnd": 199000,
+   "active": true,
+   "device_types": [
+    "water_pipe"
+   ],
+   "price_min_vnd": 199000,
+   "price_max_vnd": 499000
+  },
+  {
+   "code": "RO-01",
+   "name_vi": "Sửa máy lọc nước",
+   "category_code": "CAT_RO",
+   "category_vi": "Máy lọc nước",
+   "phase": "M1",
+   "pricing": "inspection",
+   "kind": "repair",
+   "reference_text_vi": "180–250k tham khảo nội bộ",
+   "variants": [],
+   "type_refs": [],
+   "reference_vnd": 199000,
+   "active": true,
+   "device_types": [
+    "water_purifier"
+   ],
+   "price_min_vnd": 199000,
+   "price_max_vnd": 199000
+  },
+  {
+   "code": "RO-02",
+   "name_vi": "Thay lõi và bảo dưỡng máy lọc nước",
+   "category_code": "CAT_RO",
+   "category_vi": "Máy lọc nước",
+   "phase": "M1",
+   "pricing": "fixed",
+   "kind": "clean",
+   "reference_text_vi": "120–150k/lần tiêu chuẩn + P",
+   "variants": [
+    {
+     "code": "RO-02-13",
+     "condition_vi": "Bảo dưỡng + thay bộ lõi chuẩn",
+     "price_vnd": 149000
+    }
+   ],
+   "type_refs": [],
+   "reference_vnd": null,
+   "active": true,
+   "device_types": [
+    "water_purifier"
+   ],
+   "price_min_vnd": 149000,
+   "price_max_vnd": 149000
+  },
+  {
+   "code": "RO-03",
+   "name_vi": "Lắp đặt máy lọc nước",
+   "category_code": "CAT_RO",
+   "category_vi": "Máy lọc nước",
+   "phase": "M2",
+   "pricing": "fixed",
+   "kind": "install",
+   "reference_text_vi": "250k/máy tham khảo",
+   "variants": [
+    {
+     "code": "RO-03-14",
+     "condition_vi": "Lắp máy lọc nước vị trí có nguồn",
+     "price_vnd": 249000
+    }
+   ],
+   "type_refs": [],
+   "reference_vnd": null,
+   "active": true,
+   "device_types": [
+    "water_purifier"
+   ],
+   "price_min_vnd": 249000,
+   "price_max_vnd": 249000
+  },
+  {
+   "code": "SA-01",
+   "name_vi": "Sửa thiết bị vệ sinh",
+   "category_code": "CAT_SANITARY",
+   "category_vi": "Thiết bị vệ sinh & thông tắc",
+   "phase": "M1",
+   "pricing": "inspection",
+   "kind": "repair",
+   "reference_text_vi": "150–200k công tham khảo",
+   "variants": [],
+   "type_refs": [
+    {
+     "condition_vi": "Vòi, sen, chậu",
+     "price_vnd": 199000
+    },
+    {
+     "condition_vi": "Bồn cầu",
+     "price_vnd": 249000
+    }
+   ],
+   "reference_vnd": 199000,
+   "active": true,
+   "device_types": [
+    "sink",
+    "faucet",
+    "toilet"
+   ],
+   "price_min_vnd": 199000,
+   "price_max_vnd": 249000
+  },
+  {
+   "code": "SA-02",
+   "name_vi": "Lắp hoặc thay thiết bị vệ sinh",
+   "category_code": "CAT_SANITARY",
+   "category_vi": "Thiết bị vệ sinh & thông tắc",
+   "phase": "M1",
+   "pricing": "fixed",
+   "kind": "install",
+   "reference_text_vi": "Vòi/sen/siphon ~150k; lavabo ~350k; bồn cầu 450–600k",
+   "variants": [
+    {
+     "code": "SA-02-22",
+     "condition_vi": "Thay vòi sen siphon chuẩn",
+     "price_vnd": 149000
+    },
+    {
+     "code": "SA-02-23",
+     "condition_vi": "Lắp lavabo chuẩn",
+     "price_vnd": 349000
+    },
+    {
+     "code": "SA-02-24",
+     "condition_vi": "Lắp bồn cầu chuẩn",
+     "price_vnd": 549000
+    }
+   ],
+   "type_refs": [],
+   "reference_vnd": null,
+   "active": true,
+   "device_types": [
+    "sink",
+    "faucet",
+    "toilet"
+   ],
+   "price_min_vnd": 149000,
+   "price_max_vnd": 549000
+  },
+  {
+   "code": "SA-03",
+   "name_vi": "Thông tắc bồn cầu/chậu/thoát sàn",
+   "category_code": "CAT_SANITARY",
+   "category_vi": "Thiết bị vệ sinh & thông tắc",
+   "phase": "M1",
+   "pricing": "fixed",
+   "kind": "repair",
+   "reference_text_vi": "Chậu/lavabo từ 250–350k; bồn cầu từ 450–550k",
+   "variants": [
+    {
+     "code": "SA-03-25",
+     "condition_vi": "Thông tắc chậu lavabo đơn giản",
+     "price_vnd": 299000
+    },
+    {
+     "code": "SA-03-26",
+     "condition_vi": "Thông tắc bồn cầu đơn giản",
+     "price_vnd": 499000
+    },
+    {
+     "code": "SA-03-63",
+     "condition_vi": "Thông tắc thoát sàn",
+     "price_vnd": 549000
+    }
+   ],
+   "type_refs": [],
+   "reference_vnd": null,
+   "active": true,
+   "device_types": [
+    "sink",
+    "toilet",
+    "water_pipe"
+   ],
+   "price_min_vnd": 299000,
+   "price_max_vnd": 549000
+  },
+  {
+   "code": "TV-01",
+   "name_vi": "Lắp TV/giá treo",
+   "category_code": "CAT_TV",
+   "category_vi": "Tivi & màn hình",
+   "phase": "M1",
+   "pricing": "fixed",
+   "kind": "install",
+   "reference_text_vi": "250–350k TV cơ bản + P giá treo",
+   "variants": [
+    {
+     "code": "TV-01-27",
+     "condition_vi": "Lắp TV giá treo chuẩn",
+     "price_vnd": 299000
+    },
+    {
+     "code": "TV-01-64",
+     "condition_vi": "Lắp TV từ 65 inch",
+     "price_vnd": 499000
+    }
+   ],
+   "type_refs": [],
+   "reference_vnd": null,
+   "active": true,
+   "device_types": [
+    "television"
+   ],
+   "price_min_vnd": 299000,
+   "price_max_vnd": 499000
+  },
+  {
+   "code": "TV-02",
+   "name_vi": "Sửa TV",
+   "category_code": "CAT_TV",
+   "category_vi": "Tivi & màn hình",
+   "phase": "GATE",
+   "pricing": "inspection",
+   "kind": "repair",
+   "reference_text_vi": "Chưa chốt; cần năng lực thợ",
+   "variants": [],
+   "type_refs": [
+    {
+     "condition_vi": "Đến 43 inch",
+     "price_vnd": 199000
+    },
+    {
+     "condition_vi": "50–55 inch",
+     "price_vnd": 249000
+    },
+    {
+     "condition_vi": "Từ 65 inch",
+     "price_vnd": 299000
+    }
+   ],
+   "reference_vnd": 249000,
+   "active": false,
+   "device_types": [
+    "television"
+   ],
+   "price_min_vnd": 199000,
+   "price_max_vnd": 299000
+  },
+  {
+   "code": "WH-01",
+   "name_vi": "Vệ sinh bình nóng lạnh",
+   "category_code": "CAT_HEATER",
+   "category_vi": "Bình nóng lạnh",
+   "phase": "M1",
+   "pricing": "fixed",
+   "kind": "clean",
+   "reference_text_vi": "300–350k/bình tiêu chuẩn",
+   "variants": [
+    {
+     "code": "WH-01-15",
+     "condition_vi": "Bình nóng lạnh dân dụng chuẩn",
+     "price_vnd": 349000
+    }
+   ],
+   "type_refs": [],
+   "reference_vnd": null,
+   "active": true,
+   "device_types": [
+    "water_heater"
+   ],
+   "price_min_vnd": 349000,
+   "price_max_vnd": 349000
+  },
+  {
+   "code": "WH-02",
+   "name_vi": "Sửa bình/máy nước nóng",
+   "category_code": "CAT_HEATER",
+   "category_vi": "Bình nóng lạnh",
+   "phase": "M2",
+   "pricing": "inspection",
+   "kind": "repair",
+   "reference_text_vi": "200–250k tham khảo nội bộ",
+   "variants": [],
+   "type_refs": [],
+   "reference_vnd": 249000,
+   "active": true,
+   "device_types": [
+    "water_heater"
+   ],
+   "price_min_vnd": 249000,
+   "price_max_vnd": 249000
+  },
+  {
+   "code": "WH-03",
+   "name_vi": "Lắp đặt hoặc thay bình nóng lạnh",
+   "category_code": "CAT_HEATER",
+   "category_vi": "Bình nóng lạnh",
+   "phase": "M1",
+   "pricing": "fixed",
+   "kind": "install",
+   "reference_text_vi": "250–450k gián tiếp; 190–435k trực tiếp",
+   "variants": [
+    {
+     "code": "WH-03-46",
+     "condition_vi": "Bình nóng lạnh gián tiếp có bình chứa",
+     "price_vnd": 349000
+    },
+    {
+     "code": "WH-03-47",
+     "condition_vi": "Máy nước nóng trực tiếp",
+     "price_vnd": 299000
+    }
+   ],
+   "type_refs": [],
+   "reference_vnd": null,
+   "active": true,
+   "device_types": [
+    "water_heater"
+   ],
+   "price_min_vnd": 299000,
+   "price_max_vnd": 349000
+  },
+  {
+   "code": "WM-01",
+   "name_vi": "Sửa máy giặt",
+   "category_code": "CAT_LAUNDRY",
+   "category_vi": "Máy giặt & máy sấy",
+   "phase": "M1",
+   "pricing": "inspection",
+   "kind": "repair",
+   "reference_text_vi": "250k công cơ bản đề xuất",
+   "variants": [],
+   "type_refs": [
+    {
+     "condition_vi": "Cửa trên",
+     "price_vnd": 249000
+    },
+    {
+     "condition_vi": "Cửa ngang",
+     "price_vnd": 299000
+    }
+   ],
+   "reference_vnd": 249000,
+   "active": true,
+   "device_types": [
+    "washing_machine"
+   ],
+   "price_min_vnd": 249000,
+   "price_max_vnd": 299000
+  },
+  {
+   "code": "WM-02",
+   "name_vi": "Vệ sinh máy giặt",
+   "category_code": "CAT_LAUNDRY",
+   "category_vi": "Máy giặt & máy sấy",
+   "phase": "M1",
+   "pricing": "fixed",
+   "kind": "clean",
+   "reference_text_vi": "Cửa trên 380–430k; cửa ngang 590–700k",
+   "variants": [
+    {
+     "code": "WM-02-05",
+     "condition_vi": "Máy giặt cửa trên <=9 kg",
+     "price_vnd": 399000
+    },
+    {
+     "code": "WM-02-06",
+     "condition_vi": "Máy giặt cửa trên >9 kg",
+     "price_vnd": 449000
+    },
+    {
+     "code": "WM-02-07",
+     "condition_vi": "Máy giặt cửa ngang <=9 kg",
+     "price_vnd": 599000
+    },
+    {
+     "code": "WM-02-08",
+     "condition_vi": "Máy giặt cửa ngang >9 kg",
+     "price_vnd": 699000
+    },
+    {
+     "code": "WM-02-34",
+     "condition_vi": "Máy giặt sấy cửa ngang",
+     "price_vnd": 749000
+    }
+   ],
+   "type_refs": [],
+   "reference_vnd": null,
+   "active": true,
+   "device_types": [
+    "washing_machine"
+   ],
+   "price_min_vnd": 399000,
+   "price_max_vnd": 749000
+  },
+  {
+   "code": "WM-03",
+   "name_vi": "Lắp đặt máy giặt",
+   "category_code": "CAT_LAUNDRY",
+   "category_vi": "Máy giặt & máy sấy",
+   "phase": "M1",
+   "pricing": "fixed",
+   "kind": "install",
+   "reference_text_vi": "250–300k/máy chuẩn",
+   "variants": [
+    {
+     "code": "WM-03-09",
+     "condition_vi": "Lắp đặt máy giặt vị trí chờ sẵn",
+     "price_vnd": 299000
+    }
+   ],
+   "type_refs": [],
+   "reference_vnd": null,
+   "active": true,
+   "device_types": [
+    "washing_machine"
+   ],
+   "price_min_vnd": 299000,
+   "price_max_vnd": 299000
+  },
+  {
+   "code": "WM-04",
+   "name_vi": "Sửa máy sấy",
+   "category_code": "CAT_LAUNDRY",
+   "category_vi": "Máy giặt & máy sấy",
+   "phase": "M2",
+   "pricing": "inspection",
+   "kind": "repair",
+   "reference_text_vi": "200–250k tham khảo nội bộ",
+   "variants": [],
+   "type_refs": [
+    {
+     "condition_vi": "Máy sấy thông hơi",
+     "price_vnd": 199000
+    },
+    {
+     "condition_vi": "Máy sấy ngưng tụ",
+     "price_vnd": 249000
+    },
+    {
+     "condition_vi": "Máy sấy bơm nhiệt",
+     "price_vnd": 349000
+    }
+   ],
+   "reference_vnd": 249000,
+   "active": true,
+   "device_types": [
+    "clothes_dryer"
+   ],
+   "price_min_vnd": 199000,
+   "price_max_vnd": 349000
+  },
+  {
+   "code": "WM-05",
+   "name_vi": "Vệ sinh máy sấy",
+   "category_code": "CAT_LAUNDRY",
+   "category_vi": "Máy giặt & máy sấy",
+   "phase": "M2",
+   "pricing": "fixed",
+   "kind": "clean",
+   "reference_text_vi": "400–600k theo cấu hình",
+   "variants": [
+    {
+     "code": "WM-05-10",
+     "condition_vi": "Máy sấy thông hơi",
+     "price_vnd": 399000
+    },
+    {
+     "code": "WM-05-11",
+     "condition_vi": "Máy sấy ngưng tụ",
+     "price_vnd": 499000
+    },
+    {
+     "code": "WM-05-12",
+     "condition_vi": "Máy sấy bơm nhiệt",
+     "price_vnd": 599000
+    }
+   ],
+   "type_refs": [],
+   "reference_vnd": null,
+   "active": true,
+   "device_types": [
+    "clothes_dryer"
+   ],
+   "price_min_vnd": 399000,
+   "price_max_vnd": 599000
+  },
+  {
+   "code": "WM-06",
+   "name_vi": "Lắp đặt máy sấy",
+   "category_code": "CAT_LAUNDRY",
+   "category_vi": "Máy giặt & máy sấy",
+   "phase": "M2",
+   "pricing": "fixed",
+   "kind": "install",
+   "reference_text_vi": "180–220k đặt sàn; 300–450k chồng kit",
+   "variants": [
+    {
+     "code": "WM-06-38",
+     "condition_vi": "Lắp máy sấy đặt sàn hoặc kệ",
+     "price_vnd": 199000
+    },
+    {
+     "code": "WM-06-39",
+     "condition_vi": "Lắp máy sấy chồng lên máy giặt",
+     "price_vnd": 399000
+    }
+   ],
+   "type_refs": [],
+   "reference_vnd": null,
+   "active": true,
+   "device_types": [
+    "clothes_dryer"
+   ],
+   "price_min_vnd": 199000,
+   "price_max_vnd": 399000
+  }
+ ]
+}

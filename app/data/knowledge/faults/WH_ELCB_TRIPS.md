@@ -544,7 +544,7 @@ Loại máy, dung tích, hãng, và độ sẵn có của linh kiện.
 
 Vị trí lắp, có với tới được dễ không.
 
-Vì phạm vi chỉ biết được sau khi đo, ca này gắn với công kiểm tra tại nhà trước.
+Vì phạm vi chỉ biết được sau khi đo, ca này đặt theo dịch vụ "Sửa bình/máy nước nóng": thợ kiểm tra tại nhà trước,.
 
 ## Nghiệm thu sau khi sửa
 

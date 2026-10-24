@@ -306,7 +306,7 @@ phát ra tiếng lạ không, tiếng gõ hay tiếng ù nặng. Thiếu gas th�
 
 Nếu đã hỏi hai câu mà vẫn chưa chắc, không được hỏi câu thứ ba. Việc đúng là đưa
 ra chẩn đoán sơ bộ có ghi rõ là sơ bộ, nói rằng cần thợ đo áp mới chốt, và đề
-xuất công kiểm tra tại nhà.
+xuất đặt dịch vụ sửa điều hòa để thợ tới kiểm tra.
 
 ## Khi nào KHÔNG được kết luận thiếu gas
 
@@ -842,10 +842,10 @@ an toàn.
 
 Có cần vệ sinh kèm hay không, thường làm luôn một thể vì thợ đã tới.
 
-Vì các yếu tố này chỉ biết được khi tới nơi, bệnh thiếu gas được gắn với công
-kiểm tra tại nhà trước, rồi báo giá phần việc sau khi đo. Khi giải thích cho
-khách, nên nói rõ công kiểm tra là để xác định đúng bệnh chứ không phải phí gọi
-thợ, và nếu khách đồng ý sửa thì cách tính sẽ theo quy định của hệ thống.
+Vì các yếu tố này chỉ biết được khi tới nơi, bệnh thiếu gas đặt theo dịch vụ "Sửa
+điều hòa": thợ kiểm tra tại nhà trước, rồi báo giá phần việc sau khi đo. Khi giải
+thích cho khách, nên nói rõ thợ tới để xác định đúng bệnh, giá chỉ chốt sau khi
+khách duyệt báo giá, và không duyệt thì không sửa.
 
 ## Nghiệm thu sau khi sửa
 

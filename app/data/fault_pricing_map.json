@@ -1,803 +1,1528 @@
 {
-  "version": "1.0",
-  "_comment_vi": "Anh xa moi benh sang mot ma dich vu (tien cong) va cac ma linh kien dai dien. San la tien cong, tran la tien cong cong uoc tinh linh kien. Chon linh kien pho bien chu khong chon dat nhat, va tran lay muc giua cua khoang linh kien. Benh nao co assess=true thi khong hien tran, vi chi phi phu thuoc qua nhieu vao tinh trang thuc te.",
+  "version": "2026-10-24",
+  "_comment_vi": "Mỗi lỗi -> dịch vụ backend (tiền công S) và linh kiện hay thay (P), theo bảng V3 đội chốt 19/10/2026. Giá sàn = S thấp nhất + P thấp nhất, giá trần = S cao nhất + P cao nhất. Sinh bởi tools/sync_catalog_v3.py.",
   "map": {
     "AC_LOW_REFRIGERANT": {
-      "labour": "DIAGNOSE_ONSITE",
+      "labour": "AC-01",
       "parts": [
         "AC051"
       ],
-      "note_vi": "Gia nap gas tuy luong va loai gas, tho bao sau khi do ap."
+      "labour_min": 249000,
+      "labour_max": 449000,
+      "parts_min": 150000,
+      "parts_max": 450000,
+      "note_vi": ""
     },
     "AC_DIRTY_FILTER": {
-      "labour": "AC_CLEAN_WALL_SMALL",
-      "parts": []
+      "labour": "AC-02",
+      "parts": [],
+      "labour_min": 199000,
+      "labour_max": 449000,
+      "parts_min": 0,
+      "parts_max": 0,
+      "note_vi": "Vệ sinh"
     },
     "AC_DRAIN_BLOCKED": {
-      "labour": "AC_CLEAN_WALL_SMALL",
-      "parts": []
+      "labour": "AC-02",
+      "parts": [],
+      "labour_min": 199000,
+      "labour_max": 449000,
+      "parts_min": 0,
+      "parts_max": 0,
+      "note_vi": "Vệ sinh, thông ống nước ngưng"
     },
     "AC_COMPRESSOR_FAULT": {
-      "labour": "DIAGNOSE_ONSITE",
+      "labour": "AC-01",
       "parts": [
         "AC002"
       ],
-      "assess": true
+      "labour_min": 249000,
+      "labour_max": 449000,
+      "parts_min": 2000000,
+      "parts_max": 3400000,
+      "note_vi": ""
     },
     "AC_PCB_FAULT": {
-      "labour": "DIAGNOSE_ONSITE",
+      "labour": "AC-01",
       "parts": [
         "AC009"
-      ]
+      ],
+      "labour_min": 249000,
+      "labour_max": 449000,
+      "parts_min": 800000,
+      "parts_max": 1800000,
+      "note_vi": ""
     },
     "AC_INDOOR_FAN_MOTOR": {
-      "labour": "DIAGNOSE_ONSITE",
+      "labour": "AC-01",
       "parts": [
         "AC029"
-      ]
+      ],
+      "labour_min": 249000,
+      "labour_max": 449000,
+      "parts_min": 550000,
+      "parts_max": 1350000,
+      "note_vi": ""
     },
     "AC_OUTDOOR_FAN_MOTOR": {
-      "labour": "DIAGNOSE_ONSITE",
+      "labour": "AC-01",
       "parts": [
         "AC031"
-      ]
+      ],
+      "labour_min": 249000,
+      "labour_max": 449000,
+      "parts_min": 700000,
+      "parts_max": 1800000,
+      "note_vi": ""
     },
     "AC_CAPACITOR": {
-      "labour": "DIAGNOSE_ONSITE",
+      "labour": "AC-01",
       "parts": [
         "AC022"
-      ]
+      ],
+      "labour_min": 249000,
+      "labour_max": 449000,
+      "parts_min": 280000,
+      "parts_max": 480000,
+      "note_vi": ""
     },
     "AC_ICING": {
-      "labour": "AC_CLEAN_WALL_SMALL",
+      "labour": "AC-01",
       "parts": [
         "AC040"
-      ]
+      ],
+      "labour_min": 249000,
+      "labour_max": 449000,
+      "parts_min": 180000,
+      "parts_max": 550000,
+      "note_vi": ""
     },
     "AC_REMOTE_FAULT": {
-      "labour": "DIAGNOSE_ONSITE",
+      "labour": "AC-01",
       "parts": [
         "AC016"
-      ]
+      ],
+      "labour_min": 249000,
+      "labour_max": 449000,
+      "parts_min": 250000,
+      "parts_max": 650000,
+      "note_vi": "V2 bỏ dịch vụ Kiểm tra chẩn đoán, trỏ về dịch vụ sửa của thiết bị"
     },
     "AC_NOISY_INDOOR": {
-      "labour": "AC_CLEAN_WALL_SMALL",
+      "labour": "AC-01",
       "parts": [
         "AC033"
-      ]
+      ],
+      "labour_min": 249000,
+      "labour_max": 449000,
+      "parts_min": 650000,
+      "parts_max": 1400000,
+      "note_vi": ""
     },
     "AC_SMELL_BURNT": {
-      "labour": "DIAGNOSE_ONSITE",
+      "labour": "AC-01",
       "parts": [
         "AC019"
       ],
-      "assess": true
+      "labour_min": 249000,
+      "labour_max": 449000,
+      "parts_min": 150000,
+      "parts_max": 450000,
+      "note_vi": ""
     },
     "CEILFAN_CAPACITOR": {
-      "labour": "DIAGNOSE_ONSITE",
+      "labour": "LF-03",
       "parts": [
         "HA037"
-      ]
+      ],
+      "labour_min": 299000,
+      "labour_max": 299000,
+      "parts_min": 10000,
+      "parts_max": 40000,
+      "note_vi": "V2 bỏ dịch vụ Kiểm tra chẩn đoán, trỏ về dịch vụ sửa của thiết bị"
     },
     "CEILFAN_BEARING": {
-      "labour": "ELEC_CEILING_FAN",
-      "parts": []
+      "labour": "LF-03",
+      "parts": [
+        "HA066"
+      ],
+      "labour_min": 299000,
+      "labour_max": 299000,
+      "parts_min": 20000,
+      "parts_max": 150000,
+      "note_vi": "V2 bỏ dịch vụ Kiểm tra chẩn đoán, trỏ về dịch vụ sửa của thiết bị"
     },
     "CEILFAN_MOUNT_LOOSE": {
-      "labour": "ELEC_CEILING_FAN",
-      "parts": []
+      "labour": "LF-02",
+      "parts": [],
+      "labour_min": 299000,
+      "labour_max": 299000,
+      "parts_min": 0,
+      "parts_max": 0,
+      "note_vi": "Treo lại quạt trần"
     },
     "CEILFAN_SPEED_SWITCH": {
-      "labour": "ELEC_SWITCH_REPLACE",
+      "labour": "LF-03",
       "parts": [
         "HAS024"
-      ]
+      ],
+      "labour_min": 299000,
+      "labour_max": 299000,
+      "parts_min": 30000,
+      "parts_max": 100000,
+      "note_vi": "V2 bỏ dịch vụ Kiểm tra chẩn đoán, trỏ về dịch vụ sửa của thiết bị"
     },
     "CEILFAN_MOTOR_BURNT": {
-      "labour": "ELEC_CEILING_FAN",
+      "labour": "LF-03",
       "parts": [
         "HA035"
-      ]
+      ],
+      "labour_min": 299000,
+      "labour_max": 299000,
+      "parts_min": 250000,
+      "parts_max": 850000,
+      "note_vi": "V2 bỏ dịch vụ Kiểm tra chẩn đoán, trỏ về dịch vụ sửa của thiết bị"
     },
     "FAN_WORN_BEARING": {
-      "labour": "DIAGNOSE_ONSITE",
-      "parts": []
+      "labour": "LF-03",
+      "parts": [
+        "HA067"
+      ],
+      "labour_min": 149000,
+      "labour_max": 149000,
+      "parts_min": 10000,
+      "parts_max": 60000,
+      "note_vi": "V2 bỏ dịch vụ Kiểm tra chẩn đoán, trỏ về dịch vụ sửa của thiết bị"
     },
     "FAN_CAPACITOR": {
-      "labour": "DIAGNOSE_ONSITE",
+      "labour": "LF-03",
       "parts": [
         "HA036"
-      ]
+      ],
+      "labour_min": 149000,
+      "labour_max": 149000,
+      "parts_min": 10000,
+      "parts_max": 40000,
+      "note_vi": "V2 bỏ dịch vụ Kiểm tra chẩn đoán, trỏ về dịch vụ sửa của thiết bị"
     },
     "FAN_MOTOR_BURNT": {
-      "labour": "DIAGNOSE_ONSITE",
+      "labour": "LF-03",
       "parts": [
         "HA035"
-      ]
+      ],
+      "labour_min": 149000,
+      "labour_max": 149000,
+      "parts_min": 250000,
+      "parts_max": 850000,
+      "note_vi": "V2 bỏ dịch vụ Kiểm tra chẩn đoán, trỏ về dịch vụ sửa của thiết bị"
     },
     "FAN_SWITCH_FAULT": {
-      "labour": "DIAGNOSE_ONSITE",
+      "labour": "LF-03",
       "parts": [
         "HAS024"
-      ]
+      ],
+      "labour_min": 149000,
+      "labour_max": 149000,
+      "parts_min": 30000,
+      "parts_max": 100000,
+      "note_vi": "V2 bỏ dịch vụ Kiểm tra chẩn đoán, trỏ về dịch vụ sửa của thiết bị"
     },
     "FAN_OSCILLATION_FAULT": {
-      "labour": "DIAGNOSE_ONSITE",
+      "labour": "LF-03",
       "parts": [
         "HA040"
-      ]
+      ],
+      "labour_min": 149000,
+      "labour_max": 149000,
+      "parts_min": 180000,
+      "parts_max": 450000,
+      "note_vi": "V2 bỏ dịch vụ Kiểm tra chẩn đoán, trỏ về dịch vụ sửa của thiết bị"
     },
     "FAN_CORD_DAMAGE": {
-      "labour": "DIAGNOSE_ONSITE",
+      "labour": "LF-03",
       "parts": [
         "HAS001",
         "HAS004"
-      ]
+      ],
+      "labour_min": 149000,
+      "labour_max": 149000,
+      "parts_min": 20000,
+      "parts_max": 180000,
+      "note_vi": "V2 bỏ dịch vụ Kiểm tra chẩn đoán, trỏ về dịch vụ sửa của thiết bị"
     },
     "FAN_WOBBLE": {
-      "labour": "DIAGNOSE_ONSITE",
-      "parts": []
+      "labour": "LF-03",
+      "parts": [],
+      "labour_min": 149000,
+      "labour_max": 149000,
+      "parts_min": 0,
+      "parts_max": 0,
+      "note_vi": "V2 bỏ dịch vụ Kiểm tra chẩn đoán, trỏ về dịch vụ sửa của thiết bị"
     },
     "WM_DRAIN_PUMP": {
-      "labour": "DIAGNOSE_ONSITE",
+      "labour": "WM-01",
       "parts": [
         "WM007"
-      ]
+      ],
+      "labour_min": 249000,
+      "labour_max": 299000,
+      "parts_min": 500000,
+      "parts_max": 1100000,
+      "note_vi": ""
     },
     "WM_NO_SPIN": {
-      "labour": "DIAGNOSE_ONSITE",
+      "labour": "WM-01",
       "parts": [
         "WM023"
-      ]
+      ],
+      "labour_min": 249000,
+      "labour_max": 299000,
+      "parts_min": 280000,
+      "parts_max": 500000,
+      "note_vi": ""
     },
     "WM_NO_WATER_INLET": {
-      "labour": "DIAGNOSE_ONSITE",
+      "labour": "WM-01",
       "parts": [
         "WM001"
-      ]
+      ],
+      "labour_min": 249000,
+      "labour_max": 299000,
+      "parts_min": 350000,
+      "parts_max": 650000,
+      "note_vi": ""
     },
     "WM_BEARING_NOISE": {
-      "labour": "DIAGNOSE_ONSITE",
+      "labour": "WM-01",
       "parts": [
         "WM035"
       ],
-      "assess": true
+      "labour_min": 249000,
+      "labour_max": 299000,
+      "parts_min": 650000,
+      "parts_max": 1600000,
+      "note_vi": ""
     },
     "WM_PCB_FAULT": {
-      "labour": "DIAGNOSE_ONSITE",
+      "labour": "WM-01",
       "parts": [
         "WM047"
-      ]
+      ],
+      "labour_min": 249000,
+      "labour_max": 299000,
+      "parts_min": 750000,
+      "parts_max": 2000000,
+      "note_vi": ""
     },
     "WM_DOOR_SEAL_LEAK": {
-      "labour": "DIAGNOSE_ONSITE",
+      "labour": "WM-01",
       "parts": [
         "WM045"
-      ]
+      ],
+      "labour_min": 249000,
+      "labour_max": 299000,
+      "parts_min": 550000,
+      "parts_max": 1400000,
+      "note_vi": ""
     },
     "WM_DOOR_LOCK": {
-      "labour": "DIAGNOSE_ONSITE",
+      "labour": "WM-01",
       "parts": [
         "WM041"
-      ]
+      ],
+      "labour_min": 249000,
+      "labour_max": 299000,
+      "parts_min": 450000,
+      "parts_max": 1000000,
+      "note_vi": ""
     },
     "WM_SMELL_MOLD": {
-      "labour": "WM_CLEAN_TOP_SMALL",
-      "parts": []
+      "labour": "WM-02",
+      "parts": [],
+      "labour_min": 399000,
+      "labour_max": 749000,
+      "parts_min": 0,
+      "parts_max": 0,
+      "note_vi": "Vệ sinh lồng"
     },
     "WM_MOTOR_FAULT": {
-      "labour": "DIAGNOSE_ONSITE",
+      "labour": "WM-01",
       "parts": [
         "WM012"
       ],
-      "assess": true
+      "labour_min": 249000,
+      "labour_max": 299000,
+      "parts_min": 750000,
+      "parts_max": 1500000,
+      "note_vi": ""
     },
     "WM_OVERFLOW": {
-      "labour": "DIAGNOSE_ONSITE",
+      "labour": "WM-01",
       "parts": [
         "WM009"
-      ]
+      ],
+      "labour_min": 249000,
+      "labour_max": 299000,
+      "parts_min": 350000,
+      "parts_max": 650000,
+      "note_vi": ""
     },
     "FRIDGE_LOW_GAS": {
-      "labour": "DIAGNOSE_ONSITE",
+      "labour": "FR-01",
       "parts": [
         "RFS007",
         "RFS004"
-      ]
+      ],
+      "labour_min": 199000,
+      "labour_max": 399000,
+      "parts_min": 80000,
+      "parts_max": 300000,
+      "note_vi": ""
     },
     "FRIDGE_DEFROST_FAULT": {
-      "labour": "DIAGNOSE_ONSITE",
+      "labour": "FR-01",
       "parts": [
         "RF020",
         "RF021"
-      ]
+      ],
+      "labour_min": 199000,
+      "labour_max": 399000,
+      "parts_min": 120000,
+      "parts_max": 850000,
+      "note_vi": ""
     },
     "FRIDGE_COMPRESSOR": {
-      "labour": "DIAGNOSE_ONSITE",
+      "labour": "FR-01",
       "parts": [
         "RF002"
       ],
-      "assess": true
+      "labour_min": 199000,
+      "labour_max": 399000,
+      "parts_min": 1500000,
+      "parts_max": 2800000,
+      "note_vi": ""
     },
     "FRIDGE_DOOR_GASKET": {
-      "labour": "DIAGNOSE_ONSITE",
+      "labour": "FR-01",
       "parts": [
         "RF030"
-      ]
+      ],
+      "labour_min": 199000,
+      "labour_max": 399000,
+      "parts_min": 450000,
+      "parts_max": 1000000,
+      "note_vi": ""
     },
     "FRIDGE_FAN_FAULT": {
-      "labour": "DIAGNOSE_ONSITE",
+      "labour": "FR-01",
       "parts": [
         "RF011"
-      ]
+      ],
+      "labour_min": 199000,
+      "labour_max": 399000,
+      "parts_min": 350000,
+      "parts_max": 950000,
+      "note_vi": ""
     },
     "FRIDGE_DRAIN_BLOCKED": {
-      "labour": "DIAGNOSE_ONSITE",
+      "labour": "FR-01",
       "parts": [
         "RF045"
-      ]
+      ],
+      "labour_min": 199000,
+      "labour_max": 399000,
+      "parts_min": 100000,
+      "parts_max": 300000,
+      "note_vi": ""
     },
     "FRIDGE_LIGHT_FAULT": {
-      "labour": "DIAGNOSE_ONSITE",
+      "labour": "FR-01",
       "parts": [
         "RF034"
-      ]
+      ],
+      "labour_min": 199000,
+      "labour_max": 399000,
+      "parts_min": 180000,
+      "parts_max": 500000,
+      "note_vi": ""
     },
     "FRIDGE_NOISY": {
-      "labour": "DIAGNOSE_ONSITE",
+      "labour": "FR-01",
       "parts": [
         "RFS019"
-      ]
+      ],
+      "labour_min": 199000,
+      "labour_max": 399000,
+      "parts_min": 150000,
+      "parts_max": 400000,
+      "note_vi": ""
     },
     "MW_MAGNETRON": {
-      "labour": "DIAGNOSE_ONSITE",
+      "labour": "KT-05",
       "parts": [
         "MWV001"
-      ]
+      ],
+      "labour_min": 249000,
+      "labour_max": 249000,
+      "parts_min": 450000,
+      "parts_max": 900000,
+      "note_vi": "V2 bỏ dịch vụ Kiểm tra chẩn đoán, trỏ về dịch vụ sửa của thiết bị"
     },
     "MW_DOOR_SWITCH": {
-      "labour": "DIAGNOSE_ONSITE",
+      "labour": "KT-05",
       "parts": [
         "MWV018"
-      ]
+      ],
+      "labour_min": 249000,
+      "labour_max": 249000,
+      "parts_min": 50000,
+      "parts_max": 180000,
+      "note_vi": "V2 bỏ dịch vụ Kiểm tra chẩn đoán, trỏ về dịch vụ sửa của thiết bị"
     },
     "MW_TURNTABLE_MOTOR": {
-      "labour": "DIAGNOSE_ONSITE",
+      "labour": "KT-05",
       "parts": [
         "MWV012"
-      ]
+      ],
+      "labour_min": 249000,
+      "labour_max": 249000,
+      "parts_min": 250000,
+      "parts_max": 500000,
+      "note_vi": "V2 bỏ dịch vụ Kiểm tra chẩn đoán, trỏ về dịch vụ sửa của thiết bị"
     },
     "MW_SPARKING": {
-      "labour": "DIAGNOSE_ONSITE",
+      "labour": "KT-05",
       "parts": [
         "MWV023"
-      ]
+      ],
+      "labour_min": 249000,
+      "labour_max": 249000,
+      "parts_min": 50000,
+      "parts_max": 180000,
+      "note_vi": "V2 bỏ dịch vụ Kiểm tra chẩn đoán, trỏ về dịch vụ sửa của thiết bị"
     },
     "MW_NO_POWER": {
-      "labour": "DIAGNOSE_ONSITE",
+      "labour": "KT-05",
       "parts": [
         "MWV009",
         "MWV004"
-      ]
+      ],
+      "labour_min": 249000,
+      "labour_max": 249000,
+      "parts_min": 20000,
+      "parts_max": 400000,
+      "note_vi": "V2 bỏ dịch vụ Kiểm tra chẩn đoán, trỏ về dịch vụ sửa của thiết bị"
     },
     "MW_FAN_NOISY": {
-      "labour": "DIAGNOSE_ONSITE",
+      "labour": "KT-05",
       "parts": [
         "MWV017"
-      ]
+      ],
+      "labour_min": 249000,
+      "labour_max": 249000,
+      "parts_min": 250000,
+      "parts_max": 600000,
+      "note_vi": "V2 bỏ dịch vụ Kiểm tra chẩn đoán, trỏ về dịch vụ sửa của thiết bị"
     },
     "OVEN_HEATING_ELEMENT": {
-      "labour": "DIAGNOSE_ONSITE",
+      "labour": "KT-08",
       "parts": [
         "OVN001"
-      ]
+      ],
+      "labour_min": 199000,
+      "labour_max": 349000,
+      "parts_min": 350000,
+      "parts_max": 900000,
+      "note_vi": "V2 bỏ dịch vụ Kiểm tra chẩn đoán, trỏ về dịch vụ sửa của thiết bị"
     },
     "OVEN_THERMOSTAT": {
-      "labour": "DIAGNOSE_ONSITE",
+      "labour": "KT-08",
       "parts": [
         "OVN009"
-      ]
+      ],
+      "labour_min": 199000,
+      "labour_max": 349000,
+      "parts_min": 300000,
+      "parts_max": 800000,
+      "note_vi": "V2 bỏ dịch vụ Kiểm tra chẩn đoán, trỏ về dịch vụ sửa của thiết bị"
     },
     "OVEN_TIMER_FAULT": {
-      "labour": "DIAGNOSE_ONSITE",
+      "labour": "KT-08",
       "parts": [
         "OVN013"
-      ]
+      ],
+      "labour_min": 199000,
+      "labour_max": 349000,
+      "parts_min": 300000,
+      "parts_max": 900000,
+      "note_vi": "V2 bỏ dịch vụ Kiểm tra chẩn đoán, trỏ về dịch vụ sửa của thiết bị"
     },
     "OVEN_DOOR_GLASS": {
-      "labour": "DIAGNOSE_ONSITE",
+      "labour": "KT-08",
       "parts": [
         "OVN022",
         "OVN021"
-      ]
+      ],
+      "labour_min": 199000,
+      "labour_max": 349000,
+      "parts_min": 350000,
+      "parts_max": 1000000,
+      "note_vi": "V2 bỏ dịch vụ Kiểm tra chẩn đoán, trỏ về dịch vụ sửa của thiết bị"
     },
     "OVEN_FAN_FAULT": {
-      "labour": "DIAGNOSE_ONSITE",
+      "labour": "KT-08",
       "parts": [
         "OVN006"
-      ]
+      ],
+      "labour_min": 199000,
+      "labour_max": 349000,
+      "parts_min": 450000,
+      "parts_max": 1200000,
+      "note_vi": "V2 bỏ dịch vụ Kiểm tra chẩn đoán, trỏ về dịch vụ sửa của thiết bị"
     },
     "STOVE_IGNITER": {
-      "labour": "DIAGNOSE_ONSITE",
+      "labour": "KT-07",
       "parts": [
         "GAS007"
-      ]
+      ],
+      "labour_min": 199000,
+      "labour_max": 299000,
+      "parts_min": 180000,
+      "parts_max": 550000,
+      "note_vi": "V2 bỏ dịch vụ Kiểm tra chẩn đoán, trỏ về dịch vụ sửa của thiết bị"
     },
     "STOVE_BURNER_CLOGGED": {
-      "labour": "DIAGNOSE_ONSITE",
+      "labour": "KT-07",
       "parts": [
         "GAS001"
-      ]
+      ],
+      "labour_min": 199000,
+      "labour_max": 299000,
+      "parts_min": 100000,
+      "parts_max": 350000,
+      "note_vi": "V2 bỏ dịch vụ Kiểm tra chẩn đoán, trỏ về dịch vụ sửa của thiết bị"
     },
     "STOVE_GAS_LEAK": {
-      "labour": "DIAGNOSE_ONSITE",
+      "labour": "KT-07",
       "parts": [
         "GAS021",
         "GAS026"
-      ]
+      ],
+      "labour_min": 199000,
+      "labour_max": 299000,
+      "parts_min": 5000,
+      "parts_max": 180000,
+      "note_vi": "V2 bỏ dịch vụ Kiểm tra chẩn đoán, trỏ về dịch vụ sửa của thiết bị"
     },
     "STOVE_VALVE_STUCK": {
-      "labour": "DIAGNOSE_ONSITE",
+      "labour": "KT-07",
       "parts": [
         "GAS013"
-      ]
+      ],
+      "labour_min": 199000,
+      "labour_max": 299000,
+      "parts_min": 200000,
+      "parts_max": 600000,
+      "note_vi": "V2 bỏ dịch vụ Kiểm tra chẩn đoán, trỏ về dịch vụ sửa của thiết bị"
     },
     "STOVE_FLAME_OUT": {
-      "labour": "DIAGNOSE_ONSITE",
+      "labour": "KT-07",
       "parts": [
         "GAS011"
-      ]
+      ],
+      "labour_min": 199000,
+      "labour_max": 299000,
+      "parts_min": 120000,
+      "parts_max": 400000,
+      "note_vi": "V2 bỏ dịch vụ Kiểm tra chẩn đoán, trỏ về dịch vụ sửa của thiết bị"
     },
     "STOVE_REGULATOR": {
-      "labour": "DIAGNOSE_ONSITE",
+      "labour": "KT-07",
       "parts": [
         "GAS023"
-      ]
+      ],
+      "labour_min": 199000,
+      "labour_max": 299000,
+      "parts_min": 180000,
+      "parts_max": 500000,
+      "note_vi": "V2 bỏ dịch vụ Kiểm tra chẩn đoán, trỏ về dịch vụ sửa của thiết bị"
     },
     "KETTLE_THERMOSTAT": {
-      "labour": "DIAGNOSE_ONSITE",
+      "labour": "KT-09",
       "parts": [
         "KTL004"
-      ]
+      ],
+      "labour_min": 149000,
+      "labour_max": 149000,
+      "parts_min": 180000,
+      "parts_max": 500000,
+      "note_vi": "V2 bỏ dịch vụ Kiểm tra chẩn đoán, trỏ về dịch vụ sửa của thiết bị"
     },
     "KETTLE_HEATING_BASE": {
-      "labour": "DIAGNOSE_ONSITE",
+      "labour": "KT-09",
       "parts": [
         "KTL001"
-      ]
+      ],
+      "labour_min": 149000,
+      "labour_max": 149000,
+      "parts_min": 150000,
+      "parts_max": 450000,
+      "note_vi": "V2 bỏ dịch vụ Kiểm tra chẩn đoán, trỏ về dịch vụ sửa của thiết bị"
     },
     "KETTLE_LEAK": {
-      "labour": "DIAGNOSE_ONSITE",
+      "labour": "KT-09",
       "parts": [
         "KTL014"
-      ]
+      ],
+      "labour_min": 149000,
+      "labour_max": 149000,
+      "parts_min": 30000,
+      "parts_max": 120000,
+      "note_vi": "V2 bỏ dịch vụ Kiểm tra chẩn đoán, trỏ về dịch vụ sửa của thiết bị"
     },
     "KETTLE_SCALE": {
-      "labour": "DIAGNOSE_ONSITE",
-      "parts": []
+      "labour": "KT-09",
+      "parts": [],
+      "labour_min": 149000,
+      "labour_max": 149000,
+      "parts_min": 0,
+      "parts_max": 0,
+      "note_vi": "V2 bỏ dịch vụ Kiểm tra chẩn đoán, trỏ về dịch vụ sửa của thiết bị"
     },
     "KETTLE_SWITCH": {
-      "labour": "DIAGNOSE_ONSITE",
+      "labour": "KT-09",
       "parts": [
         "KTL009"
-      ]
+      ],
+      "labour_min": 149000,
+      "labour_max": 149000,
+      "parts_min": 50000,
+      "parts_max": 180000,
+      "note_vi": "V2 bỏ dịch vụ Kiểm tra chẩn đoán, trỏ về dịch vụ sửa của thiết bị"
     },
     "TV_BACKLIGHT": {
-      "labour": "DIAGNOSE_ONSITE",
+      "labour": "TV-02",
       "parts": [
         "TV020"
-      ]
+      ],
+      "labour_min": 199000,
+      "labour_max": 299000,
+      "parts_min": 600000,
+      "parts_max": 1400000,
+      "note_vi": "V2 bỏ dịch vụ Kiểm tra chẩn đoán, trỏ về dịch vụ sửa của thiết bị"
     },
     "TV_POWER_BOARD": {
-      "labour": "DIAGNOSE_ONSITE",
+      "labour": "TV-02",
       "parts": [
         "TV002"
-      ]
+      ],
+      "labour_min": 199000,
+      "labour_max": 299000,
+      "parts_min": 550000,
+      "parts_max": 1400000,
+      "note_vi": "V2 bỏ dịch vụ Kiểm tra chẩn đoán, trỏ về dịch vụ sửa của thiết bị"
     },
     "TV_MAIN_BOARD": {
-      "labour": "DIAGNOSE_ONSITE",
+      "labour": "TV-02",
       "parts": [
         "TV007"
-      ]
+      ],
+      "labour_min": 199000,
+      "labour_max": 299000,
+      "parts_min": 900000,
+      "parts_max": 2500000,
+      "note_vi": "V2 bỏ dịch vụ Kiểm tra chẩn đoán, trỏ về dịch vụ sửa của thiết bị"
     },
     "TV_PANEL_DAMAGE": {
-      "labour": "DIAGNOSE_ONSITE",
+      "labour": "TV-02",
       "parts": [
         "TV043"
       ],
-      "assess": true,
-      "note_vi": "Thay tam nen thuong gan bang gia mua TV moi, nen can tho xac nhan truoc khi quyet dinh."
+      "labour_min": 199000,
+      "labour_max": 299000,
+      "parts_min": 2800000,
+      "parts_max": 6500000,
+      "note_vi": "V2 bỏ dịch vụ Kiểm tra chẩn đoán, trỏ về dịch vụ sửa của thiết bị"
     },
     "TV_NO_SOUND": {
-      "labour": "DIAGNOSE_ONSITE",
+      "labour": "TV-02",
       "parts": [
         "TV033"
-      ]
+      ],
+      "labour_min": 199000,
+      "labour_max": 299000,
+      "parts_min": 300000,
+      "parts_max": 750000,
+      "note_vi": "V2 bỏ dịch vụ Kiểm tra chẩn đoán, trỏ về dịch vụ sửa của thiết bị"
     },
     "TV_REMOTE_FAULT": {
-      "labour": "DIAGNOSE_ONSITE",
+      "labour": "TV-02",
       "parts": [
         "TV047"
-      ]
+      ],
+      "labour_min": 199000,
+      "labour_max": 299000,
+      "parts_min": 120000,
+      "parts_max": 450000,
+      "note_vi": "V2 bỏ dịch vụ Kiểm tra chẩn đoán, trỏ về dịch vụ sửa của thiết bị"
     },
     "SINK_CLOGGED": {
-      "labour": "DIAGNOSE_ONSITE",
-      "parts": []
+      "labour": "SA-03",
+      "parts": [],
+      "labour_min": 299000,
+      "labour_max": 299000,
+      "parts_min": 0,
+      "parts_max": 0,
+      "note_vi": "Thông tắc chậu"
     },
     "SINK_TRAP_LEAK": {
-      "labour": "PLUMB_SIPHON_REPLACE",
+      "labour": "SA-02",
       "parts": [
         "SNK011"
-      ]
+      ],
+      "labour_min": 149000,
+      "labour_max": 149000,
+      "parts_min": 130000,
+      "parts_max": 450000,
+      "note_vi": "Thay siphon"
     },
     "SINK_SMELL": {
-      "labour": "DIAGNOSE_ONSITE",
-      "parts": []
+      "labour": "SA-01",
+      "parts": [
+        "SNK010",
+        "SNK019"
+      ],
+      "labour_min": 199000,
+      "labour_max": 199000,
+      "parts_min": 10000,
+      "parts_max": 400000,
+      "note_vi": "V2 bỏ dịch vụ Kiểm tra chẩn đoán, trỏ về dịch vụ sửa của thiết bị"
     },
     "SINK_DRAIN_CORRODED": {
-      "labour": "PLUMB_SIPHON_REPLACE",
+      "labour": "SA-02",
       "parts": [
         "SNK006"
-      ]
+      ],
+      "labour_min": 149000,
+      "labour_max": 149000,
+      "parts_min": 180000,
+      "parts_max": 550000,
+      "note_vi": "Thay siphon/ống xả"
     },
     "FAUCET_DRIP": {
-      "labour": "PLUMB_FAUCET_REPLACE",
+      "labour": "SA-02",
       "parts": [
         "FCT021"
-      ]
+      ],
+      "labour_min": 149000,
+      "labour_max": 149000,
+      "parts_min": 30000,
+      "parts_max": 120000,
+      "note_vi": ""
     },
     "FAUCET_CARTRIDGE": {
-      "labour": "PLUMB_FAUCET_REPLACE",
+      "labour": "SA-02",
       "parts": [
         "FCT002"
-      ]
+      ],
+      "labour_min": 149000,
+      "labour_max": 149000,
+      "parts_min": 80000,
+      "parts_max": 300000,
+      "note_vi": ""
     },
     "FAUCET_LOW_FLOW": {
-      "labour": "DIAGNOSE_ONSITE",
+      "labour": "SA-01",
       "parts": [
         "FCT009"
-      ]
+      ],
+      "labour_min": 199000,
+      "labour_max": 199000,
+      "parts_min": 15000,
+      "parts_max": 70000,
+      "note_vi": "V2 bỏ dịch vụ Kiểm tra chẩn đoán, trỏ về dịch vụ sửa của thiết bị"
     },
     "FAUCET_BASE_LEAK": {
-      "labour": "PLUMB_FAUCET_REPLACE",
+      "labour": "SA-02",
       "parts": [
         "FCT031",
         "FCT016"
-      ]
+      ],
+      "labour_min": 149000,
+      "labour_max": 149000,
+      "parts_min": 10000,
+      "parts_max": 200000,
+      "note_vi": ""
     },
     "TOILET_CLOGGED": {
-      "labour": "DIAGNOSE_ONSITE",
-      "parts": []
+      "labour": "SA-03",
+      "parts": [],
+      "labour_min": 499000,
+      "labour_max": 499000,
+      "parts_min": 0,
+      "parts_max": 0,
+      "note_vi": "Thông tắc bồn cầu"
     },
     "TOILET_FILL_VALVE": {
-      "labour": "DIAGNOSE_ONSITE",
+      "labour": "SA-01",
       "parts": [
         "TLC001"
-      ]
+      ],
+      "labour_min": 249000,
+      "labour_max": 249000,
+      "parts_min": 150000,
+      "parts_max": 450000,
+      "note_vi": "V2 bỏ dịch vụ Kiểm tra chẩn đoán, trỏ về dịch vụ sửa của thiết bị"
     },
     "TOILET_FLAPPER_LEAK": {
-      "labour": "DIAGNOSE_ONSITE",
+      "labour": "SA-01",
       "parts": [
         "TLC006"
-      ]
+      ],
+      "labour_min": 249000,
+      "labour_max": 249000,
+      "parts_min": 80000,
+      "parts_max": 250000,
+      "note_vi": "V2 bỏ dịch vụ Kiểm tra chẩn đoán, trỏ về dịch vụ sửa của thiết bị"
     },
     "TOILET_BASE_LEAK": {
-      "labour": "DIAGNOSE_ONSITE",
+      "labour": "SA-01",
       "parts": [
         "TLC023",
         "TLC022"
       ],
-      "assess": true
+      "labour_min": 249000,
+      "labour_max": 249000,
+      "parts_min": 80000,
+      "parts_max": 350000,
+      "note_vi": "Rò chân bồn cầu là sửa thiết bị vệ sinh"
     },
     "TOILET_WEAK_FLUSH": {
-      "labour": "DIAGNOSE_ONSITE",
+      "labour": "SA-01",
       "parts": [
         "TLC004"
-      ]
+      ],
+      "labour_min": 249000,
+      "labour_max": 249000,
+      "parts_min": 180000,
+      "parts_max": 500000,
+      "note_vi": "V2 bỏ dịch vụ Kiểm tra chẩn đoán, trỏ về dịch vụ sửa của thiết bị"
     },
     "TOILET_SEAT_BROKEN": {
-      "labour": "DIAGNOSE_ONSITE",
+      "labour": "SA-01",
       "parts": [
         "TLC029"
-      ]
+      ],
+      "labour_min": 249000,
+      "labour_max": 249000,
+      "parts_min": 250000,
+      "parts_max": 750000,
+      "note_vi": "V2 bỏ dịch vụ Kiểm tra chẩn đoán, trỏ về dịch vụ sửa của thiết bị"
     },
     "OUTLET_SHORT_CIRCUIT": {
-      "labour": "ELEC_OUTLET_REPLACE",
+      "labour": "EL-01",
       "parts": [
         "OUT001",
         "OUT002",
         "OUT017"
-      ]
+      ],
+      "labour_min": 249000,
+      "labour_max": 249000,
+      "parts_min": 8000,
+      "parts_max": 120000,
+      "note_vi": ""
     },
     "OUTLET_LOOSE_CONTACT": {
-      "labour": "ELEC_OUTLET_REPLACE",
+      "labour": "EL-02",
       "parts": [
         "OUT001",
         "OUT002",
         "OUT017"
-      ]
+      ],
+      "labour_min": 119000,
+      "labour_max": 119000,
+      "parts_min": 8000,
+      "parts_max": 120000,
+      "note_vi": ""
     },
     "OUTLET_NO_POWER": {
-      "labour": "ELEC_OUTLET_REPLACE",
+      "labour": "EL-01",
       "parts": [
         "HAS002",
         "OUT012",
         "OUT017"
-      ]
+      ],
+      "labour_min": 249000,
+      "labour_max": 249000,
+      "parts_min": 8000,
+      "parts_max": 250000,
+      "note_vi": ""
     },
     "OUTLET_TRIPS_BREAKER": {
-      "labour": "DIAGNOSE_ONSITE",
+      "labour": "EL-01",
       "parts": [
         "OUT012",
         "OUT015"
       ],
-      "assess": true
+      "labour_min": 249000,
+      "labour_max": 249000,
+      "parts_min": 55000,
+      "parts_max": 700000,
+      "note_vi": ""
     },
     "OUTLET_OVERLOAD": {
-      "labour": "ELEC_OUTLET_REPLACE",
+      "labour": "EL-01",
       "parts": [
         "HAS003",
         "OUT013",
         "OUT014"
-      ]
+      ],
+      "labour_min": 249000,
+      "labour_max": 249000,
+      "parts_min": 60000,
+      "parts_max": 350000,
+      "note_vi": ""
     },
     "OUTLET_BROKEN_FACE": {
-      "labour": "ELEC_OUTLET_REPLACE",
+      "labour": "EL-02",
       "parts": [
         "OUT001",
         "OUT002",
         "OUT006",
         "OUT007"
-      ]
+      ],
+      "labour_min": 119000,
+      "labour_max": 119000,
+      "parts_min": 8000,
+      "parts_max": 120000,
+      "note_vi": ""
     },
     "LIGHT_BULB_DEAD": {
-      "labour": "ELEC_CEILING_LIGHT",
+      "labour": "LF-01",
       "parts": [
         "LGT001",
         "LGT002",
         "LGT004"
-      ]
+      ],
+      "labour_min": 119000,
+      "labour_max": 119000,
+      "parts_min": 25000,
+      "parts_max": 120000,
+      "note_vi": ""
     },
     "LIGHT_FLICKERING": {
-      "labour": "ELEC_CEILING_LIGHT",
+      "labour": "LF-01",
       "parts": [
         "LGT013",
         "LGT014"
-      ]
+      ],
+      "labour_min": 119000,
+      "labour_max": 119000,
+      "parts_min": 25000,
+      "parts_max": 110000,
+      "note_vi": ""
     },
     "LIGHT_SWITCH_FAULT": {
-      "labour": "ELEC_SWITCH_REPLACE",
+      "labour": "EL-02",
       "parts": [
         "HAS024",
         "OUT009",
         "OUT010"
-      ]
+      ],
+      "labour_min": 119000,
+      "labour_max": 119000,
+      "parts_min": 20000,
+      "parts_max": 100000,
+      "note_vi": "Thay công tắc"
     },
     "LIGHT_DIM": {
-      "labour": "DIAGNOSE_ONSITE",
+      "labour": "LF-01",
       "parts": [
         "LGT013",
         "LGT014",
         "LGT001"
-      ]
+      ],
+      "labour_min": 119000,
+      "labour_max": 119000,
+      "parts_min": 25000,
+      "parts_max": 110000,
+      "note_vi": ""
     },
     "LIGHT_FIXTURE_LEAK": {
-      "labour": "ELEC_CEILING_LIGHT",
+      "labour": "LF-01",
       "parts": [
         "LGT011",
         "LGT017",
         "LGT009"
-      ]
+      ],
+      "labour_min": 119000,
+      "labour_max": 119000,
+      "parts_min": 15000,
+      "parts_max": 260000,
+      "note_vi": ""
     },
     "WH_HEATING_ELEMENT": {
-      "labour": "WH_CLEAN",
+      "labour": "WH-02",
       "parts": [
         "HA042",
         "HA047"
-      ]
+      ],
+      "labour_min": 249000,
+      "labour_max": 249000,
+      "parts_min": 80000,
+      "parts_max": 700000,
+      "note_vi": "V2 bỏ dịch vụ Kiểm tra chẩn đoán, trỏ về dịch vụ sửa của thiết bị"
     },
     "WH_THERMOSTAT": {
-      "labour": "DIAGNOSE_ONSITE",
+      "labour": "WH-02",
       "parts": [
         "HA044"
-      ]
+      ],
+      "labour_min": 249000,
+      "labour_max": 249000,
+      "parts_min": 250000,
+      "parts_max": 650000,
+      "note_vi": "V2 bỏ dịch vụ Kiểm tra chẩn đoán, trỏ về dịch vụ sửa của thiết bị"
     },
     "WH_ELCB_TRIPS": {
-      "labour": "DIAGNOSE_ONSITE",
+      "labour": "WH-02",
       "parts": [
         "HA045"
-      ]
+      ],
+      "labour_min": 249000,
+      "labour_max": 249000,
+      "parts_min": 300000,
+      "parts_max": 850000,
+      "note_vi": "V2 bỏ dịch vụ Kiểm tra chẩn đoán, trỏ về dịch vụ sửa của thiết bị"
     },
     "WH_SCALE_BUILDUP": {
-      "labour": "WH_CLEAN",
-      "parts": []
+      "labour": "WH-01",
+      "parts": [],
+      "labour_min": 349000,
+      "labour_max": 349000,
+      "parts_min": 0,
+      "parts_max": 0,
+      "note_vi": "Vệ sinh bình"
     },
     "WH_TANK_LEAK": {
-      "labour": "DIAGNOSE_ONSITE",
+      "labour": "WH-03",
       "parts": [],
-      "assess": true,
-      "note_vi": "Binh thung thi han hay ve lai deu khong ben, thuong phai thay binh moi."
+      "labour_min": 349000,
+      "labour_max": 349000,
+      "parts_min": 0,
+      "parts_max": 0,
+      "note_vi": "Bình thủng không vá (V2): tư vấn thay bình; bình mới là P theo model khách chọn"
     },
     "WH_LOW_PRESSURE": {
-      "labour": "DIAGNOSE_ONSITE",
+      "labour": "WH-02",
       "parts": [
         "HA046"
-      ]
+      ],
+      "labour_min": 249000,
+      "labour_max": 249000,
+      "parts_min": 180000,
+      "parts_max": 450000,
+      "note_vi": "V2 bỏ dịch vụ Kiểm tra chẩn đoán, trỏ về dịch vụ sửa của thiết bị"
     },
     "WH_INSTANT_NO_HOT": {
-      "labour": "DIAGNOSE_ONSITE",
+      "labour": "WH-02",
       "parts": [
         "HA042"
-      ]
+      ],
+      "labour_min": 249000,
+      "labour_max": 249000,
+      "parts_min": 300000,
+      "parts_max": 700000,
+      "note_vi": "V2 bỏ dịch vụ Kiểm tra chẩn đoán, trỏ về dịch vụ sửa của thiết bị"
     },
     "PIPE_JOINT_LEAK": {
-      "labour": "DIAGNOSE_ONSITE",
+      "labour": "PI-01",
       "parts": [
         "PIP055",
         "PIP067"
-      ]
+      ],
+      "labour_min": 199000,
+      "labour_max": 499000,
+      "parts_min": 5000,
+      "parts_max": 120000,
+      "note_vi": ""
     },
     "PIPE_BURST": {
-      "labour": "DIAGNOSE_ONSITE",
+      "labour": "PI-01",
       "parts": [
         "PIP012",
         "PIP042",
         "PIP066"
-      ]
+      ],
+      "labour_min": 199000,
+      "labour_max": 499000,
+      "parts_min": 10000,
+      "parts_max": 100000,
+      "note_vi": ""
     },
     "PIPE_CLOGGED": {
-      "labour": "DIAGNOSE_ONSITE",
-      "parts": []
+      "labour": "SA-03",
+      "parts": [],
+      "labour_min": 549000,
+      "labour_max": 549000,
+      "parts_min": 0,
+      "parts_max": 0,
+      "note_vi": "Nghẹt ống thoát thường ở thoát sàn"
     },
     "PIPE_LOW_PRESSURE": {
-      "labour": "DIAGNOSE_ONSITE",
+      "labour": "PI-01",
       "parts": [
         "PIP063"
-      ]
+      ],
+      "labour_min": 199000,
+      "labour_max": 499000,
+      "parts_min": 120000,
+      "parts_max": 350000,
+      "note_vi": "V2 bỏ dịch vụ Kiểm tra chẩn đoán, trỏ về dịch vụ sửa của thiết bị"
     },
     "PIPE_NOISY": {
-      "labour": "DIAGNOSE_ONSITE",
+      "labour": "PI-01",
       "parts": [
         "PIP064"
-      ]
+      ],
+      "labour_min": 199000,
+      "labour_max": 499000,
+      "parts_min": 3000,
+      "parts_max": 12000,
+      "note_vi": "V2 bỏ dịch vụ Kiểm tra chẩn đoán, trỏ về dịch vụ sửa của thiết bị"
     },
     "PIPE_RUSTY_WATER": {
-      "labour": "DIAGNOSE_ONSITE",
+      "labour": "PI-01",
       "parts": [
         "PIP013"
       ],
-      "assess": true,
-      "note_vi": "Chi phi tuy chieu dai doan ong phai thay va viec duc tuong, tho khao sat moi bao duoc."
+      "labour_min": 199000,
+      "labour_max": 499000,
+      "parts_min": 55000,
+      "parts_max": 110000,
+      "note_vi": "V2 bỏ dịch vụ Kiểm tra chẩn đoán, trỏ về dịch vụ sửa của thiết bị"
     },
     "HOB_NO_PAN_DETECT": {
-      "labour": "DIAGNOSE_ONSITE",
-      "parts": [],
-      "note_vi": "Backend bao gia sau khi kiem tra; bang linh kien chua co phu tung cho thiet bi nay nen khong dua tran."
+      "labour": "KT-01",
+      "parts": [
+        "HA001",
+        "HA005",
+        "HA007"
+      ],
+      "labour_min": 249000,
+      "labour_max": 349000,
+      "parts_min": 15000,
+      "parts_max": 1200000,
+      "note_vi": ""
     },
     "HOB_ERROR_CODE": {
-      "labour": "DIAGNOSE_ONSITE",
-      "parts": [],
-      "note_vi": "Backend bao gia sau khi kiem tra; bang linh kien chua co phu tung cho thiet bi nay nen khong dua tran."
+      "labour": "KT-01",
+      "parts": [
+        "HA010",
+        "HA001",
+        "HA011"
+      ],
+      "labour_min": 249000,
+      "labour_max": 349000,
+      "parts_min": 15000,
+      "parts_max": 1500000,
+      "note_vi": ""
     },
     "HOB_FAN_NOISY": {
-      "labour": "DIAGNOSE_ONSITE",
-      "parts": [],
-      "note_vi": "Backend bao gia sau khi kiem tra; bang linh kien chua co phu tung cho thiet bi nay nen khong dua tran."
+      "labour": "KT-01",
+      "parts": [
+        "HA009"
+      ],
+      "labour_min": 249000,
+      "labour_max": 349000,
+      "parts_min": 200000,
+      "parts_max": 700000,
+      "note_vi": ""
     },
     "HOB_TOUCH_FAULT": {
-      "labour": "DIAGNOSE_ONSITE",
-      "parts": [],
-      "note_vi": "Backend bao gia sau khi kiem tra; bang linh kien chua co phu tung cho thiet bi nay nen khong dua tran."
+      "labour": "KT-01",
+      "parts": [
+        "HA013"
+      ],
+      "labour_min": 249000,
+      "labour_max": 349000,
+      "parts_min": 700000,
+      "parts_max": 2500000,
+      "note_vi": ""
     },
     "HOB_NO_POWER": {
-      "labour": "DIAGNOSE_ONSITE",
-      "parts": [],
-      "note_vi": "Backend bao gia sau khi kiem tra; bang linh kien chua co phu tung cho thiet bi nay nen khong dua tran."
+      "labour": "KT-01",
+      "parts": [
+        "HA004",
+        "HA011"
+      ],
+      "labour_min": 249000,
+      "labour_max": 349000,
+      "parts_min": 100000,
+      "parts_max": 1500000,
+      "note_vi": ""
     },
     "HOB_GLASS_CRACKED": {
-      "labour": "DIAGNOSE_ONSITE",
-      "parts": [],
-      "note_vi": "Backend bao gia sau khi kiem tra; bang linh kien chua co phu tung cho thiet bi nay nen khong dua tran."
+      "labour": "KT-01",
+      "parts": [
+        "HA014",
+        "HA015"
+      ],
+      "labour_min": 249000,
+      "labour_max": 349000,
+      "parts_min": 500000,
+      "parts_max": 4500000,
+      "note_vi": ""
     },
     "DW_NOT_CLEAN": {
-      "labour": "DIAGNOSE_ONSITE",
-      "parts": [],
-      "note_vi": "Backend bao gia sau khi kiem tra; bang linh kien chua co phu tung cho thiet bi nay nen khong dua tran."
+      "labour": "KT-04",
+      "parts": [
+        "DWS002",
+        "DWS011",
+        "DWS012"
+      ],
+      "labour_min": 299000,
+      "labour_max": 299000,
+      "parts_min": 300000,
+      "parts_max": 4000000,
+      "note_vi": ""
     },
     "DW_NOT_DRAINING": {
-      "labour": "DIAGNOSE_ONSITE",
-      "parts": [],
-      "note_vi": "Backend bao gia sau khi kiem tra; bang linh kien chua co phu tung cho thiet bi nay nen khong dua tran."
+      "labour": "KT-04",
+      "parts": [
+        "DWS001",
+        "DWS013",
+        "DWS012"
+      ],
+      "labour_min": 299000,
+      "labour_max": 299000,
+      "parts_min": 150000,
+      "parts_max": 1900000,
+      "note_vi": ""
     },
     "DW_NO_WATER": {
-      "labour": "DIAGNOSE_ONSITE",
-      "parts": [],
-      "note_vi": "Backend bao gia sau khi kiem tra; bang linh kien chua co phu tung cho thiet bi nay nen khong dua tran."
+      "labour": "KT-04",
+      "parts": [
+        "DWS004",
+        "DWS014",
+        "DWS010"
+      ],
+      "labour_min": 299000,
+      "labour_max": 299000,
+      "parts_min": 300000,
+      "parts_max": 2800000,
+      "note_vi": ""
     },
     "DW_DOOR_LEAK": {
-      "labour": "DIAGNOSE_ONSITE",
-      "parts": [],
-      "note_vi": "Backend bao gia sau khi kiem tra; bang linh kien chua co phu tung cho thiet bi nay nen khong dua tran."
+      "labour": "KT-04",
+      "parts": [
+        "DWS005",
+        "DWS006"
+      ],
+      "labour_min": 299000,
+      "labour_max": 299000,
+      "parts_min": 200000,
+      "parts_max": 1800000,
+      "note_vi": ""
     },
     "DW_NO_POWER": {
-      "labour": "DIAGNOSE_ONSITE",
-      "parts": [],
-      "note_vi": "Backend bao gia sau khi kiem tra; bang linh kien chua co phu tung cho thiet bi nay nen khong dua tran."
+      "labour": "KT-04",
+      "parts": [
+        "DWS007",
+        "DWS008",
+        "DWS006"
+      ],
+      "labour_min": 299000,
+      "labour_max": 299000,
+      "parts_min": 500000,
+      "parts_max": 6800000,
+      "note_vi": ""
     },
     "DRYER_NOT_HEATING": {
-      "labour": "DIAGNOSE_ONSITE",
-      "parts": [],
-      "note_vi": "Backend bao gia sau khi kiem tra; bang linh kien chua co phu tung cho thiet bi nay nen khong dua tran."
+      "labour": "WM-04",
+      "parts": [
+        "DRY001",
+        "DRY007",
+        "DRY008"
+      ],
+      "labour_min": 199000,
+      "labour_max": 349000,
+      "parts_min": 20000,
+      "parts_max": 1300000,
+      "note_vi": "V2 bỏ dịch vụ Kiểm tra chẩn đoán, trỏ về dịch vụ sửa của thiết bị"
     },
     "DRYER_LINT_CLOGGED": {
-      "labour": "VE_SINH_MAY_SAY",
+      "labour": "WM-05",
       "parts": [],
-      "note_vi": "Gia co dinh theo bang gia ve sinh may say."
+      "labour_min": 399000,
+      "labour_max": 599000,
+      "parts_min": 0,
+      "parts_max": 0,
+      "note_vi": "Vệ sinh máy sấy, không thay lưới lọc"
     },
     "DRYER_NOISY": {
-      "labour": "DIAGNOSE_ONSITE",
-      "parts": [],
-      "note_vi": "Backend bao gia sau khi kiem tra; bang linh kien chua co phu tung cho thiet bi nay nen khong dua tran."
+      "labour": "WM-04",
+      "parts": [
+        "DRY003",
+        "DRY004",
+        "DRY006"
+      ],
+      "labour_min": 199000,
+      "labour_max": 349000,
+      "parts_min": 150000,
+      "parts_max": 1600000,
+      "note_vi": "V2 bỏ dịch vụ Kiểm tra chẩn đoán, trỏ về dịch vụ sửa của thiết bị"
     },
     "DRYER_NOT_SPINNING": {
-      "labour": "DIAGNOSE_ONSITE",
-      "parts": [],
-      "note_vi": "Backend bao gia sau khi kiem tra; bang linh kien chua co phu tung cho thiet bi nay nen khong dua tran."
+      "labour": "WM-04",
+      "parts": [
+        "DRY002",
+        "DRY005",
+        "DRY004"
+      ],
+      "labour_min": 199000,
+      "labour_max": 349000,
+      "parts_min": 150000,
+      "parts_max": 2500000,
+      "note_vi": "V2 bỏ dịch vụ Kiểm tra chẩn đoán, trỏ về dịch vụ sửa của thiết bị"
     },
     "DRYER_NO_POWER": {
-      "labour": "DIAGNOSE_ONSITE",
-      "parts": [],
-      "note_vi": "Backend bao gia sau khi kiem tra; bang linh kien chua co phu tung cho thiet bi nay nen khong dua tran."
+      "labour": "WM-04",
+      "parts": [
+        "DRY009",
+        "DRY008",
+        "DRY010"
+      ],
+      "labour_min": 199000,
+      "labour_max": 349000,
+      "parts_min": 20000,
+      "parts_max": 4000000,
+      "note_vi": "V2 bỏ dịch vụ Kiểm tra chẩn đoán, trỏ về dịch vụ sửa của thiết bị"
     },
     "PURIFIER_NO_WATER": {
-      "labour": "DIAGNOSE_ONSITE",
-      "parts": [],
-      "note_vi": "Backend bao gia sau khi kiem tra; bang linh kien chua co phu tung cho thiet bi nay nen khong dua tran."
+      "labour": "RO-01",
+      "parts": [
+        "HA049",
+        "HA051",
+        "HA052",
+        "HA060"
+      ],
+      "labour_min": 199000,
+      "labour_max": 199000,
+      "parts_min": 120000,
+      "parts_max": 900000,
+      "note_vi": "Trước trỏ nhầm sang Lắp máy lọc; PO chốt về Sửa máy lọc"
     },
     "PURIFIER_LEAK": {
-      "labour": "DIAGNOSE_ONSITE",
-      "parts": [],
-      "note_vi": "Backend bao gia sau khi kiem tra; bang linh kien chua co phu tung cho thiet bi nay nen khong dua tran."
+      "labour": "RO-01",
+      "parts": [
+        "HA054",
+        "HA062"
+      ],
+      "labour_min": 199000,
+      "labour_max": 199000,
+      "parts_min": 80000,
+      "parts_max": 550000,
+      "note_vi": "Trước trỏ nhầm sang Lắp máy lọc; PO chốt về Sửa máy lọc"
     },
     "PURIFIER_FILTER_DUE": {
-      "labour": "DIAGNOSE_ONSITE",
-      "parts": [],
-      "note_vi": "Backend bao gia sau khi kiem tra; bang linh kien chua co phu tung cho thiet bi nay nen khong dua tran."
+      "labour": "RO-02",
+      "parts": [
+        "HA056",
+        "HA057",
+        "HA058"
+      ],
+      "labour_min": 149000,
+      "labour_max": 149000,
+      "parts_min": 15000,
+      "parts_max": 220000,
+      "note_vi": "Đến hạn thay lõi"
     },
     "PURIFIER_PUMP_RUNS_ON": {
-      "labour": "DIAGNOSE_ONSITE",
-      "parts": [],
-      "note_vi": "Backend bao gia sau khi kiem tra; bang linh kien chua co phu tung cho thiet bi nay nen khong dua tran."
+      "labour": "RO-01",
+      "parts": [
+        "HA053",
+        "HA051",
+        "HA054"
+      ],
+      "labour_min": 199000,
+      "labour_max": 199000,
+      "parts_min": 80000,
+      "parts_max": 400000,
+      "note_vi": "Trước trỏ nhầm sang Lắp máy lọc; PO chốt về Sửa máy lọc"
     },
     "PURIFIER_NO_POWER": {
-      "labour": "DIAGNOSE_ONSITE",
-      "parts": [],
-      "note_vi": "Backend bao gia sau khi kiem tra; bang linh kien chua co phu tung cho thiet bi nay nen khong dua tran."
+      "labour": "RO-01",
+      "parts": [
+        "HA063",
+        "HA048"
+      ],
+      "labour_min": 199000,
+      "labour_max": 199000,
+      "parts_min": 200000,
+      "parts_max": 700000,
+      "note_vi": "Trước trỏ nhầm sang Lắp máy lọc; PO chốt về Sửa máy lọc"
     },
     "LOCK_FINGERPRINT_FAIL": {
-      "labour": "DIAGNOSE_ONSITE",
-      "parts": [],
-      "note_vi": "Backend bao gia sau khi kiem tra; bang linh kien chua co phu tung cho thiet bi nay nen khong dua tran."
+      "labour": "LK-02",
+      "parts": [
+        "LCK005",
+        "LCK008"
+      ],
+      "labour_min": 199000,
+      "labour_max": 199000,
+      "parts_min": 500000,
+      "parts_max": 2500000,
+      "note_vi": ""
     },
     "LOCK_LOW_BATTERY": {
-      "labour": "DIAGNOSE_ONSITE",
-      "parts": [],
-      "note_vi": "Backend bao gia sau khi kiem tra; bang linh kien chua co phu tung cho thiet bi nay nen khong dua tran."
+      "labour": "LK-02",
+      "parts": [
+        "LCK001",
+        "LCK002"
+      ],
+      "labour_min": 199000,
+      "labour_max": 199000,
+      "parts_min": 60000,
+      "parts_max": 1500000,
+      "note_vi": ""
     },
     "LOCK_MOTOR_FAULT": {
-      "labour": "DIAGNOSE_ONSITE",
-      "parts": [],
-      "note_vi": "Backend bao gia sau khi kiem tra; bang linh kien chua co phu tung cho thiet bi nay nen khong dua tran."
+      "labour": "LK-02",
+      "parts": [
+        "LCK003",
+        "LCK004"
+      ],
+      "labour_min": 199000,
+      "labour_max": 199000,
+      "parts_min": 150000,
+      "parts_max": 2500000,
+      "note_vi": ""
     },
     "LOCK_LOCKED_OUT": {
-      "labour": "DIAGNOSE_ONSITE",
-      "parts": [],
-      "note_vi": "Backend bao gia sau khi kiem tra; bang linh kien chua co phu tung cho thiet bi nay nen khong dua tran."
+      "labour": "LK-01",
+      "parts": [
+        "LCK001",
+        "LCK009"
+      ],
+      "labour_min": 149000,
+      "labour_max": 149000,
+      "parts_min": 60000,
+      "parts_max": 650000,
+      "note_vi": ""
     },
     "LOCK_CARD_FAULT": {
-      "labour": "DIAGNOSE_ONSITE",
-      "parts": [],
-      "note_vi": "Backend bao gia sau khi kiem tra; bang linh kien chua co phu tung cho thiet bi nay nen khong dua tran."
+      "labour": "LK-02",
+      "parts": [
+        "LCK007",
+        "LCK006",
+        "LCK012"
+      ],
+      "labour_min": 199000,
+      "labour_max": 199000,
+      "parts_min": 25000,
+      "parts_max": 1200000,
+      "note_vi": ""
     }
   }
 }

@@ -5207,16 +5207,12 @@
       "name_vi": "IGBT bếp từ 20A",
       "group_vi": "Linh kiện",
       "kind": "IGBT",
-      "price_min": 120000,
-      "price_max": 400000,
+      "price_min": 15000,
+      "price_max": 120000,
       "unit_vi": "cái",
       "section_vi": "Đồ điện gia dụng",
       "device_types": [
-        "electric_fan",
-        "ceiling_fan",
-        "water_heater",
-        "light_bulb",
-        "power_outlet"
+        "induction_hob"
       ]
     },
     {
@@ -5229,11 +5225,7 @@
       "unit_vi": "cái",
       "section_vi": "Đồ điện gia dụng",
       "device_types": [
-        "electric_fan",
-        "ceiling_fan",
-        "water_heater",
-        "light_bulb",
-        "power_outlet"
+        "induction_hob"
       ]
     },
     {
@@ -5246,11 +5238,7 @@
       "unit_vi": "cái",
       "section_vi": "Đồ điện gia dụng",
       "device_types": [
-        "electric_fan",
-        "ceiling_fan",
-        "water_heater",
-        "light_bulb",
-        "power_outlet"
+        "induction_hob"
       ]
     },
     {
@@ -5263,11 +5251,7 @@
       "unit_vi": "cái",
       "section_vi": "Đồ điện gia dụng",
       "device_types": [
-        "electric_fan",
-        "ceiling_fan",
-        "water_heater",
-        "light_bulb",
-        "power_outlet"
+        "induction_hob"
       ]
     },
     {
@@ -5280,11 +5264,7 @@
       "unit_vi": "cái",
       "section_vi": "Đồ điện gia dụng",
       "device_types": [
-        "electric_fan",
-        "ceiling_fan",
-        "water_heater",
-        "light_bulb",
-        "power_outlet"
+        "induction_hob"
       ]
     },
     {
@@ -5297,11 +5277,7 @@
       "unit_vi": "cái",
       "section_vi": "Đồ điện gia dụng",
       "device_types": [
-        "electric_fan",
-        "ceiling_fan",
-        "water_heater",
-        "light_bulb",
-        "power_outlet"
+        "induction_hob"
       ]
     },
     {
@@ -5309,16 +5285,12 @@
       "name_vi": "Cuộn dây mâm từ đơn",
       "group_vi": "Linh kiện",
       "kind": "Induction Coil",
-      "price_min": 400000,
+      "price_min": 100000,
       "price_max": 1200000,
       "unit_vi": "cái",
       "section_vi": "Đồ điện gia dụng",
       "device_types": [
-        "electric_fan",
-        "ceiling_fan",
-        "water_heater",
-        "light_bulb",
-        "power_outlet"
+        "induction_hob"
       ]
     },
     {
@@ -5331,11 +5303,7 @@
       "unit_vi": "cái",
       "section_vi": "Đồ điện gia dụng",
       "device_types": [
-        "electric_fan",
-        "ceiling_fan",
-        "water_heater",
-        "light_bulb",
-        "power_outlet"
+        "induction_hob"
       ]
     },
     {
@@ -5348,11 +5316,7 @@
       "unit_vi": "cái",
       "section_vi": "Đồ điện gia dụng",
       "device_types": [
-        "electric_fan",
-        "ceiling_fan",
-        "water_heater",
-        "light_bulb",
-        "power_outlet"
+        "induction_hob"
       ]
     },
     {
@@ -5365,11 +5329,7 @@
       "unit_vi": "cái",
       "section_vi": "Đồ điện gia dụng",
       "device_types": [
-        "electric_fan",
-        "ceiling_fan",
-        "water_heater",
-        "light_bulb",
-        "power_outlet"
+        "induction_hob"
       ]
     },
     {
@@ -5382,11 +5342,7 @@
       "unit_vi": "bộ",
       "section_vi": "Đồ điện gia dụng",
       "device_types": [
-        "electric_fan",
-        "ceiling_fan",
-        "water_heater",
-        "light_bulb",
-        "power_outlet"
+        "induction_hob"
       ]
     },
     {
@@ -5394,16 +5350,12 @@
       "name_vi": "Bo công suất bếp từ đôi",
       "group_vi": "Linh kiện",
       "kind": "Power PCB",
-      "price_min": 1000000,
+      "price_min": 600000,
       "price_max": 3500000,
       "unit_vi": "bộ",
       "section_vi": "Đồ điện gia dụng",
       "device_types": [
-        "electric_fan",
-        "ceiling_fan",
-        "water_heater",
-        "light_bulb",
-        "power_outlet"
+        "induction_hob"
       ]
     },
     {
@@ -5416,11 +5368,7 @@
       "unit_vi": "bộ",
       "section_vi": "Đồ điện gia dụng",
       "device_types": [
-        "electric_fan",
-        "ceiling_fan",
-        "water_heater",
-        "light_bulb",
-        "power_outlet"
+        "induction_hob"
       ]
     },
     {
@@ -5433,11 +5381,7 @@
       "unit_vi": "tấm",
       "section_vi": "Đồ điện gia dụng",
       "device_types": [
-        "electric_fan",
-        "ceiling_fan",
-        "water_heater",
-        "light_bulb",
-        "power_outlet"
+        "induction_hob"
       ]
     },
     {
@@ -5445,16 +5389,12 @@
       "name_vi": "Mặt kính bếp từ đôi",
       "group_vi": "Linh kiện",
       "kind": "Ceramic Glass",
-      "price_min": 1200000,
+      "price_min": 700000,
       "price_max": 4500000,
       "unit_vi": "tấm",
       "section_vi": "Đồ điện gia dụng",
       "device_types": [
-        "electric_fan",
-        "ceiling_fan",
-        "water_heater",
-        "light_bulb",
-        "power_outlet"
+        "induction_hob"
       ]
     },
     {
@@ -5467,11 +5407,7 @@
       "unit_vi": "cái",
       "section_vi": "Đồ điện gia dụng",
       "device_types": [
-        "electric_fan",
-        "ceiling_fan",
-        "water_heater",
-        "light_bulb",
-        "power_outlet"
+        "microwave_oven"
       ]
     },
     {
@@ -5484,11 +5420,7 @@
       "unit_vi": "cái",
       "section_vi": "Đồ điện gia dụng",
       "device_types": [
-        "electric_fan",
-        "ceiling_fan",
-        "water_heater",
-        "light_bulb",
-        "power_outlet"
+        "microwave_oven"
       ]
     },
     {
@@ -5501,11 +5433,7 @@
       "unit_vi": "cái",
       "section_vi": "Đồ điện gia dụng",
       "device_types": [
-        "electric_fan",
-        "ceiling_fan",
-        "water_heater",
-        "light_bulb",
-        "power_outlet"
+        "microwave_oven"
       ]
     },
     {
@@ -5518,11 +5446,7 @@
       "unit_vi": "cái",
       "section_vi": "Đồ điện gia dụng",
       "device_types": [
-        "electric_fan",
-        "ceiling_fan",
-        "water_heater",
-        "light_bulb",
-        "power_outlet"
+        "microwave_oven"
       ]
     },
     {
@@ -5535,11 +5459,7 @@
       "unit_vi": "cái",
       "section_vi": "Đồ điện gia dụng",
       "device_types": [
-        "electric_fan",
-        "ceiling_fan",
-        "water_heater",
-        "light_bulb",
-        "power_outlet"
+        "microwave_oven"
       ]
     },
     {
@@ -5552,11 +5472,7 @@
       "unit_vi": "bộ",
       "section_vi": "Đồ điện gia dụng",
       "device_types": [
-        "electric_fan",
-        "ceiling_fan",
-        "water_heater",
-        "light_bulb",
-        "power_outlet"
+        "microwave_oven"
       ]
     },
     {
@@ -5569,11 +5485,7 @@
       "unit_vi": "cái",
       "section_vi": "Đồ điện gia dụng",
       "device_types": [
-        "electric_fan",
-        "ceiling_fan",
-        "water_heater",
-        "light_bulb",
-        "power_outlet"
+        "microwave_oven"
       ]
     },
     {
@@ -5586,11 +5498,7 @@
       "unit_vi": "cái",
       "section_vi": "Đồ điện gia dụng",
       "device_types": [
-        "electric_fan",
-        "ceiling_fan",
-        "water_heater",
-        "light_bulb",
-        "power_outlet"
+        "microwave_oven"
       ]
     },
     {
@@ -5603,11 +5511,7 @@
       "unit_vi": "cái",
       "section_vi": "Đồ điện gia dụng",
       "device_types": [
-        "electric_fan",
-        "ceiling_fan",
-        "water_heater",
-        "light_bulb",
-        "power_outlet"
+        "microwave_oven"
       ]
     },
     {
@@ -5620,11 +5524,7 @@
       "unit_vi": "cái",
       "section_vi": "Đồ điện gia dụng",
       "device_types": [
-        "electric_fan",
-        "ceiling_fan",
-        "water_heater",
-        "light_bulb",
-        "power_outlet"
+        "microwave_oven"
       ]
     },
     {
@@ -5637,11 +5537,7 @@
       "unit_vi": "bộ",
       "section_vi": "Đồ điện gia dụng",
       "device_types": [
-        "electric_fan",
-        "ceiling_fan",
-        "water_heater",
-        "light_bulb",
-        "power_outlet"
+        "microwave_oven"
       ]
     },
     {
@@ -5653,13 +5549,7 @@
       "price_max": 650000,
       "unit_vi": "cái",
       "section_vi": "Đồ điện gia dụng",
-      "device_types": [
-        "electric_fan",
-        "ceiling_fan",
-        "water_heater",
-        "light_bulb",
-        "power_outlet"
-      ]
+      "device_types": []
     },
     {
       "code": "HA028",
@@ -5670,13 +5560,7 @@
       "price_max": 350000,
       "unit_vi": "cái",
       "section_vi": "Đồ điện gia dụng",
-      "device_types": [
-        "electric_fan",
-        "ceiling_fan",
-        "water_heater",
-        "light_bulb",
-        "power_outlet"
-      ]
+      "device_types": []
     },
     {
       "code": "HA029",
@@ -5687,13 +5571,7 @@
       "price_max": 180000,
       "unit_vi": "cái",
       "section_vi": "Đồ điện gia dụng",
-      "device_types": [
-        "electric_fan",
-        "ceiling_fan",
-        "water_heater",
-        "light_bulb",
-        "power_outlet"
-      ]
+      "device_types": []
     },
     {
       "code": "HA030",
@@ -5704,13 +5582,7 @@
       "price_max": 300000,
       "unit_vi": "cái",
       "section_vi": "Đồ điện gia dụng",
-      "device_types": [
-        "electric_fan",
-        "ceiling_fan",
-        "water_heater",
-        "light_bulb",
-        "power_outlet"
-      ]
+      "device_types": []
     },
     {
       "code": "HA031",
@@ -5721,13 +5593,7 @@
       "price_max": 900000,
       "unit_vi": "bộ",
       "section_vi": "Đồ điện gia dụng",
-      "device_types": [
-        "electric_fan",
-        "ceiling_fan",
-        "water_heater",
-        "light_bulb",
-        "power_outlet"
-      ]
+      "device_types": []
     },
     {
       "code": "HA032",
@@ -5738,13 +5604,7 @@
       "price_max": 800000,
       "unit_vi": "bộ",
       "section_vi": "Đồ điện gia dụng",
-      "device_types": [
-        "electric_fan",
-        "ceiling_fan",
-        "water_heater",
-        "light_bulb",
-        "power_outlet"
-      ]
+      "device_types": []
     },
     {
       "code": "HA033",
@@ -5755,13 +5615,7 @@
       "price_max": 1800000,
       "unit_vi": "bộ",
       "section_vi": "Đồ điện gia dụng",
-      "device_types": [
-        "electric_fan",
-        "ceiling_fan",
-        "water_heater",
-        "light_bulb",
-        "power_outlet"
-      ]
+      "device_types": []
     },
     {
       "code": "HA034",
@@ -5772,13 +5626,7 @@
       "price_max": 500000,
       "unit_vi": "cái",
       "section_vi": "Đồ điện gia dụng",
-      "device_types": [
-        "electric_fan",
-        "ceiling_fan",
-        "water_heater",
-        "light_bulb",
-        "power_outlet"
-      ]
+      "device_types": []
     },
     {
       "code": "HA035",
@@ -5791,10 +5639,7 @@
       "section_vi": "Đồ điện gia dụng",
       "device_types": [
         "electric_fan",
-        "ceiling_fan",
-        "water_heater",
-        "light_bulb",
-        "power_outlet"
+        "ceiling_fan"
       ]
     },
     {
@@ -5802,16 +5647,13 @@
       "name_vi": "Tụ quạt 1.5µF",
       "group_vi": "Linh kiện",
       "kind": "Fan Capacitor",
-      "price_min": 50000,
-      "price_max": 150000,
+      "price_min": 10000,
+      "price_max": 40000,
       "unit_vi": "cái",
       "section_vi": "Đồ điện gia dụng",
       "device_types": [
         "electric_fan",
-        "ceiling_fan",
-        "water_heater",
-        "light_bulb",
-        "power_outlet"
+        "ceiling_fan"
       ]
     },
     {
@@ -5819,16 +5661,13 @@
       "name_vi": "Tụ quạt 2µF",
       "group_vi": "Linh kiện",
       "kind": "Fan Capacitor",
-      "price_min": 50000,
-      "price_max": 180000,
+      "price_min": 10000,
+      "price_max": 40000,
       "unit_vi": "cái",
       "section_vi": "Đồ điện gia dụng",
       "device_types": [
         "electric_fan",
-        "ceiling_fan",
-        "water_heater",
-        "light_bulb",
-        "power_outlet"
+        "ceiling_fan"
       ]
     },
     {
@@ -5836,16 +5675,13 @@
       "name_vi": "Tụ quạt 2.5µF",
       "group_vi": "Linh kiện",
       "kind": "Fan Capacitor",
-      "price_min": 60000,
-      "price_max": 180000,
+      "price_min": 10000,
+      "price_max": 40000,
       "unit_vi": "cái",
       "section_vi": "Đồ điện gia dụng",
       "device_types": [
         "electric_fan",
-        "ceiling_fan",
-        "water_heater",
-        "light_bulb",
-        "power_outlet"
+        "ceiling_fan"
       ]
     },
     {
@@ -5859,10 +5695,7 @@
       "section_vi": "Đồ điện gia dụng",
       "device_types": [
         "electric_fan",
-        "ceiling_fan",
-        "water_heater",
-        "light_bulb",
-        "power_outlet"
+        "ceiling_fan"
       ]
     },
     {
@@ -5876,10 +5709,7 @@
       "section_vi": "Đồ điện gia dụng",
       "device_types": [
         "electric_fan",
-        "ceiling_fan",
-        "water_heater",
-        "light_bulb",
-        "power_outlet"
+        "ceiling_fan"
       ]
     },
     {
@@ -5893,10 +5723,7 @@
       "section_vi": "Đồ điện gia dụng",
       "device_types": [
         "electric_fan",
-        "ceiling_fan",
-        "water_heater",
-        "light_bulb",
-        "power_outlet"
+        "ceiling_fan"
       ]
     },
     {
@@ -5909,11 +5736,7 @@
       "unit_vi": "cái",
       "section_vi": "Đồ điện gia dụng",
       "device_types": [
-        "electric_fan",
-        "ceiling_fan",
-        "water_heater",
-        "light_bulb",
-        "power_outlet"
+        "water_heater"
       ]
     },
     {
@@ -5921,16 +5744,12 @@
       "name_vi": "Thanh đốt bình nóng lạnh 2500W",
       "group_vi": "Linh kiện",
       "kind": "Heating Element",
-      "price_min": 350000,
+      "price_min": 150000,
       "price_max": 900000,
       "unit_vi": "cái",
       "section_vi": "Đồ điện gia dụng",
       "device_types": [
-        "electric_fan",
-        "ceiling_fan",
-        "water_heater",
-        "light_bulb",
-        "power_outlet"
+        "water_heater"
       ]
     },
     {
@@ -5943,11 +5762,7 @@
       "unit_vi": "cái",
       "section_vi": "Đồ điện gia dụng",
       "device_types": [
-        "electric_fan",
-        "ceiling_fan",
-        "water_heater",
-        "light_bulb",
-        "power_outlet"
+        "water_heater"
       ]
     },
     {
@@ -5960,11 +5775,7 @@
       "unit_vi": "cái",
       "section_vi": "Đồ điện gia dụng",
       "device_types": [
-        "electric_fan",
-        "ceiling_fan",
-        "water_heater",
-        "light_bulb",
-        "power_outlet"
+        "water_heater"
       ]
     },
     {
@@ -5977,11 +5788,7 @@
       "unit_vi": "cái",
       "section_vi": "Đồ điện gia dụng",
       "device_types": [
-        "electric_fan",
-        "ceiling_fan",
-        "water_heater",
-        "light_bulb",
-        "power_outlet"
+        "water_heater"
       ]
     },
     {
@@ -5994,11 +5801,7 @@
       "unit_vi": "cái",
       "section_vi": "Đồ điện gia dụng",
       "device_types": [
-        "electric_fan",
-        "ceiling_fan",
-        "water_heater",
-        "light_bulb",
-        "power_outlet"
+        "water_heater"
       ]
     },
     {
@@ -6011,11 +5814,7 @@
       "unit_vi": "bộ",
       "section_vi": "Đồ điện gia dụng",
       "device_types": [
-        "electric_fan",
-        "ceiling_fan",
-        "water_heater",
-        "light_bulb",
-        "power_outlet"
+        "water_purifier"
       ]
     },
     {
@@ -6023,16 +5822,12 @@
       "name_vi": "Bơm RO 24V 50G",
       "group_vi": "Linh kiện",
       "kind": "RO Pump",
-      "price_min": 350000,
+      "price_min": 250000,
       "price_max": 750000,
       "unit_vi": "cái",
       "section_vi": "Đồ điện gia dụng",
       "device_types": [
-        "electric_fan",
-        "ceiling_fan",
-        "water_heater",
-        "light_bulb",
-        "power_outlet"
+        "water_purifier"
       ]
     },
     {
@@ -6045,11 +5840,7 @@
       "unit_vi": "cái",
       "section_vi": "Đồ điện gia dụng",
       "device_types": [
-        "electric_fan",
-        "ceiling_fan",
-        "water_heater",
-        "light_bulb",
-        "power_outlet"
+        "water_purifier"
       ]
     },
     {
@@ -6062,11 +5853,7 @@
       "unit_vi": "cái",
       "section_vi": "Đồ điện gia dụng",
       "device_types": [
-        "electric_fan",
-        "ceiling_fan",
-        "water_heater",
-        "light_bulb",
-        "power_outlet"
+        "water_purifier"
       ]
     },
     {
@@ -6079,11 +5866,7 @@
       "unit_vi": "cái",
       "section_vi": "Đồ điện gia dụng",
       "device_types": [
-        "electric_fan",
-        "ceiling_fan",
-        "water_heater",
-        "light_bulb",
-        "power_outlet"
+        "water_purifier"
       ]
     },
     {
@@ -6096,11 +5879,7 @@
       "unit_vi": "cái",
       "section_vi": "Đồ điện gia dụng",
       "device_types": [
-        "electric_fan",
-        "ceiling_fan",
-        "water_heater",
-        "light_bulb",
-        "power_outlet"
+        "water_purifier"
       ]
     },
     {
@@ -6113,11 +5892,7 @@
       "unit_vi": "cái",
       "section_vi": "Đồ điện gia dụng",
       "device_types": [
-        "electric_fan",
-        "ceiling_fan",
-        "water_heater",
-        "light_bulb",
-        "power_outlet"
+        "water_purifier"
       ]
     },
     {
@@ -6130,11 +5905,7 @@
       "unit_vi": "bình",
       "section_vi": "Đồ điện gia dụng",
       "device_types": [
-        "electric_fan",
-        "ceiling_fan",
-        "water_heater",
-        "light_bulb",
-        "power_outlet"
+        "water_purifier"
       ]
     },
     {
@@ -6142,16 +5913,12 @@
       "name_vi": "Lõi PP 5 micron",
       "group_vi": "Linh kiện",
       "kind": "Filter Cartridge",
-      "price_min": 50000,
+      "price_min": 15000,
       "price_max": 150000,
       "unit_vi": "lõi",
       "section_vi": "Đồ điện gia dụng",
       "device_types": [
-        "electric_fan",
-        "ceiling_fan",
-        "water_heater",
-        "light_bulb",
-        "power_outlet"
+        "water_purifier"
       ]
     },
     {
@@ -6164,11 +5931,7 @@
       "unit_vi": "lõi",
       "section_vi": "Đồ điện gia dụng",
       "device_types": [
-        "electric_fan",
-        "ceiling_fan",
-        "water_heater",
-        "light_bulb",
-        "power_outlet"
+        "water_purifier"
       ]
     },
     {
@@ -6181,11 +5944,7 @@
       "unit_vi": "lõi",
       "section_vi": "Đồ điện gia dụng",
       "device_types": [
-        "electric_fan",
-        "ceiling_fan",
-        "water_heater",
-        "light_bulb",
-        "power_outlet"
+        "water_purifier"
       ]
     },
     {
@@ -6198,11 +5957,7 @@
       "unit_vi": "lõi",
       "section_vi": "Đồ điện gia dụng",
       "device_types": [
-        "electric_fan",
-        "ceiling_fan",
-        "water_heater",
-        "light_bulb",
-        "power_outlet"
+        "water_purifier"
       ]
     },
     {
@@ -6210,16 +5965,12 @@
       "name_vi": "Màng RO 75GPD",
       "group_vi": "Linh kiện",
       "kind": "RO Membrane",
-      "price_min": 450000,
+      "price_min": 170000,
       "price_max": 900000,
       "unit_vi": "lõi",
       "section_vi": "Đồ điện gia dụng",
       "device_types": [
-        "electric_fan",
-        "ceiling_fan",
-        "water_heater",
-        "light_bulb",
-        "power_outlet"
+        "water_purifier"
       ]
     },
     {
@@ -6232,11 +5983,7 @@
       "unit_vi": "lõi",
       "section_vi": "Đồ điện gia dụng",
       "device_types": [
-        "electric_fan",
-        "ceiling_fan",
-        "water_heater",
-        "light_bulb",
-        "power_outlet"
+        "water_purifier"
       ]
     },
     {
@@ -6249,11 +5996,7 @@
       "unit_vi": "cái",
       "section_vi": "Đồ điện gia dụng",
       "device_types": [
-        "electric_fan",
-        "ceiling_fan",
-        "water_heater",
-        "light_bulb",
-        "power_outlet"
+        "water_purifier"
       ]
     },
     {
@@ -6266,11 +6009,7 @@
       "unit_vi": "cái",
       "section_vi": "Đồ điện gia dụng",
       "device_types": [
-        "electric_fan",
-        "ceiling_fan",
-        "water_heater",
-        "light_bulb",
-        "power_outlet"
+        "water_purifier"
       ]
     },
     {
@@ -6283,11 +6022,7 @@
       "unit_vi": "cái",
       "section_vi": "Đồ điện gia dụng",
       "device_types": [
-        "electric_fan",
-        "ceiling_fan",
-        "water_heater",
-        "light_bulb",
-        "power_outlet"
+        "water_purifier"
       ]
     },
     {
@@ -6300,11 +6035,7 @@
       "unit_vi": "bộ",
       "section_vi": "Đồ điện gia dụng",
       "device_types": [
-        "electric_fan",
-        "ceiling_fan",
-        "water_heater",
-        "light_bulb",
-        "power_outlet"
+        "water_purifier"
       ]
     },
     {
@@ -6320,6 +6051,13 @@
         "electric_fan",
         "ceiling_fan",
         "water_heater",
+        "kettle",
+        "microwave_oven",
+        "oven",
+        "induction_hob",
+        "clothes_dryer",
+        "dishwasher",
+        "water_purifier",
         "light_bulb",
         "power_outlet"
       ]
@@ -6337,6 +6075,13 @@
         "electric_fan",
         "ceiling_fan",
         "water_heater",
+        "kettle",
+        "microwave_oven",
+        "oven",
+        "induction_hob",
+        "clothes_dryer",
+        "dishwasher",
+        "water_purifier",
         "light_bulb",
         "power_outlet"
       ]
@@ -6354,6 +6099,13 @@
         "electric_fan",
         "ceiling_fan",
         "water_heater",
+        "kettle",
+        "microwave_oven",
+        "oven",
+        "induction_hob",
+        "clothes_dryer",
+        "dishwasher",
+        "water_purifier",
         "light_bulb",
         "power_outlet"
       ]
@@ -6371,6 +6123,13 @@
         "electric_fan",
         "ceiling_fan",
         "water_heater",
+        "kettle",
+        "microwave_oven",
+        "oven",
+        "induction_hob",
+        "clothes_dryer",
+        "dishwasher",
+        "water_purifier",
         "light_bulb",
         "power_outlet"
       ]
@@ -6388,6 +6147,13 @@
         "electric_fan",
         "ceiling_fan",
         "water_heater",
+        "kettle",
+        "microwave_oven",
+        "oven",
+        "induction_hob",
+        "clothes_dryer",
+        "dishwasher",
+        "water_purifier",
         "light_bulb",
         "power_outlet"
       ]
@@ -6405,6 +6171,13 @@
         "electric_fan",
         "ceiling_fan",
         "water_heater",
+        "kettle",
+        "microwave_oven",
+        "oven",
+        "induction_hob",
+        "clothes_dryer",
+        "dishwasher",
+        "water_purifier",
         "light_bulb",
         "power_outlet"
       ]
@@ -6422,6 +6195,13 @@
         "electric_fan",
         "ceiling_fan",
         "water_heater",
+        "kettle",
+        "microwave_oven",
+        "oven",
+        "induction_hob",
+        "clothes_dryer",
+        "dishwasher",
+        "water_purifier",
         "light_bulb",
         "power_outlet"
       ]
@@ -6439,6 +6219,13 @@
         "electric_fan",
         "ceiling_fan",
         "water_heater",
+        "kettle",
+        "microwave_oven",
+        "oven",
+        "induction_hob",
+        "clothes_dryer",
+        "dishwasher",
+        "water_purifier",
         "light_bulb",
         "power_outlet"
       ]
@@ -6456,6 +6243,13 @@
         "electric_fan",
         "ceiling_fan",
         "water_heater",
+        "kettle",
+        "microwave_oven",
+        "oven",
+        "induction_hob",
+        "clothes_dryer",
+        "dishwasher",
+        "water_purifier",
         "light_bulb",
         "power_outlet"
       ]
@@ -6473,6 +6267,13 @@
         "electric_fan",
         "ceiling_fan",
         "water_heater",
+        "kettle",
+        "microwave_oven",
+        "oven",
+        "induction_hob",
+        "clothes_dryer",
+        "dishwasher",
+        "water_purifier",
         "light_bulb",
         "power_outlet"
       ]
@@ -6490,6 +6291,13 @@
         "electric_fan",
         "ceiling_fan",
         "water_heater",
+        "kettle",
+        "microwave_oven",
+        "oven",
+        "induction_hob",
+        "clothes_dryer",
+        "dishwasher",
+        "water_purifier",
         "light_bulb",
         "power_outlet"
       ]
@@ -6507,6 +6315,13 @@
         "electric_fan",
         "ceiling_fan",
         "water_heater",
+        "kettle",
+        "microwave_oven",
+        "oven",
+        "induction_hob",
+        "clothes_dryer",
+        "dishwasher",
+        "water_purifier",
         "light_bulb",
         "power_outlet"
       ]
@@ -6524,6 +6339,13 @@
         "electric_fan",
         "ceiling_fan",
         "water_heater",
+        "kettle",
+        "microwave_oven",
+        "oven",
+        "induction_hob",
+        "clothes_dryer",
+        "dishwasher",
+        "water_purifier",
         "light_bulb",
         "power_outlet"
       ]
@@ -6541,6 +6363,13 @@
         "electric_fan",
         "ceiling_fan",
         "water_heater",
+        "kettle",
+        "microwave_oven",
+        "oven",
+        "induction_hob",
+        "clothes_dryer",
+        "dishwasher",
+        "water_purifier",
         "light_bulb",
         "power_outlet"
       ]
@@ -6558,6 +6387,13 @@
         "electric_fan",
         "ceiling_fan",
         "water_heater",
+        "kettle",
+        "microwave_oven",
+        "oven",
+        "induction_hob",
+        "clothes_dryer",
+        "dishwasher",
+        "water_purifier",
         "light_bulb",
         "power_outlet"
       ]
@@ -6575,6 +6411,13 @@
         "electric_fan",
         "ceiling_fan",
         "water_heater",
+        "kettle",
+        "microwave_oven",
+        "oven",
+        "induction_hob",
+        "clothes_dryer",
+        "dishwasher",
+        "water_purifier",
         "light_bulb",
         "power_outlet"
       ]
@@ -6592,6 +6435,13 @@
         "electric_fan",
         "ceiling_fan",
         "water_heater",
+        "kettle",
+        "microwave_oven",
+        "oven",
+        "induction_hob",
+        "clothes_dryer",
+        "dishwasher",
+        "water_purifier",
         "light_bulb",
         "power_outlet"
       ]
@@ -6609,6 +6459,13 @@
         "electric_fan",
         "ceiling_fan",
         "water_heater",
+        "kettle",
+        "microwave_oven",
+        "oven",
+        "induction_hob",
+        "clothes_dryer",
+        "dishwasher",
+        "water_purifier",
         "light_bulb",
         "power_outlet"
       ]
@@ -6626,6 +6483,13 @@
         "electric_fan",
         "ceiling_fan",
         "water_heater",
+        "kettle",
+        "microwave_oven",
+        "oven",
+        "induction_hob",
+        "clothes_dryer",
+        "dishwasher",
+        "water_purifier",
         "light_bulb",
         "power_outlet"
       ]
@@ -6643,6 +6507,13 @@
         "electric_fan",
         "ceiling_fan",
         "water_heater",
+        "kettle",
+        "microwave_oven",
+        "oven",
+        "induction_hob",
+        "clothes_dryer",
+        "dishwasher",
+        "water_purifier",
         "light_bulb",
         "power_outlet"
       ]
@@ -6660,6 +6531,13 @@
         "electric_fan",
         "ceiling_fan",
         "water_heater",
+        "kettle",
+        "microwave_oven",
+        "oven",
+        "induction_hob",
+        "clothes_dryer",
+        "dishwasher",
+        "water_purifier",
         "light_bulb",
         "power_outlet"
       ]
@@ -6677,6 +6555,13 @@
         "electric_fan",
         "ceiling_fan",
         "water_heater",
+        "kettle",
+        "microwave_oven",
+        "oven",
+        "induction_hob",
+        "clothes_dryer",
+        "dishwasher",
+        "water_purifier",
         "light_bulb",
         "power_outlet"
       ]
@@ -6694,6 +6579,13 @@
         "electric_fan",
         "ceiling_fan",
         "water_heater",
+        "kettle",
+        "microwave_oven",
+        "oven",
+        "induction_hob",
+        "clothes_dryer",
+        "dishwasher",
+        "water_purifier",
         "light_bulb",
         "power_outlet"
       ]
@@ -6711,6 +6603,13 @@
         "electric_fan",
         "ceiling_fan",
         "water_heater",
+        "kettle",
+        "microwave_oven",
+        "oven",
+        "induction_hob",
+        "clothes_dryer",
+        "dishwasher",
+        "water_purifier",
         "light_bulb",
         "power_outlet"
       ]
@@ -6728,6 +6627,13 @@
         "electric_fan",
         "ceiling_fan",
         "water_heater",
+        "kettle",
+        "microwave_oven",
+        "oven",
+        "induction_hob",
+        "clothes_dryer",
+        "dishwasher",
+        "water_purifier",
         "light_bulb",
         "power_outlet"
       ]
@@ -6745,6 +6651,13 @@
         "electric_fan",
         "ceiling_fan",
         "water_heater",
+        "kettle",
+        "microwave_oven",
+        "oven",
+        "induction_hob",
+        "clothes_dryer",
+        "dishwasher",
+        "water_purifier",
         "light_bulb",
         "power_outlet"
       ]
@@ -6762,6 +6675,13 @@
         "electric_fan",
         "ceiling_fan",
         "water_heater",
+        "kettle",
+        "microwave_oven",
+        "oven",
+        "induction_hob",
+        "clothes_dryer",
+        "dishwasher",
+        "water_purifier",
         "light_bulb",
         "power_outlet"
       ]
@@ -6779,6 +6699,13 @@
         "electric_fan",
         "ceiling_fan",
         "water_heater",
+        "kettle",
+        "microwave_oven",
+        "oven",
+        "induction_hob",
+        "clothes_dryer",
+        "dishwasher",
+        "water_purifier",
         "light_bulb",
         "power_outlet"
       ]
@@ -6796,6 +6723,13 @@
         "electric_fan",
         "ceiling_fan",
         "water_heater",
+        "kettle",
+        "microwave_oven",
+        "oven",
+        "induction_hob",
+        "clothes_dryer",
+        "dishwasher",
+        "water_purifier",
         "light_bulb",
         "power_outlet"
       ]
@@ -6813,6 +6747,13 @@
         "electric_fan",
         "ceiling_fan",
         "water_heater",
+        "kettle",
+        "microwave_oven",
+        "oven",
+        "induction_hob",
+        "clothes_dryer",
+        "dishwasher",
+        "water_purifier",
         "light_bulb",
         "power_outlet"
       ]
@@ -6830,6 +6771,13 @@
         "electric_fan",
         "ceiling_fan",
         "water_heater",
+        "kettle",
+        "microwave_oven",
+        "oven",
+        "induction_hob",
+        "clothes_dryer",
+        "dishwasher",
+        "water_purifier",
         "light_bulb",
         "power_outlet"
       ]
@@ -6847,6 +6795,13 @@
         "electric_fan",
         "ceiling_fan",
         "water_heater",
+        "kettle",
+        "microwave_oven",
+        "oven",
+        "induction_hob",
+        "clothes_dryer",
+        "dishwasher",
+        "water_purifier",
         "light_bulb",
         "power_outlet"
       ]
@@ -6864,6 +6819,13 @@
         "electric_fan",
         "ceiling_fan",
         "water_heater",
+        "kettle",
+        "microwave_oven",
+        "oven",
+        "induction_hob",
+        "clothes_dryer",
+        "dishwasher",
+        "water_purifier",
         "light_bulb",
         "power_outlet"
       ]
@@ -6881,6 +6843,13 @@
         "electric_fan",
         "ceiling_fan",
         "water_heater",
+        "kettle",
+        "microwave_oven",
+        "oven",
+        "induction_hob",
+        "clothes_dryer",
+        "dishwasher",
+        "water_purifier",
         "light_bulb",
         "power_outlet"
       ]
@@ -6898,6 +6867,13 @@
         "electric_fan",
         "ceiling_fan",
         "water_heater",
+        "kettle",
+        "microwave_oven",
+        "oven",
+        "induction_hob",
+        "clothes_dryer",
+        "dishwasher",
+        "water_purifier",
         "light_bulb",
         "power_outlet"
       ]
@@ -11230,6 +11206,578 @@
       ],
       "price_estimated": true,
       "price_note_vi": "Uoc luong theo gia thi truong pho thong 2026, Admin can ra lai truoc khi chot."
+    },
+    {
+      "code": "DWS001",
+      "name_vi": "Bơm xả máy rửa bát",
+      "group_vi": "Linh kiện",
+      "kind": "Drain Pump",
+      "price_min": 600000,
+      "price_max": 1900000,
+      "unit_vi": "cái",
+      "section_vi": "Máy rửa bát — linh kiện",
+      "device_types": [
+        "dishwasher"
+      ]
+    },
+    {
+      "code": "DWS002",
+      "name_vi": "Bơm tuần hoàn (cụm bơm nhiệt) máy rửa bát",
+      "group_vi": "Linh kiện",
+      "kind": "Circulation Pump",
+      "price_min": 1500000,
+      "price_max": 4000000,
+      "unit_vi": "cái",
+      "section_vi": "Máy rửa bát — linh kiện",
+      "device_types": [
+        "dishwasher"
+      ]
+    },
+    {
+      "code": "DWS003",
+      "name_vi": "Thanh nhiệt máy rửa bát",
+      "group_vi": "Linh kiện",
+      "kind": "Heater",
+      "price_min": 800000,
+      "price_max": 2600000,
+      "unit_vi": "cái",
+      "section_vi": "Máy rửa bát — linh kiện",
+      "device_types": [
+        "dishwasher"
+      ]
+    },
+    {
+      "code": "DWS004",
+      "name_vi": "Van cấp nước điện từ máy rửa bát",
+      "group_vi": "Linh kiện",
+      "kind": "Inlet Valve",
+      "price_min": 300000,
+      "price_max": 1800000,
+      "unit_vi": "cái",
+      "section_vi": "Máy rửa bát — linh kiện",
+      "device_types": [
+        "dishwasher"
+      ]
+    },
+    {
+      "code": "DWS005",
+      "name_vi": "Gioăng cửa máy rửa bát",
+      "group_vi": "Linh kiện",
+      "kind": "Door Gasket",
+      "price_min": 200000,
+      "price_max": 800000,
+      "unit_vi": "sợi",
+      "section_vi": "Máy rửa bát — linh kiện",
+      "device_types": [
+        "dishwasher"
+      ]
+    },
+    {
+      "code": "DWS006",
+      "name_vi": "Khóa cửa, công tắc cửa máy rửa bát",
+      "group_vi": "Linh kiện",
+      "kind": "Door Lock",
+      "price_min": 500000,
+      "price_max": 1800000,
+      "unit_vi": "cái",
+      "section_vi": "Máy rửa bát — linh kiện",
+      "device_types": [
+        "dishwasher"
+      ]
+    },
+    {
+      "code": "DWS007",
+      "name_vi": "Bo mạch điều khiển máy rửa bát",
+      "group_vi": "Linh kiện",
+      "kind": "Main PCB",
+      "price_min": 1500000,
+      "price_max": 6800000,
+      "unit_vi": "cái",
+      "section_vi": "Máy rửa bát — linh kiện",
+      "device_types": [
+        "dishwasher"
+      ]
+    },
+    {
+      "code": "DWS008",
+      "name_vi": "Bo hiển thị máy rửa bát",
+      "group_vi": "Linh kiện",
+      "kind": "Display PCB",
+      "price_min": 1900000,
+      "price_max": 5900000,
+      "unit_vi": "cái",
+      "section_vi": "Máy rửa bát — linh kiện",
+      "device_types": [
+        "dishwasher"
+      ]
+    },
+    {
+      "code": "DWS009",
+      "name_vi": "Cảm biến nhiệt NTC máy rửa bát",
+      "group_vi": "Linh kiện",
+      "kind": "NTC Sensor",
+      "price_min": 100000,
+      "price_max": 500000,
+      "unit_vi": "cái",
+      "section_vi": "Máy rửa bát — linh kiện",
+      "device_types": [
+        "dishwasher"
+      ]
+    },
+    {
+      "code": "DWS010",
+      "name_vi": "Công tắc phao chống tràn máy rửa bát",
+      "group_vi": "Linh kiện",
+      "kind": "Flood Switch",
+      "price_min": 500000,
+      "price_max": 1200000,
+      "unit_vi": "cái",
+      "section_vi": "Máy rửa bát — linh kiện",
+      "device_types": [
+        "dishwasher"
+      ]
+    },
+    {
+      "code": "DWS011",
+      "name_vi": "Cánh tay phun máy rửa bát",
+      "group_vi": "Linh kiện",
+      "kind": "Spray Arm",
+      "price_min": 300000,
+      "price_max": 1200000,
+      "unit_vi": "cái",
+      "section_vi": "Máy rửa bát — linh kiện",
+      "device_types": [
+        "dishwasher"
+      ]
+    },
+    {
+      "code": "DWS012",
+      "name_vi": "Bộ lọc rác máy rửa bát",
+      "group_vi": "Linh kiện",
+      "kind": "Filter",
+      "price_min": 300000,
+      "price_max": 1350000,
+      "unit_vi": "bộ",
+      "section_vi": "Máy rửa bát — linh kiện",
+      "device_types": [
+        "dishwasher"
+      ]
+    },
+    {
+      "code": "DWS013",
+      "name_vi": "Ống xả máy rửa bát",
+      "group_vi": "Linh kiện",
+      "kind": "Drain Hose",
+      "price_min": 150000,
+      "price_max": 750000,
+      "unit_vi": "sợi",
+      "section_vi": "Máy rửa bát — linh kiện",
+      "device_types": [
+        "dishwasher"
+      ]
+    },
+    {
+      "code": "DWS014",
+      "name_vi": "Ống cấp nước aquastop máy rửa bát",
+      "group_vi": "Linh kiện",
+      "kind": "Inlet Hose",
+      "price_min": 1350000,
+      "price_max": 2800000,
+      "unit_vi": "sợi",
+      "section_vi": "Máy rửa bát — linh kiện",
+      "device_types": [
+        "dishwasher"
+      ]
+    },
+    {
+      "code": "DWS015",
+      "name_vi": "Bình chứa muối, bộ làm mềm nước",
+      "group_vi": "Linh kiện",
+      "kind": "Softener",
+      "price_min": 1500000,
+      "price_max": 2900000,
+      "unit_vi": "cái",
+      "section_vi": "Máy rửa bát — linh kiện",
+      "device_types": [
+        "dishwasher"
+      ]
+    },
+    {
+      "code": "DRY001",
+      "name_vi": "Thanh nhiệt máy sấy",
+      "group_vi": "Linh kiện",
+      "kind": "Heating Element",
+      "price_min": 400000,
+      "price_max": 1300000,
+      "unit_vi": "cái",
+      "section_vi": "Máy sấy quần áo — linh kiện",
+      "device_types": [
+        "clothes_dryer"
+      ]
+    },
+    {
+      "code": "DRY002",
+      "name_vi": "Dây curoa máy sấy",
+      "group_vi": "Linh kiện",
+      "kind": "Drive Belt",
+      "price_min": 150000,
+      "price_max": 900000,
+      "unit_vi": "sợi",
+      "section_vi": "Máy sấy quần áo — linh kiện",
+      "device_types": [
+        "clothes_dryer"
+      ]
+    },
+    {
+      "code": "DRY003",
+      "name_vi": "Bánh xe đỡ lồng máy sấy",
+      "group_vi": "Linh kiện",
+      "kind": "Drum Roller",
+      "price_min": 150000,
+      "price_max": 1250000,
+      "unit_vi": "chiếc",
+      "section_vi": "Máy sấy quần áo — linh kiện",
+      "device_types": [
+        "clothes_dryer"
+      ]
+    },
+    {
+      "code": "DRY004",
+      "name_vi": "Puly căng dây máy sấy",
+      "group_vi": "Linh kiện",
+      "kind": "Idler Pulley",
+      "price_min": 200000,
+      "price_max": 700000,
+      "unit_vi": "cái",
+      "section_vi": "Máy sấy quần áo — linh kiện",
+      "device_types": [
+        "clothes_dryer"
+      ]
+    },
+    {
+      "code": "DRY005",
+      "name_vi": "Motor lồng máy sấy",
+      "group_vi": "Linh kiện",
+      "kind": "Drive Motor",
+      "price_min": 900000,
+      "price_max": 2500000,
+      "unit_vi": "cái",
+      "section_vi": "Máy sấy quần áo — linh kiện",
+      "device_types": [
+        "clothes_dryer"
+      ]
+    },
+    {
+      "code": "DRY006",
+      "name_vi": "Quạt hút, cánh quạt máy sấy",
+      "group_vi": "Linh kiện",
+      "kind": "Blower Fan",
+      "price_min": 300000,
+      "price_max": 1600000,
+      "unit_vi": "cái",
+      "section_vi": "Máy sấy quần áo — linh kiện",
+      "device_types": [
+        "clothes_dryer"
+      ]
+    },
+    {
+      "code": "DRY007",
+      "name_vi": "Cảm biến nhiệt, thermostat máy sấy",
+      "group_vi": "Linh kiện",
+      "kind": "Thermostat",
+      "price_min": 150000,
+      "price_max": 600000,
+      "unit_vi": "cái",
+      "section_vi": "Máy sấy quần áo — linh kiện",
+      "device_types": [
+        "clothes_dryer"
+      ]
+    },
+    {
+      "code": "DRY008",
+      "name_vi": "Cầu chì nhiệt máy sấy",
+      "group_vi": "Linh kiện",
+      "kind": "Thermal Fuse",
+      "price_min": 20000,
+      "price_max": 250000,
+      "unit_vi": "cái",
+      "section_vi": "Máy sấy quần áo — linh kiện",
+      "device_types": [
+        "clothes_dryer"
+      ]
+    },
+    {
+      "code": "DRY009",
+      "name_vi": "Công tắc cửa máy sấy",
+      "group_vi": "Linh kiện",
+      "kind": "Door Switch",
+      "price_min": 150000,
+      "price_max": 600000,
+      "unit_vi": "cái",
+      "section_vi": "Máy sấy quần áo — linh kiện",
+      "device_types": [
+        "clothes_dryer"
+      ]
+    },
+    {
+      "code": "DRY010",
+      "name_vi": "Bo mạch điều khiển máy sấy",
+      "group_vi": "Linh kiện",
+      "kind": "Control PCB",
+      "price_min": 1000000,
+      "price_max": 4000000,
+      "unit_vi": "cái",
+      "section_vi": "Máy sấy quần áo — linh kiện",
+      "device_types": [
+        "clothes_dryer"
+      ]
+    },
+    {
+      "code": "DRY011",
+      "name_vi": "Lưới lọc xơ máy sấy",
+      "group_vi": "Linh kiện",
+      "kind": "Lint Filter",
+      "price_min": 150000,
+      "price_max": 750000,
+      "unit_vi": "cái",
+      "section_vi": "Máy sấy quần áo — linh kiện",
+      "device_types": [
+        "clothes_dryer"
+      ]
+    },
+    {
+      "code": "DRY012",
+      "name_vi": "Bơm nước ngưng máy sấy",
+      "group_vi": "Linh kiện",
+      "kind": "Condensate Pump",
+      "price_min": 400000,
+      "price_max": 1200000,
+      "unit_vi": "cái",
+      "section_vi": "Máy sấy quần áo — linh kiện",
+      "device_types": [
+        "clothes_dryer"
+      ]
+    },
+    {
+      "code": "DRY013",
+      "name_vi": "Bộ ngưng tụ máy sấy",
+      "group_vi": "Linh kiện",
+      "kind": "Condenser Unit",
+      "price_min": 1200000,
+      "price_max": 3500000,
+      "unit_vi": "cái",
+      "section_vi": "Máy sấy quần áo — linh kiện",
+      "device_types": [
+        "clothes_dryer"
+      ]
+    },
+    {
+      "code": "DRY014",
+      "name_vi": "Máy nén bơm nhiệt máy sấy",
+      "group_vi": "Linh kiện",
+      "kind": "Heat-pump Compressor",
+      "price_min": 2500000,
+      "price_max": 6000000,
+      "unit_vi": "cái",
+      "section_vi": "Máy sấy quần áo — linh kiện",
+      "device_types": [
+        "clothes_dryer"
+      ]
+    },
+    {
+      "code": "DRY015",
+      "name_vi": "Ống thoát hơi máy sấy",
+      "group_vi": "Linh kiện",
+      "kind": "Vent Hose",
+      "price_min": 80000,
+      "price_max": 600000,
+      "unit_vi": "sợi",
+      "section_vi": "Máy sấy quần áo — linh kiện",
+      "device_types": [
+        "clothes_dryer"
+      ]
+    },
+    {
+      "code": "LCK001",
+      "name_vi": "Bộ pin AA khóa thông minh (4 viên)",
+      "group_vi": "Linh kiện",
+      "kind": "Battery AA",
+      "price_min": 60000,
+      "price_max": 120000,
+      "unit_vi": "bộ",
+      "section_vi": "Khóa thông minh — linh kiện",
+      "device_types": [
+        "smart_lock"
+      ]
+    },
+    {
+      "code": "LCK002",
+      "name_vi": "Pin sạc Li-ion khóa thông minh",
+      "group_vi": "Linh kiện",
+      "kind": "Li-ion Battery Pack",
+      "price_min": 600000,
+      "price_max": 1500000,
+      "unit_vi": "cục",
+      "section_vi": "Khóa thông minh — linh kiện",
+      "device_types": [
+        "smart_lock"
+      ]
+    },
+    {
+      "code": "LCK003",
+      "name_vi": "Mô tơ chốt khóa thông minh",
+      "group_vi": "Linh kiện",
+      "kind": "Lock Motor",
+      "price_min": 150000,
+      "price_max": 600000,
+      "unit_vi": "cái",
+      "section_vi": "Khóa thông minh — linh kiện",
+      "device_types": [
+        "smart_lock"
+      ]
+    },
+    {
+      "code": "LCK004",
+      "name_vi": "Thân khóa (mortise) khóa thông minh",
+      "group_vi": "Linh kiện",
+      "kind": "Lock Body",
+      "price_min": 400000,
+      "price_max": 2500000,
+      "unit_vi": "cái",
+      "section_vi": "Khóa thông minh — linh kiện",
+      "device_types": [
+        "smart_lock"
+      ]
+    },
+    {
+      "code": "LCK005",
+      "name_vi": "Module cảm biến vân tay",
+      "group_vi": "Linh kiện",
+      "kind": "Fingerprint Sensor",
+      "price_min": 500000,
+      "price_max": 1500000,
+      "unit_vi": "cái",
+      "section_vi": "Khóa thông minh — linh kiện",
+      "device_types": [
+        "smart_lock"
+      ]
+    },
+    {
+      "code": "LCK006",
+      "name_vi": "Bàn phím cảm ứng khóa thông minh",
+      "group_vi": "Linh kiện",
+      "kind": "Keypad PCB",
+      "price_min": 300000,
+      "price_max": 1200000,
+      "unit_vi": "cái",
+      "section_vi": "Khóa thông minh — linh kiện",
+      "device_types": [
+        "smart_lock"
+      ]
+    },
+    {
+      "code": "LCK007",
+      "name_vi": "Đầu đọc thẻ từ RFID",
+      "group_vi": "Linh kiện",
+      "kind": "Card Reader",
+      "price_min": 200000,
+      "price_max": 800000,
+      "unit_vi": "cái",
+      "section_vi": "Khóa thông minh — linh kiện",
+      "device_types": [
+        "smart_lock"
+      ]
+    },
+    {
+      "code": "LCK008",
+      "name_vi": "Bo mạch chính khóa thông minh",
+      "group_vi": "Linh kiện",
+      "kind": "Main PCB",
+      "price_min": 800000,
+      "price_max": 2500000,
+      "unit_vi": "cái",
+      "section_vi": "Khóa thông minh — linh kiện",
+      "device_types": [
+        "smart_lock"
+      ]
+    },
+    {
+      "code": "LCK009",
+      "name_vi": "Ruột khóa cơ dự phòng",
+      "group_vi": "Linh kiện",
+      "kind": "Cylinder",
+      "price_min": 300000,
+      "price_max": 650000,
+      "unit_vi": "cái",
+      "section_vi": "Khóa thông minh — linh kiện",
+      "device_types": [
+        "smart_lock"
+      ]
+    },
+    {
+      "code": "LCK010",
+      "name_vi": "Tay nắm khóa thông minh",
+      "group_vi": "Linh kiện",
+      "kind": "Handle",
+      "price_min": 300000,
+      "price_max": 1200000,
+      "unit_vi": "cái",
+      "section_vi": "Khóa thông minh — linh kiện",
+      "device_types": [
+        "smart_lock"
+      ]
+    },
+    {
+      "code": "LCK011",
+      "name_vi": "Cáp nối mặt trong–ngoài khóa",
+      "group_vi": "Linh kiện",
+      "kind": "Flex Cable",
+      "price_min": 80000,
+      "price_max": 350000,
+      "unit_vi": "sợi",
+      "section_vi": "Khóa thông minh — linh kiện",
+      "device_types": [
+        "smart_lock"
+      ]
+    },
+    {
+      "code": "LCK012",
+      "name_vi": "Thẻ từ khóa thông minh",
+      "group_vi": "Linh kiện",
+      "kind": "RFID Card",
+      "price_min": 25000,
+      "price_max": 130000,
+      "unit_vi": "chiếc",
+      "section_vi": "Khóa thông minh — linh kiện",
+      "device_types": [
+        "smart_lock"
+      ]
+    },
+    {
+      "code": "HA066",
+      "name_vi": "Bạc đạn quạt trần (1 vòng bi)",
+      "group_vi": "Linh kiện",
+      "kind": "Bearing",
+      "price_min": 20000,
+      "price_max": 150000,
+      "unit_vi": "chiếc",
+      "section_vi": "Đồ điện gia dụng",
+      "device_types": [
+        "ceiling_fan"
+      ]
+    },
+    {
+      "code": "HA067",
+      "name_vi": "Bạc đạn, bạc thau quạt đứng",
+      "group_vi": "Linh kiện",
+      "kind": "Bearing",
+      "price_min": 10000,
+      "price_max": 60000,
+      "unit_vi": "chiếc",
+      "section_vi": "Đồ điện gia dụng",
+      "device_types": [
+        "electric_fan"
+      ]
     }
   ]
 }

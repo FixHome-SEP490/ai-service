@@ -54,6 +54,11 @@ class Fault:
 
     price_note_vi: Optional[str] = None
 
+    candidate_variants: List[str] = field(default_factory=list)
+    """Backend's fixed-price variants this fault could be booked as ("AC-02-01"
+    treo tường ≤1,5 HP...). Which one depends on the appliance, asked in
+    service_questions.json."""
+
     needs_technician_review: bool = False
     """A technician has not yet read this entry.
 
@@ -74,6 +79,16 @@ class ServiceRef:
     """What Backend charges for it. Quoting the fault's floor instead named a
     price from our own labour table that had nothing to do with the service the
     customer was about to book."""
+    price_max: Optional[int] = None
+    """Dearest labour price of the service, if it has a range."""
+    active: bool = True
+    """Whether Backend sells it now. A fault can point at a service that is not
+    open yet (microwave and TV repair, dishwasher repair); it is not offered
+    until Backend opens it."""
+    kind: str = "repair"
+    """repair, clean or install, from the catalogue."""
+    variant_codes: tuple = ()
+    """Backend's fixed-price variants of the service, if it has any."""
 
 
 @dataclass(frozen=True)
@@ -187,6 +202,9 @@ class KnowledgeBase:
         self._confusable: Dict[str, List[str]] = {
             d["device_type"]: d.get("confusable_with", []) for d in catalog["devices"]
         }
+        self._default_service: Dict[str, Optional[str]] = {
+            d["device_type"]: d.get("default_service") for d in catalog["devices"]
+        }
         self._confusion: List[ConfusionQuestion] = [
             ConfusionQuestion(**q) for q in catalog.get("confusion_questions", [])
         ]
@@ -212,7 +230,7 @@ class KnowledgeBase:
                     price_min=row["price"],
                     price_max=row["price"],
                     unit_vi=row.get("unit_vi", "lần"),
-                    device_types=[row["device_type"]] if row.get("device_type") else [],
+                    device_types=list(row.get("device_types") or ([row["device_type"]] if row.get("device_type") else [])),
                 )
             )
         for row in (parts or {}).get("parts", []):
@@ -235,6 +253,9 @@ class KnowledgeBase:
                     service_code=s["service_code"],
                     name_vi=s["name_vi"],
                     base_price=s.get("base_price"),
+                    active=s.get("active", True),
+                    kind=s.get("kind", "repair"),
+                    variant_codes=tuple(s.get("variant_codes", ())),
                 )
                 for s in entry.get("services", [])
             ]
@@ -295,42 +316,42 @@ class KnowledgeBase:
     def fault(self, fault_code: str) -> Optional[Fault]:
         return next((f for f in self._faults if f.fault_code == fault_code), None)
 
-    FALLBACK_SERVICE_CODE = "KIEM_TRA_CHAN_DOAN_THIET_BI"
-    """What a customer books when the fault is not settled.
+    def default_service_code(self, device_type: Optional[str]) -> Optional[str]:
+        """The service an appliance is booked under when the fault is not settled."""
+        return self._default_service.get(device_type) if device_type else None
 
-    The PO's rule: a fault with no service of its own falls to an on-site
-    inspection. It is also the right offer while a question is still open —
-    somebody comes and looks is literally what is being proposed."""
+    def fallback_service(self, device_type: Optional[str] = None) -> Optional[ServiceRef]:
+        """What to offer while the fault is still open: the appliance's repair.
 
-    def fallback_service(self) -> Optional[ServiceRef]:
-        """The inspection service, as Backend spells it.
-
-        Not the labour row of the same name. Backend's code is the one the
-        mobile app can turn into a booking; ours prices it.
-        """
-        for refs in self._services.values():
-            for ref in refs:
-                if ref.service_code == self.FALLBACK_SERVICE_CODE:
-                    live = self._live_catalog()
-                    if live is None:
-                        return ref
-                    return live.refreshed(ref, self.FALLBACK_SERVICE_CODE)
-        return None
+        The catalogue no longer has a generic "someone comes and looks"
+        service; Backend retired KIEM_TRA_CHAN_DOAN_THIET_BI with catalogue V2.
+        Every repair service is itself inspection-priced, so the appliance's
+        own repair is what that offer now is. Nothing when the appliance is not
+        known, or when Backend does not sell its repair yet."""
+        code = self.default_service_code(device_type)
+        if not code:
+            return None
+        ref = next(
+            (r for refs in self._services.values() for r in refs if r.service_code == code), None
+        )
+        live = self._live_catalog()
+        if live is not None:
+            return live.ref_for(code, ref)
+        return ref if ref is not None and ref.active else None
 
     def services_for_fault(self, fault_code: str) -> List[ServiceRef]:
-        """Empty while Backend has not supplied a catalog. Not an error.
+        """What a customer can book for this fault now.
 
-        Laid over Backend's live catalogue when one has been fetched: current
-        names and prices, nothing Backend has switched off, and new services
-        that fit the fault (`service_catalog.LiveCatalog.services_for`)."""
+        Laid over Backend's catalogue (live when BACKEND_CATALOG_URL is set,
+        otherwise the snapshot in service_catalog.json): current names and
+        prices, nothing Backend has not opened, and new services that fit the
+        fault (`service_catalog.LiveCatalog.services_for`)."""
         static = list(self._services.get(fault_code, []))
         live = self._live_catalog()
         fault = self.fault(fault_code)
         if live is None or fault is None:
-            return static
-        return live.services_for(
-            fault, static, self, self._static_service_codes(), self.FALLBACK_SERVICE_CODE
-        )
+            return [r for r in static if r.active]
+        return live.services_for(fault, static, self, self._static_service_codes())
 
     def _live_catalog(self):
         from app.services.pipeline import service_catalog
@@ -346,12 +367,20 @@ class KnowledgeBase:
         return cached
 
     def labour_row(self, code: Optional[str]) -> Optional[PriceRow]:
-        """The labour service a fault maps to, by code."""
+        """The labour service a fault maps to, by code: the row itself, or the
+        first variant or reference row of a catalogue service ("AC-02-01" and
+        "AC-01-T1" belong to AC-02 and AC-01)."""
+        rows = self.labour_rows(code)
+        return rows[0] if rows else None
+
+    def labour_rows(self, code: Optional[str]) -> List[PriceRow]:
+        """Every labour row of a service: its variants or its reference prices."""
         if not code:
-            return None
-        return next(
-            (r for r in self._prices if r.kind == "labour" and r.code == code), None
-        )
+            return []
+        return [
+            r for r in self._prices
+            if r.kind == "labour" and (r.code == code or r.code.startswith(code + "-"))
+        ]
 
     @property
     def price_rows(self) -> List[PriceRow]:

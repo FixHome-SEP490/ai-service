@@ -581,8 +581,7 @@ chất.
 
 Loại tủ. Tủ nhiều cửa và side by side tháo lắp phức tạp hơn.
 
-Vì các yếu tố này chỉ biết được sau khi đo, bệnh này gắn với công kiểm tra tại
-nhà trước.
+Vì các yếu tố này chỉ biết được sau khi đo, bệnh này đặt theo dịch vụ "Sửa tủ lạnh": thợ kiểm tra tại nhà trước,.
 
 ## Nghiệm thu sau khi sửa
 

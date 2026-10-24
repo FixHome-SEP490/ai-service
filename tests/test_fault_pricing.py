@@ -1,8 +1,10 @@
-"""The prices in the knowledge base must stay traceable to the two tables.
+"""The prices in the knowledge base must stay traceable to the catalogue.
 
-Every figure a customer sees now comes from a labour row plus representative
-parts. If a code is renamed in either catalogue, the fault that cited it would
-otherwise keep a number nothing supports, which is invisible from the response.
+Every figure a customer sees comes from a Backend service's labour (S) plus
+the parts the fault usually needs (P), from the V3 table the team agreed on
+19/10/2026. If a code is renamed in either catalogue, the fault that cited it
+would otherwise keep a number nothing supports, which is invisible from the
+response.
 """
 
 import json
@@ -18,13 +20,13 @@ def test_every_fault_is_priced_from_the_tables():
     kb = get_knowledge_base()
     mapping = _load("fault_pricing_map.json")["map"]
     parts = {p["code"] for p in _load("parts_catalog.json")["parts"]}
-    labour = {s["service_code"] for s in _load("labour_catalog.json")["services"]}
+    services = {s["code"] for s in _load("service_catalog.json")["services"]}
 
     for device in kb.device_types:
         for fault in kb.faults_for_device(device):
             entry = mapping.get(fault.fault_code)
             assert entry is not None, f"{fault.fault_code} has no pricing entry"
-            assert entry["labour"] in labour, f"{fault.fault_code}: {entry['labour']}"
+            assert entry["labour"] in services, f"{fault.fault_code}: {entry['labour']}"
             for code in entry["parts"]:
                 assert code in parts, f"{fault.fault_code}: {code}"
             assert fault.labour_code == entry["labour"]
@@ -47,12 +49,25 @@ def test_a_fault_either_has_a_ceiling_or_says_a_technician_must_look():
                 assert fault.price_max >= fault.price_min > 0
 
 
-def test_the_floor_is_always_labour_the_customer_would_pay():
+def test_the_floor_is_the_service_labour_plus_the_cheapest_parts():
     kb = get_knowledge_base()
-    labour = {s["service_code"]: s["price"] for s in _load("labour_catalog.json")["services"]}
+    mapping = _load("fault_pricing_map.json")["map"]
+    services = {s["code"]: s for s in _load("service_catalog.json")["services"]}
     for device in kb.device_types:
         for fault in kb.faults_for_device(device):
-            assert fault.price_min == labour[fault.labour_code]
+            entry = mapping[fault.fault_code]
+            assert fault.price_min == entry["labour_min"] + entry["parts_min"], fault.fault_code
+            # The labour is the service's own price, not a figure of our own.
+            assert entry["labour_min"] >= services[fault.labour_code]["price_min_vnd"], fault.fault_code
+
+
+def test_a_fixed_price_fault_only_names_variants_backend_books():
+    kb = get_knowledge_base()
+    services = {s["code"]: s for s in _load("service_catalog.json")["services"]}
+    for device in kb.device_types:
+        for fault in kb.faults_for_device(device):
+            codes = {v["code"] for v in services[fault.labour_code]["variants"]}
+            assert set(fault.candidate_variants) <= codes, fault.fault_code
 
 
 def test_the_assessment_flag_goes_out_as_camel_case():

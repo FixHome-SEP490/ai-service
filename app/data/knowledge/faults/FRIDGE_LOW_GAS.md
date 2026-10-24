@@ -556,8 +556,7 @@ Loại tủ. Tủ nhiều cửa và side by side tháo lắp phức tạp hơn.
 
 Tuổi tủ, vì nó quyết định cuộc nói chuyện sửa hay thay.
 
-Vì các yếu tố này chỉ biết được khi tới nơi, bệnh này gắn với công kiểm tra tại
-nhà trước, rồi báo giá phần việc sau khi đo.
+Vì các yếu tố này chỉ biết được khi tới nơi, bệnh này đặt theo dịch vụ "Sửa tủ lạnh": thợ kiểm tra tại nhà trước, rồi báo giá phần việc sau khi đo.
 
 ## Nghiệm thu sau khi sửa
 

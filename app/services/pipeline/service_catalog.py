@@ -23,21 +23,32 @@ Nothing here is trained. The catalogue is fetched from Backend's public
 Installation services are never attached to a fault: a fault is something
 broken, and "Lắp quạt treo tường" is not the repair for any of them.
 
-With no URL configured, or before the first fetch succeeds, everything behaves
-exactly as the static mapping says.
+With no URL configured, or before the first fetch succeeds, the snapshot in
+`app/data/service_catalog.json` stands in for Backend: the same catalogue V2/V3
+codes, names, labour prices and which services are open, written by
+`tools/sync_catalog_v3.py` from Backend's own source. The two never disagree
+about what a code is; the live one only knows sooner when the admin opens or
+closes a service.
 """
 
 from __future__ import annotations
 
 import asyncio
+import json
 import logging
 import re
 import time
 import unicodedata
 from dataclasses import dataclass, replace
-from typing import Dict, Iterable, List, Optional
+from functools import lru_cache
+from pathlib import Path
+from typing import Dict, Iterable, List, Optional, Set
 
 logger = logging.getLogger(__name__)
+
+
+_SNAPSHOT = Path(__file__).resolve().parents[2] / "data" / "service_catalog.json"
+_QUESTIONS = Path(__file__).resolve().parents[2] / "data" / "service_questions.json"
 
 
 @dataclass(frozen=True)
@@ -46,6 +57,13 @@ class LiveService:
     name_vi: str
     description_vi: str = ""
     base_price: Optional[int] = None
+    """Lowest labour price: the cheapest variant of a fixed-price service, or
+    the reference price of one priced on inspection."""
+    price_max: Optional[int] = None
+    kind: str = ""
+    device_types: tuple = ()
+    """The appliances it is for, from the snapshot. Empty for an appliance the
+    knowledge base does not know (range hoods)."""
 
 
 def _fold(text: str) -> str:
@@ -81,17 +99,33 @@ def kind_of(text: str) -> str:
 class LiveCatalog:
     """A snapshot of Backend's active services, and the rules for using it."""
 
-    def __init__(self, services: Iterable[LiveService] = (), loaded_at: float = 0.0) -> None:
-        self.services: Dict[str, LiveService] = {s.code: s for s in services}
+    def __init__(
+        self, services: Iterable[LiveService] = (), loaded_at: float = 0.0, enrich: bool = True
+    ) -> None:
+        known = snapshot().services if enrich else {}
+        self.services: Dict[str, LiveService] = {}
+        for service in services:
+            # Backend's list carries no appliance and no kind; the snapshot has
+            # both for every code it knows.
+            seen = known.get(service.code)
+            if seen is not None:
+                service = replace(
+                    service,
+                    kind=service.kind or seen.kind,
+                    device_types=service.device_types or seen.device_types,
+                    base_price=service.base_price if service.base_price is not None else seen.base_price,
+                    price_max=service.price_max if service.price_max is not None else seen.price_max,
+                )
+            self.services[service.code] = service
         self.loaded_at = loaded_at
 
     @property
     def loaded(self) -> bool:
         return bool(self.services)
 
-    def refreshed(self, ref, fallback_code: str):
+    def refreshed(self, ref):
         """The same reference with Backend's current name and price, or None if
-        Backend no longer sells it."""
+        Backend does not sell it."""
         live = self.services.get(ref.service_code)
         if live is None:
             return None
@@ -99,10 +133,33 @@ class LiveCatalog:
             ref,
             name_vi=live.name_vi or ref.name_vi,
             base_price=live.base_price if live.base_price is not None else ref.base_price,
+            price_max=live.price_max if live.price_max is not None else ref.price_max,
+            kind=live.kind or ref.kind,
+            active=True,
         )
 
-    def device_of(self, service: LiveService, kb) -> Optional[str]:
-        """The one appliance a service names, by its name first, then its description."""
+    def ref_for(self, code: str, ref=None):
+        """The bookable reference for a code, or None if Backend does not sell it."""
+        from app.services.pipeline.knowledge_base import ServiceRef
+
+        if ref is not None:
+            return self.refreshed(ref)
+        live = self.services.get(code)
+        if live is None:
+            return None
+        return ServiceRef(
+            service_code=live.code,
+            name_vi=live.name_vi,
+            base_price=live.base_price,
+            price_max=live.price_max,
+            kind=live.kind or kind_of(live.name_vi),
+        )
+
+    def devices_of(self, service: LiveService, kb) -> Set[str]:
+        """The appliances a service is for: the snapshot's list, else the one
+        appliance its name (then its description) names."""
+        if service.device_types:
+            return set(service.device_types)
         from app.services.pipeline import device_hint
 
         for text in (service.name_vi, service.description_vi):
@@ -110,75 +167,124 @@ class LiveCatalog:
                 continue
             devices = {h.device_type for h in device_hint.devices_named_in(text, kb)}
             if len(devices) == 1:
-                return devices.pop()
+                return devices
             if devices:
-                return None
-        return None
+                return set()
+        return set()
 
-    def services_for(self, fault, static_refs: List, kb, known_codes: Iterable[str], fallback_code: str) -> List:
-        """What to offer for a fault: the static choice kept current, plus new
-        services that fit it."""
-        from app.services.pipeline.knowledge_base import ServiceRef
+    def services_for(self, fault, static_refs: List, kb, known_codes: Iterable[str]) -> List:
+        """What to offer for a fault: the mapped service kept current, plus
+        services added in the admin screen since the snapshot that fit it.
 
-        current = [r for r in (self.refreshed(ref, fallback_code) for ref in static_refs) if r]
-        specific = [r for r in current if r.service_code != fallback_code]
-        wanted_kind = kind_of(specific[0].name_vi) if specific else "repair"
-        known = set(known_codes) | {fallback_code}
+        When the mapped service is not open (microwave repair before Backend
+        turns it on), the appliance's own repair stands in if that is open, and
+        nothing otherwise: a button that books a service Backend refuses is
+        worse than saying it is not offered yet."""
+        current = [r for r in (self.refreshed(ref) for ref in static_refs) if r]
+        wanted_kind = (static_refs[0].kind if static_refs else "") or "repair"
+        known = set(known_codes)
         fault_words = set(_words(fault.name_vi + " " + " ".join(fault.symptoms_vi))) - _GENERIC
         name_words = {w for a in kb.aliases_vi(fault.device_type) for w in _words(a)}
         extra = []
         for service in self.services.values():
             if service.code in known or service.code in {r.service_code for r in current}:
                 continue
-            if kind_of(service.name_vi) != wanted_kind or wanted_kind == "install":
+            kind = service.kind or kind_of(service.name_vi)
+            if kind != wanted_kind or wanted_kind == "install":
                 continue
-            if self.device_of(service, kb) != fault.device_type:
+            if fault.device_type not in self.devices_of(service, kb):
                 continue
             overlap = (set(_words(service.name_vi)) - _GENERIC - name_words) & fault_words
-            # Cleaning is cleaning: the same appliance cleaned is the same job
-            # in another size or model ("treo tường 2-2.5 HP", "âm trần",
-            # "cửa ngang > 9kg"), so they are offered side by side.
+            # Cleaning is cleaning: the same appliance cleaned is the same job.
             # A repair has to be about this fault ("Thay vòi sen" is not the
-            # cure for a weak tap), unless the fault so far could only be
-            # booked as an inspection and the new service is the appliance's
-            # general repair ("Sửa lò vi sóng").
+            # cure for a weak tap), unless nothing else is bookable for it and
+            # the new service is the appliance's general repair.
             general_repair = _words(service.name_vi)[:1] == ["sua"]
-            if wanted_kind == "repair" and not overlap and (specific or not general_repair):
+            if wanted_kind == "repair" and not overlap and (current or not general_repair):
                 continue
             extra.append((len(overlap), service))
         extra.sort(key=lambda pair: (-pair[0], pair[1].code))
         # A short list to choose from, not the catalogue.
-        extra = extra[:3]
-        added = [
-            ServiceRef(service_code=s.code, name_vi=s.name_vi, base_price=s.base_price)
-            for _, s in extra
-        ]
-        if not specific:
-            fallback = [r for r in current if r.service_code == fallback_code]
-            return added + fallback
-        return specific + added
+        added = [self.ref_for(s.code) for _, s in extra[:3]]
+        if current:
+            return current + added
+        default = kb.default_service_code(fault.device_type)
+        stand_in = self.ref_for(default) if default else None
+        if stand_in is not None and all(r.service_code != stand_in.service_code for r in added):
+            added.append(stand_in)
+        return added
 
     def service_named_in(self, text: str, kb) -> Optional[LiveService]:
         """A service for an appliance the knowledge base does not know, named in
-        the text: "máy hút mùi kêu to" and Backend sells "Sửa máy hút mùi"."""
+        the text: "máy hút mùi kêu to" and Backend sells "Sửa máy hút mùi".
+
+        Of the services for that appliance, the cleaning one only when the
+        customer asks for cleaning."""
         folded = " " + " ".join(_words(text)) + " "
+        wants = "clean" if any(f" {w} " in folded for w in _CLEANING) else "repair"
         best: Optional[LiveService] = None
-        best_len = 0
+        best_key = (0, False)
         for service in self.services.values():
-            if kind_of(service.name_vi) == "install" or self.device_of(service, kb) is not None:
+            kind = service.kind or kind_of(service.name_vi)
+            if kind == "install" or self.devices_of(service, kb):
                 continue
             for match in _HEADS.finditer(" ".join(_words(service.name_vi))):
                 phrase = match.group(0)
-                if len(phrase.split()) >= 2 and f" {phrase} " in folded and len(phrase) > best_len:
-                    best, best_len = service, len(phrase)
+                if len(phrase.split()) < 2 or f" {phrase} " not in folded:
+                    continue
+                key = (len(phrase), kind == wants)
+                if key > best_key:
+                    best, best_key = service, key
         return best
+
+
+@lru_cache(maxsize=1)
+def snapshot() -> LiveCatalog:
+    """The open services as of the last `tools/sync_catalog_v3.py` run."""
+    try:
+        rows = json.loads(_SNAPSHOT.read_text(encoding="utf-8"))["services"]
+    except (OSError, ValueError, KeyError):
+        return LiveCatalog(enrich=False)
+    return LiveCatalog(
+        (
+            LiveService(
+                code=r["code"],
+                name_vi=r["name_vi"],
+                base_price=r.get("price_min_vnd"),
+                price_max=r.get("price_max_vnd"),
+                kind=r.get("kind", ""),
+                device_types=tuple(r.get("device_types") or ()),
+            )
+            for r in rows
+            if r.get("active")
+        ),
+        enrich=False,
+    )
+
+
+@lru_cache(maxsize=1)
+def _questions() -> Dict[str, List[dict]]:
+    try:
+        rows = json.loads(_QUESTIONS.read_text(encoding="utf-8"))["questions"]
+    except (OSError, ValueError, KeyError):
+        return {}
+    out: Dict[str, List[dict]] = {}
+    for row in rows:
+        out.setdefault(row["service_code"], []).append(row)
+    return out
+
+
+def questions_for(code: Optional[str]) -> List[dict]:
+    """What settles which fixed-price variant of a service applies, in order."""
+    return list(_questions().get(code or "", []))
 
 
 _CATALOG = LiveCatalog()
 
 
 def current() -> LiveCatalog:
-    return _CATALOG
+    """Backend's catalogue as last fetched, else the snapshot."""
+    return _CATALOG if _CATALOG.loaded else snapshot()
 
 
 def install(catalog: LiveCatalog) -> None:
@@ -187,27 +293,44 @@ def install(catalog: LiveCatalog) -> None:
     _CATALOG = catalog
 
 
+def _price(value) -> Optional[int]:
+    try:
+        price = int(float(value)) if value is not None else None
+    except (TypeError, ValueError):
+        return None
+    # Catalogue V2 leaves basePrice at 0 and puts the labour in priceSummary;
+    # 0 is not a price anyone pays.
+    return price if price else None
+
+
 def parse(payload) -> List[LiveService]:
-    """Backend's `GET /services` body, or its `data` list, into services."""
+    """Backend's `GET /services` or `GET /categories` body, or its `data` list,
+    into services."""
     rows = payload.get("data", payload) if isinstance(payload, dict) else payload
     if isinstance(rows, dict):
         rows = rows.get("items") or rows.get("data") or []
-    out: List[LiveService] = []
+    flat = []
     for row in rows or []:
+        if isinstance(row.get("services"), list):
+            if row.get("isActive") is False:
+                continue
+            flat.extend(row["services"])
+        else:
+            flat.append(row)
+    out: List[LiveService] = []
+    for row in flat:
         code = (row.get("code") or "").strip()
         if not code or row.get("isActive") is False or code == "DICH_VU_KHAC":
             continue
-        price = row.get("basePrice")
-        try:
-            price = int(float(price)) if price is not None else None
-        except (TypeError, ValueError):
-            price = None
+        summary = row.get("priceSummary") or {}
+        low = _price(summary.get("minLaborVnd")) or _price(summary.get("suggestedLaborVnd"))
         out.append(
             LiveService(
                 code=code,
                 name_vi=(row.get("name") or "").strip(),
                 description_vi=(row.get("description") or "").strip(),
-                base_price=price,
+                base_price=low or _price(row.get("basePrice")),
+                price_max=_price(summary.get("maxLaborVnd")),
             )
         )
     return out

@@ -96,6 +96,9 @@ class Turn:
     control two turns into one, and the advice came back as "thử thay pin".
     """
 
+    device_type: Optional[str] = None
+    """The appliance this turn was answered about, set once it was answered."""
+
 
 @dataclass
 class Conversation:
@@ -152,6 +155,25 @@ class Conversation:
     just_queued: List[str] = field(default_factory=list)
     """Appliances queued by the turn being answered, for the sentence that says so."""
 
+    seen: List[tuple] = field(default_factory=list)
+    """(image index, device type, confidence) for each photograph of the turn
+    being answered that shows an appliance the detector knows."""
+
+    just_seen: List[str] = field(default_factory=list)
+    """Appliances queued because a photograph of this turn showed them."""
+
+    kept: List[str] = field(default_factory=list)
+    """Appliances already talked through that stay on the visit: the customer
+    moved on with "xem tiếp", not "không phải". A correction drops the old one;
+    moving on keeps it, so the booking at the end covers all of them."""
+
+    announced_visit: int = 0
+    """How many appliances the last "đặt chung một lượt" sentence counted."""
+
+    memo: Dict[str, dict] = field(default_factory=dict)
+    """Per appliance: what was said about it, the photograph it was in, and the
+    service and faults the last answer about it gave."""
+
     address: Optional[str] = None
     """How the customer names themself ("bác", "cô"...), used in place of
     "anh/chị" for the rest of the conversation."""
@@ -202,6 +224,26 @@ class Conversation:
         """
         return " ".join(t.text_vi for t in self.turns if t.role == "customer")
 
+    def _elsewhere(self) -> set:
+        """Other appliances still on the visit, whose turns are not about this one.
+
+        Only those: one the customer corrected away from ("không phải máy lạnh,
+        là tủ lạnh") was this appliance all along, and what they said about it
+        still counts."""
+        return (set(self.kept) | set(self.queued)) - {self.device_type}
+
+    def device_text(self) -> str:
+        """What the customer has said about the appliance in question.
+
+        `customer_text` minus turns about another appliance of the same visit:
+        after "máy lạnh không mát" and "xem tiếp" to the fridge, the air
+        conditioner's "không mát" read as a fridge symptom and the fridge was
+        diagnosed short of gas with nothing said about it."""
+        elsewhere = self._elsewhere()
+        return " ".join(
+            t.text_vi for t in self.turns if t.role == "customer" and t.device_type not in elsewhere
+        )
+
     def symptom_text(self) -> str:
         """The same, minus the turns that carried no symptom.
 
@@ -214,13 +256,17 @@ class Conversation:
         conversation that is all questions still retrieves something rather
         than searching for the empty string.
         """
+        # Nor what was said about another appliance of the same visit.
+        elsewhere = self._elsewhere()
         kept = [
             turn.text_vi if turn.retrieval_vi is None else turn.retrieval_vi
             for turn in self.turns
-            if turn.role == "customer" and turn.carried_a_symptom
+            if turn.role == "customer"
+            and turn.carried_a_symptom
+            and turn.device_type not in elsewhere
         ]
         kept = [text for text in kept if text]
-        return " ".join(kept) if kept else self.customer_text()
+        return " ".join(kept) if kept else self.device_text()
 
     def observe(self, reading: TurnReading, never_exclude) -> None:
         """Record what the newest customer turn established."""

@@ -109,6 +109,10 @@ class RecommendedService(BaseModel):
     service_code: str
     name_vi: str
 
+    device_type: Optional[str] = None
+    """The appliance it is for. Set when the reply covers more than one
+    appliance, so a client booking them together knows which is which."""
+
     model_config = ConfigDict(alias_generator=to_camel, populate_by_name=True)
 
 
@@ -145,6 +149,46 @@ class PriceEstimate(BaseModel):
     # three of its fields were single words. The new one is two, and without the
     # generator it went out as requires_assessment among camelCase neighbours,
     # which a caller reads as absent rather than as a naming slip.
+    model_config = ConfigDict(alias_generator=to_camel, populate_by_name=True)
+
+
+class DeviceSuggestion(BaseModel):
+    """One appliance of a reply that covers several (up to three).
+
+    A customer can photograph three appliances, or name them in one message,
+    and book them as one visit (Backend visit groups, at most three devices).
+    Each gets the service to book it under and what is known about it so far.
+    The appliance being talked through in the conversation is `is_primary`;
+    the others carry what retrieval alone found in what was said about them,
+    which is less than the primary's model-checked answer and labelled so."""
+
+    device_type: str
+    name_vi: str
+    source: EvidenceSource = EvidenceSource.DESCRIPTION
+    image_index: Optional[int] = Field(default=None, ge=0, le=2)
+    """Which of the request's images it was seen in, from 0."""
+
+    confidence: float = Field(default=0.0, ge=0.0, le=1.0)
+    """The detector's confidence when seen in a photograph, else 0."""
+
+    is_primary: bool = False
+
+    suspected_faults: List[SuspectedFault] = Field(default_factory=list)
+    service: Optional[RecommendedService] = None
+    """None when Backend does not sell a repair for it yet; `note_vi` says so."""
+
+    variant_code: Optional[str] = None
+    """Backend's fixed-price variant, when what was said settles it."""
+
+    questions_vi: List[str] = Field(default_factory=list)
+    """What to ask to settle the variant (mounting, horsepower, load...)."""
+
+    price_estimate: Optional[PriceEstimate] = None
+    description_vi: Optional[str] = None
+    """What the customer said about this appliance, to prefill its booking."""
+
+    note_vi: Optional[str] = None
+
     model_config = ConfigDict(alias_generator=to_camel, populate_by_name=True)
 
 
@@ -284,6 +328,12 @@ class DiagnosisResponse(BaseModel):
     """What the conversation has established, in plain words: what the customer
     already tried or ruled out, what they suspect. For the booking summary the
     technician reads, so nobody asks the customer to tell it all again."""
+
+    devices: List[DeviceSuggestion] = Field(default_factory=list, max_length=3)
+    """Every appliance of this conversation when there is more than one, the
+    primary first, at most three (a visit's limit). Empty for one appliance:
+    the top-level fields already describe it. `recommended_services` then holds
+    one service per appliance, in the same order."""
 
     disclaimer_vi: str
 

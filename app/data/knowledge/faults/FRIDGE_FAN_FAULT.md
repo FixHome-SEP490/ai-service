@@ -482,8 +482,7 @@ Loại tủ. Tủ nhiều cửa và side by side tháo lắp phức tạp hơn.
 
 Hãng và độ sẵn có của linh kiện. Tủ nội địa xách tay khó kiếm.
 
-Vì nguyên nhân chỉ biết được sau khi tháo tấm ốp, bệnh này gắn với công kiểm tra
-tại nhà trước, rồi báo giá phần việc sau.
+Vì nguyên nhân chỉ biết được sau khi tháo tấm ốp, bệnh này đặt theo dịch vụ "Sửa tủ lạnh": thợ kiểm tra tại nhà trước, rồi báo giá phần việc sau.
 
 ## Nghiệm thu sau khi sửa
 

@@ -149,8 +149,9 @@ toàn.
 Máy lạnh khét sửa hết bao nhiêu.
 
 Đây là ca mà trả lời giá trước là sai thứ tự. Đưa cảnh báo an toàn trước, rồi nói
-rằng chi phí phụ thuộc nguồn gây khét, đưa khoảng công kiểm tra tại nhà từ bảng
-giá, và nói rõ rằng phần việc sẽ được báo sau khi thợ xác định được hỏng ở đâu.
+rằng chi phí phụ thuộc nguồn gây khét, đưa khoảng tiền công tham khảo của dịch vụ
+sửa điều hòa từ bảng giá, và nói rõ rằng phần việc sẽ được báo sau khi thợ xác định
+được hỏng ở đâu.
 
 Nói thẳng một điều nữa: phạm vi hư hỏng sau một sự cố chập điện khó đoán từ xa,
 vì nó phụ thuộc chỗ chập nằm ở đâu và đã lan tới đâu.
@@ -459,8 +460,7 @@ aptomat không đúng dòng thì đó là hạng mục riêng và thuộc hệ t
 
 Loại máy và vị trí lắp.
 
-Vì phạm vi chỉ biết được sau khi mở ra, bệnh này gắn với công kiểm tra tại nhà
-trước, rồi báo giá phần việc sau. Và với ca này thì nên nói trước rằng phạm vi
+Vì phạm vi chỉ biết được sau khi mở ra, bệnh này đặt theo dịch vụ "Sửa điều hòa": thợ kiểm tra tại nhà trước, rồi báo giá phần việc sau. Và với ca này thì nên nói trước rằng phạm vi
 khó đoán từ xa, để khách không kỳ vọng một con số chắc chắn.
 
 ## Nghiệm thu sau khi sửa

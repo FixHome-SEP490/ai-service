@@ -3,7 +3,7 @@ doc_id: KB_SYS_PRICING
 doc_type: system
 title_vi: Giá và cách tính tiền
 source: docs/SEP490- tổng.md, mục 8.3, 8.3.1, 8.12, 8.13, 8.16, 8.17, 8.18
-last_reviewed: 2026-09-17
+last_reviewed: 2026-10-24
 note: >
   Viết lại từ tài liệu nghiệp vụ. Tài liệu này giải thích cách tính, không chứa
   con số. Mọi con số tiền lấy từ app/data/labour_catalog.json và
@@ -26,19 +26,37 @@ sẽ có hai nguồn giá mâu thuẫn nhau, và mô hình sẽ đọc cái nào
 
 Tài liệu này cũng vậy. Nó nói cách tính, không nói con số.
 
+## Danh mục dịch vụ: danh mục, dịch vụ, loại máy
+
+Danh mục dịch vụ xếp theo nhóm thiết bị: điều hòa, máy giặt và máy sấy, tủ lạnh,
+bếp và đồ nhà bếp, điện, nước và thiết bị vệ sinh, bình nóng lạnh, máy lọc nước,
+quạt và đèn, khóa cửa, tivi. Trong mỗi nhóm, mỗi thiết bị có tới ba loại dịch vụ:
+sửa, vệ sinh hoặc bảo dưỡng, và lắp đặt.
+
+Dịch vụ giá cố định lại chia theo loại máy, gọi là biến thể. Ví dụ vệ sinh điều
+hòa có giá riêng cho máy treo tường theo công suất, máy âm trần và máy tủ đứng;
+vệ sinh máy giặt có giá riêng theo cửa trên hay cửa ngang, số ký và có sấy hay
+không. Khách chọn đúng loại máy của mình khi đặt, và giá theo loại đó.
+
+Không còn dịch vụ "kiểm tra, chẩn đoán" chung cho mọi thiết bị. Khi chưa rõ bệnh,
+khách đặt chính dịch vụ sửa của thiết bị đó, và thợ kiểm tra rồi báo giá tại chỗ.
+
+Một số dịch vụ có trong danh mục nhưng chưa mở, ví dụ sửa lò vi sóng, sửa tivi,
+sửa máy rửa bát. Với những thiết bị đó, em nói thật là FixHome chưa nhận sửa, không
+đưa nút đặt và không hứa thời điểm mở.
+
 ## Hai kiểu định giá
 
-**Giá cố định.** Một số dịch vụ có giá cơ bản cố định theo đơn vị, do quản trị viên
-quản lý. Khách thấy giá và phạm vi ngay lúc đặt lịch, và chấp nhận trước khi đặt.
-Thợ không được tự đổi giá đó.
-
-Đây chủ yếu là các dịch vụ làm được mà không cần chẩn đoán: vệ sinh điều hòa, vệ
-sinh máy giặt, vệ sinh bình nóng lạnh, lắp đặt cơ bản, thay thế đơn giản, và công
-kiểm tra tại nhà.
+**Giá cố định.** Vệ sinh, bảo dưỡng và lắp đặt có giá tiền công cố định theo từng
+loại máy, do quản trị viên quản lý. Khách thấy giá và phạm vi ngay lúc đặt lịch, và
+chấp nhận trước khi đặt. Thợ không được tự đổi giá đó. Khách chưa biết máy mình
+loại nào thì em hỏi một câu để chọn đúng loại, ví dụ treo tường hay âm trần, cửa
+trên hay cửa ngang; vẫn không biết thì nói khoảng giá của các loại và để thợ chốt
+khi tới.
 
 **Cần kiểm tra mới báo giá.** Với dịch vụ sửa chữa thật, không ai biết phải làm gì
-cho tới khi thợ tới xem. Trước khi đặt lịch, khách chỉ thấy giá công tham khảo của
-thợ. Giá chính thức do thợ lập sau khi tới nơi và kiểm tra.
+cho tới khi thợ tới xem. Trước khi đặt lịch, khách thấy tiền công tham khảo theo
+loại máy. Giá chính thức do thợ lập sau khi tới nơi và kiểm tra.
 
 Phân biệt hai kiểu này là điều quan trọng nhất khi trả lời câu hỏi giá, vì nó quyết
 định em nói được chắc tới đâu.
@@ -169,17 +187,19 @@ Nếu một bên chưa xác nhận sau một khoảng thời gian thì hệ th�
 phản hồi hoặc có tranh chấp thì quản lý dịch vụ xem lại báo giá, số tiền hai bên
 khai, bằng chứng và mốc thời gian rồi quyết.
 
-## Công kiểm tra tại nhà
+## Khoảng giá em đưa được tính thế nào
 
-Nhiều bệnh trong bảng tri thức được gắn với công kiểm tra tại nhà thay vì một giá
-sửa cụ thể. Lý do là thật: không ai biết phải làm gì và tốn bao nhiêu cho tới khi
-mở máy ra xem.
+Với một bệnh, khoảng giá em đưa là tiền công của dịch vụ sửa thiết bị đó, theo
+loại máy, cộng giá các linh kiện bệnh đó hay phải thay. Sàn là tiền công thấp nhất
+cộng linh kiện rẻ nhất, trần là tiền công cao nhất cộng linh kiện đắt nhất.
 
-Khi giải thích với khách, nói rõ hai điều. Đây là công để xác định đúng bệnh, không
-phải phí gọi thợ tới. Và sau khi kiểm tra, thợ báo giá phần việc, khách duyệt rồi
-mới làm.
+Có những bệnh không đặt trần được, vì chi phí tuỳ quá nhiều vào tình trạng thật,
+ví dụ hỏng máy nén hay bo mạch. Khi đó em nói giá từ bao nhiêu và nói rõ thợ phải
+xem mới báo được.
 
-Cách nói này biến một khoản khách thấy vô lý thành một khoản có lý.
+Khi giải thích với khách, nói rõ hai điều. Dịch vụ sửa được đặt theo thiết bị,
+thợ tới kiểm tra để xác định đúng bệnh. Và sau khi kiểm tra, thợ báo giá phần việc,
+khách duyệt rồi mới làm; không duyệt thì không sửa.
 
 ## Vì sao cùng một bệnh mà giá khác nhau
 

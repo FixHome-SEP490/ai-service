@@ -126,8 +126,9 @@ không phải câu phủ định. Đó là khách nói họ không phân biệt 
 sai nằm ở đâu.
 
 Khi khách không rõ, có hai đường đi. Hỏi một dấu hiệu khác dễ thấy hơn, hoặc
-nhận ảnh thêm ở góc khác. Nếu vẫn không xong thì **đừng chọn bừa một bên**: mời
-khách đặt gói kiểm tra và chẩn đoán thiết bị, nói rõ thợ sang xác định tận nơi.
+nhận ảnh thêm ở góc khác. Nếu vẫn không xong thì **đừng chọn bừa một bên**: hỏi
+khách đúng tên thiết bị đang dùng. Mỗi dịch vụ giờ gắn với một thiết bị, không còn
+gói kiểm tra chung, nên phải biết thiết bị thì mới đặt được thợ.
 Đó là câu trả lời trung thực và vẫn dẫn khách tới chỗ được giúp.
 
 Chú ý một câu hay gặp và rất dễ đọc nhầm: "em không rõ, chắc là quạt trần". Câu

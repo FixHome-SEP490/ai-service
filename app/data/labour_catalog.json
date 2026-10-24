@@ -1,137 +1,703 @@
 {
-  "version": "SEP490 8.3.1",
-  "_comment_vi": "Gia cong tho co dinh, Admin quan ly, snapshot khi Booking. Day la san cua moi khoang gia: tho van di lai va lam viec du co thay linh kien hay khong. DIAGNOSE_ONSITE la muc toi thieu khi chua ro benh.",
-  "services": [
-    {
-      "service_code": "AC_CLEAN_WALL_SMALL",
-      "name_vi": "Vệ sinh điều hòa treo tường 1–1.5 HP",
-      "device_type": "air_conditioner",
-      "price": 180000,
-      "unit_vi": "Máy"
-    },
-    {
-      "service_code": "AC_CLEAN_WALL_LARGE",
-      "name_vi": "Vệ sinh điều hòa treo tường 2–2.5 HP",
-      "device_type": "air_conditioner",
-      "price": 220000,
-      "unit_vi": "Máy"
-    },
-    {
-      "service_code": "AC_CLEAN_CASSETTE",
-      "name_vi": "Vệ sinh điều hòa âm trần",
-      "device_type": "air_conditioner",
-      "price": 500000,
-      "unit_vi": "Máy"
-    },
-    {
-      "service_code": "WM_CLEAN_TOP_SMALL",
-      "name_vi": "Vệ sinh máy giặt cửa trên ≤ 9kg",
-      "device_type": "washing_machine",
-      "price": 350000,
-      "unit_vi": "Máy"
-    },
-    {
-      "service_code": "WM_CLEAN_TOP_LARGE",
-      "name_vi": "Vệ sinh máy giặt cửa trên > 9kg",
-      "device_type": "washing_machine",
-      "price": 450000,
-      "unit_vi": "Máy"
-    },
-    {
-      "service_code": "WM_CLEAN_FRONT_SMALL",
-      "name_vi": "Vệ sinh máy giặt cửa ngang ≤ 9kg",
-      "device_type": "washing_machine",
-      "price": 550000,
-      "unit_vi": "Máy"
-    },
-    {
-      "service_code": "WM_CLEAN_FRONT_LARGE",
-      "name_vi": "Vệ sinh máy giặt cửa ngang > 9kg",
-      "device_type": "washing_machine",
-      "price": 650000,
-      "unit_vi": "Máy"
-    },
-    {
-      "service_code": "WH_CLEAN",
-      "name_vi": "Vệ sinh, bảo dưỡng bình nóng lạnh",
-      "device_type": "water_heater",
-      "price": 250000,
-      "unit_vi": "Bình"
-    },
-    {
-      "service_code": "ELEC_SWITCH_REPLACE",
-      "name_vi": "Thay công tắc điện, tiền công",
-      "device_type": "light_bulb",
-      "price": 100000,
-      "unit_vi": "Cái"
-    },
-    {
-      "service_code": "ELEC_OUTLET_REPLACE",
-      "name_vi": "Thay ổ cắm điện, tiền công",
-      "device_type": "power_outlet",
-      "price": 100000,
-      "unit_vi": "Cái"
-    },
-    {
-      "service_code": "ELEC_CEILING_LIGHT",
-      "name_vi": "Lắp đèn trần cơ bản, tiền công",
-      "device_type": "light_bulb",
-      "price": 120000,
-      "unit_vi": "Cái"
-    },
-    {
-      "service_code": "ELEC_WALL_FAN",
-      "name_vi": "Lắp quạt treo tường, tiền công",
-      "device_type": "electric_fan",
-      "price": 150000,
-      "unit_vi": "Cái"
-    },
-    {
-      "service_code": "ELEC_CEILING_FAN",
-      "name_vi": "Lắp quạt trần cơ bản, tiền công",
-      "device_type": "ceiling_fan",
-      "price": 250000,
-      "unit_vi": "Cái"
-    },
-    {
-      "service_code": "TV_MOUNT",
-      "name_vi": "Lắp TV lên giá treo có sẵn",
-      "device_type": "television",
-      "price": 100000,
-      "unit_vi": "TV"
-    },
-    {
-      "service_code": "PLUMB_FAUCET_REPLACE",
-      "name_vi": "Thay vòi nước, tiền công",
-      "device_type": "faucet",
-      "price": 120000,
-      "unit_vi": "Cái"
-    },
-    {
-      "service_code": "PLUMB_SHOWER_REPLACE",
-      "name_vi": "Thay vòi sen, tiền công",
-      "device_type": "faucet",
-      "price": 150000,
-      "unit_vi": "Bộ"
-    },
-    {
-      "service_code": "PLUMB_SIPHON_REPLACE",
-      "name_vi": "Thay siphon, chống rò lavabo, tiền công",
-      "device_type": "sink",
-      "price": 150000,
-      "unit_vi": "Bộ"
-    },
-    {
-      "service_code": "DIAGNOSE_ONSITE",
-      "name_vi": "Kiểm tra, chẩn đoán thiết bị tại nhà",
-      "device_type": null,
-      "price": 100000,
-      "unit_vi": "Lần"
-    },
-    {
-      "service_code": "VE_SINH_MAY_SAY",
-      "name_vi": "Vệ sinh máy sấy gia đình",
-      "price": 350000
-    }
-  ]
+ "version": "2026-10-24",
+ "_comment_vi": "Tiền công theo danh mục backend (catalog V2/V3), sinh bởi tools/sync_catalog_v3.py. Dịch vụ giá cố định ghi theo từng biến thể; dịch vụ sửa ghi công tham khảo theo loại máy, thợ chốt khi tới. Chưa gồm linh kiện.",
+ "services": [
+  {
+   "service_code": "AC-01-T1",
+   "name_vi": "Sửa điều hòa: Treo tường (công tham khảo)",
+   "device_type": "air_conditioner",
+   "device_types": [
+    "air_conditioner"
+   ],
+   "price": 249000,
+   "unit_vi": "lần"
+  },
+  {
+   "service_code": "AC-01-T2",
+   "name_vi": "Sửa điều hòa: Âm trần, tủ đứng (công tham khảo)",
+   "device_type": "air_conditioner",
+   "device_types": [
+    "air_conditioner"
+   ],
+   "price": 449000,
+   "unit_vi": "lần"
+  },
+  {
+   "service_code": "AC-02-01",
+   "name_vi": "Vệ sinh điều hòa: Treo tường <=1.5 HP",
+   "device_type": "air_conditioner",
+   "device_types": [
+    "air_conditioner"
+   ],
+   "price": 199000,
+   "unit_vi": "máy"
+  },
+  {
+   "service_code": "AC-02-02",
+   "name_vi": "Vệ sinh điều hòa: Treo tường 2–2.5 HP",
+   "device_type": "air_conditioner",
+   "device_types": [
+    "air_conditioner"
+   ],
+   "price": 219000,
+   "unit_vi": "máy"
+  },
+  {
+   "service_code": "AC-02-03",
+   "name_vi": "Vệ sinh điều hòa: Âm trần cassette tiêu chuẩn",
+   "device_type": "air_conditioner",
+   "device_types": [
+    "air_conditioner"
+   ],
+   "price": 449000,
+   "unit_vi": "máy"
+  },
+  {
+   "service_code": "AC-02-31",
+   "name_vi": "Vệ sinh điều hòa: Điều hòa tủ đứng",
+   "device_type": "air_conditioner",
+   "device_types": [
+    "air_conditioner"
+   ],
+   "price": 449000,
+   "unit_vi": "máy"
+  },
+  {
+   "service_code": "AC-03-04",
+   "name_vi": "Lắp đặt điều hòa: Lắp điều hòa treo tường chuẩn",
+   "device_type": "air_conditioner",
+   "device_types": [
+    "air_conditioner"
+   ],
+   "price": 449000,
+   "unit_vi": "máy"
+  },
+  {
+   "service_code": "AC-04",
+   "name_vi": "Tháo hoặc di dời điều hòa (công tham khảo)",
+   "device_type": "air_conditioner",
+   "device_types": [
+    "air_conditioner"
+   ],
+   "price": 699000,
+   "unit_vi": "lần"
+  },
+  {
+   "service_code": "EL-01",
+   "name_vi": "Sửa sự cố điện dân dụng (công tham khảo)",
+   "device_type": "power_outlet",
+   "device_types": [
+    "power_outlet",
+    "light_bulb"
+   ],
+   "price": 249000,
+   "unit_vi": "lần"
+  },
+  {
+   "service_code": "EL-02-17",
+   "name_vi": "Lắp hoặc thay thiết bị điện: Thay công tắc ổ cắm CB 1 điểm",
+   "device_type": "power_outlet",
+   "device_types": [
+    "power_outlet"
+   ],
+   "price": 119000,
+   "unit_vi": "máy"
+  },
+  {
+   "service_code": "FR-01-T1",
+   "name_vi": "Sửa tủ lạnh: Tủ mini, 1 cửa (công tham khảo)",
+   "device_type": "refrigerator",
+   "device_types": [
+    "refrigerator"
+   ],
+   "price": 199000,
+   "unit_vi": "lần"
+  },
+  {
+   "service_code": "FR-01-T2",
+   "name_vi": "Sửa tủ lạnh: Tủ 2 cửa (công tham khảo)",
+   "device_type": "refrigerator",
+   "device_types": [
+    "refrigerator"
+   ],
+   "price": 249000,
+   "unit_vi": "lần"
+  },
+  {
+   "service_code": "FR-01-T3",
+   "name_vi": "Sửa tủ lạnh: Side-by-side, nhiều cửa (công tham khảo)",
+   "device_type": "refrigerator",
+   "device_types": [
+    "refrigerator"
+   ],
+   "price": 399000,
+   "unit_vi": "lần"
+  },
+  {
+   "service_code": "FR-02-43",
+   "name_vi": "Vệ sinh, bảo dưỡng tủ lạnh: Tủ lạnh mini hoặc 1 cửa",
+   "device_type": "refrigerator",
+   "device_types": [
+    "refrigerator"
+   ],
+   "price": 249000,
+   "unit_vi": "máy"
+  },
+  {
+   "service_code": "FR-02-44",
+   "name_vi": "Vệ sinh, bảo dưỡng tủ lạnh: Tủ lạnh 2 cửa",
+   "device_type": "refrigerator",
+   "device_types": [
+    "refrigerator"
+   ],
+   "price": 349000,
+   "unit_vi": "máy"
+  },
+  {
+   "service_code": "FR-02-45",
+   "name_vi": "Vệ sinh, bảo dưỡng tủ lạnh: Tủ lạnh side-by-side hoặc nhiều cửa",
+   "device_type": "refrigerator",
+   "device_types": [
+    "refrigerator"
+   ],
+   "price": 499000,
+   "unit_vi": "máy"
+  },
+  {
+   "service_code": "KT-01-T1",
+   "name_vi": "Sửa bếp từ: Bếp đơn (công tham khảo)",
+   "device_type": "induction_hob",
+   "device_types": [
+    "induction_hob"
+   ],
+   "price": 249000,
+   "unit_vi": "lần"
+  },
+  {
+   "service_code": "KT-01-T2",
+   "name_vi": "Sửa bếp từ: Bếp đôi trở lên (công tham khảo)",
+   "device_type": "induction_hob",
+   "device_types": [
+    "induction_hob"
+   ],
+   "price": 349000,
+   "unit_vi": "lần"
+  },
+  {
+   "service_code": "KT-02-16",
+   "name_vi": "Vệ sinh máy hút mùi: Vệ sinh máy hút mùi gia đình",
+   "device_type": "",
+   "device_types": [],
+   "price": 349000,
+   "unit_vi": "máy"
+  },
+  {
+   "service_code": "KT-03",
+   "name_vi": "Sửa máy hút mùi (công tham khảo)",
+   "device_type": "",
+   "device_types": [],
+   "price": 199000,
+   "unit_vi": "lần"
+  },
+  {
+   "service_code": "KT-06-50",
+   "name_vi": "Lắp bếp từ, bếp điện âm: Lắp bếp âm mặt đá đã khoét sẵn",
+   "device_type": "induction_hob",
+   "device_types": [
+    "induction_hob"
+   ],
+   "price": 249000,
+   "unit_vi": "máy"
+  },
+  {
+   "service_code": "KT-07-T1",
+   "name_vi": "Sửa bếp gas: Bếp dương (công tham khảo)",
+   "device_type": "gas_stove",
+   "device_types": [
+    "gas_stove"
+   ],
+   "price": 199000,
+   "unit_vi": "lần"
+  },
+  {
+   "service_code": "KT-07-T2",
+   "name_vi": "Sửa bếp gas: Bếp âm (công tham khảo)",
+   "device_type": "gas_stove",
+   "device_types": [
+    "gas_stove"
+   ],
+   "price": 299000,
+   "unit_vi": "lần"
+  },
+  {
+   "service_code": "KT-08-T1",
+   "name_vi": "Sửa lò nướng: Lò để bàn (công tham khảo)",
+   "device_type": "oven",
+   "device_types": [
+    "oven"
+   ],
+   "price": 199000,
+   "unit_vi": "lần"
+  },
+  {
+   "service_code": "KT-08-T2",
+   "name_vi": "Sửa lò nướng: Lò âm tủ (công tham khảo)",
+   "device_type": "oven",
+   "device_types": [
+    "oven"
+   ],
+   "price": 349000,
+   "unit_vi": "lần"
+  },
+  {
+   "service_code": "KT-09",
+   "name_vi": "Sửa ấm siêu tốc, bình thủy điện (công tham khảo)",
+   "device_type": "kettle",
+   "device_types": [
+    "kettle"
+   ],
+   "price": 149000,
+   "unit_vi": "lần"
+  },
+  {
+   "service_code": "LF-01-18",
+   "name_vi": "Lắp hoặc thay đèn: Lắp thay 1 bộ đèn",
+   "device_type": "light_bulb",
+   "device_types": [
+    "light_bulb"
+   ],
+   "price": 119000,
+   "unit_vi": "máy"
+  },
+  {
+   "service_code": "LF-02-19",
+   "name_vi": "Lắp quạt trần hoặc quạt treo: Lắp quạt treo tường",
+   "device_type": "ceiling_fan",
+   "device_types": [
+    "ceiling_fan",
+    "electric_fan"
+   ],
+   "price": 199000,
+   "unit_vi": "máy"
+  },
+  {
+   "service_code": "LF-02-20",
+   "name_vi": "Lắp quạt trần hoặc quạt treo: Lắp quạt trần có móc đạt chuẩn",
+   "device_type": "ceiling_fan",
+   "device_types": [
+    "ceiling_fan",
+    "electric_fan"
+   ],
+   "price": 299000,
+   "unit_vi": "máy"
+  },
+  {
+   "service_code": "LF-03-T1",
+   "name_vi": "Sửa quạt điện: Quạt cây, bàn, treo tường (công tham khảo)",
+   "device_type": "ceiling_fan",
+   "device_types": [
+    "ceiling_fan",
+    "electric_fan"
+   ],
+   "price": 149000,
+   "unit_vi": "lần"
+  },
+  {
+   "service_code": "LF-03-T2",
+   "name_vi": "Sửa quạt điện: Quạt trần (công tham khảo)",
+   "device_type": "ceiling_fan",
+   "device_types": [
+    "ceiling_fan",
+    "electric_fan"
+   ],
+   "price": 299000,
+   "unit_vi": "lần"
+  },
+  {
+   "service_code": "LK-02",
+   "name_vi": "Sửa khóa cửa/khóa thông minh (công tham khảo)",
+   "device_type": "smart_lock",
+   "device_types": [
+    "smart_lock"
+   ],
+   "price": 199000,
+   "unit_vi": "lần"
+  },
+  {
+   "service_code": "LK-03-28",
+   "name_vi": "Lắp khóa thông minh: Lắp khóa thông minh cửa phù hợp",
+   "device_type": "smart_lock",
+   "device_types": [
+    "smart_lock"
+   ],
+   "price": 399000,
+   "unit_vi": "máy"
+  },
+  {
+   "service_code": "PI-01-T1",
+   "name_vi": "Sửa rò rỉ hoặc sự cố đường ống nước: Ống nổi (công tham khảo)",
+   "device_type": "water_pipe",
+   "device_types": [
+    "water_pipe"
+   ],
+   "price": 199000,
+   "unit_vi": "lần"
+  },
+  {
+   "service_code": "PI-01-T2",
+   "name_vi": "Sửa rò rỉ hoặc sự cố đường ống nước: Ống âm tường, âm sàn (công tham khảo)",
+   "device_type": "water_pipe",
+   "device_types": [
+    "water_pipe"
+   ],
+   "price": 499000,
+   "unit_vi": "lần"
+  },
+  {
+   "service_code": "RO-01",
+   "name_vi": "Sửa máy lọc nước (công tham khảo)",
+   "device_type": "water_purifier",
+   "device_types": [
+    "water_purifier"
+   ],
+   "price": 199000,
+   "unit_vi": "lần"
+  },
+  {
+   "service_code": "RO-02-13",
+   "name_vi": "Thay lõi và bảo dưỡng máy lọc nước: Bảo dưỡng + thay bộ lõi chuẩn",
+   "device_type": "water_purifier",
+   "device_types": [
+    "water_purifier"
+   ],
+   "price": 149000,
+   "unit_vi": "máy"
+  },
+  {
+   "service_code": "RO-03-14",
+   "name_vi": "Lắp đặt máy lọc nước: Lắp máy lọc nước vị trí có nguồn",
+   "device_type": "water_purifier",
+   "device_types": [
+    "water_purifier"
+   ],
+   "price": 249000,
+   "unit_vi": "máy"
+  },
+  {
+   "service_code": "SA-01-T1",
+   "name_vi": "Sửa thiết bị vệ sinh: Vòi, sen, chậu (công tham khảo)",
+   "device_type": "sink",
+   "device_types": [
+    "sink",
+    "faucet",
+    "toilet"
+   ],
+   "price": 199000,
+   "unit_vi": "lần"
+  },
+  {
+   "service_code": "SA-01-T2",
+   "name_vi": "Sửa thiết bị vệ sinh: Bồn cầu (công tham khảo)",
+   "device_type": "sink",
+   "device_types": [
+    "sink",
+    "faucet",
+    "toilet"
+   ],
+   "price": 249000,
+   "unit_vi": "lần"
+  },
+  {
+   "service_code": "SA-02-22",
+   "name_vi": "Lắp hoặc thay thiết bị vệ sinh: Thay vòi sen siphon chuẩn",
+   "device_type": "sink",
+   "device_types": [
+    "sink",
+    "faucet",
+    "toilet"
+   ],
+   "price": 149000,
+   "unit_vi": "máy"
+  },
+  {
+   "service_code": "SA-02-23",
+   "name_vi": "Lắp hoặc thay thiết bị vệ sinh: Lắp lavabo chuẩn",
+   "device_type": "sink",
+   "device_types": [
+    "sink",
+    "faucet",
+    "toilet"
+   ],
+   "price": 349000,
+   "unit_vi": "máy"
+  },
+  {
+   "service_code": "SA-02-24",
+   "name_vi": "Lắp hoặc thay thiết bị vệ sinh: Lắp bồn cầu chuẩn",
+   "device_type": "sink",
+   "device_types": [
+    "sink",
+    "faucet",
+    "toilet"
+   ],
+   "price": 549000,
+   "unit_vi": "máy"
+  },
+  {
+   "service_code": "SA-03-25",
+   "name_vi": "Thông tắc bồn cầu/chậu/thoát sàn: Thông tắc chậu lavabo đơn giản",
+   "device_type": "sink",
+   "device_types": [
+    "sink",
+    "toilet",
+    "water_pipe"
+   ],
+   "price": 299000,
+   "unit_vi": "máy"
+  },
+  {
+   "service_code": "SA-03-26",
+   "name_vi": "Thông tắc bồn cầu/chậu/thoát sàn: Thông tắc bồn cầu đơn giản",
+   "device_type": "sink",
+   "device_types": [
+    "sink",
+    "toilet",
+    "water_pipe"
+   ],
+   "price": 499000,
+   "unit_vi": "máy"
+  },
+  {
+   "service_code": "SA-03-63",
+   "name_vi": "Thông tắc bồn cầu/chậu/thoát sàn: Thông tắc thoát sàn",
+   "device_type": "sink",
+   "device_types": [
+    "sink",
+    "toilet",
+    "water_pipe"
+   ],
+   "price": 549000,
+   "unit_vi": "máy"
+  },
+  {
+   "service_code": "TV-01-27",
+   "name_vi": "Lắp TV/giá treo: Lắp TV giá treo chuẩn",
+   "device_type": "television",
+   "device_types": [
+    "television"
+   ],
+   "price": 299000,
+   "unit_vi": "máy"
+  },
+  {
+   "service_code": "TV-01-64",
+   "name_vi": "Lắp TV/giá treo: Lắp TV từ 65 inch",
+   "device_type": "television",
+   "device_types": [
+    "television"
+   ],
+   "price": 499000,
+   "unit_vi": "máy"
+  },
+  {
+   "service_code": "WH-01-15",
+   "name_vi": "Vệ sinh bình nóng lạnh: Bình nóng lạnh dân dụng chuẩn",
+   "device_type": "water_heater",
+   "device_types": [
+    "water_heater"
+   ],
+   "price": 349000,
+   "unit_vi": "máy"
+  },
+  {
+   "service_code": "WH-02",
+   "name_vi": "Sửa bình/máy nước nóng (công tham khảo)",
+   "device_type": "water_heater",
+   "device_types": [
+    "water_heater"
+   ],
+   "price": 249000,
+   "unit_vi": "lần"
+  },
+  {
+   "service_code": "WH-03-46",
+   "name_vi": "Lắp đặt hoặc thay bình nóng lạnh: Bình nóng lạnh gián tiếp có bình chứa",
+   "device_type": "water_heater",
+   "device_types": [
+    "water_heater"
+   ],
+   "price": 349000,
+   "unit_vi": "máy"
+  },
+  {
+   "service_code": "WH-03-47",
+   "name_vi": "Lắp đặt hoặc thay bình nóng lạnh: Máy nước nóng trực tiếp",
+   "device_type": "water_heater",
+   "device_types": [
+    "water_heater"
+   ],
+   "price": 299000,
+   "unit_vi": "máy"
+  },
+  {
+   "service_code": "WM-01-T1",
+   "name_vi": "Sửa máy giặt: Cửa trên (công tham khảo)",
+   "device_type": "washing_machine",
+   "device_types": [
+    "washing_machine"
+   ],
+   "price": 249000,
+   "unit_vi": "lần"
+  },
+  {
+   "service_code": "WM-01-T2",
+   "name_vi": "Sửa máy giặt: Cửa ngang (công tham khảo)",
+   "device_type": "washing_machine",
+   "device_types": [
+    "washing_machine"
+   ],
+   "price": 299000,
+   "unit_vi": "lần"
+  },
+  {
+   "service_code": "WM-02-05",
+   "name_vi": "Vệ sinh máy giặt: Máy giặt cửa trên <=9 kg",
+   "device_type": "washing_machine",
+   "device_types": [
+    "washing_machine"
+   ],
+   "price": 399000,
+   "unit_vi": "máy"
+  },
+  {
+   "service_code": "WM-02-06",
+   "name_vi": "Vệ sinh máy giặt: Máy giặt cửa trên >9 kg",
+   "device_type": "washing_machine",
+   "device_types": [
+    "washing_machine"
+   ],
+   "price": 449000,
+   "unit_vi": "máy"
+  },
+  {
+   "service_code": "WM-02-07",
+   "name_vi": "Vệ sinh máy giặt: Máy giặt cửa ngang <=9 kg",
+   "device_type": "washing_machine",
+   "device_types": [
+    "washing_machine"
+   ],
+   "price": 599000,
+   "unit_vi": "máy"
+  },
+  {
+   "service_code": "WM-02-08",
+   "name_vi": "Vệ sinh máy giặt: Máy giặt cửa ngang >9 kg",
+   "device_type": "washing_machine",
+   "device_types": [
+    "washing_machine"
+   ],
+   "price": 699000,
+   "unit_vi": "máy"
+  },
+  {
+   "service_code": "WM-02-34",
+   "name_vi": "Vệ sinh máy giặt: Máy giặt sấy cửa ngang",
+   "device_type": "washing_machine",
+   "device_types": [
+    "washing_machine"
+   ],
+   "price": 749000,
+   "unit_vi": "máy"
+  },
+  {
+   "service_code": "WM-03-09",
+   "name_vi": "Lắp đặt máy giặt: Lắp đặt máy giặt vị trí chờ sẵn",
+   "device_type": "washing_machine",
+   "device_types": [
+    "washing_machine"
+   ],
+   "price": 299000,
+   "unit_vi": "máy"
+  },
+  {
+   "service_code": "WM-04-T1",
+   "name_vi": "Sửa máy sấy: Máy sấy thông hơi (công tham khảo)",
+   "device_type": "clothes_dryer",
+   "device_types": [
+    "clothes_dryer"
+   ],
+   "price": 199000,
+   "unit_vi": "lần"
+  },
+  {
+   "service_code": "WM-04-T2",
+   "name_vi": "Sửa máy sấy: Máy sấy ngưng tụ (công tham khảo)",
+   "device_type": "clothes_dryer",
+   "device_types": [
+    "clothes_dryer"
+   ],
+   "price": 249000,
+   "unit_vi": "lần"
+  },
+  {
+   "service_code": "WM-04-T3",
+   "name_vi": "Sửa máy sấy: Máy sấy bơm nhiệt (công tham khảo)",
+   "device_type": "clothes_dryer",
+   "device_types": [
+    "clothes_dryer"
+   ],
+   "price": 349000,
+   "unit_vi": "lần"
+  },
+  {
+   "service_code": "WM-05-10",
+   "name_vi": "Vệ sinh máy sấy: Máy sấy thông hơi",
+   "device_type": "clothes_dryer",
+   "device_types": [
+    "clothes_dryer"
+   ],
+   "price": 399000,
+   "unit_vi": "máy"
+  },
+  {
+   "service_code": "WM-05-11",
+   "name_vi": "Vệ sinh máy sấy: Máy sấy ngưng tụ",
+   "device_type": "clothes_dryer",
+   "device_types": [
+    "clothes_dryer"
+   ],
+   "price": 499000,
+   "unit_vi": "máy"
+  },
+  {
+   "service_code": "WM-05-12",
+   "name_vi": "Vệ sinh máy sấy: Máy sấy bơm nhiệt",
+   "device_type": "clothes_dryer",
+   "device_types": [
+    "clothes_dryer"
+   ],
+   "price": 599000,
+   "unit_vi": "máy"
+  },
+  {
+   "service_code": "WM-06-38",
+   "name_vi": "Lắp đặt máy sấy: Lắp máy sấy đặt sàn hoặc kệ",
+   "device_type": "clothes_dryer",
+   "device_types": [
+    "clothes_dryer"
+   ],
+   "price": 199000,
+   "unit_vi": "máy"
+  },
+  {
+   "service_code": "WM-06-39",
+   "name_vi": "Lắp đặt máy sấy: Lắp máy sấy chồng lên máy giặt",
+   "device_type": "clothes_dryer",
+   "device_types": [
+    "clothes_dryer"
+   ],
+   "price": 399000,
+   "unit_vi": "máy"
+  }
+ ]
 }

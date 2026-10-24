@@ -514,7 +514,7 @@ Vị trí cục nóng. Treo cao ngoài ban công tầng trên cần thang hoặc
 Có phát sinh thêm không. Nếu thay tụ mà máy vẫn không chạy thì hướng chuyển sang
 máy nén hoặc bo, và đó là hạng mục hoàn toàn khác, phải báo khách trước khi làm.
 
-Vì khả năng phát sinh đó là thật, bệnh này gắn với công kiểm tra tại nhà trước,
+Vì khả năng phát sinh đó là thật, bệnh này đặt theo dịch vụ "Sửa điều hòa": thợ kiểm tra tại nhà trước,
 rồi báo giá phần việc sau khi đo.
 
 ## Nghiệm thu sau khi sửa

@@ -532,8 +532,7 @@ Hãng và độ sẵn có của linh kiện.
 Có phải thay giảm chấn và lò xo treo kèm không. Nếu chúng đã mòn thì nên thay cùng
 lúc vì máy đã mở ra.
 
-Vì phạm vi chỉ biết được sau khi mở máy, ca này gắn với công kiểm tra tại nhà
-trước, và nên nói rõ với khách rằng con số cuối chốt sau khi mở.
+Vì phạm vi chỉ biết được sau khi mở máy, ca này đặt theo dịch vụ "Sửa máy giặt": thợ kiểm tra tại nhà trước, và nên nói rõ với khách rằng con số cuối chốt sau khi mở.
 
 ## Nghiệm thu sau khi sửa
 
