@@ -1,0 +1,3108 @@
+{
+ "_comment_vi": "Bộ câu kiểm tra hiểu ý, viết riêng, không chép vào app/data. Xem tools/eval_understanding.py.",
+ "devices": {
+  "air_conditioner": {
+   "names": [
+    "con Daikin",
+    "cái Panasonic 1 ngựa",
+    "máy Toshiba treo tường",
+    "cái máy làm mát treo tường",
+    "điều hòa nhiệt độ",
+    "cái máy lạnh Casper",
+    "con LG inverter",
+    "máy ĐH",
+    "đìu hòa",
+    "cái máy lạnh âm trần",
+    "con Gree hai chiều",
+    "cái máy 12 nghìn BTU"
+   ],
+   "vague": [
+    "dạo này hơi có vấn đề, em không rõ bị gì",
+    "dùng thấy không được ổn như trước",
+    "mấy hôm nay cứ sao sao ấy, anh xem giúp em"
+   ],
+   "faults": {
+    "AC_LOW_REFRIGERANT": {
+     "clear": [
+      "gió vẫn thổi mạnh như thường mà hơi không lạnh, ông nhà em đứng sát vào vẫn thấy hâm hấp",
+      "mới chuyển trọ, nhờ người tháo lắp lại xong thì mát kém hẳn, gió thổi ào ào mà chẳng thấy lạnh",
+      "kẹp đồng hồ thấy áp ống hồi chỉ khoảng 40 psi, dòng điện thấp hơn định mức, gió vẫn đủ mạnh",
+      "nghe xì xì rất nhỏ ở mối nối ống ngoài ban công, từ hôm đó phòng mát kém dần",
+      "chạy từ trưa tới tối mà phòng vẫn 29 30 độ, dàn nóng chạy suốt chẳng nghỉ lúc nào",
+      "hồi mới lắp lạnh buốt, giờ thổi ra mát như gió đồng, dù miệng gió vẫn phả mạnh",
+      "hình như bị rò ở đâu đó, chỗ khớp nối ống đồng dưới dàn nóng có vệt dầu loang đen",
+      "đã rửa lưới lọc sạch sẽ, gió ra mạnh rồi mà vẫn chẳng lạnh lên được, chỉnh 18 độ cũng vậy",
+      "thấy ống đồng nhỏ ngoài dàn nóng đóng lớp trắng như sương muối, còn ống to thì khô ráo không đổ mồ hôi",
+      "năm nào cũng phải gọi thợ bơm thêm, được vài tháng lại yếu dần như cũ"
+     ],
+     "indirect": [
+      "tháng này hóa đơn điện cao vọt mà cả nhà vẫn phải mở cửa sổ cho đỡ hầm, máy thì chạy suốt",
+      "con bé ngủ phòng đó sáng nào dậy cũng ướt đẫm mồ hôi dù máy chạy cả đêm, gió vẫn ra đều",
+      "thợ lần trước hàn lại chỗ ống bị mục, giờ phòng lại nóng dần y như hồi đó"
+     ]
+    },
+    "AC_DIRTY_FILTER": {
+     "clear": [
+      "mở lên là bay ra cái mùi như giẻ lau để lâu ngày, bà ngồi trong phòng cứ ho khù khụ",
+      "bật lên cái là phòng có mùi như tất mấy ngày chưa giặt, gió phả ra cũng yếu xìu",
+      "tháo mặt nạ ra thấy tấm lọc phủ một lớp bụi xám dày như nỉ, lá nhôm phía sau cũng bết bụi",
+      "gió chỉ phì phì nhè nhẹ, đưa tay sát miệng gió mới thấy, kèm theo mùi hôi hôi",
+      "mỗi lần mở lên khoảng năm phút đầu có mùi chua chua như cơm thiu rồi mới đỡ dần",
+      "mùi y như cái chiếu cói bị mốc lâu ngày, đứng gần cửa gió là ngửi rõ",
+      "hình như từ hồi lắp tới giờ chưa ai lau chùi gì, gió giờ thổi ra yếu với hơi hăng hăng",
+      "em đã xịt khử mùi vào cửa gió mà chỉ đỡ được một hôm, gió vẫn yếu như hơi thở",
+      "nhìn vào khe gió thấy lấm tấm chấm đen như nấm mốc, thỉnh thoảng có bụi li ti bay ra",
+      "gió ra chỉ bằng nửa hồi mới mua, hơi vẫn lạnh mà không lan khắp phòng, hơn hai năm chưa rửa lưới"
+     ],
+     "indirect": [
+      "từ hồi chuyển vô phòng này đứa nhỏ sáng nào dậy cũng sổ mũi, nhảy mũi liên tục",
+      "khách tới chơi bước vào phòng là hỏi nhà có gì bị ẩm hay sao mà ngửi ngai ngái",
+      "nhà sát mặt đường nhiều bụi, lắp hai năm nay chưa ai đụng tới, giờ phòng lúc nào cũng thoang thoảng mùi lạ"
+     ]
+    },
+    "AC_DRAIN_BLOCKED": {
+     "clear": [
+      "nước cứ tong tong rơi xuống nền gạch, bà phải đặt cái thau hứng mà ngày đổ mấy lần",
+      "đang ngủ thì nước rớt lộp độp lên mền, phải dời giường qua chỗ khác",
+      "ống ruột gà thoát nước ngoài ban công khô queo không ra giọt nào, trong khi máng hứng bên trong đầy ứ",
+      "nghe tí tách tí tách dưới chân tường suốt đêm, soi đèn thì thấy nước đang rơi",
+      "chạy chừng một tiếng là bắt đầu rớt nước thành dòng ở góc bên trái, lạnh thì vẫn bình thường",
+      "nước rơi xuống như mái nhà dột mưa, sàn lúc nào cũng loang một vũng",
+      "không biết có phải cái ống thoát bị tắc không, bên dưới chỗ treo máy có vệt nước chảy dài xuống",
+      "em đã thử thổi vào ống thoát thì thấy nghẹt cứng, thổi mãi không thông, nước vẫn rớt",
+      "mảng sơn bên dưới bị phồng rộp, ố vàng, lâu lâu có giọt nước lăn ra ở mép máy",
+      "vẫn lạnh tốt nhưng mép dưới cứ rỉ rả nước, lau khăn xong một lát lại ướt"
+     ],
+     "indirect": [
+      "cái nệm kê bên dưới bị ố một mảng tròn, tuần nào cũng phải đem ra phơi",
+      "chân tường bên dưới chỗ treo máy bắt đầu mọc rêu xanh, sơn bong ra từng mảng",
+      "tuần nào cũng phải lau sàn phòng ngủ mấy lần vì sợ con nhỏ trượt té"
+     ]
+    },
+    "AC_COMPRESSOR_FAULT": {
+     "clear": [
+      "mở lên được một chút là cái cầu dao trong nhà sập cái bụp, ông nhà em sợ không dám bật nữa",
+      "dàn nóng ngoài ban công kêu cạch cạch rồi lặng ngắt, quạt ngoài vẫn quay mà trong phòng chỉ có gió thường",
+      "đo điện trở ba chân lốc thấy một cặp chạm vỏ, aptomat cứ đóng vào là bật ra",
+      "ngoài dàn nóng có tiếng lụp bụp, cành cạch như sắt va nhau rồi tự ngưng, rung cả giá đỡ",
+      "bật lên chừng ba phút là ngoài ban công đánh cạch một tiếng, lốc tắt lịm, chỉ còn cánh quạt ngoài quay",
+      "cục ngoài gầm như xe tải lên dốc rồi tắt phụt, sờ vào thân lốc nóng như cái nồi đang nấu",
+      "hình như cái lốc chết rồi, thay tụ mới mà nó vẫn ì ra, chỉ có quạt ngoài là quay",
+      "em gạt cầu dao lên ba lần rồi, cứ bấm máy chạy là nó lại sập xuống, đồ điện khác vẫn dùng bình thường",
+      "quạt cục ngoài vẫn quay vù vù nhưng không nghe tiếng lốc rì rì như mọi khi, ống đồng sờ vào ấm",
+      "sờ vào vỏ dàn nóng thấy tê tê, ngay chỗ cái lốc còn bốc mùi dầu cháy, em sợ quá rút điện luôn"
+     ],
+     "indirect": [
+      "hôm qua vừa bật lên là cả dãy phòng trọ cúp điện, chủ trọ không cho em mở nữa",
+      "thợ tới xem đã thay tụ, kiểm tra ga đủ, mà vẫn bảo phải tháo cục ngoài đem về xưởng",
+      "xài gần mười năm, đợt nắng 40 độ vừa rồi chạy suốt mấy ngày xong tự nhiên chỉ còn ra gió thường"
+     ]
+    },
+    "AC_PCB_FAULT": {
+     "clear": [
+      "con trai mua cái điều khiển mới về mà bấm vẫn im re, ấn cái nút nhỏ trên thân máy cũng không ăn thua",
+      "cứ đang chạy ngon lành thì tự dưng tít một tiếng rồi tắt ngóm, một lúc sau lại tự mở lên",
+      "mặt hiển thị báo E6 hoài, rút điện cắm lại vẫn vậy, nghe rơ le bên trong tạch tạch liên tục",
+      "bấm nút nguồn là nghe tách tách trong bo, đèn chớp vài cái rồi đứng im không chạy",
+      "sau trận sét đánh tối qua thì cắm điện vào chỉ có đèn đỏ sáng, bấm gì cũng không chạy",
+      "đèn trên mặt máy nháy liên hồi như đèn giao thông hỏng, còn máy thì nằm im không thổi",
+      "không biết có phải do gián làm tổ không, mở ra thấy mấy chân linh kiện trên mạch xanh đen rỉ sét",
+      "đã thay pin, đổi luôn điều khiển khác cùng hãng mà máy vẫn không chịu lên, đèn tín hiệu cũng tắt ngấm",
+      "mấy con số trên màn hiển thị nhảy lung tung, chỉnh 24 độ mà nó báo 88",
+      "đang mát thì tự đổi chế độ, lúc thì chỉ thổi gió lúc thì sang sưởi dù không ai đụng tới"
+     ],
+     "indirect": [
+      "hôm cúp điện xong có điện lại thì cái máy phòng khách thành đồ trang trí luôn",
+      "thợ bên hãng xem rồi bảo phải đặt mạch mới, chờ cả tuần chưa có hàng",
+      "nhà em có con nhỏ đêm nào cũng giật mình vì máy tự bíp bíp tắt mở mấy lần"
+     ]
+    },
+    "AC_INDOOR_FAN_MOTOR": {
+     "clear": [
+      "lá đảo vẫn mở ra đóng vào mà đưa tay lên miệng máy chẳng thấy hơi gió nào, cục ngoài thì vẫn chạy",
+      "cục ngoài chạy rầm rầm mà cục trong phòng thì không thổi ra tí gió nào luôn",
+      "rọi đèn vào trong thấy cái lồng sóc đứng yên, lấy que xoay thì nhẹ, chắc mô tơ không nhận điện",
+      "bên trong kêu e é e é như bánh xe khô dầu, gió ra lúc có lúc không",
+      "mới bật thì gió ra bình thường, khoảng mười lăm phút sau gió yếu dần rồi tắt hẳn, máy vẫn chạy",
+      "gió ra yếu như ai thở ra, mà lưới lọc em mới rửa tuần trước, sạch bong",
+      "hình như cái cánh thổi gió bên trong bị kẹt hay sao á, nghe ro ro mà không thấy gió",
+      "đã rút điện cắm lại, chỉnh mức gió mạnh nhất mà miệng gió vẫn lặng thinh, chỉ có cục ngoài là chạy",
+      "nhìn qua khe thấy cái trục cánh dài bên trong quay chầm chậm rồi đứng hẳn, mặt trước đọng sương lạnh ngắt",
+      "bật lên chỉ nghe tiếng rè rè ở đầu bên phải của cục trong, miệng gió hoàn toàn im lặng"
+     ],
+     "indirect": [
+      "đứng sát máy thì thấy lạnh lạnh mà ra giữa phòng vẫn hầm hập, khí lạnh như bị nhốt lại bên trong",
+      "cái dải ruy băng cột ở cửa gió giờ rủ xuống im lìm, không bay phất phơ như trước",
+      "con nhỏ than phòng nóng nên em ghé tai sát vào máy, chỉ nghe tiếng nước róc rách chứ không nghe gió vù vù"
+     ]
+    },
+    "AC_OUTDOOR_FAN_MOTOR": {
+     "clear": [
+      "nhìn ra ban công thấy cái chong chóng ngoài không nhúc nhích, mà trong cục vẫn nghe máy chạy rì rì",
+      "ra sau cục ngoài không thấy hơi nóng phả ra như mọi khi, cánh đứng im re, sờ vỏ thì nóng hổi",
+      "đo thấy lốc vẫn chạy nhưng mô tơ quạt dàn nóng không lên, cuộn dây đo đứt, trục quay rất nặng",
+      "ngoài ban công nghe rột rột rột như bạc đạn khô, cánh ngoài quay ì ạch từng vòng",
+      "mát được tầm mười phút là ngưng, nghỉ chút lại chạy, nhìn ra thì cánh quạt ngoài ban công không thấy quay",
+      "vỏ cục ngoài nóng như nắp nồi cơm điện, lấy tay xoay thử cánh thì cứng ngắc như bị hàn",
+      "không biết có phải mô tơ quạt bên ngoài yếu không, cánh quay lừ đừ, chẳng có gió nóng thổi ra",
+      "em đã nhờ thợ thay tụ quạt mới tuần trước, vậy mà cánh ngoài vẫn đứng, lốc chạy được lát là tự ngắt",
+      "thấy cánh ở cục ngoài bị lệch hẳn sang một bên, quay thì cạ vào lưới bảo vệ kèn kẹt rồi dừng",
+      "trời càng nắng càng hay ngắt, buổi tối mát trời thì chạy lâu hơn, cánh ngoài lúc quay lúc không"
+     ],
+     "indirect": [
+      "con mèo hay nằm trên cục ngoài giờ không dám leo lên vì nóng bỏng, trong phòng thì mát rồi hầm từng đợt",
+      "tối nào cũng dậy mấy lần vì máy ngắt rồi chạy lại, ngoài ban công im phăng phắc không có tiếng gió vù vù",
+      "hàng xóm bảo cái cục ngoài nhà em giờ không thấy quay gì nữa, chỉ nghe tiếng máy rì rì"
+     ]
+    },
+    "AC_CAPACITOR": {
+     "clear": [
+      "bật lên chỉ nghe cục ngoài kêu è è như ong vò vẽ, cánh nằm im, ông lấy sào chọc nhẹ thì quay tít",
+      "cánh ở dàn nóng phải lấy tay đẩy một cái mới chịu quay, xong là chạy ngon lành tới tối",
+      "đo cái tụ dầu ở dàn nóng chỉ còn 15 micro trong khi nhãn ghi 35, lốc kêu ù rồi rơ le nhiệt cắt",
+      "ngoài ban công vo ve rè rè cả phút mà cánh không nhúc nhích, sau đó nghe cạch rồi im",
+      "buổi sáng trời mát bật thì chạy được, trưa nắng gắt bật lại là chỉ ù ù đứng im, chờ nguội mới chạy",
+      "giống như xe máy yếu bình, mồi cho nó một cái mới nổ, chứ tự nó thì chỉ gầm gừ đứng đó",
+      "hình như cái cục tròn tròn màu trắng gắn trong dàn nóng bị phồng đầu, có rỉ chút dầu",
+      "em tắt aptomat mở lại mấy lần thì có lần nó lên được, có lần chỉ nghe tiếng rền rền rồi ngắt",
+      "mở nắp hộp điện dàn nóng thấy cái tụ bị nứt vỏ, chảy dầu nhớt nhớt xuống mấy sợi dây",
+      "ngoài dàn nóng nghe tiếng tạch tạch đều đều cứ vài phút một lần, nhưng cánh và lốc không lên được"
+     ],
+     "indirect": [
+      "dạo này sáng nào ông xã cũng phải leo ra ban công lấy cái chổi chọc vô cục ngoài thì phòng mới mát được",
+      "đầu hè này mua cái tụ ngoài chợ về thay thử thì chạy ngon được hai tuần, giờ lại y như cũ",
+      "mỗi lần bật máy là đèn bàn trong phòng chớp tối lại một cái, xong ngoài ban công chả thấy động tĩnh gì"
+     ]
+    },
+    "AC_ICING": {
+     "clear": [
+      "mở nắp ra thấy cái dàn trong trắng xóa như phủ sương giá, gió thổi ra yếu dần",
+      "tháo mặt nạ thấy nguyên lớp băng trắng bám kín mấy lá nhôm, sờ vào buốt tay luôn",
+      "bóc mặt nạ thấy dàn bay hơi đọng lớp đá dày cả phân, cụm ống chỗ van tiết lưu bên trong trắng phau",
+      "nghe trong máy kêu lốp bốp tanh tách như đá đang nứt, rồi có cục đá rơi xuống máng",
+      "chạy suốt đêm ở 16 độ, sáng ra gió chỉ còn thoi thóp, tắt đi một tiếng thì nước đổ ào ra như mưa",
+      "nhìn vào giống như tuyết rơi xứ lạnh, một mảng trắng tinh phủ sau mặt nạ",
+      "không biết có phải do em để nhiệt thấp quá không, mà dàn trong cứ bám một lớp trắng xốp như kem",
+      "em tắt máy cho tan rồi bật lại thì được nửa ngày, sau đó lớp trắng lại phủ kín và gió yếu đi",
+      "thấy mẩu đá vụn rơi lả tả ra từ khe gió, lúc đầu lạnh buốt rồi gió yếu hẳn",
+      "mở 24 độ mà dàn trong vẫn kết tảng đá lạnh, gió ra có lẫn hơi sương trắng như khói"
+     ],
+     "indirect": [
+      "sáng nào tắt máy đi làm, chiều về cũng thấy dưới sàn một vũng nước to, trong khi lúc chạy thì khô",
+      "mấy hôm nay em phải tắt máy giữa đêm cho nó nghỉ, sáng bật lại thì mát được vài tiếng rồi lại yếu",
+      "con nhỏ ngủ dưới máy kêu sáng nào cũng có cục đá lạnh nhỏ rơi trúng gối"
+     ]
+    },
+    "AC_REMOTE_FAULT": {
+     "clear": [
+      "cục điều khiển bà bấm hoài chẳng nghe tít gì, phải nhờ thằng cháu ấn cái nút nhỏ dưới mặt máy mới mở được",
+      "màn hình cái điều khiển mờ tịt, số độ lúc hiện lúc không, bấm tăng giảm loạn xạ",
+      "lấy camera điện thoại soi đầu phát hồng ngoại của điều khiển thì không thấy đèn tím nhấp nháy khi bấm",
+      "bấm điều khiển mà máy không kêu tít một tiếng nào, mấy nút cao su thì nhũn nhùn nhũn",
+      "phải giơ cao đứng ngay dưới máy chĩa thẳng vào mới nhận, ngồi trên giường bấm là không ăn",
+      "cái điều khiển giờ như cục gạch, bấm nút nào cũng như không, mà máy vẫn chạy bằng nút khẩn cấp",
+      "hình như nước đổ vào cái điều khiển hôm trước, giờ mấy nút cứ dính dính, bấm nút này ra chức năng khác",
+      "đã mua đôi pin mới ngoài tiệm tạp hóa lắp vô mà cái điều khiển vẫn chẳng lên màn hình",
+      "thấy chỗ lò xo đựng pin trong điều khiển bị rỉ sét xanh lè, màn hình thì trống trơn",
+      "thằng nhỏ làm rơi cái điều khiển xuống nền gạch, từ đó bấm chỉ chập chờn được vài lần"
+     ],
+     "indirect": [
+      "mấy hôm nay muốn mở máy là phải bắc ghế leo lên ấn tay vào thân máy",
+      "con chó nhà em gặm cái điều khiển mất mấy nút, giờ cả nhà chịu nóng",
+      "nhà em giờ không ai chỉnh được nhiệt độ, máy cứ chạy mãi ở mức hôm trước để"
+     ]
+    },
+    "AC_NOISY_INDOOR": {
+     "clear": [
+      "đêm nằm cứ nghe tạch tạch lục cục ở trên đầu, ông nhà em ngủ không yên, mà lạnh thì vẫn lạnh",
+      "vẫn mát đều nhưng phát ra tiếng rè rè như loa bị rè, học bài không tập trung được",
+      "chắc lỏng vít bắt giá đỡ cục trong, lúc chạy gió mạnh là cả cục rung nhẹ, ấn tay vào mặt nạ thì hết kêu",
+      "kêu lọc xọc lọc xọc như có hòn sỏi lăn bên trong, nhất là lúc lá đảo chuyển hướng",
+      "mỗi lần chuyển sang gió mạnh là nghe rung bần bật, để gió nhẹ thì êm ru",
+      "ồn như chiếc xe máy nổ máy ngay đầu giường, trong khi phòng vẫn mát như thường",
+      "hình như cái mặt nạ phía trước bị hở hay sao, gió thổi ra là nó rung lạch xạch",
+      "em đã siết lại mấy con vít, nhét miếng xốp vào khe mà vẫn còn tiếng rắc rắc lúc mới mở",
+      "nhìn thấy cả khối máy trên tường hơi lung lay, ống đồng sau lưng đập vào tường bôm bốp",
+      "nghe răng rắc răng rắc ở vỏ nhựa mỗi khi máy mới lạnh dần lên, gió vẫn thổi đều"
+     ],
+     "indirect": [
+      "đứa nhỏ nhà em giờ đòi sang phòng bà ngủ vì phòng mình ồn quá, dù mát thì vẫn mát",
+      "hàng xóm chung vách sang phàn nàn đêm nào cũng nghe rung rung trong tường đúng chỗ treo máy",
+      "em phải bật nhạc to mới ngủ được, chứ nằm im là nghe lọc cọc trên đầu cả đêm"
+     ]
+    },
+    "AC_SMELL_BURNT": {
+     "clear": [
+      "bà vừa bật lên đã ngửi mùi khen khét như dây điện cháy, sợ quá rút phích ngay",
+      "đang nằm lướt điện thoại thì phòng toàn mùi khét lẹt, nhìn lên thấy có làn khói mỏng ở khe gió",
+      "mở nắp hộp điện thấy dây nguồn chỗ cầu đấu bị chảy vỏ, đen thui, ổ cắm cũng nóng",
+      "nghe tách tách xẹt xẹt trong máy rồi bốc mùi khê nồng, em hoảng quá gạt cầu dao luôn",
+      "chạy chừng nửa tiếng là bắt đầu có mùi như nhựa bị nung, tắt đi một lúc mới hết mùi",
+      "mùi y như ai đốt bao ni lông trong phòng, mà nhà không ai hút thuốc hay đốt gì",
+      "không biết có phải chập ở đâu không, chỗ ổ cắm của máy có vết đen sạm và mùi khét hăng",
+      "em đã rút điện và mở cửa cho bay mùi, nhưng sờ vào mặt máy vẫn còn ấm nóng và hôi khét",
+      "thấy tia lửa lóe lên xanh lè ở góc phải cục trong, sau đó có mùi khét, sợ cháy nhà quá",
+      "sờ vào ống dây điện đi lên máy thấy nóng ran, có mùi cháy khê khê, đứa nhỏ đang ngủ trong phòng"
+     ],
+     "indirect": [
+      "phòng ngủ ám mùi khói như vừa có ai đốt rác, cả nhà phải dọn ra phòng khách ngủ tạm",
+      "cái ổ điện chỗ cắm máy giờ đen xì một góc, mấy hôm nay em không dám mở lại",
+      "đêm qua chuông báo khói trong phòng ngủ tự dưng hú lên đúng lúc máy đang chạy"
+     ]
+    }
+   }
+  },
+  "refrigerator": {
+   "names": [
+    "tủ Toshiba",
+    "cái tủ Sanyo",
+    "tủ Panasonic hai cánh",
+    "cái tủ side by side",
+    "tủ lạnh mini",
+    "cái tủ Samsung inverter",
+    "tủ lạn",
+    "tũ lạnh",
+    "cái tủ giữ lạnh đồ ăn trong bếp",
+    "con Hitachi 3 cửa",
+    "tủ Aqua 2 cánh",
+    "cái tủ LG ngăn đá dưới"
+   ],
+   "vague": [
+    "dạo này hình như bị trục trặc gì đó",
+    "xài thấy không còn ngon như trước",
+    "có vẻ có chuyện rồi, em không biết tả sao"
+   ],
+   "faults": {
+    "FRIDGE_LOW_GAS": {
+     "clear": [
+      "cả ngăn trên ngăn dưới đều chỉ mát hiu hiu, cái máy phía sau thì cứ rì rì suốt ngày không thấy ngưng",
+      "hôm trước em lấy dao cạy đá ở ngăn trên nghe xì một tiếng, từ đó cả hai ngăn yếu dần",
+      "dàn bay hơi chỉ bám sương ở đoạn đầu, phần sau khô ráo, lốc vẫn chạy mà dàn nóng phía sau chỉ âm ấm",
+      "nghe tiếng lốc rù rù đều đều cả ngày lẫn đêm không tắt, mà mở cửa ra hơi lạnh phả ra rất ít",
+      "bỏ khay nước vô từ tối mà sáng ra mới đông lớp mỏng trên mặt, máy thì chạy rì rì suốt",
+      "giờ lạnh chỉ ngang cái thùng đá xốp để qua đêm, dù núm chỉnh đã vặn lên mức cao nhất",
+      "không biết có phải bị rò chỗ nào không, mặt sau có vết dầu loang ở chỗ mối hàn ống",
+      "em đã rút điện cho nghỉ, lau chùi sạch, cắm lại gió bên trong vẫn thổi đều mà chỉ man mát",
+      "mở ngăn làm đá thấy mấy hũ kem mềm nhũn, ngăn dưới thì rau héo, mà không hề thấy lớp đá dày nào bám",
+      "thợ đo bảo áp thấp hơn bình thường nhiều, nạp thêm thì lạnh được hai tháng rồi lại yếu dần"
+     ],
+     "indirect": [
+      "thịt cá mua về cất vô hai hôm đã bốc mùi, nước đá phải mua ngoài tiệm mỗi ngày",
+      "tiền điện tháng này tăng vọt mà sữa của con để trong đó qua đêm đã bị chua",
+      "đi chợ về em phải gửi đồ nhờ nhà hàng xóm cất giùm vì cả hai ngăn giờ không giữ được đồ lâu nữa"
+     ]
+    },
+    "FRIDGE_DEFROST_FAULT": {
+     "clear": [
+      "loại không đóng tuyết mà giờ vách sau ngăn trên kết một mảng trắng dày cộm, bà cạy hoài không hết",
+      "cứ rút điện để tan hết đá thì lạnh lại ngon được vài ngày, rồi lại tái diễn y chang",
+      "đo thanh điện trở xả đá không thông mạch, sò nhiệt cũng nghi hỏng, dàn bay hơi bọc kín băng",
+      "ở ngăn trên kêu cành cạch như cánh quạt vướng phải cục đá, mở ra thấy băng lấn tới sát cánh",
+      "mới xả đá tuần trước mà giờ băng lại mọc kín khe gió, ngăn dưới bắt đầu ấm dần",
+      "vách trong ngăn làm đá giờ trông như hang băng, tuyết dày cả đốt ngón tay",
+      "hình như cái bộ tự làm tan đá không chạy nữa, cả đêm không nghe tiếng tí tách tan băng như hồi trước",
+      "em đã lấy máy sấy tóc hơ cho tan băng, lau khô, được ba bốn hôm thì lớp trắng lại dày lên",
+      "lỗ gió ở vách sau ngăn trên bị bít kín bằng một lớp đá trắng đục, gió không lùa xuống ngăn dưới được",
+      "ngăn trên vẫn đông cứng đồ, nhưng ngăn dưới ngày càng ấm, mở ngăn trên thấy đá phủ trắng hết vách sau"
+     ],
+     "indirect": [
+      "tháng nào em cũng phải dọn hết đồ ra, rút điện một ngày cho nó tan, bận quá chịu không nổi",
+      "khay rau ngăn dưới héo quắt mà kem ngăn trên vẫn cứng đơ, hôm nào cũng phải cạy băng mới lấy được đồ",
+      "mua loại không đóng tuyết cho đỡ cực mà giờ ngày nào cũng phải cầm dao cạy băng"
+     ]
+    },
+    "FRIDGE_COMPRESSOR": {
+     "clear": [
+      "mở cửa đèn vẫn sáng mà cái cục máy dưới đáy nằm im thin thít, đồ đông lạnh chảy nước hết",
+      "cứ cắm điện là nghe cạch cạch dưới đáy vài phút một lần, máy không lên được",
+      "đo cuộn dây lốc thấy chạm mass, thay rơ le khởi động mới cũng không đề được",
+      "dưới gầm kêu u u khoảng vài giây rồi nghe tách một cái, im luôn, lát sau lại lặp lại",
+      "tối qua còn lạnh, sáng nay ra thì im phăng phắc, sờ cục máy phía sau nóng hổi như bàn ủi",
+      "im như cái tủ gỗ, chẳng có tiếng ro ro nào như mọi khi, thịt cấp đông mềm nhũn hết",
+      "hình như cái lốc chết rồi, cắm vô là cầu dao trong nhà sập, rút ra thì mọi thứ khác dùng bình thường",
+      "em đã thử cắm ổ khác, thay luôn dây nguồn, đèn vẫn sáng mà cục máy dưới chân không chịu chạy",
+      "ngửi mùi khét nồng từ cái cục tròn đen dưới đáy, sờ vào nóng rẫy, em sợ quá rút điện",
+      "sờ vào vỏ chỗ hông bị tê tê rần rần, mà cũng không còn lạnh, cái lốc lúc chạy lúc không"
+     ],
+     "indirect": [
+      "từ hôm qua phải ướp đồ trong thùng đá xốp, hễ cắm điện vào là cầu dao nhà bật xuống",
+      "thợ đến xem nói phải thay nguyên cục lốc, giá gần bằng mua cái mới",
+      "mỗi lần cắm điện là đèn trong nhà chớp tối một cái, rồi lại im lìm như cũ"
+     ]
+    },
+    "FRIDGE_DOOR_GASKET": {
+     "clear": [
+      "cái viền cao su quanh cửa bị rách một đoạn ở góc dưới, bà lấy băng keo dán tạm",
+      "đóng cửa xong vẫn hở một khe nhỏ, nhét tờ giấy vào rút ra dễ ợt",
+      "ron cửa bị chai cứng, đoạn nam châm góc trên mất lực hút, soi đèn pin từ trong ra thấy lọt sáng",
+      "đóng cửa không nghe tiếng bập êm như trước, cửa cứ khép hờ rồi từ từ hé ra",
+      "để lâu không mở thì ổn, nhưng mở cửa vài lần trong ngày là mép cửa đọng giọt nước li ti",
+      "cửa đóng vô mà lỏng lẻo như cửa tủ quần áo, không có cái độ hút chặt như hồi mới mua",
+      "không biết có phải do cái ron cửa không, mà mép trong cánh cửa lúc nào cũng ướt rịn và có mốc đen",
+      "em đã lau sạch viền cao su, hơ máy sấy cho nó mềm lại, mà cửa vẫn không khít",
+      "nhìn thấy ron cửa bị mốc đen, nứt toác mấy chỗ, chỗ bản lề còn bị vênh ra",
+      "để tay gần mép cửa thấy hơi lạnh rỉ ra mát rượi dù cửa đang đóng"
+     ],
+     "indirect": [
+      "dạo này mấy hộp đồ để ngay cánh cửa cứ đổ mồ hôi, mặt sàn ngay trước cửa hay có vệt nước nhỏ",
+      "đứa nhỏ hay đu vào cánh cửa, từ đó tới giờ đóng không còn khít, tiền điện cũng tăng",
+      "con mèo cào rách cái viền cửa một khúc, giờ rau để ngăn dưới mau bị khô héo"
+     ]
+    },
+    "FRIDGE_FAN_FAULT": {
+     "clear": [
+      "ngăn trên còn đông được đá chứ ngăn dưới để rau cứ âm ấm, bà ghé tai không nghe tiếng vù vù như trước",
+      "giữ cái công tắc cửa ngăn trên mà khe gió phía trong không thổi ra tí gió nào, cũng không nghe tiếng chong chóng",
+      "cấp điện thẳng vào mô tơ quạt dàn lạnh mà cánh không quay, dàn bay hơi vẫn bám sương đều, không có băng",
+      "ở ngăn trên nghe ro ro rồi chuyển sang ken két, lúc sau tắt tiếng luôn, ngăn dưới ấm dần",
+      "mới cắm điện thì nghe vù vù được chừng mười phút rồi im, ngăn dưới không bao giờ lạnh tới",
+      "tiếng kêu như con dế kẹt trong vách ngăn làm đá, mỗi lần nó kêu xong là ngăn dưới mát kém đi",
+      "không biết có phải cái chong chóng bên trong bị kẹt không, ngăn trên lạnh vừa vừa mà không thấy hơi lạnh lùa xuống dưới",
+      "em đã rút điện cho tan đá sạch, không còn tí băng nào, cắm lại mà ngăn dưới vẫn hầm, cửa gió im re",
+      "mở tấm ốp vách sau ngăn trên thấy cánh quạt nhựa bị gãy mất một cánh, quay thì lệch",
+      "đặt tay ngay khe thổi gió ở ngăn trên thấy lặng ngắt, trong khi cục máy phía sau vẫn chạy bình thường"
+     ],
+     "indirect": [
+      "rau củ ngăn dưới để hai ngày đã úng mà kem ngăn trên vẫn còn cứng, bên trong thì sạch băng",
+      "lon bia ngăn dưới để cả buổi vẫn nguội nguội, trong khi ngăn trên không có tí băng nào bám",
+      "thợ đến kiểm tra bảo ga vẫn đủ, lốc chạy khỏe, chỉ có cái chong chóng thổi gió bên trong là không chịu quay"
+     ]
+    },
+    "FRIDGE_DRAIN_BLOCKED": {
+     "clear": [
+      "nhấc mấy cái hộc đựng rau ra thấy nước đọng một vũng bên dưới, lau xong mai lại có",
+      "nước chảy thành dòng trên vách sau ngăn dưới rồi tụ lại ở đáy, lau hoài không hết",
+      "rãnh thoát nước ngưng ở vách sau ngăn đồ tươi bị bít bởi vụn thức ăn, dùng que thông thử thì nước rút xuống ào",
+      "nghe tí tách nhỏ giọt bên trong ngăn dưới suốt, mở ra thấy nước rỉ dọc vách sau xuống đáy",
+      "mỗi lần tự xả đá xong là nước ứ lại thành vũng dưới mấy hộp rau, chừng vài tiếng mới rút",
+      "đáy ngăn để rau lúc nào cũng ướt sũng như cái chậu rửa bị tắc",
+      "hình như cái rãnh nhỏ ở vách sau bị dơ nghẹt, nước không chảy xuống được mà đọng thành hồ dưới hộc rau",
+      "em đã lau khô bên trong, rút điện vệ sinh, mà được hai bữa nước lại đọng lênh láng dưới ngăn chứa rau",
+      "thấy dưới tấm kính cuối cùng có lớp băng mỏng đóng dính, nước còn rỉ ra phía trước",
+      "có mùi tanh hôi bốc ra từ chỗ nước đọng ở đáy ngăn dưới, khăn lau lúc nào cũng ướt nhẹp"
+     ],
+     "indirect": [
+      "tuần nào em cũng phải lót khăn dưới mấy hộc rau, sáng ra là khăn vắt ra được nước",
+      "rau củ để dưới cùng bị ngâm nước úng hết, cà rốt mềm nhũn ra",
+      "tháng nào em cũng phải lấy que tăm thông cái rãnh phía sau mới hết đọng"
+     ]
+    },
+    "FRIDGE_LIGHT_FAULT": {
+     "clear": [
+      "mở ra tối om, bà phải soi đèn pin mới thấy đồ, mà đồ ăn để trong vẫn lạnh ngon",
+      "mở cửa ra tối hù à, em phải bật đèn flash điện thoại mới tìm được hộp sữa",
+      "đo bóng LED bên trong không lên, công tắc cửa bấm vẫn có tiếng nhưng không ra điện",
+      "ấn cái nút nhỏ ở mép cửa nghe lụp cụp nhưng bóng không lóe lên chút nào",
+      "đèn lúc sáng lúc tắt, có hôm mở ra là chớp nháy vài cái rồi tối luôn",
+      "bên trong tối như hũ nút, nhưng lạnh thì vẫn buốt tay như hồi mới mua",
+      "không biết có phải bóng hư không, sờ vào nắp đèn thấy nóng hổi dù đã đóng cửa cả buổi",
+      "em đã mua bóng mới về thay mà vẫn không lên, chắc do cái công tắc hoặc dây",
+      "nhìn qua khe cửa lúc đóng vẫn thấy ánh sáng hắt ra, đồ để gần bóng bị ấm lên",
+      "chụp nhựa che bóng ở ngăn trên bị ố vàng, chảy méo, bóng bên trong đen thui"
+     ],
+     "indirect": [
+      "tối nào đi lấy nước uống cũng phải mò mẫm trong đó, có lần làm đổ cả chai nước mắm",
+      "hộp bơ để ngay dưới chụp đèn cứ bị mềm chảy, trong khi mấy món khác vẫn lạnh cứng",
+      "bé nhà em mở cửa ra là hỏi sao bên trong tối thui vậy mẹ"
+     ]
+    },
+    "FRIDGE_NOISY": {
+     "clear": [
+      "mỗi lần máy chạy là mấy cái lọ để trên nóc lanh canh va vào nhau, đồ trong vẫn lạnh đều",
+      "chạy ồn ào muốn điếc tai, đêm nằm phòng bên cạnh còn nghe rõ, mà lạnh vẫn ok",
+      "cao su giảm chấn dưới chân lốc bị chai, lốc chạy rung truyền ra cả vỏ, ống đồng phía sau chạm vào nhau",
+      "kêu rừ rừ rồi rần rần như xe máy nổ, lúc lốc khởi động thì giật mạnh một cái",
+      "cứ khoảng nửa tiếng lốc bật lên là rung bần bật cả sàn, lúc lốc ngắt thì êm",
+      "ồn như xe công nông chạy trong bếp, đặt tay lên hông thấy rung rần rật",
+      "không biết có phải do nền nhà không bằng không, từ hồi kê lại chỗ khác là cứ rung lên ầm ầm",
+      "em đã chêm miếng gỗ dưới chân, dọn hết đồ trên nóc mà vẫn còn tiếng ro ro to bất thường",
+      "thấy cái dàn lưới đen phía sau rung rinh, cọ vào tường kêu rè rè suốt",
+      "ban đêm yên tĩnh mới thấy nó gầm gừ to tiếng, chứ đồ ăn bên trong vẫn giữ lạnh ổn"
+     ],
+     "indirect": [
+      "chồng em mất ngủ mấy đêm vì cái bếp sát phòng ngủ cứ phát ra tiếng ồn, em phải đóng chặt cửa bếp",
+      "đồ ăn cất trong đó vẫn tươi, chỉ có điều khách tới chơi ai cũng hỏi nhà có máy bơm à",
+      "hàng xóm chung tường than nghe tiếng rung rè rè từ bếp nhà em suốt đêm"
+     ]
+    }
+   }
+  },
+  "electric_fan": {
+   "names": [
+    "con Senko",
+    "cây quạt",
+    "quạt lửng",
+    "cái quạt Điện Cơ Thống Nhất",
+    "con Vinawind",
+    "con quạt Mitsubishi",
+    "quạt Asia",
+    "quạt tích điện",
+    "quạc",
+    "qạt điện",
+    "quạt treo",
+    "cái máy thổi gió đặt góc phòng"
+   ],
+   "vague": [
+    "dạo này chạy thấy không ổn lắm",
+    "hơi có vấn đề, kiểm tra giúp em với",
+    "bị sao đó rồi mà em không biết nói sao"
+   ],
+   "faults": {
+    "FAN_WORN_BEARING": {
+     "clear": [
+      "chạy nghe két két như cửa sắt cũ bị gỉ bản lề, bà nằm cạnh không chợp mắt được",
+      "mỗi lần bật là rên rỉ éc éc vài giây đầu, chạy một hồi mới đỡ, mà gió cũng yếu đi",
+      "cầm cánh lắc lên xuống thấy trục bị rơ, bạc thau mòn lệch, xoay tay nghe sạn sạn",
+      "kêu cót ca cót két đều đều theo vòng quay, càng về khuya càng nghe rõ",
+      "sáng mới bật thì quay bình thường, chạy chừng vài tiếng là chậm dần đi như bị ai níu cánh lại",
+      "tiếng kêu như cái xích xe khô dầu lâu ngày, rè rè không ngớt",
+      "không biết có phải bị khô nhớt không, xoay bằng tay thấy rít rít, buông ra là dừng ngay chứ không quay trớn",
+      "em đã nhỏ mấy giọt dầu máy may vào trục, êm được hai hôm rồi lại kêu như cũ",
+      "tháo lồng ra thấy đầu trục khô khốc, dính cặn đen quánh như nhựa đường, xoay thử thấy sượng",
+      "để số lớn nhất mà gió chỉ như số nhỏ, cánh quay lừ đừ, lại có tiếng rột rột từ trong mô tơ"
+     ],
+     "indirect": [
+      "dạo này ông xã phải nhét bông tai mới ngủ được vì nó cứ ken két cả đêm",
+      "xài từ hồi con còn nhỏ tới giờ hơn tám năm chưa bảo dưỡng lần nào, giờ quay không còn trơn tru",
+      "em phải để số lớn nhất mới bằng gió số một hồi mới mua, mà tiếng thì réo cả phòng"
+     ]
+    },
+    "FAN_CAPACITOR": {
+     "clear": [
+      "bật nút là nghe o o trong mô tơ mà cánh nằm yên, bà phải lấy ngón tay khều một cái nó mới chạy",
+      "để số một thì chỉ nghe rì rì trong máy mà cánh đứng hình, lên số ba mới quay được, cũng uể oải",
+      "đo tụ 1.5 micro chỉ còn 0.6, cuộn dây mô tơ đo vẫn thông, xoay trục bằng tay rất trơn",
+      "nghe hừm hừm trong bụng mô tơ, cánh rung rung tại chỗ như muốn chạy mà không đi nổi",
+      "sáng sớm trời mát thì bật lên chạy liền, trưa nóng tắt đi bật lại thì chỉ gừ gừ nằm im",
+      "giống như xe máy hết bình, phải đạp cho một phát mới nổ, đẩy nhẹ cánh một cái là quay đều",
+      "hình như bị yếu cái cục nhỏ hình hộp đen trong đế, em đẩy ngược chiều thì cánh lại quay ngược luôn",
+      "em đã tra dầu vào trục cho trơn, xoay tay nhẹ hều mà bật lên vẫn chỉ ừ ừ đứng đó",
+      "mở đế ra thấy cái tụ màu đen bị phồng một đầu, chân dây còn hơi gỉ",
+      "gió ra yếu xìu dù để số lớn, cánh quay rề rề, lấy tay xoay thì nhẹ tênh, không có tiếng kêu lạ"
+     ],
+     "indirect": [
+      "đứa nhỏ bị nóng tỉnh giấc vì nửa đêm cúp điện có lại thì nó không tự chạy lại, phải có người khều cánh",
+      "ông chú bán đồ điện bảo mua cái linh kiện mười nghìn về thay là xong, mà em chưa biết thay chỗ nào",
+      "cả nhà ai đi ngang cũng tiện tay đẩy cánh cho nó chạy, thành thói quen luôn rồi"
+     ]
+    },
+    "FAN_MOTOR_BURNT": {
+     "clear": [
+      "bật được một lúc thì bốc lên mùi như đồng cháy, bà sờ vào cái bầu mô tơ nóng như hòn than",
+      "đang chạy thì có làn khói trắng mỏng bay ra từ sau lồng, phòng khét nghẹt mũi, em rút điện liền",
+      "đo cuộn dây mô tơ thì một cuộn chập vòng, lớp sơn cách điện trên dây đồng ngả đen",
+      "có tiếng xèo xèo trong mô tơ rồi phụt một cái, cánh dừng hẳn và mùi khê bốc lên",
+      "chạy tầm mười phút là chậm lại rồi đứng hẳn, thân mô tơ nóng hầm hập và có mùi hăng hắc",
+      "mùi y như ai đốt dây điện, đứng cách cả mét vẫn thấy hơi nóng tỏa ra từ cục mô tơ",
+      "không biết có phải bên trong cháy gì không mà cứ cắm vào là cầu dao sập, lúc trước đã thấy khen khét",
+      "em đã thay tụ mới mà bật lên vẫn chỉ gầm gừ, cục mô tơ nóng giãy và có mùi như sơn cháy",
+      "nhìn qua khe sau bầu mô tơ thấy cuộn dây đồng đen thui, có chỗ chảy nhựa",
+      "vỏ nhựa quanh mô tơ bị chảy méo, sờ vô nóng tới nỗi phải rụt tay lại"
+     ],
+     "indirect": [
+      "sáng ra cả phòng ám mùi khói, đứa nhỏ ho sù sụ, phần lồng sau chỗ mô tơ ngả màu nâu",
+      "mấy đêm liền để chạy suốt số lớn, tới đêm qua thì nó tắt ngúm và phòng nồng nặc mùi",
+      "con chó cứ đánh hơi sủa vào góc phòng chỗ để nó, em lại gần thì thấy hơi nóng hầm và mùi hôi khét"
+     ]
+    },
+    "FAN_SWITCH_FAULT": {
+     "clear": [
+      "mấy cái phím trên chân đế bà ấn xuống thì nó dính luôn không bật lên lại được, phải lấy móng tay cạy",
+      "bấm qua số hai số ba mà gió vẫn y như số một, không khác gì luôn",
+      "đo thông mạch cụm phím thấy tiếp điểm số 2 bị cháy rỗ, đấu tắt thẳng vào dây số đó thì chạy",
+      "ấn phím nghe cạch cạch nhưng không thấy chuyển gì, phải ấn hai ba lần mới chịu nhận",
+      "đang chạy ngon mà chạm nhẹ vào hàng phím là tắt phụt, buông ra lại chạy",
+      "mấy cái phím lỏng lẻo như răng sắp rụng, ấn số nào cũng lung tung, có khi hai phím cùng tụt",
+      "hình như cái núm xoay chỉnh tốc độ bị trờn, vặn qua vặn lại mà gió chẳng thay đổi",
+      "em đã xịt chất tẩy rửa tiếp điểm vào khe phím, được hôm đầu, sau lại chập chờn nhảy số lung tung",
+      "nhìn thấy phím tắt bị nứt đôi, lò xo bên dưới văng mất, ấn vào không nảy lên",
+      "chỉ có mức gió mạnh nhất là chạy, chọn mức nhẹ hay vừa thì cánh dừng hẳn, không có tiếng ù nào"
+     ],
+     "indirect": [
+      "đêm muốn để gió nhẹ cho con ngủ mà đành để gió mạnh nhất, sáng ra bé bị sổ mũi",
+      "em phải lấy băng keo dán chặn cái phím lại thì mới giữ được số",
+      "trong nhà ai muốn tắt cũng phải rút phích vì cái phím tắt giờ bấm vô chẳng ăn thua"
+     ]
+    },
+    "FAN_OSCILLATION_FAULT": {
+     "clear": [
+      "cái đầu nó cứ chĩa thẳng một chỗ, bà muốn cho gió lùa đều cả giường mà nó không chịu xoay",
+      "kéo cái núm trên đầu mô tơ lên xuống mà đầu vẫn đứng yên một hướng, ngồi lệch là hết gió",
+      "bánh răng nhựa trong hộp số tuốc năng bị mòn trượt răng, mô tơ đảo nghe chạy mà đầu không xoay",
+      "lúc xoay qua là nghe rắc rắc trong cổ, tới giữa chừng thì khựng lại rồi quay về",
+      "mới bật thì còn xoay qua lại vài lượt, chừng năm phút sau đầu khựng lại ở bên trái luôn",
+      "cái cổ cứng đơ như người bị vẹo cổ, chỉ ngó về một phía",
+      "không biết có phải gãy cái thanh nối ở sau đầu không, lấy tay xoay đầu thì lỏng lẻo, tự xoay thì không",
+      "em đã tra dầu chỗ cổ, xoay tay cho trơn, bấm lại chế độ xoay mà nó vẫn đứng nguyên",
+      "mở nắp sau thấy cái thanh kim loại nối từ hộp số xuống chân bị tuột chốt, rơi lủng lẳng",
+      "đầu xoay rất chậm, khựng lại từng nấc như kim đồng hồ, có lúc đứng hẳn"
+     ],
+     "indirect": [
+      "hai đứa nhỏ ngủ hai bên giường giờ suốt ngày giành nhau chỗ có gió",
+      "phải bê nó dời qua dời lại mỗi khi có người ngồi chỗ khác trong phòng",
+      "giờ cả mâm cơm chỉ mỗi người ngồi đầu bàn là có gió, ai cũng than"
+     ]
+    },
+    "FAN_CORD_DAMAGE": {
+     "clear": [
+      "cái dây chỗ sát chân đế bị gập nhiều quá giờ bung vỏ, bà sợ đụng vô bị điện giật",
+      "dây nguồn bị gãy gập gần đuôi, cứ lay nhẹ là lúc chạy lúc tắt, có hôm lóe đốm lửa",
+      "đo thông mạch dây nguồn thì đứt ngầm một lõi ngay chỗ ống chống gập, uốn dây là kim đồng hồ nhảy",
+      "rút ra cắm vô nghe lách tách ở đầu phích, rồi có vệt đen sạm trên chân cắm",
+      "chạy chừng nửa tiếng là cái đầu phích nóng hổi cầm không nổi, đổi ổ cắm khác cũng vậy",
+      "dây điện giờ lòi ra như cọng bún, thấy cả sợi đồng óng ánh bên trong",
+      "hình như con chuột gặm mất một khúc vỏ dây dưới gầm giường, chỗ đó đen đen",
+      "em đã quấn băng keo đen chỗ dây bị trầy mà mỗi lần kéo nó ra là lại tắt rồi chạy chập chờn",
+      "thấy tia điện xanh lóe lên chỗ dây nối vào thân, rồi nghe mùi khét nhẹ, em sợ quá rút luôn",
+      "chạm tay vào thân kim loại thấy rần rần như kiến bò, chân trần đứng trên gạch còn tê hơn"
+     ],
+     "indirect": [
+      "từ hôm dời tủ đè lên sợi dây, giờ muốn chạy phải kê sợi dây lên cái ghế",
+      "con nhỏ chạm vào cái chân đế rồi khóc thét bảo bị chích, em sợ không dám cho dùng nữa",
+      "ổ cắm chỗ cắm nó bị chảy méo một lỗ, mấy đồ khác cắm vô chỗ khác thì bình thường"
+     ]
+    },
+    "FAN_WOBBLE": {
+     "clear": [
+      "chạy số lớn là cả cái thân lắc qua lắc lại, bà sợ nó đổ đè lên cháu",
+      "bật số ba là nó nhún nhảy rồi lết dần ra mép bàn, suýt rơi mấy lần",
+      "cánh bị cong vênh một lá sau lần té, chạy mất cân bằng, ốc siết cánh với trục cũng lỏng",
+      "chạy nghe lạch xạch lạch xạch do mép cánh quẹt vào lồng sắt phía trước",
+      "để số nhỏ thì ổn, cứ lên số lớn là cả thân đung đưa, ống đứng nghiêng sang một bên",
+      "chạy mà nghiêng ngả như người say rượu, đứng cạnh thấy ghê",
+      "không biết có phải gãy cái ngàm ở chân đế không, cứ chạy là thân nghiêng dần rồi gục xuống",
+      "em đã vặn chặt con ốc ở ống thân, kê lại chân đế cho bằng, mà chạy vẫn đung đưa",
+      "nhìn thấy một lá cánh bị nứt mẻ một miếng, quay lên là cả đầu rung lia lịa",
+      "ống thân bị tuột nấc, cứ chạy chừng mười phút là đầu tụt xuống thấp dần"
+     ],
+     "indirect": [
+      "đặt ly nước trên bàn cạnh nó là thấy nước gợn sóng liên tục",
+      "sáng nào cũng phải kéo nó về chỗ cũ vì qua đêm nó lết ra tận cửa phòng",
+      "từ hôm thằng nhỏ đá té nó, giờ cả nhà không dám để gần giường con nít"
+     ]
+    }
+   }
+  },
+  "washing_machine": {
+   "names": [
+    "con Electrolux cửa trước",
+    "cái Toshiba lồng đứng",
+    "máy lồng ngang LG",
+    "con Aqua 9 ký",
+    "máy giặc",
+    "máy dặt đồ",
+    "cái Panasonic giặt sấy",
+    "con Sharp lồng đứng 8 ký",
+    "máy giặc đồ tự động",
+    "cái máy để giặt đồ",
+    "con Beko cửa ngang",
+    "cái giặt sấy Samsung"
+   ],
+   "vague": [
+    "dạo này dùng thấy cứ sao sao ấy",
+    "mấy hôm nay chạy không được ổn lắm",
+    "hình như có trục trặc gì rồi, nhờ thợ qua xem giúp"
+   ],
+   "faults": {
+    "WM_DRAIN_PUMP": {
+     "clear": [
+      "giặt xong nước vẫn ngập nửa lồng, tôi phải lấy cái ca múc ra từng chút mới lôi được đồ ra",
+      "tới khúc đáng lẽ nước phải chảy ra ống thì im re, nước cứ nằm lì trong đó luôn",
+      "em kiểm tra thì đầu ống thoát dưới sàn khô ráo, bơm có điện mà nước trong thùng chẳng thoát được giọt nào",
+      "tới đoạn thoát nước nghe rè rè dưới đáy rất lâu, mở nắp ra thấy nước vẫn lưng lửng",
+      "giặt và xả lần đầu thì bình thường, tới lần xả thứ hai nước vơi được chút xíu rồi đứng luôn",
+      "nước thoát ra ống chậm như rỉ, cả tiếng đồng hồ chưa vơi được một nửa",
+      "không biết có phải nghẹt ống thoát không mà chạy xong mở ra vẫn thấy lõng bõng nước",
+      "em đã hạ ống thoát xuống thấp và thông thử bằng dây rồi mà nước vẫn không chịu chảy ra",
+      "mở cái nắp lọc nhỏ phía dưới ra thấy toàn tóc với đồng xu kẹt cứng, nước dơ ứ lại bốc mùi",
+      "cứ tới lúc thoát nước là kêu bíp bíp báo lỗi rồi dừng, đồ vẫn ngâm trong nước"
+     ],
+     "indirect": [
+      "sáng ra mở nắp thấy đồ vẫn ngâm trong nước đục từ tối hôm qua tới giờ",
+      "cả tuần nay em phải xách đồ ướt nhẹp ra vắt bằng tay vì nước trong thùng không đi đâu được",
+      "chỗ ống thoát sau lưng khô cong suốt buổi giặt, trong khi trước đây cứ chạy là nước chảy ào ra cống"
+     ]
+    },
+    "WM_NO_SPIN": {
+     "clear": [
+      "giặt thì vẫn đảo đều, nước cũng chảy ra hết, mà tới lúc vắt thì lồng chỉ nhúc nhích, đồ lấy ra nặng trĩu",
+      "giai đoạn quay khô cứ lừ đừ, quay chậm rì không lên tua nổi, đồ ra vẫn nhỏ nước tong tong",
+      "em mở nắp sau thấy dây curoa chùng và bóng mặt, mô tơ quay vù vù mà lồng gần như đứng yên",
+      "tới bước quay khô là nghe rít két két như dây bị tuột, lồng thì cứ ì ạch không chịu tăng tốc",
+      "mới vô thì chạy ổn, tới phút chót đáng lẽ quay nhanh thì nó đảo qua đảo lại hoài rồi bỏ qua luôn bước đó",
+      "hồi trước vắt xong áo gần như khô, giờ lấy ra nặng như vừa nhúng vào thau nước",
+      "hình như bị lệch đồ hay sao mà cứ tới khúc quay mạnh là nó ngưng lại chia đồ hoài, chạy mãi không xong",
+      "em đã bớt đồ ra còn nửa lồng, kê chân cho cân rồi mà bước quay khô vẫn không chịu chạy nhanh",
+      "nhìn qua nắp kính thấy nước đã rút sạch nhưng lồng chỉ xoay chầm chậm như lúc giặt, không vụt lên được",
+      "đồ ra ướt nhẹp dù đã chọn quay khô tốc độ cao nhất, nước thì đã thoát hết ra ống rồi"
+     ],
+     "indirect": [
+      "phơi đồ lên là nước nhỏ ròng ròng xuống sàn ban công cả tiếng chưa dứt",
+      "em toàn phải vắt tay từng cái áo trước khi phơi, dù nước trong thùng vẫn thoát ra ống bình thường",
+      "nhà em phải cho chạy chương trình quay khô ba bốn lần liền mới dám đem đồ đi phơi"
+     ]
+    },
+    "WM_NO_WATER_INLET": {
+     "clear": [
+      "bấm chạy xong chỉ nghe tiếng tạch rồi im, đợi cả buổi trong lồng vẫn khô khốc, tôi phải xách xô đổ nước vào",
+      "bấm start xong ngồi chờ muốn mọc rễ mà bên trong vẫn khô queo, không thấy giọt nào chảy xuống",
+      "em đo thấy van điện từ có điện mà không mở, ống cấp vẫn căng nước, lưới lọc đầu van thì đóng cặn vàng",
+      "nghe tiếng ro ro ở phía sau như van đang mở nhưng nước chỉ rỉ rỉ chút xíu xuống khay bột",
+      "bấm chạy được chừng mười phút mà nước mới lấp xấp đáy lồng, rồi nó kêu bíp và đứng luôn",
+      "nước chảy vô chậm như vòi bị nghẹt, trước đầy lồng có vài phút mà giờ nửa tiếng chưa tới vạch",
+      "không biết có phải cái van đầu ống bị tắc không, bấm giặt mà bột trong khay vẫn nguyên chẳng bị nước cuốn đi",
+      "em đã mở hết cỡ van tổng, tháo ống ra thì nước ngoài vòi xối mạnh, lắp lại thì bên trong vẫn chẳng có nước",
+      "nhìn vào trong thấy lồng khô cong, quần áo vẫn khô nguyên, đèn trên bảng cứ chớp chớp chờ đợi",
+      "nhà mới cúp nước hôm qua, có nước lại rồi mà nó cứ chạy không, trong lồng chẳng có giọt nào"
+     ],
+     "indirect": [
+      "bột giặt cứ đóng cục nguyên trong khay sau mỗi lần giặt, đồ lấy ra khô mà vẫn dơ",
+      "đồ bỏ vô từ sáng tới trưa vẫn khô nguyên như lúc mới bỏ, chưa thấm tí nước nào",
+      "từ hôm thợ nước sửa đường ống trong nhà thì cứ giặt là nó đứng chờ nước tới hết giờ"
+     ]
+    },
+    "WM_BEARING_NOISE": {
+     "clear": [
+      "cứ quay nhanh là gầm rền rĩ, tôi ở trên lầu còn nghe rõ, mà hồi mới mua êm lắm",
+      "vô đoạn quay khô là gào lên rầm rầm như sắp cất cánh luôn, ghê thật sự",
+      "em lấy tay lắc lồng thấy có độ rơ ở trục, quay tay nghe lạo xạo như sỏi, chắc vòng bi đã mòn",
+      "quay chậm thì nghe rột rột lụp cụp, quay nhanh lên là thành tiếng rầm rầm như cối xay đá",
+      "lúc giặt thì êm, tới bước quay khô tầm năm phút là tiếng ồn tăng dần theo tốc độ, rền mãi không dứt",
+      "tiếng ồn lúc quay khô to như máy cày ngoài ruộng, át cả tiếng tivi trong nhà",
+      "không biết có phải hỏng bạc đạn không mà lắc lồng qua lại bằng tay thấy lỏng lẻo, quay lên nghe ồ ồ",
+      "em đã kê lại chân cho cân, xếp đồ đều hai bên rồi mà quay khô vẫn gằn gằn từ phía sau lồng",
+      "phía sau gioăng cửa và dưới đáy có mấy vệt nước màu gỉ sắt chảy xuống, lồng quay nghe lục cục",
+      "dùng gần tám năm rồi, mấy tháng nay càng ngày càng ồn, nhất là lúc quay khô tốc độ cao"
+     ],
+     "indirect": [
+      "hàng xóm sang gõ cửa hỏi nhà em đang khoan tường hay sao mỗi lần em giặt đồ",
+      "em không dám giặt sau chín giờ tối vì đoạn quay khô làm con nhỏ giật mình thức giấc",
+      "đồ trắng dạo này hay dính mấy đốm màu nâu như gỉ sắt, kèm tiếng ồn lúc quay ngày càng to"
+     ]
+    },
+    "WM_PCB_FAULT": {
+     "clear": [
+      "tôi bấm nút nào nó cũng không nghe, đèn cứ nhấp nháy loạn xạ cả lên, tôi không biết làm sao",
+      "bảng điều khiển bị loạn, chọn giặt nhanh mà nó tự nhảy sang chăn mền, bấm chỉnh thời gian cũng không được",
+      "em đã reset nguồn, rút điện mười phút, nhưng đèn LED vẫn hiện số lung tung và các phím cảm ứng không nhận",
+      "tự kêu tít tít liên hồi dù không ai bấm, rồi tắt phụt, lát sau lại tự bật lên",
+      "đang giặt được chừng hai mươi phút thì đứng hình, bảng hiển thị đông cứng, phải rút điện cắm lại mới chạy tiếp",
+      "bảng nút cứ như điện thoại bị đơ, chạm hoài không phản hồi, có hôm lại tự chạy một mình",
+      "hình như cái mạch bên trong có vấn đề, mấy bữa mưa ẩm là bấm không lên, trời nắng thì dùng lại được",
+      "em đã thay ổ cắm khác, cửa đóng chặt, nguồn vẫn có nhưng chọn chương trình xong bấm chạy thì nó im re",
+      "mở mặt sau ra thấy trên tấm mạch có vết cháy xém đen, ngửi khét mùi linh kiện điện tử",
+      "trên bảng hiển thị toàn ký hiệu kỳ cục không có trong sách hướng dẫn, tắt mở lại thì báo kiểu khác"
+     ],
+     "indirect": [
+      "mỗi lần giặt em phải đứng canh bên cạnh, hễ nó đơ là rút điện cắm lại cho nó chạy tiếp",
+      "sau trận sét đánh tuần trước thì bảng điều khiển hết nghe lời, các phím bấm loạn cả lên",
+      "đồ giặt dở nằm đó hoài vì nó đứng ngang không báo gì, bấm phím nào cũng như không"
+     ]
+    },
+    "WM_DOOR_SEAL_LEAK": {
+     "clear": [
+      "cứ giặt là nước rịn ra ở mép cửa kính, tôi phải lót cái giẻ phía dưới mới đỡ",
+      "nước rỉ rả ngay viền cửa tròn phía trước rồi chảy thành dòng xuống sàn gạch, lau hoài không kịp",
+      "em lật lớp cao su viền cửa ra thấy một đường nứt dài cỡ hai đốt tay ở phía dưới, nước thấm qua đó",
+      "nghe tí tách tí tách nước nhỏ xuống sàn ngay chỗ cửa lúc lồng đang đảo",
+      "giặt ít đồ thì không sao, giặt chăn nặng là nước bắt đầu ứa ra chỗ cửa ngay từ lúc nước dâng lên",
+      "chỗ cửa phía trước rỉ nước như cái vòi khóa không chặt, mực nước bên trong vẫn bình thường",
+      "không biết có phải chuột gặm lủng viền cao su không mà mép cửa cứ có giọt nước chảy xuống",
+      "em đã lau sạch viền cao su, đóng cửa thật chặt mà vẫn có vũng nước nhỏ ngay dưới cánh cửa sau mỗi lần giặt",
+      "nhìn kỹ thấy lớp cao su quanh cửa bị chai cứng, có chỗ lủng một lỗ nhỏ, bọt xà phòng xì ra ngoài",
+      "giặt xong mặt trước lúc nào cũng có vệt nước loang từ mép cửa chảy dài xuống tới chân"
+     ],
+     "indirect": [
+      "sàn gỗ ngay trước chỗ đặt đã bắt đầu phồng rộp, lần nào nước cũng chỉ đọng ngay phía trước cửa",
+      "em phải đặt cái khay hứng ngay dưới cửa mỗi lần giặt, xong khay đầy lưng lửng nước xà phòng",
+      "con mèo nhà em hay nằm trước cửa lúc giặt, giờ lần nào nó cũng bị ướt chân vì nước nhỏ xuống"
+     ]
+    },
+    "WM_DOOR_LOCK": {
+     "clear": [
+      "giặt xong cả tiếng rồi mà cánh cửa vẫn khóa cứng, tôi kéo muốn gãy tay cũng không ra, đồ thì kẹt bên trong",
+      "đóng cửa nghe cạch mà nó không nhận, biểu tượng ổ khóa không sáng, bấm chạy thì kêu bíp từ chối",
+      "em đoán công tắc khóa cửa hỏng, đóng vào không nghe tiếng chốt sập, bảng cứ hiện hình ổ khóa nhấp nháy",
+      "đóng cửa vào nghe tạch tạch tạch mấy lần như chốt cố bắt mà không được, xong nó tự nhả ra",
+      "chương trình chạy xong, nước đã thoát sạch, đợi năm mười phút như mọi khi mà cánh cửa vẫn không nhả chốt",
+      "cái cửa giờ đóng như cánh tủ hỏng bản lề, sập vào rồi lại bật ra, không chịu khóa lại",
+      "hình như cái móc ở cánh cửa bị cong hay sao mà đóng vô không giữ được, nó bật hé ra hoài",
+      "em đã rút điện chờ nửa tiếng cho nó nhả khóa, nước bên trong cũng hết rồi, mà cửa vẫn kẹt chặt",
+      "nhìn vô ổ khóa trên thân thấy có cục xà phòng đóng cứng, đóng cửa vào thì không thấy chốt sập xuống",
+      "con nít nhà em lỡ đu người lên cánh cửa, từ đó đóng lại không khớp và nó không chịu bắt đầu giặt"
+     ],
+     "indirect": [
+      "đồ giặt xong từ tối qua tới sáng nay vẫn bị nhốt bên trong, cả nhà không có đồ mặc đi làm",
+      "em phải lấy băng keo dán chặt cánh cửa lại thì nó mới chịu chạy",
+      "mỗi lần lấy đồ ra em phải nhờ ông xã kéo cửa thật mạnh, sợ có ngày gãy luôn bản lề"
+     ]
+    },
+    "WM_SMELL_MOLD": {
+     "clear": [
+      "mở nắp ra là xộc lên mùi hôi như cống, đồ giặt ra mặc vào người nghe khó chịu lắm",
+      "đồ giặt xong có mùi như khăn lau bàn để lâu ngày, xịt nước hoa vào cũng không át được",
+      "em nghĩ phía ngoài lồng đóng cặn bột giặt với xơ vải lâu năm, cả năm nay chưa vệ sinh lần nào",
+      "áo trắng lấy ra lấm tấm mấy mảng vụn đen nhỏ như giấy cháy",
+      "đồ giặt chiều để qua đêm bên trong là sáng ra bốc mùi chua lè, phải giặt lại",
+      "mùi bốc ra giống nước cống, đồ sạch mà mặc vào lại ngửi thấy thum thủm",
+      "không biết có phải do em dùng nước xả nhiều quá không mà đồ ra cứ có mấy cặn nhầy nhầy màu xám",
+      "em đã đổ cả gói bột tẩy lồng chạy chế độ vệ sinh hai lần rồi mà mùi vẫn còn nguyên",
+      "nhìn vào khe gioăng với hộc bột giặt thấy lớp nhớt đen bám dày, sờ vào trơn nhầy",
+      "khăn tắm của cả nhà giặt ra đều bị mùi khai khai, dù phơi nắng gắt cũng chưa hết"
+     ],
+     "indirect": [
+      "con em mặc đồ mới giặt mà nổi mẩn ngứa, áo trắng còn dính lấm tấm đốm xám",
+      "khách tới nhà hỏi sao góc phòng giặt có mùi như chuột chết, em tìm hoài thì ra là từ bên trong lồng",
+      "đi làm đồng nghiệp hỏi sao áo em có mùi ẩm, dù sáng mới giặt và phơi khô"
+     ]
+    },
+    "WM_MOTOR_FAULT": {
+     "clear": [
+      "nước vào đầy rồi mà cái lồng nằm im re, tôi nghe ở dưới có tiếng ừ ừ như con gì kêu",
+      "vào nước ngon lành mà tới lúc giặt thì lồng đứng im như tượng, giặt hay vắt cũng không nhúc nhích",
+      "em đo thấy bo có cấp điện ra mô tơ nhưng mô tơ chỉ rung chứ không quay, sờ vỏ mô tơ nóng hổi",
+      "nghe tiếng ầm ừ dưới đáy một hồi rồi tự ngắt, lồng chẳng đảo lấy một vòng",
+      "chạy được chừng năm phút đảo vài vòng thì đuối dần rồi đứng hẳn, để nguội một lúc lại chạy được chút xíu",
+      "lồng chỉ đảo qua phải được, chiều ngược lại thì đứng khựng như bị ai giữ, đồ giặt không đều",
+      "không biết có phải cháy động cơ không mà ngửi thấy mùi dây điện nóng, lồng thì không chịu đảo",
+      "em đã lấy bớt đồ ra, quay tay thử thì lồng nhẹ tênh không kẹt gì, mà bấm chạy nó vẫn không đảo",
+      "ngửi phía dưới đáy có mùi nhựa cháy khen khét, thò tay sờ chỗ động cơ thấy nóng ran",
+      "đèn bảng điều khiển vẫn sáng, nước vẫn vô đủ, chỉ có phần đảo đồ là tê liệt hoàn toàn"
+     ],
+     "indirect": [
+      "đồ ngâm trong nước xà phòng cả buổi vẫn nguyên chỗ cũ, không hề được đảo trộn tí nào",
+      "em phải lấy tay khuấy đồ như giặt thau, nước vô đầy đủ hết mà nó không chịu đảo",
+      "cầu dao trong nhà hay nhảy đúng lúc tới bước giặt, kèm mùi khét bốc ra từ phía dưới"
+     ]
+    },
+    "WM_OVERFLOW": {
+     "clear": [
+      "nước cứ chảy vô mãi, dâng lên tràn qua cả mép lồng, tôi sợ quá phải khóa van tổng lại",
+      "trời ơi nước cứ ồ ạt chảy vô không ngừng, tràn lênh láng cả nhà tắm, ổ điện ngay bên cạnh em sợ chập lắm",
+      "em nghĩ van cấp bị kẹt mở hoặc cảm biến mực nước hỏng, đã đủ mức mà nước vẫn xối vào không ngắt",
+      "nghe tiếng nước rào rào chảy vô suốt, xong nghe ọc ọc tràn qua miệng ống, nước lênh láng dưới chân",
+      "bấm giặt xong em đi chợ, hai mươi phút về thấy nước ngập mặt sàn mà bên trong vẫn đang chảy vô",
+      "nước tuôn vô như mở vòi chữa cháy, ngập tới mắt cá chân, em chạm vào vỏ thấy tê tê tay",
+      "không biết có phải van bị kẹt không mà tắt nguồn hẳn rồi, nước trong ống vẫn rỉ rả chảy vô đến tràn",
+      "em đã rút phích điện ra mà nước vẫn cứ chảy tiếp, giờ phải khóa van nước chính mới ngăn được",
+      "nước tràn từ trên nóc chảy xuống, lan tới ổ cắm điện dưới chân tường, em thấy lóe tia lửa nhỏ",
+      "nước dâng ngập kín cả đồ, sủi bọt tràn qua nắp, sàn ướt sũng mà em không dám lại gần rút điện"
+     ],
+     "indirect": [
+      "nhà dưới lên gõ cửa báo trần nhà họ đang nhỏ nước ngay đúng vị trí phòng giặt nhà em",
+      "đồng hồ nước tháng này vọt lên gấp ba, lần nào giặt xong sàn cũng như vừa có lũ",
+      "sáng nay em lấy chổi đẩy nước ra cửa suốt nửa tiếng, ổ điện cạnh đó phải ngắt cầu dao vì sợ giật"
+     ]
+    }
+   }
+  },
+  "clothes_dryer": {
+   "names": [
+    "máy xấy đồ",
+    "máy xấy quần áo",
+    "con sấy thông hơi Electrolux",
+    "cái sấy ngưng tụ Bosch",
+    "cái sấy bơm nhiệt LG",
+    "con Candy sấy đồ",
+    "cái máy làm khô quần áo",
+    "máy sấy áo quần",
+    "máy sấy đồ",
+    "con Beko sấy 8 ký",
+    "cái sấy đồ Whirlpool",
+    "máy sây quần áo"
+   ],
+   "vague": [
+    "dạo này hơi có vấn đề",
+    "dùng thấy không được như trước nữa",
+    "chắc bị gì rồi mà em không rõ là bị sao"
+   ],
+   "faults": {
+    "DRYER_NOT_HEATING": {
+     "clear": [
+      "lồng vẫn quay đều mà tôi thò tay vào thấy lạnh tanh, đồ ra vẫn mát rượi như lúc mới bỏ vào",
+      "chạy hết một chu trình mà đồ lấy ra nguội ngắt, kiểu như nó chỉ quạt gió thường thôi",
+      "em đo thanh nhiệt bị đứt, cầu chì nhiệt cũng không thông mạch, quạt với mô tơ vẫn chạy bình thường",
+      "nghe vẫn quay rù rù như mọi khi, mà luồng gió phả ra ống thoát mát lạnh chứ không ấm như trước",
+      "để chạy chín mươi phút, mở ra sờ vào lồng vẫn lạnh, không ấm lên được chút nào",
+      "gió thổi ra mát như quạt máy, không còn hơi ấm hầm hập như hồi đầu nữa",
+      "hình như bộ phận làm nóng có vấn đề, lồng quay đều mà đồ ra cứ lành lạnh",
+      "em đã vệ sinh sạch tấm lọc bông, ống thoát cũng thông, chỉnh lên mức nhiệt cao nhất mà vẫn chỉ có gió nguội",
+      "mở cửa giữa chừng chẳng có tí hơi ấm nào phả ra, đồ bên trong vẫn lạnh và nặng nước",
+      "vỏ ngoài sờ vào mát lạnh suốt lúc chạy, khác hẳn trước kia chạy một lúc là ấm hết cả mặt trên"
+     ],
+     "indirect": [
+      "mùa nồm cả nhà trông vào nó mà giờ đồ mang ra vẫn lạnh ngắt, phải căng dây phơi khắp phòng khách",
+      "em bé nhà em không có tã vải khô để thay vì cả mẻ sấy ra vẫn nguội và ướt nguyên",
+      "em phải mang đồ ra tiệm giặt sấy đầu ngõ, vì ở nhà nó chỉ quay chứ không làm ấm được nữa"
+     ]
+    },
+    "DRYER_LINT_CLOGGED": {
+     "clear": [
+      "chạy một lúc là cả phòng nồng mùi vải cháy, sờ vào cửa nóng như cái nồi, tôi sợ cháy nhà quá",
+      "dạo này sấy xong là vỏ nóng phỏng tay, ngửi thấy mùi bông cháy khen khét, em hết hồn luôn",
+      "em tháo ống thông hơi phía sau ra thì thấy bông xơ nhét đặc như nùi giẻ, gió gần như không thoát ra ngoài được",
+      "nghe tiếng quạt hút cứ khò khè nặng nhọc như bị ai bịt miệng, rồi tự tắt phụt giữa chừng vì quá nhiệt",
+      "chạy chừng hai chục phút là tự ngắt, để nguội bật lại chạy được ít phút rồi lại ngắt, vỏ nóng hầm hập",
+      "nóng như cái lò nướng bánh mì, mùi khen khét như ai đang đốt vải ở trong",
+      "không biết có phải do lâu rồi em quên dọn tấm lọc bông không, giờ đồ ra nóng hổi mà vẫn còn ẩm",
+      "em gỡ từ tấm lọc ra nguyên miếng bông dày cộm, lắp lại vẫn nóng ran và lâu ráo, chắc ống thoát cũng nghẹt",
+      "đầu ống thoát ngoài ban công gần như không có hơi phả ra, mà bên trong thì nóng rực và bốc mùi cháy",
+      "đồ ra thì nóng ran mà vẫn hầm hơi ẩm, trong phòng toàn bông xơ bay lơ lửng bám lên tường"
+     ],
+     "indirect": [
+      "chiếc khăn bông của em sấy ra có một mảng bị ngả vàng như bị bàn ủi làm cháy sém",
+      "chuông báo khói trong phòng giặt kêu inh ỏi hai lần tuần này, đúng lúc đang sấy đồ",
+      "góc tường sau chỗ đặt nó bám đầy bụi bông, mỗi mẻ lại tốn gần gấp đôi thời gian so với hồi mới mua"
+     ]
+    },
+    "DRYER_NOISY": {
+     "clear": [
+      "quay thì vẫn quay, đồ vẫn khô, mà nó cứ lục cục lụp cụp suốt, tôi nghe mà sốt ruột",
+      "nó cứ rít lên eo éo như phanh xe đạp mòn, nghe mà nổi da gà",
+      "em nghĩ con lăn đỡ lồng hoặc bạc trục sau bị mòn, lồng quay bị lệch tâm và cọ vào thân",
+      "lúc quay nghe thùng thùng như có cục đá trong lồng, lấy hết đồ ra rồi mà vẫn kêu",
+      "mới bật lên thì êm, chạy chừng mười lăm phút khi lồng nóng lên là bắt đầu kêu cót két liên tục",
+      "ồn như cái xe máy cũ không tra dầu, mỗi vòng quay lại nghe rột rột",
+      "hình như có cái gì rơi vô khe lồng hay sao mà quay tới đâu nghe lách cách tới đó",
+      "em đã kiểm túi quần áo, kê lại chân cho phẳng mà lồng vẫn quay lắc lư, đập cành cạch vào thành",
+      "nhìn vào thấy lồng quay bị đảo lệch, mép lồng cọ vào gioăng phía trước để lại vệt đen",
+      "phía sau phát ra tiếng gằn gằn như kim loại cọ kim loại, càng chạy lâu càng rõ"
+     ],
+     "indirect": [
+      "con em đang ngủ trưa là bị đánh thức mỗi khi em bật nó lên, dù đồ vẫn khô bình thường",
+      "đặt nó trên tầng hai mà dưới tầng một vẫn nghe rõ tiếng lục cục mỗi khi sấy",
+      "em phải đóng hết cửa phòng giặt mới xem phim được, còn quần áo thì vẫn sấy khô như cũ"
+     ]
+    },
+    "DRYER_NOT_SPINNING": {
+     "clear": [
+      "bấm nút thì đèn vẫn sáng, nghe có tiếng ừ ừ bên trong mà đồ nằm một đống không lật lên lật xuống",
+      "bật lên chạy ro ro mà cái lồng im lìm, lấy tay xoay thử thì nó quay tự do nhẹ hều",
+      "em mở nắp lưng thấy sợi dây đai truyền động bị tuột khỏi puly, mô tơ quay không mà lồng chẳng ăn theo",
+      "nghe bụp một tiếng lúc đang chạy, sau đó chỉ còn tiếng quạt vù vù, lồng đứng khựng lại luôn",
+      "đồ ít thì còn xoay được, bỏ chăn mền vào chừng vài phút là lồng ì ra rồi đứng hẳn dù vẫn đang nóng",
+      "lồng đứng im như cái thùng phuy, chỉ có hơi nóng thổi vào, đồ bên dưới nóng còn bên trên vẫn ướt",
+      "không biết có phải đứt dây gì bên trong không mà mở cửa nhìn vào thấy đồ nằm nguyên một chỗ suốt",
+      "em đã lấy bớt đồ ra còn vài cái áo, đóng cửa chặt bấm chạy lại mà lồng vẫn nằm yên không nhúc nhích",
+      "ngửi thấy mùi cao su cháy nhẹ rồi lồng ngừng xoay, mở ra thấy mấy mẩu cao su đen rơi dưới đáy",
+      "đèn và quạt vẫn chạy, có hơi ấm phả ra, chỉ riêng cái lồng là không chịu chuyển động"
+     ],
+     "indirect": [
+      "đồ sấy ra chỗ thì khô cháy chỗ thì ướt nhẹp, cục đồ vẫn vo tròn y như lúc em nhét vào",
+      "áo nằm dưới bị nóng tới bạc màu một mảng còn mấy cái phía trên vẫn sũng nước",
+      "em phải mở cửa giữa chừng lấy tay đảo đồ lên mấy lần thì đồ mới khô được"
+     ]
+    },
+    "DRYER_NO_POWER": {
+     "clear": [
+      "tôi cắm vào ổ, nhấn nút vài lần mà nó im thin thít, không đèn đóm gì hết",
+      "tự nhiên đơ luôn, bảng điều khiển tối thui, bấm kiểu gì cũng không lên",
+      "em đo ổ cắm vẫn đủ hai trăm hai mươi vôn mà bảng điều khiển không có điện, chắc đứt cầu chì hoặc hỏng bo",
+      "bấm nút chỉ nghe tạch một cái khô khốc rồi thôi, không có tiếng bíp khởi động như mọi khi",
+      "đang sấy dở thì phụt tắt, từ đó tới giờ hai ngày cắm lại không có động tĩnh gì",
+      "nằm im như cục sắt, bấm gì cũng như bấm vào tường",
+      "hình như bị cháy cầu chì hay sao ấy, từ hôm cúp điện tới giờ không lên đèn nữa",
+      "em đã thử cắm sang ổ khác, bật lại cầu dao, kiểm tra cửa đóng kín mà bảng hiển thị vẫn đen sì",
+      "đầu phích cắm bị cháy sém đen một bên, từ hôm đó cắm vào không bật lên được nữa",
+      "cứ cắm phích vô là cầu dao tổng sập cái rụp, cả nhà tối om"
+     ],
+     "indirect": [
+      "đồ giặt xong cả buổi vẫn nằm nguyên trong rổ vì cái này không chịu bật lên",
+      "sau trận sét hôm thứ bảy nó im luôn, mấy đồ điện khác trong nhà vẫn dùng bình thường",
+      "em phải mang đồ ra tiệm vì cả tuần nay bấm nó không sáng, kiểm tra ổ điện thì vẫn có điện"
+     ]
+    }
+   }
+  },
+  "dishwasher": {
+   "names": [
+    "máy dửa bát",
+    "máy rữa chén",
+    "con Bosch âm tủ bếp",
+    "con dishwasher",
+    "máy rửa bác",
+    "con Bosch 13 bộ",
+    "máy rủa bát",
+    "con Hafele âm tủ",
+    "con MRB",
+    "cái máy tự rửa bát đĩa âm tủ bếp",
+    "máy rửa ly chén",
+    "con Electrolux để bàn 6 bộ"
+   ],
+   "vague": [
+    "mấy bữa nay có vẻ không ổn",
+    "dùng thấy là lạ thế nào ấy",
+    "có chút vấn đề, em muốn nhờ thợ qua kiểm tra"
+   ],
+   "faults": {
+    "DW_NOT_CLEAN": {
+     "clear": [
+      "chén đĩa lấy ra còn dính lợn cợn hột cơm với rau, tôi phải tráng lại hết, phí cả nước cả điện",
+      "rửa ra cái ly nào cũng lem nhem dấu son với vết sữa, nhìn chán xỉu",
+      "em thấy cánh tay phun phía trên bị kẹt không quay, mấy lỗ phun bị cặn vôi bít gần hết, nước vẫn vào đủ",
+      "trước nghe nước phun rào rào đập vào thành, giờ chỉ nghe róc rách nhỏ nhỏ, chén lấy ra còn nhờn mỡ",
+      "chạy đủ chương trình chuyên sâu gần ba tiếng mà nồi chảo vẫn bám lớp dầu nhờn sờ vào rít tay",
+      "đồ ra còn tệ hơn tráng qua nước lã, chén cứ trơn trơn như chưa rửa",
+      "không biết có phải hết muối làm mềm nước không mà mấy cái ly ra cứ đục như bị phủ một lớp phấn",
+      "em đã tháo cốc lọc dưới đáy ra cọ sạch, đổi sang viên rửa loại tốt mà chén vẫn còn bợn vàng",
+      "mở cửa ra thấy chén ướt đều, có bọt nước, nhưng dĩa nào cũng còn nguyên vệt sốt cà khô cứng",
+      "bát ở giá dưới thì tạm ổn, còn giá trên ra vẫn nguyên dầu mỡ như lúc mới xếp vào"
+     ],
+     "indirect": [
+      "khách tới nhà em ngại đưa cốc ra mời nước vì cái nào cũng còn vết ố dù vừa chạy xong",
+      "em lại phải đứng bồn cọ từng cái sau khi nó chạy xong, mua về cho nhàn mà giờ thành làm hai lần",
+      "chồng em kêu ăn cơm thấy chén còn mùi tanh của cá từ bữa trước dù đã cho vào rửa"
+     ]
+    },
+    "DW_NOT_DRAINING": {
+     "clear": [
+      "rửa xong mở cửa ra dưới đáy còn nguyên một vũng nước đục ngầu lẫn vụn thức ăn, tôi phải lấy khăn thấm",
+      "chạy xong mà dưới đáy vẫn ngập nước lênh bênh như cái hồ cá, ghê muốn xỉu",
+      "em nghĩ cốc lọc rác hoặc bơm thoát bị nghẹt, ống thoát gắn vào xi phông bồn rửa không thấy nước chảy ra",
+      "tới đoạn thoát nước nghe tiếng bơm è è một hồi rồi tắt mà nước vẫn nằm lì dưới đáy",
+      "mấy lần đầu trong ngày thì ổn, tới bữa tối là nước bắt đầu ứ lại, sáng hôm sau mở ra vẫn còn",
+      "đáy bên trong giờ như cái chậu bị tắc lỗ, nước rửa cứ ứ lại không chịu đi",
+      "hình như bị nghẹt chỗ nào đó vì lưới lọc dưới đáy cứ ngập nước bẩn, bát giá dưới bị ngâm luôn",
+      "em đã tháo lưới lọc rửa sạch, kiểm tra ống thoát không bị gập mà rửa xong đáy vẫn lấp xấp nước",
+      "mở ra là bốc mùi chua thối của nước rửa để lâu, dưới đáy nước đục lờ lợ váng mỡ",
+      "tới cuối chu trình thì dừng lại báo lỗi rồi nhấp nháy, nước rửa vẫn còn ngập lưng chừng đáy"
+     ],
+     "indirect": [
+      "bát xếp ở giá dưới lấy ra lúc nào cũng ướt nhẹp và dính vụn thức ăn trôi lềnh bềnh từ đáy lên",
+      "lần nào em cũng phải lấy ca múc nước dơ ra khỏi khoang rồi mới dám xếp bát vào lượt mới",
+      "bồn rửa bên cạnh vẫn thoát nước nhanh, chỉ riêng cái này mở ra lần nào cũng thấy nước đọng hôi"
+     ]
+    },
+    "DW_NO_WATER": {
+     "clear": [
+      "bấm chạy rồi mà tôi ngồi nghe mãi chẳng thấy tiếng nước chảy vào, mở ra bên trong khô rang",
+      "bấm start xong chờ mỏi mắt bên trong vẫn khô queo, đáy không có miếng nước nào",
+      "em nghĩ van cấp hoặc phao chống tràn bị kẹt, khóa nước đã mở hết mà ống cấp không đẩy nước vào khoang",
+      "chỉ nghe tạch tạch như van cố mở rồi im, không có tiếng xè xè nước vào như mọi lần",
+      "nhà vừa cúp nước sáng nay, có nước lại rồi mà bấm chạy mười phút bên trong vẫn chưa ướt",
+      "nước vô nhỏ như sợi chỉ, chờ đầy khoang còn lâu hơn nấu xong nồi cơm",
+      "không biết có phải do ống cấp bị gập phía sau tủ không mà nó đứng chờ hoài rồi kêu bíp bíp",
+      "em đã mở van nước dưới bồn rửa hết cỡ, tháo ống ra thì nước chảy mạnh, lắp lại thì bên trong vẫn khô",
+      "mở cửa giữa chừng thấy viên rửa vẫn nguyên trong hộc chưa tan, bát đĩa khô rốc như chưa chạy",
+      "đèn báo hình vòi nước trên bảng cứ sáng đỏ, chương trình đứng yên không chạy tiếp"
+     ],
+     "indirect": [
+      "viên rửa bỏ vào hôm qua tới giờ vẫn nằm nguyên trong hộc, bát thì vẫn dính đầy thức ăn khô cứng",
+      "cả nhà quay về rửa bằng tay vì bỏ bát vào chờ cả buổi mà trong khoang vẫn ráo hoảnh",
+      "hóa đơn nước tháng này giảm hẳn mà bát đĩa thì chồng chất vì cái này không chịu lấy nước vào"
+     ]
+    },
+    "DW_DOOR_LEAK": {
+     "clear": [
+      "đang chạy thì nước rỉ ra từ khe cánh cửa, chảy thành vệt dài xuống nền nhà, tôi phải lấy khăn chặn",
+      "nước cứ len ra mép cửa nhỏ giọt tong tong xuống sàn trong lúc chạy, ướt hết tấm thảm bếp",
+      "em kiểm tra thấy viền cao su quanh cửa bị chai và lệch khỏi rãnh, bản lề cũng hơi xệ nên đóng không kín",
+      "lúc nó phun nghe xì xì ngay chỗ khe cửa, cúi xuống thấy nước bắn ra ngoài theo đường viền",
+      "chỉ khi chạy chương trình nước nóng thì nước mới ứa ra ở góc dưới cánh cửa, chạy nhanh thì không sao",
+      "khe cửa phía dưới rỉ nước như ấm bị nứt vòi, còn bên trong thì nước vẫn rút hết bình thường",
+      "hình như cái viền cao su ở cửa bị bong ra một đoạn hay sao mà mỗi lần chạy sàn lại có vũng nước",
+      "em đã lau sạch mép cửa, cân lại chân cho thăng bằng mà cạnh cửa vẫn rỉ nước mỗi khi chạy",
+      "nhìn kỹ thấy mép dưới cánh cửa có vệt xà phòng khô trắng đóng thành lớp, sàn ngay đó không bao giờ khô",
+      "nước thấm ra ở hai góc dưới cửa, sờ vào tấm ốp chân phía trước thấy ướt rượt suốt"
+     ],
+     "indirect": [
+      "tấm ván ốp chân tủ ngay dưới cửa bị mục, bong lớp phủ, dù bên trong lần nào cũng thoát nước sạch",
+      "con em đi chân đất trong bếp bị trượt ngã hai lần ngay trước cửa lúc nó đang chạy",
+      "em phải để sẵn cái khăn dưới cánh cửa mỗi lần bấm chạy, xong vắt ra được cả ca nước"
+     ]
+    },
+    "DW_NO_POWER": {
+     "clear": [
+      "tôi bấm nút nguồn mấy lần mà bảng đèn tối om, không nghe tiếng gì hết",
+      "tự dưng đứng hình luôn, bấm nút power như bấm vào không khí, màn hình đen thui",
+      "em đo ổ cắm vẫn có điện, dây nguồn không đứt, nhưng bo điều khiển không lên chút đèn nào, chắc hỏng khối nguồn",
+      "trước bấm vào là kêu bíp một tiếng, giờ bấm hoài im thin thít không có động tĩnh",
+      "tối qua đang chạy dở thì tắt phụt, sáng nay cắm lại vẫn tối thui không lên được nữa",
+      "nằm im như cái tủ gỗ, bấm nút nào cũng không có chút ánh sáng",
+      "hình như bị chập điện hay cháy cầu chì gì đó, sau hôm bếp bị ngập nước là không bật được nữa",
+      "em đã cắm thử sang ổ khác, bật lại cầu dao bếp, đóng cửa thật chặt mà vẫn không có tí đèn nào",
+      "chỗ ổ cắm sau tủ có mùi khét và vết cháy đen, từ đó bấm không lên được",
+      "cứ cắm phích vào là cầu dao bếp sập liền, cả dãy đèn trong bếp tắt theo"
+     ],
+     "indirect": [
+      "bát đĩa dồn đống trong khoang hai ngày rồi vì cái này không chịu bật lên",
+      "sau trận sét đánh hôm qua, tủ lạnh với bếp từ vẫn dùng bình thường mà riêng cái này im lìm",
+      "em phải quay lại cọ tay cả tuần nay vì bấm thế nào nó cũng không sáng lên"
+     ]
+    }
+   }
+  },
+  "water_purifier": {
+   "names": [
+    "con Kangaroo 9 lõi",
+    "cái Karofi tủ đứng",
+    "máy RO",
+    "máy lộc nước",
+    "cây lọc nước",
+    "cái Mutosi nóng lạnh",
+    "máy lọc 10 lõi",
+    "cây nóng lạnh",
+    "con lọc nước gầm chậu rửa",
+    "cái máy lọc kiềm",
+    "máy lọc nc",
+    "con Sunhouse lọc nước"
+   ],
+   "vague": [
+    "dạo này em thấy không yên tâm lắm",
+    "hình như bị làm sao rồi",
+    "dùng thấy có gì đó không bình thường"
+   ],
+   "faults": {
+    "PURIFIER_NO_WATER": {
+     "clear": [
+      "tôi vặn vòi mà chỉ rỉ ra mấy giọt, rót đầy cái cốc phải đứng chờ mỏi chân",
+      "vặn vòi ra chỉ chảy tí tách như nước mắt, rót một ly mất cả phút",
+      "em nghĩ màng RO hoặc lõi thô bị nghẹt, áp đầu vào vẫn mạnh mà đầu ra chỉ nhỏ như cây tăm",
+      "vặn vòi nghe khọt khọt xì hơi một hồi mà chẳng có giọt nào chảy ra",
+      "sáng ra rót được một ca, sau đó cả ngày vòi chỉ nhỏ từng giọt, phải đợi tới tối mới hứng được ít",
+      "nước ra nhỏ như vòi bị khóa còn một khe, trước đây vặn ra là xối ào ào",
+      "không biết có phải tắc lõi không mà vòi uống cứ khô khốc, trong khi vòi nước máy bên cạnh vẫn chảy mạnh",
+      "em đã kiểm tra van cấp mở hết, cắm điện có đèn, nhưng vặn vòi nước tinh khiết vẫn chỉ ri rỉ",
+      "nhìn qua cốc lọc thấy lõi bông đen thui đặc cặn, vòi rót thì ra lắt nhắt từng giọt",
+      "đầu vòi nóng với vòi lạnh đều cạn, gạt nút mãi không ra được ly nào"
+     ],
+     "indirect": [
+      "nấu canh phải dùng nước máy vì chờ nó nhỏ ra đủ một nồi thì trễ bữa",
+      "cả nhà sáu người mà nó chỉ cho ra chưa đầy một can mỗi ngày",
+      "mấy đứa nhỏ đi học về khát mà phải đứng xếp hàng ở vòi chờ từng giọt"
+     ]
+    },
+    "PURIFIER_LEAK": {
+     "clear": [
+      "dưới chân lúc nào cũng có vũng nước, tôi lau sáng thì chiều lại đọng, không biết chảy từ đâu ra",
+      "nước rịn ra ở mấy chỗ nối ống trắng, rơi tí tách xuống khay suốt ngày đêm",
+      "em thấy rò ở khớp nối nhanh giữa các cốc lọc, gioăng chữ O hình như bị lệch khi vặn cốc vào",
+      "đêm khuya nghe tong tong đều đều dưới gầm bếp, soi đèn thì thấy nước nhỏ từ thân cốc lọc xuống",
+      "từ hôm vặn lại mấy cốc lọc là chỗ ren cứ ứa nước ra, nhất là lúc bơm đang chạy",
+      "chỗ nối ống ra bình chứa rỉ như cái vòi khóa không chặt, sàn bên dưới loang lổ",
+      "hình như cái ống dẫn bị nứt chỗ nào đó vì sàn quanh chân cứ ướt mà nhìn không ra",
+      "em đã siết lại hết các cốc lọc và quấn băng tan chỗ ren mà sáng ra vẫn có vệt nước dưới đáy tủ",
+      "mở cánh tủ bếp ra thấy tấm gỗ đáy ướt sũng, có vệt nước chảy dài từ cốc lọc thứ hai xuống",
+      "nước bắn tia nhỏ từ đầu ống mềm chỗ van xả thải, ướt cả mảng tường phía sau"
+     ],
+     "indirect": [
+      "ván đáy tủ bếp chỗ đặt nó đã bị mục mềm, ấn tay vào lún xuống",
+      "gạo với bột để trong tủ bếp ngay cạnh nó cứ bị ẩm vón cục",
+      "sàn gạch quanh khu bếp lúc nào cũng trơn ướt, con em suýt té mấy lần"
+     ]
+    },
+    "PURIFIER_FILTER_DUE": {
+     "clear": [
+      "pha trà bằng nước này thấy có váng, uống vào hơi đắng chát, tôi dùng hơn năm nay chưa đụng tới lõi",
+      "nhấp một ngụm thấy vị như nước giếng, hơi hăng hăng, không còn ngọt mát như hồi mới lắp",
+      "em đo TDS thấy chỉ số lên gần một trăm, trong khi trước chỉ mười mấy, các lõi cũng gần hai năm rồi",
+      "nước rót ra ngửi thấy mùi như nước hồ bơi, để nguội rồi vẫn còn",
+      "từ đầu năm tới giờ chưa thay cái lõi nào, mấy tuần nay đun sôi lên đáy ấm đóng lớp vôi trắng",
+      "nước uống có mùi giống nước máy chưa lọc, chẳng khác gì vặn vòi bồn rửa",
+      "không biết có phải tới hạn thay lõi chưa mà nước ngửi thấy tanh tanh như sắt gỉ",
+      "em đã xả bỏ cả bình chứa, súc lại mấy lần mà nước rót ra vẫn có vị lờ lợ khó chịu",
+      "nhìn qua cốc lọc thấy lõi bông chuyển sang màu nâu đỏ, ly nước để lâu đáy có lắng gợn",
+      "cái đèn nhắc trên thân cứ nháy đỏ mấy tuần nay, em bấm tắt đi rồi nó lại sáng lên"
+     ],
+     "indirect": [
+      "mấy đứa nhỏ nhà em giờ không chịu uống nước ở đây nữa, bảo có mùi kỳ kỳ",
+      "nấu cơm bằng nước này thì cơm hôi hôi, đáy ấm siêu tốc thì đóng vệt vàng",
+      "từ hồi lắp tới giờ gần ba năm em chưa gọi thợ bảo dưỡng lần nào"
+     ]
+    },
+    "PURIFIER_PUMP_RUNS_ON": {
+     "clear": [
+      "cả ngày lẫn đêm nghe rì rì dưới gầm bếp không lúc nào tắt, bình chứa đầy rồi mà vẫn không chịu nghỉ",
+      "nó chạy rè rè không ngừng nghỉ luôn, kiểu như quên mất cái nút dừng",
+      "em nghĩ công tắc áp cao hoặc van một chiều hỏng, bình áp đã đầy mà bơm không cắt, nước thải chảy ra liên tục",
+      "cứ tạch một cái chạy vài giây rồi tạch cái nghỉ, lặp lại mãi suốt đêm dù không ai rót nước",
+      "từ tối tới sáng không ai dùng một giọt mà nghe động cơ vẫn chạy rù rù suốt mấy tiếng",
+      "chạy ro ro hoài như cái tủ lạnh cũ không chịu ngắt, áp tay vào thân thấy rung đều",
+      "không biết có phải bình chứa bị mất hơi không mà nó cứ chạy rồi ngắt, ngắt rồi chạy liên miên",
+      "em đã khóa van cấp, rút ra cắm lại, bơm nghỉ được chút xíu rồi lại tự chạy tiếp không ngưng",
+      "nhìn ống nước thải chảy ra bồn rửa ri rỉ suốt ngày đêm, dù bình chứa đã căng cứng",
+      "giữa trưa không ai đụng tới mà đèn báo đang lọc vẫn sáng hoài, sờ cục bơm thấy ấm nóng"
+     ],
+     "indirect": [
+      "mỗi lần đi ngang góc bếp đều nghe rì rì, cả nhà tưởng tủ lạnh hỏng mà hóa ra là cái này",
+      "cả nhà đi du lịch ba ngày, về vẫn nghe nó đang chạy y như lúc đi",
+      "mỗi tối em phải rút điện nó ra mới ngủ được, sáng cắm lại thì nó lại chạy suốt tới khuya"
+     ]
+    },
+    "PURIFIER_NO_POWER": {
+     "clear": [
+      "tôi cắm vào rồi mà nó im ru, đèn đóm tắt hết, vặn vòi cũng không nghe tiếng bơm",
+      "tự dưng tắt ngủm luôn, màn hình nhiệt độ tối thui, không thấy động đậy gì",
+      "em đo adapter đầu ra không có hai mươi bốn vôn, bơm và van điện từ đều không được cấp điện",
+      "trước cắm vào là nghe rù rù bơm chạy liền, giờ im phăng phắc như cục gạch",
+      "đang dùng bình thường, tối qua nghe bụp một cái ở dưới gầm rồi tắt luôn tới giờ",
+      "nằm im như món đồ trang trí, cắm điện vào cũng như không",
+      "hình như bộ đổi nguồn bị hỏng hay sao mà cái đèn xanh nhỏ trên đó không còn sáng nữa",
+      "em đã đổi ổ cắm, kiểm tra cầu dao, rút ra cắm lại mấy lần mà vẫn không có chút phản ứng nào",
+      "chỗ cục nguồn có mùi khét, vỏ nhựa bị chảy méo một góc, từ đó tới giờ không chạy nữa",
+      "đèn nóng đèn lạnh đều tắt, vòi nóng ra nước nguội ngắt, bấm nút nào cũng trơ ra"
+     ],
+     "indirect": [
+      "từ hôm thợ điện sửa lại đường dây trong bếp xong là nó không hoạt động nữa, mấy đồ khác vẫn chạy",
+      "cả nhà phải đun nước máy để uống từ thứ hai tới giờ vì cắm vào nó vẫn tối om",
+      "sau trận mưa dột làm nước nhỏ vào ổ điện trong bếp, giờ nó không còn bật lên được"
+     ]
+    }
+   }
+  },
+  "water_heater": {
+   "names": [
+    "bình Ariston",
+    "cái Ferroli",
+    "bình Picenza",
+    "bình nóng lạnh Rossi",
+    "máy tắm nóng Panasonic",
+    "bình nóng lạnh gián tiếp",
+    "bình đun nước tắm",
+    "cái bình treo trên tường nhà tắm",
+    "bình lóng lạnh",
+    "bình nl",
+    "máy làm nóng nước trực tiếp",
+    "cục nóng lạnh trong phòng tắm"
+   ],
+   "vague": [
+    "dạo này dùng thấy không được như trước",
+    "hình như có trục trặc gì đó, nhờ anh xem giúp",
+    "tắm thấy cứ sao sao ấy, không biết bị gì"
+   ],
+   "faults": {
+    "WH_HEATING_ELEMENT": {
+     "clear": [
+      "cắm điện từ chiều, đèn đỏ vẫn sáng mà tối bà tắm vẫn lạnh buốt như nước giếng con ạ",
+      "đèn báo sáng đầy đủ mà đun mãi vẫn lạnh tanh, tắm xong run cầm cập luôn",
+      "đo điện trở thanh đốt bằng đồng hồ thì kim không lên, điện vào vẫn đủ 220V mà nước không ấm lên chút nào",
+      "hôm qua còn tắm ấm bình thường, sáng nay bật cả buổi mà nước ra vẫn lạnh ngắt dù đèn có sáng",
+      "sờ tay vào vỏ bình thấy lạnh toát dù đã cắm điện mấy tiếng, không nghe tiếng rè rè như mọi khi",
+      "nước ra lạnh y như nước mưa hứng ngoài sân, chẳng khác gì chưa cắm điện, trong khi đèn vẫn đỏ",
+      "không biết có phải cháy cái ruột đun bên trong không, đèn lên mà nước chẳng ấm tí nào",
+      "đã thay ổ cắm, kiểm tra cầu dao đều ổn, đèn sáng mà đun hai tiếng đồng hồ nước chẳng có chút hơi ấm",
+      "nhìn đèn báo vẫn đỏ, để qua đêm sáng ra mở vẫn lạnh như chưa đun",
+      "đun từ sáng tới trưa mà tắm vẫn phải nghiến răng chịu lạnh, có điện vào mà không làm nóng được"
+     ],
+     "indirect": [
+      "mấy hôm nay cả nhà phải đun ấm siêu tốc rồi xách vào phòng tắm, dù cắm điện thì đèn vẫn lên",
+      "con bé tắm xong bị cảm lạnh, dù mẹ nó đã bật sẵn từ chiều và thấy đèn sáng",
+      "phải sang nhà hàng xóm tắm nhờ vì bật cả đêm mà sáng ra vẫn không có giọt nào ấm, đèn thì vẫn sáng"
+     ]
+    },
+    "WH_THERMOSTAT": {
+     "clear": [
+      "mở ra nước bỏng rẫy, thằng bé suýt bị phỏng tay, mà đèn đun vẫn sáng không chịu tắt",
+      "đun lâu là nghe xèo xèo bên trong, van an toàn phì hơi ra, vỏ ngoài nóng hổi sờ không nổi",
+      "đã đủ nhiệt mà đèn báo vẫn đỏ, thanh đốt chạy mãi không nghỉ, chắc cảm biến ngắt nhiệt hỏng",
+      "người già tắm sợ lắm con ơi, đầu sen phả hơi nóng nghi ngút như nồi nước đang sôi",
+      "tắm được một lúc là đột ngột tắt hẳn, phải mở nắp dưới ấn cái nút reset thì mới đun trở lại",
+      "nước ra nóng như nước pha trà, trước đây vặn núm hết mức cũng chỉ ấm vừa người",
+      "hình như cái núm chỉnh nhiệt không ăn, vặn về mức thấp nhất mà nước vẫn nóng rát da",
+      "đã vặn núm nhiệt xuống nhỏ nhất, rút điện cắm lại mà vẫn nóng phỏng, đoạn ống dẫn ra nóng ran",
+      "ngửi thấy mùi nhựa nóng chảy, đoạn ống nối đầu ra bị mềm oặt biến dạng, bên trong sôi sùng sục",
+      "có lúc nóng phỏng có lúc nguội ngắt dù không ai đụng vào núm, chả hiểu sao luôn"
+     ],
+     "indirect": [
+      "thằng bé vừa bị bỏng đỏ cả lưng lúc tắm, giờ không đứa nào dám đứng dưới đầu sen",
+      "ống nhựa nối vào đầu ra bị chảy mềm, cong queo hết cả dù mới lắp được năm tháng",
+      "tiền điện tháng này vọt lên mà ngày nào cũng thấy đèn đỏ sáng suốt, chưa bao giờ thấy chuyển sang xanh"
+     ]
+    },
+    "WH_ELCB_TRIPS": {
+     "clear": [
+      "đang tắm thì thấy rần rần ở tay, sờ vào đầu sen như có kiến bò, sợ quá phải tắt luôn",
+      "vừa bật công tắc là nghe tách một cái, cả nhà tắm tối thui, cầu dao tổng sập luôn",
+      "bút thử điện chạm vào thân bình là sáng, rò điện ra vỏ nên ELCB ngắt liên tục",
+      "tắm xong đặt chân xuống nền ướt bị điện chích một cái, người già như bà giờ vẫn còn run",
+      "cắm vào được chừng vài giây là cái ổ chống giật kêu cạch rồi mất điện, rút ra cắm lại cũng vậy",
+      "chạm vào dòng nước chảy ra thấy tê tê giống như lỡ tay chạm vào ổ điện hở",
+      "hình như bị rò điện, sờ tay gạt kim loại thấy châm chích ở đầu ngón tay",
+      "đã thử ấn nút reset trên phích cắm mấy lần, cứ ấn vào là nó bật ra ngay, đèn đỏ nhấp nháy",
+      "thấy đèn trên cục ngắt điện ở đầu dây chớp liên hồi, ngửi có mùi khét nhè nhẹ chỗ ổ cắm",
+      "hễ bật lên là cả tầng tắt phụt đèn, phải chạy xuống đẩy cầu dao lên lại"
+     ],
+     "indirect": [
+      "con em giờ sợ không dám tắm, nó bảo đầu sen cắn tay nó",
+      "mấy hôm nay hễ ai vào phòng tắm bật bình là tivi ngoài phòng khách tắt phụt",
+      "thợ điện bảo nhà chưa đi dây tiếp địa, mà từ hôm mưa dột vào phòng tắm thì cứ tắm là thấy tê"
+     ]
+    },
+    "WH_SCALE_BUILDUP": {
+     "clear": [
+      "đun lên là trong ruột nghe lộp độp, lách tách như đang rang ngô",
+      "dùng bảy tám năm chưa vệ sinh lần nào, giờ chờ ấm phải gấp đôi thời gian ngày xưa con ạ",
+      "nước chảy ra lẫn những vảy trắng li ti như vôi, đọng lại dưới đáy chậu",
+      "nhà dùng giếng khoan nhiều đá vôi, chắc thanh đốt bị bám cáu dày nên đun kém hẳn",
+      "mấy năm đầu đun mười lăm phút là tắm được, giờ phải đợi gần cả tiếng mới đủ ấm",
+      "nước ấm chảy ra hơi đục, ngửi thoang thoảng mùi như trứng ung",
+      "bật lên là bên trong sôi ùng ục giống cái ấm đun lâu năm bị đóng cáu",
+      "không biết có phải trong ruột đóng cáu nhiều không mà tiền điện cao hẳn, nước lại lâu ấm",
+      "đã xả van đáy một lần, ra toàn cặn trắng như bột vôi, giờ đun vẫn chậm và còn kêu",
+      "ngốn điện kinh khủng mà vẫn chậm ấm, bên trong thì kêu rào rào mỗi lần đun"
+     ],
+     "indirect": [
+      "tháng nào tiền điện cũng nhích lên dần dù nhà vẫn tắm như cũ, khu này nước cứng lắm",
+      "lưới lọc ở đầu ra bên nóng cứ vài tuần lại đầy hạt trắng cứng như sạn, bên lạnh thì sạch",
+      "ấm siêu tốc trong nhà đóng cáu trắng xóa, khu em nước nhiễm vôi nặng, mà bình thì dùng sáu năm chưa súc rửa lần nào"
+     ]
+    },
+    "WH_TANK_LEAK": {
+     "clear": [
+      "thấy nước tong tong từ dưới thân rơi xuống, đọng thành vũng ngay dưới chỗ treo",
+      "nước rỉ ra từ vỏ chảy dọc xuống dây điện, sợ chập điện lắm, có nên rút điện ngay không",
+      "sáng nào sàn cũng ướt một vệt dài ngay bên dưới, lau đi lát sau lại có, người già trơn dễ ngã lắm",
+      "đã đóng van cấp vào mà vỏ ngoài vẫn rịn nước, chắc ruột bị ăn mòn thủng rồi",
+      "nghe tí tách suốt đêm, soi đèn thấy giọt nước từ khe dưới vỏ nhỏ xuống",
+      "chỉ khi đang đun là nước rịn ra ở mép dưới vỏ, tắt đi một lúc thì ráo",
+      "phần vỏ dưới cứ đổ mồ hôi như cốc nước đá, nước đọng mỗi ngày một nhiều",
+      "hình như thủng ở đâu bên trong, vỏ ngoài phồng lên một chỗ và rỉ nước gỉ màu nâu",
+      "đã siết lại hai đầu ống nối rồi, nhưng nước vẫn ứa ra từ chính thân chứ không phải ở ống",
+      "vỏ gỉ sét lốm đốm, có một lỗ nhỏ xíu cứ ri rỉ nước ra liên hồi"
+     ],
+     "indirect": [
+      "nhà tầng dưới sang phàn nàn trần nhà họ có vết ố to đúng chỗ dưới phòng tắm nhà em treo bình",
+      "mảng tường sau lưng chỗ treo bình bị bong sơn, rêu mốc lan xuống từ đó",
+      "ổ cắm cạnh bình cứ ẩm ướt, phòng tắm lúc nào cũng có vũng nước dù cả ngày không ai tắm"
+     ]
+    },
+    "WH_LOW_PRESSURE": {
+     "clear": [
+      "gạt sang bên nóng thì chảy lí nhí, gạt về bên lạnh thì ào ào bình thường",
+      "nước ấm thì có nhưng chảy ra bé tí, gội đầu mãi không trôi hết dầu con ạ",
+      "đầu ra vẫn đủ nhiệt nhưng lưu lượng phía nóng rất thấp, nghi tắc van một chiều đầu vào",
+      "mở phía nóng chỉ nghe xì xì, nước ra mấy tia lèo tèo mà vẫn nóng",
+      "từ hôm cúp nước rồi có lại thì phía nóng chảy yếu hẳn, phía lạnh vẫn mạnh",
+      "đường ấm chảy ra chỉ bằng một nửa đường lạnh trên cùng một đầu sen",
+      "không biết có phải nghẹt ở ống dẫn vào không mà bên nóng chỉ ra từng dòng nhỏ",
+      "đã tháo đầu sen ra rửa rồi, vòi bếp bên nóng cũng yếu y vậy, chắc nghẹt chỗ đường vào bình",
+      "nhìn tia nước khi gạt hết sang nóng thì nhỏ như sợi chỉ, nhiệt thì vẫn ổn",
+      "tắm mà bên nóng chảy yếu xìu, phải đứng sát mới ướt người, nhưng độ nóng thì vẫn đủ"
+     ],
+     "indirect": [
+      "gội đầu buổi tối mất gần nửa tiếng vì phải chờ đường ấm chảy đủ cho trôi bọt",
+      "cả nhà giờ phải hứng ra xô rồi pha với nước lạnh để dội vì đầu sen bên nóng ra quá ít",
+      "hồi trước tắm năm phút là xong, giờ mùa đông tắm mất cả buổi vì bên ấm chảy nhỏ quá, bên lạnh thì vẫn mạnh"
+     ]
+    },
+    "WH_INSTANT_NO_HOT": {
+     "clear": [
+      "loại làm nóng tức thì không có bình chứa, giờ mở ra toàn nước nguội dù đèn nguồn vẫn sáng",
+      "loại nhỏ gắn ngay dưới đầu sen, mở ra là phải ấm liền, mà mấy bữa nay mở ra lạnh ngắt con ạ",
+      "loại instant, nghi cảm biến lưu lượng không tác động vì áp nước thấp nên thanh nhiệt không được cấp điện",
+      "đang tắm ngon thì dưới bếp ai xả nước rửa rau là trên này lạnh toát ngay",
+      "chỉ khi mở hé hé thì mới có hơi ấm, xả mạnh cho dễ tắm là lạnh liền",
+      "mở ra không nghe tiếng tạch của rơ le như mọi lần, đèn báo đun không chịu lên",
+      "hình như áp nước yếu quá nên cái máy không nhận, mở ra chỉ có nước lạnh",
+      "đã chỉnh núm nhiệt lên cao nhất, tháo lưới lọc đầu vào rửa sạch mà mở ra vẫn lạnh, loại này đâu cần chờ đun",
+      "đèn nguồn xanh vẫn sáng nhưng đèn báo làm nóng không bao giờ bật lên khi mở nước",
+      "lắp ở tầng thượng thì chẳng bao giờ ấm nổi, hôm mang xuống tầng trệt thử thì lại nóng ngon"
+     ],
+     "indirect": [
+      "từ hôm khu em bị yếu nước buổi tối là tối nào cũng phải tắm lạnh, sáng sớm nước mạnh thì lại ấm bình thường",
+      "lúc máy giặt đang lấy nước là người trong phòng tắm la oai oái vì đột nhiên lạnh buốt",
+      "mới lắp thêm bộ lọc tổng làm nước yếu đi, từ đó mở sen là chỉ có nước lạnh dù đèn nguồn vẫn sáng"
+     ]
+    }
+   }
+  },
+  "toilet": {
+   "names": [
+    "bàn cầu",
+    "bệ xí",
+    "xí bệt",
+    "bồn Inax",
+    "bàn cầu Toto",
+    "bồn cầu Viglacera",
+    "bồn cầu Caesar một khối",
+    "WC",
+    "bồn vệ sinh",
+    "cái bồn đi vệ sinh trong nhà tắm",
+    "bồn càu",
+    "cái bệt"
+   ],
+   "vague": [
+    "dạo này dùng thấy hơi có vấn đề",
+    "có chuyện rồi, nhờ thợ qua coi giúp",
+    "xài thấy không ổn lắm mà không rõ bị gì"
+   ],
+   "faults": {
+    "TOILET_CLOGGED": {
+     "clear": [
+      "giật nước xong là mực nước cứ dâng dần sát mép, suýt tràn ra sàn, giờ không ai dám dùng",
+      "nhấn xả thì nghe ục ục dưới đáy, nước xoáy lên chứ không chịu đi, đứng im một chỗ",
+      "từ hôm thằng cháu làm rơi đồ chơi vào, giật nước là đầy lên chứ chẳng trôi đi đâu, bà chẳng biết làm sao",
+      "nghẹt ở cổ xi phông, thụt bằng cây cao su mãi không thông, mực nước đứng yên không hạ",
+      "từ trưa tới giờ thụt mấy lần rồi mà nước vẫn đứng lưng lửng trong lòng, giấy nổi lềnh bềnh",
+      "giờ y như cái chậu bị bịt đáy, đổ thêm xô nước vào là đầy tràn ngay",
+      "hình như con bé vứt cả bịch băng vệ sinh vào, giật cái là nước ngập lên gần tràn",
+      "đã đổ cả gói bột thông tắc với nước sôi rồi mà nước trong lòng vẫn không hạ xuống tí nào",
+      "nước bẩn đứng ngấp nghé gần miệng, bốc mùi khai thối khắp phòng",
+      "đang có khách mà giật xong là nước ứ đầy lòng rồi đứng im, nửa tiếng sau vẫn chưa vơi"
+     ],
+     "indirect": [
+      "nhà bốn người mà chỉ có một phòng vệ sinh, từ sáng giờ phải chạy sang hàng xóm đi nhờ",
+      "hôm qua con em thả nguyên cuộn giấy vào chơi, giờ phải dán giấy cấm dùng lên cửa phòng vệ sinh",
+      "nửa đêm nước bẩn tràn ra lênh láng sàn phòng tắm, phải lấy xô múc ra đổ ngoài sân"
+     ]
+    },
+    "TOILET_FILL_VALVE": {
+     "clear": [
+      "giật xong là trong thùng chứa phía sau kêu xèo xèo the thé như ấm sắp sôi, kéo dài cả chục phút",
+      "giật một lần xong phải ngồi đợi gần mười lăm phút thùng phía sau mới có nước giật tiếp, người già chờ mỏi chân",
+      "phao cơ kẹt ở vị trí thấp, chắc màng van cấp bị cặn nên nước vào nhỏ như sợi chỉ",
+      "mở nắp thùng sau lưng ra thấy mực nước vượt qua cả miệng ống tràn, nước cứ đổ xuống ống đó",
+      "để qua đêm thì đầy, chứ giật xong ban ngày thì gần nửa tiếng sau mới đủ nước giật lần hai",
+      "nước vào thùng chứa chậm như rót trà, hồi mới lắp chỉ vài chục giây là đầy",
+      "hình như cái phao bên trong bị gãy, nước trong thùng chỉ lên được lưng lửng rồi dừng",
+      "đã mở hết cỡ cái van khoá dưới chân tường rồi mà thùng phía sau vẫn lên nước rất từ từ",
+      "giật xong thì thùng sau chẳng thấy lên tí nước nào, khoá tổng vẫn mở và các chỗ khác có nước bình thường",
+      "nhấc nắp thùng lên thấy cái phao ngập hẳn dưới nước mà van vẫn xả vào ào ào không chịu ngắt"
+     ],
+     "indirect": [
+      "nhà đông người, sáng ra ai cũng phải xếp hàng chờ cái thùng sau lưng nạp nước xong mới giật được",
+      "tiếng rin rít phát ra mỗi lần có người đi xong làm em bé đang ngủ giật mình",
+      "lần nào đi xong cũng phải múc gáo nước dội thêm vì thùng sau lưng chưa kịp có nước"
+     ]
+    },
+    "TOILET_FLAPPER_LEAK": {
+     "clear": [
+      "nửa đêm cứ nghe rè rè rồi tạch một cái, thùng sau lưng tự nạp nước dù chẳng ai giật",
+      "nhìn vào lòng sứ thấy một dòng nước mảnh cứ lăn tăn chảy dọc thành xuống đáy suốt ngày",
+      "cái nắp cao su dưới đáy thùng bị chai cứng, đóng không kín nên nước lọt xuống lòng không dứt",
+      "giật xong thì nó cứ rỉ xuống mãi, phải ra đè cái tay gạt xuống mới chịu dừng, ông nhà tôi khó ngủ lắm",
+      "cứ chừng mười lăm hai mươi phút lại tự nạp nước một lần, ban đêm yên tĩnh nghe rõ mồn một",
+      "nghe như ai để quên vòi mở hé trong phòng vệ sinh, nhưng đi tìm thì chẳng có chỗ nào mở",
+      "không biết có phải hở cái van đáy thùng không mà nước cứ lặng lẽ rò xuống lòng suốt",
+      "đã chỉnh lại sợi xích nối tay gạt rồi mà nước trong thùng vẫn rò xuống dưới, khoá van chặn thì mới hết",
+      "nhấn xả xong cái nút bấm không bật lên lại, nước cứ tuột xuống lòng hoài",
+      "nhỏ vài giọt màu thực phẩm vào thùng sau lưng, chưa giật mà nửa tiếng sau nước trong lòng đã có màu"
+     ],
+     "indirect": [
+      "trong lòng sứ có một vệt ố vàng chạy dài từ vành xuống đáy, cọ rồi vẫn quay lại đúng chỗ nước cứ rịn xuống",
+      "đi du lịch một tuần về, đồng hồ nước vẫn chạy thêm mấy khối dù đã khoá hết, chỉ có van thùng xả là chưa khoá",
+      "đêm nào cũng bị đánh thức bởi tiếng nạp nước tự dưng vang lên trong phòng vệ sinh dù không ai dậy đi"
+     ]
+    },
+    "TOILET_BASE_LEAK": {
+     "clear": [
+      "mỗi lần giật nước là thấy nước loang ra từ khe giữa đế sứ và nền gạch",
+      "ngồi lên là nghe cục kịch, cả khối sứ nghiêng qua nghiêng lại chứ không phải cái nắp, dưới đế thì ướt",
+      "phòng vệ sinh bốc mùi thối nồng nặc, nước bẩn rỉ ra quanh đế, sợ nước thải ngấm xuống sàn lắm",
+      "lau sàn sáng chiều mà chỗ đế sứ lúc nào cũng có vũng nước nhỏ, mùi khai khó chịu lắm con",
+      "chắc mặt bích hoặc gioăng sáp ở đáy bị hở, nước thải xì ra mỗi lần xả, bu lông đế cũng lỏng",
+      "chỉ sau khi giật nước mới thấy nước rịn ra phần đế, lúc không dùng thì khô ráo",
+      "đường ron silicon quanh đế đen sì như bị mục, ấn tay vào thấy nước ứa ra như bọt biển",
+      "hình như nước thải rò ra dưới đáy, nền gạch xung quanh ố đen, mùi thì cứ lẩn quẩn",
+      "đã bơm lại keo silicon quanh đế rồi mà mấy hôm sau nước bẩn vẫn len ra, còn hôi hơn",
+      "đế sứ nứt một đường, mỗi lần đi xong là sàn có vũng nước đục"
+     ],
+     "indirect": [
+      "nhà tầng dưới gọi lên báo trần phòng tắm của họ có vết loang vàng ngay chỗ đặt bồn trên này",
+      "gạch nền phòng vệ sinh gần đó bị kênh lên, ron gạch chuyển màu đen, đi dép vào thấy nhớp",
+      "khách vào phòng vệ sinh xong cũng nhăn mặt vì mùi hôi bốc lên từ sàn, dù ngày nào em cũng cọ lòng sứ sạch bong"
+     ]
+    },
+    "TOILET_WEAK_FLUSH": {
+     "clear": [
+      "giật nước thì nước chỉ chảy lờ rờ quanh thành chứ không cuốn xoáy, chất thải còn lưu lại trong lòng",
+      "nhìn dưới vành mấy cái lỗ nhỏ bị cặn vàng bám kín, nước chỉ ra được ở một phía",
+      "thùng chứa đầy đủ nước nhưng lỗ phun dưới vành và lỗ xi phông bị cặn canxi bám, lực cuốn kém hẳn",
+      "giật một lần không hết, phải giật thêm lần nữa mới trôi, mà thùng nước thì vẫn đầy con ạ",
+      "giật nghe ồ một tiếng nhẹ hều chứ không còn tiếng ào mạnh như mới mua, giấy vẫn nổi",
+      "mấy năm đầu giật cái là sạch bong, khoảng một năm nay lực nước yếu đi từng chút một",
+      "giờ giật nước chẳng khác gì đổ một gáo nước vào, chảy rề rề không đủ sức cuốn",
+      "hình như các lỗ ra nước quanh vành bị đóng cặn, nước xuống không đều, cứ lăn tăn",
+      "đã chỉnh phao cho mực nước trong thùng lên cao hơn rồi mà giật vẫn không đủ lực, giấy vẫn còn lại",
+      "đi nặng xong phải giật hai lượt, có hôm ba lượt mới sạch, nước thì vẫn rút xuống bình thường không ứ"
+     ],
+     "indirect": [
+      "tháng này tốn gấp đôi giấy và nước vì lần nào đi xong cũng phải dội thêm xô nước, dù thùng sau lưng vẫn đầy",
+      "lòng sứ lúc nào cũng có vệt bẩn bám lại phía sau, cọ xong dùng vài lần lại có vì nước không cuốn tới",
+      "nhà dùng giếng khoan nhiều vôi, giờ dưới vành sứ đóng một lớp cặn vàng cứng, dùng xong lần nào cũng phải lấy chổi cọ thêm"
+     ]
+    },
+    "TOILET_SEAT_BROKEN": {
+     "clear": [
+      "ngồi xuống là tấm ngồi kêu cót két rồi lệch sang một bên, phần sứ thì vẫn chắc",
+      "chốt nhựa phía sau giữ tấm đậy bị gãy mất một bên, giờ nó lệch hẳn ra khỏi chỗ",
+      "người già ngồi lên mà cái mặt ngồi cứ trôi qua trôi lại, sợ có ngày ngã con ạ",
+      "hai con bu lông nhựa bắt bản lề vào sứ bị toét ren, vặn mãi không chặt",
+      "cái nắp đậy giờ lỏng lẻo như cánh cửa sắp rời bản lề, mở lên là nó đổ rầm xuống",
+      "hình như ốc dưới bản lề bị tuột, tấm ngồi xoay lệch mỗi khi có người ngồi",
+      "đã siết lại ốc mấy lần rồi mà chỉ được vài hôm là tấm ngồi lại xộc xệch",
+      "đầu tuần còn bình thường, hôm qua đóng mạnh một cái là tấm nắp nứt toác một đường",
+      "tấm ngồi bằng nhựa nứt chân chim, ngồi lên kẹp cả da đau điếng",
+      "cái nắp êm đóng chậm giờ không chậm nữa, buông tay là sập xuống đánh rầm"
+     ],
+     "indirect": [
+      "thằng bé ngồi lên thì tấm nhựa lệch đi làm nó trượt ngã, giờ nó sợ không dám đi một mình",
+      "nhà có khách mà phải dán giấy nhắc là đừng mở nắp mạnh vì nó sắp rời ra",
+      "định ra siêu thị mua tấm ngồi mới thay cho cái cũ gãy chốt, mà không biết chọn loại nào cho vừa"
+     ]
+    }
+   }
+  },
+  "water_pipe": {
+   "names": [
+    "ống PPR",
+    "ống nhựa Bình Minh",
+    "ống Tiền Phong",
+    "ống kẽm",
+    "ống PVC",
+    "ống âm tường",
+    "đường nước âm sàn",
+    "ống cấp nước",
+    "ống thoát nước",
+    "hệ thống nước trong nhà",
+    "ống nuớc",
+    "cái ống nước sau nhà"
+   ],
+   "vague": [
+    "hệ thống nước nhà em dạo này có chuyện",
+    "đường nước có vẻ trục trặc, anh coi giúp",
+    "dùng nước thấy không ổn lắm mà không rõ chỗ nào"
+   ],
+   "faults": {
+    "PIPE_JOINT_LEAK": {
+     "clear": [
+      "chỗ cút nối chữ T dưới gầm bếp cứ rịn từng giọt, đọng thành vệt gỉ xanh",
+      "đêm khuya nghe tách tách đều đều, soi đèn thấy giọt nước rơi từ chỗ ren nối xuống sàn",
+      "mối hàn nhiệt ống PPR chỗ co góc bị rỉ, khoá van tổng thì hết rịn",
+      "góc tường sau bếp ẩm mốc loang lổ, sờ vào mềm mủn, chắc ống đi ngầm bên trong bị hở con ạ",
+      "chỉ khi mở nước dùng thì chỗ đầu nối mới ri rỉ ra, khoá lại là khô dần",
+      "chân tường cứ ướt sũng như bị mưa hắt vào, dù tường đó ở hẳn trong nhà",
+      "hình như đầu nối chỗ đồng hồ nước bị hở, đất quanh đó cứ nhão nhoét suốt",
+      "đã quấn băng tan lại đầu ren rồi mà vài hôm sau vẫn thấy giọt nước đọng ở đó",
+      "trên trần thạch cao xuất hiện một mảng ố vàng hình tròn, to dần ra mỗi tuần",
+      "đầu nối dây mềm vào van khoá ở góc phòng tắm cứ ướt rượt, lau xong một lúc lại đọng giọt"
+     ],
+     "indirect": [
+      "đồng hồ nước vẫn nhích chậm ngay cả khi cả nhà khoá hết vòi đi ngủ",
+      "tủ gỗ kê sát tường bếp bị mục chân, mở ra thấy mốc trắng lan từ phía tường vào",
+      "giấy dán tường phòng ngủ phồng lên bong ra từng mảng ở đúng chỗ có ống đi ngầm"
+     ]
+    },
+    "PIPE_BURST": {
+     "clear": [
+      "nước bắn xối xả ra từ chân tường, lênh láng cả phòng khách, không biết khoá van tổng ở đâu, cứu em với",
+      "đang yên đang lành nghe toạc một tiếng, rồi nước xịt rào rào khắp gầm bếp",
+      "ống chính sau đồng hồ nứt dọc, nước xịt mạnh, áp cả nhà tụt hẳn",
+      "ra sân thấy nước sủi lên từ dưới nền xi măng, chảy thành dòng ra ngõ, ông bà hoảng quá",
+      "mới khoan tường treo tranh xong là nước xịt ra từ lỗ khoan, lấy tay bịt không nổi",
+      "nước từ trong tường bắn ra như ai mở vòi cứu hỏa, sàn ngập tới mắt cá",
+      "hình như đứt ống ngầm dưới sàn, gạch nền phồng lên và nước ộc lên từ khe gạch",
+      "vừa khoá van tổng thì nước ngưng bắn, mở lại là ống sau nhà xịt toé ra thành tia mạnh",
+      "trần tầng dưới võng xuống, nước đổ xuống thành dòng như thác, đèn điện chập chờn",
+      "ống nối lên bồn chứa trên mái bị bật ra, nước tuôn xối xả xuống cầu thang"
+     ],
+     "indirect": [
+      "bồn chứa trên mái vừa bơm đầy sáng nay giờ đã cạn sạch, dưới sân thì nước chảy thành suối",
+      "hàng xóm gọi điện báo nước tràn qua cửa nhà em ra cả ngõ trong lúc cả nhà đi làm",
+      "đồng hồ nước quay tít như chong chóng dù trong nhà tắt hết vòi"
+     ]
+    },
+    "PIPE_CLOGGED": {
+     "clear": [
+      "tắm xong nước xuống phễu thoát sàn cứ kêu òng ọc, sủi bọt rồi ứ lại quanh chân",
+      "nước đứng lại ở sàn phòng tắm, cùng lúc phễu thoát ngoài ban công và dưới bếp cũng rút rất lâu",
+      "ống thoát chính từ các tầng xuống hố ga bị nghẹt, tầng trên xả xuống là phễu tầng dưới sủi lên",
+      "giặt đồ ngoài sân, xả nước ra là cứ ứ ở rãnh không chảy đi, bốc mùi thối, bà già rồi không thông nổi",
+      "cứ mưa to là nước từ phễu thoát sân trào lại vào nhà, mấy năm trước không bị",
+      "nước xuống cống chậm như đổ qua cái phễu bị nhét giẻ, đứng tắm mà nước ngập mu bàn chân",
+      "hình như tóc với xà phòng bám kín bên trong, nước ở phòng tắm rút từ từ, bốc mùi hôi",
+      "đã đổ cả chai nước thông tắc, thuê người chọc lò xo mà mấy hôm sau nước lại đọng",
+      "mở nắp hố ga thấy đầy cặn mỡ với rác, nước đen ngòm dâng sát miệng ống",
+      "giặt máy xong là nước xà phòng sủi lên từ lỗ thoát sàn phòng tắm, lênh láng cả lối đi"
+     ],
+     "indirect": [
+      "cả nhà phải tắm thật nhanh vì đứng lâu là nước dưới chân dâng lên ngập mắt cá",
+      "mấy hôm nay ruồi muỗi bay ra từ lỗ thoát sàn nhiều bất thường, cả phòng tắm lẫn bếp đều có mùi cống",
+      "quán ăn nhà em cuối ngày rửa dọn là nước lênh láng ra tận cửa vì ống ra cống không thoát kịp"
+     ]
+    },
+    "PIPE_LOW_PRESSURE": {
+     "clear": [
+      "chỗ nào trong nhà cũng ra lèo tèo, từ bếp, phòng tắm đến ngoài sân đều yếu như nhau",
+      "tối đến mở rửa bát thì nước chỉ chảy ri rỉ, sáng sớm thì lại mạnh, người già chờ mỏi tay",
+      "đo áp đầu vào sau đồng hồ chỉ còn khoảng 0,5 bar, tất cả các điểm dùng đều yếu",
+      "cứ tầm sáu bảy giờ tối là cả nhà vặn chỗ nào cũng thều thào, khuya mới khá lên",
+      "chảy yếu hơn hẳn nhà hàng xóm cùng dãy, dù chung một nguồn cấp",
+      "mở ra chỉ nghe khò khè có hơi, nước ra từng đợt yếu xìu ở mọi chỗ trong nhà",
+      "không biết do máy bơm hay do ống mà tầng hai tầng ba mở chỗ nào nước cũng lí nhí",
+      "đã thay đầu sen, vệ sinh hết lưới lọc ở các vòi rồi mà cả nhà vẫn yếu như cũ",
+      "bồn chứa trên mái gần cạn, mở phao cả buổi mà nguồn cấp chảy vào chỉ một dòng bé",
+      "tắm gội phải đứng sát đầu sen, máy giặt thì báo lỗi thiếu nước, rửa bát cũng phải chờ"
+     ],
+     "indirect": [
+      "máy giặt cứ báo lỗi cấp nước, cả nhà phải trữ sẵn nước vào xô để dùng dần",
+      "nhà mới xây thêm tầng ba mà trên đó gần như không dùng được nước, phải xách từ dưới lên",
+      "rửa bát buổi tối mất gấp đôi thời gian, tắm gội cũng lâu, cả nhà than mà chẳng chỗ nào khá hơn"
+     ]
+    },
+    "PIPE_NOISY": {
+     "clear": [
+      "tắt nước ở bếp thật nhanh là trong tường dội lên một tiếng cạch thật to, như ai lấy búa đập",
+      "lúc máy giặt ngắt cấp nước là ống trong tường giật thình thịch mấy nhịp",
+      "hiện tượng búa nước, đóng van nhanh thì áp tăng đột ngột làm ống giật mạnh, chắc thiếu bộ giảm chấn",
+      "đêm khuya ai đi vệ sinh xong là nghe trong vách rầm rầm, người già như bà giật cả mình",
+      "nghe như có người cầm búa gõ vào ống mỗi lần đầu sen tắt",
+      "hình như ống bị lỏng kẹp, mở to ra là thấy đoạn ống dưới gầm bếp lắc lư rần rần",
+      "đã thử đóng từ từ thì đỡ, chứ gạt tắt cái rụp là ống trong tường kêu cộc một phát",
+      "ống nhựa chạy nổi trên tường cứ giật nảy lên mỗi khi ai tắt nước trên lầu",
+      "máy bơm tự ngắt là cả nhà vang lên tiếng uỳnh uỵch trong tường nghe rất ghê",
+      "từ hồi thay tay gạt mới, cứ gạt tắt là có tiếng thình trong tường, nước vẫn chảy bình thường"
+     ],
+     "indirect": [
+      "hàng xóm sát vách phàn nàn đêm nào cũng nghe tiếng thình thịch phát ra từ phía tường giáp nhà em mỗi lần bên này tắm xong",
+      "mấy mối nối lộ thiên cứ vài tháng lại lỏng ra, vữa quanh chỗ ống xuyên tường nứt rạn",
+      "em bé đang ngủ trưa cứ giật mình khóc mỗi khi có người dưới bếp tắt nước"
+     ]
+    },
+    "PIPE_RUSTY_WATER": {
+     "clear": [
+      "hứng ra cốc để một lúc thấy lắng xuống lớp cặn nâu đỏ như gỉ sét",
+      "ngửi hăng hắc mùi kim loại như cầm đồng xu lâu trong tay",
+      "ống kẽm dùng ba chục năm rồi, sáng mở ra nước vàng sậm như nước chè con ạ",
+      "ống thép tráng kẽm cũ bị ăn mòn trong lòng, cặn oxit sắt theo nước ra, nhất là sau khi cúp nước",
+      "sáng sớm xả mấy phút đầu nước nâu như nước cống, để chảy một lúc mới trong",
+      "chảy ra trông như nước mưa đọng trên mái tôn gỉ, đổ vào chậu trắng thấy rõ màu",
+      "hình như ống bị gỉ, nước tắm làm da ngứa, đồ sứ trắng loang vệt cam",
+      "đã lắp lõi lọc ở đầu ra mà chỉ vài hôm là lõi chuyển màu nâu đỏ",
+      "pha mì xong nước hơi nâu, uống thấy chát chát vị sắt",
+      "sau trận cúp nước hôm qua, có lại thì nước lẫn hạt li ti màu đen đỏ"
+     ],
+     "indirect": [
+      "đồ sứ trong phòng vệ sinh đều bị loang vệt gỉ nâu chỗ nước chảy qua, cọ mãi không sạch",
+      "quần áo màu sáng giặt xong cứ lấm tấm vết vàng nâu, mẹ em tưởng do bột giặt",
+      "lõi lọc của máy lọc nước mới thay tháng trước giờ đã đỏ quạch, phải thay liên tục"
+     ]
+    }
+   }
+  },
+  "sink": {
+   "names": [
+    "chậu inox trong bếp",
+    "chậu rửa Konox",
+    "chậu rửa Hafele",
+    "lavabo Inax",
+    "chậu sứ rửa mặt",
+    "bồn rửa hai hố",
+    "sink",
+    "la va bô",
+    "lababo",
+    "bồn rửa tay",
+    "bồn rửa rau",
+    "cái chậu âm bàn đá"
+   ],
+   "vague": [
+    "dạo này dùng cứ thấy sao sao",
+    "có vẻ có vấn đề mà chưa rõ chỗ nào",
+    "rửa chén thấy không ổn lắm"
+   ],
+   "faults": {
+    "SINK_CLOGGED": {
+     "clear": [
+      "xả nước rửa rau xuống thì nghe ục ục trong lỗ, nước xoay vòng rồi đứng lại",
+      "rửa xong nồi niêu, nước mỡ đứng nguyên trong chậu cả tiếng sau mới vơi, cứ thế mấy hôm nay rồi con ạ",
+      "chắc ống xi phông với đoạn ống ngang bị mỡ đông bám kín, nước qua được rất ít",
+      "sau bữa giỗ rửa cả đống chén đĩa, từ đó nước cứ ngập lưng chậu mới chịu rút từ từ",
+      "nước xuống lỗ chậm như rót qua miệng chai, đầy lên gần tới mép chậu",
+      "hình như tóc với kem đánh răng bám ở lỗ xả, rửa mặt xong nước đứng lại ngập đáy",
+      "đã dùng cây thụt cao su với đổ baking soda giấm rồi mà nước vẫn ứ lại không chịu đi",
+      "trong chậu lúc nào cũng có một vũng nước đục lẫn vụn thức ăn nằm im, không vơi đi",
+      "đánh răng thôi mà bọt với nước cứ đọng lại đầy, phải lấy tay móc lỗ xả mới chịu xuống",
+      "bên hố này xả nước là nước sủi lên ở hố bên kia, cả hai bên đều ứ đầy"
+     ],
+     "indirect": [
+      "từ tối qua cả nhà phải bê chén bát ra sân rửa bằng thau, vì nước trong chậu bếp vẫn đứng nguyên",
+      "tối nào cũng phải lấy gáo múc nước bẩn trong chậu ra đổ vào nhà vệ sinh",
+      "quán nhà em đông khách mà rửa chén không kịp vì phải chờ nước trong chậu vơi bớt mới rửa tiếp được"
+     ]
+    },
+    "SINK_TRAP_LEAK": {
+     "clear": [
+      "cứ xả nước trong chậu xuống là bên dưới có nước bẩn nhỏ tong tong, không xả thì khô",
+      "chỗ ren nối của cái ống chữ U bên dưới rịn nước đục lẫn dầu mỡ, nhỏ xuống thau hứng",
+      "phải để cái chậu nhựa hứng ở dưới, rửa xong là đầy nửa chậu nước bẩn, lom khom đổ mỏi lưng lắm",
+      "gioăng côn ở đai ốc xi phông bị lão hóa, xả mạnh là nước thải rò ra ở khớp ren",
+      "đổ nồi nước luộc rau xuống là nghe lộp độp phía trong cánh tủ, mở ra thấy nước đang nhỏ",
+      "đoạn ống nhựa phía dưới chảy như cái phễu thủng mỗi khi đổ nước xuống chậu",
+      "hình như ống xả dưới bị lỏng, nước rửa chén chảy ra theo ống rồi rớt xuống ván tủ",
+      "đã quấn băng keo quanh ống xả dưới chậu rồi mà đổ nước sôi là bung keo, nước lại rỉ",
+      "trong cánh tủ phía dưới bốc mùi nước rửa chén thiu, ván gỗ đen sì chỗ ống xả đi qua",
+      "lần nào xả nước là thùng rác để bên dưới ướt nhẹp nước bẩn"
+     ],
+     "indirect": [
+      "chai nước rửa chén với mấy túi đồ khô để trong tủ phía dưới bị ướt sũng nước bẩn có mùi thức ăn",
+      "gián với kiến kéo về ở trong tủ bếp phía dưới chậu, sàn tủ lúc nào cũng nhớp nháp nước rửa bát",
+      "ván gỗ đáy tủ dưới chậu mục mủn ra, đúng chỗ ngay dưới ống xả nước thải"
+     ]
+    },
+    "SINK_SMELL": {
+     "clear": [
+      "đi du lịch hai tuần về, vừa mở cửa đã ngửi thấy mùi trứng thối xộc ra từ lỗ xả",
+      "nước vẫn chảy xuống nhanh, nhưng lúc nào cũng phảng phất mùi cống, đặt chanh lên cũng không đỡ con ạ",
+      "ống xả dưới chậu là ống ruột gà thẳng, không có đoạn cong giữ nước nên hơi cống bay ngược lên",
+      "mỗi lần nước xả qua nghe ọc một tiếng rồi phả lên một luồng hơi thum thủm, dù nước vẫn trôi nhanh",
+      "đứng rửa chén mà cứ như đứng cạnh miệng cống ngoài đường, dù nước thoát vẫn nhanh",
+      "không biết có phải do lâu không dùng không mà giờ cứ bốc mùi khai khai, nước thì vẫn rút bình thường",
+      "đã đổ nước tẩy, cọ sạch cả lỗ xả lẫn giỏ rác mà mùi hôi vẫn bốc lên đều đều",
+      "nhìn xuống lỗ xả chẳng thấy rác gì, nước trôi êm, mà ghé mũi gần là hôi nồng",
+      "nấu ăn xong cả căn bếp thoảng mùi như nước thải, lần theo thì ra từ cái lỗ xả trong chậu",
+      "để trong phòng ngủ mà ít dùng, sáng dậy cả phòng hôi mùi cống"
+     ],
+     "indirect": [
+      "khách tới nhà ngồi ăn cứ hỏi có chuột chết ở đâu không, mùi bay ra từ góc bếp",
+      "ruồi giấm bu quanh miệng xả suốt dù nước vẫn trôi bình thường",
+      "mới dọn vào ở, cả nhà ai cũng than buồn nôn mỗi lần vào bếp, trong khi nước trong chậu xả vẫn nhanh"
+     ]
+    },
+    "SINK_DRAIN_CORRODED": {
+     "clear": [
+      "cái rọ chặn rác bằng inox ở miệng xả đã gỉ nâu lấm tấm, lưới mủn thủng mấy lỗ",
+      "dùng hơn chục năm, quanh cái nắp xả ố vàng gỉ sét, cọ kiểu gì cũng không sáng lại",
+      "mặt bích của bộ xả bị ăn mòn, gioăng cao su dưới mép đã chai cứng nên nước thấm theo mép xuống dưới",
+      "dạo gần đây mỗi lần ngâm nước đầy chậu là thấy nước rịn ra ngay phía dưới miệng xả, chỗ sát đáy chậu",
+      "cái giỏ đựng rác ở miệng xả giờ mỏng như tờ giấy, chọc nhẹ là thủng, gỉ đỏ như sắt vụn",
+      "hình như bộ xả bị gỉ hỏng, cái nắp đậy lỗ xả lắc lư, xoay mãi không khít",
+      "đã ngâm giấm chà cái phễu xả mà vết gỉ vẫn ăn sâu, mép inox rỗ cả lên",
+      "chỗ miệng xả có mùi tanh sắt, mấy vệt gỉ màu cam loang ra quanh viền",
+      "cái nút chặn nước bằng kim loại bị gỉ kẹt cứng, viền quanh lỗ thì mục rỗ nhìn rất bẩn",
+      "mặt dưới chậu chỗ ốc siết bộ xả bị gỉ ăn thủng, giọt nước nâu nâu nhỏ xuống"
+     ],
+     "indirect": [
+      "nồi inox để ráo trong chậu qua đêm sáng ra dính vệt gỉ nâu ở đáy, đúng chỗ đặt gần miệng xả",
+      "rác vụn với hạt cơm lọt hết xuống ống vì cái rổ hứng rác bị gỉ thủng mấy chỗ",
+      "chủ nhà cũ để lại cái chậu inox giá rẻ, giờ khu quanh miệng xả lốm đốm gỉ như da báo, mời khách vào bếp em ngại"
+     ]
+    }
+   }
+  },
+  "faucet": {
+   "names": [
+    "vòi Toto",
+    "vòi Inax",
+    "vòi Grohe",
+    "vòi lavabo",
+    "vòi bếp",
+    "vòi nóng lạnh",
+    "vòi gạt",
+    "vòi hoa sen",
+    "củ sen",
+    "vòi tắm",
+    "vòi nưóc",
+    "vòi cổ ngỗng"
+   ],
+   "vague": [
+    "dạo này hơi trục trặc",
+    "dùng thấy không ổn lắm, anh qua coi được không",
+    "có vấn đề gì đó mà em không tả được"
+   ],
+   "faults": {
+    "FAUCET_DRIP": {
+     "clear": [
+      "đêm nằm nghe tóc tóc đều đều, giọt nước cứ rơi từ đầu ra xuống chậu dù tay vặn đã khoá kín",
+      "loại vặn tay kiểu cũ, vặn tới mức đau cả cổ tay mà miệng vẫn rớt từng giọt con ạ",
+      "chắc cái ron cao su ở đầu trục đã mòn, đóng hết mà nước vẫn lọt qua thành giọt ở miệng",
+      "lúc mới lắp đóng nhẹ là kín, giờ phải xiết thật mạnh mà mấy phút sau vẫn rơi một giọt",
+      "nước rơi đều như kim đồng hồ nhích, cứ vài giây một giọt dù đã đóng",
+      "hình như hỏng cái gioăng bên trong, khoá xong vẫn còn một dòng mảnh như sợi chỉ chảy xuống",
+      "đã thay cái ron mới mua ngoài tiệm rồi mà được vài tuần lại rỉ ở miệng như cũ",
+      "sáng nào cũng thấy trong chậu có vệt cặn vàng ngay chỗ giọt nước rơi từ đầu ra xuống",
+      "đóng rồi mà đầu ra vẫn thánh thót từng giọt, để cái ca hứng qua đêm là đầy",
+      "ngoài sân tay vặn đã khoá mà giọt nước cứ rơi lã chã, rêu mọc cả một khoảng bên dưới"
+     ],
+     "indirect": [
+      "thùng hứng nước đặt dưới chỗ ngoài sân sáng nào cũng đầy dù không ai mở dùng",
+      "lòng chậu sứ có một vệt ố vàng ngay dưới miệng ra nước, cọ hoài vẫn quay lại",
+      "cả tháng chẳng dùng mấy mà đồng hồ nước vẫn nhích, cái tay vặn ở sân sau thì chẳng bao giờ khô miệng"
+     ]
+    },
+    "FAUCET_CARTRIDGE": {
+     "clear": [
+      "kéo cần lên nghe rột rột khô khốc như có cát bên trong, phải dùng cả hai tay",
+      "cái tay gạt nặng trịch, người già yếu tay phải lấy khăn quấn vào mới kéo lên nổi",
+      "lõi đĩa sứ trong bộ trộn bị mòn hoặc kẹt cặn, xoay trái phải mà nhiệt độ không đổi",
+      "từ hôm cúp nước có lại thì cần gạt kẹt ở giữa, xoay qua bên đỏ không nhúc nhích",
+      "gạt sang bên đỏ hay bên xanh thì nước vẫn âm ấm như nhau, chẳng khác gì loại chỉ có một đường",
+      "hình như hỏng cái lõi bên trong, cần gạt lỏng lẻo lắc qua lắc lại mà nhiệt độ nước chẳng thay đổi gì",
+      "đã kiểm tra bình đun vẫn nóng tốt, nhưng xoay tay gạt về phía đỏ thì đầu ra vẫn mát lạnh như thường",
+      "tay gạt bị lệch, kéo lên chỉ được nửa đường là cứng lại, nước ra một phía mạnh một phía rất yếu",
+      "đang tắm xoay nhẹ một chút là nước từ mát chuyển sang bỏng rát, không có mức ở giữa",
+      "xoay về phía chữ H màu đỏ thì ra lạnh, về phía xanh lại ra ấm, như bị đảo hai đường"
+     ],
+     "indirect": [
+      "con em nhỏ không tự mở được nước rửa tay nữa vì tay gạt nặng quá, cứ phải gọi người lớn",
+      "đã hai lần bị phỏng khi tắm vì xoay một tí là nhiệt độ thay đổi đột ngột, giờ ai tắm cũng phải chỉnh rất lâu",
+      "mới thay bình đun mới tinh mà vẫn tắm lạnh, thợ kiểm tra bảo bình chạy tốt, lỗi nằm ở chỗ cần trộn"
+     ]
+    },
+    "FAUCET_LOW_FLOW": {
+     "clear": [
+      "các chỗ khác trong nhà nước vẫn mạnh, riêng cái này dòng ra lí nhí bằng cái ống hút",
+      "đầu lưới ở miệng ra bị cặn trắng bám kín, dòng nước bắn xiên xẹo sang một bên",
+      "chắc tắc cái đầu sủi bọt ở miệng, tháo ra thấy toàn cát với vụn cặn, các chỗ khác vẫn bình thường",
+      "rửa rau mất cả buổi vì nước nhỏ như sợi bún, ngoài sân thì vẫn ào ào con ạ",
+      "từ hôm thay đồng hồ nước, cặn theo về thì riêng chỗ bếp ra lèo tèo, chỗ khác vẫn ổn",
+      "đầu sen lỗ thì tắc lỗ thì ra, tia nước tỏa lung tung như bình tưới cây hỏng",
+      "không biết có phải nghẹt lưới lọc không mà mở hết cỡ dòng ra cũng chỉ bằng ngón tay út",
+      "đã tháo cái đầu lọc ở miệng ra thì nước chảy mạnh lại ngay, lắp vào là yếu xìu",
+      "mở ra nghe xè xè rất mạnh mà nước rơi xuống chỉ lưa thưa vài dòng",
+      "đầu sen cầm tay giờ chỉ có mấy tia ở rìa, chính giữa tịt hết, mấy phòng khác vẫn khỏe"
+     ],
+     "indirect": [
+      "rửa một rổ rau mà lâu gấp ba so với ngoài sân, dù cùng một đường nước",
+      "đầu sen bị vôi trắng bám lổn nhổn, mỗi lần gội đầu xong tóc vẫn còn bọt dầu gội",
+      "nhà dùng nước giếng nên tháng nào cũng phải tháo cái lưới ở miệng ra gõ cặn, không thì dòng nước nhỏ dần"
+     ]
+    },
+    "FAUCET_BASE_LEAK": {
+     "clear": [
+      "mỗi lần mở nước là nước ứa ra ngay chỗ thân tiếp giáp với mặt đá, lan thành vũng",
+      "dây mềm inox nối từ van góc lên bị rỉ ở đầu xiết, kể cả khi không mở nước vẫn rịn",
+      "cái thân lắc qua lắc lại mỗi lần gạt, nước chui ra từ khe dưới đế, người già lau mãi mỏi tay",
+      "cái dây cấp mềm dưới chậu phình to như quả trứng, sợ nó nổ tung ra lắm",
+      "đóng nước thì khô, cứ mở ra dùng là nước rỉ theo cổ xuống tụ quanh đế",
+      "quanh đế lúc nào cũng có vũng nước như ai vừa làm đổ cốc, lau xong mở nước dùng một lúc lại có",
+      "hình như con ốc giữ bên dưới bị lỏng, thân xoay được cả vòng, nước theo khe chảy xuống dưới chậu",
+      "đã siết lại đai ốc dưới gầm mà dây mềm vẫn rịn nước ở chỗ nối van khoá góc, dù không ai xả nước",
+      "dưới gầm cứ nghe tí tách dù cả buổi không ai xả nước xuống chậu, soi đèn thấy giọt rơi từ ống mềm cấp",
+      "rửa tay xong thấy nước đọng thành vũng sau lưng đế, thấm cả vào khe tường"
+     ],
+     "indirect": [
+      "mặt đá bếp quanh chỗ lắp bị ố đen một vòng, mép silicon bong ra mốc meo",
+      "đi vắng cả tuần về mở tủ dưới chậu thấy cái thau hứng đầy nước trong, dù trong thời gian đó không ai xả nước xuống",
+      "mảng tường ngay sau chỗ lắp ố vàng và bong sơn, nước thấm từ đế ra sau lưng"
+     ]
+    }
+   }
+  },
+  "microwave_oven": {
+   "names": [
+    "lò Sharp hâm đồ ăn",
+    "cái lò hâm Toshiba",
+    "lò Sanyo quay quay",
+    "lò hâm Midea",
+    "cái Panasonic hâm sữa",
+    "lò hâm nóng thức ăn",
+    "lò hâm cơm",
+    "lò viba",
+    "lò vi xóng",
+    "lò vy sóng",
+    "lò sóng hâm đồ",
+    "cái hộp hâm đồ có đĩa xoay"
+   ],
+   "vague": [
+    "cái lò dạo này hơi lạ",
+    "dùng thấy không được như hồi mới mua",
+    "hình như có vấn đề gì đó, em không rõ lắm"
+   ],
+   "faults": {
+    "MW_MAGNETRON": {
+     "clear": [
+      "hâm bát canh cho thằng cháu ba phút, đèn sáng, đĩa xoay đều mà bưng ra vẫn nguội y nguyên, cháu ạ",
+      "bỏ hộp cơm vào quay ba phút lấy ra vẫn lạnh tanh như mới lấy trong tủ lạnh",
+      "quạt, đèn, đĩa đều chạy đủ, nghe biến áp ù ù mà cốc nước để hai phút không ấm lên tí nào",
+      "kêu vù vù như mọi khi, đĩa vẫn xoay vòng vòng nhưng bát cháo lấy ra nguội ngắt",
+      "từ hôm qua tới giờ hâm gì cũng thế, để năm phút mà cái bánh bao ở giữa vẫn còn cứng lạnh",
+      "trước bỏ cốc sữa vào một phút là ấm, giờ để ba bốn phút sữa vẫn nguội như chưa hâm",
+      "hình như không ra hơi nóng, đĩa xoay, đèn sáng đủ cả mà thức ăn cứ nguội nguyên",
+      "em đã đổi sang ổ cắm khác, chỉnh lên mức cao nhất rồi mà hâm cơm vẫn nguội, chỉ có cái đĩa quay thôi",
+      "nhìn vào thấy đĩa quay, đèn vàng vẫn sáng như thường, nhưng bát canh để lâu mà không bốc tí hơi nào",
+      "chạy hết giờ kêu tít tít báo xong mà sờ vào hộp thức ăn thấy nguội như lúc bỏ vào"
+     ],
+     "indirect": [
+      "tối nào em cũng phải bê đồ ăn ra nồi hâm lại vì cho vào đó chẳng nóng lên được",
+      "con em pha sữa đêm phải chờ đun nước lại vì hâm trong đó bình sữa cứ nguội nguyên",
+      "hâm cái pizza đông lạnh ba lần liền mà nhân ở giữa vẫn còn đá"
+     ]
+    },
+    "MW_DOOR_SWITCH": {
+     "clear": [
+      "đồng hồ vẫn hiện số mà bấm bắt đầu nó cứ đứng im, bác phải lấy tay giữ chặt cánh cửa thì nó mới quay",
+      "khép cánh lại bấm start là im ru, mở ra đóng sập mạnh vài lần mới chịu chạy",
+      "em đo thử thì cái công tắc hành trình ở chốt khóa lúc thông lúc không, đóng cửa máy không nhận",
+      "đóng cửa không còn nghe tiếng cạch dứt khoát, màn hình sáng mà bấm chạy thì không động tĩnh gì",
+      "đang hâm được nửa chừng mà ai đi qua chạm nhẹ vào cánh là nó ngưng ngay",
+      "hồi trước khép nhẹ là chạy, giờ phải đóng thật mạnh, đóng nhẹ thì bấm mấy cũng không chịu",
+      "không biết có phải do cái móc cài cửa không, màn hình vẫn hiện số mà bấm chạy chẳng có gì xảy ra",
+      "em rút điện cắm lại, lau sạch mép cửa rồi mà vẫn phải đè tay lên cánh nó mới hoạt động",
+      "nhìn thì thấy cái ngàm nhựa ở mép cửa mẻ mất một miếng, đóng vào cứ hở hở không ăn khớp",
+      "màn hình hiện chữ door dù em đã đóng kín cửa"
+     ],
+     "indirect": [
+      "mỗi lần hâm sữa cho con em phải đứng cạnh giữ cánh cửa suốt cả phút",
+      "nhà em giờ phải chèn cái khăn vào khe cho chặt thì mới dùng được",
+      "hâm cơm xong quay lại thấy chưa chạy giây nào, đóng mở cánh ba bốn lượt mới vào"
+     ]
+    },
+    "MW_TURNTABLE_MOTOR": {
+     "clear": [
+      "cái dĩa thủy tinh bên trong cứ nằm yên một chỗ, hâm vẫn nóng nhưng chỗ nóng chỗ nguội, cháu ạ",
+      "hâm đồ vẫn nóng nhưng cái đĩa không chịu xoay vòng, phải tự mở ra xoay hộ",
+      "em nghĩ cái mô tơ đồng bộ dưới đáy chết rồi, khớp chữ thập ở giữa không còn quay",
+      "lúc chạy cái đĩa kêu cọt kẹt cọt kẹt rồi đứng khựng lại, chạy tiếp lại khựng",
+      "mấy giây đầu đĩa còn nhích được một tí, sau đó đứng luôn cho tới hết giờ",
+      "trước đĩa xoay êm ru, giờ nó nhúc nhích lúc được lúc không, như bị ai giữ lại",
+      "hình như cái trục giữa bị mòn, đặt đĩa vào nó cứ trượt chứ không ăn khớp để xoay",
+      "em đã nhấc đĩa ra lau, kê lại vòng bánh lăn cho ngay mà bật lên đĩa vẫn không nhúc nhích",
+      "nhìn qua cửa kính thấy bát canh cứ đứng một chỗ, chỉ có đèn sáng với nóng thôi",
+      "đặt bát hơi nặng lên là cái đĩa không xoay nổi, bát nhẹ thì xoay chậm rì rì"
+     ],
+     "indirect": [
+      "hâm bát cơm ra một nửa nóng bỏng, một nửa còn lạnh, lần nào cũng thế",
+      "giờ cứ hâm được một phút em lại phải mở ra xoay cái bát một vòng rồi hâm tiếp",
+      "rã đông miếng thịt thì một góc chín trắng còn góc kia vẫn đông cứng"
+     ]
+    },
+    "MW_SPARKING": {
+     "clear": [
+      "vừa bấm hâm thì thấy chớp sáng xanh lè bên trong, nghe lốp bốp, bác sợ quá rút phích ngay",
+      "đang hâm cơm thì bên trong lóe lên mấy tia sáng xanh tím, kêu tách tách nghe rợn người",
+      "tấm mica che ống dẫn sóng bên hông bị cháy thủng một lỗ, bật lên là phóng điện ngay chỗ đó",
+      "bật lên một cái là nghe xè xè lụp bụp, có chấm sáng nhảy nhót ở vách bên phải",
+      "chạy được chừng mười giây là bắt đầu có ánh chớp ở góc vách, em tắt vội",
+      "nhìn vào như có ai bật bật lửa ở trong, chớp liên hồi kèm mùi khét",
+      "không biết có phải do em để quên cái thìa inox không, mà giờ bỏ ra rồi vẫn thấy xẹt sáng",
+      "em đã lau sạch dầu mỡ bám vách rồi mà bật lên vẫn có đốm lửa nhỏ chạy dọc vách, khét lắm",
+      "có mùi khét như nhựa cháy, mở cửa ra thấy vách bên hông có vệt đen xém và khói mỏng",
+      "đặt bát sứ có viền vàng vào thì bùng sáng, giờ bỏ ra rồi lần nào bật cũng thấy lóe ở cùng một chỗ"
+     ],
+     "indirect": [
+      "cái tấm bìa mỏng ở vách bên trong giờ thủng lỗ đen thui, em không dám dùng nữa",
+      "cả nhà sợ quá không ai dám đứng gần lúc hâm, bật xong là chạy ra xa",
+      "hâm bát canh xong thấy vách bên trong lấm tấm vết cháy sém, mùi khét bám cả vào đồ ăn"
+     ]
+    },
+    "MW_NO_POWER": {
+     "clear": [
+      "sáng nay cắm phích vào mà đồng hồ không hiện số, đèn đóm gì cũng tắt hết, bác chịu không biết làm sao",
+      "cắm vào ổ nào cũng tối om, không hiện giờ, không bíp tiếng nào luôn",
+      "em mở nắp sau đo thì cầu chì ống thủy tinh bên trong đen kịt, chắc chập đâu đó",
+      "vừa cắm phích nghe đánh tạch một tiếng ở ổ điện rồi tối thui, không lên lại",
+      "đang hâm dở thì phụt tắt, từ lúc đó tới giờ không lên lại nữa",
+      "ổ đó cắm nồi cơm vẫn chạy, chuyển sang cắm nó thì không sáng đèn nào",
+      "hình như bị chuột cắn dây hay sao ấy, cắm vào chẳng sáng lên chút nào",
+      "em thử đổi ổ cắm, đổi cả dây nối rồi mà mặt hiển thị vẫn đen, không bấm được gì",
+      "cứ cắm vào là cầu dao tổng sập, cả nhà mất điện, em sợ không dám cắm nữa",
+      "hôm trước sét đánh gần nhà, từ đó tới giờ không lên đèn, không hiện số"
+     ],
+     "indirect": [
+      "từ hôm qua nhà em phải đem cơm sang hàng xóm nhờ hâm vì cắm vào nó không có tí đèn nào",
+      "lần nào em cắm nó vào là cả dãy ổ cắm trong bếp mất điện theo",
+      "trên kệ có mỗi nó là không hiện giờ, mấy đồ khác cắm cùng ổ vẫn chạy bình thường"
+     ]
+    },
+    "MW_FAN_NOISY": {
+     "clear": [
+      "chạy lên là rè rè như xe máy cũ, bác đứng cạnh mà điếc cả tai",
+      "bật lên là có tiếng ro ro rất to phía sau, nghe như quạt bị cọ cánh",
+      "quạt làm mát phía sau quay rít, cánh chạm vỏ, khe thoát gió bám đầy bụi dầu nên vỏ hầm nóng",
+      "kêu u u rồi rít ken két từ phía lưng máy, không phải tiếng đĩa xoay đâu",
+      "dùng chừng năm phút là thành bên cạnh nóng hầm hập, rồi nó tự ngưng, để nguội mới chạy lại",
+      "hồi mới mua chạy êm, giờ ồn gấp mấy lần, cứ như cái máy xay sinh tố",
+      "không biết có phải quạt bên trong bị khô dầu không, tiếng vù vù to lắm mà mặt trên sờ thấy nóng",
+      "em đã kê cách tường ra cho thoáng mà phía sau vẫn rít liên tục, mặt nóc nóng ran",
+      "chạy được một lúc thì phảng phất mùi như nhựa nóng ở phía sau, đặt tay vào khe thổi không thấy hơi",
+      "hâm xong tắt rồi mà phía sau vẫn ù ù một lúc lâu, nóc máy nóng như hòn than"
+     ],
+     "indirect": [
+      "tủ bếp phía trên chỗ đặt nó bị nóng tới mức sơn phồng lên",
+      "mỗi lần hâm đồ là cả nhà phải nói to lên mới nghe nhau được, ti vi cũng phải vặn lớn",
+      "con mèo hay nằm trên nóc giờ không dám nằm vì lần nào bật lên cũng ồn và nóng ran"
+     ]
+    }
+   }
+  },
+  "gas_stove": {
+   "names": [
+    "bếp Rinnai",
+    "bếp Paloma",
+    "bếp Namilux",
+    "bếp Taka",
+    "bếp Giovani",
+    "bếp gaz",
+    "bếp gát",
+    "bếp khí đốt",
+    "bếp dùng bình khí",
+    "bếp du lịch",
+    "cái bếp hai lò vặn núm",
+    "bếp lửa đun bằng bình"
+   ],
+   "vague": [
+    "dạo này nấu cứ sao sao ấy",
+    "dùng không yên tâm lắm",
+    "hình như có gì đó không ổn mà em không tả được"
+   ],
+   "faults": {
+    "STOVE_IGNITER": {
+     "clear": [
+      "vặn núm mà chẳng thấy tia lửa điện nào bắn ra, bác phải cầm bật lửa châm thì mới bén",
+      "vặn cả chục lần mới bén được một lần, mà tia điện nhìn yếu xìu",
+      "kim mồi cạnh đầu đốt không phóng tia, em nghi pin hết hoặc cục IC kích điện hỏng",
+      "vặn thì nghe lách cách lách cách đều đều nhưng ngọn lửa không bắt",
+      "từ hôm làm đổ nồi canh tràn lên mặt bếp, vặn núm không còn ra tia điện nữa",
+      "lò bên phải vặn phát ăn ngay, lò bên trái vặn mỏi tay mới bén",
+      "hình như cục kích điện có vấn đề, vặn mà tiếng đánh nghe rè rè, tia điện bé tí không bén",
+      "em đã thay đôi pin mới, lau khô kim mồi mà vẫn phải dùng bật lửa châm",
+      "tắt rồi mà cái kim cạnh họng vẫn nháy tia xanh lách tách mãi không thôi",
+      "nhìn kỹ thì thấy cái que sứ cạnh đầu đốt bị nứt, vặn núm không thấy tia điện chạy qua"
+     ],
+     "indirect": [
+      "nhà em giờ lúc nào cũng phải để cái bật lửa ngay cạnh mới nấu được",
+      "mỗi sáng nấu ăn em phải vặn đi vặn lại cả phút mới bén được một lần",
+      "mua cả hộp que diêm để châm vì vặn núm không còn ăn nữa"
+     ]
+    },
+    "STOVE_BURNER_CLOGGED": {
+     "clear": [
+      "ngọn lửa ngả màu da cam, cháy le lói, nồi nào bắc lên đáy cũng đen sì muội, cháu ạ",
+      "lửa toàn màu vàng cam chứ không còn xanh lè như lúc mới mua",
+      "mấy lỗ trên chụp chia lửa bị bít cặn thức ăn, chỉ vài lỗ ra lửa, lửa vàng và bám muội",
+      "lửa cháy phừng phừng lẻ tẻ, có lỗ phụt to có lỗ không ra, nghe bụp bụp nhỏ",
+      "từ hôm nồi cháo trào ra tràn xuống họng thì lửa chỉ ra được nửa vòng",
+      "trước đun ấm nước năm phút là sôi, giờ mười lăm phút mà lửa vẫn đỏ quạch le lét",
+      "không biết có phải bẩn đầu đốt không, lửa chập chờn màu cam, vòng lửa bị khuyết mất một khúc",
+      "em đã thay bình mới mà lửa vẫn vàng đục, chỉ bên này bị, bên kia vẫn xanh",
+      "đáy chảo đen kịt muội than, lửa bốc lên ngọn vàng, khói hơi cay mắt",
+      "vòng lửa không tròn đều nữa, chỗ cao chỗ thấp, có khúc tắt hẳn"
+     ],
+     "indirect": [
+      "tuần nào em cũng phải chà đáy xoong vì bám đen nhẻm",
+      "luộc rổ rau mà cả nửa tiếng nước mới lăn tăn, gas thì vẫn hao như cũ",
+      "trần nhà phía trên chỗ nấu bắt đầu ố đen vì muội bay lên mỗi bữa"
+     ]
+    },
+    "STOVE_GAS_LEAK": {
+     "clear": [
+      "tắt rồi mà cả gian nhà vẫn thoang thoảng mùi hăng hăng như trứng thối, bác sợ quá",
+      "đi học về mở cửa là sộc lên mùi hăng nồng nặc, em khóa van bình rồi mở hết cửa sổ, giờ làm gì",
+      "em bôi nước xà phòng lên ống cao su nối sang bếp thì sủi bọt liên tục ở gần khúc gấp",
+      "ở chỗ ống dây phía sau nghe xì xì nho nhỏ cả lúc không nấu, lại hăng hắc",
+      "sáng nào ngủ dậy xuống cũng thấy nồng nặc mùi khí, dù tối đã tắt cẩn thận",
+      "mùi hăng nồng y như ở cửa hàng đổi bình, mấy đứa nhỏ kêu chóng mặt buồn nôn",
+      "không biết có phải ống dây bị chuột gặm không, sờ thấy mấy vết lõm, ghé mũi vào thì nồng nặc",
+      "em đã thay cái kẹp ống mới mà gần chỗ nối vẫn còn hăng hắc, em không dám bật lửa",
+      "ống dẫn màu cam phía sau bạc màu, chai cứng và có vết rạn, ngửi gần thấy hăng",
+      "đóng van bình qua đêm thì không sao, mở van ra là ít phút sau cả gian sực mùi"
+     ],
+     "indirect": [
+      "bình mới đổi tuần trước mà nấu có mấy bữa đã nhẹ tênh, lắc không còn tiếng",
+      "hàng xóm sang gõ cửa bảo ngửi thấy hăng hăng bay sang tận nhà bên",
+      "đêm qua cả nhà ai cũng đau đầu, sáng ra xuống chỗ nấu thấy hắc hắc khó thở"
+     ]
+    },
+    "STOVE_VALVE_STUCK": {
+     "clear": [
+      "vặn về vạch tắt rồi ngọn lửa vẫn cứ phừng phừng, bác phải chạy ra khóa van bình",
+      "cái núm xoay cứng ngắc, dùng cả hai tay mới nhích được một chút",
+      "trục van bị kẹt mỡ, núm xoay nặng trịch, vặn về nấc nhỏ nhất thì gas vẫn ra mạnh như nấc lớn",
+      "vặn núm nghe rột rột như có cát bên trong, xoay rất nặng tay",
+      "từ hôm nồi nước sôi trào xuống chỗ núm, giờ xoay đâu cũng lửa to nguyên như vậy",
+      "trước xoay nhẹ như không, giờ nặng như vặn ốc gỉ, mà lửa thì không chịu thu nhỏ",
+      "hình như núm bị tuột khỏi trục, xoay cứ lỏng lẻo vòng vòng mà lửa chẳng đổi gì",
+      "em đã rút núm ra lau, xịt dầu vào trục mà vẫn kẹt, lửa cứ để mức to, phải khóa van bình mới dập",
+      "nhìn thì cái núm nhựa nứt toác, xoay nó cứ trượt, lửa đứng nguyên một mức",
+      "lửa đang to mà muốn hạ xuống để kho cá thì xoay mấy cũng không xuống, cứ phừng phừng"
+     ],
+     "indirect": [
+      "giờ muốn tắt là nhà em phải chạy ra khóa van bình, sợ lắm",
+      "nấu cái gì cũng bị khét vì lửa cứ to mãi, không riu riu được",
+      "con gái em vặn mãi không được, phải gọi bố ra dùng kìm mới xoay nổi cái núm"
+     ]
+    },
+    "STOVE_FLAME_OUT": {
+     "clear": [
+      "vặn lên thì bén lửa, nhưng vừa rút tay khỏi núm là phụt tắt ngay, bác già yếu giữ lâu không nổi",
+      "lửa lên rồi mà tay rời núm ra mấy giây là tắt phụt, phải ấn giữ hoài",
+      "em nghi cái đầu cảm biến nhiệt ngẫu cạnh họng lửa bị bẩn, không giữ van nên lửa không duy trì",
+      "đang kho cá nghe phụt một tiếng rồi lửa tắt lịm, bật lại thì cháy, lát sau lại phụt",
+      "nấu được chừng năm bảy phút thì ngọn lửa lặng lẽ tắt mất",
+      "trước bật lên là bỏ tay đi được ngay, giờ phải ấn núm chờ cả nửa phút mới dám buông",
+      "không biết có phải do gió không, mà để lửa liu riu nấu cháo là lát sau tắt mất",
+      "em đã che chắn gió, lau họng lửa rồi mà vừa thả núm là lửa tắt luôn",
+      "nhìn ngọn lửa cháy được chút rồi rút dần vào trong và mất hẳn, núm vẫn để nguyên vị trí",
+      "nấu nồi canh bỏ đi phơi đồ, quay lại thấy lửa tắt từ lúc nào, nồi nguội ngắt"
+     ],
+     "indirect": [
+      "giờ nấu nồi xương em không dám bỏ đi đâu, cứ phải đứng canh xem lửa còn không",
+      "mỗi lần bật con em phải đứng ấn núm cả phút, mỏi cả tay",
+      "hầm nồi chân giò ba tiếng mà lửa tắt mấy lần, phải bật lại hoài"
+     ]
+    },
+    "STOVE_REGULATOR": {
+     "clear": [
+      "vừa thay bình khác xong, vặn bên nào lửa cũng chỉ le lói như ngọn nến, cháu ạ",
+      "nối cái củ điều áp vào bình xong thì nghe xì xì ở chỗ khớp, vặn chặt cỡ nào vẫn xì",
+      "áp ra sau bộ điều áp tụt hẳn, cả hai họng đều lèo tèo dù bình còn nặng nguyên",
+      "mở khóa bình lên nghe rít rít trong cái củ điều áp, gas ra lúc mạnh lúc yếu",
+      "dùng bình cũ thì ổn, vừa lắp bình của hãng khác vào là cả hai bên lửa leo lét",
+      "lửa cả hai lò đều lèo tèo như nhau, bình thì lắc vẫn thấy nặng trịch",
+      "không biết có phải cái đầu khóa bình bị lỏng không, vặn vào cứ lỏng lẻo, ngửi chỗ nối thấy hăng",
+      "em đã tháo ra lắp lại ba lần, thay cả gioăng cao su mà chỗ nối với bình vẫn hở",
+      "cái củ điều áp gỉ sét loang lổ, gioăng nứt, lửa hai bên ra yếu xìu",
+      "lửa ban đầu to rồi chừng một phút sau tụt xuống bé tí, cả hai lò cùng như vậy"
+     ],
+     "indirect": [
+      "gọi đại lý tới đổi bình ba lần rồi mà lần nào lắp vào lửa cũng chỉ đủ đun ấm nước",
+      "bình mới đổi còn đầy nguyên mà nấu nồi cơm cả tiếng không chín, cả hai bên đều thế",
+      "người giao bình lắp xong đi về là nhà em nghe hăng hăng chỗ đầu bình suốt"
+     ]
+    }
+   }
+  },
+  "induction_hob": {
+   "names": [
+    "bếp Bosch",
+    "bếp Hafele",
+    "bếp Chefs",
+    "cái bếp Kangaroo cảm ứng",
+    "bếp Sunhouse mặt kính",
+    "bếp Teka",
+    "bếp cảm ứng",
+    "bếp điện cảm ứng từ",
+    "bêp từ",
+    "bếp induction",
+    "bếp mặt kính đen dùng nồi đáy từ",
+    "cái bếp phẳng lì không có lửa"
+   ],
+   "vague": [
+    "dạo này có gì đó không bình thường",
+    "dùng mấy hôm nay thấy kỳ kỳ",
+    "có vấn đề mà em không biết tả sao"
+   ],
+   "faults": {
+    "HOB_NO_PAN_DETECT": {
+     "clear": [
+      "mới mua cái nồi nhôm về bắc lên thì nó cứ kêu inh ỏi, số nhấp nháy, chẳng nóng tí nào, cháu ạ",
+      "để cái chảo chống dính vào là màn hình chớp chớp, kêu liên hồi, kiểu không thấy có nồi",
+      "đáy nồi không nhiễm từ nên cuộn dây không nhận tải, màn hình báo không có nồi",
+      "bắc xoong lên nghe píp píp píp liền mấy cái, xong màn hình tự tối",
+      "nồi gang thì nấu bình thường, cứ đổi sang cái xoong inox mới mua là kêu và không lên nhiệt",
+      "lấy nam châm hít thử đáy nồi thì không dính, mà nồi kia dính thì nấu ngon lành",
+      "không biết có phải do cái nồi không, bắc lên là nó chớp đèn kêu inh, nồi khác lại chạy",
+      "em đã để nồi vào chính giữa vòng tròn, lau khô đáy mà nó vẫn chớp chớp kêu như trên mặt trống trơn",
+      "màn hình hiện hình cái nồi gạch chéo nhấp nháy, chả ấm lên chút nào",
+      "dùng cái nồi nhỏ xíu đun sữa thì nó không chịu, cứ kêu, nồi to thì được"
+     ],
+     "indirect": [
+      "bộ nồi mẹ chồng cho mang sang bắc lên chẳng cái nào chịu nóng, phải đi mua bộ khác",
+      "phải mua miếng đệm sắt lót dưới đáy nồi nó mới chịu nấu",
+      "nồi đất kho cá của nhà em giờ để lên chả ăn thua gì, đành bỏ xó"
+     ]
+    },
+    "HOB_ERROR_CODE": {
+     "clear": [
+      "đang nấu thì màn hình hiện mấy con chữ E3 gì đó, bác chẳng hiểu là cái gì",
+      "nấu tầm mười phút là ô số nhảy ra E4 rồi ngưng, tắt đi bật lại được một lát lại hiện",
+      "màn hình báo mã E7, tra sổ hướng dẫn ghi là lỗi cảm biến, tắt bật lại vẫn còn",
+      "kêu tít một tiếng dài rồi trên màn hình nhảy ra ký hiệu E kèm con số, ngừng nóng luôn",
+      "cứ nấu món gì lâu như hầm xương là giữa chừng hiện mã E, nấu nhanh thì không sao",
+      "vùng bên trái chạy ngon, còn vùng bên phải bật lên một lát là màn hình hiện mã lạ",
+      "hình như mấy chữ trên màn hình là mã báo hỏng, em thấy chữ E với số 2 cứ chớp chớp",
+      "em rút điện để nửa tiếng cho nguội rồi cắm lại, vừa bật được một lát ký hiệu E lại nhảy ra",
+      "nhìn chỗ hiện công suất thấy E-05 thay cho con số, kèm tiếng tít tít báo động",
+      "điện nhà em hơi yếu buổi tối, lúc đó nấu là hiện mã E, ban ngày lại dùng bình thường"
+     ],
+     "indirect": [
+      "nấu bữa cơm tối mà phải tắt đi bật lại bốn năm lần vì cái mã E cứ hiện ra",
+      "em chụp màn hình gửi hãng thì họ bảo đó là mã hỏng phải đem bảo hành",
+      "nồi canh đang sôi tự nhiên nguội dần, ngó lên thì thấy màn hình toàn chữ với số lạ"
+     ]
+    },
+    "HOB_FAN_NOISY": {
+     "clear": [
+      "bên dưới có tiếng ù ù như cái quạt cây khô dầu, nghe nhức đầu lắm cháu ạ",
+      "bật lên là gầm kêu vo vo to vật vã, kiểu quạt bị vướng gì đó",
+      "quạt làm mát bên dưới quay chậm và rung, khe hút gió bám bụi đặc, máy nóng nên tự cắt",
+      "nghe lạch xạch lạch xạch ở dưới đáy như cánh quạt chạm vào vỏ",
+      "nấu chừng mươi phút là mặt dưới nóng ran rồi tự ngưng, để nguội một lúc mới dùng tiếp",
+      "hồi mới mua chạy êm ru, giờ tiếng quạt to như máy sấy tóc",
+      "không biết có phải quạt dưới gầm hỏng không, chỗ khe thổi gió ra yếu hẳn mà thân máy nóng hầm hập",
+      "em đã kê cao lên cho thoáng, hút sạch bụi khe gió mà dưới đáy vẫn rít rít liên tục",
+      "để tay ở khe thoát hơi thấy gió không ra, sờ cạnh máy nóng bỏng, có mùi bụi nóng",
+      "nấu xong tắt hết rồi mà phía dưới cứ vù vù hoài cả mười mấy phút không dứt"
+     ],
+     "indirect": [
+      "tủ gỗ chỗ lắp bị nóng tới cong cả ván, lại ồn ào suốt lúc nấu",
+      "nấu lẩu mà cứ được một chặp là ngưng, cả nhà ngồi chờ máy nguội mới nấu tiếp",
+      "con em đang học bài ở phòng bên cũng than ồn mỗi khi mẹ nấu cơm"
+     ]
+    },
+    "HOB_TOUCH_FAULT": {
+     "clear": [
+      "màn hình vẫn sáng đèn chờ mà bác chạm vào nút tăng lửa mãi nó không chịu nhận",
+      "chạm phím cộng trừ chẳng có phản hồi, phải đè cả ngón tay mấy giây mới nhích được một nấc",
+      "mạch cảm ứng nhận sai, đang để nấc 5 tự nhảy lên nấc 9 rồi tụt về 2 dù không ai đụng",
+      "tự dưng kêu tít tít tít liên hồi như có ai đang bấm, nhìn lại chẳng có ai sờ vào",
+      "cứ lúc mặt bếp có tí nước hay hơi nóng lên là các nút loạn hết, bấm cái này ăn cái kia",
+      "bấm màn hình điện thoại còn nhạy hơn, đằng này chạm năm sáu lần mới chịu nhận một lần",
+      "hình như bị khóa trẻ em hay sao ấy, có cái biểu tượng chìa khóa sáng, chạm gì cũng không được",
+      "em đã lau khô mặt kính, rút điện cắm lại mà vùng phím vẫn chạm không phản ứng",
+      "mấy đèn báo trên bảng phím cứ chớp loạn lên, có nút sáng có nút không, chạm vào không đổi gì",
+      "đang nấu muốn hạ nhỏ hoặc tắt đi mà chạm mãi không nhận, phải rút phích ra"
+     ],
+     "indirect": [
+      "giờ muốn ngưng nấu là em phải chạy ra cúp cầu dao",
+      "nồi canh đang riu riu tự dưng sôi trào tung tóe vì nó tự vặn lên mức to",
+      "mẹ em già rồi chạm mãi không được nên bỏ không nấu nữa, cứ chờ con về bật hộ"
+     ]
+    },
+    "HOB_NO_POWER": {
+     "clear": [
+      "cắm phích vào thì chẳng có đèn đóm gì, chạm nút nào cũng im lìm, bác không biết làm sao",
+      "sáng ra định nấu mì thì mặt bếp đen thui, không một đèn nào lên, chạm đâu cũng im",
+      "em đo ổ cắm vẫn có 220 vôn mà đèn chờ không sáng, chắc cháy cầu chì hay hỏng nguồn xung trong mạch",
+      "vừa cắm phích nghe bụp một tiếng ở dưới gầm, có mùi khét rồi tối luôn",
+      "đang nấu nồi cơm thì phụt tắt, cả cầu dao trong nhà cũng sập theo, bật lên lại sập",
+      "ổ đó cắm nồi cơm điện vẫn chạy bình thường, cắm qua cái này thì không có tín hiệu gì",
+      "không biết có phải do chập dây không, cái phích cắm có vết đen sém, giờ không lên được",
+      "em đã đổi ổ cắm khác, bật lại cầu dao mà màn hiển thị vẫn tối om, không kêu tiếng nào",
+      "chỗ dây nguồn phía sau chảy nhựa, ngửi thấy khét lẹt, giờ cắm vào không thấy sáng gì",
+      "cứ cắm phích vào là nghe xẹt một cái tóe lửa ở ổ, em sợ không dám cắm nữa"
+     ],
+     "indirect": [
+      "nhà em mấy hôm nay phải nấu nhờ bên hàng xóm vì cắm vào nó không có chút phản ứng nào",
+      "mỗi lần thử cắm nó là cả tầng mất điện, phải chạy xuống bật cầu dao",
+      "mạng điện trong nhà vừa chập hôm mưa bão, mọi thứ khác dùng lại được, riêng nó không sáng nữa"
+     ]
+    },
+    "HOB_GLASS_CRACKED": {
+     "clear": [
+      "lỡ tay đánh rơi cái chày đá, giờ trên mặt kính có vết rạn toả ra như mạng nhện, bác sợ điện giật quá",
+      "lau chùi thấy có một vệt nứt dài chạy chéo qua vùng nấu, sờ vào thấy gờ gợn tay",
+      "tấm kính ceramic bị sốc nhiệt, đổ nước lạnh vào lúc đang nóng nên nứt toác, lộ cả cuộn dây bên dưới",
+      "đang nấu nghe tách một tiếng như ly vỡ, nhìn lại thấy mặt kính có đường rạn dài",
+      "từ hôm nhấc nồi nước sôi ra rồi đặt cái chảo lạnh vào, trên mặt xuất hiện vết nứt",
+      "vết rạn trên mặt nhìn y như kính điện thoại bị rơi, lan dần ra mỗi lần nấu",
+      "hình như mặt bị mẻ một góc, chỗ đó có vết nứt nhỏ, không biết có bị giật không",
+      "em dán băng keo trong tạm lên đường nứt để nấu tiếp mà nước canh tràn xuống rỉ vào trong",
+      "góc mặt kính vỡ văng mất mảnh nhỏ, lộ ra lỗ hở thấy cả mạch bên dưới, chạm vào tê tê tay",
+      "đường nứt mảnh như sợi tóc từ mép vào giữa vòng nấu, lúc nóng lên trông rõ hơn"
+     ],
+     "indirect": [
+      "cả nhà giờ không ai dám chạm tay lên mặt vì sợ dính điện qua khe hở",
+      "nước canh trào ra là thấm qua khe hở trên mặt xuống dưới, nghe xèo xèo bên trong",
+      "chiều qua thằng bé đánh rơi cái cối đá lên, giờ em không dám nấu nữa"
+     ]
+    }
+   }
+  },
+  "oven": {
+   "names": [
+    "lò Sanaky",
+    "lò Electrolux",
+    "lò Tiross",
+    "cái Sunhouse nướng bánh",
+    "lò Bosch âm tủ",
+    "lò thùng",
+    "lò âm tủ",
+    "lò đối lưu",
+    "lò nuớng",
+    "lò nương",
+    "lò bánh mì gia đình",
+    "cái lò làm bánh"
+   ],
+   "vague": [
+    "dạo này nướng không được ưng ý lắm",
+    "dùng thấy có gì đó không ổn",
+    "mấy hôm nay hơi khác khác"
+   ],
+   "faults": {
+    "OVEN_HEATING_ELEMENT": {
+     "clear": [
+      "bật cả hai thanh mà nhìn vào chỉ thấy cái ở trên hồng lên, cái dưới vẫn đen nguyên, cháu ạ",
+      "nướng bánh mì bơ tỏi hai mươi phút mà vỏ vẫn trắng bệch, mở ra thấy chẳng thanh nào đỏ",
+      "em đo thanh điện trở phía dưới thì không thông mạch, chắc đứt dây bên trong",
+      "bật lên vẫn nghe tách một cái, đèn sáng, quạt quay, mà bên trong vẫn lạnh tanh",
+      "từ hôm nghe bụp một tiếng lúc đang nướng là thanh dưới không hồng lên nữa",
+      "hồi trước nướng cánh gà ba mươi phút là vàng giòn, giờ một tiếng vẫn nhợt nhạt chưa chín tới",
+      "hình như thanh đốt phía trên có chỗ phồng rộp rồi gãy, từ đó không đỏ lên nữa",
+      "em chỉnh sang chế độ chỉ dùng nhiệt dưới thì để mãi không ấm, chỉnh nhiệt trên thì vẫn nóng",
+      "nhìn vào thanh dưới thấy có đoạn cháy sém, nứt vỏ, bật lên nó không ửng màu gì",
+      "chỉnh hết cỡ nhiệt độ, hết cỡ thời gian mà miếng sườn lấy ra vẫn còn hồng sống"
+     ],
+     "indirect": [
+      "nhà em mấy hôm nay phải chuyển sang chiên chảo vì nướng gì cũng nhợt nhạt",
+      "làm mẻ bánh quy mà đáy bánh vẫn còn bột ướt, mặt trên thì vàng",
+      "nướng con vịt mất gấp đôi thời gian, lật lên thấy phần dưới còn trắng nhợt"
+     ]
+    },
+    "OVEN_THERMOSTAT": {
+     "clear": [
+      "để 150 độ nướng bánh bông lan đúng như sách mà mới mười phút đã cháy sém mặt, bác chịu",
+      "set 160 độ mà em cắm nhiệt kế vào thấy lên tận 230, mẻ cookie nào cũng khét",
+      "rơ le nhiệt không cắt, thanh nhiệt đỏ liên tục không nghỉ, nhiệt độ cứ leo mãi vượt mức chỉnh",
+      "bình thường nướng nghe tạch tạch rơ le đóng ngắt đều, giờ không nghe tiếng nào, thanh đỏ suốt",
+      "đầu buổi thì nóng già, được nửa tiếng lại nguội hẳn, rồi lại nóng phừng lên, chẳng theo nấc nào",
+      "cùng một công thức, ở nhà mẹ nướng 25 phút là vừa, sang đây 25 phút đã đen thui",
+      "không biết có phải cái núm chỉnh độ bị lệch không, chỉnh thấp nhất mà vẫn nóng hừng hực",
+      "em đã giảm xuống 120 độ mà thịt nướng vẫn bị cháy xém bên ngoài, đã đặt khay ở giữa rồi",
+      "đèn báo nhiệt cứ sáng suốt không bao giờ nhả, mùi khét bánh bốc ra trước cả giờ hẹn",
+      "chỉnh 200 độ, thanh vẫn đỏ đều mà nhiệt kế để trong chỉ lên chừng 100"
+     ],
+     "indirect": [
+      "tháng này em vứt đi bốn mẻ bánh vì cháy khét dù làm y chang công thức cũ",
+      "giờ nướng gì em cũng phải cắm nhiệt kế đứng cạnh, nóng quá thì hé cửa cho bớt",
+      "hôm qua nướng mẻ bánh mì ở nấc vừa mà khói bốc mù mịt, cả mẻ thành than"
+     ]
+    },
+    "OVEN_TIMER_FAULT": {
+     "clear": [
+      "vặn núm hẹn 30 phút mà kim cứ đứng nguyên đó, không quay về số không, cháu ạ",
+      "hẹn 20 phút mà gần cả tiếng vẫn đang nướng, không nghe kêu reng gì, suýt cháy bánh",
+      "đồng hồ cơ hẹn giờ bị kẹt bánh răng, tiếp điểm không cắt nên thanh nhiệt đỏ mãi tới khi em rút điện",
+      "trước vặn núm giờ nghe tích tắc tích tắc rồi kêu keng, giờ im thin thít, chẳng đếm ngược",
+      "vặn giờ ít hơn 15 phút thì nó không chạy, phải vặn lên quá nửa vòng mới chịu nóng",
+      "đồng hồ trên đó chạy nhanh gấp đôi, hẹn 40 phút mà 20 phút đã ngắt",
+      "hình như núm hẹn giờ bị lờn, vặn cứ trơn tuột không có nấc, không nhận",
+      "em vặn núm giờ qua lại mấy lượt mà đèn không lên, chỉ khi để nấc ON không hẹn mới chịu nóng",
+      "màn hiển thị số giờ cứ đứng hình ở 00:15, chạm phím cộng trừ chẳng đổi",
+      "để qua giờ hẹn rồi mà thanh nhiệt vẫn đỏ rực, quạt vẫn quay, phải tự tay rút phích"
+     ],
+     "indirect": [
+      "hôm qua em đi chợ quên mất, về thấy con cá nướng thành than vì tới giờ mà nó không ngắt",
+      "giờ nướng gì em cũng phải đặt báo thức trên điện thoại, chứ cái chuông trên đó im lặng",
+      "mẹ em vặn núm mãi không thấy chạy, phải đợi em về vặn vòng hẹn giờ hết cỡ mới nóng"
+     ]
+    },
+    "OVEN_DOOR_GLASS": {
+     "clear": [
+      "cánh cửa trước mở ra là rớt cái rầm xuống, bác sợ đập vào chân",
+      "mặt kính ở cánh cửa có vết rạn chạy ngang, nhìn vào hơi mờ",
+      "bản lề bên trái mòn chốt nên cửa vênh, khép vào còn hở một khe cỡ ngón tay, hơi nóng phụt ra",
+      "đóng cánh cửa nghe lọc cọc lọc cọc ở bản lề, khép vào nó cứ bật hé ra",
+      "từ hôm em lỡ va khay nướng vào cánh cửa thì tấm kính trong có đường nứt, nóng lên càng thấy rõ",
+      "trước đóng cửa êm và kín, giờ một bên cao một bên thấp, mép trên hở thấy cả ánh đèn bên trong",
+      "không biết có phải gioăng cao su quanh cửa bị chai không, nướng là hơi nóng phả ra mặt mình",
+      "em vặn lại mấy con ốc bản lề rồi mà cánh cửa vẫn lệch, khép không vào hết",
+      "lớp kính trong của cánh cửa nứt chân chim, có chỗ bong ra mảnh vụn rơi vào khay",
+      "đang nướng mà mặt kính ngoài nóng rẫy, chạm vào là phỏng, trước không thế"
+     ],
+     "indirect": [
+      "tủ gỗ ngay phía trước bị ám nóng cong cả mép vì hơi thoát ra từ khe cửa",
+      "con em đứng cạnh lúc nướng bị phỏng nhẹ đầu gối vì chạm vào cánh cửa",
+      "giờ nướng gì em cũng phải chặn cái ghế vào cho cánh nó khép lại"
+     ]
+    },
+    "OVEN_FAN_FAULT": {
+     "clear": [
+      "bật chế độ có hình cái quạt mà nhìn vào thấy cánh quạt phía sau đứng im re, cháu ạ",
+      "chọn chế độ đối lưu mà không thấy gió thổi, cái chong chóng ở vách sau đứng yên",
+      "mô tơ quạt đối lưu ở vách sau không quay, thanh nhiệt vẫn đỏ nên nhiệt dồn một chỗ",
+      "bật đối lưu là vách sau kêu è è rồi lục cục như cánh quạt quẹt vào lưới",
+      "lúc mới bật quạt còn quay được, nướng chừng mười phút thì chậm dần rồi đứng hẳn",
+      "trước xếp ba khay vẫn vàng đều, giờ khay trên vàng ruộm mà khay giữa vẫn trắng",
+      "hình như cái quạt gió ở trong không chạy, nướng mẻ bánh su mà phía sát vách vàng sậm còn phía cửa nhợt",
+      "em đã xoay khay giữa chừng cho đều mà bánh vẫn vàng loang lổ, nghe kỹ thì không có tiếng quạt vù vù như trước",
+      "nhìn qua cửa kính thấy cánh quạt sau vách chỉ lắc lư nhẹ, không xoay vòng được",
+      "góc trong cùng thì khét, góc ngoài thì còn nhạt màu, dù em đã bật chế độ có gió"
+     ],
+     "indirect": [
+      "nướng con gà nguyên con phải lật mấy lần vì chỗ vàng chỗ nhợt",
+      "làm mẻ bánh quy khay nào cũng loang lổ, em phải lấy ra xoay đầu mỗi năm phút",
+      "mẻ khoai lang sấy đem bán bị khách chê miếng giòn miếng dẻo không đều nhau"
+     ]
+    }
+   }
+  },
+  "kettle": {
+   "names": [
+    "ấm Sunhouse",
+    "ấm Philips",
+    "bình Lock&Lock đun nước",
+    "ấm Kangaroo",
+    "ấm Xiaomi",
+    "bình siêu tốc",
+    "ấm siu tốc",
+    "ấm đun siêu tốc",
+    "ấm cắm điện",
+    "cái siêu tốc",
+    "ấm pha trà điện",
+    "ấm inox đun sôi nhanh"
+   ],
+   "vague": [
+    "dùng mấy hôm nay thấy không yên tâm lắm",
+    "hình như có gì đó trục trặc",
+    "dạo này nó cứ sao sao ấy"
+   ],
+   "faults": {
+    "KETTLE_THERMOSTAT": {
+     "clear": [
+      "nước sôi sùng sục bốc hơi mù mịt mà cái nút gạt vẫn nằm im, bác phải tự rút phích",
+      "sôi tới mức nắp bật lên nước bắn ra ngoài mà nó vẫn chưa chịu nhả",
+      "lá lưỡng kim chỗ ống thoát hơi hình như hỏng, hơi nước bốc lên mà không đẩy được cần ngắt",
+      "nghe tiếng sục sục sôi cả phút rồi mà vẫn chưa nghe tiếng tách nhảy cần gạt",
+      "mới mua tháng trước, đun được nửa chừng nước mới hâm hấp là tách một cái ngưng, chưa kịp lăn tăn",
+      "cái cũ sôi là tự nhảy, cái này sôi đến cạn gần nửa nước vẫn còn đỏ đèn",
+      "không biết có phải do em đậy nắp không chặt không, mà sôi bùng bục rồi vẫn cứ đun tiếp",
+      "em đã đậy nắp thật kín, lau khô đế mà nước sôi trào cả ra bàn nó vẫn chưa ngắt",
+      "hơi nước phụt mù cả góc bếp, bên trong cạn sắp hết nước, có mùi nhựa nóng mà đèn vẫn đỏ",
+      "cứ phải đứng canh, thấy sôi là tự tay gạt lên chứ để đó nó đun hoài"
+     ],
+     "indirect": [
+      "cái tủ bếp phía trên bị hơi nước bốc lên phồng hết cả lớp gỗ vì đun xong nó cứ sôi mãi",
+      "tuần trước để quên nó đun cạn khô, bốc mùi khét cả nhà mới biết",
+      "giờ pha sữa cho con em phải đứng cạnh canh, sôi là tự rút ra, không dám bỏ đi"
+     ]
+    },
+    "KETTLE_HEATING_BASE": {
+     "clear": [
+      "bật lên đèn đỏ sáng đủ cả, chờ mười lăm phút mở nắp ra nước vẫn nguội như lúc rót vào",
+      "đèn xanh sáng rồi mà đợi mãi không nghe tiếng reo, sờ thân vẫn mát lạnh",
+      "đèn báo có điện nhưng mâm nhiệt dưới đáy không thông mạch, đo điện trở ra vô cùng",
+      "bình thường bật lên vài phút là nghe xì xì rồi reo, giờ im phăng phắc, chỉ có đèn sáng",
+      "trước ba phút là sôi, giờ để hai mươi phút nước mới hơi hâm hấp",
+      "pha mì tôm mà nước chỉ như nước để ngoài nắng, chẳng nóng hơn tí nào",
+      "hình như cái mâm dưới đáy bị đứt rồi, đèn lên rồi, nước chẳng có dấu hiệu nóng",
+      "em đã đổi ổ cắm, lau sạch chân tiếp xúc, đèn vẫn sáng bình thường mà nước để mãi không nóng lên",
+      "nhìn vào đáy bên trong thấy chỗ mâm có vết phồng rộp, bật lên đèn sáng nhưng nước im lìm không sủi bọt",
+      "cắm vào đèn vẫn sáng, công tắc vẫn giữ, mà sờ đáy không thấy nóng chút nào"
+     ],
+     "indirect": [
+      "mấy hôm nay em phải đun nước bằng nồi vì cắm vào chờ nửa tiếng nước vẫn nguội",
+      "sáng nào pha cà phê cũng chờ cả buổi, cuối cùng nước chỉ đủ ngâm chân",
+      "pha trà cho khách mà trà không ra màu vì nước chưa nóng tới"
+     ]
+    },
+    "KETTLE_LEAK": {
+     "clear": [
+      "vừa rót nước vào đã thấy giọt tong tong xuống bàn, bác sợ điện giật không dám cắm",
+      "đổ nước vào để lên là thấy một vũng nhỏ loang ra quanh chân, ghê quá",
+      "gioăng cao su giữa ruột inox và đáy bị lão hoá, nước thấm qua chỗ mâm nhiệt xuống mạch",
+      "đang đun nghe xèo xèo dưới đáy như nước nhỏ vào chỗ nóng, nhấc lên thấy ướt nhẹp",
+      "cứ đổ quá nửa là nước rịn ra ở mối nối dưới tay cầm, đổ ít thì không sao",
+      "ướt sũng y như cái cốc bị nứt, lót khăn giấy bên dưới là ngấm ướt hết",
+      "không biết có phải do em làm rơi một lần không, giờ dưới đáy cứ rịn nước ra, chạm thấy tê tê tay",
+      "em đã lau khô, đổ nước thử không cắm điện mà để một lúc dưới đáy vẫn đọng giọt",
+      "nhìn thấy vết nứt mảnh ở thân nhựa gần đáy, nước rỉ thành dòng, chỗ tiếp điện dưới đế còn ướt",
+      "lúc cầm quai rót nước thấy tê rần cả tay, nhìn xuống đế thấy nước đọng"
+     ],
+     "indirect": [
+      "mặt bàn gỗ chỗ hay để nó giờ bị phồng, mốc đen một vòng tròn",
+      "hôm qua cắm vào là cầu dao nhảy cái tách, lật lên thấy dưới đáy đọng đầy nước",
+      "mỗi lần đun xong em phải lấy giẻ lau cả khoảng bàn quanh đó"
+     ]
+    },
+    "KETTLE_SCALE": {
+     "clear": [
+      "rót nước ra cốc thấy lợn cợn mấy vảy trắng nổi lềnh bềnh, bác uống thấy chát chát",
+      "nhìn vào lòng trong thấy phủ một lớp vàng ngà sần sùi như vỏ sò",
+      "đáy bên trong bám lớp canxi dày, mâm truyền nhiệt kém nên sôi chậm và kêu to",
+      "lúc đun kêu lộp độp lụp bụp như rang ngô, nhìn vào thấy đáy sần trắng",
+      "nhà em dùng nước giếng khoan, được vài tháng là bên trong đóng một lớp đá vôi",
+      "pha trà mà trên mặt nước nổi váng như dầu loang, cốc nào cũng bám vòng trắng",
+      "hình như bên trong có lớp vôi, đáy nhám nhám, đun xong rót ra có vụn trắng li ti",
+      "em đã đun giấm với chanh một lần, sạch được ít mà vài hôm lớp vảy trắng đục lại bám đầy",
+      "đáy trong lổn nhổn vảy cứng màu trắng đục, cạo bằng thìa không ra",
+      "chưa sôi hẳn đã ngắt, mở ra thấy lớp vôi dày cộm phủ kín đáy"
+     ],
+     "indirect": [
+      "khách tới nhà uống trà chê nước có vị lạ, đáy cốc lắng lại bột trắng",
+      "giờ mỗi lần đổ nước ra em phải lọc qua cái rây trà cho khỏi lợn cợn",
+      "nước máy khu em nhiều vôi, lâu rồi chưa tẩy lần nào, giờ đun phải chờ lâu, lại kêu lục bục"
+     ]
+    },
+    "KETTLE_SWITCH": {
+     "clear": [
+      "ấn cái cần dưới tay cầm xuống mà nó cứ bật ngược lên ngay, nước còn lạnh tanh",
+      "phải xoay xoay trên đế tìm đúng góc thì đèn mới lên, lệch tí là tắt",
+      "mấy chân đồng ở chỗ tiếp xúc giữa thân và đế bị cháy rỗ, tiếp điểm lỏng nên lúc ăn lúc không",
+      "đặt lên nghe rè rè lách tách ở chỗ chân đế, đèn chớp chớp",
+      "đang đun ai đi qua va nhẹ vào là tắt, phải nhấc lên đặt lại mấy lần",
+      "mượn cái của nhà bên để lên chân đế thì chạy, đặt cái này vào lại không",
+      "không biết có phải lò xo trong cần gạt bị gãy không, gạt xuống mà không có tiếng tách, chẳng chịu giữ",
+      "em lau chỗ chân cắm dưới đáy bằng cồn, ấn thật chặt mới chạy được, buông ra thì ngắt",
+      "chỗ lỗ tiếp xúc trên đế thấy vết đen xém, có mùi khét nhẹ mỗi lần đặt lên",
+      "lúc đèn lên lúc không, cứ lắc nhẹ thân là đèn tắt rồi lại sáng"
+     ],
+     "indirect": [
+      "giờ mỗi lần đun nước em phải đứng giữ tay lên cho nó khỏi ngắt",
+      "sáng đi làm vội, cắm vào tưởng đang đun, lát quay lại nước vẫn nguội vì nó không ăn tiếp xúc",
+      "em đành đặt cái cốc đè lên cần gạt cho nó chịu đun, biết là không an toàn"
+     ]
+    }
+   }
+  },
+  "television": {
+   "names": [
+    "tivi Samsung",
+    "cái Sony",
+    "tivi LG",
+    "tivi TCL",
+    "tivi Xiaomi",
+    "cái Panasonic phòng khách",
+    "tivi LCD",
+    "tivi màn phẳng",
+    "tivy",
+    "cái màn 55 inch",
+    "android tivi",
+    "máy thu hình"
+   ],
+   "vague": [
+    "dạo này xem thấy cứ sao sao ấy",
+    "mấy hôm nay hơi trục trặc mà em không biết tả thế nào",
+    "chắc có vấn đề gì rồi, nhờ thợ qua xem giúp em"
+   ],
+   "faults": {
+    "TV_BACKLIGHT": {
+     "clear": [
+      "bật lên vẫn nghe phát thanh viên đọc rõ ràng, mà nhìn vào thì đen kịt như chưa mở, bà cứ tưởng mắt mình kém",
+      "lấy đèn điện thoại rọi sát vào mặt kính thì lờ mờ thấy người cử động bên trong",
+      "vẫn ra âm thanh, logo hãng hiện lên chớp nhoáng rồi tối hẳn, em đoán là dải LED phía sau",
+      "giờ tối hơn hẳn hồi mới mua, phải kéo rèm tắt hết đèn phòng mới xem được, chỉnh độ sáng tối đa cũng vậy",
+      "hình như cái đèn bên trong nó đi rồi hay sao ấy, tiếng vẫn phát bình thường mà mặt kính tối thui",
+      "nửa dưới hơi sáng, nửa trên tối sầm, kiểu sáng không đều chứ không có vệt hay sọc gì",
+      "mở Netflix nghe nhạc phim chạy bình thường mà mặt màn đen sì luôn á, chẳng thấy diễn viên đâu",
+      "lúc mới bật thì xem được chừng năm phút, sau đó tối dần rồi chỉ còn lại tiếng",
+      "rút điện để nguội nửa ngày rồi cắm lại mà vẫn vậy, âm thanh đầy đủ nhưng màn đen kịt",
+      "ghé sát mặt kính nhìn nghiêng vẫn thấy menu hiện mờ mờ, nhưng đứng xa là đen hoàn toàn"
+     ],
+     "indirect": [
+      "tối qua cả nhà ngồi nghe đá bóng như nghe đài vì chẳng nhìn thấy cầu thủ nào",
+      "giờ bật lên bà nội chỉ để nghe cải lương, chứ nhìn thì tối thui chẳng ra gì",
+      "muốn vào cài đặt thì con em phải cầm đèn pin rọi vào mới dò được chữ"
+     ]
+    },
+    "TV_POWER_BOARD": {
+     "clear": [
+      "cắm điện rồi bấm cả nút trên thân lẫn cái điều khiển mà nó vẫn nằm im, không sáng chút đèn nào",
+      "bấm nguồn nghe tạch một cái trong máy, đèn chờ chớp chớp mấy lần rồi thôi, hình tiếng đều không có",
+      "đo ổ cắm vẫn đủ 220V, dây nguồn không đứt mà máy không có dấu hiệu nhận điện, chắc chết khối nguồn",
+      "vừa sáng lên được ba bốn giây là phụt tắt ngóm cả hình lẫn tiếng, lặp đi lặp lại hoài",
+      "sau trận giông chiều qua thì không mở lên nữa, cái đèn nhỏ phía dưới cũng tắt luôn",
+      "tự nhiên tịt ngòi luôn á, cắm vào bấm kiểu gì cũng không một tiếng động, đèn standby cũng không thèm sáng",
+      "nghe bụp một tiếng sau lưng máy rồi tắt luôn, giờ cắm lại không thấy điện vào",
+      "không biết có phải hỏng nguồn không mà đèn đỏ cứ nháy đều đều, bật hoài không chịu lên",
+      "đã thử đổi ổ khác, thay dây nguồn, dùng cả remote mới mà máy vẫn tắt lịm, không phản hồi gì",
+      "trước bấm là lên ngay, giờ phải rút điện cắm lại cả chục lần mới chịu sáng một lần"
+     ],
+     "indirect": [
+      "từ hôm khu em mất điện rồi có lại là phòng khách chẳng ai xem được gì nữa",
+      "con nhỏ đòi xem hoạt hình mà cắm vào máy vẫn im lìm như cục gạch, đèn chờ cũng không có",
+      "tủ lạnh, nồi cơm cắm cùng ổ vẫn chạy bình thường, chỉ riêng cái này là im lìm như đồ trưng bày"
+     ]
+    },
+    "TV_MAIN_BOARD": {
+     "clear": [
+      "bật lên cứ hiện chữ hãng rồi đứng im ở đó cả tiếng, không chịu vào giao diện chính",
+      "mở YouTube hay Netflix là văng ra ngoài, bấm chuyển mục nào cũng giật khựng mấy giây",
+      "cắm đầu thu hay laptop vào cổng nào cũng báo không có tín hiệu, dây đó thử sang máy khác vẫn chạy",
+      "hình cứ vỡ thành từng mảng vuông vuông, mặt người lúc xanh lè lúc tím lịm, rồi lại bình thường",
+      "đang xem ngon lành thì tự quay về logo như mới bật, ngày bị cả chục lần",
+      "bác bấm nút gì cũng không ra được bảng cài đặt, mấy kênh VTV dò mãi cũng chẳng thấy đâu",
+      "không biết có phải nhiễm virus không mà tự mở ứng dụng lung tung, bấm thì chậm như rùa",
+      "khôi phục cài đặt gốc, cập nhật phần mềm rồi mà vẫn treo cứng một hình, nút trên thân cũng chẳng ăn",
+      "hồi trước kết nối wifi vèo vèo, giờ điện thoại vẫn bắt mạng tốt mà nó cứ báo mất kết nối",
+      "lúc thì mất âm thanh, lúc thì hình đứng sững như ảnh chụp, tắt đi mở lại thì chạy được một lúc"
+     ],
+     "indirect": [
+      "đầu thu với máy chơi game cắm vào đều không lên gì, nên giờ nhà em chỉ xem được mỗi YouTube",
+      "tối nào chồng em cũng phải rút điện cắm lại vài lần thì nó mới qua được cái logo",
+      "mấy đứa nhỏ chán xem hoạt hình vì bấm chuyển một tập phải ngồi chờ cả phút"
+     ]
+    },
+    "TV_PANEL_DAMAGE": {
+     "clear": [
+      "có một đường kẻ thẳng đứng màu xanh lá chạy từ mép trên xuống mép dưới, chuyển kênh vẫn nằm nguyên đó",
+      "có mấy cái vạch ngang mảnh như sợi chỉ cứ nằm đó, bác đổi kênh nào cũng không hết",
+      "bị thằng cu cầm đồ chơi gõ vào mặt kính, giờ có vết nứt chân chim và hình quanh đó loang lổ",
+      "vào menu cài đặt thì mấy đường kẻ ngang vẫn đè lên cả menu, em nghĩ lỗi ở tấm màn chứ không phải tín hiệu",
+      "nhìn giống tờ giấy dính dầu, có mấy vết loang sẫm màu dù hình vẫn chạy và tiếng vẫn bình thường",
+      "không biết có phải bị đè lúc khiêng lên lầu không mà giữa màn có một mảng đen nhòe không mất",
+      "xem phim thấy mấy chục sọc đủ màu chạy song song bên trái, kiểu như mã vạch luôn á",
+      "lúc mới bật thì vệt còn mờ, để lâu máy nóng lên thì mấy đường kẻ đậm hẳn và nhiều hơn",
+      "cập nhật phần mềm, đổi nguồn phát rồi mà cái dải màu đen dọc mép phải vẫn y nguyên",
+      "có một đốm đen nhỏ ở giữa mà cứ vài hôm lại loang to thêm, giờ bằng bàn tay rồi"
+     ],
+     "indirect": [
+      "sau lần dọn nhà, xem đá bóng cứ phải đoán bóng đi đâu vì một khoảng giữa đen sì",
+      "bị con mèo làm rớt bình hoa vào, từ đó hình có mấy đường vạch nằm im không đi",
+      "xem phim có phụ đề mà chữ bị mấy đường kẻ đè lên đọc không ra"
+     ]
+    },
+    "TV_NO_SOUND": {
+     "clear": [
+      "phát ra tiếng lẹt xẹt rột rột như radio dò sai đài, nhất là lúc có nhạc nền",
+      "hình thì rõ mà ông nhà em vặn to hết mức vẫn chẳng nghe người ta nói gì",
+      "cắm loa ngoài hoặc tai nghe thì nghe rõ, chỉ loa trong máy là im bặt, chắc hỏng loa hoặc mạch khuếch đại",
+      "giờ tiếng nghe như từ trong cái lon vọng ra, khàn khàn đục đục, không trong như hồi mới mua",
+      "hình như bên trái hết kêu rồi, chỉ còn phía bên phải phát ra âm thanh",
+      "mở lên được mươi phút thì tiếng tự dưng tắt ngấm, hình vẫn đẹp, vỗ vào hông máy thì có lại",
+      "đã kiểm tra không bật chế độ im lặng, tăng âm lượng lên 100 mà diễn viên vẫn chỉ mấp máy miệng",
+      "xem phim hành động tới đoạn cháy nổ là loa rè rè vỡ tiếng, nghe đau tai luôn",
+      "thanh âm lượng vẫn nhảy lên xuống bình thường nhưng loa chẳng phát ra tiếng nào",
+      "tiếng cứ to nhỏ thất thường, đang nghe bình thường thì nhỏ rí rồi lại bùng lên"
+     ],
+     "indirect": [
+      "cả nhà giờ xem thời sự phải bật phụ đề, chứ ngồi sát bên cũng chẳng nghe được câu nào",
+      "chồng em phải mua cái loa bluetooth kết nối vào mới xem được bóng đá có bình luận",
+      "con em xem hoạt hình cứ chạy lại hỏi mẹ ơi sao nhân vật không nói gì"
+     ]
+    },
+    "TV_REMOTE_FAULT": {
+     "clear": [
+      "ngồi ghế bấm cái cục điều khiển chuyển kênh không được, bác phải đứng dậy ra tận nơi bấm nút trên máy",
+      "soi đầu remote qua camera điện thoại vẫn thấy đèn hồng nháy, vậy chắc mắt thu trên máy có vấn đề",
+      "ngồi xa tầm hai mét là bấm chẳng nhận, phải dí sát vào góc máy nó mới chịu",
+      "mua pin mới lắp vào rồi, thử cả cục khác cùng hãng mà máy vẫn lờ đi",
+      "mấy phím số với phím tăng giảm âm lượng bấm lún xuống mà chẳng thấy phản ứng, phím khác thì vẫn được",
+      "hôm qua bị con làm đổ cốc trà sữa lên cục điều khiển, giờ phím dính dính và lúc ăn lúc không",
+      "cái remote dở chứng, bấm muốn gãy tay mới chuyển được một kênh, còn máy thì vẫn chạy ngon",
+      "không biết do cục điều khiển hay do máy, cứ nắng chiếu vào phòng là bấm không có tác dụng",
+      "ấn phím mà máy không có biểu tượng hay phản hồi gì, nhưng bấm nút trên thân thì lên ngay",
+      "trước đứng trong bếp chĩa ra cũng ăn, giờ đứng ngay trước mặt máy cũng phải bấm ba bốn lần"
+     ],
+     "indirect": [
+      "tối nào cũng phải chạy lên chạy xuống chỉnh âm lượng bằng tay vì ngồi ghế bấm chẳng ăn thua",
+      "bà em phải nhờ cháu đứng sát bên máy mỗi lần muốn đổi sang kênh cải lương",
+      "giờ phải cài app trên điện thoại để chỉnh tạm, chứ cục đi kèm coi như bỏ"
+     ]
+    }
+   }
+  },
+  "power_outlet": {
+   "names": [
+    "ổ Lioa",
+    "ổ cắm Sino",
+    "ổ cắm Panasonic",
+    "ổ cắm Schneider",
+    "ổ cắm âm tường",
+    "ổ nối dài",
+    "ổ chia điện",
+    "cục chia điện",
+    "ổ cắm ba chấu",
+    "lỗ cắm điện",
+    "ổ cắm đa năng",
+    "ổ đôi trên tường"
+   ],
+   "vague": [
+    "dạo này dùng thấy không yên tâm lắm",
+    "có vẻ có vấn đề, anh xem giùm em với",
+    "từ tuần trước thấy hơi lạ lạ"
+   ],
+   "faults": {
+    "OUTLET_SHORT_CIRCUIT": {
+     "clear": [
+      "vừa cắm bàn ủi vào là lóe lên một chớp lửa xanh, em hoảng quá giật tay ra luôn",
+      "từ chiều tỏa mùi nhựa cháy nồng nặc, lại gần thì thấy quanh lỗ cắm đã ngả màu nâu đen",
+      "cắm cục sạc điện thoại vào nghe xè xè rồi đốp một tiếng, khói trắng bay ra từ khe",
+      "bà sờ vào thấy mặt nhựa nóng hổi, phồng lên mềm nhũn như sắp chảy ra, sợ quá không dám rút",
+      "tháo mặt ra thấy hai đầu dây đồng cháy trụi lớp vỏ, chỗ bắt vít đen như than",
+      "tối qua đang dùng máy sấy tóc thì tóe tia lửa kèm tiếng nổ lách tách, sợ xỉu luôn",
+      "không biết có phải chập không mà mỗi lần rút đầu cắm ra là chân đồng đen xì và rỗ",
+      "dùng nồi lẩu điện được mười phút là bốc mùi khét, nhìn vào khe thấy đỏ rực lập lòe",
+      "đã ngắt cầu dao rồi, giờ không dám bật lại vì mặt nhựa đã chảy méo, dính chặt vào đầu cắm",
+      "nhìn cháy sém như miếng bánh mì nướng quá lửa, mùi thì giống dây điện bị đốt"
+     ],
+     "indirect": [
+      "nửa đêm cả nhà ngửi mùi khen khét, lần ra thì chính chỗ cắm sau tủ lạnh đang bốc mùi",
+      "bức tường quanh chỗ cắm máy giặt giờ có một vệt muội đen loe lên như bị hun lửa",
+      "khung tranh treo ngay phía trên bị ám khói đen, cả phòng có mùi như vừa đốt dây"
+     ]
+    },
+    "OUTLET_LOOSE_CONTACT": {
+     "clear": [
+      "cắm cái quạt vào cứ lủng lẳng, đụng nhẹ sợi dây là quạt khựng lại",
+      "hai lá đồng bên trong bị doãng ra, không còn kẹp chặt chân cắm nên tiếp xúc kém",
+      "cắm cục sạc laptop mà đèn sạc cứ tắt bật tắt bật, phải nhét thêm miếng giấy cho chặt",
+      "nghe lẹt xẹt nhỏ trong lỗ mỗi khi lay đầu cắm, xong thì tivi cũng chớp một cái",
+      "phải bẻ dây chéo sang trái một chút thì nồi cơm mới đỏ đèn, thả tay ra là tắt",
+      "lỗ khác cắm vào chắc nịch, riêng chỗ này đầu cắm xoay vòng được như bị nhờn",
+      "hình như lò xo bên trong yếu rồi, cắm vào một lúc là đầu cắm tự trồi ra một nửa",
+      "đã thử đầu cắm của mấy món khác nhau, món nào cũng lung lay, chỉ cần đóng cửa mạnh là máy tắt",
+      "nhìn thấy chân cắm chỉ lọt vào được một nửa, miệng lỗ bị loe rộng ra",
+      "đang dùng máy khoan cứ vài giây lại ngắt, lấy tay ấn đầu cắm sâu vào là chạy lại"
+     ],
+     "indirect": [
+      "con em hay vấp phải sợi dây, mỗi lần vậy là máy tính bàn tắt phụt mất bài đang làm",
+      "phải lấy băng dính dán chặt đầu cắm vào tường cho nó khỏi lung lay",
+      "máy sục khí bể cá cứ chạy rồi ngưng, phải kê cục gạch giữ dây thì mới chạy đều"
+     ]
+    },
+    "OUTLET_NO_POWER": {
+     "clear": [
+      "lấy bút thử chọc vào cả hai lỗ mà đèn bút tắt ngóm, aptomat vẫn đang gạt lên bình thường",
+      "bác cắm cái quạt, cái đèn bàn đều im như thóc, mà chỗ cắm bên kia tường vẫn dùng ngon",
+      "cắm cục sạc điện thoại không thấy hiện biểu tượng sạc gì luôn, đổi củ sạc khác cũng vậy",
+      "không khét, không cháy đen gì, nhìn vẫn mới tinh mà tự dưng đứt điện hoàn toàn",
+      "từ hôm thợ khoan tường treo tranh là cả dãy bên đó tịt hết",
+      "cùng một phòng mà chỗ gần cửa sổ vẫn chạy, chỗ cạnh giường thì chết hẳn",
+      "không biết có phải đứt dây ngầm trong tường không mà cụm phòng ngủ im re, cầu dao không nhảy",
+      "đã kiểm tra cầu dao tổng, cầu dao phòng đều đang bật, thay luôn mặt mới mà vẫn tịt",
+      "cắm nồi cơm vào bấm nấu mà đèn không đỏ, không một tiếng tách nào, cứ như chưa cắm",
+      "từ lúc chuột chạy trên trần thì hai lỗ sát nhau ở bếp chết luôn, các phòng khác điện vẫn bình thường"
+     ],
+     "indirect": [
+      "tủ lạnh tắt từ đêm qua, đồ ăn rã đông hết, chuyển sang cắm phòng khách thì lạnh lại ngay",
+      "phải kéo dây nối dài từ phòng bên sang cắm quạt cho con ngủ, vì chỗ trong phòng dùng không được",
+      "mấy cái đèn ngủ cắm ở hành lang tắt từ hôm qua, đem vào phòng khác cắm thì sáng"
+     ]
+    },
+    "OUTLET_TRIPS_BREAKER": {
+     "clear": [
+      "chạm tay vào cái vít trên mặt thấy rần rần như kiến cắn, sợ quá không dám sờ nữa",
+      "rút hết đồ ra rồi mà cái chống giật cứ sập xuống mỗi khi đóng lại, em nghĩ có chỗ rò xuống đất",
+      "hễ mưa to nước hắt vào tường là cầu dao tổng sập cái rụp, khô ráo thì lại bình thường",
+      "chỉ cắm mỗi cái sạc điện thoại thôi mà cả nhà tối thui, thử cắm chỗ khác thì không sao",
+      "bác cứ cắm đồ vào là nghe cạch ngoài hộp điện, cả nhà tắt đèn, phải mò ra bật lại",
+      "đang chơi game thì sập điện cả nhà, ra tủ điện thấy nút gạt rớt xuống, bật lên chục giây lại rớt",
+      "hình như bị rò điện, cầm vỏ kim loại của nồi cơm đang cắm ở đó thấy tê tê đầu ngón",
+      "thử rút từng thiết bị một, cắm cái nào vào đây cũng làm cầu dao bật xuống, chỗ khác thì cắm thoải mái",
+      "bên trong lỗ hơi ẩm và có vệt xanh rỉ đồng, từ đó cứ dùng là bị cúp cả nhà",
+      "trước giờ dùng bình thường, giờ cứ đụng đến là át tụt xuống như bị ai gạt"
+     ],
+     "indirect": [
+      "cả xóm có điện mà riêng nhà em mỗi ngày tối om mấy lần, ra hộp điện gạt lên mỏi tay",
+      "đứa nhỏ chạm vào cái tủ lạnh cắm ở đó rồi khóc ré lên bảo bị điện cắn tay",
+      "tháng này phải chạy ra tủ điện bật lại cả chục lần, đồng hồ lò vi sóng lúc nào cũng nháy về 00:00"
+     ]
+    },
+    "OUTLET_OVERLOAD": {
+     "clear": [
+      "cái lỗ ba chấu mà cắm thêm hai cục chia, tổng cộng gần chục món, sờ vào thấy nóng hôi hổi",
+      "bật lò vi sóng lúc máy giặt đang vắt cùng một chỗ là cầu dao sập, tắt bớt một món thì không sao",
+      "bếp từ, lò nướng với bình nóng lạnh cùng chạy trên một chỗ, em tính sơ chắc vượt quá 16A rồi",
+      "bác cắm nồi cơm, cái ấm đun, cái quạt chung một chỗ, sợi dây nối ra cứ ấm sực lên",
+      "phòng trọ chỉ có một chỗ cắm nên em gom laptop, nồi lẩu mini, máy sấy vào cục chia, giờ nó ấm rực lên",
+      "dùng riêng từng món thì không sao, cứ bật cùng lúc ba bốn món là đèn trong nhà tối hẳn đi",
+      "không biết có phải do cắm nồi chiên với lò sưởi chung một chỗ không mà nóng tới mức không dám chạm",
+      "chuyển bớt bình nóng lạnh sang chỗ khác thì hết bị, nhưng nhà ít chỗ cắm quá phải dồn lại",
+      "cục chia kêu rè rè nho nhỏ mỗi khi máy lạnh với tủ lạnh cùng chạy, đèn trên cục chia mờ đi",
+      "cứ mùa hè chạy hai cái điều hòa với quạt cùng lúc là dây nối nóng như sắp chảy, có khi tự ngắt"
+     ],
+     "indirect": [
+      "tối nào cả nhà về cùng sạc điện thoại, nấu cơm, bật bình nóng lạnh là y như rằng tối om",
+      "vỏ cục chia sau kệ tivi ngả vàng và hơi cong vì cắm kín cả sáu lỗ suốt mấy năm",
+      "mỗi lần nhà đông khách bật thêm nồi lẩu là cả bếp sập điện"
+     ]
+    },
+    "OUTLET_BROKEN_FACE": {
+     "clear": [
+      "mặt nhựa bị rạn một đường dài, nhìn qua khe thấy cả lá đồng sáng lóa",
+      "bị thằng bé đập xe đồ chơi vào làm mẻ mất một góc, giờ hở lỗ to thò lọt ngón tay",
+      "mỗi lần bác rút cái nồi cơm ra là cả mặt chồi theo một khúc, lủng lẳng trên tường",
+      "miếng che bị vỡ toác, hai sợi dây đỏ đen lòi ra ngoài, nhà có con nhỏ em sợ lắm",
+      "tai bắt vít của đế âm bị gãy nên cả bộ mặt bập bênh, vít không còn chỗ ăn",
+      "nhìn như cái ly bị vỡ, mấy miếng nhựa rơi xuống sàn, chỗ khoét tường lộ ra",
+      "không biết có phải do đẩy tủ va vào không mà mặt bị móp và nứt chân chim quanh lỗ",
+      "lỡ đập cái ghế vào, mặt bể lởm chởm luôn á, nhìn thấy mấy lá đồng sáng ở trong",
+      "đã quấn băng keo tạm quanh chỗ vỡ nhưng băng cứ bong, chỗ hở vẫn thấy lõi đồng",
+      "từ hôm treo cái kệ đè lên thì mặt gãy làm đôi, giờ cắm vào là tách hẳn ra"
+     ],
+     "indirect": [
+      "phải dán băng keo kín lại và kê tủ chắn trước để con khỏi thò tay vào chỗ đó",
+      "đứa nhỏ cứ thích moi mấy mảnh nhựa vụn ở chân tường ra chơi, em phải mua nắp che tạm",
+      "mỗi lần lau nhà phải tránh góc đó vì sợ nước bắn vào chỗ hở lộ đồng"
+     ]
+    }
+   }
+  },
+  "ceiling_fan": {
+   "names": [
+    "quạt trần Panasonic",
+    "quạt trần Mỹ Phong",
+    "quạt trần KDK",
+    "quạt trần Vinawind",
+    "quạt treo trần",
+    "quạt trần đèn",
+    "quạt trần ba cánh",
+    "quạt trần cánh gỗ",
+    "quạt chần",
+    "cái quạt trên trần nhà",
+    "quạt trần Điện cơ Thống Nhất",
+    "cái quạt trần năm cánh"
+   ],
+   "vague": [
+    "chạy thấy không được bình thường lắm",
+    "dạo này nó hơi khác khác",
+    "dùng lâu rồi giờ thấy không ổn"
+   ],
+   "faults": {
+    "CEILFAN_CAPACITOR": {
+     "clear": [
+      "sáng sớm còn quay được kha khá, trưa nóng là chậm rì rì, gió không xuống tới giường",
+      "số to nhất bây giờ còn yếu hơn số nhỏ nhất ngày xưa, gió chỉ phe phẩy",
+      "bật lên phải đợi cả phút cánh mới nhích dần, ông chờ mãi mới thấy có gió",
+      "đo cái tụ gắn trên quạt thấy điện dung tụt còn một nửa, vỏ tụ hơi phù lên",
+      "bật lên nghe o o trong bụng mà cánh đứng yên, khẽ đẩy cánh thì lại quay bình thường, không có mùi gì",
+      "quay uể oải như đang ngủ gật, nằm ngay bên dưới mà mồ hôi vẫn ướt áo",
+      "không biết có phải hết tụ không mà tốc độ nào cũng lừ đừ, chỉ nhỉnh hơn nhau một chút",
+      "nhìn rõ từng cánh lướt qua chầm chậm, đếm được luôn, trong khi trước đây chỉ thấy mờ mờ",
+      "mỗi lần điện yếu buổi tối là đứng hẳn, phải lấy tay khều cánh mới chịu chạy tiếp",
+      "đã lau sạch bụi cánh, siết lại ốc mà gió vẫn yếu, mô tơ cũng không nóng hay khét"
+     ],
+     "indirect": [
+      "mùa này phải bật thêm cái quạt cây đứng cạnh, vì cái trên đầu quay mà như không có gió",
+      "sáng nào bà em cũng phải lấy cây sào đẩy cánh thì nó mới bắt đầu quay",
+      "khách đến chơi ngồi ngay dưới mà vẫn phải cầm quạt nan phe phẩy thêm"
+     ]
+    },
+    "CEILFAN_BEARING": {
+     "clear": [
+      "quay tới đâu nghe két két tới đó, đều theo nhịp cánh, đêm yên tĩnh nghe rõ mồn một",
+      "tắt đi lấy tay quay thử thấy trục rít, có độ rơ và nghe sạn sạn bên trong, chắc khô dầu",
+      "cứ rít lên kin kít như bánh xe bò chưa tra mỡ, ông nằm dưới không chợp mắt được",
+      "tiếng nghe giống bánh xe đẩy siêu thị bị kẹt, sột soạt cọ xát liên tục",
+      "mới bật thì êm, chạy chừng nửa tiếng nóng lên là bắt đầu rít và kêu khàn khàn",
+      "đêm nào cũng nghe tiếng rít rít như mài dao trên đầu, mất ngủ luôn á",
+      "hình như lâu quá chưa tra dầu hay sao, cánh vẫn quay đều không lắc mà tiếng cọ cứ rè rè",
+      "đã siết lại ốc cánh, cân lại cánh mà tiếng sàn sạt vẫn còn, phát ra ngay giữa bầu mô tơ",
+      "tắt điện thì cánh dừng lại rất nhanh, không trôi thêm mấy vòng như trước, quay tay thấy nặng trịch",
+      "bật số nhỏ nghe rõ tiếng lạch xạch trong trục, số lớn thì tiếng gió át đi"
+     ],
+     "indirect": [
+      "vợ chồng em phải tắt nó lúc ngủ dù nóng, vì tiếng rít trên đầu làm thức giấc liên tục",
+      "con em bảo nằm phòng đó nghe như có con chuột kêu chít chít trên trần",
+      "khách đến nhà còn hỏi có cái gì cần tra dầu mà kêu như cánh cửa sắt cũ vậy"
+     ]
+    },
+    "CEILFAN_MOUNT_LOOSE": {
+     "clear": [
+      "cả thân quạt đung đưa qua lại như con lắc, nhìn từ dưới lên thấy cái ty treo lắc theo",
+      "mỗi vòng quay lại nghe cạch cạch chỗ cái móc trên trần, như có gì đó sắp tuột",
+      "lúc lắc dữ quá, ông nhà em sợ có hôm rớt xuống trúng đầu cháu đang bò dưới sàn",
+      "kiểm tra thấy chốt chẻ ở ty treo bị lỏng, cao su giảm chấn mòn, một cánh bị cong nên mất cân bằng",
+      "chỗ móc treo trên trần thạch cao đã có vết rạn tỏa ra, bụi trắng rơi lả tả",
+      "quay mà đảo thành vòng tròn to như đang múa, nhìn hết hồn, em không dám bật số lớn",
+      "chạy mà rung y như cái máy giặt vắt bị lệch đồ, trần nhà cũng rung bần bật theo",
+      "không biết có phải lỏng ốc không mà đứng dưới thấy cái chụp che trên trần cứ xê dịch lên xuống",
+      "đã đổi chỗ hai cánh, siết ốc cánh rồi mà thân quạt vẫn chao đảo, chỗ móc vẫn lắc",
+      "bật số một thì tạm ổn, lên số ba là cả cây treo chao đi chao lại như sắp bung"
+     ],
+     "indirect": [
+      "từ hôm thấy nó chao đảo em đã kéo giường con ra khỏi chỗ ngay bên dưới cho an toàn",
+      "đèn chùm bên cạnh rung leng keng mỗi khi bật nó, mảng sơn trần quanh móc bong ra",
+      "cả nhà không ai dám ngồi ăn cơm ở bàn ngay dưới nó nữa"
+     ]
+    },
+    "CEILFAN_SPEED_SWITCH": {
+     "clear": [
+      "vặn cái nút tròn trên tường từ số 1 lên số 5 mà cánh vẫn quay đều y chang nhau",
+      "xoay cái núm hoài mà gió cứ một kiểu, bác muốn cho nhỏ lại ban đêm cũng chịu",
+      "tháo hộp điều tốc ra thấy mấy tiếp điểm bên trong bị muội đen, cuộn dây trong hộp nóng ấm",
+      "cái hộp trên tường kêu o o rì rì mỗi khi bật, áp tay vào thấy nóng",
+      "đang để số nhỏ tự dưng vọt lên quay hết cỡ, vặn về cũng không chịu chậm lại",
+      "cái núm vặn bị trơ luôn, xoay vòng vòng không có nấc nào, quạt cứ chạy max hoài",
+      "không biết hỏng quạt hay hỏng bộ chỉnh, nhưng nối thẳng không qua hộp thì quạt chạy êm ru",
+      "treo thử quạt khác vào vẫn y như cũ, chỉ ra đúng một mức gió, chắc tại cái bộ chỉnh trên tường",
+      "giống như vô lăng bị trượt, quay núm mà không ăn vào đâu, tốc độ không đổi chút nào",
+      "vặn tới khoảng giữa thì quạt chạy giật cục, lúc nhanh lúc chậm, xoay ra hai đầu thì bình thường"
+     ],
+     "indirect": [
+      "đêm nào cũng phải tắt hẳn rồi bật lại vì không cách nào giảm gió cho con ngủ đỡ lạnh",
+      "mấy hôm trời mát mà nó cứ thổi phần phật vì không chỉnh xuống được, giấy tờ bay khắp bàn",
+      "phải dán băng dính lên cái nút vặn vì nó lỏng lẻo, chạm vào lại nhảy tốc độ lung tung"
+     ]
+    },
+    "CEILFAN_MOTOR_BURNT": {
+     "clear": [
+      "phòng nồng mùi như dây điện bị đốt, ngẩng lên thấy khói mỏng tỏa ra từ bầu quạt",
+      "chạy chừng mười lăm phút là tự đứng lại, sờ vào thân nóng bỏng tay, để nguội lại chạy tiếp",
+      "đo cuộn dây thấy điện trở lệch hẳn, vỏ bầu mô tơ nóng hầm hập, lớp sơn cách điện ngả màu nâu",
+      "bà thấy khen khét thoang thoảng, cứ tưởng bếp ai nấu cháy cơm, hóa ra từ cái quạt trên đầu",
+      "bật lên kêu ù ù gằn gằn rồi đứng im, cánh không nhúc nhích, lát sau nồng mùi khét",
+      "tối qua lóe sáng trong bầu một cái rồi tắt phụt, giờ bật không quay nữa, hoảng hồn luôn",
+      "trên trần ngay chỗ treo bị ám một quầng đen như bồ hóng, cánh quay càng ngày càng ì",
+      "hình như mô tơ có chuyện rồi, mỗi lần bật lên một lúc là cả nhà sập điện",
+      "đã thay tụ mới rồi mà vẫn ì, chạy một hồi là nóng rực và có mùi như nhựa bị nung",
+      "mùi hệt như lúc bàn ủi cháy dây, chỗ bầu quạt còn nóng hơn cả cái nồi cơm đang nấu"
+     ],
+     "indirect": [
+      "cả nhà đi tìm khắp nơi xem cái gì cháy, cuối cùng leo ghế áp tay lên bầu quạt thì nóng rẫy",
+      "đêm qua phải tắt cầu dao phòng ngủ vì vừa bật nó là trên trần bốc mùi khét và lóe khói",
+      "mảng trần thạch cao quanh chỗ treo ngả màu vàng nâu như bị hun, mấy hôm nay phòng có mùi lạ"
+     ]
+    }
+   }
+  },
+  "light_bulb": {
+   "names": [
+    "bóng Rạng Đông",
+    "đèn Philips",
+    "bóng Điện Quang",
+    "bóng điện",
+    "đèn nê ông",
+    "bóng huỳnh quang",
+    "bóng compact",
+    "đèn ốp trần",
+    "đèn âm trần",
+    "bóng búp",
+    "bóng tuýp",
+    "bóng lét"
+   ],
+   "vague": [
+    "dạo này có vấn đề gì đó",
+    "thấy không ổn lắm, nhờ thợ qua coi giúp",
+    "mấy bữa nay hơi kỳ kỳ"
+   ],
+   "faults": {
+    "LIGHT_BULB_DEAD": {
+     "clear": [
+      "đang sáng thì nghe tách một tiếng nhỏ trong bóng rồi tối luôn, bật lại cũng không lên nữa",
+      "hai đầu cái bóng dài đã đen sì, bật vào thì im lìm, mấy bóng khác cùng nút vẫn sáng",
+      "vặn cái bóng ấy sang đui phòng bên thử cũng tối om, còn bóng phòng bên lắp vào đây thì sáng",
+      "dùng mấy năm nay rồi, hôm qua bật lên tối thui, bà lắc lắc thấy bên trong kêu lạo xạo",
+      "đo hai chân bóng thấy đứt mạch, đui vẫn có 220V, công tắc bình thường",
+      "ngủm củ tỏi luôn rồi, bật tắt chục lần không thấy le lói tí nào",
+      "giờ chỉ còn là cái vỏ trắng treo trên trần, giống đồ trang trí chứ chẳng ra chút ánh sáng",
+      "không biết có phải hết đát không, lắp từ hồi dọn về tới giờ chưa thay, tự dưng tắt ngấm",
+      "nhìn vào thấy dây tóc bên trong đứt làm đôi, thủy tinh mờ đục một đầu",
+      "vừa bật lên thì chớp sáng chói một cái rồi tối hẳn, từ đó không lên nữa"
+     ],
+     "indirect": [
+      "nhà tắm tối thui từ chiều nên phải soi điện thoại mà đi, trong khi đèn hành lang chung nút vẫn sáng",
+      "ông em leo ghế tháo cái bóng xuống, thấy đầu đuôi đen thui nên bảo thôi mua cái khác",
+      "ra cửa hàng hỏi mua bóng cùng loại để thay vì cái cũ lắc nghe tiếng sột sột bên trong"
+     ]
+    },
+    "LIGHT_FLICKERING": {
+     "clear": [
+      "cứ chớp tắt chớp tắt liên hồi, nhìn lâu thấy hoa mắt",
+      "bóng LED âm trần mới thay được nửa năm mà đã rung sáng liên tục, em nghi bộ nguồn driver đi rồi",
+      "tắt nút rồi mà trong bóng vẫn le lói ánh xanh mờ mờ, cả đêm không tắt hẳn",
+      "quay video là thấy sọc tối chạy ngang, nhìn bằng mắt thì giần giật như hiệu ứng strobe",
+      "bà ngồi đọc kinh mà ánh sáng cứ rung lên từng chặp, mắt bà mỏi rát",
+      "bật lên lúc đầu sáng ổn, chừng mười phút sau thì bắt đầu chập chà chập chờn",
+      "nghe tiếng tè tè rất nhỏ trong máng, đi kèm là ánh sáng nhấp nháy theo",
+      "không biết do bóng hay do chấn lưu mà nó cứ chập chờn mãi, lúc mạnh lúc yếu",
+      "đã vặn chặt bóng lại, thay cả nút bật mới mà ánh sáng vẫn nháy liên hồi",
+      "nhìn giống đèn sân khấu ở quán karaoke, chớp nhoáng nhoáng, khó chịu vô cùng"
+     ],
+     "indirect": [
+      "con em ngồi học bên dưới hay kêu nhức mắt, chụp ảnh bài tập thì ảnh có sọc ngang",
+      "khách đến nhà còn trêu là nhà em mở sàn nhảy vì phòng khách cứ lập lòe",
+      "phải tắt hẳn để ngồi trong tối vì cái ánh sáng giật chớp làm em đau đầu buồn nôn"
+     ]
+    },
+    "LIGHT_SWITCH_FAULT": {
+     "clear": [
+      "ấn cái phím bật nghe lụp cụp mềm oặt như gãy lò xo, bóng khi lên khi không",
+      "phải ấn nghiêng nghiêng một góc thì bóng mới sáng, ấn thẳng thì chịu",
+      "tháo mặt nút ra thấy tiếp điểm bị rỗ, đo thì lúc thông lúc không, bóng thì vẫn tốt",
+      "cái nút gạt trên tường ngả vàng, quanh mép có vệt cháy xém nhỏ, sờ vào thấy âm ấm",
+      "bác gạt lên gạt xuống cả chục bận nó mới chịu sáng, lắm hôm gạt mãi vẫn tối",
+      "ở cầu thang bật từ dưới thì được, lên tầng trên bấm cái kia để tắt thì không ăn thua",
+      "không biết tại bóng hay tại cái nút, nhưng lấy bóng đó lắp chỗ khác thì sáng bình thường",
+      "đã thay hai bóng mới tinh mà vẫn y vậy, phải giữ tay ấn vào cái phím thì mới có ánh sáng",
+      "bấm vào chỉ nghe tạch tạch khô khốc mà bóng không phản ứng, như phím bị trượt",
+      "mỗi lần trời ẩm là phím bật bị rít, ấn xuống không bật lại lên được, cứ tắt hoặc sáng mãi"
+     ],
+     "indirect": [
+      "tối nào cũng phải đứng ở cửa phòng ấn đi ấn lại cái phím trên tường như chơi trò chơi",
+      "phải dán miếng giấy lên chỗ bật ghi ấn nhẹ bên trái, vì ấn kiểu khác là không lên",
+      "mấy đứa nhỏ không dám chạm vào cái phím ở hành lang vì nó nóng và có mùi nhựa"
+     ]
+    },
+    "LIGHT_DIM": {
+     "clear": [
+      "bóng 40W mà giờ sáng chẳng bằng ngọn đèn ngủ, ánh sáng đục ngầu",
+      "khoảng 6 tới 9 giờ tối là ánh sáng cả nhà ngả màu cam, quá 11 giờ đêm thì sáng trở lại",
+      "đo điện ở ổ chỉ còn tầm 170V vào giờ cao điểm, bóng nào trong nhà cũng ỉu xìu",
+      "bà đọc báo phải đeo hai lớp kính, căn phòng lúc nào cũng nhá nhem như chạng vạng",
+      "mua hẳn bóng công suất lớn hơn về lắp mà phòng vẫn chẳng sáng sủa hơn bao nhiêu",
+      "ánh sáng không chớp gì cả, chỉ đều đều mờ nhạt, đứng giữa phòng nhìn không rõ mặt người",
+      "chụp ảnh trong phòng lên toàn tối thui, bật hết mọi bóng mà vẫn kiểu ánh sáng buồn buồn",
+      "hình như điện khu em yếu thì phải, không chỉ một bóng mà bóng nào cũng sáng nhợt nhạt",
+      "ánh sáng ngả hẳn sang màu vàng cam, trắng không ra trắng, tường trắng nhìn thành màu kem",
+      "sang nhà hàng xóm thấy sáng trưng, về nhà mình bật y hệt loại bóng mà mờ mờ ảo ảo"
+     ],
+     "indirect": [
+      "con em làm bài tập buổi tối phải bật thêm đèn bàn với đèn điện thoại mới nhìn rõ chữ",
+      "tối nào nhà em cũng như đang có tiệc nến, khách đến còn hỏi sao để nhà tối thế",
+      "quạt quay chậm, tivi hay tự tắt, mà mấy bóng thì tối nào cũng sáng nhờ nhờ"
+     ]
+    },
+    "LIGHT_FIXTURE_LEAK": {
+     "clear": [
+      "phần khung kim loại quanh bóng gỉ sét bong tróc, nước đọng thành giọt ở mép chụp",
+      "đang tắm thì thấy nước nhỏ tong tỏng ngay chỗ bóng xuống, còn nghe xì xì, em sợ bị giật lắm",
+      "gioăng cao su của máng ngoài ban công bị lão hóa, nước mưa ngấm vào làm đui và vít gỉ xanh",
+      "hễ tầng trên tắm xong là trong máng phòng em có nước ri rỉ, chỗ đui đã han gỉ",
+      "cái hộp ngoài cổng gỉ sét loang lổ, mưa xong ông bật lên thì cả nhà mất điện",
+      "trong nhà tắm cứ hai tuần lại tèo một bóng, tháo ra thấy đui toàn hơi nước đọng li ti",
+      "không biết có phải ống nước trên trần rò không mà vết loang nâu cứ lan quanh cái lỗ downlight",
+      "bật lên một lúc là có mùi khen khét lẫn mùi ẩm mốc từ hộp đèn, nắp nhựa đã ố vàng",
+      "đã lau khô và bơm silicon quanh viền nhưng cứ mưa dầm vài hôm là bên trong lại đọng nước",
+      "sau mỗi trận mưa to bóng ngoài hiên lại tắt, tháo chụp ra đổ được cả nửa chén nước"
+     ],
+     "indirect": [
+      "trần thạch cao chỗ treo bóng trong nhà tắm phồng lên và mềm nhũn, sờ vào thấy ướt",
+      "tháng nào cũng phải mua bóng mới cho ngoài hiên, mưa xong là cái cũ đi luôn",
+      "mỗi lần trời mưa mà bật bóng ngoài ban công là cả nhà tối om, trời khô thì không sao"
+     ]
+    }
+   }
+  },
+  "smart_lock": {
+   "names": [
+    "khóa Kaadas",
+    "khóa Samsung",
+    "khóa Xiaomi",
+    "khóa Hafele",
+    "khóa Yale",
+    "khóa Philips",
+    "khóa mã số",
+    "khóa mật khẩu",
+    "khóa thông minh",
+    "khóa smart",
+    "khóa nhận diện khuôn mặt",
+    "khóa mở bằng điện thoại"
+   ],
+   "vague": [
+    "dạo này dùng hơi trục trặc",
+    "thấy nó không được như trước",
+    "có lỗi gì đó mà em không rành mấy"
+   ],
+   "faults": {
+    "LOCK_FINGERPRINT_FAIL": {
+     "clear": [
+      "đặt ngón lên chỉ nghe te te báo sai, trong khi bấm mật mã thì mở ngon lành",
+      "tay bà già nhăn nheo, đầu ngón mòn hết rồi nên áp mãi nó không chịu mở cho bà",
+      "mặt kính đọc bị trầy xước, đăng ký lại dấu ngón mới cũng không lưu được, toàn báo thất bại",
+      "tay ướt hoặc vừa rửa bát xong là chịu chết, phải lau khô ráo mới may ra",
+      "chồng em chạm một phát là mở, còn em áp đi áp lại năm bảy lần mới ăn",
+      "quét ngón trỏ cứ báo không khớp hoài, phải chuyển sang nhập mã mới vào được nhà",
+      "không biết có phải tại ngón tay em bị bong da không mà mấy hôm nay chạm vào là báo sai",
+      "đã lau sạch ô đọc bằng cồn, xóa dấu ngón cũ thêm lại mà vẫn hiếm khi qua",
+      "chỗ ô cảm ứng hình bầu dục có vết mờ như bị dầu loang, ngón đặt lên thì đèn chớp đỏ",
+      "sáng sớm trời lạnh tay khô thì nó lờ đi, chiều về ấm hơn thì lại mở bình thường"
+     ],
+     "indirect": [
+      "cả nhà giờ phải nhớ mật mã để vào, vì mấy ngón tay đăng ký lúc lắp gần như vô dụng",
+      "làm em hay phải đứng trước cửa chà ngón tay vào áo cho khô rồi thử lại mấy lượt",
+      "mẹ em đi chợ về toàn phải gọi con mở từ xa vì ngón tay bà áp vào không ăn"
+     ]
+    },
+    "LOCK_LOW_BATTERY": {
+     "clear": [
+      "mỗi lần chạm vào là nó đọc một câu nhắc thay pin, rồi kêu bíp bíp kéo dài",
+      "bàn phím số dạo này sáng lờ đờ, bác bấm phải đợi lâu nó mới chịu mở, tiếng máy kêu yếu ớt",
+      "đo bốn viên pin AA chỉ còn 1,1V mỗi viên, mô tơ rút chốt nghe ì ạch",
+      "tối về bấm vào mà màn cảm ứng tối thui luôn, không có một đèn nào sáng",
+      "mấy hôm nay mở xong là tự khởi động lại, đèn bàn phím tắt rồi sáng lại",
+      "không biết có phải hết điện không mà đèn phím cứ chớp chớp màu đỏ, kèm tiếng kêu như còi báo",
+      "cắm sạc dự phòng vào cổng USB khẩn cấp bên dưới thì sáng lên mở được, rút ra lại tắt",
+      "giống cái điện thoại sắp sập nguồn, cái gì cũng chậm chạp, tiếng mở lạch cạch ngắt quãng",
+      "trên màn nhỏ hiện biểu tượng cục pin trống trơn nhấp nháy mỗi lần em mở cửa",
+      "lắp mấy viên pin sạc loại rẻ được ba tuần là lại báo cạn, chắc pin kém"
+     ],
+     "indirect": [
+      "tối qua phải lấy cục sạc dự phòng đứng ngoài áp vào cổng dưới mới vào được nhà",
+      "cả tuần nay ai đi ngang cửa cũng nghe cái tiếng nhắc nhở lải nhải, hàng xóm còn hỏi",
+      "vừa phải chạy ra tiệm tạp hóa mua vỉ pin tiểu để kịp vào nhà trước khi nó tắt hẳn"
+     ]
+    },
+    "LOCK_MOTOR_FAULT": {
+     "clear": [
+      "quét ngón xong nghe rè rè bên trong rồi im, cái lưỡi gà vẫn thò ra y nguyên",
+      "báo xác thực thành công, nhưng nghe mô tơ quay trượt, bánh răng bên trong như bị mòn",
+      "nó đọc mời vào rồi mà ông kéo tay nắm vẫn cứng ngắc, cánh cửa không nhúc nhích",
+      "phải lấy vai đẩy mạnh cánh cửa vào phía trong một chút thì chốt mới chịu thụt",
+      "đọc ngón cái rụp, đèn báo ok luôn mà cái chốt lì ra không chịu chạy, bực ghê",
+      "hình như bộ phận rút chốt bị kẹt, lúc rút được lúc không, có hôm thử bốn năm lần",
+      "đã thay pin mới tinh, nhập mã đúng nó cũng báo mở mà then cửa vẫn đứng im",
+      "nhìn khe cửa thấy cái then sắt chỉ thụt vào được một nửa rồi khựng lại, lại bật ra",
+      "buổi sáng còn mở được, chiều nắng chiếu vào cửa giãn ra là chốt kẹt cứng dù đã báo mở",
+      "giống như xe đạp tuột xích, nghe máy chạy vù vù mà cái chốt chẳng ăn theo"
+     ],
+     "indirect": [
+      "nhà em giờ phải để hé cửa vì sợ đóng lại là mở không ra dù nó vẫn nhận người",
+      "con em đi học về bấm đúng mã, đèn báo đúng mà vẫn phải đứng gõ cửa vì cánh cửa bị giữ chặt",
+      "mỗi lần về nhà chồng em phải vừa quét ngón vừa dùng gối đẩy cửa, hàng xóm nhìn còn cười"
+     ]
+    },
+    "LOCK_LOCKED_OUT": {
+     "clear": [
+      "làm em kẹt ở hành lang gần một tiếng rồi, thử đủ cách mà cánh cửa vẫn đóng im, nhờ qua giúp gấp",
+      "bấm mãi không mở, bà đi lễ chùa về giờ ngồi ở bậc thềm chờ con cháu về mở giùm",
+      "làm em vừa đi làm về là bị nhốt ở ngoài luôn, điện thoại cũng sắp tắt, giờ biết tính sao đây",
+      "không mở lại được, cháu nhỏ đang ngủ bên trong mà em chỉ ra đổ rác một lát",
+      "thử dấu ngón, thẻ, cả mật mã dự phòng đều không ăn, chìa cơ thì để quên trên bàn trong phòng",
+      "từ trưa tới giờ em loay hoay ở ngoài, trời sắp tối mà vẫn chưa vào được bên trong",
+      "không biết bị sao mà em cứ đứng ở bậc cửa không có cách nào vào, đồ đông lạnh mua về sắp tan hết",
+      "không cho em vào dù em là chủ căn hộ, cần thợ mở khẩn cấp mà không phá cửa",
+      "khiến em chẳng khác gì người lạ trước cửa nhà mình, bấm gì nó cũng không cho vào",
+      "mưa gió thế này mà hai mẹ con kẹt ngoài hiên, mấy cách mở đều thất bại hết rồi"
+     ],
+     "indirect": [
+      "làm em phải ngồi nhờ quán cà phê đầu ngõ chờ thợ vì không có cách nào bước qua cửa nhà mình",
+      "chú bảo vệ chung cư gọi giúp mấy chỗ mà chưa ai tới, con em thì đang khóc ở bên trong",
+      "nồi canh trên bếp vẫn để lửa nhỏ mà em lỡ bước ra ngoài, cửa sập lại rồi không sao mở lại"
+     ]
+    },
+    "LOCK_CARD_FAULT": {
+     "clear": [
+      "áp cái thẻ vào chỗ hình sóng mà đèn không đổi màu, chẳng có phản hồi gì cả",
+      "gõ đúng sáu số mình đặt, kiểm tra kỹ từng số mà nó vẫn chê sai rồi tạm ngưng nhận phím mấy phút",
+      "thẻ của chồng em chạm vào thì mở, thẻ em chạm thì nó lờ đi như không thấy gì",
+      "ông bấm mấy cái số trên mặt, đèn số sáng hẳn hoi mà bấm xong nó báo không đúng",
+      "chắc đầu đọc RFID hỏng vì thẻ mới cài vào cũng không nhận, trong khi quét ngón vẫn mở",
+      "dãy số em nhập vèo vèo trước giờ vẫn ok, tự nhiên hôm nay báo sai hoài",
+      "hình như mã mở bị ai đổi mất hay sao, nhập dãy cũ thì nó kêu không hợp lệ",
+      "để thẻ chung ví với điện thoại xong là chạm không được nữa, chắc thẻ bị khử từ",
+      "chạm thẻ vào chỉ nghe tò te báo lỗi, phải chạm vài lần mới nghe ting một cái",
+      "từ hôm thay pin xong thì dãy mật mã cũ không dùng được nữa, thẻ cũng không ăn, như bị xóa sạch dữ liệu"
+     ],
+     "indirect": [
+      "người giúp việc phải đứng chờ ngoài vì cái thẻ em đưa chị ấy chạm mãi chẳng tác dụng",
+      "khách thuê homestay cứ nhắn than dãy mã cửa em gửi nhập vào không ăn",
+      "phải đặt làm lại thẻ mới cho cả nhà vì mấy cái cũ giờ chạm vào như chạm vào tường"
+     ]
+    }
+   }
+  }
+ },
+ "offtopic": [
+  "hôm nay thời tiết Hà Nội thế nào",
+  "tối nay đội tuyển Việt Nam đá với ai vậy",
+  "giá vàng hôm nay bao nhiêu một chỉ",
+  "bitcoin còn lên nữa không em",
+  "cách nấu phở bò ngon tại nhà",
+  "công thức làm bánh flan không bị rỗ",
+  "giải giúp em bài toán phương trình bậc hai",
+  "dịch giúp câu này sang tiếng Anh",
+  "người yêu giận thì làm sao cho hết giận",
+  "tư vấn giúp mình nên mua cổ phiếu nào",
+  "con trai 3 tuổi bị sốt thì nên làm gì",
+  "đau răng uống thuốc gì cho nhanh khỏi",
+  "xe máy đề không nổ, bugi chắc hỏng rồi",
+  "xe ô tô của mình đèn báo lỗi động cơ sáng",
+  "điện thoại sạc không vào pin luôn",
+  "laptop bật lên màn hình xanh rồi tự khởi động lại",
+  "máy tính bàn chạy chậm quá, có virus không",
+  "máy in nhà mình kẹt giấy hoài",
+  "đồng hồ đeo tay bị vô nước mờ mặt kính",
+  "giày da bị bong keo đế thì dán sao",
+  "xe đạp điện sạc cả đêm mà đi được có chút",
+  "wifi nhà em chập chờn, nhà mạng không tới",
+  "tai nghe bluetooth chỉ nghe được một bên",
+  "viết giúp em bài văn tả mẹ",
+  "kể chuyện cười cho mình nghe đi",
+  "mấy giờ rồi em",
+  "em tên gì vậy, bao nhiêu tuổi",
+  "cho anh số điện thoại của em đi",
+  "hát cho anh nghe một bài",
+  "Hà Nội có bao nhiêu quận",
+  "làm sao để giảm cân nhanh trong một tuần",
+  "lương tháng 10 triệu thì nên tiết kiệm sao",
+  "cây hoa hồng bị vàng lá thì tưới sao",
+  "con mèo nhà mình bỏ ăn hai ngày rồi",
+  "xin tài liệu ôn thi đại học môn hóa",
+  "mua vé máy bay đi Đà Nẵng ở đâu rẻ",
+  "khách sạn nào ở Đà Lạt view đẹp",
+  "cách đăng ký tài khoản ngân hàng online",
+  "tra cứu điểm thi ở đâu vậy",
+  "nhà hàng nào gần đây ngon",
+  "cắt tóc nam kiểu nào đang hot",
+  "bé nhà em không chịu ăn rau",
+  "cho hỏi luật giao thông mới phạt bao nhiêu",
+  "mình muốn học lập trình thì bắt đầu từ đâu",
+  "ok",
+  "alo alo",
+  "test thử thôi",
+  "???",
+  "hihi"
+ ]
+}

@@ -15,7 +15,18 @@
         "máy điều hòa",
         "dàn lạnh",
         "cục nóng",
-        "máy lanh"
+        "máy lanh",
+        "điều hòa nhiệt độ",
+        "máy lạnh âm trần",
+        "điều hòa âm trần",
+        "máy lạnh treo tường",
+        "điều hòa treo tường",
+        "máy lạnh tủ đứng",
+        "điều hòa tủ đứng",
+        "máy lạnh inverter",
+        "điều hòa inverter",
+        "điều hòa hai chiều",
+        "máy lạnh hai chiều"
       ],
       "confusable_with": []
     },
@@ -27,7 +38,11 @@
       "open_images_class": "Ceiling fan",
       "aliases_vi": [
         "quạt trần",
-        "quat tran"
+        "quat tran",
+        "quạt trần đèn",
+        "quạt trần cánh gỗ",
+        "quạt trần năm cánh",
+        "quạt trần ba cánh"
       ],
       "confusable_with": [
         "electric_fan"
@@ -48,7 +63,15 @@
         "quạt đứng",
         "quạt treo tường",
         "quạt máy",
-        "cái quạt"
+        "cái quạt",
+        "quạt lửng",
+        "quạt treo",
+        "quạt tích điện",
+        "quạt sạc",
+        "quạt để bàn",
+        "cây quạt",
+        "quạt mini",
+        "quạt cây đứng"
       ],
       "confusable_with": [
         "ceiling_fan"
@@ -67,7 +90,11 @@
         "máy giặt cửa ngang",
         "lồng giặt",
         "ngăn đựng bột giặt",
-        "giặt quần áo"
+        "giặt quần áo",
+        "máy giặt lồng đứng",
+        "máy giặt lồng ngang",
+        "máy giặt cửa trước",
+        "máy giặt sấy"
       ],
       "confusable_with": [
         "clothes_dryer",
@@ -86,7 +113,13 @@
         "cái tủ lạnh",
         "ngăn đá",
         "ngăn mát",
-        "ngăn đông"
+        "ngăn đông",
+        "tủ đông",
+        "tủ mát",
+        "tủ lạnh mini",
+        "tủ lạnh hai cánh",
+        "tủ lạnh side by side",
+        "tủ lạnh inverter"
       ],
       "confusable_with": []
     },
@@ -103,7 +136,10 @@
         "vi sóng",
         "lo vi song",
         "microwave",
-        "mâm xoay"
+        "mâm xoay",
+        "lò viba",
+        "lò vi-ba",
+        "lò vi sóng có nướng"
       ],
       "confusable_with": [
         "oven"
@@ -119,7 +155,11 @@
         "lò nướng",
         "lò nướng thùng",
         "lo nuong",
-        "lò nướng điện"
+        "lò nướng điện",
+        "lò nướng âm tủ",
+        "lò đối lưu",
+        "lò nướng bánh",
+        "lò nướng mini"
       ],
       "confusable_with": [
         "microwave_oven"
@@ -143,7 +183,12 @@
         "bình gas",
         "bình ga",
         "van điều áp",
-        "kiềng bếp"
+        "kiềng bếp",
+        "bếp ga đôi",
+        "bếp gas âm",
+        "bếp ga âm",
+        "bếp ga mini",
+        "bếp khí ga"
       ],
       "confusable_with": [
         "induction_hob"
@@ -169,7 +214,12 @@
         "day am",
         "vỏ ấm",
         "nắp ấm",
-        "cặn ấm"
+        "cặn ấm",
+        "bình siêu tốc",
+        "ấm đun",
+        "ấm siêu tốc inox",
+        "cái siêu tốc",
+        "bình đun siêu tốc"
       ],
       "confusable_with": []
     },
@@ -184,7 +234,13 @@
         "ti vi",
         "tv",
         "màn hình tivi",
-        "smart tivi"
+        "smart tivi",
+        "tivi màn phẳng",
+        "android tivi",
+        "android tv",
+        "ti-vi",
+        "tivi thông minh",
+        "smart tv"
       ],
       "confusable_with": []
     },
@@ -207,7 +263,12 @@
         "chậu rửa bát",
         "chậu rửa chén",
         "cho rua bat",
-        "cho rua chen"
+        "cho rua chen",
+        "chậu rửa mặt",
+        "chậu inox",
+        "bồn rửa tay",
+        "chậu rửa tay",
+        "chậu rửa rau"
       ],
       "confusable_with": [
         "faucet"
@@ -225,7 +286,15 @@
         "vòi sen",
         "sen tắm",
         "voi nuoc",
-        "cái vòi"
+        "cái vòi",
+        "vòi hoa sen",
+        "củ sen",
+        "vòi tắm",
+        "vòi lavabo",
+        "vòi rửa bát",
+        "vòi rửa chén",
+        "vòi bếp",
+        "vòi chậu"
       ],
       "confusable_with": [
         "sink"
@@ -245,7 +314,15 @@
         "thông tắc bồn cầu",
         "thông bồn cầu",
         "nghẹt bồn cầu",
-        "tắc bồn cầu"
+        "tắc bồn cầu",
+        "bàn cầu",
+        "bệ xí",
+        "xí bệt",
+        "bệt vệ sinh",
+        "bồn vệ sinh",
+        "xí xổm",
+        "bồn cầu một khối",
+        "bồn cầu hai khối"
       ],
       "confusable_with": []
     },
@@ -269,7 +346,15 @@
         "công tắc",
         "cong tac",
         "thay công tắc",
-        "công tắc tường"
+        "công tắc tường",
+        "ổ nối dài",
+        "ổ cắm kéo dài",
+        "ổ chia",
+        "ổ cắm đa năng",
+        "ổ cắm âm tường",
+        "ổ cắm đôi",
+        "lỗ cắm điện",
+        "ổ điện âm tường"
       ],
       "confusable_with": [
         "light_bulb"
@@ -303,7 +388,17 @@
         "đèn cháy",
         "đèn không sáng",
         "đèn chớp",
-        "đèn nhấp nháy"
+        "đèn nhấp nháy",
+        "bóng điện",
+        "đèn nê ông",
+        "đèn neon",
+        "đèn ốp trần",
+        "đèn âm trần",
+        "bóng búp",
+        "bóng led",
+        "đèn compact",
+        "đèn huỳnh quang",
+        "bóng tuýp"
       ],
       "confusable_with": [
         "power_outlet"
@@ -331,7 +426,12 @@
         "tắc cống",
         "nghẹt cống",
         "cống bị tắc",
-        "thoát nước bị tắc"
+        "thoát nước bị tắc",
+        "ống ppr",
+        "ống pvc",
+        "ống cấp nước",
+        "ống âm tường",
+        "ống nước âm tường"
       ],
       "confusable_with": [],
       "source_note": "774 anh tu thu thap, bat detector_class sau khi co du lieu"
@@ -354,7 +454,12 @@
         "nóng lạnh",
         "nong lanh",
         "máy nóng lạnh",
-        "bình nước nóng lạnh"
+        "bình nước nóng lạnh",
+        "bình nóng lạnh gián tiếp",
+        "máy nước nóng trực tiếp",
+        "bình nước nóng gián tiếp",
+        "máy tắm nóng lạnh",
+        "bình tắm"
       ],
       "confusable_with": []
     },
@@ -373,7 +478,12 @@
         "bếp âm",
         "bếp đôi",
         "mặt kính bếp",
-        "mâm từ"
+        "mâm từ",
+        "bếp induction",
+        "bếp cảm ứng",
+        "bếp từ đôi",
+        "bếp từ âm",
+        "bếp điện"
       ],
       "confusable_with": [
         "gas_stove"
@@ -392,7 +502,10 @@
         "máy rửa chén",
         "may rua chen",
         "rửa bát",
-        "rửa chén"
+        "rửa chén",
+        "máy rửa bát âm tủ",
+        "máy rửa chén âm tủ",
+        "máy rửa ly"
       ],
       "confusable_with": [
         "washing_machine",
@@ -413,7 +526,12 @@
         "may say",
         "lưới lọc xơ",
         "lồng sấy",
-        "sấy quần áo"
+        "sấy quần áo",
+        "máy sấy đồ",
+        "máy sấy áo quần",
+        "máy sấy bơm nhiệt",
+        "máy sấy thông hơi",
+        "máy sấy ngưng tụ"
       ],
       "confusable_with": [
         "washing_machine",
@@ -435,7 +553,10 @@
         "nước lọc",
         "nuoc loc",
         "lõi lọc nước",
-        "bình áp máy lọc"
+        "bình áp máy lọc",
+        "máy lọc nước ro",
+        "cây lọc nước",
+        "máy lọc nước nóng lạnh"
       ],
       "confusable_with": []
     },
@@ -464,7 +585,13 @@
         "nhận vân",
         "nhan van",
         "vân tay",
-        "van tay"
+        "van tay",
+        "khóa mã số",
+        "khóa mật khẩu",
+        "khóa smart",
+        "khóa thông minh",
+        "khóa nhận diện khuôn mặt",
+        "khóa wifi"
       ],
       "confusable_with": []
     }

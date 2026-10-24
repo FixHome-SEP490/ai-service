@@ -654,6 +654,14 @@ def _registry_login() -> Optional[str]:
     return f"-u {user} -p {token} ghcr.io"
 
 
+def _catalog_url(args) -> str:
+    return (
+        getattr(args, "catalog_url", "")
+        or os.environ.get("BACKEND_CATALOG_URL", "").strip()
+        or (_from_env_file("BACKEND_CATALOG_URL") or "").strip()
+    )
+
+
 def cmd_serve(args: argparse.Namespace) -> None:
     """Rent a second machine and serve Qwen on it.
 
@@ -681,6 +689,9 @@ def cmd_serve(args: argparse.Namespace) -> None:
             f"-e GPU_FRACTION={args.gpu_fraction}",
             f"-e MAX_LEN={args.max_len}",
         ]
+        # Backend's public service list, so the rented box follows new
+        # services, names and prices by itself (app/services/pipeline/service_catalog.py).
+        + ([f"-e BACKEND_CATALOG_URL={catalog}"] if (catalog := _catalog_url(args)) else [])
     )
     create = [
         "create",
@@ -1029,6 +1040,11 @@ def main() -> None:
         help="rent a host whose driver or link the image needs more of",
     )
     serve.add_argument("--max-len", type=int, default=8192)
+    serve.add_argument(
+        "--catalog-url",
+        default="",
+        help="Backend's GET /api/v1/services; defaults to BACKEND_CATALOG_URL in .env",
+    )
 
     address = sub.add_parser("address", help="where the served API answers")
     address.add_argument(

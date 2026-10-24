@@ -33,6 +33,7 @@
     {"id": "D31", "device_type": "water_purifier", "question_vi": "Có nước đọng dưới chân máy lọc không ạ?", "favours_if_yes": ["PURIFIER_LEAK"], "favours_if_no": ["PURIFIER_PUMP_RUNS_ON"]},
     {"id": "D32", "device_type": "smart_lock", "question_vi": "Chạm vào khóa thì màn hình hoặc đèn còn sáng không ạ?", "favours_if_yes": ["LOCK_LOCKED_OUT"], "favours_if_no": ["LOCK_LOW_BATTERY"]},
     {"id": "D33", "device_type": "microwave_oven", "question_vi": "Lò vẫn hâm nóng được thức ăn không ạ?", "favours_if_yes": ["MW_FAN_NOISY", "MW_TURNTABLE_MOTOR"], "favours_if_no": ["MW_MAGNETRON"]},
-    {"id": "D34", "device_type": "microwave_oven", "question_vi": "Đĩa xoay trong lò có quay không ạ?", "favours_if_yes": ["MW_FAN_NOISY"], "favours_if_no": ["MW_TURNTABLE_MOTOR"]}
+    {"id": "D34", "device_type": "microwave_oven", "question_vi": "Đĩa xoay trong lò có quay không ạ?", "favours_if_yes": ["MW_FAN_NOISY"], "favours_if_no": ["MW_TURNTABLE_MOTOR"]},
+    {"id": "D35", "device_type": "air_conditioner", "question_vi": "Máy có mùi khét hoặc bốc khói không, hay chỉ bị chảy nước ạ?", "favours_if_yes": ["AC_SMELL_BURNT"], "favours_if_no": ["AC_DRAIN_BLOCKED"]}
   ]
 }

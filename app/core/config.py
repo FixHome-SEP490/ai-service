@@ -39,8 +39,48 @@ class Settings(BaseSettings):
     there are photographs of real damage to measure against."""
     """Only needed if the vLLM endpoint was started with --api-key."""
 
+    # Backend's service catalogue, followed while running
+    BACKEND_CATALOG_URL: str = ""
+    """Backend's public `GET /api/v1/services`. Empty: use `service_mapping.json`
+    only. Set: names, prices and new services follow Backend within
+    CATALOG_REFRESH_SECONDS, with no retraining and no redeploy."""
+    CATALOG_REFRESH_SECONDS: float = 300.0
+    CATALOG_TIMEOUT_SECONDS: float = 10.0
+
     # Retrieval
     RETRIEVAL_TOP_K: int = 5
+
+    RETRIEVAL_WRITTEN_WEIGHT: float = 1.5
+    """How much a fault's customer-language sections add to its shortlist score.
+
+    The symptom lists alone understood a customer who used the team's words and
+    few others. Measured on the held-out half of `tools/understanding_bank.json`
+    (descriptions written away from `symptoms_vi`, each said by eleven kinds of
+    speaker in three regional voices and twelve typing styles, appliance known):
+    the right fault led 47.8% of the time and reached the top three 80.6%.
+    With these sections and the learned phrasings both at 2.0, gated below, it
+    leads 58.1% and reaches the top three 88.1%, while the curated suite stays
+    at 472 of 472 with every safety pin and every silence check."""
+    RETRIEVAL_WRITTEN_CAP: float = 1.5
+    """BM25 at which a written section counts as full evidence (1.0)."""
+    RETRIEVAL_WRITTEN_FLOOR: float = 0.3
+    """BM25 below which a written section counts as no evidence at all."""
+    RETRIEVAL_LEARNED_WEIGHT: float = 1.5
+    """How much `learned_phrasings.json` adds. See RETRIEVAL_WRITTEN_WEIGHT."""
+    RETRIEVAL_EVIDENCE_GATE: float = 1.0
+    """Scale the added evidence by (1 - gate x the best symptom-list score).
+
+    When the customer said it the way a symptom list says it, that match was
+    curated and is trusted; the extra evidence then has little say. When no
+    symptom list covers the words, the extra evidence decides. Without the
+    gate, four curated cases fell out of the top three."""
+    RETRIEVAL_EVIDENCE_GATE_FLOOR: float = 0.1
+    """The gate never closes completely: a perfect symptom match can still be
+    ordered by the other evidence among faults that tied with it."""
+    RETRIEVAL_EVIDENCE_ONLY_CAP: float = 0.5
+    """Highest score a fault can have when only the written sections or the
+    learned phrasings matched it. Below RETRIEVAL_DECISIVE_SCORE on purpose: it
+    may be offered and asked about, never answered as settled on that alone."""
 
     VLM_SHORTLIST_SIZE: int = 3
     """How many faults the model may choose between.

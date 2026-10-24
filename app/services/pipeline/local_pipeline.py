@@ -6,6 +6,7 @@ from __future__ import annotations
 import re
 import time
 import unicodedata
+from functools import lru_cache
 from typing import Any, List, Optional, Sequence
 
 import logging
@@ -34,6 +35,7 @@ from app.services.pipeline import clarifier
 from app.services.pipeline import context
 from app.services.pipeline import device_hint
 from app.services.pipeline import error_codes
+from app.services.pipeline import service_catalog
 from app.services.pipeline import dialogue_state
 from app.services.pipeline.conversation import Conversation, day_vi, get_conversation_store
 from app.services.pipeline.detector import Detection, Detector
@@ -148,6 +150,7 @@ here only when every other word in the message is also one of these.
 """
 
 
+@lru_cache(maxsize=16384)
 def _fold_vi(text: str) -> str:
     folded = unicodedata.normalize("NFD", text.lower())
     folded = "".join(c for c in folded if unicodedata.category(c) != "Mn")
@@ -458,10 +461,82 @@ _VAGUE_WORDS = {
 }
 """Words that say something is wrong without saying what: "máy lạnh hư rồi"."""
 
+_VAGUE_WORDS |= {
+    "dung", "thay", "ta", "duoc", "lam", "hoi", "dao", "nay", "hom", "khac", "yen",
+    "ung", "y", "nhu", "moi", "mua", "biet", "the", "nao", "tot", "ky", "ki", "la",
+    "co", "khong", "cho", "no", "cu", "thi", "ma", "day", "dau", "gan", "truoc", "gio",
+}
+"""And the words of a complaint that names nothing: "dùng thấy không ổn lắm",
+"có vấn đề gì đó", "dạo này hơi lạ". Each of them occurs somewhere in the
+symptom lists. Typed without accents, words that also fold from a symptom
+("on" is "ồn", "ro" is "rò", "do" is "đỏ", "tam" is "tắm") are left out of
+this list: there the doubt goes to the customer."""
+
 _VAGUE_ACCENTED = {
     "hư", "hỏng", "lỗi", "bị", "sao", "rồi", "vấn", "đề", "trục", "trặc", "nữa", "lại", "nhà", "em",
     "anh", "chị", "mình", "tôi", "cái", "chiếc", "máy", "giúp", "với", "đi", "à", "nhé", "ơi", "gì",
+    "dùng", "thấy", "ổn", "đó", "tả", "được", "lắm", "lạ", "kỳ", "kì", "hơi", "dạo", "này", "mấy",
+    "hôm", "nay", "khác", "yên", "tâm", "ưng", "ý", "như", "mới", "mua", "biết", "rõ", "thế", "nào",
+    "tốt", "có", "không", "nó", "cứ", "thì", "là", "mà", "đấy", "đâu", "gần", "đây", "trước", "giờ",
 }
+
+_CONVERSATION = (
+    "xem nhờ cháu thợ hỏi qua hình chào quá ấy tui ni chuyện kiểm tra nói chút ba năm tháng vẻ bà "
+    "làm xin tình trạng ạ á cô đã coi hổng răng đang e sửa mong chán thật sự đặt khôn gặp tư vấn chắc "
+    "con nhỏ ê bực sợ định ay ăn kiểu bác hộ nỏ rùi bữa hoài chồng vợ mẹ bố hông huhu hic ừm ờ luôn "
+    "chung muốn trời thử rút xài hệ thống nguồn điện nước chạy ông anh chị em ơi dạ vâng nghen nha nè "
+    "hen hả hử nhá nhé đó đây kia rứa chi mô tê tề dzậy zậy vậy thế đấy "
+    "giùm dùm rành hồi tuần từ chừ hiểm nguy nấu tắm khóa vân tay ổ cắm bếp lò quạt tủ vòi bồn ống "
+    "đèn bóng bình ấm sấy đồ bát chén giặt lọc sen cầu lavabo tivi tv"
+).split()
+"""Words of the conversation around a report rather than the report: who is
+asking, who told them, asking for a technician, how long they have had it.
+Counted from the vague messages of the dev half of the understanding bank,
+which were being answered as though they described a fault."""
+
+_VAGUE_ACCENTED |= set(_CONVERSATION) - {"ấm", "điện", "nước", "chỗ", "kia"}
+# Without accents only the words that fold from nothing else: "chay" is also
+# "cháy", "den" is "đen", "am" is "ấm" (warm), "nuoc" and "dien" are what the
+# complaint is about. "ổ cắm bị chay den" lost its fire to this list once.
+_VAGUE_WORDS |= set(
+    "xem chau tho qua chao tui ni chuyen kiem tra chut xin tinh trang coi khon gap chac "
+    "hoai chong huhu hic um luon muon troi xai gium dum anh chi em oi vang nghen nha ne hen "
+    "nhe dzay zay vay".split()
+)
+
+
+
+def _without_framing_tokens(tokens, lexicon) -> list:
+    """The conversation's words minus what surrounds the report.
+
+    The phrase lists the search drops (`framing`, `meta_phrases` and the hedges
+    in `dialogue_knowledge.json`), matched on the reader's folded words."""
+    phrases = sorted(
+        set(lexicon.framing) | set(lexicon.meta_phrases) | set(lexicon.hedges), key=len, reverse=True
+    )
+    folded = [t.f for t in tokens]
+    kept = []
+    i = 0
+    while i < len(tokens):
+        for phrase in phrases:
+            if phrase and tuple(folded[i : i + len(phrase)]) == phrase:
+                i += len(phrase)
+                break
+        else:
+            kept.append(tokens[i])
+            i += 1
+    return kept
+
+
+_VAGUE_NEGATED = frozenset(
+    "duoc on biet ro sao co phai the lam nhu tot yen binh thuong ung y on dinh tam hieu".split()
+)
+"""Words whose negation is not a complaint about anything in particular."""
+
+
+_SUPPLY_WORDS = frozenset({"dien", "nuoc", "nong", "lanh", "gas", "ga", "khi", "lua", "gio"})
+"""What the appliance delivers is named in its name ("Ổ cắm điện", "Máy lọc
+nước") and is also what a complaint is about ("không có điện")."""
 
 _CLEAR_LEAD = 0.3
 """How far the first fault must lead the second for a two-word report to be
@@ -1702,6 +1777,21 @@ class LocalPipeline:
         device_type = chat.device_type or request.device_type or _device_named_in(
             asked, self._kb
         )
+        if device_type is None:
+            # An appliance the knowledge base does not cover, that Backend
+            # sells a service for: say so and offer it (see _catalog_offer).
+            offered = self._catalog_offer(chat.customer_text())
+            if offered is not None:
+                message, service = offered
+                return ChatResponse(
+                    request_id=request.request_id,
+                    session_id=chat.session_id,
+                    status=AnswerStatus.NO_GROUNDING,
+                    answer_vi=message,
+                    recommended_services=[service],
+                    confidence=0.0,
+                    disclaimer_vi=settings.AI_DISCLAIMER_VI,
+                )
         # Faults are ranked on everything the customer has said is happening,
         # not on the question alone: "vậy giờ là bị gì" names no symptom, and
         # the answer to it is the fault the earlier turns point to once the
@@ -1892,6 +1982,18 @@ class LocalPipeline:
         # fails closed — a question with no device and no repair word in it is
         # refused without the model being asked at all.
         if not self._is_in_the_trade(request.question):
+            offer = self._catalog_offer(chat.customer_text() if chat else request.question)
+            if offer is not None:
+                message, service = offer
+                return ChatResponse(
+                    request_id=request.request_id,
+                    session_id=chat.session_id if chat else None,
+                    status=AnswerStatus.NO_GROUNDING,
+                    answer_vi=message,
+                    recommended_services=[service],
+                    confidence=0.0,
+                    disclaimer_vi=settings.AI_DISCLAIMER_VI,
+                )
             return self._ungrounded_answer(request, chat, in_the_trade=False)
 
         answer_vi = await self._vlm.answer_generally(
@@ -2232,6 +2334,47 @@ class LocalPipeline:
             disclaimer_vi=settings.AI_DISCLAIMER_VI,
         )
 
+    def _catalog_offer(self, text: str):
+        """A service Backend sells for an appliance the knowledge base does not
+        cover, when the customer named that appliance.
+
+        Before Backend's catalogue was followed live, "máy hút mùi kêu to" was
+        refused as not a household repair while the app sold "Vệ sinh & sửa
+        motor máy hút mùi". There is nothing to diagnose it from, and the
+        answer says so; but the customer is pointed at the service instead of
+        being turned away."""
+        service = service_catalog.current().service_named_in(text, self._kb)
+        if service is None:
+            return None
+        message = (
+            "Em chưa có dữ liệu để chẩn đoán thiết bị này, nhưng FixHome có dịch vụ "
+            f"\"{service.name_vi}\". Anh/chị đặt dịch vụ này để thợ tới kiểm tra "
+            "và báo giá tại chỗ ạ."
+        )
+        return message, RecommendedService(service_code=service.code, name_vi=service.name_vi)
+
+    def _offer_response(
+        self, request: DiagnosisRequest, chat: Optional[Conversation], trace: "_Trace", message: str, service
+    ) -> DiagnosisResponse:
+        trace.add("scope", True, f"Thiết bị ngoài kho tri thức, Backend có dịch vụ {service.service_code}")
+        return DiagnosisResponse(
+            request_id=request.request_id,
+            session_id=chat.session_id if chat else None,
+            status=DiagnosisStatus.NEEDS_CLARIFICATION,
+            engine=Engine.LOCAL_PIPELINE,
+            confidence=0.0,
+            is_low_confidence=True,
+            recommended_services=[service],
+            clarification=Clarification(
+                questions_vi=[message],
+                service_group_codes=self._kb.all_service_groups(),
+            ),
+            message_vi=message,
+            model_info=self._model_info,
+            trace=trace.stages,
+            disclaimer_vi=settings.AI_DISCLAIMER_VI,
+        )
+
     def _out_of_scope_response(
         self, request: DiagnosisRequest, chat: Conversation, trace: "_Trace"
     ) -> DiagnosisResponse:
@@ -2241,6 +2384,9 @@ class LocalPipeline:
         about something else. Answering with questions about their appliance
         pretends not to have read it.
         """
+        offer = self._catalog_offer(chat.customer_text())
+        if offer is not None:
+            return self._offer_response(request, chat, trace, *offer)
         trace.add("scope", False, "Câu hỏi không thuộc phạm vi sửa chữa gia dụng")
         return DiagnosisResponse(
             request_id=request.request_id,
@@ -2285,16 +2431,36 @@ class LocalPipeline:
             if words and f" {' '.join(words)} " in padded
         ]
         name = set(min(present, key=len)) if present else set()
-        typed = re.findall(r"\w+", unicodedata.normalize("NFC", (text or "").lower()))
-        for word in typed:
-            folded = _fold_vi(word)
-            if folded in name or not folded:
+        lexicon = dialogue_state.get_lexicon()
+        # "Tủ lạnh k lạnh", "máy lạnh không lạnh": the word negated is part of
+        # the name, and the complaint is the negation. Read on the text with
+        # shorthand expanded ("k" is "không"), name and all; "không được",
+        # "không ổn", "không bình thường" negate nothing in particular.
+        normalized = lexicon.normalize(text)
+        if self._retriever.names_a_symptom_pair(normalized, device_type, ignore=_VAGUE_NEGATED):
+            return True
+        # The appliance's own name is never the complaint, in any of its forms:
+        # "lò" was left over from "lò vi sóng" and counted as a symptom word.
+        own = set(re.findall(r"[a-z0-9]+", _fold_vi(self._kb.device_name_vi(device_type) or "")))
+        own = (own - _SUPPLY_WORDS) | self._retriever.name_only_words(device_type)
+        # Words as the reader of the conversation sees them, slips mended:
+        # "chháu", "quaaa", "khoong", "k", "j", "dc" are the conversation, not
+        # the complaint, and read raw they looked like neither.
+        tokens = [t for clause in lexicon.clauses(text) for t in clause]
+        # "Máy lọc nước ... không có nước": the second "nước" is the complaint,
+        # the first one the name. A supply word counts once it is said more
+        # often than the name says it.
+        said = [t.f for t in tokens]
+        repeated = {w for w in _SUPPLY_WORDS if w in name and said.count(w) > 1}
+        for token in _without_framing_tokens(tokens, lexicon):
+            folded = token.f
+            if (folded in name and folded not in repeated) or folded in own or not folded:
                 continue
             # Typed with accents, the accents decide: "lõi" is a part, "lỗi" is
             # a vague word. Without them, "loi" could be either, and counts as vague.
-            if word != folded and word not in _VAGUE_ACCENTED:
+            if token.a is not None and token.a not in _VAGUE_ACCENTED:
                 return True
-            if word == folded and folded not in _VAGUE_WORDS:
+            if token.a is None and folded not in _VAGUE_WORDS:
                 return True
         return False
 
@@ -2448,6 +2614,13 @@ class LocalPipeline:
         # Ask which appliance instead. That is the thing actually missing, and
         # it is a question anybody can answer.
         settled = bool(detection) or bool(chat and chat.device_type)
+        if not settled and trace is not None:
+            # "Thiết bị gặp sự cố là loại nào?" to someone who said "máy hút
+            # mùi": they did name it, it is just not an appliance the knowledge
+            # base covers. If Backend sells a service for it, point there.
+            offered = self._catalog_offer(said)
+            if offered is not None:
+                return self._offer_response(request, chat, trace, *offered)
         if not settled and chat is not None:
             # Nothing in this turn named an appliance, so nothing in it can be
             # a symptom either - it is "nhà em có cái máy bị hỏng" or shorter.

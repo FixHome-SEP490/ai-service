@@ -311,12 +311,39 @@ class KnowledgeBase:
         for refs in self._services.values():
             for ref in refs:
                 if ref.service_code == self.FALLBACK_SERVICE_CODE:
-                    return ref
+                    live = self._live_catalog()
+                    if live is None:
+                        return ref
+                    return live.refreshed(ref, self.FALLBACK_SERVICE_CODE)
         return None
 
     def services_for_fault(self, fault_code: str) -> List[ServiceRef]:
-        """Empty while Backend has not supplied a catalog. Not an error."""
-        return list(self._services.get(fault_code, []))
+        """Empty while Backend has not supplied a catalog. Not an error.
+
+        Laid over Backend's live catalogue when one has been fetched: current
+        names and prices, nothing Backend has switched off, and new services
+        that fit the fault (`service_catalog.LiveCatalog.services_for`)."""
+        static = list(self._services.get(fault_code, []))
+        live = self._live_catalog()
+        fault = self.fault(fault_code)
+        if live is None or fault is None:
+            return static
+        return live.services_for(
+            fault, static, self, self._static_service_codes(), self.FALLBACK_SERVICE_CODE
+        )
+
+    def _live_catalog(self):
+        from app.services.pipeline import service_catalog
+
+        live = service_catalog.current()
+        return live if live.loaded else None
+
+    def _static_service_codes(self) -> set:
+        cached = getattr(self, "_static_codes", None)
+        if cached is None:
+            cached = {ref.service_code for refs in self._services.values() for ref in refs}
+            self._static_codes = cached
+        return cached
 
     def labour_row(self, code: Optional[str]) -> Optional[PriceRow]:
         """The labour service a fault maps to, by code."""
