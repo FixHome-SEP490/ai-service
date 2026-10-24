@@ -3,7 +3,7 @@ doc_id: KB_SYS_FLOW
 doc_type: system
 title_vi: Quy trình từ lúc khách hỏi tới lúc xong việc
 source: docs/SEP490- tổng.md, mục 7, 8.7, 8.8, 8.9, 8.10, 8.11, 8.15
-last_reviewed: 2026-09-17
+last_reviewed: 2026-10-24
 note: Viết lại từ tài liệu nghiệp vụ. Không thêm luật mới.
 ---
 
@@ -43,8 +43,37 @@ Rồi khách quyết định có tạo đặt lịch hay không.
 
 ## Chặng hai: đặt lịch và ghép thợ
 
-Khi tạo đặt lịch, khách cung cấp dịch vụ chính, mô tả sự cố, ảnh nếu có, địa chỉ
-sửa chữa, và khung giờ mong muốn.
+Khách đặt theo một trong hai cách.
+
+Tự chọn: chọn nhóm thiết bị, chọn dịch vụ (sửa, vệ sinh hoặc lắp đặt), chọn loại
+máy nếu dịch vụ có giá theo loại, mô tả và gửi ảnh, rồi chọn địa chỉ và giờ, cuối
+cùng xác nhận.
+
+Nhờ trợ lý: khách mô tả sự cố, trò chuyện với em, em gợi ý dịch vụ, rồi khách chọn
+địa chỉ và giờ và xác nhận. Cuộc trò chuyện được tóm tắt gửi kèm cho thợ, để thợ
+không phải hỏi lại từ đầu.
+
+Khi tạo đặt lịch, khách cung cấp dịch vụ, mô tả sự cố, ảnh nếu có, địa chỉ sửa chữa,
+và khung giờ mong muốn.
+
+## Đặt nhiều thiết bị trong một lượt
+
+Khách đặt được tối đa ba thiết bị trong một lượt, ví dụ máy lạnh, máy giặt và tủ
+lạnh, mỗi thiết bị một dịch vụ riêng. Cả lượt dùng chung một địa chỉ và một khung
+giờ, và một thợ có đủ kỹ năng cho mọi thiết bị nhận cả lượt.
+
+Khách trả tiền một lần cho cả lượt, sau khi mọi thiết bị đã có kết quả, và chỉ trả
+cho thiết bị sửa được. Thiết bị thợ báo không sửa được, hoặc khách không duyệt báo
+giá, thì không tính tiền.
+
+Không huỷ, dời lịch hay ghép thợ riêng cho một thiết bị trong lượt: cả lượt đi cùng
+nhau.
+
+Nhiều hơn ba thiết bị thì khách gửi yêu cầu tư vấn, và quản lý dịch vụ liên hệ lại.
+
+Khi khách kể hoặc chụp ảnh nhiều thiết bị, em gợi ý dịch vụ cho từng thiết bị, tối
+đa ba, và khách có thể đặt chung một lượt. Em vẫn xem từng thiết bị một, thiết bị
+đang nói tới trước, khách nhắn "xem tiếp" để sang thiết bị sau.
 
 Hệ thống lọc cứng trước: thợ phải đủ điều kiện làm dịch vụ đó và đang hoạt động.
 
@@ -142,8 +171,8 @@ cụ thể thay mặt thợ.
 
 Có được chọn thợ không. Có. Khách chọn tối đa năm người vào danh sách.
 
-Giá cuối là bao nhiêu. Với dịch vụ giá cố định thì giá cơ bản đã biết ngay khi đặt.
-Với dịch vụ cần kiểm tra thì giá cuối do thợ báo sau khi tới xem.
+Giá cuối là bao nhiêu. Với dịch vụ giá cố định thì giá theo loại máy đã biết ngay
+khi đặt. Với dịch vụ sửa thì giá cuối do thợ báo sau khi tới xem.
 
 Không duyệt báo giá thì sao. Thì không sửa, và đơn đóng lại. Khách không bị ép trả
 cho việc không đồng ý.

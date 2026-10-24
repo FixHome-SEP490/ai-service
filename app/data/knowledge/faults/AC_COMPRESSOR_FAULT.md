@@ -609,8 +609,7 @@ hàn vào thì công cao hơn.
 
 Lượng môi chất phải nạp lại toàn bộ sau khi thay.
 
-Vì các yếu tố này chỉ biết được sau khi đo, bệnh này gắn với công kiểm tra tại
-nhà trước, và báo giá phần việc sau.
+Vì các yếu tố này chỉ biết được sau khi đo, bệnh này đặt theo dịch vụ "Sửa điều hòa": thợ kiểm tra tại nhà trước, và báo giá phần việc sau.
 
 ## Nghiệm thu sau khi sửa
 

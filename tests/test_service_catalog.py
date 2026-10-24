@@ -169,3 +169,14 @@ def test_the_snapshot_also_knows_the_range_hood():
     sc.install(sc.LiveCatalog())
     reply = asyncio.run(_pipeline().diagnose(DiagnosisRequest(description="máy hút mùi nhà em kêu to quá")))
     assert [s.service_code for s in reply.recommended_services] == ["KT-03"]
+
+
+def test_a_word_for_appliances_booked_alike_still_offers_their_repair():
+    """"Quạt" is a ceiling or a standing fan, both "Sửa quạt điện"; "lò" is a
+    microwave or an oven, booked differently, so that one only asks."""
+    sc.install(sc.LiveCatalog())
+    fan = asyncio.run(_pipeline().diagnose(DiagnosisRequest(description="quạt nhà em kêu to quá")))
+    assert fan.status.value == "needs_clarification"
+    assert [s.service_code for s in fan.recommended_services] == ["LF-03"]
+    oven = asyncio.run(_pipeline().diagnose(DiagnosisRequest(description="cái lò nhà em không nóng")))
+    assert oven.recommended_services == []

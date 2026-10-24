@@ -585,8 +585,7 @@ Hãng và độ sẵn có. Máy nội địa xách tay gần như phải tìm h�
 
 Có phải xử lý nguyên nhân nền không: chống côn trùng, xử lý đường nước, ổn áp.
 
-Vì phạm vi chỉ biết được sau khi mở ra và đo, bệnh này gắn với công kiểm tra tại
-nhà trước, rồi báo giá phần việc sau.
+Vì phạm vi chỉ biết được sau khi mở ra và đo, bệnh này đặt theo dịch vụ "Sửa điều hòa": thợ kiểm tra tại nhà trước, rồi báo giá phần việc sau.
 
 ## Nghiệm thu sau khi sửa
 

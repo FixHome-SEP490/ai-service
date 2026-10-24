@@ -1,6 +1,6 @@
 # Context repo ai-service — FixHome
 
-> Cập nhật lần cuối: 2026-10-24 23:11 (UTC+7) · Người cập nhật (git): ToanAltF4 · Nhánh: feat/rag-v11
+> Cập nhật lần cuối: 2026-10-25 00:10 (UTC+7) · Người cập nhật (git): ToanAltF4 · Nhánh: feat/catalog-v3-multi-device
 
 ## 0. Quy tắc cập nhật file này (bắt buộc)
 
@@ -95,7 +95,8 @@ Luật nghiệp vụ gốc nằm ở tài liệu dự án (bản chính thức c
 - Chẩn đoán: cổng chặn trước (không phải đồ gia dụng, lời chào, ngoài phạm vi, ý định đặt lịch), nhận diện thiết bị từ ảnh hoặc chữ hoặc phiên trước, truy hồi lỗi theo triệu chứng, Qwen chọn trong danh sách rút gọn, hỏi lại tối đa 2 lượt rồi dùng xếp hạng của truy hồi.
 - Chatbot: trả `ok`, `out_of_scope`, `general_knowledge` hoặc `no_grounding`; có trả `recommendedServices`.
 - Tên tiếng Việt, mã dịch vụ, giá và mức khẩn cấp lấy từ `app/data/`, không lấy từ chữ tự do của mô hình. Mã không có trong danh mục bị bỏ. Luôn kèm lời miễn trừ.
-- Kho tri thức: 166 file markdown trong `app/data/knowledge/` (3319 đoạn), 134 lỗi ánh xạ tới 21 mã dịch vụ của `backend`, 827 linh kiện.
+- Kho tri thức: 166 file markdown trong `app/data/knowledge/`, 134 lỗi ánh xạ tới mã dịch vụ catalog V2/V3 của `backend` (AC-01, WM-02...; 42 dịch vụ, 37 đang mở), 871 linh kiện. Giá một lỗi = tiền công dịch vụ (S) + linh kiện hay thay (P), theo bảng V3 19/10/2026. Sinh lại bằng `tools/sync_catalog_v3.py`.
+- Nhiều thiết bị: đọc cả 3 ảnh (song song), thiết bị khách đang nói tới dẫn đầu, thiết bị khác chờ "xem tiếp". Khi cuộc trò chuyện có từ 2 thiết bị, `devices[]` (tối đa 3) có mỗi thiết bị một `service`, `variantCode`/`questionsVi`, `priceEstimate`, `descriptionVi`, `noteVi`; `recommendedServices` khi đó là một dịch vụ mỗi thiết bị, có `deviceType`.
 - Hiểu ngữ cảnh cả cuộc trò chuyện (`dialogue_state.py`): mỗi lượt khách được đọc thành sự kiện. Gồm việc đã làm ("mới vệ sinh rồi"), nguyên nhân bị phủ nhận đặt trước hoặc sau ("không phải do bẩn", "lưới lọc thì không phải"), bằng chứng ngược ("lưới lọc sạch"), bác câu trả lời trước ("sai rồi"), điều khách tự nghi ("có phải hết gas không"), cách sửa đã thử mà vẫn hỏng (gợi ý bước kiểm tra kế tiếp). Lỗi đã loại không quay lại trong danh sách, dịch vụ, tài liệu đưa cho Qwen; Qwen được nhận danh sách điều khách đã xác nhận; câu trả lời mở đầu bằng câu ghi nhận lời khách. Lỗi an toàn (rò gas, chập điện...) không bao giờ bị loại bằng lời. Chuẩn hoá cách gõ: không dấu, teencode, phương ngữ Bắc Trung Nam, Telex sót, lặp chữ, lỗi gõ một ký tự.
 - Truy hồi hiểu cụm phủ định: "không vắt", "không mát" là một đơn vị, không còn lẫn với "kêu to khi vắt".
 - Giữ mạch hội thoại: đã có thiết bị thì chỉ đổi khi khách gọi đúng tên máy ("tủ lạnh", "máy sấy"), không đổi vì tên bộ phận ("phích cắm", "nóng lạnh", "công tắc"); tên thiết bị so theo ranh giới từ và đọc cả khi gõ sai. Câu xã giao ("đúng rồi", "cảm ơn", "có nguy hiểm không", "bao nhiêu tiền") không đưa vào tìm kiếm; "đúng rồi" giữ kết luận đang có. Câu lạc đề giữa chừng (bóng đá, giá vàng, bitcoin) được từ chối mà không làm mất ngữ cảnh. Khách tả khói, khét, chập, giật, mùi gas (không phủ định) thì cả phiên đánh dấu nguy hiểm, lỗi an toàn được đẩy lên đầu, kể cả khi sau đó khách nói "chắc không phải cháy".
@@ -137,7 +138,7 @@ Hai request nhận thêm `pastJobs` (không bắt buộc, tối đa 5, mỗi m�
 Ngoài ra có `POST /api/v1/diagnosis/analyze-upload` (multipart), `GET /api/v1/meta/catalog`, `GET /health`, và trang thử `GET /chat`.
 
 - Lỗi trả `{ code, message, fallbackAllowed: true, suggestedActionVi }` với 422, 503 hoặc 504; `backend` đổi mọi lỗi thành câu trả lời dự phòng và không chặn đặt lịch.
-- Mã dịch vụ trả về trùng với danh mục của `backend`; dịch vụ dự phòng là `KIEM_TRA_CHAN_DOAN_THIET_BI`. Đổi danh mục ở `backend` thì phải sinh lại `app/data/service_mapping`.
+- Mã dịch vụ trả về trùng với danh mục của `backend` (catalog V2/V3). Không còn dịch vụ dự phòng chung: lỗi chưa chốt thì gợi ý dịch vụ sửa của chính thiết bị (`default_service` trong `device_catalog.json`); thiết bị mà `backend` chưa mở dịch vụ (lò vi sóng, tivi, máy rửa bát) thì báo chưa nhận, không gợi ý; không biết thiết bị thì hỏi. Không đặt `BACKEND_CATALOG_URL` thì dùng ảnh chụp `app/data/service_catalog.json`. Đổi danh mục ở `backend` thì chạy lại `tools/sync_catalog_v3.py`.
 - Đổi schema ở đây là thay đổi liên repo: cập nhật `backend` (DTO và giới hạn trong `ai-contract.dto.ts`) và context của `backend`, `web`, `mobile` cùng ngày.
 
 ### Biến môi trường (chỉ tên, xem `.env.example`)
@@ -178,6 +179,7 @@ Ngoài ra có `POST /api/v1/diagnosis/analyze-upload` (multipart), `GET /api/v1/
 
 ## 9. Nhật ký cập nhật context
 
+- 2026-10-25 00:10 (UTC+7) | ToanAltF4 | feat/catalog-v3-multi-device | V12: danh mục dịch vụ V2/V3 (mã AC-01..., snapshot service_catalog.json, giá S+P, bỏ KIEM_TRA, dịch vụ chưa mở thì báo chưa nhận); nhận diện tối đa 3 ảnh/3 thiết bị, response.devices[] + mỗi thiết bị 1 dịch vụ; lời nói theo từng thiết bị; tài liệu RAG theo luồng đặt lịch mới
 - 2026-10-24 23:11 (UTC+7) | ToanAltF4 | feat/rag-v11 | Hiểu cùng một lỗi dù nói kiểu gì (bằng chứng từ mục lời khách và câu tả đã học, lời đưa đẩy, tên hãng, câu mơ hồ), danh mục dịch vụ đọc từ backend, CPU mỗi lượt nhanh 15 lần, chạy kiểm tra hằng đêm
 - 2026-10-16 17:47 (UTC+7) | ToanAltF4 | fix/confidence-cap | Độ tin cậy luôn trong 0..1, hết lỗi 503 khi điểm truy hồi được nhân vượt 1
 - 2026-10-16 16:31 (UTC+7) | ToanAltF4 | feat/conversation-v9 | An toàn đứng đầu khi khách chỉ tả mùi gas, câu ngắn rõ ràng trả lời luôn, câu chung chung hỏi lại, xưng hô theo dấu, chỗ rửa bát là bồn rửa

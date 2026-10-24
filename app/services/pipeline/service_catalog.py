@@ -48,6 +48,7 @@ logger = logging.getLogger(__name__)
 
 
 _SNAPSHOT = Path(__file__).resolve().parents[2] / "data" / "service_catalog.json"
+_QUESTIONS = Path(__file__).resolve().parents[2] / "data" / "service_questions.json"
 
 
 @dataclass(frozen=True)
@@ -259,6 +260,23 @@ def snapshot() -> LiveCatalog:
         ),
         enrich=False,
     )
+
+
+@lru_cache(maxsize=1)
+def _questions() -> Dict[str, List[dict]]:
+    try:
+        rows = json.loads(_QUESTIONS.read_text(encoding="utf-8"))["questions"]
+    except (OSError, ValueError, KeyError):
+        return {}
+    out: Dict[str, List[dict]] = {}
+    for row in rows:
+        out.setdefault(row["service_code"], []).append(row)
+    return out
+
+
+def questions_for(code: Optional[str]) -> List[dict]:
+    """What settles which fixed-price variant of a service applies, in order."""
+    return list(_questions().get(code or "", []))
 
 
 _CATALOG = LiveCatalog()

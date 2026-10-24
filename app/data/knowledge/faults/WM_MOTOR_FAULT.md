@@ -554,8 +554,7 @@ Hãng và độ sẵn có của linh kiện. Máy nội địa xách tay rất k
 
 Có phải xử lý nguyên nhân nền không, ví dụ thay bạc đạn hoặc xử lý chỗ rò nước.
 
-Vì phạm vi chỉ biết được sau khi mở máy và đo, bệnh này gắn với công kiểm tra tại
-nhà trước, rồi báo giá phần việc sau.
+Vì phạm vi chỉ biết được sau khi mở máy và đo, bệnh này đặt theo dịch vụ "Sửa máy giặt": thợ kiểm tra tại nhà trước, rồi báo giá phần việc sau.
 
 ## Nghiệm thu sau khi sửa
 

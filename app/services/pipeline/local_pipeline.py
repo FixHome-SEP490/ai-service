@@ -3,6 +3,7 @@
 
 from __future__ import annotations
 
+import asyncio
 import re
 import time
 import unicodedata
@@ -17,6 +18,7 @@ from app.schemas.diagnosis import (
     BoundingBox,
     Clarification,
     DetectedDevice,
+    DeviceSuggestion,
     DiagnosisRequest,
     DiagnosisResponse,
     DiagnosisStatus,
@@ -1092,11 +1094,166 @@ class LocalPipeline:
                 }
             )
         notes = chat.notes_vi(self._kb)
-        if message == response.message_vi and clarification is response.clarification and not notes:
+        if message != response.message_vi or clarification is not response.clarification or notes:
+            response = response.model_copy(
+                update={"message_vi": message, "clarification": clarification, "notes_vi": notes}
+            )
+        return self._with_devices(response, chat, request.description)
+
+    # ------------------------------------------------------------ several appliances
+
+    def _with_devices(
+        self, response: DiagnosisResponse, chat: Conversation, said: str
+    ) -> DiagnosisResponse:
+        """One entry per appliance of the visit, and one service for each.
+
+        The appliance being talked through comes first, with this turn's
+        answer. Then the ones already talked through (moved on from with "xem
+        tiếp"), then the ones still waiting, whether named in the message or
+        seen in a photograph. Three at most: Backend books a visit of up to
+        three devices.
+        """
+        current = response.device.device_type if response.device else chat.device_type
+        if current:
+            for turn in chat.turns:
+                if turn.role == "customer" and turn.device_type is None:
+                    turn.device_type = current
+            memo = chat.memo.setdefault(current, {})
+            said = next((t.text_vi for t in reversed(chat.turns) if t.role == "customer"), said)
+            if self._names_a_symptom(said, current) and said not in memo.get("text", ""):
+                memo["text"] = f"{memo.get('text', '')} {said}".strip()
+            if response.recommended_services or response.suspected_faults:
+                memo["service"] = response.recommended_services[0] if response.recommended_services else None
+                memo["faults"] = list(response.suspected_faults[:2])
+                memo["price"] = response.price_estimate
+        order = list(dict.fromkeys(
+            [d for d in [current] if d]
+            + [d for d in chat.kept if d != current]
+            + [d for d in chat.queued if d != current]
+        ))
+        if len(order) < 2:
             return response
+        extra = len(order) - 3
+        order = order[:3]
+        devices = [self._device_entry(d, chat, d == current, response) for d in order]
+        services = [
+            entry.service.model_copy(update={"device_type": entry.device_type})
+            for entry in devices
+            if entry.service is not None
+        ]
+        bookable = sum(1 for entry in devices if entry.service is not None)
+        lines = []
+        # Once per change in how many can be booked, not on every turn.
+        if bookable >= 2 and chat.announced_visit != bookable:
+            chat.announced_visit = bookable
+            lines.append(
+                f"Em đã gợi ý dịch vụ cho {bookable} thiết bị, anh/chị có thể đặt chung "
+                "một lượt thợ tới cho tất cả ạ."
+            )
+        if extra > 0:
+            lines.append("Mỗi lượt đặt được tối đa 3 thiết bị, thiết bị còn lại anh/chị đặt ở lượt sau giúp em nhé.")
+        message = response.message_vi
+        if lines:
+            message = " ".join(p for p in [message, *lines] if p)
         return response.model_copy(
-            update={"message_vi": message, "clarification": clarification, "notes_vi": notes}
+            update={"devices": devices, "recommended_services": services, "message_vi": message}
         )
+
+    def _device_entry(
+        self, device_type: str, chat: Conversation, primary: bool, response: DiagnosisResponse
+    ) -> DeviceSuggestion:
+        memo = chat.memo.get(device_type, {})
+        image_index = memo.get("image_index")
+        text = (chat.queued.get(device_type) or memo.get("text") or "").strip()
+        if primary:
+            service = response.recommended_services[0] if response.recommended_services else None
+            faults = list(response.suspected_faults[:2])
+            price = response.price_estimate
+        elif memo.get("service") is not None and device_type in chat.kept:
+            service, faults, price = memo.get("service"), memo.get("faults", []), memo.get("price")
+        else:
+            service, faults, price = self._suggest_for(device_type, text, chat)
+        if service is not None and service.device_type != device_type:
+            service = service.model_copy(update={"device_type": device_type})
+        variant, questions = self._variant_for(service, faults)
+        name = self._kb.device_name_vi(device_type) or device_type
+        return DeviceSuggestion(
+            device_type=device_type,
+            name_vi=name,
+            source=EvidenceSource.IMAGE if image_index is not None else EvidenceSource.DESCRIPTION,
+            image_index=image_index,
+            confidence=round(float(memo.get("confidence", 0.0)), 4) if image_index is not None else 0.0,
+            is_primary=primary,
+            suspected_faults=faults,
+            service=service,
+            variant_code=variant,
+            questions_vi=questions,
+            price_estimate=price,
+            description_vi=(text[:500] or None),
+            note_vi=None if service is not None else self._not_open_note(device_type),
+        )
+
+    def _suggest_for(self, device_type: str, text: str, chat: Conversation):
+        """What retrieval alone finds for an appliance not yet talked through.
+
+        Only faults the words point at firmly are named, and they are marked
+        as coming from the description; the model has not looked at them.
+        Without such words the appliance's own repair is offered, priced on
+        inspection, which is what booking it then means."""
+        strong = []
+        if text and self._names_a_symptom(text, device_type):
+            strong = [
+                c for c in self._retriever.candidate_faults(text, device_type, top_k=3)
+                if c.score >= settings.DEVICE_FROM_RETRIEVAL_SCORE
+            ][:2]
+        if strong:
+            offer = self._service_to_offer(strong, device_type, chat)
+            faults = [
+                SuspectedFault(
+                    fault_code=c.fault.fault_code,
+                    name_vi=c.fault.name_vi,
+                    confidence=round(min(c.score, 1.0), 4),
+                    source=EvidenceSource.DESCRIPTION,
+                )
+                for c in strong
+            ]
+            assess = any(c.fault.requires_assessment for c in strong)
+            price = PriceEstimate(
+                min=min(c.fault.price_min for c in strong),
+                max=None if assess else max(c.fault.price_max for c in strong),
+                requires_assessment=assess,
+            )
+            return (offer[0] if offer else None), faults, price
+        offer = self._fallback_offer(device_type)
+        if not offer:
+            return None, [], None
+        ref = service_catalog.current().ref_for(offer[0].service_code)
+        price = None
+        if ref is not None and ref.base_price:
+            fixed = bool(ref.variant_codes) or ref.kind != "repair"
+            price = PriceEstimate(
+                min=ref.base_price,
+                max=(ref.price_max or ref.base_price) if fixed else None,
+                requires_assessment=not fixed,
+            )
+        return offer[0], [], price
+
+    def _variant_for(self, service: Optional[RecommendedService], faults) -> tuple:
+        """The fixed-price variant when the faults settle it, else what to ask."""
+        if service is None:
+            return None, []
+        questions = service_catalog.questions_for(service.service_code)
+        if not questions:
+            return None, []
+        sets = [
+            set(fault.candidate_variants)
+            for f in faults
+            if (fault := self._kb.fault(f.fault_code)) is not None and fault.candidate_variants
+        ]
+        common = set.intersection(*sets) if sets else set()
+        if len(common) == 1:
+            return common.pop(), []
+        return None, list(dict.fromkeys(q["question_vi"] for q in questions))
 
     def _remember_past_jobs(self, chat: Conversation, jobs) -> None:
         """Keep the customer's earlier bookings, each matched to an appliance.
@@ -1202,6 +1359,14 @@ class LocalPipeline:
                 + (f"{current} " if current else "")
                 + 'trước, anh/chị nhắn "xem tiếp" để em xem tiếp nhé.'
             )
+        if chat.just_seen:
+            seen = [(self._kb.device_name_vi(d) or d).lower() for d in chat.just_seen]
+            current = (self._kb.device_name_vi(chat.device_type) or "").lower() if chat.device_type else ""
+            closer = " ".join(p for p in (closer, (
+                f"Trong ảnh em còn thấy {', '.join(seen)}; em xem "
+                + (f"{current} " if current else "")
+                + 'trước, anh/chị nhắn "xem tiếp" hoặc kể thêm về máy đó để em xem tiếp nhé.'
+            )) if p)
         recall = self._recall(chat, urgent) if message else None
         parts = [p for p in (opener, message, extra, recall, closer) if p]
         if not parts:
@@ -1217,6 +1382,8 @@ class LocalPipeline:
         second is kept with what was said about it, and "xem tiếp" brings it.
         """
         chat.just_queued = []
+        chat.just_seen = []
+        chat.seen = []
         lexicon = dialogue_state.get_lexicon(self._kb)
         # Read the way it was typed: "tiếppp đi", "xem tieeps", "bìnhhhh nóng lạnh".
         folded = " " + lexicon.normalize(text) + " "
@@ -1230,6 +1397,15 @@ class LocalPipeline:
                     wanted = named
             if wanted:
                 said = chat.queued.pop(wanted)
+                if chat.device_type and chat.device_type not in chat.kept:
+                    chat.kept.append(chat.device_type)
+                # A new appliance starts its own diagnosis. Carried over, "the
+                # customer has had an answer" made the fridge reached with
+                # "xem tiếp" skip its questions and be diagnosed from nothing.
+                chat.answered = False
+                chat.times_asked = 0
+                chat.shortlist = []
+                chat.pending_question = None
                 # Named in the text, so the ordinary switch takes it from here
                 # and searches only what was said about this appliance.
                 name = self._kb.device_name_vi(wanted) or ""
@@ -1262,6 +1438,7 @@ class LocalPipeline:
             said = " ".join(seg for d, seg in owned if d == device)
             chat.queued[device] = (chat.queued.get(device, "") + " " + said).strip()
             chat.just_queued.append(device)
+            chat.memo.setdefault(device, {})["text"] = chat.queued[device]
         return " ".join(seg for d, seg in owned if d == primary)
 
     async def _diagnose_turn(self, request: DiagnosisRequest) -> DiagnosisResponse:
@@ -1348,7 +1525,7 @@ class LocalPipeline:
             if booking is not None:
                 return booking
 
-        detection = await self._detect_primary(request.images)
+        detection = await self._detect_images(request.images, request.description, chat)
         trace.add(
             "detector",
             detection is not None,
@@ -1361,6 +1538,7 @@ class LocalPipeline:
             device=detection.device_type if detection else None,
             confidence=round(detection.confidence, 4) if detection else None,
             box=list(detection.box_xywh) if detection else None,
+            seen=[{"image": i, "device": d, "confidence": round(c, 4)} for i, d, c in chat.seen],
         )
         detected = detection.device_type if detection else None
 
@@ -1595,21 +1773,21 @@ class LocalPipeline:
         # at the model's confidence. Retrieval being certain is evidence too,
         # and here it is the better evidence: it matched the customer's own
         # words against symptoms the team wrote.
-        said = self._retriever.content_words(chat.customer_text())
+        said = self._retriever.content_words(chat.device_text())
         # "lavabo bị tắc", "ổ cắm không lên": two words, the appliance and one
         # symptom, and one fault far ahead of the rest. That is a complete
         # report; asking "bắt đầu từ khi nào?" back was the assistant not
         # listening. A tie ("tivi bị đơ" fits three faults equally) still asks.
         clear_lead = (
             device_type is not None
-            and self._names_a_symptom(chat.customer_text(), device_type)
+            and self._names_a_symptom(chat.device_text(), device_type)
             and bool(candidates)
             and candidates[0].score >= settings.RETRIEVAL_DECISIVE_SCORE
             and (len(candidates) == 1 or candidates[0].score - candidates[1].score >= _CLEAR_LEAD)
         )
         # "máy lạnh hư rồi" is three words and says nothing about what is wrong;
         # it was answered with a remote-control battery.
-        names_something = device_type is None or self._names_a_symptom(chat.customer_text(), device_type)
+        names_something = device_type is None or self._names_a_symptom(chat.device_text(), device_type)
         enough_said = (said >= settings.DECISIVE_MIN_WORDS and names_something) or (
             said == settings.DECISIVE_MIN_WORDS - 1 and clear_lead
         )
@@ -1685,6 +1863,7 @@ class LocalPipeline:
         chat.mood = mood
         chat.address = address or chat.address
         chat.just_queued = []
+        chat.just_seen = []
         chat.add("customer", request.question)
         reading = self._read_turn(
             chat,
@@ -2578,11 +2757,8 @@ class LocalPipeline:
             disclaimer_vi=settings.AI_DISCLAIMER_VI,
         )
 
-    async def _detect_primary(self, images: List[str]) -> Optional[Detection]:
-        """Only the first image is analysed; extras are accepted but unused."""
-        if not images:
-            return None
-        payload: ImagePayload = load_base64_image(images[0])
+    async def _detect_one(self, image: str) -> Optional[Detection]:
+        payload: ImagePayload = load_base64_image(image)
         detections = await self._detector.detect(payload)
         if not detections:
             return None
@@ -2590,6 +2766,54 @@ class LocalPipeline:
         if best.confidence < settings.DETECTOR_CONFIDENCE_THRESHOLD:
             return None
         return best
+
+    async def _detect_images(
+        self, images: List[str], description: str, chat: Conversation
+    ) -> Optional[Detection]:
+        """Every photograph, up to three, each read for its own appliance.
+
+        Only the first used to be looked at, so a customer who photographed
+        the air conditioner, the washing machine and the fridge was answered
+        about the air conditioner alone. Now each is detected (concurrently),
+        the one the message is about leads, and the others join the visit as
+        appliances waiting their turn (`chat.queued`), so the reply can offer a
+        service for each and "xem tiếp" goes through them.
+
+        The first image is validated as before: a broken one is the caller's
+        error. A broken second or third one is skipped, not fatal, because the
+        customer still has an answer to get about the first.
+        """
+        if not images:
+            return None
+        first = asyncio.ensure_future(self._detect_one(images[0]))
+        rest = [asyncio.ensure_future(self._safe_detect(i)) for i in images[1:3]]
+        found = [await first] + [await task for task in rest]
+        seen = [(i, d) for i, d in enumerate(found) if d is not None]
+        if not seen:
+            return None
+        named = _device_named_in(description, self._kb)
+        lead = next((d for _, d in seen if d.device_type == named), seen[0][1])
+        by_device: dict = {}
+        for index, d in seen:
+            by_device.setdefault(d.device_type, (index, d))
+        chat.seen = [(i, d.device_type, d.confidence) for i, d in by_device.values()]
+        for index, d in by_device.values():
+            memo = chat.memo.setdefault(d.device_type, {})
+            memo["image_index"] = index
+            memo["confidence"] = d.confidence
+            if d.device_type == lead.device_type or d.device_type == chat.device_type:
+                continue
+            if d.device_type not in chat.queued:
+                chat.queued[d.device_type] = memo.get("text", "")
+                chat.just_seen.append(d.device_type)
+        return lead
+
+    async def _safe_detect(self, image: str) -> Optional[Detection]:
+        try:
+            return await self._detect_one(image)
+        except Exception as exc:  # one unreadable extra photo must not cost the answer
+            logger.warning("Bỏ qua một ảnh không đọc được: %s", exc)
+            return None
 
     @staticmethod
     def _combine_confidence(
@@ -2802,8 +3026,11 @@ class LocalPipeline:
         # Nothing until the appliance is settled. Without this guard "hư rồi"
         # — two words naming nothing — was offered a refrigerator repair,
         # because the shortlist it retrieved happened to be all one device.
+        # Unless the word used covers appliances that are all booked the same
+        # way: "quạt" is a ceiling or a standing fan, and both are "Sửa quạt
+        # điện", so the question which one can come with the button.
         if device_type is None:
-            return []
+            return self._family_offer(chat.customer_text() if chat is not None else "")
 
         codes = []
         for entry in shortlist or []:
@@ -2828,6 +3055,34 @@ class LocalPipeline:
             ]
 
         return self._fallback_offer(device_type)
+
+    _FAMILY_GENERIC = frozenset({"cai", "cho", "thay", "may", "nuoc", "binh"})
+
+    def _family_offer(self, text: str) -> List[RecommendedService]:
+        """The one repair every appliance a word can mean is booked under.
+
+        Read from the knowledge base's own names: the appliances whose names
+        start with a word the customer used ("quạt", "bồn", "công tắc"), and
+        only when they all share the same repair service. "Lò" (microwave or
+        oven) and "bếp" (gas or induction) are booked differently, so they
+        get the question alone."""
+        words = set(re.findall(r"[a-z0-9]+", _fold_vi(text)))
+        if not words:
+            return []
+        for head in sorted(words - self._FAMILY_GENERIC):
+            devices = {
+                d for d in self._kb.device_types
+                if any(_fold_vi(a).split()[:1] == [head] for a in self._kb.aliases_vi(d))
+            }
+            if len(devices) < 2:
+                continue
+            codes = {self._kb.default_service_code(d) for d in devices}
+            if len(codes) != 1:
+                continue
+            offer = self._fallback_offer(next(iter(devices)))
+            if offer:
+                return offer
+        return []
 
     def _fallback_offer(self, device_type: Optional[str]) -> List[RecommendedService]:
         """The appliance's own repair, in Backend's code so the app can book it.
