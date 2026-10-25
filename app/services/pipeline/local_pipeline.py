@@ -641,6 +641,159 @@ def _named_spans(text: str, kb: KnowledgeBase) -> List[tuple]:
     return kept
 
 
+_AS_AN_OBJECT = frozenset(
+    "vào của cho như giống khác chi bằng từ trong trên dưới cạnh gần nối cắm bên sau trước "
+    "lên xuống ở tại qua theo kiểu tựa hệt đến tới với đo vặn ra chảy gắn xả sạc dùng xài "
+    "thử kiểm lắp thay".split()
+)
+"""Words after which an appliance is a thing in someone else's sentence.
+
+"Cắm cái quạt vào ổ", "mùi giống như vòi bồn rửa", "nối từ tủ lạnh": the fan,
+the sink and the fridge are not appliances the customer is reporting, and
+cutting the message there handed half a socket's description to a fan."""
+
+
+def _appliance_mentions(text: str, kb: KnowledgeBase) -> List[tuple]:
+    """(device, first token, end token) for every appliance the customer reports.
+
+    By the names that name a machine (not "nóng lạnh", a tap setting), and by
+    a brand with the word for the kind of thing before it ("lò Sharp", "con
+    Senko", "bếp Taka") when the brand and that word leave one appliance. A
+    name used as the object of someone else's sentence is left out. Token
+    positions are those of `re.findall(r"[^\W_]+", NFC(text).lower())`.
+    """
+    typed = re.findall(r"[^\W_]+", unicodedata.normalize("NFC", text.lower()))
+    folded = [_fold_vi(w) for w in typed]
+    found = []
+    for device, alias, start, end in _named_spans(text, kb):
+        head = ([w for w in re.findall(r"[a-z0-9]+", _fold_vi(alias)) if w not in ("cai", "chiec")] or [""])[0]
+        if head in _DEVICE_HEADS:
+            found.append((device, start, end))
+    known = set(kb.device_types)
+    # What customers call it beyond the aliases ("máy thổi gió", "bệt", "con MRB").
+    for device, names in device_hint.known_names().items():
+        if device not in known:
+            continue
+        for words in names:
+            n = len(words)
+            for i in range(len(folded) - n + 1):
+                if folded[i : i + n] == list(words):
+                    found.append((device, i, i + n))
+    # An alias of two words or more typed with one letter wrong ("lò vi xóng",
+    # "máy xấy"), first letter right, in a word of four letters or more.
+    # Compared with the accents where the customer typed them: without, "mấy
+    # lần" is one letter from "máy lạnh" and "vơi được" from "vòi nước".
+    for device in kb.device_types:
+        for alias in kb.aliases_vi(device):
+            accented = re.findall(r"[^\W_]+", unicodedata.normalize("NFC", alias.lower()))
+            words = [_fold_vi(w) for w in accented]
+            if len(words) < 2 or sum(len(w) for w in words) < 6:
+                continue
+            n = len(words)
+            for i in range(len(folded) - n + 1):
+                window = folded[i : i + n]
+                if window == words or window[0][:1] != words[0][:1]:
+                    continue
+                plain = typed[i : i + n] == window
+                pairs = zip(window, words) if plain else zip(typed[i : i + n], accented)
+                edits = [(device_hint._one_edit(x, y), y) for x, y in pairs]
+                if sum(e for e, _ in edits) == 1 and all(len(y) >= 4 for e, y in edits if e):
+                    found.append((device, i, i + n))
+    naming = device_hint._naming()
+    for brand, makes in naming["brands"].items():
+        n = len(brand)
+        for at in range(len(folded) - n + 1):
+            if tuple(folded[at : at + n]) != brand:
+                continue
+            candidates = [d for d in makes if d in known]
+            start, best = at, None
+            for head, kinds in naming["heads"].items():
+                for h in range(max(0, at - 4), at - len(head) + 1):
+                    if tuple(folded[h : h + len(head)]) == head and (best is None or len(head) > len(best)):
+                        best, start = head, h
+            if best is not None:
+                candidates = [d for d in candidates if d in naming["heads"][best]] or candidates
+            if len(candidates) > 1:
+                after = folded[at + n : at + n + 10]
+                for cue, points_to in naming["cues"].items():
+                    if any(tuple(after[i : i + len(cue)]) == cue for i in range(len(after))):
+                        candidates = [d for d in candidates if d in points_to] or candidates
+            if len(candidates) == 1:
+                found.append((candidates[0], start, at + n))
+    found.sort(key=lambda m: (m[1], -(m[2] - m[1])))
+    kept: List[tuple] = []
+    for mention in found:
+        if any(mention[1] < k[2] and k[1] < mention[2] for k in kept):
+            continue
+        # Right after another appliance's name it is a part of that one:
+        # "vòi bồn rửa", "xi phông bồn rửa" is the sink's tap, the sink's trap.
+        if kept and kept[-1][2] == mention[1] and kept[-1][0] != mention[0]:
+            continue
+        before = typed[mention[1] - 2 : mention[1]] if mention[1] else []
+        if any(w in _AS_AN_OBJECT for w in before[-1:]) or (
+            len(before) == 2 and before[-1] in ("cái", "chiếc", "con") and before[0] in _AS_AN_OBJECT
+        ):
+            continue
+        kept.append(mention)
+    if not kept or not re.search(r"[,.;!?\n]", text):
+        return kept
+    # Someone who uses punctuation starts a new appliance at a new clause: after
+    # a comma or full stop, or a connecting word ("còn", "với lại", "thêm").
+    # In the middle of a clause the name is part of what is being described:
+    # "ổ cắm cứ mỗi khi máy lạnh chạy là nóng" is about the socket.
+    starts = [m.start() for m in re.finditer(r"[^\W_]+", unicodedata.normalize("NFC", text.lower()))]
+    norm = unicodedata.normalize("NFC", text.lower())
+    clause: List[tuple] = []
+    for mention in kept:
+        i = mention[1]
+        if clause and clause[-1][0] == mention[0]:
+            clause.append(mention)
+            continue
+        gap = norm[: starts[i]] if i < len(starts) else norm
+        prev = typed[max(0, i - 3) : i]
+        opens = (
+            not clause
+            or bool(re.search(r"[,.;!?:\n-]\s*(?:\S+\s*){0,2}$", gap))
+            or any(w in _CONNECTORS for w in prev)
+        )
+        if opens:
+            clause.append(mention)
+    return clause
+
+
+_CONNECTORS = frozenset(
+    "còn với lại cả ngoài ra thêm nữa và rồi xong mà kèm theo quên nhân tiện luôn".split()
+)
+"""Words that move a message from one appliance to the next."""
+
+
+def _split_by_appliance(text: str, kb: KnowledgeBase) -> List[tuple]:
+    """[(device, words about it)] in the order the customer brought them up.
+
+    Cut where a different appliance is first named, whatever the punctuation:
+    voice typing and "không dấu câu" give one long run of words, and cutting
+    only at commas left all of it to the first appliance. Words before the
+    first name belong to it; an appliance named twice gets both pieces."""
+    norm = unicodedata.normalize("NFC", text)
+    spans = [m.span() for m in re.finditer(r"[^\W_]+", norm.lower())]
+    mentions = _appliance_mentions(norm, kb)
+    cuts = []
+    for device, start, _end in mentions:
+        if not cuts or cuts[-1][0] != device:
+            cuts.append((device, start))
+    if len({d for d, _ in cuts}) < 2 or len(spans) != len(re.findall(r"[^\W_]+", norm.lower())):
+        return []
+    pieces: dict = {}
+    for i, (device, start) in enumerate(cuts):
+        begin = 0 if i == 0 else spans[start][0]
+        end = spans[cuts[i + 1][1]][0] if i + 1 < len(cuts) else len(norm)
+        piece = norm[begin:end].strip(" ,.;:-")
+        piece = re.sub(r"\s*(?:,|\.|;)?\s*(?:còn|với lại|với cả|ngoài ra|thêm nữa|thêm cái|thêm|và|rồi|cả|xong|mà|kèm theo|à quên)$", "", piece, flags=re.IGNORECASE).strip(" ,.;:-")
+        if piece:
+            pieces[device] = f"{pieces[device]} {piece}".strip() if device in pieces else piece
+    return list(pieces.items()) if len(pieces) >= 2 else []
+
+
 def _strongly_named_in(text: str, kb: KnowledgeBase) -> Optional[str]:
     """The one appliance this text names by a machine's name, if exactly one."""
     devices = {
@@ -1217,7 +1370,11 @@ class LocalPipeline:
                 said = f"{name} {said}"
             index = chat.memo.get(device_type, {}).get("image_index")
             images = [request.images[index]] if index is not None and index < len(request.images) else []
+            own = self._conversations.get_or_create(None)
+            own.remember_device(device_type, 0.0, "description")
+            own.parent_id = chat.session_id
             sub = DiagnosisRequest(
+                session_id=own.session_id,
                 description=(said or name)[:2000],
                 images=images,
                 past_jobs=request.past_jobs,
@@ -1613,6 +1770,27 @@ class LocalPipeline:
         # mà là tủ lạnh" names two and means the second. The switch handles it.
         if any(f" {m} " in folded for m in _CORRECTION_MARKERS + _REJECTS + _ASKS_FOR):
             return text
+        split = _split_by_appliance(text, self._kb)
+        if not split:
+            # Typed with stretched letters or teencode the names may only be
+            # found once the words are normalised; cut that text instead.
+            split = _split_by_appliance(lexicon.normalize_accented(text), self._kb)
+        if split:
+            devices = [d for d, _ in split]
+            primary = chat.device_type if chat.device_type in devices else devices[0]
+            if chat.device_type is None:
+                # The cut already knows which appliance this piece is about;
+                # read again on its own, "ổ cắm cắm cái quạt vào cứ lủng lẳng"
+                # names two and settles on neither.
+                chat.remember_device(primary, 0.0, "description")
+            for device, said in split:
+                if device == primary:
+                    continue
+                chat.queued[device] = (chat.queued.get(device, "") + " " + said).strip()
+                chat.just_queued.append(device)
+                chat.memo.setdefault(device, {})["text"] = chat.queued[device]
+            return dict(split)[primary]
+        # Otherwise the old cut, at punctuation and connectors.
         segments = [s.strip() for s in _SEGMENT_RE.split(text) if s and s.strip()]
         if len(segments) < 2:
             return text

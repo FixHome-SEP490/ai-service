@@ -698,7 +698,7 @@ def cmd_serve(args: argparse.Namespace) -> None:
         "instance",
         str(args.offer),
         "--image",
-        SERVE_IMAGE,
+        SERVE_IMAGE.rsplit(":", 1)[0] + ":" + args.image_tag.replace("/", "-"),
         "--disk",
         "60",
         "--env",
@@ -1044,6 +1044,15 @@ def main() -> None:
         "--catalog-url",
         default="",
         help="Backend's GET /api/v1/services; defaults to BACKEND_CATALOG_URL in .env",
+    )
+    serve.add_argument(
+        "--image-tag",
+        default="latest",
+        help=(
+            "serving image tag: latest is main; a branch built with "
+            "`gh workflow run serving-image.yml --ref <branch>` is tagged with "
+            "the branch name (slashes become dashes)"
+        ),
     )
 
     address = sub.add_parser("address", help="where the served API answers")

@@ -171,8 +171,44 @@ def devices_named_in(description: str, kb: KnowledgeBase) -> List[DeviceHint]:
         # Nothing on the alias list. People also say "tủ Toshiba", "con
         # Daikin", "máy giặc": the brand or a slip of the keyboard, not a
         # missing word. Tried only now, so no alias match is ever overruled.
-        hits = _by_brand(folded, kb) or _misspelt(folded, kb)
+        hits = _by_name(folded, kb) or _by_brand(folded, kb) or _misspelt(folded, kb)
     return hits
+
+
+def known_names() -> dict:
+    """{device: [folded names]} from device_naming.json "names": what customers
+    call an appliance beyond its aliases ("máy thổi gió", "bệt", "con MRB")."""
+    return {d: tuple(n.split() for n in names) for d, names in _naming_names().items()}
+
+
+@lru_cache(maxsize=1)
+def _naming_names() -> dict:
+    if not _NAMING_PATH.exists():
+        return {}
+    data = json.loads(_NAMING_PATH.read_text(encoding="utf-8"))
+    return {d: tuple(_fold(n).strip() for n in names) for d, names in data.get("names", {}).items()}
+
+
+def _by_name(folded: str, kb: KnowledgeBase) -> List[DeviceHint]:
+    """The appliance one of its known names stands for, as whole words, when
+    the names found point at exactly one appliance (the longest wins)."""
+    padded = " " + _folded_words(folded) + " "
+    known = set(kb.device_types)
+    best: dict = {}
+    for device, names in _naming_names().items():
+        if device not in known:
+            continue
+        for name in names:
+            if name and f" {name} " in padded and len(name) > len(best.get(device, "")):
+                best[device] = name
+    if not best:
+        return []
+    longest = max(best.values(), key=len)
+    devices = {d for d, n in best.items() if n == longest}
+    if len(devices) != 1:
+        return []
+    device = devices.pop()
+    return [DeviceHint(device_type=device, matched_alias=longest)]
 
 
 _NAMING_PATH = Path(__file__).resolve().parents[2] / "data" / "device_naming.json"
