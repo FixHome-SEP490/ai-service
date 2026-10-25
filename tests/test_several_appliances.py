@@ -371,3 +371,52 @@ def test_a_short_name_is_read_against_the_visit():
     assert _lead(_run(pipeline, description="cục lạnh thì chảy nước", session_id=first.session_id)) == "air_conditioner"
     # "Từ hôm qua" is not "tủ".
     assert _lead(_run(pipeline, description="máy giặt nó kêu từ hôm qua", session_id=first.session_id)) == "washing_machine"
+
+
+# Messages about several appliances, cut where each one starts. Each case is a
+# shape eval_multi_message.py found on its dev half, 25/10/2026.
+
+def _devices(text):
+    return [d.device_type for d in _run(_pipeline(), description=text).devices]
+
+
+def test_a_part_or_a_setting_is_not_a_correction():
+    # "bộ chỉnh" folds to "bỏ", "chuyển sang gió mạnh" to a change of appliance.
+    assert _devices(
+        "tủ lạnh thấy cái dàn lưới phía sau rung rinh kêu rè rè suốt và quạt trần hổng biết hư quạt hay hỏng bộ chỉnh"
+    ) == ["refrigerator", "ceiling_fan"]
+    assert _devices(
+        "máy giặt nước tràn qua miệng ống lênh láng, điều hòa mỗi lần chuyển sang gió mạnh là rung bần bật"
+    ) == ["washing_machine", "air_conditioner"]
+    assert _devices(
+        "máy sấy bảng điều khiển không có điện, chắc hư bo rồi ống nước trong tường bắn ra như vòi cứu hỏa"
+    ) == ["clothes_dryer", "water_pipe"]
+
+
+def test_a_real_correction_is_still_one_appliance():
+    reply = _run(_pipeline(), description="không phải máy lạnh mà là tủ lạnh không đông đá")
+    assert reply.devices == [] or [d.device_type for d in reply.devices] == ["refrigerator"]
+
+
+def test_a_connector_opens_the_next_appliance():
+    assert _devices("tivi mất tiếng ngoài ra tủ lạnh ron cửa bị chai") == ["television", "refrigerator"]
+    assert _devices("cho hoi chut, may say khong nong va bep gas cai num xoay cung ngac") == ["clothes_dryer", "gas_stove"]
+    assert _devices("tivi thấy người cử động bên trong, lò nướng set 160 độ mà lên tận 230") == ["television", "oven"]
+
+
+def test_spoken_fillers_do_not_hide_a_name():
+    assert _devices("quạt à trần đo cái tụ thấy tụt một nửa với lại bếp kiểu là từ màn hình chớp chớp") == [
+        "ceiling_fan", "induction_hob"
+    ]
+
+
+def test_teencode_names_are_found_with_the_others():
+    assert _devices("máy giặt chạy xong nước vẫn ngập, ống nc nhà e tắm xong nước xuống phễu kêu òng ọc") == [
+        "washing_machine", "water_pipe"
+    ]
+
+
+def test_what_is_meant_by_the_words_around_a_name():
+    assert "light_bulb" not in _devices("bếp từ đèn chờ không sáng, máy giặt không vắt")
+    assert _devices("cái quạt trên trần nhà quay uể oải, máy giặt không vắt") == ["ceiling_fan", "washing_machine"]
+    assert _devices("bình đun nước tắm không nóng, tủ lạnh không lạnh") == ["water_heater", "refrigerator"]

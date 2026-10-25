@@ -646,13 +646,35 @@ def _named_spans(text: str, kb: KnowledgeBase) -> List[tuple]:
 _AS_AN_OBJECT = frozenset(
     "vào của cho như giống khác chi bằng từ trong trên dưới cạnh gần nối cắm bên sau trước "
     "lên xuống ở tại qua theo kiểu tựa hệt đến tới với đo vặn ra chảy gắn xả sạc dùng xài "
-    "thử kiểm lắp thay".split()
+    "thử kiểm lắp thay sang đổi gầm phông".split()
 )
 """Words after which an appliance is a thing in someone else's sentence.
 
 "Cắm cái quạt vào ổ", "mùi giống như vòi bồn rửa", "nối từ tủ lạnh": the fan,
 the sink and the fridge are not appliances the customer is reporting, and
 cutting the message there handed half a socket's description to a fan."""
+
+
+_INDICATOR_AFTER = frozenset("cho bao xanh do nguon led hien tin nhan nhay".split())
+"""After "đèn": the light of another appliance, not a light bulb: "đèn chờ không
+sáng", "đèn báo", "cái đèn xanh nhỏ trên đó"."""
+
+
+def _what_it_is(mention: tuple, folded: List[str]) -> Optional[tuple]:
+    """A mention read with the words around it, or None when it names no appliance.
+
+    "Cái quạt trên trần nhà" is a ceiling fan, "bình đun nước tắm" a water
+    heater, and "đèn chờ" the standby light of the appliance being described.
+    """
+    device, start, end = mention
+    after = folded[end : end + 3]
+    if device == "electric_fan" and after[:2] in (["tren", "tran"], ["tran", "nha"]):
+        return ("ceiling_fan", start, end + 2)
+    if device == "kettle" and "tam" in after[:2]:
+        return ("water_heater", start, end)
+    if device == "light_bulb" and folded[end - 1 : end] == ["den"] and after[:1] and after[0] in _INDICATOR_AFTER:
+        return None
+    return mention
 
 
 def _appliance_mentions(text: str, kb: KnowledgeBase) -> List[tuple]:
@@ -722,6 +744,8 @@ def _appliance_mentions(text: str, kb: KnowledgeBase) -> List[tuple]:
                         candidates = [d for d in candidates if d in points_to] or candidates
             if len(candidates) == 1:
                 found.append((candidates[0], start, at + n))
+    found = [_what_it_is(m, folded) for m in found]
+    found = [m for m in found if m is not None]
     found.sort(key=lambda m: (m[1], -(m[2] - m[1])))
     kept: List[tuple] = []
     for mention in found:
@@ -729,9 +753,19 @@ def _appliance_mentions(text: str, kb: KnowledgeBase) -> List[tuple]:
             continue
         # Right after another appliance's name it is a part of that one:
         # "vòi bồn rửa", "xi phông bồn rửa" is the sink's tap, the sink's trap.
-        if kept and kept[-1][2] == mention[1] and kept[-1][0] != mention[0]:
+        # Against every name found, kept or not: in "vặn vòi bồn rửa" the tap
+        # is left out as an object, and the sink after it is still its sink.
+        if any(f[2] == mention[1] and f[0] != mention[0] for f in found):
             continue
         before = typed[mention[1] - 2 : mention[1]] if mention[1] else []
+        # "Ngoài ra tủ lạnh...", "kèm theo cái quạt": the "ra" and the "theo"
+        # belong to the connector, which opens the next appliance.
+        joined = " ".join(_fold_vi(w) for w in before)
+        if joined in _TWO_WORD_CONNECTORS or _punctuated_before(text, mention[1]):
+            # Nor across a comma: "...bên trong, lò nướng set 160 độ", "...ấn
+            # vào không nảy lên, khóa Xiaomi" start a new clause.
+            kept.append(mention)
+            continue
         if any(w in _AS_AN_OBJECT for w in before[-1:]) or (
             len(before) == 2 and before[-1] in ("cái", "chiếc", "con") and before[0] in _AS_AN_OBJECT
         ):
@@ -756,7 +790,7 @@ def _appliance_mentions(text: str, kb: KnowledgeBase) -> List[tuple]:
         opens = (
             not clause
             or bool(re.search(r"[,.;!?:\n-]\s*(?:\S+\s*){0,2}$", gap))
-            or any(w in _CONNECTORS for w in prev)
+            or any(w in _CONNECTORS or (w == _fold_vi(w) and w in _FOLDED_CONNECTORS) for w in prev)
         )
         if opens:
             clause.append(mention)
@@ -767,6 +801,36 @@ _CONNECTORS = frozenset(
     "còn với lại cả ngoài ra thêm nữa và rồi xong mà kèm theo quên nhân tiện luôn".split()
 )
 """Words that move a message from one appliance to the next."""
+
+_FOLDED_CONNECTORS = frozenset(_fold_vi(w) for w in _CONNECTORS)
+"""The same typed without accents: "va bep gas cai num xoay cung ngac"."""
+
+_FILLERS = re.compile(
+    r"(?<![^\W_])(?:nói chung là|kiểu là|kiểu như là|ừm+|ờm*|ừ+|hmm+|ơ+|à+)(?![^\W_])\s*",
+    re.IGNORECASE,
+)
+"""Words a dictated message is full of: "quạt à trần", "bếp kiểu là từ", "ổ ừm
+cắm". They fall inside the names of the appliances, which were then not found.
+Matched with their accents, so "a" and "o" typed plainly are left alone."""
+
+
+def _without_fillers(text: str) -> str:
+    """The message without the spoken fillers (see _FILLERS)."""
+    cleaned = _FILLERS.sub("", unicodedata.normalize("NFC", text))
+    return re.sub(r"\s+([,.!?])", r"\1", re.sub(r"[ \t]{2,}", " ", cleaned)).strip()
+
+
+def _punctuated_before(text: str, index: int) -> bool:
+    """Whether punctuation stands between word `index` and the word before it."""
+    spans = [m.span() for m in re.finditer(r"[^\W_]+", unicodedata.normalize("NFC", text.lower()))]
+    if index <= 0 or index >= len(spans):
+        return index == 0
+    gap = unicodedata.normalize("NFC", text.lower())[spans[index - 1][1] : spans[index][0]]
+    return bool(re.search(r"[,.;!?:\n]", gap))
+
+
+_TWO_WORD_CONNECTORS = frozenset(("ngoai ra", "kem theo", "voi lai", "them nua", "nhan tien", "con lai"))
+"""Connectors whose second word is also one that makes a noun an object."""
 
 
 def _split_by_appliance(text: str, kb: KnowledgeBase) -> List[tuple]:
@@ -1054,6 +1118,65 @@ _CORRECTION_MARKERS = (
     "khong phai", "chu khong", "ma la", "nham", "sua lai", "doi sang", "doi qua", "chuyen sang", "chuyen qua",
     "thay vi", "bo", "huy", "hong phai", "ko phai", "k phai", "kp", "no phai", "dau phai",
 )
+
+_MARKER_ACCENTS = {"bo": {"bỏ"}, "huy": {"huỷ", "hủy"}, "nham": {"nhầm"}}
+"""One-word markers that, folded, are other words ("bộ", "bo mạch", "huy
+hiệu"): typed with accents, only these spellings are the marker."""
+
+_BETWEEN_MARKER_AND_NAME = frozenset(("la", "cai", "chiec", "con", "phai", "sang", "qua", "thanh", "di", "dau", "ma"))
+"""What may stand between a marker and the appliance it is about: "không
+phải là cái máy lạnh", "đổi sang con tủ lạnh". Anything else and the marker
+belongs to the sentence: "chứ không quay trớn và bếp Taka"."""
+
+_NAMES_NEXT = frozenset(("khong phai", "ko phai", "k phai", "hong phai", "chu khong phai", "thay vi", "ma la", "doi sang", "chuyen sang"))
+"""Markers that can only be followed by the appliance they correct."""
+
+_REFUSED_AFTER = ("thoi khong", "khong can", "dung dat", "huy")
+"""Refusals that come after the appliance they drop: "máy lạnh thì thôi
+không cần nữa", "tủ lạnh huỷ đi"."""
+
+
+def _corrects_an_appliance(text: str, kb: KnowledgeBase) -> bool:
+    """Whether the message changes which appliance it is about.
+
+    The markers ("không phải", "bỏ", "chuyển sang", "mà là") are read on the
+    folded words, where "bộ" is "bỏ" and "chuyển sang gió mạnh" is "chuyển
+    sang": a message about a fridge's fan and a ceiling fan's speed control
+    ("hỏng bộ chỉnh") was taken for a correction and never cut, so one of the
+    two appliances was lost. A marker counts only next to an appliance it
+    names: just before it, or for a refusal, just after.
+    """
+    typed = re.findall(r"[^\W_]+", unicodedata.normalize("NFC", text.lower()))
+    folded = [_fold_vi(w) for w in typed]
+    spans = [(start, end) for _d, start, end in _appliance_mentions(text, kb)]
+    spans += [(start, end) for _d, _a, start, end in _named_spans(text, kb)]
+    if not spans:
+        return False
+    for marker in _CORRECTION_MARKERS + _REJECTS + _ASKS_FOR:
+        words = marker.split()
+        n = len(words)
+        for i in range(len(folded) - n + 1):
+            if folded[i : i + n] != words:
+                continue
+            accented = _MARKER_ACCENTS.get(marker)
+            if accented and typed[i] != folded[i] and typed[i] not in accented:
+                # "Hư bo rồi" is the board, "bỏ" is dropping something.
+                continue
+            if any(
+                start >= i + n
+                and (
+                    all(w in _BETWEEN_MARKER_AND_NAME for w in folded[i + n : start])
+                    # "Không phải đường ống nước": a word of the name the
+                    # alias leaves out.
+                    or (marker in _NAMES_NEXT and start - (i + n) <= 1)
+                )
+                for start, _end in spans
+            ):
+                return True
+            if marker in _REFUSED_AFTER and any(i - 3 <= end <= i for _start, end in spans):
+                return True
+    return False
+
 
 _SEGMENT_RE = re.compile(r"[,.;!?\n]+|\s(?:còn|với lại|với cả|ngoài ra|thêm nữa|cũng như)\s", re.IGNORECASE)
 """Where one message moves from one appliance to the next."""
@@ -1987,13 +2110,18 @@ class LocalPipeline:
 
         # A correction is one message about one appliance: "không phải máy lạnh
         # mà là tủ lạnh" names two and means the second. The switch handles it.
-        if any(f" {m} " in folded for m in _CORRECTION_MARKERS + _REJECTS + _ASKS_FOR):
+        if _corrects_an_appliance(text, self._kb) or _corrects_an_appliance(
+            lexicon.normalize_accented(text), self._kb
+        ):
             return text
         split = _split_by_appliance(text, self._kb)
-        if not split:
-            # Typed with stretched letters or teencode the names may only be
-            # found once the words are normalised; cut that text instead.
-            split = _split_by_appliance(lexicon.normalize_accented(text), self._kb)
+        # Typed with stretched letters or teencode the names may only be found
+        # once the words are normalised ("ống nc" is "ống nước"); cut that text
+        # instead when it finds more of the appliances, not only when the
+        # typed text finds none.
+        normalised = _split_by_appliance(lexicon.normalize_accented(text), self._kb)
+        if len({d for d, _ in normalised}) > len({d for d, _ in split}):
+            split = normalised
         if split:
             devices = [d for d, _ in split]
             primary = chat.device_type if chat.device_type in devices else devices[0]
@@ -2008,7 +2136,13 @@ class LocalPipeline:
                 chat.queued[device] = (chat.queued.get(device, "") + " " + said).strip()
                 chat.just_queued.append(device)
                 chat.memo.setdefault(device, {})["text"] = chat.queued[device]
-            return dict(split)[primary]
+            piece = dict(split)[primary]
+            if _device_named_in(piece, self._kb) != primary:
+                # The cut read "cái quạt trên trần nhà" as a ceiling fan; read
+                # again alone, the piece says "quạt" and becomes a desk fan.
+                # Named the way the others are named in _answer_others.
+                piece = f"{self._kb.device_name_vi(primary) or ''} {piece}".strip()
+            return piece
         # Otherwise the old cut, at punctuation and connectors.
         segments = [s.strip() for s in _SEGMENT_RE.split(text) if s and s.strip()]
         if len(segments) < 2:
@@ -2044,6 +2178,9 @@ class LocalPipeline:
         mood, address = dialogue_state.mood_of(request.description, dialogue_state.get_lexicon(self._kb))
         chat.mood = mood
         chat.address = address or chat.address
+        spoken = _without_fillers(request.description)
+        if spoken != request.description and spoken:
+            request = request.model_copy(update={"description": spoken})
         one = self._take_one_appliance(chat, request.description)
         if one != request.description:
             request = request.model_copy(update={"description": one})
