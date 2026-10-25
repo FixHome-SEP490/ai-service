@@ -1619,11 +1619,20 @@ class LocalPipeline:
             return None
         seen = [d for d in photographed if d is not None]
         if seen and not correcting and len(mentioned) <= 1:
+            if not named:
+                # No name, but a symptom only one appliance has ("đá không
+                # đông", "nóng một lúc rồi nguội"): when the detector reads the
+                # photograph as something else, the words are the better witness.
+                described = self._device_from_symptom(text)
+                if described and all(d.device_type != described for d in seen):
+                    named = described
             shown = next((d for d in seen if d.device_type == named), None) if named else seen[0]
             if shown is not None and shown.device_type != chat.device_type:
                 if shown.device_type in chat.others:
                     return shown.device_type
                 return self._join_visit(chat, shown.device_type, shown.confidence, "image")
+            if shown is None and named in chat.others:
+                return named
             if shown is None and named and named != chat.device_type and not self._kb.confusable_with(named):
                 # "Đây là bình nóng lạnh" with a photograph the detector reads
                 # as something else: the appliance named joins, by its name.
@@ -3624,6 +3633,9 @@ class LocalPipeline:
             named = in_photos[0] if len(set(in_photos)) == 1 else _short_named(description, shown)
         lead = next((d for _, d in seen if d.device_type == named), None)
         machine = _strongly_named_in(dialogue_state.get_lexicon(self._kb).normalize_accented(description), self._kb)
+        if machine is None and named is None and len(images) == 1:
+            # The same with a symptom only one appliance has, and no name.
+            machine = named = self._device_from_symptom(description)
         if (
             lead is None and len(images) == 1 and machine and machine == named
             and seen[0][1].device_type not in self._kb.confusable_with(machine)

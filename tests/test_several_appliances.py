@@ -501,3 +501,12 @@ def test_a_question_goes_to_the_appliance_it_is_about():
     assert reply.session_id == first.session_id
     fridge = pipeline._conversations.peek(pipeline._conversations.peek(first.session_id).others["refrigerator"])
     assert any(t.text_vi == "cái đó sửa hết bao nhiêu tiền" for t in fridge.turns)
+
+
+def test_a_symptom_only_one_appliance_has_beats_a_misread_photograph():
+    # The served detector read a fridge as a washing machine; the words said
+    # "đá không đông".
+    pipeline = _pipeline()
+    first = _run(pipeline, description="máy lạnh không mát", images=[_photo("air_conditioner")])
+    again = _run(pipeline, description="em gửi thêm ảnh, cái này ngăn đá không đông", images=[_photo("washing_machine")], session_id=first.session_id)
+    assert _lead(again) == "refrigerator"
