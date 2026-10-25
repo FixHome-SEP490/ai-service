@@ -449,3 +449,30 @@ def test_one_more_symptom_is_not_one_more_appliance():
     again = _run(pipeline, description="nó không cấp nước luôn em", session_id=first.session_id)
     assert _lead(again) == "washing_machine"
     assert "water_pipe" not in [d.device_type for d in again.devices]
+
+
+def test_the_appliance_named_outright_beats_a_photograph_read_as_another():
+    # The served detector, 25/10/2026: an air conditioner read as a fan, a
+    # water heater as a smart lock, and the reply followed the photograph.
+    reply = _run(_pipeline(), description="máy lạnh không mát", images=[_photo("washing_machine")])
+    assert all(f.fault_code.startswith("AC_") for f in reply.suspected_faults)
+    pipeline = _pipeline()
+    first = _run(pipeline, description="máy lạnh không mát", images=[_photo("air_conditioner"), _photo("washing_machine")])
+    fridge = _run(
+        pipeline, description="đây là cái tủ lạnh, ngăn mát không lạnh", images=[_photo("microwave_oven")],
+        session_id=first.session_id,
+    )
+    assert _lead(fridge) == "refrigerator"
+    assert "microwave_oven" not in [d.device_type for d in fridge.devices]
+
+
+def test_a_photograph_nobody_could_read_leaves_the_words_to_decide():
+    # fixhome.sbs, 25/10/2026: a fridge the detector did not recognise, sent
+    # with "ngăn mát không lạnh", was answered about the air conditioner.
+    pipeline = _pipeline()
+    first = _run(pipeline, description="máy lạnh nhà em không mát", images=[_photo("air_conditioner"), _photo("washing_machine")])
+    _run(pipeline, description="máy giặt thì không vắt được em", session_id=first.session_id)
+    fridge = _run(pipeline, description="còn cái này nữa em, ngăn mát không lạnh", images=[_blank()], session_id=first.session_id)
+    assert _lead(fridge) == "refrigerator"
+    price = _run(pipeline, description="cái đó sửa hết bao nhiêu tiền", session_id=first.session_id)
+    assert _lead(price) == "refrigerator"

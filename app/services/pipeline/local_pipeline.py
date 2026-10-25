@@ -1601,9 +1601,16 @@ class LocalPipeline:
                 if shown.device_type in chat.others:
                     return shown.device_type
                 return self._join_visit(chat, shown.device_type, shown.confidence, "image")
+            if shown is None and named and named != chat.device_type and not self._kb.confusable_with(named):
+                # "Đây là bình nóng lạnh" with a photograph the detector reads
+                # as something else: the appliance named joins, by its name.
+                return self._join_visit(chat, named, 0.0, "description")
             return None
-        if has_photos:
+        if has_photos and seen:
             return None
+        # A photograph the detector could not read leaves the words to decide:
+        # "còn cái này nữa em, ngăn mát không lạnh" with a fridge it did not
+        # recognise was answered about the air conditioner.
         added = named
         pointing_back = any(f" {p} " in folded for p in _POINTS_BACK)
         if not added and not mentioned and not pointing_back and _adds_something(text):
@@ -3576,6 +3583,18 @@ class LocalPipeline:
             in_photos = [d for d in shown if d in spoken]
             named = in_photos[0] if len(set(in_photos)) == 1 else _short_named(description, shown)
         lead = next((d for _, d in seen if d.device_type == named), None)
+        machine = _strongly_named_in(dialogue_state.get_lexicon(self._kb).normalize_accented(description), self._kb)
+        if (
+            lead is None and len(images) == 1 and machine and machine == named
+            and seen[0][1].device_type not in self._kb.confusable_with(machine)
+        ):
+            # One photograph and the appliance named outright, and the detector
+            # sees another: the words are what the customer means. On the
+            # served model, 25/10/2026, "máy lạnh không mát" with a photograph
+            # of an air conditioner read as a fan was answered about a fan, and
+            # "đây là bình nóng lạnh" about a smart lock.
+            chat.seen = []
+            return None
         if lead is None and not (named and len(images) > 1):
             lead = seen[0][1]
         # With several photographs and an appliance named that none of them
