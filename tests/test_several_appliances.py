@@ -489,3 +489,15 @@ def test_a_closing_sentence_is_said_once_for_the_whole_reply():
     once = _said_once(text)
     assert once.count("nhắn em nhé") == 1
     assert "Về lò vi sóng: Hiện FixHome chưa mở dịch vụ sửa lò vi sóng." in once
+
+
+def test_a_question_goes_to_the_appliance_it_is_about():
+    from app.schemas.chat import ChatRequest
+
+    pipeline = _pipeline()
+    first = _run(pipeline, description="máy lạnh nhà em không mát", images=[_photo("air_conditioner"), _photo("washing_machine")])
+    _run(pipeline, description="còn cái này nữa em, ngăn mát không lạnh", images=[_photo("refrigerator")], session_id=first.session_id)
+    reply = asyncio.run(pipeline.answer(ChatRequest(question="cái đó sửa hết bao nhiêu tiền", sessionId=first.session_id)))
+    assert reply.session_id == first.session_id
+    fridge = pipeline._conversations.peek(pipeline._conversations.peek(first.session_id).others["refrigerator"])
+    assert any(t.text_vi == "cái đó sửa hết bao nhiêu tiền" for t in fridge.turns)

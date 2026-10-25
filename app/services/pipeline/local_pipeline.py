@@ -2648,8 +2648,25 @@ class LocalPipeline:
         Kept separate from diagnosis: it may discuss maintenance intervals and
         platform policy, but it never recommends a service or a booking.
         """
+        known = self._conversations.peek(request.session_id) if request.session_id else None
+        if known is not None and known.parent_id is None and known.others:
+            # A question goes to the appliance it is about, like a description
+            # does. fixhome.sbs, 25/10/2026: "cái đó sửa hết bao nhiêu tiền"
+            # right after the fridge was answered with the air conditioner's
+            # prices, because the web sends questions here and only the
+            # diagnosis route knew about the other appliances.
+            target = self._other_device_asked(known, request.question)
+            if target in known.others:
+                sub_id = known.others[target]
+                async with self._conversations.lock(sub_id):
+                    reply = await self._answer_locked(request.model_copy(update={"session_id": sub_id}))
+                known.memo.setdefault("", {})["lead"] = target
+                return reply.model_copy(update={"session_id": known.session_id})
         async with self._conversations.lock(request.session_id):
-            return await self._answer_locked(request)
+            response = await self._answer_locked(request)
+        if known is not None and known.parent_id is None and known.others:
+            known.memo.setdefault("", {})["lead"] = known.device_type
+        return response
 
     async def _answer_locked(self, request: ChatRequest) -> ChatResponse:
         chat = self._conversations.get_or_create(request.session_id)
