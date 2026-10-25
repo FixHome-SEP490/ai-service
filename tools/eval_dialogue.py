@@ -98,6 +98,14 @@ async def _run_one(pipeline, kb, dialogue, ChatRequest, DiagnosisRequest) -> Opt
         session = response.session_id or session
 
     chat = pipeline._conversations.get_or_create(session)
+    # Since 25/10/2026 every appliance of a message is answered at once, each
+    # in a conversation of its own; a reply that leads with another appliance
+    # ("xem tiếp", or naming it) is about that conversation, so it is the one
+    # scored.
+    devices = getattr(response, "devices", None) or []
+    lead = devices[0].device_type if devices and devices[0].is_primary else None
+    if lead and lead != chat.device_type and lead in getattr(chat, "others", {}):
+        chat = pipeline._conversations.get_or_create(chat.others[lead])
     state = getattr(chat, "state", None)
     excluded = state.excluded_codes() if state is not None else set()
     factors = state.factors() if state is not None and hasattr(state, "factors") else None
