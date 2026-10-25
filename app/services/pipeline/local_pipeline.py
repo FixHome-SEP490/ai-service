@@ -820,6 +820,29 @@ def _without_fillers(text: str) -> str:
     return re.sub(r"\s+([,.!?])", r"\1", re.sub(r"[ \t]{2,}", " ", cleaned)).strip()
 
 
+def _said_once(text: str) -> str:
+    """A reply about several appliances with each wordless sentence said once.
+
+    Two appliances whose repair is not open each closed with "Anh/chị cần sửa
+    thiết bị khác thì nhắn em nhé" in the same reply. Sentences with a figure
+    in them are kept every time: the same price can be right for two
+    appliances.
+    """
+    seen = set()
+    out = []
+    for block in text.split("\n\n"):
+        kept = []
+        for sentence in re.split(r"(?<=[.!?])\s+", block):
+            key = sentence.strip().lower()
+            if len(key) > 25 and not re.search(r"\d", key) and key in seen:
+                continue
+            seen.add(key)
+            kept.append(sentence)
+        if kept:
+            out.append(" ".join(kept))
+    return "\n\n".join(b for b in out if b.strip())
+
+
 def _punctuated_before(text: str, index: int) -> bool:
     """Whether punctuation stands between word `index` and the word before it."""
     spans = [m.span() for m in re.finditer(r"[^\W_]+", unicodedata.normalize("NFC", text.lower()))]
@@ -1856,7 +1879,7 @@ class LocalPipeline:
             update={
                 "devices": devices,
                 "recommended_services": services,
-                "message_vi": "\n\n".join(parts) if parts else response.message_vi,
+                "message_vi": _said_once("\n\n".join(parts)) if parts else response.message_vi,
                 "urgency": urgency,
             }
         )

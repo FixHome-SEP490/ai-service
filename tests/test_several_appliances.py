@@ -476,3 +476,16 @@ def test_a_photograph_nobody_could_read_leaves_the_words_to_decide():
     assert _lead(fridge) == "refrigerator"
     price = _run(pipeline, description="cái đó sửa hết bao nhiêu tiền", session_id=first.session_id)
     assert _lead(price) == "refrigerator"
+
+
+def test_a_closing_sentence_is_said_once_for_the_whole_reply():
+    from app.services.pipeline.local_pipeline import _said_once
+
+    text = (
+        "Về tivi: Hiện FixHome chưa mở dịch vụ sửa tivi. Anh/chị cần sửa thiết bị khác thì nhắn em nhé.\n\n"
+        "Về lò vi sóng: Hiện FixHome chưa mở dịch vụ sửa lò vi sóng. Anh/chị cần sửa thiết bị khác thì nhắn em nhé.\n\n"
+        "Chi phí tham khảo từ 199.000đ, thợ xem tận nơi."
+    )
+    once = _said_once(text)
+    assert once.count("nhắn em nhé") == 1
+    assert "Về lò vi sóng: Hiện FixHome chưa mở dịch vụ sửa lò vi sóng." in once
