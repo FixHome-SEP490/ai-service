@@ -25,6 +25,7 @@ from __future__ import annotations
 import json
 import logging
 import re
+from collections import Counter
 import unicodedata
 from typing import Any, Dict, List, Optional, Tuple
 
@@ -278,6 +279,146 @@ def _without_foreign_script(text: str) -> str:
     return re.sub(r"\s+([,.!?])", r"\1", re.sub(r"[ \t]{2,}", " ", text)).strip()
 
 
+_CTA_SENTENCE = re.compile(
+    r"[^.!?\n]*\b(?:[Ee]m|[Tt]ôi) (?:sẽ |xin |có thể )?(?:giúp (?:anh/chị |bác |cô |chú |bà |ông )?)?"
+    r"(?:đặt|sắp xếp|gửi|cử|liên hệ|gọi thợ|điều thợ|mời anh/chị đặt|chủ động mời)"
+    r"[^.!?\n]*[.!?]?"
+)
+"""A sentence in which the assistant says it will book, send or call. It
+can do none of these; the customer books with the button under the answer."""
+
+_PROMPT_READ_BACK = re.compile(
+    r"[^.!?\n]*(?:đúng tên dịch vụ(?: được cho)?|tên gọi [\"“]Fix ?Home|dịch vụ [\"“]Fix ?Home[\"”])[^.!?\n]*[.!?]?",
+    re.IGNORECASE,
+)
+_FILLER = re.compile(
+    r"[^.!?\n]*(?:\bchúc (?:anh/chị|bác|cô|chú|bà|ông)\b|\bem sẽ (?:đảm bảo|cố gắng|luôn)\b"
+    r"|tư vấn và hỗ trợ tốt nhất|tại địa chỉ FixHome|một cách an toàn và hiệu quả"
+    r"|\b(?:hãy|cần) hỏi (?:khách|anh/chị)\b)[^.!?\n]*[.!?]?",
+    re.IGNORECASE,
+)
+"""Sentences that say nothing the customer can use: "Chúc anh/chị may mắn!",
+"Em sẽ đảm bảo rằng anh/chị được tư vấn và hỗ trợ tốt nhất", and the
+knowledge base's note to the assistant, "hãy hỏi khách có trẻ nhỏ không",
+read out to the customer."""
+
+
+def _loops(text: str) -> bool:
+    """True when the model fell into repeating itself.
+
+    Seen on the served model: one sentence about a socket printed eleven times
+    until the token budget ran out. Thinning the repeats leaves an answer that
+    still reads as broken, so the caller's own wording is used instead.
+    """
+    said = [x.strip().lower() for x in re.split(r"(?<=[.!?])\s+", text) if len(x.strip()) > 25]
+    return any(n >= 3 for n in Counter(said).values())
+
+
+"""The prompt's "gọi đúng tên dịch vụ được cho" said back to the customer, and
+the brand offered as the name of a service: "đặt dịch vụ này với tên gọi
+'FixHome'"."""
+
+_TIDY = (
+    # "Dao động từ 279.000đ đến khi kỹ thuật viên kiểm tra tận nơi": a range
+    # with no upper end. The floor is the figure; the rest is the visit.
+    (r"(?i)(?:sẽ )?(?:dao động )?từ ([\d.]+ ?đ) đến khi (?:kỹ thuật viên|thợ) (?:kiểm tra|xem|đến)[^.!?\n]*",
+     r"từ \1, thợ kiểm tra tận nơi rồi mới báo giá chính xác"),
+    # "Khoảng 799.000đ, phần còn lại...": the floor is not an estimate.
+    (r"(?i)\b(?:khoảng|dao động)(?: từ)? ([\d.]+ ?đ), (nhưng )?phần còn lại", r"từ \1, \2phần còn lại"),
+    (r"(?i)\bngay lập tức\b", "ngay"),
+    # "Dạ, khách, bồn cầu xả yếu...": the label of the data read as a name.
+    (r"(?i)\b(Dạ|Vâng),? khách,\s*", r"\1, "),
+    # "Anh/chị đang nói về hư hỏng máy nén": the label read as a sentence. The
+    # rest of it is often the finding, so it is kept and said the right way.
+    (r"(?:^|(?<=[.!?:])\s*)(?:Anh/chị|Khách) đang nói về ", " Em hiểu anh/chị đang hỏi về "),
+    (r"(?i)\b(?:anh/chị|khách) đang nói về\b", "anh/chị đang hỏi về"),
+    (r"\b([Vv])iệc khách (cần|nên)\b", r"\1iệc anh/chị \2"),
+    # "Có khả năng hư hỏng là Hỏng điều khiển": a fault name keeps its capital
+    # from the list it came from.
+    (r"\b(là|như|và|hoặc|hay|bị|do),? (Hỏng|Thiếu|Xì|Mòn|Khô|Tắc|Rò|Cháy|Đứt|Lỗi|Kẹt|Chập|Lỏng|Bám|Nghẹt|Bong)\b",
+     lambda m: m.group(1) + " " + m.group(2).lower()),
+    (r"(?i)\bem (?:có thể )?xác nhận rằng\b", "em thấy"),
+    # "Em đã đọc và kiểm tra thông tin anh/chị gửi." after the greeting: in
+    # 52 percent of the answers, wherever the greeting put it.
+    (r"(?i)(^|(?<=[.!?:])\s+)(?:em|tôi) đã (?:đọc|xem|nhận)(?: kỹ)?(?: và (?:kiểm tra|xem))? (?:thông tin|mô tả|tin nhắn)"
+     r"[^.!?\n]{0,40}[.!?]", r"\1"),
+    (r"(?i)\b(?:với|theo|dựa trên) những gì em đã (?:kiểm tra|xem)\b", "Theo những gì anh/chị kể"),
+)
+
+
+def _services_in(facts_vi: str) -> tuple:
+    """The services the facts offer to book, by the name the button uses."""
+    for line in facts_vi.splitlines():
+        if line.startswith("- dịch vụ:"):
+            return tuple(n.strip() for n in line.split(":", 1)[1].split("|") if n.strip())
+    return ()
+
+
+_DATA_LABEL = re.compile(
+    r"(?im)(?:^|[.!?]\s+|\n)\s*-?\s*(?:máy|lỗi|giá|làm trước|dịch vụ|có thể hỏng|chi phí tham khảo|"
+    r"anh/chị có thể làm trước|dịch vụ để đặt|khả năng hư hỏng|việc khách nên làm ngay|dịch vụ nên đặt)\s*:"
+)
+
+
+def _reads_back_the_data(text: str) -> bool:
+    """The facts handed back instead of a message: two of their labels or more.
+
+    Seen on the served model on 25/10/2026, on fixhome.sbs: "Có thể hỏng: mòn
+    bạc đạn ... Chi phí tham khảo: từ 529.000đ ... Dịch vụ để đặt: Sửa máy
+    giặt". The caller's own wording is better than that.
+    """
+    return len(_DATA_LABEL.findall(text)) >= 2
+
+
+def _tidy_answer(text: str, services: Optional[tuple] = None) -> str:
+    """The wording faults the served model makes most, put right in place.
+
+    Measured with tools/audit_wording.py on 1,232 answers the served model gave
+    on 25/10/2026: 64.5 percent promised the assistant would book ("Em sẽ đặt
+    thợ"), 12.3 percent broke the price sentence, 44 percent said "ngay lập
+    tức". Each is rewritten here rather than prompted against, because a 3B
+    model shown a prohibition repeats it.
+
+    ``services`` are the services the answer may offer, when the caller knows
+    them: the offer then names the first one exactly, and with none to offer
+    (the repair is not open on FixHome) the promise is dropped, not turned
+    into an invitation to book something that cannot be booked.
+    """
+    if not text:
+        return text
+    for pattern, replacement in _TIDY:
+        text = re.sub(pattern, replacement, text)
+    # The assistant books nothing: the customer presses the button. The first
+    # such sentence becomes the offer, any later one goes.
+    offered = False
+
+    def offer(match: re.Match) -> str:
+        nonlocal offered
+        if offered:
+            return " "
+        offered = True
+        if services:
+            return f" Anh/chị bấm Đặt thợ để đặt dịch vụ \"{services[0]}\", thợ FixHome sẽ tới kiểm tra ạ. "
+        if services is None:
+            return " Anh/chị bấm Đặt thợ để FixHome cử thợ tới kiểm tra ạ. "
+        return " "
+
+    text = _CTA_SENTENCE.sub(offer, text)
+    text = _PROMPT_READ_BACK.sub(" ", text)
+    text = _FILLER.sub(" ", text)
+    # The same sentence twice reads as a machine.
+    seen, kept = set(), []
+    for sentence in re.split(r"(?<=[.!?])\s+", text):
+        key = sentence.strip().lower()
+        if len(key) > 25 and key in seen:
+            continue
+        seen.add(key)
+        kept.append(sentence)
+    text = " ".join(kept)
+    text = re.sub(r"\s+([,.!?])", r"\1", re.sub(r"[ \t]{2,}", " ", text)).strip()
+    return text[:1].upper() + text[1:] if text else text
+
+
 def _fix_pronouns(text: str) -> str:
     """Put the answer back into the register the persona asks for.
 
@@ -417,23 +558,26 @@ def _narrate_system() -> str:
 _OUT_OF_SCOPE = "NGOAI_PHAM_VI"
 
 _NARRATE_SYSTEM = (
-    "Bạn là nhân viên kỹ thuật FixHome đang nhắn tin với khách hàng Việt Nam.\n"
-    "Bạn được cho sẵn KẾT QUẢ CHẨN ĐOÁN. Việc của bạn chỉ là diễn đạt lại cho "
-    "tự nhiên và lịch sự, như người thật đang trả lời tin nhắn.\n"
+    "Bạn là nhân viên tư vấn của FixHome, nhắn tin trả lời anh/chị về thiết bị đang hỏng.\n"
+    "Bạn nhận một danh sách dữ liệu ngắn. Hãy viết thành một tin nhắn tự nhiên bằng tiếng Việt, "
+    "bốn tới sáu câu liền mạch, không gạch đầu dòng, không có dấu hai chấm.\n"
     "\n"
-    "Viết theo mạch: xác nhận đã đọc thông tin khách gửi, nói đã kiểm tra, nêu "
-    "khả năng hư hỏng, nêu khoảng chi phí, dặn việc cần làm ngay, rồi chủ động "
-    "mời khách đặt thợ với đúng tên dịch vụ được cho.\n"
+    "Ví dụ dữ liệu:\n"
+    "- máy: bếp từ\n"
+    "- lỗi: hỏng quạt tản nhiệt | bo mạch quá nhiệt\n"
+    "- giá: từ 350.000đ, thợ xem tận nơi rồi báo giá\n"
+    "- làm trước: để bếp nguội rồi mới dùng lại | lau sạch khe gió\n"
+    "- dịch vụ: Sửa bếp từ\n"
+    "Ví dụ tin nhắn:\n"
+    "Dạ, bếp từ nhà mình có thể bị hỏng quạt tản nhiệt hoặc bo mạch đang quá nhiệt ạ. "
+    "Chi phí tham khảo từ 350.000đ, thợ xem tận nơi rồi mới báo giá chính xác. "
+    "Trong lúc chờ, anh/chị để bếp nguội hẳn rồi mới dùng lại và lau sạch khe gió giúp em nhé. "
+    "Anh/chị bấm Đặt thợ để đặt dịch vụ Sửa bếp từ, thợ FixHome sẽ tới kiểm tra ạ.\n"
     "\n"
     "Bắt buộc:\n"
-    "- Chỉ dùng đúng những con số và tên hư hỏng được cho. Không thêm, không "
-    "đổi, không làm tròn, không ước lượng thêm bất kỳ con số nào.\n"
-    "- Xưng em, gọi khách là anh/chị.\n"
-    "- Bốn tới sáu câu, liền mạch, không gạch đầu dòng.\n"
-    "- Không hứa thời gian, không khẳng định chắc chắn, không nhắc tới bảo hành.\n"
-    "- Vào thẳng kết quả, giọng bình thường và dứt khoát.\n"
-    "- Câu cuối mời khách đặt dịch vụ, gọi đúng tên dịch vụ được cho.\n"
-    "- Viết thành đoạn văn xuôi, không chép lại các nhãn ở phần dữ liệu."
+    "- Chỉ dùng đúng tên lỗi, con số và tên dịch vụ trong dữ liệu được cho, không lấy gì từ ví dụ.\n"
+    "- Xưng em, gọi người nhắn là anh/chị. Nói là có thể, vì thợ chưa tới xem.\n"
+    "- Không hứa thời gian, không nhắc tới bảo hành, chỉ viết chữ tiếng Việt."
 )
 """Written as what to do, never as what not to.
 
@@ -659,11 +803,17 @@ class QwenClient:
                 {"role": "user", "content": facts_vi},
             ]
         )
-        if raw is None:
+        if raw is None or _loops(raw):
             return ""
 
-        text = _fix_spelling(_fix_pronouns(_strip_apology(_strip_prompt_echo(raw.strip()))))
+        text = _tidy_answer(
+            _fix_spelling(_fix_pronouns(_strip_apology(_strip_prompt_echo(raw.strip())))),
+            services=_services_in(facts_vi),
+        )
         if not text or _declines(text):
+            return ""
+        if _reads_back_the_data(text):
+            logger.warning("qwen_narration_read_back_the_data")
             return ""
 
         permitted = {n.replace(".", "").replace(",", "") for n in allowed_numbers}
@@ -690,10 +840,10 @@ class QwenClient:
                 {"role": "user", "content": prompt},
             ]
         )
-        if raw is None:
+        if raw is None or _loops(raw):
             return ""
 
-        answer = _fix_spelling(_fix_pronouns(_strip_apology(_strip_prompt_echo(raw.strip()))))
+        answer = _tidy_answer(_fix_spelling(_fix_pronouns(_strip_apology(_strip_prompt_echo(raw.strip())))))
         if _OUT_OF_SCOPE in answer.upper().replace(" ", "_"):
             return ""
         if _is_the_question_again(answer, question):
@@ -773,7 +923,7 @@ class QwenClient:
             # service-unavailable message instead of the warning.
             timeout_seconds=self._safety_timeout if safety_vi else None,
         )
-        if raw is None:
+        if raw is None or _loops(raw):
             return "", 0.0
 
         # The same cleaning the general path has always done. This one skipped
@@ -781,7 +931,7 @@ class QwenClient:
         # that said "Bạn nên khoá van nước trước, sau đó tôi sẽ trả lời chi tiết
         # hơn" — wrong pronouns on both sides, and a promise to answer later
         # that nothing will ever keep.
-        text = _fix_spelling(_fix_pronouns(_strip_apology(_strip_prompt_echo(raw.strip()))))
+        text = _tidy_answer(_fix_spelling(_fix_pronouns(_strip_apology(_strip_prompt_echo(raw.strip())))))
         if not text or _declines(text):
             return "", 0.0
         if _is_the_question_again(text, question):

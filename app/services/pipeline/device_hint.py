@@ -386,7 +386,8 @@ def confusion_question(
 
 
 _YES = {"co", "dung", "phai", "u", "um", "vang", "oke", "ok", "yes"}
-_NO = {"khong", "ko", "k", "hong", "chua", "no"}
+# Not "no": folded, "nó" is "no", and "nó không nóng" is a symptom, not a refusal.
+_NO = {"khong", "ko", "k", "hong", "chua"}
 
 _UNSURE = (
     "khong ro",
@@ -409,6 +410,9 @@ _POLITE = {"da", "vang", "a", "e", "em", "anh", "chi", "the", "thi", "la", "thua
 "Dạ không" is how the answer actually arrives, and a check that only reads the
 first word or the whole string misses every polite one."""
 
+_ANSWER_TAIL = _POLITE | {"co", "ah", "ak", "nhe", "nha", "day", "dau", "do", "roi", "luon", "ca", "nua", "ha", "hen", "ne"}
+"""What may follow a bare yes or no and leave it a bare answer: "không có
+đâu", "có ạ", "không nha em"."""
 
 
 _NEGATORS = {"khong", "ko", "k", "chang", "chua", "dau"}
@@ -505,9 +509,26 @@ def resolve_confusion_answer(
 
     # A bare yes or no, after dropping the particles a reply opens with.
     # Negative first, because "không có" contains "có".
-    words = [w for w in folded.split() if w not in _POLITE]
-    if any(w in _NO for w in words):
+    # Only a yes or no that stands as the answer: at either end of the reply,
+    # with nothing after it but particles. "Nó không nóng luôn em" carries a
+    # "không" that belongs to "nóng" — a symptom, not an answer — and reading
+    # it as one turned a photographed microwave into an oven.
+    words = [w for w in re.findall(r"[a-z0-9]+", folded) if w not in _POLITE]
+
+    def answers(vocabulary: set) -> bool:
+        if len(words) > 2 and words[0] in _YES and words[-1] in _NO:
+            # "Có nguy hiểm không em": the customer asking, not answering.
+            return False
+        for i, w in enumerate(words):
+            if w not in vocabulary or 0 < i < len(words) - 1:
+                continue
+            following = words[i + 1] if i + 1 < len(words) else None
+            if following is None or following in _ANSWER_TAIL or following in _YES | _NO:
+                return True
+        return False
+
+    if answers(_NO):
         return question.if_no or None
-    if any(w in _YES for w in words):
+    if answers(_YES):
         return question.if_yes or None
     return None

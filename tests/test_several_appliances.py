@@ -10,6 +10,7 @@ appliance, the one being talked through first.
 import asyncio
 import base64
 import io
+import re
 
 from PIL import Image
 
@@ -294,3 +295,223 @@ def test_a_plain_photograph_does_not_put_the_model_ahead_of_retrieval():
     assert _ranked_by_retrieval(["AC_COMPRESSOR_FAULT"], shortlist, saw_a_photograph=False)[0] == "AC_LOW_REFRIGERANT"
     reply = _run(_pipeline(), description="máy lạnh chạy cả ngày mà phòng vẫn nóng", images=[_photo("air_conditioner")])
     assert [f.fault_code for f in reply.suspected_faults][:1] == ["AC_LOW_REFRIGERANT"]
+
+
+# PO 25/10/2026: the reply must be about the appliance the customer is talking
+# about, through the whole conversation, and an appliance photographed later
+# joins the visit instead of replacing the one already talked through.
+
+def _lead(reply):
+    return next((d.device_type for d in reply.devices if d.is_primary), None)
+
+
+def test_it_stays_on_the_appliance_just_talked_about():
+    pipeline = _pipeline()
+    first = _run(pipeline, description="máy lạnh không mát", images=[_photo("air_conditioner"), _photo("washing_machine")])
+    _run(pipeline, description="máy giặt thì không vắt", session_id=first.session_id)
+    for said in ("nó kêu to nữa em", "vậy sửa hết bao nhiêu", "mà nó không lấy nước vào"):
+        assert _lead(_run(pipeline, description=said, session_id=first.session_id)) == "washing_machine", said
+    assert _lead(_run(pipeline, description="quay lại máy lạnh, nó chảy nước", session_id=first.session_id)) == "air_conditioner"
+
+
+def test_the_photographs_are_pointed_at_by_their_place():
+    pipeline = _pipeline()
+    first = _run(
+        pipeline,
+        description="xem giúp em mấy cái này",
+        images=[_photo("air_conditioner"), _photo("washing_machine"), _photo("refrigerator")],
+    )
+    assert _lead(_run(pipeline, description="cái thứ hai bị kêu to khi vắt", session_id=first.session_id)) == "washing_machine"
+    assert _lead(_run(pipeline, description="anh 3 thi khong lanh", session_id=first.session_id)) == "refrigerator"
+    assert _lead(_run(pipeline, description="hình số 1 chớp đèn không chạy", session_id=first.session_id)) == "air_conditioner"
+
+
+def test_an_appliance_photographed_later_joins_the_visit():
+    pipeline = _pipeline()
+    first = _run(pipeline, description="máy lạnh không mát", images=[_photo("air_conditioner")])
+    added = _run(pipeline, description="còn cái này nữa, không chạy", images=[_photo("microwave_oven")], session_id=first.session_id)
+    assert added.session_id == first.session_id
+    assert [d.device_type for d in added.devices] == ["microwave_oven", "air_conditioner"]
+    chat = pipeline._conversations.get_or_create(first.session_id)
+    assert chat.device_type == "air_conditioner"
+    back = _run(pipeline, description="máy lạnh thì sao em", session_id=first.session_id)
+    assert _lead(back) == "air_conditioner"
+    assert all(f.fault_code.startswith("AC_") for f in back.suspected_faults)
+
+
+def test_a_photograph_of_an_appliance_already_in_the_visit_goes_to_it():
+    pipeline = _pipeline()
+    first = _run(pipeline, description="máy lạnh không mát", images=[_photo("air_conditioner"), _photo("washing_machine")])
+    again = _run(pipeline, description="đây nè em, nó rung lắc mạnh", images=[_photo("washing_machine")], session_id=first.session_id)
+    assert _lead(again) == "washing_machine"
+    assert len(again.devices) == 2
+
+
+def test_an_appliance_added_in_words_joins_the_visit():
+    pipeline = _pipeline()
+    first = _run(pipeline, description="máy lạnh không mát")
+    added = _run(pipeline, description="à tủ lạnh thì ngăn đá không đông", session_id=first.session_id)
+    assert [d.device_type for d in added.devices] == ["refrigerator", "air_conditioner"]
+
+
+def test_a_child_is_not_an_appliance_added():
+    pipeline = _pipeline()
+    chat = pipeline._conversations.get_or_create(None)
+    first = _run(pipeline, description="chuyện là tv nhà tui remote không ăn, con nhỏ nó cứ hỏi hoài đó", session_id=chat.session_id)
+    assert not first.devices
+    assert pipeline._conversations.get_or_create(first.session_id).device_type == "television"
+
+
+def test_a_short_name_is_read_against_the_visit():
+    pipeline = _pipeline()
+    first = _run(
+        pipeline,
+        description="xem giúp em mấy cái này",
+        images=[_photo("air_conditioner"), _photo("washing_machine")],
+    )
+    assert _lead(_run(pipeline, description="cục lạnh thì chảy nước", session_id=first.session_id)) == "air_conditioner"
+    # "Từ hôm qua" is not "tủ".
+    assert _lead(_run(pipeline, description="máy giặt nó kêu từ hôm qua", session_id=first.session_id)) == "washing_machine"
+
+
+# Messages about several appliances, cut where each one starts. Each case is a
+# shape eval_multi_message.py found on its dev half, 25/10/2026.
+
+def _devices(text):
+    return [d.device_type for d in _run(_pipeline(), description=text).devices]
+
+
+def test_a_part_or_a_setting_is_not_a_correction():
+    # "bộ chỉnh" folds to "bỏ", "chuyển sang gió mạnh" to a change of appliance.
+    assert _devices(
+        "tủ lạnh thấy cái dàn lưới phía sau rung rinh kêu rè rè suốt và quạt trần hổng biết hư quạt hay hỏng bộ chỉnh"
+    ) == ["refrigerator", "ceiling_fan"]
+    assert _devices(
+        "máy giặt nước tràn qua miệng ống lênh láng, điều hòa mỗi lần chuyển sang gió mạnh là rung bần bật"
+    ) == ["washing_machine", "air_conditioner"]
+    assert _devices(
+        "máy sấy bảng điều khiển không có điện, chắc hư bo rồi ống nước trong tường bắn ra như vòi cứu hỏa"
+    ) == ["clothes_dryer", "water_pipe"]
+
+
+def test_a_real_correction_is_still_one_appliance():
+    reply = _run(_pipeline(), description="không phải máy lạnh mà là tủ lạnh không đông đá")
+    assert reply.devices == [] or [d.device_type for d in reply.devices] == ["refrigerator"]
+
+
+def test_a_connector_opens_the_next_appliance():
+    assert _devices("tivi mất tiếng ngoài ra tủ lạnh ron cửa bị chai") == ["television", "refrigerator"]
+    assert _devices("cho hoi chut, may say khong nong va bep gas cai num xoay cung ngac") == ["clothes_dryer", "gas_stove"]
+    assert _devices("tivi thấy người cử động bên trong, lò nướng set 160 độ mà lên tận 230") == ["television", "oven"]
+
+
+def test_spoken_fillers_do_not_hide_a_name():
+    assert _devices("quạt à trần đo cái tụ thấy tụt một nửa với lại bếp kiểu là từ màn hình chớp chớp") == [
+        "ceiling_fan", "induction_hob"
+    ]
+
+
+def test_teencode_names_are_found_with_the_others():
+    assert _devices("máy giặt chạy xong nước vẫn ngập, ống nc nhà e tắm xong nước xuống phễu kêu òng ọc") == [
+        "washing_machine", "water_pipe"
+    ]
+
+
+def test_what_is_meant_by_the_words_around_a_name():
+    assert "light_bulb" not in _devices("bếp từ đèn chờ không sáng, máy giặt không vắt")
+    assert _devices("cái quạt trên trần nhà quay uể oải, máy giặt không vắt") == ["ceiling_fan", "washing_machine"]
+    assert _devices("bình đun nước tắm không nóng, tủ lạnh không lạnh") == ["water_heater", "refrigerator"]
+
+
+# fixhome.sbs with the served model, 25/10/2026: three photographs, the third
+# not recognised, then a fourth appliance named but its photograph held back
+# by the web's three-photo limit.
+
+def test_a_symptom_of_an_appliance_not_yet_in_the_visit_brings_it_in():
+    pipeline = _pipeline()
+    first = _run(pipeline, description="máy lạnh nhà em không mát", images=[_photo("air_conditioner"), _photo("washing_machine"), _blank()])
+    _run(pipeline, description="còn máy giặt thì vắt kêu rất to", session_id=first.session_id)
+    fridge = _run(pipeline, description="cái thứ ba thì ngăn đá không đông", session_id=first.session_id)
+    assert _lead(fridge) == "refrigerator"
+    assert all(f.fault_code.startswith("FRIDGE_") for f in fridge.suspected_faults)
+
+
+def test_a_fan_added_in_words_without_its_photograph():
+    pipeline = _pipeline()
+    first = _run(pipeline, description="máy lạnh không mát", images=[_photo("air_conditioner"), _photo("washing_machine")])
+    _run(pipeline, description="còn máy giặt thì vắt kêu rất to", session_id=first.session_id)
+    fan = _run(pipeline, description="còn cái này nữa, quạt bật không quay", session_id=first.session_id)
+    assert _lead(fan) == "electric_fan"
+
+
+def test_one_more_symptom_is_not_one_more_appliance():
+    pipeline = _pipeline()
+    first = _run(pipeline, description="máy giặt rung lắc mạnh", images=[_photo("washing_machine"), _photo("air_conditioner")])
+    again = _run(pipeline, description="nó không cấp nước luôn em", session_id=first.session_id)
+    assert _lead(again) == "washing_machine"
+    assert "water_pipe" not in [d.device_type for d in again.devices]
+
+
+def test_the_appliance_named_outright_beats_a_photograph_read_as_another():
+    # The served detector, 25/10/2026: an air conditioner read as a fan, a
+    # water heater as a smart lock, and the reply followed the photograph.
+    reply = _run(_pipeline(), description="máy lạnh không mát", images=[_photo("washing_machine")])
+    assert all(f.fault_code.startswith("AC_") for f in reply.suspected_faults)
+    pipeline = _pipeline()
+    first = _run(pipeline, description="máy lạnh không mát", images=[_photo("air_conditioner"), _photo("washing_machine")])
+    fridge = _run(
+        pipeline, description="đây là cái tủ lạnh, ngăn mát không lạnh", images=[_photo("microwave_oven")],
+        session_id=first.session_id,
+    )
+    assert _lead(fridge) == "refrigerator"
+    assert "microwave_oven" not in [d.device_type for d in fridge.devices]
+
+
+def test_a_photograph_nobody_could_read_leaves_the_words_to_decide():
+    # fixhome.sbs, 25/10/2026: a fridge the detector did not recognise, sent
+    # with "ngăn mát không lạnh", was answered about the air conditioner.
+    pipeline = _pipeline()
+    first = _run(pipeline, description="máy lạnh nhà em không mát", images=[_photo("air_conditioner"), _photo("washing_machine")])
+    _run(pipeline, description="máy giặt thì không vắt được em", session_id=first.session_id)
+    fridge = _run(pipeline, description="còn cái này nữa em, ngăn mát không lạnh", images=[_blank()], session_id=first.session_id)
+    assert _lead(fridge) == "refrigerator"
+    price = _run(pipeline, description="cái đó sửa hết bao nhiêu tiền", session_id=first.session_id)
+    assert _lead(price) == "refrigerator"
+
+
+def test_a_closing_sentence_is_said_once_for_the_whole_reply():
+    from app.services.pipeline.local_pipeline import _said_once
+
+    text = (
+        "Về tivi: Hiện FixHome chưa mở dịch vụ sửa tivi. Anh/chị cần sửa thiết bị khác thì nhắn em nhé.\n\n"
+        "Về lò vi sóng: Hiện FixHome chưa mở dịch vụ sửa lò vi sóng. Anh/chị cần sửa thiết bị khác thì nhắn em nhé.\n\n"
+        "Chi phí tham khảo từ 199.000đ, thợ xem tận nơi."
+    )
+    once = _said_once(text)
+    assert once.count("nhắn em nhé") == 1
+    assert "Về lò vi sóng: Hiện FixHome chưa mở dịch vụ sửa lò vi sóng." in once
+
+
+def test_a_question_goes_to_the_appliance_it_is_about():
+    from app.schemas.chat import ChatRequest
+
+    pipeline = _pipeline()
+    first = _run(pipeline, description="máy lạnh nhà em không mát", images=[_photo("air_conditioner"), _photo("washing_machine")])
+    _run(pipeline, description="còn cái này nữa em, ngăn mát không lạnh", images=[_photo("refrigerator")], session_id=first.session_id)
+    reply = asyncio.run(pipeline.answer(ChatRequest(question="cái đó sửa hết bao nhiêu tiền", sessionId=first.session_id)))
+    assert reply.session_id == first.session_id
+    # Asked for the price, it says the fridge's price, figures and all.
+    assert "tủ lạnh" in reply.answer_vi and re.search(r"\d{3}\.000đ", reply.answer_vi), reply.answer_vi
+    question = asyncio.run(pipeline.answer(ChatRequest(question="cái đó có nguy hiểm không em", sessionId=first.session_id)))
+    fridge = pipeline._conversations.peek(pipeline._conversations.peek(first.session_id).others["refrigerator"])
+    assert question.session_id == first.session_id
+    assert any(t.text_vi == "cái đó có nguy hiểm không em" for t in fridge.turns)
+
+
+def test_a_symptom_only_one_appliance_has_beats_a_misread_photograph():
+    # The served detector read a fridge as a washing machine; the words said
+    # "đá không đông".
+    pipeline = _pipeline()
+    first = _run(pipeline, description="máy lạnh không mát", images=[_photo("air_conditioner")])
+    again = _run(pipeline, description="em gửi thêm ảnh, cái này ngăn đá không đông", images=[_photo("washing_machine")], session_id=first.session_id)
+    assert _lead(again) == "refrigerator"

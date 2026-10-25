@@ -4,9 +4,11 @@
 from __future__ import annotations
 
 import asyncio
+import hashlib
 import re
 import time
 import unicodedata
+from collections import OrderedDict
 from functools import lru_cache
 from typing import Any, List, Optional, Sequence
 
@@ -644,13 +646,35 @@ def _named_spans(text: str, kb: KnowledgeBase) -> List[tuple]:
 _AS_AN_OBJECT = frozenset(
     "vào của cho như giống khác chi bằng từ trong trên dưới cạnh gần nối cắm bên sau trước "
     "lên xuống ở tại qua theo kiểu tựa hệt đến tới với đo vặn ra chảy gắn xả sạc dùng xài "
-    "thử kiểm lắp thay".split()
+    "thử kiểm lắp thay sang đổi gầm phông".split()
 )
 """Words after which an appliance is a thing in someone else's sentence.
 
 "Cắm cái quạt vào ổ", "mùi giống như vòi bồn rửa", "nối từ tủ lạnh": the fan,
 the sink and the fridge are not appliances the customer is reporting, and
 cutting the message there handed half a socket's description to a fan."""
+
+
+_INDICATOR_AFTER = frozenset("cho bao xanh do nguon led hien tin nhan nhay".split())
+"""After "đèn": the light of another appliance, not a light bulb: "đèn chờ không
+sáng", "đèn báo", "cái đèn xanh nhỏ trên đó"."""
+
+
+def _what_it_is(mention: tuple, folded: List[str]) -> Optional[tuple]:
+    """A mention read with the words around it, or None when it names no appliance.
+
+    "Cái quạt trên trần nhà" is a ceiling fan, "bình đun nước tắm" a water
+    heater, and "đèn chờ" the standby light of the appliance being described.
+    """
+    device, start, end = mention
+    after = folded[end : end + 3]
+    if device == "electric_fan" and after[:2] in (["tren", "tran"], ["tran", "nha"]):
+        return ("ceiling_fan", start, end + 2)
+    if device == "kettle" and "tam" in after[:2]:
+        return ("water_heater", start, end)
+    if device == "light_bulb" and folded[end - 1 : end] == ["den"] and after[:1] and after[0] in _INDICATOR_AFTER:
+        return None
+    return mention
 
 
 def _appliance_mentions(text: str, kb: KnowledgeBase) -> List[tuple]:
@@ -720,6 +744,8 @@ def _appliance_mentions(text: str, kb: KnowledgeBase) -> List[tuple]:
                         candidates = [d for d in candidates if d in points_to] or candidates
             if len(candidates) == 1:
                 found.append((candidates[0], start, at + n))
+    found = [_what_it_is(m, folded) for m in found]
+    found = [m for m in found if m is not None]
     found.sort(key=lambda m: (m[1], -(m[2] - m[1])))
     kept: List[tuple] = []
     for mention in found:
@@ -727,9 +753,19 @@ def _appliance_mentions(text: str, kb: KnowledgeBase) -> List[tuple]:
             continue
         # Right after another appliance's name it is a part of that one:
         # "vòi bồn rửa", "xi phông bồn rửa" is the sink's tap, the sink's trap.
-        if kept and kept[-1][2] == mention[1] and kept[-1][0] != mention[0]:
+        # Against every name found, kept or not: in "vặn vòi bồn rửa" the tap
+        # is left out as an object, and the sink after it is still its sink.
+        if any(f[2] == mention[1] and f[0] != mention[0] for f in found):
             continue
         before = typed[mention[1] - 2 : mention[1]] if mention[1] else []
+        # "Ngoài ra tủ lạnh...", "kèm theo cái quạt": the "ra" and the "theo"
+        # belong to the connector, which opens the next appliance.
+        joined = " ".join(_fold_vi(w) for w in before)
+        if joined in _TWO_WORD_CONNECTORS or _punctuated_before(text, mention[1]):
+            # Nor across a comma: "...bên trong, lò nướng set 160 độ", "...ấn
+            # vào không nảy lên, khóa Xiaomi" start a new clause.
+            kept.append(mention)
+            continue
         if any(w in _AS_AN_OBJECT for w in before[-1:]) or (
             len(before) == 2 and before[-1] in ("cái", "chiếc", "con") and before[0] in _AS_AN_OBJECT
         ):
@@ -754,7 +790,7 @@ def _appliance_mentions(text: str, kb: KnowledgeBase) -> List[tuple]:
         opens = (
             not clause
             or bool(re.search(r"[,.;!?:\n-]\s*(?:\S+\s*){0,2}$", gap))
-            or any(w in _CONNECTORS for w in prev)
+            or any(w in _CONNECTORS or (w == _fold_vi(w) and w in _FOLDED_CONNECTORS) for w in prev)
         )
         if opens:
             clause.append(mention)
@@ -765,6 +801,59 @@ _CONNECTORS = frozenset(
     "còn với lại cả ngoài ra thêm nữa và rồi xong mà kèm theo quên nhân tiện luôn".split()
 )
 """Words that move a message from one appliance to the next."""
+
+_FOLDED_CONNECTORS = frozenset(_fold_vi(w) for w in _CONNECTORS)
+"""The same typed without accents: "va bep gas cai num xoay cung ngac"."""
+
+_FILLERS = re.compile(
+    r"(?<![^\W_])(?:nói chung là|kiểu là|kiểu như là|ừm+|ờm*|ừ+|hmm+|ơ+|à+)(?![^\W_])\s*",
+    re.IGNORECASE,
+)
+"""Words a dictated message is full of: "quạt à trần", "bếp kiểu là từ", "ổ ừm
+cắm". They fall inside the names of the appliances, which were then not found.
+Matched with their accents, so "a" and "o" typed plainly are left alone."""
+
+
+def _without_fillers(text: str) -> str:
+    """The message without the spoken fillers (see _FILLERS)."""
+    cleaned = _FILLERS.sub("", unicodedata.normalize("NFC", text))
+    return re.sub(r"\s+([,.!?])", r"\1", re.sub(r"[ \t]{2,}", " ", cleaned)).strip()
+
+
+def _said_once(text: str) -> str:
+    """A reply about several appliances with each wordless sentence said once.
+
+    Two appliances whose repair is not open each closed with "Anh/chị cần sửa
+    thiết bị khác thì nhắn em nhé" in the same reply. Sentences with a figure
+    in them are kept every time: the same price can be right for two
+    appliances.
+    """
+    seen = set()
+    out = []
+    for block in text.split("\n\n"):
+        kept = []
+        for sentence in re.split(r"(?<=[.!?])\s+", block):
+            key = sentence.strip().lower()
+            if len(key) > 25 and not re.search(r"\d", key) and key in seen:
+                continue
+            seen.add(key)
+            kept.append(sentence)
+        if kept:
+            out.append(" ".join(kept))
+    return "\n\n".join(b for b in out if b.strip())
+
+
+def _punctuated_before(text: str, index: int) -> bool:
+    """Whether punctuation stands between word `index` and the word before it."""
+    spans = [m.span() for m in re.finditer(r"[^\W_]+", unicodedata.normalize("NFC", text.lower()))]
+    if index <= 0 or index >= len(spans):
+        return index == 0
+    gap = unicodedata.normalize("NFC", text.lower())[spans[index - 1][1] : spans[index][0]]
+    return bool(re.search(r"[,.;!?:\n]", gap))
+
+
+_TWO_WORD_CONNECTORS = frozenset(("ngoai ra", "kem theo", "voi lai", "them nua", "nhan tien", "con lai"))
+"""Connectors whose second word is also one that makes a noun an object."""
 
 
 def _split_by_appliance(text: str, kb: KnowledgeBase) -> List[tuple]:
@@ -953,10 +1042,181 @@ def _device_asked_for_now(latest: str, kb: KnowledgeBase, strong: bool = False) 
 _NEXT_ONE = ("xem tiep", "tiep di", "tiep theo", "cai kia", "cai con lai", "con lai", "xem cai kia", "the con", "tiep", "xem tip", "tip di")
 """Asking for the appliance that was waiting: "xem tiếp", "còn cái kia thì sao"."""
 
+_ALSO = ("còn", "thêm", "nữa", "với cả", "với lại", "ngoài ra", "cả", "luôn", "cái này", "cái nữa", "thì")
+"""Words that add an appliance to the visit rather than swap one: "còn cái
+quạt nữa", "thêm cái lò vi sóng", "với cả bình nóng lạnh", "à cái tivi thì
+mất tiếng" (the "thì" that sets one appliance against the one before)."""
+
+def _says_also(text: str) -> bool:
+    """Whether the message adds an appliance (see _ALSO).
+
+    Read with its accents: folded, "còn" is "con", the child in "con nhỏ nó
+    cứ hỏi", and "cả" is "cá". Typed without any accent, the folded words are
+    all there is to go on.
+    """
+    accented = " " + " ".join(re.findall(r"\w+", unicodedata.normalize("NFC", text.lower()))) + " "
+    if any(f" {w} " in accented for w in _ALSO):
+        return True
+    if _fold_vi(text) != text.lower():
+        return False
+    folded = " " + " ".join(re.findall(r"[a-z0-9]+", text.lower())) + " "
+    return any(f" {_fold_vi(w)} " in folded for w in _ALSO)
+
+
+_ADDS_NEW = ("còn", "thêm", "cái này", "ngoài ra", "với cả", "với lại", "nhân tiện")
+"""The stronger half of _ALSO: words that bring up one more thing, not "nữa",
+"luôn" or "thì", which as often add a symptom to the same appliance."""
+
+
+def _adds_something(text: str) -> bool:
+    """Whether the message brings up something new (see _ADDS_NEW)."""
+    accented = " " + " ".join(re.findall(r"\w+", unicodedata.normalize("NFC", text.lower()))) + " "
+    if any(f" {w} " in accented for w in _ADDS_NEW):
+        return True
+    if _fold_vi(text) != text.lower():
+        return False
+    folded = " " + " ".join(re.findall(r"[a-z0-9]+", text.lower())) + " "
+    return any(f" {_fold_vi(w)} " in folded for w in _ADDS_NEW)
+
+
+_POINTS_BACK = ("no", "cai do", "may do", "con do", "cai may do", "chiec do")
+"""The appliance just talked about, by pronoun: "nó kêu to", "cái đó sửa
+bao nhiêu". These stay on it whatever the symptom would suggest. Not "cái này":
+with it the customer points at something new ("còn cái này nữa")."""
+
+_ORDINAL_WORDS = {
+    "1": 0, "mot": 0, "nhat": 0, "dau": 0, "dau tien": 0,
+    "2": 1, "hai": 1, "nhi": 1,
+    "3": 2, "ba": 2,
+    "cuoi": -1, "cuoi cung": -1,
+}
+_ORDINAL = re.compile(
+    r"\b(?:(?:anh|hinh|tam)\s+(?:so\s+|thu\s+)?(1|2|3|mot|hai|ba|dau tien|dau|cuoi cung|cuoi)"
+    r"|(?:cai|may|thiet bi|con|chiec)\s+(?:thu\s+(1|2|3|nhat|hai|nhi|ba)|(dau tien|cuoi cung|cuoi))"
+    r"|(?:anh|hinh|tam)\s+(?:thu\s+)(nhat|nhi))\b"
+)
+"""Which photograph the customer means by its place: "cái thứ hai", "ảnh 3",
+"tấm đầu", "máy cuối cùng". Read on the folded text, so "anh 2" typed without
+accents counts, which is why a bare number is only taken after a word for a
+picture and never after "cái" or "máy" ("máy 2 cửa" is a fridge)."""
+
+
+_SHORT_NAMES = {
+    "electric_fan": ("quạt",),
+    "ceiling_fan": ("quạt",),
+    "air_conditioner": ("cục lạnh", "cục nóng", "dàn nóng", "điều hòa", "máy lạnh"),
+    "water_heater": ("bình", "nóng lạnh"),
+    "refrigerator": ("tủ",),
+    "freezer": ("tủ",),
+    "microwave_oven": ("lò",),
+    "oven": ("lò",),
+    "television": ("tv",),
+}
+"""What an appliance is called once everyone knows which one is meant.
+
+"Quạt quay yếu" names nothing on its own: a fan is also a part of the air
+conditioner and the fridge. In a visit whose photographs show one fan, it is
+that fan. The same for "cục lạnh", "cái bình", "cái tủ"."""
+
+_PART_AFTER = ("gio", "dan", "tan nhiet", "hut", "cua", "dong co", "may nen", "lanh", "nong", "cap", "dien", "nuoc", "thuong")
+
+_FOLDED_TOO_SHORT = {"tu", "lo", "binh"}
+"""Short names that, typed without accents, are other words: "từ hôm qua",
+"lo lắng", "bình thường". Only taken with their accents."""
+
+
+def _short_named(text: str, devices: Sequence[str]) -> Optional[str]:
+    """The one appliance of `devices` this text calls by its short name, if exactly one.
+
+    Not when the short name is followed by a part ("quạt dàn lạnh", "tủ điện").
+    """
+    accented = " " + " ".join(re.findall(r"\w+", unicodedata.normalize("NFC", text.lower()))) + " "
+    folded = " " + " ".join(re.findall(r"[a-z0-9]+", _fold_vi(text))) + " "
+    found = set()
+    for device in dict.fromkeys(devices):
+        for short in _SHORT_NAMES.get(device, ()):
+            plain = _fold_vi(short)
+            places = [(accented, short)] + ([] if plain in _FOLDED_TOO_SHORT else [(folded, plain)])
+            for haystack, needle in places:
+                for match in re.finditer(rf" {re.escape(needle)} ", haystack):
+                    after = _fold_vi(haystack[match.end():])
+                    if len(needle.split()) == 1 and any(after.startswith(w + " ") for w in _PART_AFTER):
+                        continue
+                    found.add(device)
+    return found.pop() if len(found) == 1 else None
+
+
+def _photo_ordinal(folded: str) -> Optional[int]:
+    """The position of the photograph a message points at, 0-based, -1 for the last."""
+    match = _ORDINAL.search(folded)
+    if not match:
+        return None
+    word = next(g for g in match.groups() if g)
+    return _ORDINAL_WORDS.get(word)
+
 _CORRECTION_MARKERS = (
     "khong phai", "chu khong", "ma la", "nham", "sua lai", "doi sang", "doi qua", "chuyen sang", "chuyen qua",
     "thay vi", "bo", "huy", "hong phai", "ko phai", "k phai", "kp", "no phai", "dau phai",
 )
+
+_MARKER_ACCENTS = {"bo": {"bỏ"}, "huy": {"huỷ", "hủy"}, "nham": {"nhầm"}}
+"""One-word markers that, folded, are other words ("bộ", "bo mạch", "huy
+hiệu"): typed with accents, only these spellings are the marker."""
+
+_BETWEEN_MARKER_AND_NAME = frozenset(("la", "cai", "chiec", "con", "phai", "sang", "qua", "thanh", "di", "dau", "ma"))
+"""What may stand between a marker and the appliance it is about: "không
+phải là cái máy lạnh", "đổi sang con tủ lạnh". Anything else and the marker
+belongs to the sentence: "chứ không quay trớn và bếp Taka"."""
+
+_NAMES_NEXT = frozenset(("khong phai", "ko phai", "k phai", "hong phai", "chu khong phai", "thay vi", "ma la", "doi sang", "chuyen sang"))
+"""Markers that can only be followed by the appliance they correct."""
+
+_REFUSED_AFTER = ("thoi khong", "khong can", "dung dat", "huy")
+"""Refusals that come after the appliance they drop: "máy lạnh thì thôi
+không cần nữa", "tủ lạnh huỷ đi"."""
+
+
+def _corrects_an_appliance(text: str, kb: KnowledgeBase) -> bool:
+    """Whether the message changes which appliance it is about.
+
+    The markers ("không phải", "bỏ", "chuyển sang", "mà là") are read on the
+    folded words, where "bộ" is "bỏ" and "chuyển sang gió mạnh" is "chuyển
+    sang": a message about a fridge's fan and a ceiling fan's speed control
+    ("hỏng bộ chỉnh") was taken for a correction and never cut, so one of the
+    two appliances was lost. A marker counts only next to an appliance it
+    names: just before it, or for a refusal, just after.
+    """
+    typed = re.findall(r"[^\W_]+", unicodedata.normalize("NFC", text.lower()))
+    folded = [_fold_vi(w) for w in typed]
+    spans = [(start, end) for _d, start, end in _appliance_mentions(text, kb)]
+    spans += [(start, end) for _d, _a, start, end in _named_spans(text, kb)]
+    if not spans:
+        return False
+    for marker in _CORRECTION_MARKERS + _REJECTS + _ASKS_FOR:
+        words = marker.split()
+        n = len(words)
+        for i in range(len(folded) - n + 1):
+            if folded[i : i + n] != words:
+                continue
+            accented = _MARKER_ACCENTS.get(marker)
+            if accented and typed[i] != folded[i] and typed[i] not in accented:
+                # "Hư bo rồi" is the board, "bỏ" is dropping something.
+                continue
+            if any(
+                start >= i + n
+                and (
+                    all(w in _BETWEEN_MARKER_AND_NAME for w in folded[i + n : start])
+                    # "Không phải đường ống nước": a word of the name the
+                    # alias leaves out.
+                    or (marker in _NAMES_NEXT and start - (i + n) <= 1)
+                )
+                for start, _end in spans
+            ):
+                return True
+            if marker in _REFUSED_AFTER and any(i - 3 <= end <= i for _start, end in spans):
+                return True
+    return False
+
 
 _SEGMENT_RE = re.compile(r"[,.;!?\n]+|\s(?:còn|với lại|với cả|ngoài ra|thêm nữa|cũng như)\s", re.IGNORECASE)
 """Where one message moves from one appliance to the next."""
@@ -1048,6 +1308,7 @@ class LocalPipeline:
         self._retriever = retriever
         self._kb = kb
         self._conversations = get_conversation_store()
+        self._seen_photos: "OrderedDict[str, Optional[Detection]]" = OrderedDict()
         kb_version = getattr(kb, "version", None)
         self._model_info = ModelInfo(
             # Path rather than a name, because the name is always "best.pt" and
@@ -1209,8 +1470,28 @@ class LocalPipeline:
 
     async def _diagnose_locked(self, request: DiagnosisRequest) -> DiagnosisResponse:
         known = self._conversations.peek(request.session_id)
-        target = self._other_device_asked(known, request.description) if known else None
+        photographed: List[Optional[Detection]] = []
+        if known is not None and known.parent_id is None and known.device_type and request.images:
+            photographed = list(
+                await asyncio.gather(*(self._safe_detect(i) for i in request.images[:3]))
+            )
+        target = None
+        if known is not None and known.parent_id is None:
+            target = self._other_device_asked(known, request.description, photographed, bool(request.images))
         if known is not None and target:
+            self._remember_photos(known, photographed)
+            index = next(
+                (i for i, d in enumerate(photographed) if d is not None and d.device_type == target), None
+            )
+            if index is not None:
+                # Only its own photograph: the others in the same message are
+                # the visit's to place, not this appliance's to diagnose.
+                known.memo.setdefault(target, {}).update(
+                    {"image_index": index, "confidence": photographed[index].confidence}
+                )
+                request = request.model_copy(update={"images": [request.images[index]]})
+            elif photographed:
+                request = request.model_copy(update={"images": []})
             return await self._answer_other(known, target, request)
         response = await self._diagnose_one(request)
         if not response.session_id:
@@ -1219,7 +1500,31 @@ class LocalPipeline:
         fresh: List[str] = []
         if chat.parent_id is None:
             fresh = await self._answer_others(chat, request)
+            chat.memo.setdefault("", {})["lead"] = chat.device_type
+            if request.images:
+                self._remember_photos(
+                    chat,
+                    photographed
+                    or [self._seen_photos.get(hashlib.sha1(i.encode("ascii", "ignore")).hexdigest()) for i in request.images[:3]],
+                )
         return self._with_devices(response, chat, request.description, fresh=fresh)
+
+    @staticmethod
+    def _remember_photos(chat: Conversation, found: Sequence[Optional[Detection]]) -> None:
+        """Every photograph of the visit in the order it was sent, by appliance."""
+        if found:
+            chat.memo.setdefault("", {}).setdefault("photos", []).extend(
+                d.device_type if d is not None else None for d in found
+            )
+
+    def _join_visit(self, chat: Conversation, device_type: str, confidence: float, source: str) -> str:
+        """A conversation of its own for an appliance added to the visit mid-way."""
+        own = self._conversations.get_or_create(None)
+        own.remember_device(device_type, confidence, source)
+        own.parent_id = chat.session_id
+        chat.others[device_type] = own.session_id
+        chat.queued.pop(device_type, None)
+        return device_type
 
     async def _diagnose_one(self, request: DiagnosisRequest) -> DiagnosisResponse:
         """One appliance's turn, with everything said around the answer."""
@@ -1268,25 +1573,135 @@ class LocalPipeline:
             )
         return response
 
-    def _other_device_asked(self, chat: Conversation, text: str) -> Optional[str]:
+    def _other_device_asked(
+        self,
+        chat: Conversation,
+        text: str,
+        photographed: Sequence[Optional[Detection]] = (),
+        has_photos: bool = False,
+    ) -> Optional[str]:
         """The other appliance of the visit this message is about, if any.
 
-        Named outright ("còn máy giặt thì sao"), or the customer asked for the
-        next one ("xem tiếp"), which brings each of the others up in turn."""
-        if not chat.others:
+        In order: named outright ("còn máy giặt thì sao"); shown in the
+        photograph sent with it; pointed at by its place among the photographs
+        ("cái thứ hai", "ảnh 3"); the next one asked for ("xem tiếp"); or, when
+        the message names nothing, the appliance the last answer was about, so
+        "nó kêu to nữa" after the washing machine stays on the washing machine.
+
+        An appliance not yet in the visit joins it with a conversation of its
+        own when a photograph shows it or the message adds it ("còn cái quạt
+        nữa"), instead of replacing the one already being talked through.
+        """
+        if not chat.device_type:
+            # Nothing is being talked through yet: whatever is named is the
+            # conversation's own appliance, not one added to it.
             return None
         lexicon = dialogue_state.get_lexicon(self._kb)
-        named = _strongly_named_in(lexicon.normalize_accented(text), self._kb)
+        accented = lexicon.normalize_accented(text)
+        folded = " " + lexicon.normalize(text) + " "
+        named = _strongly_named_in(accented, self._kb)
+        mentioned = {d for d, _start, _end in _appliance_mentions(text, self._kb)} | (
+            {named} if named else set()
+        )
+        # A correction is about an appliance it names. Without one, "không lấy
+        # nước vào" and "không còn lạnh" are symptoms, not "không lấy máy lạnh".
+        correcting = bool(mentioned) and any(
+            f" {m} " in folded for m in _CORRECTION_MARKERS + _REJECTS + _ASKS_FOR
+        )
+        visit = [d for d in [chat.device_type, *chat.others] if d]
+        if not named and not mentioned:
+            named = _short_named(text, visit + [d.device_type for d in photographed if d is not None])
+            if named:
+                mentioned = {named}
         if named in chat.others and named != chat.device_type:
             return named
-        folded = " " + lexicon.normalize(text) + " "
+        if named and named == chat.device_type:
+            return None
+        seen = [d for d in photographed if d is not None]
+        if seen and not correcting and len(mentioned) <= 1:
+            if not named:
+                # No name, but a symptom only one appliance has ("đá không
+                # đông", "nóng một lúc rồi nguội"): when the detector reads the
+                # photograph as something else, the words are the better witness.
+                described = self._device_from_symptom(text)
+                if described and all(d.device_type != described for d in seen):
+                    named = described
+            shown = next((d for d in seen if d.device_type == named), None) if named else seen[0]
+            if shown is not None and shown.device_type != chat.device_type:
+                if shown.device_type in chat.others:
+                    return shown.device_type
+                return self._join_visit(chat, shown.device_type, shown.confidence, "image")
+            if shown is None and named in chat.others:
+                return named
+            if shown is None and named and named != chat.device_type and not self._kb.confusable_with(named):
+                # "Đây là bình nóng lạnh" with a photograph the detector reads
+                # as something else: the appliance named joins, by its name.
+                return self._join_visit(chat, named, 0.0, "description")
+            return None
+        if has_photos and seen:
+            return None
+        # A photograph the detector could not read leaves the words to decide:
+        # "còn cái này nữa em, ngăn mát không lạnh" with a fridge it did not
+        # recognise was answered about the air conditioner.
+        added = named
+        pointing_back = any(f" {p} " in folded for p in _POINTS_BACK)
+        if not added and not mentioned and not pointing_back and _adds_something(text):
+            # "Còn cái này nữa, quạt bật không quay": "quạt" alone names no
+            # appliance (a fan is a part of several), but said as one more
+            # thing to look at it is the fan most homes have. Only by that
+            # name: guessed from the symptom, "với lại đọng nước dưới đế" would
+            # add a water pipe to a kettle.
+            added = "electric_fan" if _short_named(text, ["electric_fan"]) and "trần" not in text.lower() else None
+            if added in visit:
+                return added if added in chat.others else None
+        if (
+            added
+            and added not in chat.others
+            and added not in chat.queued
+            and not correcting
+            and len(mentioned) <= 1
+            and _says_also(text)
+        ):
+            return self._join_visit(chat, added, 0.0, "description")
+        if not chat.others:
+            return None
+        photos = chat.memo.get("", {}).get("photos", [])
+        place = _photo_ordinal(folded)
+        if place is not None and photos and not named:
+            if -len(photos) <= place < len(photos):
+                pointed = photos[place]
+                if pointed == chat.device_type:
+                    return None
+                if pointed in chat.others:
+                    return pointed
         if not chat.queued and any(f" {p} " in folded for p in _NEXT_ONE):
             order = list(chat.others)
             last = chat.memo.get("", {}).get("lead")
             chosen = order[(order.index(last) + 1) % len(order)] if last in order else order[0]
             chat.memo.setdefault("", {})["moving_on"] = True
             return chosen
-        return None
+        if correcting:
+            return None
+        last = chat.memo.get("", {}).get("lead")
+        if not named and any(f" {p} " in folded for p in _POINTS_BACK):
+            # "Mà nó chớp đèn không chạy", "nó không lấy nước vào": the light
+            # and the water are in the sentence as symptoms, and "nó" is the
+            # appliance the last answer was about.
+            return last if last in chat.others else None
+        if mentioned:
+            return None
+        described = self._device_from_symptom(text)
+        if described == chat.device_type:
+            return None
+        if described in chat.others:
+            return described
+        if described and described not in chat.queued:
+            # "Cái thứ ba thì ngăn đá không đông" when the third photograph
+            # was not recognised: the words describe a fridge and nothing else,
+            # so the fridge joins the visit rather than the washing machine the
+            # last answer was about taking the question.
+            return self._join_visit(chat, described, 0.0, "description")
+        return last if last in chat.others else None
 
     async def _answer_other(
         self, chat: Conversation, device_type: str, request: DiagnosisRequest
@@ -1473,7 +1888,7 @@ class LocalPipeline:
             update={
                 "devices": devices,
                 "recommended_services": services,
-                "message_vi": "\n\n".join(parts) if parts else response.message_vi,
+                "message_vi": _said_once("\n\n".join(parts)) if parts else response.message_vi,
                 "urgency": urgency,
             }
         )
@@ -1768,13 +2183,18 @@ class LocalPipeline:
 
         # A correction is one message about one appliance: "không phải máy lạnh
         # mà là tủ lạnh" names two and means the second. The switch handles it.
-        if any(f" {m} " in folded for m in _CORRECTION_MARKERS + _REJECTS + _ASKS_FOR):
+        if _corrects_an_appliance(text, self._kb) or _corrects_an_appliance(
+            lexicon.normalize_accented(text), self._kb
+        ):
             return text
         split = _split_by_appliance(text, self._kb)
-        if not split:
-            # Typed with stretched letters or teencode the names may only be
-            # found once the words are normalised; cut that text instead.
-            split = _split_by_appliance(lexicon.normalize_accented(text), self._kb)
+        # Typed with stretched letters or teencode the names may only be found
+        # once the words are normalised ("ống nc" is "ống nước"); cut that text
+        # instead when it finds more of the appliances, not only when the
+        # typed text finds none.
+        normalised = _split_by_appliance(lexicon.normalize_accented(text), self._kb)
+        if len({d for d, _ in normalised}) > len({d for d, _ in split}):
+            split = normalised
         if split:
             devices = [d for d, _ in split]
             primary = chat.device_type if chat.device_type in devices else devices[0]
@@ -1789,7 +2209,13 @@ class LocalPipeline:
                 chat.queued[device] = (chat.queued.get(device, "") + " " + said).strip()
                 chat.just_queued.append(device)
                 chat.memo.setdefault(device, {})["text"] = chat.queued[device]
-            return dict(split)[primary]
+            piece = dict(split)[primary]
+            if _device_named_in(piece, self._kb) != primary:
+                # The cut read "cái quạt trên trần nhà" as a ceiling fan; read
+                # again alone, the piece says "quạt" and becomes a desk fan.
+                # Named the way the others are named in _answer_others.
+                piece = f"{self._kb.device_name_vi(primary) or ''} {piece}".strip()
+            return piece
         # Otherwise the old cut, at punctuation and connectors.
         segments = [s.strip() for s in _SEGMENT_RE.split(text) if s and s.strip()]
         if len(segments) < 2:
@@ -1825,6 +2251,9 @@ class LocalPipeline:
         mood, address = dialogue_state.mood_of(request.description, dialogue_state.get_lexicon(self._kb))
         chat.mood = mood
         chat.address = address or chat.address
+        spoken = _without_fillers(request.description)
+        if spoken != request.description and spoken:
+            request = request.model_copy(update={"description": spoken})
         one = self._take_one_appliance(chat, request.description)
         if one != request.description:
             request = request.model_copy(update={"description": one})
@@ -2228,8 +2657,60 @@ class LocalPipeline:
         Kept separate from diagnosis: it may discuss maintenance intervals and
         platform policy, but it never recommends a service or a booking.
         """
+        known = self._conversations.peek(request.session_id) if request.session_id else None
+        if known is not None and known.parent_id is None and known.others:
+            # A question goes to the appliance it is about, like a description
+            # does. fixhome.sbs, 25/10/2026: "cái đó sửa hết bao nhiêu tiền"
+            # right after the fridge was answered with the air conditioner's
+            # prices, because the web sends questions here and only the
+            # diagnosis route knew about the other appliances.
+            target = self._other_device_asked(known, request.question)
+            priced = self._price_answer(known, target or known.device_type, request)
+            if priced is not None:
+                return priced
+            if target in known.others:
+                sub_id = known.others[target]
+                async with self._conversations.lock(sub_id):
+                    reply = await self._answer_locked(request.model_copy(update={"session_id": sub_id}))
+                known.memo.setdefault("", {})["lead"] = target
+                return reply.model_copy(update={"session_id": known.session_id})
         async with self._conversations.lock(request.session_id):
-            return await self._answer_locked(request)
+            response = await self._answer_locked(request)
+        if known is not None and known.parent_id is None and known.others:
+            known.memo.setdefault("", {})["lead"] = known.device_type
+        return response
+
+    def _price_answer(
+        self, chat: Conversation, device_type: Optional[str], request: ChatRequest
+    ) -> Optional[ChatResponse]:
+        """"Cái đó sửa hết bao nhiêu" about an appliance of the visit already priced.
+
+        The price was worked out when it was diagnosed; asked again, it is said
+        again, with what it was for. Left to the model, on fixhome.sbs
+        25/10/2026, the answer named the faults and no figure at all.
+        """
+        if not device_type or not _asks_about_money(request.question):
+            return None
+        if self._names_a_symptom(request.question, device_type):
+            return None  # a new complaint as well: diagnose it, do not repeat
+        reply = chat.memo.get(device_type, {}).get("reply")
+        finding = self._plain_finding(reply) if reply is not None else None
+        if not finding or not (reply.price_estimate and reply.price_estimate.min):
+            return None
+        name = (self._kb.device_name_vi(device_type) or device_type).lower()
+        chat.memo.setdefault("", {})["lead"] = device_type
+        answer = f"Dạ, với {name} nhà mình, {finding[:1].lower()}{finding[1:]}"
+        if "báo giá" not in answer:
+            answer += " Thợ xem tận nơi rồi mới báo giá chính xác ạ."
+        return ChatResponse(
+            request_id=request.request_id,
+            session_id=chat.session_id,
+            status=AnswerStatus.OK,
+            answer_vi=dialogue_state.address_as(answer, chat.address),
+            recommended_services=list(reply.recommended_services[:1]),
+            confidence=0.8,
+            disclaimer_vi=settings.AI_DISCLAIMER_VI,
+        )
 
     async def _answer_locked(self, request: ChatRequest) -> ChatResponse:
         chat = self._conversations.get_or_create(request.session_id)
@@ -2599,22 +3080,23 @@ class LocalPipeline:
         """
         money = lambda v: f"{v:,}".replace(",", ".")  # noqa: E731
         lines = []
+        # Short data, not sentences. Labels written as sentences were sent back
+        # word for word by the served model ("Có thể hỏng: ... Chi phí tham
+        # khảo: ..."), and labels in the old register were copied into the
+        # answer ("Việc khách nên làm ngay" as "khách", "ngay lập tức").
         if device:
-            lines.append(f"Thiết bị: {device.name_vi}")
-        lines.append("Khả năng hư hỏng: " + ", ".join(f.name_vi for f in faults))
+            lines.append(f"- máy: {device.name_vi.lower()}")
+        lines.append("- lỗi: " + " | ".join(f.name_vi.lower() for f in faults))
         if price_min is not None and price_max is not None and price_max != price_min:
-            lines.append(f"Chi phí dự kiến: {money(price_min)}đ tới {money(price_max)}đ")
+            lines.append(f"- giá: {money(price_min)}đ - {money(price_max)}đ")
         elif price_min is not None and price_max == price_min:
-            lines.append(f"Chi phí dự kiến: {money(price_min)}đ")
+            lines.append(f"- giá: {money(price_min)}đ")
         elif price_min is not None:
-            lines.append(
-                f"Chi phí: từ {money(price_min)}đ, phần còn lại kỹ thuật viên "
-                "phải xem tận nơi mới tính được"
-            )
+            lines.append(f"- giá: từ {money(price_min)}đ, thợ xem tận nơi rồi báo giá")
         if actions:
-            lines.append("Việc khách nên làm ngay: " + "; ".join(actions))
+            lines.append("- làm trước: " + " | ".join(a.rstrip(".").lower() for a in actions))
         if services:
-            lines.append("Dịch vụ nên đặt: " + ", ".join(s.name_vi for s in services))
+            lines.append("- dịch vụ: " + " | ".join(s.name_vi for s in services))
 
         allowed = [
             str(v) for v in (price_min, price_max) if v is not None
@@ -3134,13 +3616,20 @@ class LocalPipeline:
         )
 
     async def _detect_one(self, image: str) -> Optional[Detection]:
+        key = hashlib.sha1(image.encode("ascii", "ignore")).hexdigest()
+        if key in self._seen_photos:
+            self._seen_photos.move_to_end(key)
+            return self._seen_photos[key]
         payload: ImagePayload = load_base64_image(image)
         detections = await self._detector.detect(payload)
-        if not detections:
-            return None
-        best = detections[0]
-        if best.confidence < settings.DETECTOR_CONFIDENCE_THRESHOLD:
-            return None
+        best = detections[0] if detections else None
+        if best is not None and best.confidence < settings.DETECTOR_CONFIDENCE_THRESHOLD:
+            best = None
+        # The router reads a photograph to know which appliance it shows, and
+        # the conversation it is routed to reads it again for the diagnosis.
+        self._seen_photos[key] = best
+        while len(self._seen_photos) > 24:
+            self._seen_photos.popitem(last=False)
         return best
 
     async def _detect_images(
@@ -3168,7 +3657,31 @@ class LocalPipeline:
         if not seen:
             return None
         named = _device_named_in(description, self._kb)
+        shown = [d.device_type for _, d in seen]
+        if named is None:
+            # "Máy giặt không cấp nước" also names a water pipe in "nước", and a
+            # name that is not unique used to mean none, so the first
+            # photograph led. Among the appliances photographed, it is unique.
+            spoken = {m[0] for m in _appliance_mentions(description, self._kb)}
+            spoken |= {n.device_type for n in device_hint.devices_named_in(description, self._kb)}
+            in_photos = [d for d in shown if d in spoken]
+            named = in_photos[0] if len(set(in_photos)) == 1 else _short_named(description, shown)
         lead = next((d for _, d in seen if d.device_type == named), None)
+        machine = _strongly_named_in(dialogue_state.get_lexicon(self._kb).normalize_accented(description), self._kb)
+        if machine is None and named is None and len(images) == 1:
+            # The same with a symptom only one appliance has, and no name.
+            machine = named = self._device_from_symptom(description)
+        if (
+            lead is None and len(images) == 1 and machine and machine == named
+            and seen[0][1].device_type not in self._kb.confusable_with(machine)
+        ):
+            # One photograph and the appliance named outright, and the detector
+            # sees another: the words are what the customer means. On the
+            # served model, 25/10/2026, "máy lạnh không mát" with a photograph
+            # of an air conditioner read as a fan was answered about a fan, and
+            # "đây là bình nóng lạnh" about a smart lock.
+            chat.seen = []
+            return None
         if lead is None and not (named and len(images) > 1):
             lead = seen[0][1]
         # With several photographs and an appliance named that none of them
