@@ -2665,6 +2665,9 @@ class LocalPipeline:
             # prices, because the web sends questions here and only the
             # diagnosis route knew about the other appliances.
             target = self._other_device_asked(known, request.question)
+            priced = self._price_answer(known, target or known.device_type, request)
+            if priced is not None:
+                return priced
             if target in known.others:
                 sub_id = known.others[target]
                 async with self._conversations.lock(sub_id):
@@ -2676,6 +2679,38 @@ class LocalPipeline:
         if known is not None and known.parent_id is None and known.others:
             known.memo.setdefault("", {})["lead"] = known.device_type
         return response
+
+    def _price_answer(
+        self, chat: Conversation, device_type: Optional[str], request: ChatRequest
+    ) -> Optional[ChatResponse]:
+        """"Cái đó sửa hết bao nhiêu" about an appliance of the visit already priced.
+
+        The price was worked out when it was diagnosed; asked again, it is said
+        again, with what it was for. Left to the model, on fixhome.sbs
+        25/10/2026, the answer named the faults and no figure at all.
+        """
+        if not device_type or not _asks_about_money(request.question):
+            return None
+        if self._names_a_symptom(request.question, device_type):
+            return None  # a new complaint as well: diagnose it, do not repeat
+        reply = chat.memo.get(device_type, {}).get("reply")
+        finding = self._plain_finding(reply) if reply is not None else None
+        if not finding or not (reply.price_estimate and reply.price_estimate.min):
+            return None
+        name = (self._kb.device_name_vi(device_type) or device_type).lower()
+        chat.memo.setdefault("", {})["lead"] = device_type
+        answer = f"Dạ, với {name} nhà mình, {finding[:1].lower()}{finding[1:]}"
+        if "báo giá" not in answer:
+            answer += " Thợ xem tận nơi rồi mới báo giá chính xác ạ."
+        return ChatResponse(
+            request_id=request.request_id,
+            session_id=chat.session_id,
+            status=AnswerStatus.OK,
+            answer_vi=dialogue_state.address_as(answer, chat.address),
+            recommended_services=list(reply.recommended_services[:1]),
+            confidence=0.8,
+            disclaimer_vi=settings.AI_DISCLAIMER_VI,
+        )
 
     async def _answer_locked(self, request: ChatRequest) -> ChatResponse:
         chat = self._conversations.get_or_create(request.session_id)

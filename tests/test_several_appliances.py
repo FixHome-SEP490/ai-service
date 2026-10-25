@@ -10,6 +10,7 @@ appliance, the one being talked through first.
 import asyncio
 import base64
 import io
+import re
 
 from PIL import Image
 
@@ -499,8 +500,12 @@ def test_a_question_goes_to_the_appliance_it_is_about():
     _run(pipeline, description="còn cái này nữa em, ngăn mát không lạnh", images=[_photo("refrigerator")], session_id=first.session_id)
     reply = asyncio.run(pipeline.answer(ChatRequest(question="cái đó sửa hết bao nhiêu tiền", sessionId=first.session_id)))
     assert reply.session_id == first.session_id
+    # Asked for the price, it says the fridge's price, figures and all.
+    assert "tủ lạnh" in reply.answer_vi and re.search(r"\d{3}\.000đ", reply.answer_vi), reply.answer_vi
+    question = asyncio.run(pipeline.answer(ChatRequest(question="cái đó có nguy hiểm không em", sessionId=first.session_id)))
     fridge = pipeline._conversations.peek(pipeline._conversations.peek(first.session_id).others["refrigerator"])
-    assert any(t.text_vi == "cái đó sửa hết bao nhiêu tiền" for t in fridge.turns)
+    assert question.session_id == first.session_id
+    assert any(t.text_vi == "cái đó có nguy hiểm không em" for t in fridge.turns)
 
 
 def test_a_symptom_only_one_appliance_has_beats_a_misread_photograph():
