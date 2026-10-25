@@ -132,5 +132,30 @@
     "inch": ["television"],
     "van tay": ["smart_lock"],
     "tran": ["ceiling_fan"]
+  },
+  "_comment_names_vi": "Tên khách hay gọi thiết bị mà không có trong danh sách tên chính (tiếng lóng, gõ sai quen tay, hãng kèm đặc điểm). Lấy từ nửa dev của tools/understanding_bank.json, bỏ chữ cái/con/chiếc; nửa test không được chép vào đây. Dùng để nhận thiết bị và để tách một tin nhắn nói nhiều thiết bị.",
+  "names": {
+    "air_conditioner": ["Daikin", "Gree hai chiều", "LG inverter", "máy 12 nghìn BTU", "máy làm mát treo tường", "máy lạnh âm trần", "đìu hòa"],
+    "refrigerator": ["tũ lạnh", "tủ Aqua 2 cánh", "tủ giữ lạnh đồ ăn trong bếp", "tủ LG ngăn đá dưới", "tủ lạnh mini", "tủ Panasonic hai cánh", "tủ Samsung inverter", "tủ Toshiba"],
+    "electric_fan": ["cây quạt", "máy thổi gió đặt góc phòng", "quạc", "quạt Asia", "quạt lửng", "quạt Mitsubishi", "quạt treo", "quạt tích điện", "Senko", "Vinawind"],
+    "washing_machine": ["Aqua 9 ký", "Beko cửa ngang", "Electrolux cửa trước", "máy giặc", "máy để giặt đồ", "Panasonic giặt sấy", "Toshiba lồng đứng"],
+    "clothes_dryer": ["Beko sấy 8 ký", "Candy sấy đồ", "máy làm khô quần áo", "máy sây quần áo", "máy sấy áo quần", "máy sấy đồ", "máy xấy đồ", "sấy bơm nhiệt LG", "sấy đồ Whirlpool"],
+    "dishwasher": ["Bosch 13 bộ", "Bosch âm tủ bếp", "dishwasher", "Hafele âm tủ", "MRB", "máy dửa bát", "máy rủa bát", "máy rửa bác", "máy rửa ly chén"],
+    "water_purifier": ["cây lọc nước", "cây nóng lạnh", "Karofi tủ đứng", "lọc nước gầm chậu rửa", "Mutosi nóng lạnh", "máy lọc 10 lõi", "máy lọc nc", "máy lộc nước", "máy RO"],
+    "water_heater": ["bình lóng lạnh", "bình nóng lạnh Rossi", "bình Picenza", "bình đun nước tắm", "cục nóng lạnh trong phòng tắm", "Ferroli", "máy làm nóng nước trực tiếp"],
+    "toilet": ["bàn cầu", "bàn cầu Toto", "bệ xí", "bồn càu", "bồn cầu Caesar một khối", "bồn cầu Viglacera", "bồn vệ sinh", "bồn đi vệ sinh trong nhà tắm", "xí bệt"],
+    "water_pipe": ["hệ thống nước trong nhà", "đường nước âm sàn", "ống cấp nước", "ống nuớc", "ống nước sau nhà", "ống PPR", "ống PVC", "ống thoát nước", "ống Tiền Phong", "ống âm tường"],
+    "sink": ["bồn rửa hai hố", "bồn rửa rau", "bồn rửa tay", "chậu inox trong bếp", "chậu sứ rửa mặt", "lababo"],
+    "faucet": ["củ sen", "vòi Grohe", "vòi hoa sen", "vòi Inax", "vòi lavabo", "vòi tắm"],
+    "microwave_oven": ["lò hâm cơm", "lò hâm Midea", "lò hâm Toshiba", "lò Sanyo quay quay", "lò Sharp hâm đồ ăn", "lò sóng hâm đồ", "lò vi xóng", "lò viba", "lò vy sóng", "Panasonic hâm sữa"],
+    "gas_stove": ["bếp dùng bình khí", "bếp lửa đun bằng bình", "bếp Rinnai", "bếp Taka"],
+    "induction_hob": ["bêp từ", "bếp Bosch", "bếp Hafele", "bếp induction", "bếp Kangaroo cảm ứng", "bếp mặt kính đen dùng nồi đáy từ", "bếp Sunhouse mặt kính", "bếp Teka"],
+    "oven": ["lò Bosch âm tủ", "lò bánh mì gia đình", "lò Electrolux", "lò làm bánh", "lò nuớng", "lò nương", "lò Tiross", "lò âm tủ", "lò đối lưu", "Sunhouse nướng bánh"],
+    "kettle": ["bình Lock&Lock đun nước", "bình siêu tốc", "siêu tốc", "ấm inox đun sôi nhanh", "ấm siu tốc", "ấm Xiaomi"],
+    "television": ["android tivi", "màn 55 inch", "Panasonic phòng khách", "Sony", "tivi LG", "tivi màn phẳng", "tivi Xiaomi", "tivy"],
+    "power_outlet": ["cục chia điện", "lỗ cắm điện", "ổ chia điện", "ổ cắm Panasonic", "ổ cắm Schneider", "ổ cắm Sino", "ổ cắm âm tường", "ổ cắm đa năng", "ổ Lioa", "ổ nối dài", "ổ đôi trên tường"],
+    "ceiling_fan": ["quạt chần", "quạt trên trần nhà", "quạt trần cánh gỗ", "quạt trần KDK", "quạt trần Mỹ Phong", "quạt trần năm cánh", "quạt trần Vinawind"],
+    "light_bulb": ["bóng búp", "bóng lét", "bóng Rạng Đông", "bóng điện", "đèn nê ông", "đèn Philips", "đèn âm trần", "đèn ốp trần"],
+    "smart_lock": ["khóa Hafele", "khóa mã số", "khóa mật khẩu", "khóa mở bằng điện thoại", "khóa nhận diện khuôn mặt", "khóa Philips", "khóa Samsung", "khóa smart", "khóa thông minh", "khóa Xiaomi"]
   }
 }

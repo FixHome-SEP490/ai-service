@@ -189,6 +189,26 @@ _PRONOUN_FIXES = (
     (r"\bcủa khách\b", "của anh/chị"),
     (r"\bcho khách\b", "cho anh/chị"),
     (r"\bkhách nên\b", "anh/chị nên"),
+    # Seen on the served model 25/10/2026, capitalised and in other spots:
+    # "Khách nên ngắt nguồn", "thông tin khách gửi", "mời khách đặt dịch vụ".
+    (r"\bKhách nên\b", "Anh/chị nên"),
+    (r"\bkhách gửi\b", "anh/chị gửi"),
+    (r"\bmời khách\b", "mời anh/chị"),
+    (r"\bkhách có thể\b", "anh/chị có thể"),
+    (r"\bKhách có thể\b", "Anh/chị có thể"),
+)
+
+_CLAIM_FIXES = (
+    # The assistant has read a description, not opened the machine. "Em đã
+    # kiểm tra và xác nhận rằng máy lạnh ... hư ở máy nén" turns a likely
+    # cause into a verdict the customer acts on; the knowledge base never
+    # says more than "khả năng cao".
+    (r"(?i)\b(?:em|tôi) đã (?:kiểm tra|xem xét|xem) (?:và |rồi )?xác nhận (?:rằng|là) ", "Theo những gì anh/chị kể, có thể "),
+    (r"(?i)\b(?:em|tôi) (?:xác nhận|khẳng định) (?:rằng|là) ", "Theo những gì anh/chị kể, có thể "),
+    # The instruction read back as a sentence: "Em đã đọc thông tin khách gửi."
+    (r"(?i)^\s*(?:em|tôi) đã đọc (?:kỹ )?(?:và (?:kiểm tra|xem) )?(?:thông tin|mô tả)[^.!?\n]*[.!?]\s*", ""),
+    # And "chủ động mời khách đặt" is the prompt's own wording.
+    (r"(?i)\b(?:em|tôi) sẽ chủ động mời (?:khách|anh/chị) đặt\b", "Anh/chị có thể đặt"),
 )
 
 
@@ -241,7 +261,21 @@ def _fix_spelling(text: str) -> str:
     """
     for pattern, replacement in _MISSPELLINGS:
         text = re.sub(pattern, replacement, text)
-    return text
+    return _without_foreign_script(text)
+
+
+_FOREIGN_SCRIPT = re.compile(r"\s*[぀-ヿ㐀-䶿一-鿿가-힯＀-￯]+\s*")
+"""Chinese, Japanese and Korean letters. Qwen is a Chinese model and slips into
+its first language mid-sentence: "đảm bảo máy恢复正常 hoạt động" reached a
+customer on fixhome.sbs, 25/10/2026. Vietnamese never needs these."""
+
+
+def _without_foreign_script(text: str) -> str:
+    """The text with any Chinese, Japanese or Korean run taken out."""
+    if not _FOREIGN_SCRIPT.search(text):
+        return text
+    text = _FOREIGN_SCRIPT.sub(" ", text)
+    return re.sub(r"\s+([,.!?])", r"\1", re.sub(r"[ \t]{2,}", " ", text)).strip()
 
 
 def _fix_pronouns(text: str) -> str:
@@ -256,9 +290,11 @@ def _fix_pronouns(text: str) -> str:
     this is how a fluent answer turns into a mechanical one, which is the thing
     being fixed.
     """
+    for pattern, replacement in _CLAIM_FIXES:
+        text = re.sub(pattern, replacement, text)
     for pattern, replacement in _PRONOUN_FIXES:
         text = re.sub(pattern, replacement, text)
-    return text
+    return text[:1].upper() + text[1:] if text else text
 
 
 _PROMPT_ECHO = re.compile(

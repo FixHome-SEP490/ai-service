@@ -641,6 +641,159 @@ def _named_spans(text: str, kb: KnowledgeBase) -> List[tuple]:
     return kept
 
 
+_AS_AN_OBJECT = frozenset(
+    "vào của cho như giống khác chi bằng từ trong trên dưới cạnh gần nối cắm bên sau trước "
+    "lên xuống ở tại qua theo kiểu tựa hệt đến tới với đo vặn ra chảy gắn xả sạc dùng xài "
+    "thử kiểm lắp thay".split()
+)
+"""Words after which an appliance is a thing in someone else's sentence.
+
+"Cắm cái quạt vào ổ", "mùi giống như vòi bồn rửa", "nối từ tủ lạnh": the fan,
+the sink and the fridge are not appliances the customer is reporting, and
+cutting the message there handed half a socket's description to a fan."""
+
+
+def _appliance_mentions(text: str, kb: KnowledgeBase) -> List[tuple]:
+    """(device, first token, end token) for every appliance the customer reports.
+
+    By the names that name a machine (not "nóng lạnh", a tap setting), and by
+    a brand with the word for the kind of thing before it ("lò Sharp", "con
+    Senko", "bếp Taka") when the brand and that word leave one appliance. A
+    name used as the object of someone else's sentence is left out. Token
+    positions are those of `re.findall(r"[^\W_]+", NFC(text).lower())`.
+    """
+    typed = re.findall(r"[^\W_]+", unicodedata.normalize("NFC", text.lower()))
+    folded = [_fold_vi(w) for w in typed]
+    found = []
+    for device, alias, start, end in _named_spans(text, kb):
+        head = ([w for w in re.findall(r"[a-z0-9]+", _fold_vi(alias)) if w not in ("cai", "chiec")] or [""])[0]
+        if head in _DEVICE_HEADS:
+            found.append((device, start, end))
+    known = set(kb.device_types)
+    # What customers call it beyond the aliases ("máy thổi gió", "bệt", "con MRB").
+    for device, names in device_hint.known_names().items():
+        if device not in known:
+            continue
+        for words in names:
+            n = len(words)
+            for i in range(len(folded) - n + 1):
+                if folded[i : i + n] == list(words):
+                    found.append((device, i, i + n))
+    # An alias of two words or more typed with one letter wrong ("lò vi xóng",
+    # "máy xấy"), first letter right, in a word of four letters or more.
+    # Compared with the accents where the customer typed them: without, "mấy
+    # lần" is one letter from "máy lạnh" and "vơi được" from "vòi nước".
+    for device in kb.device_types:
+        for alias in kb.aliases_vi(device):
+            accented = re.findall(r"[^\W_]+", unicodedata.normalize("NFC", alias.lower()))
+            words = [_fold_vi(w) for w in accented]
+            if len(words) < 2 or sum(len(w) for w in words) < 6:
+                continue
+            n = len(words)
+            for i in range(len(folded) - n + 1):
+                window = folded[i : i + n]
+                if window == words or window[0][:1] != words[0][:1]:
+                    continue
+                plain = typed[i : i + n] == window
+                pairs = zip(window, words) if plain else zip(typed[i : i + n], accented)
+                edits = [(device_hint._one_edit(x, y), y) for x, y in pairs]
+                if sum(e for e, _ in edits) == 1 and all(len(y) >= 4 for e, y in edits if e):
+                    found.append((device, i, i + n))
+    naming = device_hint._naming()
+    for brand, makes in naming["brands"].items():
+        n = len(brand)
+        for at in range(len(folded) - n + 1):
+            if tuple(folded[at : at + n]) != brand:
+                continue
+            candidates = [d for d in makes if d in known]
+            start, best = at, None
+            for head, kinds in naming["heads"].items():
+                for h in range(max(0, at - 4), at - len(head) + 1):
+                    if tuple(folded[h : h + len(head)]) == head and (best is None or len(head) > len(best)):
+                        best, start = head, h
+            if best is not None:
+                candidates = [d for d in candidates if d in naming["heads"][best]] or candidates
+            if len(candidates) > 1:
+                after = folded[at + n : at + n + 10]
+                for cue, points_to in naming["cues"].items():
+                    if any(tuple(after[i : i + len(cue)]) == cue for i in range(len(after))):
+                        candidates = [d for d in candidates if d in points_to] or candidates
+            if len(candidates) == 1:
+                found.append((candidates[0], start, at + n))
+    found.sort(key=lambda m: (m[1], -(m[2] - m[1])))
+    kept: List[tuple] = []
+    for mention in found:
+        if any(mention[1] < k[2] and k[1] < mention[2] for k in kept):
+            continue
+        # Right after another appliance's name it is a part of that one:
+        # "vòi bồn rửa", "xi phông bồn rửa" is the sink's tap, the sink's trap.
+        if kept and kept[-1][2] == mention[1] and kept[-1][0] != mention[0]:
+            continue
+        before = typed[mention[1] - 2 : mention[1]] if mention[1] else []
+        if any(w in _AS_AN_OBJECT for w in before[-1:]) or (
+            len(before) == 2 and before[-1] in ("cái", "chiếc", "con") and before[0] in _AS_AN_OBJECT
+        ):
+            continue
+        kept.append(mention)
+    if not kept or not re.search(r"[,.;!?\n]", text):
+        return kept
+    # Someone who uses punctuation starts a new appliance at a new clause: after
+    # a comma or full stop, or a connecting word ("còn", "với lại", "thêm").
+    # In the middle of a clause the name is part of what is being described:
+    # "ổ cắm cứ mỗi khi máy lạnh chạy là nóng" is about the socket.
+    starts = [m.start() for m in re.finditer(r"[^\W_]+", unicodedata.normalize("NFC", text.lower()))]
+    norm = unicodedata.normalize("NFC", text.lower())
+    clause: List[tuple] = []
+    for mention in kept:
+        i = mention[1]
+        if clause and clause[-1][0] == mention[0]:
+            clause.append(mention)
+            continue
+        gap = norm[: starts[i]] if i < len(starts) else norm
+        prev = typed[max(0, i - 3) : i]
+        opens = (
+            not clause
+            or bool(re.search(r"[,.;!?:\n-]\s*(?:\S+\s*){0,2}$", gap))
+            or any(w in _CONNECTORS for w in prev)
+        )
+        if opens:
+            clause.append(mention)
+    return clause
+
+
+_CONNECTORS = frozenset(
+    "còn với lại cả ngoài ra thêm nữa và rồi xong mà kèm theo quên nhân tiện luôn".split()
+)
+"""Words that move a message from one appliance to the next."""
+
+
+def _split_by_appliance(text: str, kb: KnowledgeBase) -> List[tuple]:
+    """[(device, words about it)] in the order the customer brought them up.
+
+    Cut where a different appliance is first named, whatever the punctuation:
+    voice typing and "không dấu câu" give one long run of words, and cutting
+    only at commas left all of it to the first appliance. Words before the
+    first name belong to it; an appliance named twice gets both pieces."""
+    norm = unicodedata.normalize("NFC", text)
+    spans = [m.span() for m in re.finditer(r"[^\W_]+", norm.lower())]
+    mentions = _appliance_mentions(norm, kb)
+    cuts = []
+    for device, start, _end in mentions:
+        if not cuts or cuts[-1][0] != device:
+            cuts.append((device, start))
+    if len({d for d, _ in cuts}) < 2 or len(spans) != len(re.findall(r"[^\W_]+", norm.lower())):
+        return []
+    pieces: dict = {}
+    for i, (device, start) in enumerate(cuts):
+        begin = 0 if i == 0 else spans[start][0]
+        end = spans[cuts[i + 1][1]][0] if i + 1 < len(cuts) else len(norm)
+        piece = norm[begin:end].strip(" ,.;:-")
+        piece = re.sub(r"\s*(?:,|\.|;)?\s*(?:còn|với lại|với cả|ngoài ra|thêm nữa|thêm cái|thêm|và|rồi|cả|xong|mà|kèm theo|à quên)$", "", piece, flags=re.IGNORECASE).strip(" ,.;:-")
+        if piece:
+            pieces[device] = f"{pieces[device]} {piece}".strip() if device in pieces else piece
+    return list(pieces.items()) if len(pieces) >= 2 else []
+
+
 def _strongly_named_in(text: str, kb: KnowledgeBase) -> Optional[str]:
     """The one appliance this text names by a machine's name, if exactly one."""
     devices = {
@@ -1055,6 +1208,21 @@ class LocalPipeline:
             return await self._diagnose_locked(request)
 
     async def _diagnose_locked(self, request: DiagnosisRequest) -> DiagnosisResponse:
+        known = self._conversations.peek(request.session_id)
+        target = self._other_device_asked(known, request.description) if known else None
+        if known is not None and target:
+            return await self._answer_other(known, target, request)
+        response = await self._diagnose_one(request)
+        if not response.session_id:
+            return response
+        chat = self._conversations.get_or_create(response.session_id)
+        fresh: List[str] = []
+        if chat.parent_id is None:
+            fresh = await self._answer_others(chat, request)
+        return self._with_devices(response, chat, request.description, fresh=fresh)
+
+    async def _diagnose_one(self, request: DiagnosisRequest) -> DiagnosisResponse:
+        """One appliance's turn, with everything said around the answer."""
         response = await self._diagnose_turn(request)
         if not response.session_id:
             return response
@@ -1098,23 +1266,162 @@ class LocalPipeline:
             response = response.model_copy(
                 update={"message_vi": message, "clarification": clarification, "notes_vi": notes}
             )
-        return self._with_devices(response, chat, request.description)
+        return response
+
+    def _other_device_asked(self, chat: Conversation, text: str) -> Optional[str]:
+        """The other appliance of the visit this message is about, if any.
+
+        Named outright ("còn máy giặt thì sao"), or the customer asked for the
+        next one ("xem tiếp"), which brings each of the others up in turn."""
+        if not chat.others:
+            return None
+        lexicon = dialogue_state.get_lexicon(self._kb)
+        named = _strongly_named_in(lexicon.normalize_accented(text), self._kb)
+        if named in chat.others and named != chat.device_type:
+            return named
+        folded = " " + lexicon.normalize(text) + " "
+        if not chat.queued and any(f" {p} " in folded for p in _NEXT_ONE):
+            order = list(chat.others)
+            last = chat.memo.get("", {}).get("lead")
+            chosen = order[(order.index(last) + 1) % len(order)] if last in order else order[0]
+            chat.memo.setdefault("", {})["moving_on"] = True
+            return chosen
+        return None
+
+    async def _answer_other(
+        self, chat: Conversation, device_type: str, request: DiagnosisRequest
+    ) -> DiagnosisResponse:
+        """A follow-up about another appliance, answered in its own conversation.
+
+        The reply keeps the visit's conversation id, so the client goes on
+        talking to the whole visit; only this turn is about that appliance."""
+        sub_id = chat.others[device_type]
+        moving_on = chat.memo.setdefault("", {}).pop("moving_on", False)
+        last = chat.memo.get(device_type, {}).get("reply")
+        if moving_on and last is not None:
+            # "Xem tiếp" says which appliance, not what is wrong with it: its
+            # latest answer is shown again, and its conversation is untouched.
+            reply = last
+        else:
+            async with self._conversations.lock(sub_id):
+                reply = await self._diagnose_one(request.model_copy(update={"session_id": sub_id}))
+        if reply.session_id:
+            chat.others[device_type] = reply.session_id
+            self._conversations.get_or_create(reply.session_id).parent_id = chat.session_id
+        chat.memo.setdefault(device_type, {})["reply"] = reply
+        chat.memo.setdefault("", {})["lead"] = device_type
+        reply = reply.model_copy(update={"session_id": chat.session_id})
+        return self._with_devices(reply, chat, request.description, lead=device_type)
+
+    def _ask_about_photographed(
+        self, chat: Conversation, device_type: str, request: DiagnosisRequest
+    ) -> DiagnosisResponse:
+        """An appliance seen in a photograph and not described: ask what is wrong.
+
+        Diagnosing it from the photograph alone would be guessing - most faults
+        cannot be seen - so it gets the open question, its repair to book, and
+        a conversation of its own for the answer to land in."""
+        sub = self._conversations.get_or_create(None)
+        memo = chat.memo.get(device_type, {})
+        sub.remember_device(device_type, float(memo.get("confidence", 0.0)), "image")
+        sub.parent_id = chat.session_id
+        name = (self._kb.device_name_vi(device_type) or device_type).lower()
+        offer = self._fallback_offer(device_type)
+        question = (
+            f"Dạ trong ảnh em thấy có {name}, {name} nhà mình đang bị sao ạ?"
+            if offer
+            else (self._not_open_note(device_type) or "")
+        )
+        sub.add("assistant", question)
+        return DiagnosisResponse(
+            request_id=request.request_id,
+            session_id=sub.session_id,
+            status=DiagnosisStatus.NEEDS_CLARIFICATION,
+            engine=Engine.LOCAL_PIPELINE,
+            recommended_services=offer,
+            clarification=Clarification(questions_vi=[question]) if offer else None,
+            message_vi=question,
+            confidence=0.0,
+            model_info=self._model_info,
+            disclaimer_vi=settings.AI_DISCLAIMER_VI,
+        )
+
+    async def _answer_others(self, chat: Conversation, request: DiagnosisRequest) -> List[str]:
+        """Diagnose, alongside this turn's answer, every other appliance it brought up.
+
+        Named in the message or seen in a photograph, each is diagnosed by the
+        same pipeline in a conversation of its own, all at once: the model is
+        asked about each in parallel, so three appliances cost about one
+        answer's time, not three. An appliance only photographed has nothing
+        said about it yet, and its conversation asks what is wrong with it.
+        The visit takes three appliances; any more wait in the queue."""
+        waiting = [d for d in chat.queued if d != chat.device_type and d not in chat.others]
+        room = max(0, 2 - len(chat.others))
+        chosen = waiting[:room]
+        if not chosen:
+            return []
+
+        async def one(device_type: str):
+            name = self._kb.device_name_vi(device_type) or device_type
+            said = (chat.queued.get(device_type) or "").strip()
+            if not said:
+                return device_type, self._ask_about_photographed(chat, device_type, request)
+            if said and _device_named_in(said, self._kb) != device_type:
+                said = f"{name} {said}"
+            index = chat.memo.get(device_type, {}).get("image_index")
+            images = [request.images[index]] if index is not None and index < len(request.images) else []
+            own = self._conversations.get_or_create(None)
+            own.remember_device(device_type, 0.0, "description")
+            own.parent_id = chat.session_id
+            sub = DiagnosisRequest(
+                session_id=own.session_id,
+                description=(said or name)[:2000],
+                images=images,
+                past_jobs=request.past_jobs,
+                include_trace=False,
+            )
+            try:
+                return device_type, await self._diagnose_one(sub)
+            except Exception as exc:  # one appliance must not cost the others their answer
+                logger.warning("Không chẩn đoán được thiết bị %s: %s", device_type, exc)
+                return device_type, None
+
+        answered = await asyncio.gather(*(one(d) for d in chosen))
+        fresh = []
+        for device_type, reply in answered:
+            if reply is None or not reply.session_id:
+                continue
+            chat.queued.pop(device_type, None)
+            chat.others[device_type] = reply.session_id
+            self._conversations.get_or_create(reply.session_id).parent_id = chat.session_id
+            chat.memo.setdefault(device_type, {})["reply"] = reply
+            fresh.append(device_type)
+        return fresh
 
     # ------------------------------------------------------------ several appliances
 
     def _with_devices(
-        self, response: DiagnosisResponse, chat: Conversation, said: str
+        self,
+        response: DiagnosisResponse,
+        chat: Conversation,
+        said: str,
+        lead: Optional[str] = None,
+        fresh: Sequence[str] = (),
     ) -> DiagnosisResponse:
         """One entry per appliance of the visit, and one service for each.
 
-        The appliance being talked through comes first, with this turn's
-        answer. Then the ones already talked through (moved on from with "xem
-        tiếp"), then the ones still waiting, whether named in the message or
-        seen in a photograph. Three at most: Backend books a visit of up to
-        three devices.
+        The appliance this turn is about comes first: the conversation's own
+        one, or `lead` when the turn was a follow-up about another appliance.
+        Then the others, each with the last answer its own conversation gave.
+        The answers to appliances diagnosed for the first time this turn
+        (`fresh`) are written after the main one, appliance by appliance, so the
+        customer reads every diagnosis in the same reply. Three at most:
+        Backend books a visit of up to three devices.
         """
-        current = response.device.device_type if response.device else chat.device_type
-        if current:
+        current = chat.device_type
+        if lead is None and response.device is not None:
+            current = response.device.device_type
+        if lead is None and current:
             for turn in chat.turns:
                 if turn.role == "customer" and turn.device_type is None:
                     turn.device_type = current
@@ -1126,57 +1433,113 @@ class LocalPipeline:
                 memo["service"] = response.recommended_services[0] if response.recommended_services else None
                 memo["faults"] = list(response.suspected_faults[:2])
                 memo["price"] = response.price_estimate
+            memo["reply"] = response
+        head = lead or current
         order = list(dict.fromkeys(
-            [d for d in [current] if d]
+            [d for d in [head, current] if d]
             + [d for d in chat.kept if d != current]
+            + list(chat.others)
             + [d for d in chat.queued if d != current]
         ))
         if len(order) < 2:
             return response
         extra = len(order) - 3
         order = order[:3]
-        devices = [self._device_entry(d, chat, d == current, response) for d in order]
+        devices = [self._device_entry(d, chat, d == head, response if d == head else None) for d in order]
         services = [
             entry.service.model_copy(update={"device_type": entry.device_type})
             for entry in devices
             if entry.service is not None
         ]
+        parts = [response.message_vi] if response.message_vi else []
+        for entry in devices:
+            if entry.device_type in fresh and entry.message_vi:
+                parts.append(f"Về {entry.name_vi.lower()}: {entry.message_vi}")
         bookable = sum(1 for entry in devices if entry.service is not None)
-        lines = []
         # Once per change in how many can be booked, not on every turn.
         if bookable >= 2 and chat.announced_visit != bookable:
             chat.announced_visit = bookable
-            lines.append(
+            parts.append(
                 f"Em đã gợi ý dịch vụ cho {bookable} thiết bị, anh/chị có thể đặt chung "
                 "một lượt thợ tới cho tất cả ạ."
             )
         if extra > 0:
-            lines.append("Mỗi lượt đặt được tối đa 3 thiết bị, thiết bị còn lại anh/chị đặt ở lượt sau giúp em nhé.")
-        message = response.message_vi
-        if lines:
-            message = " ".join(p for p in [message, *lines] if p)
+            parts.append("Mỗi lượt đặt được tối đa 3 thiết bị, thiết bị còn lại anh/chị đặt ở lượt sau giúp em nhé.")
+        urgency = response.urgency
+        for entry in devices:
+            if entry.urgency and _URGENCY_RANK[entry.urgency] > _URGENCY_RANK[urgency]:
+                urgency = entry.urgency
         return response.model_copy(
-            update={"devices": devices, "recommended_services": services, "message_vi": message}
+            update={
+                "devices": devices,
+                "recommended_services": services,
+                "message_vi": "\n\n".join(parts) if parts else response.message_vi,
+                "urgency": urgency,
+            }
         )
 
+    @staticmethod
+    def _plain_finding(reply: DiagnosisResponse) -> Optional[str]:
+        """The faults and price of an answer, in words, when the model wrote none."""
+        if not reply.suspected_faults:
+            return None
+        names = " hoặc ".join(f.name_vi.lower() for f in reply.suspected_faults[:2])
+        line = f"khả năng cao là {names}."
+        price = reply.price_estimate
+        if price and price.min:
+            low = f"{price.min:,.0f}đ".replace(",", ".")
+            if price.max and not price.requires_assessment:
+                high = f"{price.max:,.0f}đ".replace(",", ".")
+                line += f" Chi phí tham khảo {low} đến {high}."
+            else:
+                line += f" Chi phí tham khảo từ {low}, thợ kiểm tra rồi báo giá."
+        return line[:1].upper() + line[1:]
+
     def _device_entry(
-        self, device_type: str, chat: Conversation, primary: bool, response: DiagnosisResponse
+        self,
+        device_type: str,
+        chat: Conversation,
+        primary: bool,
+        response: Optional[DiagnosisResponse],
     ) -> DeviceSuggestion:
         memo = chat.memo.get(device_type, {})
         image_index = memo.get("image_index")
+        reply = response if response is not None else memo.get("reply")
         text = (chat.queued.get(device_type) or memo.get("text") or "").strip()
-        if primary:
-            service = response.recommended_services[0] if response.recommended_services else None
-            faults = list(response.suspected_faults[:2])
-            price = response.price_estimate
+        message = None
+        status = None
+        urgency = None
+        if reply is not None:
+            service = reply.recommended_services[0] if reply.recommended_services else None
+            faults = list(reply.suspected_faults[:2])
+            price = reply.price_estimate
+            status = reply.status
+            urgency = reply.urgency
+            message = reply.message_vi or (
+                " ".join(reply.clarification.questions_vi) if reply.clarification else None
+            ) or self._plain_finding(reply)
+            if device_type in chat.others:
+                sub = self._conversations.peek(chat.others[device_type])
+                if sub is not None:
+                    text = " ".join(
+                        t.text_vi for t in sub.turns
+                        if t.role == "customer" and self._names_a_symptom(t.text_vi, device_type)
+                    ).strip() or text
         elif memo.get("service") is not None and device_type in chat.kept:
             service, faults, price = memo.get("service"), memo.get("faults", []), memo.get("price")
         else:
             service, faults, price = self._suggest_for(device_type, text, chat)
+        if service is None:
+            offer = self._fallback_offer(device_type)
+            service = offer[0] if offer else None
+        if price is None:
+            price = self._service_price(service)
         if service is not None and service.device_type != device_type:
             service = service.model_copy(update={"device_type": device_type})
         variant, questions = self._variant_for(service, faults)
         name = self._kb.device_name_vi(device_type) or device_type
+        if text and _fold_vi(text) == _fold_vi(name):
+            text = ""
         return DeviceSuggestion(
             device_type=device_type,
             name_vi=name,
@@ -1190,7 +1553,10 @@ class LocalPipeline:
             questions_vi=questions,
             price_estimate=price,
             description_vi=(text[:500] or None),
-            note_vi=None if service is not None else self._not_open_note(device_type),
+            note_vi=None if service is not None or self._fallback_offer(device_type) else self._not_open_note(device_type),
+            status=status,
+            message_vi=message,
+            urgency=urgency,
         )
 
     def _suggest_for(self, device_type: str, text: str, chat: Conversation):
@@ -1227,16 +1593,21 @@ class LocalPipeline:
         offer = self._fallback_offer(device_type)
         if not offer:
             return None, [], None
-        ref = service_catalog.current().ref_for(offer[0].service_code)
-        price = None
-        if ref is not None and ref.base_price:
-            fixed = bool(ref.variant_codes) or ref.kind != "repair"
-            price = PriceEstimate(
-                min=ref.base_price,
-                max=(ref.price_max or ref.base_price) if fixed else None,
-                requires_assessment=not fixed,
-            )
-        return offer[0], [], price
+        return offer[0], [], self._service_price(offer[0])
+
+    @staticmethod
+    def _service_price(service: Optional[RecommendedService]) -> Optional[PriceEstimate]:
+        """The catalogue's own labour range for a service: firm for a fixed
+        price, "from" for a repair priced on inspection."""
+        ref = service_catalog.current().ref_for(service.service_code) if service else None
+        if ref is None or not ref.base_price:
+            return None
+        fixed = bool(ref.variant_codes) or ref.kind != "repair"
+        return PriceEstimate(
+            min=ref.base_price,
+            max=(ref.price_max or ref.base_price) if fixed else None,
+            requires_assessment=not fixed,
+        )
 
     def _variant_for(self, service: Optional[RecommendedService], faults) -> tuple:
         """The fixed-price variant when the faults settle it, else what to ask."""
@@ -1348,25 +1719,9 @@ class LocalPipeline:
             opener = "Dạ em xin lỗi vì sự bất tiện này ạ."
         elif chat.mood == "worried" and not urgent:
             opener = "Dạ anh/chị yên tâm, em xem giúp ngay ạ."
+        # Other appliances named or photographed are answered in the same reply
+        # (_answer_others), so nothing is left waiting for "xem tiếp".
         closer = None
-        if chat.just_queued:
-            names = [
-                (self._kb.device_name_vi(d) or d).lower() for d in chat.just_queued
-            ]
-            current = (self._kb.device_name_vi(chat.device_type) or "").lower() if chat.device_type else ""
-            closer = (
-                f"Anh/chị có nhắc thêm {', '.join(names)}; em xem "
-                + (f"{current} " if current else "")
-                + 'trước, anh/chị nhắn "xem tiếp" để em xem tiếp nhé.'
-            )
-        if chat.just_seen:
-            seen = [(self._kb.device_name_vi(d) or d).lower() for d in chat.just_seen]
-            current = (self._kb.device_name_vi(chat.device_type) or "").lower() if chat.device_type else ""
-            closer = " ".join(p for p in (closer, (
-                f"Trong ảnh em còn thấy {', '.join(seen)}; em xem "
-                + (f"{current} " if current else "")
-                + 'trước, anh/chị nhắn "xem tiếp" hoặc kể thêm về máy đó để em xem tiếp nhé.'
-            )) if p)
         recall = self._recall(chat, urgent) if message else None
         parts = [p for p in (opener, message, extra, recall, closer) if p]
         if not parts:
@@ -1415,6 +1770,27 @@ class LocalPipeline:
         # mà là tủ lạnh" names two and means the second. The switch handles it.
         if any(f" {m} " in folded for m in _CORRECTION_MARKERS + _REJECTS + _ASKS_FOR):
             return text
+        split = _split_by_appliance(text, self._kb)
+        if not split:
+            # Typed with stretched letters or teencode the names may only be
+            # found once the words are normalised; cut that text instead.
+            split = _split_by_appliance(lexicon.normalize_accented(text), self._kb)
+        if split:
+            devices = [d for d, _ in split]
+            primary = chat.device_type if chat.device_type in devices else devices[0]
+            if chat.device_type is None:
+                # The cut already knows which appliance this piece is about;
+                # read again on its own, "ổ cắm cắm cái quạt vào cứ lủng lẳng"
+                # names two and settles on neither.
+                chat.remember_device(primary, 0.0, "description")
+            for device, said in split:
+                if device == primary:
+                    continue
+                chat.queued[device] = (chat.queued.get(device, "") + " " + said).strip()
+                chat.just_queued.append(device)
+                chat.memo.setdefault(device, {})["text"] = chat.queued[device]
+            return dict(split)[primary]
+        # Otherwise the old cut, at punctuation and connectors.
         segments = [s.strip() for s in _SEGMENT_RE.split(text) if s and s.strip()]
         if len(segments) < 2:
             return text
@@ -3223,7 +3599,13 @@ class LocalPipeline:
         for code in _ranked_by_retrieval(
             verdict.fault_codes,
             shortlist,
-            saw_a_photograph=detection is not None,
+            # The model leads only when the photograph showed it something:
+            # damage it reported (a burn mark, water under the machine). A plain
+            # photo of an air conditioner says nothing about its compressor,
+            # and on fixhome.sbs 25/10/2026 "chạy cả ngày mà phòng vẫn nóng"
+            # with one came back as a failed compressor at 2.249.000đ instead
+            # of retrieval's low refrigerant.
+            saw_a_photograph=detection is not None and bool(verdict.condition_codes),
             excluded=chat.state.excluded_codes() if chat is not None else None,
         ):
             fault = self._kb.fault(code)

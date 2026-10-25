@@ -94,8 +94,14 @@ jobs:
           images: |
             ${{ env.IMAGE }}
             ${{ env.HUB_IMAGE }}
+          # `latest` is what a rental pulls by default, so only main moves it.
+          # A branch built by hand (Actions > Serving image > Run workflow, or
+          # `gh workflow run serving-image.yml --ref <branch>`) is tagged with
+          # its own name and short sha, to be tried on a rented box with
+          # `rent_gpu.py serve --image-tag <branch>` before it is merged.
           tags: |
-            type=raw,value=latest
+            type=raw,value=latest,enable={{is_default_branch}}
+            type=ref,event=branch
             type=sha,format=short
 
       - name: Build and push
