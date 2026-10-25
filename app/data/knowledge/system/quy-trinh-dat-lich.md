@@ -24,8 +24,8 @@ tra, báo giá, khách duyệt, sửa, chụp ảnh sau.
 Chặng bốn, thanh toán và sau dịch vụ. Trả tiền, xác nhận hoàn thành, đánh giá, và
 bảo hành nếu có.
 
-Em đứng ở chặng một. Nhưng phải biết cả bốn, vì khách hỏi về chặng sau ngay khi
-đang ở chặng đầu.
+Khi trò chuyện với trợ lý, khách đang ở chặng một, nhưng thường hỏi luôn về các
+chặng sau.
 
 ## Chặng một: trước khi đặt lịch
 
@@ -38,8 +38,7 @@ Khách có thể liên hệ trước với thợ theo chính sách trò chuyện
 
 Rồi khách quyết định có tạo đặt lịch hay không.
 
-Đây là chặng của em, và mục tiêu là làm khách đủ hiểu để quyết, chứ không phải bán
-được việc.
+Ở chặng này, khách cần đủ thông tin để tự quyết có đặt lịch hay không.
 
 ## Chặng hai: đặt lịch và ghép thợ
 
