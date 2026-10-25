@@ -79,7 +79,11 @@ def test_three_photographs_give_three_appliances_and_three_services():
         "air_conditioner", "washing_machine", "refrigerator"
     ]
     assert "đặt chung" in reply.message_vi
-    assert "xem tiếp" in reply.message_vi
+    # Every appliance is answered in this reply (PO 25/10/2026): the two only
+    # photographed are asked what is wrong with them, nobody waits for "xem tiếp".
+    assert "xem tiếp" not in reply.message_vi
+    assert "Về máy giặt" in reply.message_vi and "Về tủ lạnh" in reply.message_vi
+    assert all(d.message_vi for d in reply.devices[1:])
 
 
 def test_the_appliance_the_message_is_about_leads_whatever_the_photo_order():
@@ -131,13 +135,44 @@ def test_appliances_named_in_one_message_each_get_a_service():
     assert washer.suspected_faults, "what was said about it points at a fault"
 
 
-def test_moving_on_keeps_the_first_appliance_on_the_visit():
+def test_xem_tiep_brings_up_the_next_appliance_and_keeps_the_visit():
     pipeline = _pipeline()
     first = _run(pipeline, description="máy lạnh không mát, máy giặt thì không vắt được")
     after = _run(pipeline, description="xem tiếp", session_id=first.session_id)
+    assert after.session_id == first.session_id
     assert [d.device_type for d in after.devices] == ["washing_machine", "air_conditioner"]
     assert after.devices[0].is_primary
     assert after.devices[1].service is not None
+    # Shown again, not diagnosed from the words "xem tiếp".
+    assert after.suspected_faults == first.devices[1].suspected_faults
+
+
+def test_every_appliance_of_one_message_is_diagnosed_at_once():
+    reply = _run(_pipeline(), description="máy lạnh chảy nước, máy giặt không vắt được, tủ lạnh không đông đá")
+    assert [d.device_type for d in reply.devices] == ["air_conditioner", "washing_machine", "refrigerator"]
+    for entry in reply.devices:
+        assert entry.suspected_faults, entry.device_type
+        assert entry.service is not None and entry.message_vi
+    assert reply.message_vi.count("Về ") == 2
+
+
+def test_a_follow_up_naming_another_appliance_is_answered_in_its_own_conversation():
+    pipeline = _pipeline()
+    first = _run(pipeline, description="máy lạnh nhà em không mát", images=[_photo("air_conditioner"), _photo("washing_machine")])
+    washer = _run(pipeline, description="còn máy giặt thì vắt kêu to lắm", session_id=first.session_id)
+    assert washer.session_id == first.session_id
+    assert washer.devices[0].device_type == "washing_machine" and washer.devices[0].is_primary
+    assert [f.fault_code for f in washer.suspected_faults][:1] == ["WM_BEARING_NOISE"]
+    chat = pipeline._conversations.get_or_create(first.session_id)
+    assert chat.device_type == "air_conditioner"
+    # The air conditioner's own thread goes on where it was.
+    again = _run(pipeline, description="máy lạnh có chảy nước nữa", session_id=first.session_id)
+    assert again.devices[0].device_type == "air_conditioner"
+
+
+def test_a_dangerous_appliance_raises_the_whole_reply():
+    reply = _run(_pipeline(), description="máy lạnh không mát, bếp gas nhà em có mùi gas nồng lắm")
+    assert reply.urgency.value == "HIGH"
 
 
 def test_a_correction_drops_the_appliance_it_replaces():
@@ -206,20 +241,24 @@ def test_moving_to_a_photographed_appliance_asks_what_is_wrong_with_it():
         description="máy lạnh nhà em không mát",
         images=[_photo("air_conditioner"), _photo("refrigerator")],
     )
-    after = _run(pipeline, description="xem tiếp", session_id=first.session_id)
-    assert after.status.value == "needs_clarification"
-    assert after.suspected_faults == []
-    assert [s.service_code for s in after.recommended_services][:1] == ["FR-01"]
+    fridge = first.devices[1]
+    assert fridge.device_type == "refrigerator" and fridge.status.value == "needs_clarification"
+    assert "đang bị sao" in fridge.message_vi and fridge.suspected_faults == []
+    assert fridge.service is not None and fridge.service.service_code == "FR-01"
+    after = _run(pipeline, description="tủ lạnh thì không đông đá", session_id=first.session_id)
+    assert after.devices[0].device_type == "refrigerator"
+    assert after.suspected_faults and all(f.fault_code.startswith("FRIDGE") for f in after.suspected_faults)
 
 
 def test_what_was_said_about_one_appliance_is_not_searched_for_another():
     pipeline = _pipeline()
     first = _run(pipeline, description="máy lạnh không mát, tủ lạnh thì kêu to")
-    after = _run(pipeline, description="xem tiếp", session_id=first.session_id)
-    chat = pipeline._conversations.get_or_create(after.session_id)
-    assert "không mát" not in chat.device_text()
-    assert "kêu to" in chat.device_text()
-    assert all(f.fault_code.startswith("FRIDGE") for f in after.suspected_faults)
+    chat = pipeline._conversations.get_or_create(first.session_id)
+    fridge = pipeline._conversations.get_or_create(chat.others["refrigerator"])
+    assert "kêu to" not in chat.device_text()
+    assert "không mát" not in fridge.device_text() and "kêu to" in fridge.device_text()
+    entry = next(d for d in first.devices if d.device_type == "refrigerator")
+    assert all(f.fault_code.startswith("FRIDGE") for f in entry.suspected_faults)
 
 
 def test_the_appliance_named_leads_even_when_no_photograph_shows_it():

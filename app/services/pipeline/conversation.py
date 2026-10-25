@@ -167,6 +167,18 @@ class Conversation:
     moved on with "xem tiếp", not "không phải". A correction drops the old one;
     moving on keeps it, so the booking at the end covers all of them."""
 
+    others: Dict[str, str] = field(default_factory=dict)
+    """The other appliances of the visit and the conversation each is answered
+    in. PO 25/10/2026: every appliance a message names or a photograph shows is
+    diagnosed in the same reply, not one at a time behind "xem tiếp", and each
+    keeps its own conversation so its follow-ups are read against it."""
+
+    parent_id: Optional[str] = None
+    """Set on such an appliance's own conversation: it never spawns others."""
+
+    rotation: int = 0
+    """Which other appliance "xem tiếp" brings up next."""
+
     announced_visit: int = 0
     """How many appliances the last "đặt chung một lượt" sentence counted."""
 
@@ -447,6 +459,10 @@ class ConversationStore:
         self._sessions[new_id] = conversation
         self._evict_overflow()
         return conversation
+
+    def peek(self, session_id: Optional[str]) -> Optional[Conversation]:
+        """The conversation this id names, without starting one."""
+        return self._sessions.get(session_id) if session_id else None
 
     def lock(self, session_id: Optional[str]) -> asyncio.Lock:
         """One turn at a time per conversation.

@@ -572,23 +572,30 @@ def test_a_no_that_names_a_cause_denies_only_the_cause(kb, lexicon):
 # ---------------------------------------------------------------------------
 
 
-def test_two_appliances_in_one_message_are_taken_one_at_a_time(kb):
+def test_two_appliances_in_one_message_are_both_diagnosed_in_the_same_reply(kb):
+    """PO 25/10/2026: no waiting for "xem tiếp"; every appliance is answered.
+
+    The air conditioner stays the conversation's appliance; the fridge gets
+    its own conversation, and "xem tiếp" or naming it brings its answer up."""
     pipeline = _pipeline(kb)
 
     async def run():
         first = await pipeline.diagnose(
             DiagnosisRequest(description="máy lạnh không mát, còn tủ lạnh nhà em cũng chảy nước ra sàn")
         )
-        chat = pipeline._conversations.get_or_create(first.session_id)
-        queued = list(chat.queued)
         second = await pipeline.diagnose(DiagnosisRequest(description="xem tiếp", sessionId=first.session_id))
-        return first, queued, second, pipeline._conversations.get_or_create(first.session_id)
+        return first, second, pipeline._conversations.get_or_create(first.session_id)
 
-    first, queued, second, chat = asyncio.run(run())
+    first, second, chat = asyncio.run(run())
     assert [f.fault_code for f in first.suspected_faults][:1] == ["AC_LOW_REFRIGERANT"]
-    assert queued == ["refrigerator"]
-    assert "xem tiếp" in (first.message_vi or "")
-    assert chat.device_type == "refrigerator"
+    fridge = next(d for d in first.devices if d.device_type == "refrigerator")
+    assert [f.fault_code for f in fridge.suspected_faults][:1] == ["FRIDGE_DRAIN_BLOCKED"]
+    assert "Về tủ lạnh" in (first.message_vi or "")
+    assert "xem tiếp" not in (first.message_vi or "")
+    assert chat.queued == {}
+    assert chat.device_type == "air_conditioner"
+    assert second.session_id == first.session_id
+    assert second.devices[0].device_type == "refrigerator" and second.devices[0].is_primary
     assert [f.fault_code for f in second.suspected_faults][:1] == ["FRIDGE_DRAIN_BLOCKED"]
 
 

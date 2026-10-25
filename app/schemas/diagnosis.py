@@ -189,6 +189,15 @@ class DeviceSuggestion(BaseModel):
 
     note_vi: Optional[str] = None
 
+    status: Optional[DiagnosisStatus] = None
+    """How far the diagnosis of this appliance got: ok, or needs_clarification
+    when it is waiting for the customer to say what is wrong with it."""
+
+    message_vi: Optional[str] = None
+    """The answer about this appliance alone, as written into message_vi."""
+
+    urgency: Optional[UrgencyLevel] = None
+
     model_config = ConfigDict(alias_generator=to_camel, populate_by_name=True)
 
 
