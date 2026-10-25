@@ -1,6 +1,6 @@
 # Context repo ai-service — FixHome
 
-> Cập nhật lần cuối: 2026-10-25 00:23 (UTC+7) · Người cập nhật (git): ToanAltF4 · Nhánh: fix/named-appliance-leads
+> Cập nhật lần cuối: 2026-10-25 12:56 (UTC+7) · Người cập nhật (git): ToanAltF4 · Nhánh: feat/diagnose-every-appliance
 
 ## 0. Quy tắc cập nhật file này (bắt buộc)
 
@@ -96,7 +96,8 @@ Luật nghiệp vụ gốc nằm ở tài liệu dự án (bản chính thức c
 - Chatbot: trả `ok`, `out_of_scope`, `general_knowledge` hoặc `no_grounding`; có trả `recommendedServices`.
 - Tên tiếng Việt, mã dịch vụ, giá và mức khẩn cấp lấy từ `app/data/`, không lấy từ chữ tự do của mô hình. Mã không có trong danh mục bị bỏ. Luôn kèm lời miễn trừ.
 - Kho tri thức: 166 file markdown trong `app/data/knowledge/`, 134 lỗi ánh xạ tới mã dịch vụ catalog V2/V3 của `backend` (AC-01, WM-02...; 42 dịch vụ, 37 đang mở), 871 linh kiện. Giá một lỗi = tiền công dịch vụ (S) + linh kiện hay thay (P), theo bảng V3 19/10/2026. Sinh lại bằng `tools/sync_catalog_v3.py`.
-- Nhiều thiết bị: đọc cả 3 ảnh (song song), thiết bị khách đang nói tới dẫn đầu, thiết bị khác chờ "xem tiếp". Khi cuộc trò chuyện có từ 2 thiết bị, `devices[]` (tối đa 3) có mỗi thiết bị một `service`, `variantCode`/`questionsVi`, `priceEstimate`, `descriptionVi`, `noteVi`; `recommendedServices` khi đó là một dịch vụ mỗi thiết bị, có `deviceType`.
+- Nhiều thiết bị (PO 25/10): đọc cả 3 ảnh song song; tin nhắn được cắt theo chỗ bắt đầu nhắc thiết bị mới (tên, hãng kèm chữ chỉ loại, tên gọi trong `device_naming.json` "names", gõ sai một chữ), không chỉ theo dấu câu. Mọi thiết bị khác được chẩn đoán ngay trong cùng câu trả lời, mỗi máy một cuộc trò chuyện con chạy song song (`Conversation.others`), câu trả lời viết lần lượt "Về máy giặt: ..."; máy chỉ có trong ảnh thì hỏi "đang bị sao". Tin sau nhắc tên máy nào thì trả lời trong cuộc trò chuyện của máy đó (giữ session của lượt); "xem tiếp" hiện câu trả lời mới nhất của máy kế. `devices[]` (tối đa 3) mỗi máy có `service`, `status`, `messageVi`, `urgency`, `priceEstimate`, `descriptionVi`, `noteVi`; `recommendedServices` một dịch vụ mỗi máy có `deviceType`. Đo bằng `tools/eval_multi_message.py` (tin 2-3 máy) và `tools/eval_multi_device.py` (ảnh thật, cần `--url`).
+- Thuê GPU: image theo nhánh (`gh workflow run serving-image.yml --ref <nhánh>`, tag = tên nhánh), `rent_gpu.py serve --image-tag`, theo dõi `tools/watch_instance.py <id>` (in status_msg của vast.ai).
 - Hiểu ngữ cảnh cả cuộc trò chuyện (`dialogue_state.py`): mỗi lượt khách được đọc thành sự kiện. Gồm việc đã làm ("mới vệ sinh rồi"), nguyên nhân bị phủ nhận đặt trước hoặc sau ("không phải do bẩn", "lưới lọc thì không phải"), bằng chứng ngược ("lưới lọc sạch"), bác câu trả lời trước ("sai rồi"), điều khách tự nghi ("có phải hết gas không"), cách sửa đã thử mà vẫn hỏng (gợi ý bước kiểm tra kế tiếp). Lỗi đã loại không quay lại trong danh sách, dịch vụ, tài liệu đưa cho Qwen; Qwen được nhận danh sách điều khách đã xác nhận; câu trả lời mở đầu bằng câu ghi nhận lời khách. Lỗi an toàn (rò gas, chập điện...) không bao giờ bị loại bằng lời. Chuẩn hoá cách gõ: không dấu, teencode, phương ngữ Bắc Trung Nam, Telex sót, lặp chữ, lỗi gõ một ký tự.
 - Truy hồi hiểu cụm phủ định: "không vắt", "không mát" là một đơn vị, không còn lẫn với "kêu to khi vắt".
 - Giữ mạch hội thoại: đã có thiết bị thì chỉ đổi khi khách gọi đúng tên máy ("tủ lạnh", "máy sấy"), không đổi vì tên bộ phận ("phích cắm", "nóng lạnh", "công tắc"); tên thiết bị so theo ranh giới từ và đọc cả khi gõ sai. Câu xã giao ("đúng rồi", "cảm ơn", "có nguy hiểm không", "bao nhiêu tiền") không đưa vào tìm kiếm; "đúng rồi" giữ kết luận đang có. Câu lạc đề giữa chừng (bóng đá, giá vàng, bitcoin) được từ chối mà không làm mất ngữ cảnh. Khách tả khói, khét, chập, giật, mùi gas (không phủ định) thì cả phiên đánh dấu nguy hiểm, lỗi an toàn được đẩy lên đầu, kể cả khi sau đó khách nói "chắc không phải cháy".
@@ -179,6 +180,7 @@ Ngoài ra có `POST /api/v1/diagnosis/analyze-upload` (multipart), `GET /api/v1/
 
 ## 9. Nhật ký cập nhật context
 
+- 2026-10-25 12:56 (UTC+7) | ToanAltF4 | feat/diagnose-every-appliance | Chẩn đoán cả 3 thiết bị trong cùng câu trả lời (không chờ xem tiếp), tách tin theo vị trí nhắc thiết bị + 179 tên gọi, sửa câu xác nhận/khách của mô hình, image GPU theo nhánh
 - 2026-10-25 00:23 (UTC+7) | ToanAltF4 | fix/named-appliance-leads | Nhiều ảnh: thiết bị khách nói tới dẫn đầu kể cả khi không ảnh nào chụp nó, các thiết bị trong ảnh chờ xem tiếp; thêm tools/eval_multi_device.py (đo trên detector thật: dẫn đầu đúng 44/60 -> 57/60)
 - 2026-10-25 00:10 (UTC+7) | ToanAltF4 | feat/catalog-v3-multi-device | V12: danh mục dịch vụ V2/V3 (mã AC-01..., snapshot service_catalog.json, giá S+P, bỏ KIEM_TRA, dịch vụ chưa mở thì báo chưa nhận); nhận diện tối đa 3 ảnh/3 thiết bị, response.devices[] + mỗi thiết bị 1 dịch vụ; lời nói theo từng thiết bị; tài liệu RAG theo luồng đặt lịch mới
 - 2026-10-24 23:11 (UTC+7) | ToanAltF4 | feat/rag-v11 | Hiểu cùng một lỗi dù nói kiểu gì (bằng chứng từ mục lời khách và câu tả đã học, lời đưa đẩy, tên hãng, câu mơ hồ), danh mục dịch vụ đọc từ backend, CPU mỗi lượt nhanh 15 lần, chạy kiểm tra hằng đêm

@@ -206,7 +206,7 @@ _CLAIM_FIXES = (
     (r"(?i)\b(?:em|tôi) đã (?:kiểm tra|xem xét|xem) (?:và |rồi )?xác nhận (?:rằng|là) ", "Theo những gì anh/chị kể, có thể "),
     (r"(?i)\b(?:em|tôi) (?:xác nhận|khẳng định) (?:rằng|là) ", "Theo những gì anh/chị kể, có thể "),
     # The instruction read back as a sentence: "Em đã đọc thông tin khách gửi."
-    (r"(?i)^\s*(?:em|tôi) đã đọc (?:kỹ )?(?:thông tin|mô tả)[^.!?\n]*[.!?]\s*", ""),
+    (r"(?i)^\s*(?:em|tôi) đã đọc (?:kỹ )?(?:và (?:kiểm tra|xem) )?(?:thông tin|mô tả)[^.!?\n]*[.!?]\s*", ""),
     # And "chủ động mời khách đặt" is the prompt's own wording.
     (r"(?i)\b(?:em|tôi) sẽ chủ động mời (?:khách|anh/chị) đặt\b", "Anh/chị có thể đặt"),
 )
@@ -261,7 +261,21 @@ def _fix_spelling(text: str) -> str:
     """
     for pattern, replacement in _MISSPELLINGS:
         text = re.sub(pattern, replacement, text)
-    return text
+    return _without_foreign_script(text)
+
+
+_FOREIGN_SCRIPT = re.compile(r"\s*[぀-ヿ㐀-䶿一-鿿가-힯＀-￯]+\s*")
+"""Chinese, Japanese and Korean letters. Qwen is a Chinese model and slips into
+its first language mid-sentence: "đảm bảo máy恢复正常 hoạt động" reached a
+customer on fixhome.sbs, 25/10/2026. Vietnamese never needs these."""
+
+
+def _without_foreign_script(text: str) -> str:
+    """The text with any Chinese, Japanese or Korean run taken out."""
+    if not _FOREIGN_SCRIPT.search(text):
+        return text
+    text = _FOREIGN_SCRIPT.sub(" ", text)
+    return re.sub(r"\s+([,.!?])", r"\1", re.sub(r"[ \t]{2,}", " ", text)).strip()
 
 
 def _fix_pronouns(text: str) -> str:

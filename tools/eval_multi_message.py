@@ -151,6 +151,45 @@ async def run(messages: List[Message]) -> List[dict]:
     return rows
 
 
+async def run_http(messages: List[Message], url: str, concurrency: int) -> List[dict]:
+    """The same messages against a running service, the real model included."""
+    import httpx
+
+    gate = asyncio.Semaphore(concurrency)
+    rows: List[dict] = []
+
+    async def one(client, message: Message) -> None:
+        async with gate:
+            started = time.perf_counter()
+            try:
+                response = await client.post(
+                    f"{url.rstrip('/')}/api/v1/diagnosis/analyze", json={"description": message.text}, timeout=120.0
+                )
+                body = response.json()
+            except Exception as exc:  # recorded, not fatal
+                rows.append({**asdict(message), "error": repr(exc)[:200]})
+                return
+            if response.status_code != 200:
+                rows.append({**asdict(message), "error": f"HTTP {response.status_code}"})
+                return
+            devices = body.get("devices") or []
+            entries = {d["deviceType"]: [f["faultCode"] for f in d.get("suspectedFaults") or []] for d in devices}
+            order = [d["deviceType"] for d in devices]
+            if not entries and body.get("device"):
+                device = body["device"]["deviceType"]
+                entries = {device: [f["faultCode"] for f in body.get("suspectedFaults") or []]}
+                order = [device]
+            rows.append({
+                **asdict(message), "got": order, "faults_got": entries,
+                "ms": round(1000 * (time.perf_counter() - started), 1),
+                "message_vi": body.get("messageVi"),
+            })
+
+    async with httpx.AsyncClient() as client:
+        await asyncio.gather(*(one(client, m) for m in messages))
+    return rows
+
+
 def score(rows: List[dict]) -> dict:
     t = Counter()
     for row in rows:
@@ -216,6 +255,8 @@ def main() -> None:
     parser.add_argument("--show", type=int, default=25)
     parser.add_argument("--out", default="")
     parser.add_argument("--app-root", default=str(TOOLS.parent))
+    parser.add_argument("--url", default="", help="score a running service over HTTP, real model included")
+    parser.add_argument("--concurrency", type=int, default=6)
     args = parser.parse_args()
     sys.path.insert(0, str(Path(args.app_root).resolve()))
     from dialogue_corpus import DEVICE_NAMES, styled
@@ -225,7 +266,7 @@ def main() -> None:
     if args.split != "all":
         messages = [m for m in messages if m.split == args.split]
     started = time.time()
-    rows = asyncio.run(run(messages))
+    rows = asyncio.run(run_http(messages, args.url, args.concurrency) if args.url else run(messages))
     ms = sorted(r["ms"] for r in rows if "ms" in r)
     print(f"chạy {len(rows)} tin trong {time.time() - started:.0f}s; trung vị {ms[len(ms) // 2]:.0f} ms, p95 {ms[int(len(ms) * 0.95)]:.0f} ms")
     totals = report(rows, args.show)

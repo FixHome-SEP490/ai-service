@@ -3599,7 +3599,13 @@ class LocalPipeline:
         for code in _ranked_by_retrieval(
             verdict.fault_codes,
             shortlist,
-            saw_a_photograph=detection is not None,
+            # The model leads only when the photograph showed it something:
+            # damage it reported (a burn mark, water under the machine). A plain
+            # photo of an air conditioner says nothing about its compressor,
+            # and on fixhome.sbs 25/10/2026 "chạy cả ngày mà phòng vẫn nóng"
+            # with one came back as a failed compressor at 2.249.000đ instead
+            # of retrieval's low refrigerant.
+            saw_a_photograph=detection is not None and bool(verdict.condition_codes),
             excluded=chat.state.excluded_codes() if chat is not None else None,
         ):
             fault = self._kb.fault(code)

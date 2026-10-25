@@ -279,3 +279,18 @@ def test_the_appliance_named_leads_even_when_no_photograph_shows_it():
 def test_one_photograph_still_decides_with_the_words_as_before():
     reply = _run(_pipeline(), description="máy lạnh nhà em không mát", images=[_photo("washing_machine")])
     assert reply.devices == [] or reply.devices[0].is_primary
+
+
+def test_a_plain_photograph_does_not_put_the_model_ahead_of_retrieval():
+    """With a photograph and no damage seen in it, retrieval's leader leads.
+
+    fixhome.sbs 25/10/2026: a photo of an air conditioner and "chạy cả ngày mà
+    phòng vẫn nóng" came back as a failed compressor, the model's pick, ahead
+    of retrieval's low refrigerant; nothing in the photo was about a compressor."""
+    from app.services.pipeline.local_pipeline import _ranked_by_retrieval
+    from types import SimpleNamespace as F
+
+    shortlist = [F(fault_code="AC_LOW_REFRIGERANT"), F(fault_code="AC_COMPRESSOR_FAULT")]
+    assert _ranked_by_retrieval(["AC_COMPRESSOR_FAULT"], shortlist, saw_a_photograph=False)[0] == "AC_LOW_REFRIGERANT"
+    reply = _run(_pipeline(), description="máy lạnh chạy cả ngày mà phòng vẫn nóng", images=[_photo("air_conditioner")])
+    assert [f.fault_code for f in reply.suspected_faults][:1] == ["AC_LOW_REFRIGERANT"]

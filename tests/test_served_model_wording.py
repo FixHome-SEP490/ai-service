@@ -31,3 +31,16 @@ def test_the_instruction_read_back_is_dropped():
 def test_an_ordinary_answer_is_left_alone():
     plain = "Dạ máy lạnh không mát có thể do thiếu gas. Anh/chị nên vệ sinh lưới lọc trước."
     assert _fix_pronouns(plain) == plain
+
+
+def test_no_chinese_letters_reach_the_customer():
+    from app.services.pipeline.qwen_client import _fix_spelling
+
+    seen = "Em khuyên anh/chị nên đặt dịch vụ sửa máy giặt ngay để đảm bảo máy恢复正常 hoạt động."
+    fixed = _fix_spelling(seen)
+    assert fixed == "Em khuyên anh/chị nên đặt dịch vụ sửa máy giặt ngay để đảm bảo máy hoạt động."
+
+
+def test_the_read_and_checked_opening_is_dropped_too():
+    fixed = _fix_pronouns("Em đã đọc và kiểm tra thông tin anh/chị gửi. Máy giặt có thể mòn bạc đạn.")
+    assert fixed == "Máy giặt có thể mòn bạc đạn."
