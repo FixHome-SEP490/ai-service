@@ -1040,9 +1040,26 @@ def _says_also(text: str) -> bool:
     return any(f" {_fold_vi(w)} " in folded for w in _ALSO)
 
 
-_POINTS_BACK = ("no", "cai do", "cai nay", "may do", "con do", "cai may do", "chiec do")
+_ADDS_NEW = ("còn", "thêm", "cái này", "ngoài ra", "với cả", "với lại", "nhân tiện")
+"""The stronger half of _ALSO: words that bring up one more thing, not "nữa",
+"luôn" or "thì", which as often add a symptom to the same appliance."""
+
+
+def _adds_something(text: str) -> bool:
+    """Whether the message brings up something new (see _ADDS_NEW)."""
+    accented = " " + " ".join(re.findall(r"\w+", unicodedata.normalize("NFC", text.lower()))) + " "
+    if any(f" {w} " in accented for w in _ADDS_NEW):
+        return True
+    if _fold_vi(text) != text.lower():
+        return False
+    folded = " " + " ".join(re.findall(r"[a-z0-9]+", text.lower())) + " "
+    return any(f" {_fold_vi(w)} " in folded for w in _ADDS_NEW)
+
+
+_POINTS_BACK = ("no", "cai do", "may do", "con do", "cai may do", "chiec do")
 """The appliance just talked about, by pronoun: "nó kêu to", "cái đó sửa
-bao nhiêu". These stay on it whatever the symptom would suggest."""
+bao nhiêu". These stay on it whatever the symptom would suggest. Not "cái này":
+with it the customer points at something new ("còn cái này nữa")."""
 
 _ORDINAL_WORDS = {
     "1": 0, "mot": 0, "nhat": 0, "dau": 0, "dau tien": 0,
@@ -1587,15 +1604,26 @@ class LocalPipeline:
             return None
         if has_photos:
             return None
+        added = named
+        pointing_back = any(f" {p} " in folded for p in _POINTS_BACK)
+        if not added and not mentioned and not pointing_back and _adds_something(text):
+            # "Còn cái này nữa, quạt bật không quay": "quạt" alone names no
+            # appliance (a fan is a part of several), but said as one more
+            # thing to look at it is the fan most homes have. Only by that
+            # name: guessed from the symptom, "với lại đọng nước dưới đế" would
+            # add a water pipe to a kettle.
+            added = "electric_fan" if _short_named(text, ["electric_fan"]) and "trần" not in text.lower() else None
+            if added in visit:
+                return added if added in chat.others else None
         if (
-            named
-            and named not in chat.others
-            and named not in chat.queued
+            added
+            and added not in chat.others
+            and added not in chat.queued
             and not correcting
             and len(mentioned) <= 1
             and _says_also(text)
         ):
-            return self._join_visit(chat, named, 0.0, "description")
+            return self._join_visit(chat, added, 0.0, "description")
         if not chat.others:
             return None
         photos = chat.memo.get("", {}).get("photos", [])
@@ -1628,6 +1656,12 @@ class LocalPipeline:
             return None
         if described in chat.others:
             return described
+        if described and described not in chat.queued:
+            # "Cái thứ ba thì ngăn đá không đông" when the third photograph
+            # was not recognised: the words describe a fridge and nothing else,
+            # so the fridge joins the visit rather than the washing machine the
+            # last answer was about taking the question.
+            return self._join_visit(chat, described, 0.0, "description")
         return last if last in chat.others else None
 
     async def _answer_other(
@@ -2955,24 +2989,23 @@ class LocalPipeline:
         """
         money = lambda v: f"{v:,}".replace(",", ".")  # noqa: E731
         lines = []
+        # Short data, not sentences. Labels written as sentences were sent back
+        # word for word by the served model ("Có thể hỏng: ... Chi phí tham
+        # khảo: ..."), and labels in the old register were copied into the
+        # answer ("Việc khách nên làm ngay" as "khách", "ngay lập tức").
         if device:
-            lines.append(f"Thiết bị: {device.name_vi}")
-        # Labels in the customer's own register: the model copies them. "Việc
-        # khách nên làm ngay" came back as "khách" and "ngay lập tức", and
-        # "từ X, phần còn lại..." as "dao động từ X đến khi kỹ thuật viên...".
-        lines.append("Có thể hỏng: " + " hoặc ".join(f.name_vi.lower() for f in faults))
+            lines.append(f"- máy: {device.name_vi.lower()}")
+        lines.append("- lỗi: " + " | ".join(f.name_vi.lower() for f in faults))
         if price_min is not None and price_max is not None and price_max != price_min:
-            lines.append(f"Chi phí tham khảo: từ {money(price_min)}đ đến {money(price_max)}đ")
+            lines.append(f"- giá: {money(price_min)}đ - {money(price_max)}đ")
         elif price_min is not None and price_max == price_min:
-            lines.append(f"Chi phí tham khảo: {money(price_min)}đ")
+            lines.append(f"- giá: {money(price_min)}đ")
         elif price_min is not None:
-            lines.append(
-                f"Chi phí tham khảo: từ {money(price_min)}đ; thợ kiểm tra tận nơi rồi mới báo giá chính xác"
-            )
+            lines.append(f"- giá: từ {money(price_min)}đ, thợ xem tận nơi rồi báo giá")
         if actions:
-            lines.append("Anh/chị có thể làm trước: " + "; ".join(actions))
+            lines.append("- làm trước: " + " | ".join(a.rstrip(".").lower() for a in actions))
         if services:
-            lines.append("Dịch vụ để đặt: " + ", ".join(s.name_vi for s in services))
+            lines.append("- dịch vụ: " + " | ".join(s.name_vi for s in services))
 
         allowed = [
             str(v) for v in (price_min, price_max) if v is not None

@@ -420,3 +420,32 @@ def test_what_is_meant_by_the_words_around_a_name():
     assert "light_bulb" not in _devices("bếp từ đèn chờ không sáng, máy giặt không vắt")
     assert _devices("cái quạt trên trần nhà quay uể oải, máy giặt không vắt") == ["ceiling_fan", "washing_machine"]
     assert _devices("bình đun nước tắm không nóng, tủ lạnh không lạnh") == ["water_heater", "refrigerator"]
+
+
+# fixhome.sbs with the served model, 25/10/2026: three photographs, the third
+# not recognised, then a fourth appliance named but its photograph held back
+# by the web's three-photo limit.
+
+def test_a_symptom_of_an_appliance_not_yet_in_the_visit_brings_it_in():
+    pipeline = _pipeline()
+    first = _run(pipeline, description="máy lạnh nhà em không mát", images=[_photo("air_conditioner"), _photo("washing_machine"), _blank()])
+    _run(pipeline, description="còn máy giặt thì vắt kêu rất to", session_id=first.session_id)
+    fridge = _run(pipeline, description="cái thứ ba thì ngăn đá không đông", session_id=first.session_id)
+    assert _lead(fridge) == "refrigerator"
+    assert all(f.fault_code.startswith("FRIDGE_") for f in fridge.suspected_faults)
+
+
+def test_a_fan_added_in_words_without_its_photograph():
+    pipeline = _pipeline()
+    first = _run(pipeline, description="máy lạnh không mát", images=[_photo("air_conditioner"), _photo("washing_machine")])
+    _run(pipeline, description="còn máy giặt thì vắt kêu rất to", session_id=first.session_id)
+    fan = _run(pipeline, description="còn cái này nữa, quạt bật không quay", session_id=first.session_id)
+    assert _lead(fan) == "electric_fan"
+
+
+def test_one_more_symptom_is_not_one_more_appliance():
+    pipeline = _pipeline()
+    first = _run(pipeline, description="máy giặt rung lắc mạnh", images=[_photo("washing_machine"), _photo("air_conditioner")])
+    again = _run(pipeline, description="nó không cấp nước luôn em", session_id=first.session_id)
+    assert _lead(again) == "washing_machine"
+    assert "water_pipe" not in [d.device_type for d in again.devices]

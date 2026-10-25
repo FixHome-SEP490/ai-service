@@ -99,9 +99,24 @@ def test_an_answer_stuck_in_a_loop_is_recognised():
 
 
 def test_the_services_are_read_from_the_facts():
-    facts = "Thiết bị: máy lạnh\nCó thể hỏng: thiếu gas\nDịch vụ để đặt: Sửa điều hòa, Vệ sinh điều hòa"
+    facts = "- máy: máy lạnh\n- lỗi: thiếu gas\n- dịch vụ: Sửa điều hòa | Vệ sinh điều hòa"
     assert _services_in(facts) == ("Sửa điều hòa", "Vệ sinh điều hòa")
-    assert _services_in("Thiết bị: tivi\nCó thể hỏng: hỏng loa") == ()
+    assert _services_in("- máy: tivi\n- lỗi: hỏng loa") == ()
+
+
+def test_the_data_handed_back_is_not_an_answer():
+    from app.services.pipeline.qwen_client import _reads_back_the_data
+
+    # fixhome.sbs, 25/10/2026, the served model with the first wording of the facts.
+    seen = (
+        "Có thể hỏng: mòn bạc đạn lồng giặt hoặc không vắt. Chi phí tham khảo: từ 529.000đ. "
+        "Anh/chị có thể làm trước: Giảm tải mỗi mẻ giặt. Dịch vụ để đặt: Sửa máy giặt"
+    )
+    assert _reads_back_the_data(seen)
+    assert _reads_back_the_data("- lỗi: mòn bạc đạn\n- giá: từ 529.000đ")
+    assert not _reads_back_the_data(
+        "Dạ, máy giặt kêu to khi vắt có thể do mòn bạc đạn ạ. Chi phí tham khảo từ 529.000đ."
+    )
 
 
 def test_a_good_answer_is_left_as_it_is():

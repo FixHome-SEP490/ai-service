@@ -349,9 +349,25 @@ _TIDY = (
 def _services_in(facts_vi: str) -> tuple:
     """The services the facts offer to book, by the name the button uses."""
     for line in facts_vi.splitlines():
-        if line.startswith("Dịch vụ để đặt:"):
-            return tuple(n.strip() for n in line.split(":", 1)[1].split(",") if n.strip())
+        if line.startswith("- dịch vụ:"):
+            return tuple(n.strip() for n in line.split(":", 1)[1].split("|") if n.strip())
     return ()
+
+
+_DATA_LABEL = re.compile(
+    r"(?im)(?:^|[.!?]\s+|\n)\s*-?\s*(?:máy|lỗi|giá|làm trước|dịch vụ|có thể hỏng|chi phí tham khảo|"
+    r"anh/chị có thể làm trước|dịch vụ để đặt|khả năng hư hỏng|việc khách nên làm ngay|dịch vụ nên đặt)\s*:"
+)
+
+
+def _reads_back_the_data(text: str) -> bool:
+    """The facts handed back instead of a message: two of their labels or more.
+
+    Seen on the served model on 25/10/2026, on fixhome.sbs: "Có thể hỏng: mòn
+    bạc đạn ... Chi phí tham khảo: từ 529.000đ ... Dịch vụ để đặt: Sửa máy
+    giặt". The caller's own wording is better than that.
+    """
+    return len(_DATA_LABEL.findall(text)) >= 2
 
 
 def _tidy_answer(text: str, services: Optional[tuple] = None) -> str:
@@ -542,22 +558,26 @@ def _narrate_system() -> str:
 _OUT_OF_SCOPE = "NGOAI_PHAM_VI"
 
 _NARRATE_SYSTEM = (
-    "Bạn là nhân viên tư vấn của FixHome, đang nhắn tin trả lời anh/chị về thiết bị hỏng.\n"
-    "Phần dữ liệu là kết quả đã có sẵn. Việc của bạn là viết lại thành tin nhắn tự nhiên, "
-    "lịch sự, bằng tiếng Việt.\n"
+    "Bạn là nhân viên tư vấn của FixHome, nhắn tin trả lời anh/chị về thiết bị đang hỏng.\n"
+    "Bạn nhận một danh sách dữ liệu ngắn. Hãy viết thành một tin nhắn tự nhiên bằng tiếng Việt, "
+    "bốn tới sáu câu liền mạch, không gạch đầu dòng, không có dấu hai chấm.\n"
     "\n"
-    "Viết theo mạch: câu đầu nói khả năng hư hỏng, dùng chữ \"có thể\" hoặc \"khả năng cao là\"; "
-    "câu sau nói chi phí tham khảo đúng như phần dữ liệu; rồi nói những việc anh/chị có thể làm "
-    "trước; câu cuối mời anh/chị bấm nút Đặt thợ để đặt đúng dịch vụ được cho, thợ FixHome sẽ tới "
-    "kiểm tra.\n"
+    "Ví dụ dữ liệu:\n"
+    "- máy: bếp từ\n"
+    "- lỗi: hỏng quạt tản nhiệt | bo mạch quá nhiệt\n"
+    "- giá: từ 350.000đ, thợ xem tận nơi rồi báo giá\n"
+    "- làm trước: để bếp nguội rồi mới dùng lại | lau sạch khe gió\n"
+    "- dịch vụ: Sửa bếp từ\n"
+    "Ví dụ tin nhắn:\n"
+    "Dạ, bếp từ nhà mình có thể bị hỏng quạt tản nhiệt hoặc bo mạch đang quá nhiệt ạ. "
+    "Chi phí tham khảo từ 350.000đ, thợ xem tận nơi rồi mới báo giá chính xác. "
+    "Trong lúc chờ, anh/chị để bếp nguội hẳn rồi mới dùng lại và lau sạch khe gió giúp em nhé. "
+    "Anh/chị bấm Đặt thợ để đặt dịch vụ Sửa bếp từ, thợ FixHome sẽ tới kiểm tra ạ.\n"
     "\n"
     "Bắt buộc:\n"
-    "- Chỉ dùng đúng những con số và tên hư hỏng được cho, giữ nguyên từng chữ số.\n"
-    "- Xưng em, gọi người nhắn là anh/chị.\n"
-    "- Bốn tới sáu câu, liền mạch, không gạch đầu dòng.\n"
-    "- Nói khả năng, vì thợ chưa tới xem; không hứa thời gian, không nhắc tới bảo hành.\n"
-    "- Chỉ viết chữ tiếng Việt.\n"
-    "- Viết thành đoạn văn xuôi, không chép lại các nhãn ở phần dữ liệu."
+    "- Chỉ dùng đúng tên lỗi, con số và tên dịch vụ trong dữ liệu được cho, không lấy gì từ ví dụ.\n"
+    "- Xưng em, gọi người nhắn là anh/chị. Nói là có thể, vì thợ chưa tới xem.\n"
+    "- Không hứa thời gian, không nhắc tới bảo hành, chỉ viết chữ tiếng Việt."
 )
 """Written as what to do, never as what not to.
 
@@ -791,6 +811,9 @@ class QwenClient:
             services=_services_in(facts_vi),
         )
         if not text or _declines(text):
+            return ""
+        if _reads_back_the_data(text):
+            logger.warning("qwen_narration_read_back_the_data")
             return ""
 
         permitted = {n.replace(".", "").replace(",", "") for n in allowed_numbers}
