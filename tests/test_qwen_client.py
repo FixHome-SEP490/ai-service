@@ -340,7 +340,8 @@ def test_an_apology_in_the_middle_is_left_alone():
         # prompt and the persona file above it.
         (
             "Tôi đã kiểm tra và xác nhận rằng thiết bị của khách là một tivi.",
-            "Em đã kiểm tra và xác nhận rằng thiết bị của anh/chị là một tivi.",
+            # A verdict it cannot have reached is softened as well (25/10/2026).
+            "Theo những gì anh/chị kể, có thể thiết bị của anh/chị là một tivi.",
         ),
         ("Tôi khuyên bạn nên tắt nguồn.", "Em khuyên anh/chị nên tắt nguồn."),
         # Already right, and left alone.
