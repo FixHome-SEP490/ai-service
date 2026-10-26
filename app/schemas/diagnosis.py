@@ -67,6 +67,9 @@ class DetectedDevice(BaseModel):
     confidence: float = Field(ge=0.0, le=1.0)
     source: EvidenceSource = EvidenceSource.IMAGE
     bounding_box: Optional[BoundingBox] = Field(default=None)
+    uncertain: bool = False
+    """The appliance is a guess from a photograph nobody was sure of: the
+    client shows it so the customer can correct it ("ảnh 2 là tủ lạnh")."""
 
     model_config = ConfigDict(alias_generator=to_camel, populate_by_name=True)
 
@@ -172,6 +175,8 @@ class DeviceSuggestion(BaseModel):
     """The detector's confidence when seen in a photograph, else 0."""
 
     is_primary: bool = False
+    uncertain: bool = False
+    """As DetectedDevice.uncertain: the appliance of this photograph is a guess."""
 
     suspected_faults: List[SuspectedFault] = Field(default_factory=list)
     service: Optional[RecommendedService] = None

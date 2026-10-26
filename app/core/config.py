@@ -13,6 +13,13 @@ class Settings(BaseSettings):
     # Detector stage (YOLO11s). Empty weights path falls back to the stub.
     YOLO_WEIGHTS_PATH: str = ""
     DETECTOR_CONFIDENCE_THRESHOLD: float = 0.45
+    # Below this the detector is unsure, and the vision-language model is
+    # asked what the photograph shows before the turn goes on (_second_look).
+    PHOTO_CHECK_BELOW: float = 0.75
+    # The confidence given to an appliance the vision-language model named
+    # where the detector saw nothing or something else: kept below
+    # PHOTO_CHECK_BELOW so the reply says it was a guess.
+    PHOTO_CHECK_TRUST: float = 0.6
 
     # Vision-language stage (Qwen2.5-VL via vLLM). Empty URL falls back to the stub.
     VLM_BASE_URL: str = ""

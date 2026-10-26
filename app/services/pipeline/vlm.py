@@ -90,6 +90,10 @@ class VisionLanguageModel(Protocol):
 
 
 class StubVlm:
+    async def identify(self, image, choices) -> Optional[str]:
+        """No second look without a model: the detector's reading stands."""
+        return None
+
     """Picks the top retrieved candidate. Deterministic, no weights needed."""
 
     async def assess(

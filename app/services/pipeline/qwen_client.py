@@ -790,6 +790,39 @@ class QwenClient:
             has_image=crop is not None,
         )
 
+    async def identify(self, image: ImagePayload, choices: List[Tuple[str, str]]) -> Optional[str]:
+        """Which of `choices` the photograph shows, or None.
+
+        Asked when the detector is unsure (see LocalPipeline._second_look). The
+        model reads the whole photograph, not the detector's crop, and answers
+        with one number from the list, which is all that is parsed: a name in
+        free text could be any of several appliances.
+        """
+        listing = "\n".join(f"{i}. {name}" for i, (_code, name) in enumerate(choices, 1))
+        prompt = (
+            "Ảnh này chụp thiết bị gia dụng nào? Chọn đúng một số trong danh sách, "
+            f"không chắc thì trả lời 0.\n{listing}\nChỉ trả lời một con số."
+        )
+        raw = await self._chat(
+            [
+                {
+                    "role": "user",
+                    "content": [
+                        {"type": "image_url", "image_url": {"url": f"data:image/jpeg;base64,{image.to_base64()}"}},
+                        {"type": "text", "text": prompt},
+                    ],
+                }
+            ],
+            timeout_seconds=min(self._timeout, 6.0),
+        )
+        if raw is None:
+            return None
+        match = re.search(r"\d+", raw)
+        if not match:
+            return None
+        number = int(match.group(0))
+        return choices[number - 1][0] if 1 <= number <= len(choices) else None
+
     async def narrate(self, facts_vi: str, allowed_numbers: List[str]) -> str:
         """Turn a finished diagnosis into a message a person would send.
 
