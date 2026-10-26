@@ -1,6 +1,6 @@
 # Context repo ai-service — FixHome
 
-> Cập nhật lần cuối: 2026-10-26 18:49 (UTC+7) · Người cập nhật (git): ToanAltF4 · Nhánh: feat/ai-notices-pushback
+> Cập nhật lần cuối: 2026-10-26 19:33 (UTC+7) · Người cập nhật (git): ToanAltF4 · Nhánh: fix/ack-no-repeat
 
 ## 0. Quy tắc cập nhật file này (bắt buộc)
 
@@ -188,6 +188,7 @@ Ngoài ra có `POST /api/v1/diagnosis/analyze-upload` (multipart), `GET /api/v1/
 
 ## 9. Nhật ký cập nhật context
 
+- 2026-10-26 19:33 (UTC+7) | ToanAltF4 | fix/ack-no-repeat | Câu ghi nhận khi khách bác không nói lại khả năng còn lại khi mô hình đã viết câu trả lời
 - 2026-10-26 18:49 (UTC+7) | ToanAltF4 | feat/ai-notices-pushback | Trợ lý tự nhận ra khách nói câu trả lời sai (customerDisagreed), đọc lại lời khách khi bác kèm triệu chứng mới; feedback_review dùng dữ liệu tự ghi
 - 2026-10-26 15:13 (UTC+7) | ToanAltF4 | feat/visit-prep-feedback-loop | Chuẩn bị trước khi thợ tới theo 22 loại máy (visit_prep.json), luật dẫn rõ ràng (suite thật 543 -> 552/564), feedback_review.py học từ câu khách báo sai, load_test --mix
 - 2026-10-26 13:33 (UTC+7) | ToanAltF4 | feat/faster-names-semantic-photo-check | Qwen xem lại ảnh bộ dò không chắc (79,4 -> 87,9% trên 330 ảnh thật), đoán nói rõ + sửa bằng 'ảnh N là X', photos[]; đọc tên máy nhanh 92 -> 34 ms và tất định

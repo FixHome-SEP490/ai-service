@@ -1793,8 +1793,14 @@ class LocalPipeline:
         device_type = (
             response.device.device_type if response.device else chat.device_type
         )
+        # "Khả năng còn lại là X" only when nothing else says it. The model's
+        # own message names what is left, and fixhome.sbs, 26/10/2026, read
+        # "Khả năng còn lại là hỏng bộ tuốc năng. Dạ, quạt điện nhà mình có
+        # thể hỏng bộ tuốc năng ạ." after every "sai rồi".
         next_code = (
-            response.suspected_faults[0].fault_code if response.suspected_faults else None
+            response.suspected_faults[0].fault_code
+            if response.suspected_faults and not response.message_vi
+            else None
         )
         ack = self._acknowledgement(chat, device_type, next_code)
         message = response.message_vi
