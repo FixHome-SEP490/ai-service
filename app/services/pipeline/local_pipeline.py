@@ -2789,7 +2789,19 @@ class LocalPipeline:
         enough_said = (said >= settings.DECISIVE_MIN_WORDS and names_something) or (
             said == settings.DECISIVE_MIN_WORDS - 1 and clear_lead
         )
-        decisive = (
+        # One fault well ahead of every other, though short of the decisive
+        # score: "quạt khô dầu" matched its fault at 0.75 and the next at 0.47.
+        # On the served model, 26/10/2026, sixteen such reports in the chat
+        # suite were asked back because the model put its own confidence
+        # below the threshold; the customer had said the thing that settles it.
+        rest = [c.score for c in candidates[1:]] if candidates else []
+        well_ahead = (
+            device_type is not None
+            and bool(candidates)
+            and candidates[0].score >= settings.RETRIEVAL_CLEAR_LEAD_SCORE
+            and candidates[0].score - max(rest, default=0.0) >= settings.RETRIEVAL_CLEAR_LEAD_MARGIN
+        )
+        decisive = (well_ahead and enough_said) or (
             bool(candidates)
             # Never without knowing the appliance. Retrieval then searches all
             # seventeen at once, and "cái này bị sọc" — a photograph of a
