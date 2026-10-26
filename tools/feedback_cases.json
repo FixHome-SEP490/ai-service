@@ -1,0 +1,4 @@
+{
+ "_comment_vi": "Câu khách thật bấm Chưa đúng, đã được người duyệt ghi lỗi đúng (tools/feedback_review.py apply). tests/test_feedback_cases.py bắt mỗi câu phải có lỗi đúng trong 3 lỗi đầu.",
+ "cases": []
+}
