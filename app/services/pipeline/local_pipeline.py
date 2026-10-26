@@ -22,6 +22,7 @@ from app.schemas.diagnosis import (
     Clarification,
     DetectedDevice,
     DeviceSuggestion,
+    Disagreement,
     DiagnosisRequest,
     DiagnosisResponse,
     DiagnosisStatus,
@@ -1226,6 +1227,18 @@ _REFUSED_AFTER = ("thoi khong", "khong can", "dung dat", "huy")
 không cần nữa", "tủ lạnh huỷ đi"."""
 
 
+_NOT_THAT_ONE = ("khong phai", "hong phai", "ko phai", "k phai", "kp", "dau phai", "ma la", "nham")
+"""A correction that says the appliance was wrong, unlike "bỏ máy lạnh, đặt
+tủ lạnh", which is a change of mind."""
+
+
+def _says_photo_was_misread(text: str, kb: KnowledgeBase) -> bool:
+    """ "Không phải máy giặt, là tủ lạnh" after a photograph was read as a washer."""
+    words = re.findall(r"[^\W_]+", text.lower())
+    folded = " " + " ".join(_fold_vi(w) for w in words) + " "
+    return _corrects_an_appliance(text, kb) and any(f" {m} " in folded for m in _NOT_THAT_ONE)
+
+
 def _corrects_an_appliance(text: str, kb: KnowledgeBase) -> bool:
     """Whether the message changes which appliance it is about.
 
@@ -1423,6 +1436,7 @@ class LocalPipeline:
                     e for e in reading.exclusions if e.kind != "previous"
                 ]
                 reading.denied_previous = False
+                reading.bare_denial = False
                 for code, factor in answer.factors.items():
                     if factor >= 1.0:
                         reading.boosts[code] = max(factor, reading.boosts.get(code, 1.0))
@@ -1439,6 +1453,17 @@ class LocalPipeline:
                         answer="yes" if answer.yes else "no",
                         factors=answer.factors,
                     )
+        leader = chat.shortlist[0] if chat.shortlist else None
+        if leader is not None and (
+            reading.denied_previous
+            or any(e.fault_code == leader and e.kind in ("previous", "cause") for e in reading.exclusions)
+        ):
+            fault = self._kb.fault(leader)
+            self._note_pushback(chat, "fault", [leader], [fault.name_vi] if fault else [], text)
+            # Only a plain "sai rồi, ...": "lưới lọc thì kiểm tra rồi, không
+            # sao" rules one cause out and leaves the symptom as it was.
+            if reading.bare_denial and reading.retrieval_text.strip():
+                chat.restated()
         chat.observe(reading, dialogue_state.never_excluded_codes())
         if trace is not None and (
             reading.exclusions or reading.penalties or reading.reinstated
@@ -1511,8 +1536,44 @@ class LocalPipeline:
             if named and chat.device_type is None:
                 chat.remember_device(named, 0.6, "memory")
             self._read_turn(chat, text, named or chat.device_type)
-        # What the replay ruled out was acknowledged when it was first said.
+        # What the replay ruled out was acknowledged when it was first said,
+        # and a "sai rồi" in it was recorded when it was first said.
         chat.state.last_new = []
+        self._root(chat).pushback = None
+
+    def _root(self, chat: Conversation) -> Conversation:
+        """The visit's own conversation: an appliance added mid-way has its own."""
+        if chat.parent_id:
+            parent = self._conversations.peek(chat.parent_id)
+            if parent is not None:
+                return parent
+        return chat
+
+    def _note_pushback(
+        self, chat: Conversation, kind: str, rejected: List[str], rejected_vi: List[str], text: str
+    ) -> None:
+        """Keep "the last answer was wrong" for the response of this turn."""
+        root = self._root(chat)
+        if root.pushback is not None:
+            return
+        root.pushback = {
+            "kind": kind,
+            "rejected": list(rejected),
+            "rejected_vi": [n for n in rejected_vi if n],
+            "said_vi": chat.said_before()[:1000] or None,
+            "correction_vi": (text or "")[:1000],
+        }
+
+    def _with_pushback(self, response):
+        """The response, carrying this turn's disagreement if there was one."""
+        chat = self._conversations.peek(response.session_id) if response.session_id else None
+        if chat is None:
+            return response
+        root = self._root(chat)
+        found, root.pushback = root.pushback, None
+        if not found:
+            return response
+        return response.model_copy(update={"customer_disagreed": Disagreement(**found)})
 
     async def diagnose(self, request: DiagnosisRequest) -> DiagnosisResponse:
         async with self._conversations.lock(request.session_id):
@@ -1520,7 +1581,7 @@ class LocalPipeline:
 
     async def _diagnose_locked(self, request: DiagnosisRequest) -> DiagnosisResponse:
         response = await self._diagnose_routed(request)
-        return self._with_photo_guesses(response, request)
+        return self._with_pushback(self._with_photo_guesses(response, request))
 
     def _with_photo_guesses(self, response: DiagnosisResponse, request: DiagnosisRequest) -> DiagnosisResponse:
         """What each photograph of this request was read as, and the guesses said aloud.
@@ -1673,6 +1734,14 @@ class LocalPipeline:
         old = photos[place] if 0 <= place < len(photos) else None
         if old == device_type:
             return None
+        if old is not None:
+            # The photograph was read wrong: the detector's mistake, worth a
+            # look when its classes are next retrained.
+            self._note_pushback(
+                chat, "photo", [old], [self._kb.device_name_vi(old) or old], request.description
+            )
+            if chat.pushback is not None:
+                chat.pushback["said_vi"] = f"ảnh {place + 1}"
         if 0 <= place < len(photos):
             photos[place] = device_type
         old_memo = chat.memo.get(old, {}) if old else {}
@@ -2620,6 +2689,11 @@ class LocalPipeline:
             # Ahead of the photograph guard below, because a customer who names
             # a different appliance in words has said something the photograph
             # cannot contradict: the picture was of the old one.
+            if chat.device_source_vi == "image" and _says_photo_was_misread(request.description, self._kb):
+                old = chat.device_type
+                self._note_pushback(
+                    chat, "device", [old], [self._kb.device_name_vi(old) or old], request.description
+                )
             chat.remember_device(switched_to, 0.0, "description")
             device_type = switched_to
             trace.add("device", True, f"Khách đổi sang {switched_to}", device=switched_to)
@@ -2857,6 +2931,9 @@ class LocalPipeline:
         )
 
     async def answer(self, request: ChatRequest) -> ChatResponse:
+        return self._with_pushback(await self._answer_routed(request))
+
+    async def _answer_routed(self, request: ChatRequest) -> ChatResponse:
         """Advisory Q&A, grounded in retrieved policy passages.
 
         Kept separate from diagnosis: it may discuss maintenance intervals and

@@ -6,12 +6,15 @@
     python tools/feedback_review.py check
 
 PO 26/10/2026: the customers' own words are the one source of phrasings the
-generated sentences cannot replace. The web shows "Đúng ý / Chưa đúng" under
-every answer and Backend keeps the verdict (GET /admin/ai-quality lists the
-latest twenty marked wrong, with what the customer had said).
+generated sentences cannot replace. There is no button to press: a customer
+who disagrees says so ("sai rồi", "không phải bệnh đó", "ảnh 2 là tủ lạnh"),
+the assistant notices and returns `customerDisagreed` on that reply, and
+Backend keeps it with the conversation (GET /admin/ai-quality lists the latest
+twenty: the words that were read wrong, what was turned down, what the
+customer said back and what the conversation ended on).
 
 `pull` turns them into a review file, each with what the assistant answers
-today. `apply` takes only the reviewed ones (approve true, a fault code that
+today and, as a suggestion, the fault the conversation ended on. `apply` takes only the reviewed ones (approve true, a fault code that
 exists): their words go into app/data/learned_phrasings.json through
 tools/learn_phrasings.py, which refuses anything from the test half of the
 understanding bank, and each becomes a case in tools/feedback_cases.json.
@@ -90,25 +93,47 @@ def pull(args) -> None:
         quality.raise_for_status()
         data = quality.json()
     wrong = (data.get("data") or data).get("recentWrong") or []
-    pipeline, _kb = _pipeline()
+    pipeline, kb = _pipeline()
     review = []
     for row in wrong:
-        text = (row.get("customerText") or "").strip()
+        # Noticed in the conversation: "said" is exactly the words that were
+        # read wrong. The old button rows only have the whole conversation.
+        text = (row.get("said") or row.get("customerText") or "").strip()
         if not text:
             continue
+        kind = row.get("kind") or "fault"
         review.append({
             "sessionId": row.get("sessionId"),
             "at": row.get("at"),
+            "source": row.get("source") or "button",
+            "kind": kind,
             "customerText": text,
             "deviceName": row.get("deviceName"),
             "aiReply": row.get("reply"),
-            "customerNote": row.get("note"),
-            "now": answer_now(pipeline, text),
-            "fault": "",
+            "rejected": row.get("rejected") or [],
+            "customerSaid": row.get("note"),
+            "settledOn": row.get("settledOn") or [],
+            "now": answer_now(pipeline, text) if kind == "fault" else None,
+            # What the conversation ended on, when that is a fault the customer
+            # did not turn down too: a suggestion for the person reviewing.
+            "fault": _suggested(kb, row) if kind == "fault" else "",
             "approve": False,
         })
     Path(args.out).write_text(json.dumps(review, ensure_ascii=False, indent=1), encoding="utf-8")
-    print(f"{len(review)} câu bị báo sai -> {args.out}. Điền 'fault' (mã lỗi đúng) và 'approve': true cho câu đã duyệt.")
+    photos = sum(1 for r in review if r["kind"] != "fault")
+    print(
+        f"{len(review)} lần khách nói trợ lý sai ({photos} về ảnh/thiết bị, để rà bộ dò ảnh) -> {args.out}. "
+        "Sửa 'fault' (mã lỗi đúng) nếu cần và đặt 'approve': true cho câu đã duyệt."
+    )
+
+
+def _suggested(kb, row) -> str:
+    rejected = set(row.get("rejected") or [])
+    names = {f.name_vi: f.fault_code for d in kb.device_types for f in kb.faults_for_device(d)}
+    for name in row.get("settledOn") or []:
+        if name not in rejected and name in names:
+            return names[name]
+    return ""
 
 
 def apply(args) -> None:

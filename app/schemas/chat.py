@@ -12,7 +12,7 @@ from typing import Annotated, List, Optional
 from pydantic import BaseModel, ConfigDict, Field
 from pydantic.alias_generators import to_camel
 
-from app.schemas.diagnosis import PastJob, RecommendedService
+from app.schemas.diagnosis import Disagreement, PastJob, RecommendedService
 
 
 class AnswerStatus(str, Enum):
@@ -100,6 +100,9 @@ class ChatResponse(BaseModel):
     """What the conversation has established, in plain words: what the customer
     already tried or ruled out, what they suspect. For the booking summary the
     technician reads, so nobody asks the customer to tell it all again."""
+
+    customer_disagreed: Optional[Disagreement] = None
+    """Set on the turn where the customer said the last answer was wrong."""
 
     disclaimer_vi: str
 

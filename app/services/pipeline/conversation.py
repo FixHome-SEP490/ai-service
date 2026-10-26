@@ -219,6 +219,10 @@ class Conversation:
     state: DialogueState = field(default_factory=DialogueState)
     """What the customer has ruled out or said is absent. See dialogue_state.py."""
 
+    pushback: Optional[Dict[str, object]] = None
+    """This turn's "the last answer was wrong", on the visit's own conversation,
+    until the response carries it. See schemas.diagnosis.Disagreement."""
+
     updated_at: float = field(default_factory=time.time)
 
     def add(self, role: str, text_vi: str) -> None:
@@ -400,6 +404,26 @@ class Conversation:
             if turn.role == "customer":
                 turn.carried_a_symptom = False
                 return
+
+    def restated(self) -> None:
+        """The newest turn says the last answer was wrong and tells it again.
+
+        "Sai rồi, máy vẫn mát nhưng chảy nước": the earlier "không mát" is the
+        very reading the customer just corrected. Searched together with the
+        new words it still led, and the answer went to the next fault on the
+        old list (a remote control) instead of the water the customer named.
+        The earlier turns about this appliance stay in the thread the model
+        reads; they only stop counting for retrieval."""
+        latest = next((t for t in reversed(self.turns) if t.role == "customer"), None)
+        for turn in self.turns:
+            if turn is not latest and turn.role == "customer" and turn.device_type in (None, self.device_type):
+                turn.carried_a_symptom = False
+
+    def said_before(self) -> str:
+        """What the customer had said about this appliance before the newest turn."""
+        customer = [t for t in self.turns if t.role == "customer"]
+        elsewhere = self._elsewhere()
+        return " ".join(t.text_vi for t in customer[:-1] if t.device_type not in elsewhere).strip()
 
     def remember_device(self, device_type: str, confidence: float, source_vi: str) -> None:
         self.device_type = device_type
