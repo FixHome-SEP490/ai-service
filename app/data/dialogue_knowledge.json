@@ -851,7 +851,20 @@
     "sai het roi",
     "khong dung roi",
     "khong phai roi",
-    "khong co phai"
+    "khong co phai",
+    "noi sai",
+    "noi chua dung",
+    "noi khong dung",
+    "chua chinh xac",
+    "khong chinh xac",
+    "chua chuan",
+    "khong phai the",
+    "khong phai nhu vay",
+    "khong phai benh nay",
+    "khong phai loi nay",
+    "hong phai",
+    "k phai",
+    "kp"
   ],
   "_previous_denials_comment_vi": "Câu bác lại chẩn đoán vừa đưa ra mà không nói tên nguyên nhân. Chỉ áp dụng khi lượt trước đã có chẩn đoán và câu này không đổi sang thiết bị khác.",
   "confirmations": [

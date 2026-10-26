@@ -301,6 +301,28 @@ class TraceStage(BaseModel):
     model_config = ConfigDict(alias_generator=to_camel, populate_by_name=True)
 
 
+class Disagreement(BaseModel):
+    """The customer said, in their own words, that the last answer was wrong.
+
+    PO 26/10/2026: a "Chưa đúng" button under every answer is the wrong way
+    to learn; a customer who disagrees says so in the conversation ("sai rồi",
+    "không phải bệnh đó", "ảnh 2 là tủ lạnh"), and the assistant has to notice.
+    Backend keeps it with the conversation for tools/feedback_review.py."""
+
+    kind: str
+    """"fault" (the suspected fault was turned down), "device" (the appliance a
+    photograph was read as) or "photo" ("ảnh N là X")."""
+    rejected: List[str] = Field(default_factory=list)
+    """Fault codes or device types turned down."""
+    rejected_vi: List[str] = Field(default_factory=list)
+    said_vi: Optional[str] = None
+    """What the customer had said before, the words that were read wrong."""
+    correction_vi: str
+    """This turn's words."""
+
+    model_config = ConfigDict(alias_generator=to_camel, populate_by_name=True)
+
+
 class PhotoReading(BaseModel):
     """What one photograph of this request was read as."""
 
@@ -368,6 +390,9 @@ class DiagnosisResponse(BaseModel):
     client labels each photograph with it and lets the customer correct it.
     Unlike `devices[].image_index`, which may point into an earlier message,
     these are always about this request's images."""
+
+    customer_disagreed: Optional[Disagreement] = None
+    """Set on the turn where the customer said the last answer was wrong."""
 
     disclaimer_vi: str
 

@@ -33,3 +33,11 @@ def test_the_answer_today_is_read_from_the_words():
     now = feedback_review.answer_now(pipeline, "quạt điện quạt phải lấy tay quay mới chạy")
     assert now["device"] == "electric_fan"
     assert "FAN_CAPACITOR" in now["faults"]
+
+
+def test_the_fault_the_conversation_ended_on_is_suggested():
+    """A disagreement noticed in the chat, then an answer the customer kept."""
+    kb = get_knowledge_base()
+    row = {"kind": "fault", "rejected": ["Thiếu gas, xì gas"], "settledOn": ["Thiếu gas, xì gas", "Nghẹt đường thoát nước ngưng"]}
+    assert feedback_review._suggested(kb, row) == "AC_DRAIN_BLOCKED"
+    assert feedback_review._suggested(kb, {"rejected": [], "settledOn": ["không có lỗi này"]}) == ""

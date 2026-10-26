@@ -145,3 +145,28 @@ def test_the_served_model_wrapper_passes_on_everything_the_pipeline_calls():
         assert callable(getattr(QwenClient, name, None)), name
         assert callable(getattr(QwenVlm, name, None)), name
     assert callable(getattr(StubVlm, "identify", None))
+
+
+def test_a_photograph_corrected_is_reported_as_the_customer_disagreeing():
+    """PO 26/10/2026: what the detector read wrong is kept to learn from."""
+    detector = _Detector(0.55, reads_as={"refrigerator": "washing_machine"})
+    pipeline = _pipeline(detector, _Looks(sees=False))
+    first = _run(
+        pipeline, description="máy lạnh nhà em không mát", images=[_photo("air_conditioner"), _photo("refrigerator")]
+    )
+    assert first.customer_disagreed is None
+    fixed = _run(pipeline, description="ảnh 2 là tủ lạnh", session_id=first.session_id)
+    noticed = fixed.customer_disagreed
+    assert noticed is not None and noticed.kind == "photo"
+    assert noticed.rejected == ["washing_machine"]
+    assert noticed.said_vi == "ảnh 2"
+
+
+def test_the_appliance_a_photograph_was_read_as_turned_down_in_words():
+    detector = _Detector(0.55, reads_as={"air_conditioner": "washing_machine"})
+    pipeline = _pipeline(detector, _Looks(sees=False))
+    first = _run(pipeline, description="xem giúp em", images=[_photo("air_conditioner")])
+    fixed = _run(pipeline, description="không phải máy giặt, là máy lạnh", session_id=first.session_id)
+    noticed = fixed.customer_disagreed
+    assert noticed is not None and noticed.kind == "device"
+    assert noticed.rejected == ["washing_machine"]

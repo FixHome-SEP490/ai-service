@@ -3,7 +3,7 @@
     python tools/feedback_to_cases.py --api https://<backend>/api/v1 --token <admin JWT> --days 30
     python tools/feedback_to_cases.py --file quality.json
 
-The backend keeps a customer's "Chưa đúng" on the conversation, and an admin
+The backend keeps a customer's disagreement on the conversation, and an admin
 reads them on /console/admin/ai-quality. This takes the same list (from the
 backend, or a saved copy of GET /admin/ai-quality) and writes one draft
 Dialogue per case to tools/feedback_cases_draft.py: the customer's turns as

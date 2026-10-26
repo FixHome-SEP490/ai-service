@@ -141,6 +141,53 @@ _LEADING_FILLERS = frozenset({"a", "u", "o", "thi", "ma", "nhung", "thoi", "ah",
 """Fillers that may open a "no" to the last answer. Not pronouns: "em nhầm
 rồi" is the customer correcting themselves, not the assistant."""
 
+_CALLED = ("em oi", "ad oi", "ban oi", "shop oi", "tro ly oi", "ua", "uh", "oi", "ui")
+"""How a customer opens a word to the assistant: "ủa em ơi sai rồi"."""
+
+_ASSISTANT = ("tro ly", "em", "e", "ban", "ad", "shop", "ai", "fixhome")
+_ASSISTANT_DOES = ("chan doan", "tra loi", "tu van", "phan doan", "nhan dinh", "nhan dien", "xac dinh", "doan")
+"""What only the assistant did in this conversation, said with or without a
+subject: "em đoán chưa đúng rồi", "chẩn đoán sai rồi"."""
+
+_ASSISTANT_SAYS = ("noi", "doc", "xem", "nhin", "bao")
+"""The same, only after the assistant is named: on their own these fold to
+other words ("nồi", "báo" as in "máy báo lỗi"). "Em nhầm rồi", with no verb at
+all, is the customer taking back their own words and stays that."""
+
+
+def _without_opening(words: List[str]) -> List[str]:
+    """The words after "ủa em ơi", "em đoán", "chẩn đoán" at the front of a reply."""
+    words = list(words)
+
+    def starts(phrase: str, at: int = 0) -> int:
+        parts = phrase.split()
+        return len(parts) if words[at : at + len(parts)] == parts and len(words) > at + len(parts) else 0
+
+    changed = True
+    while changed and words:
+        changed = False
+        while words and words[0] in _LEADING_FILLERS:
+            words, changed = words[1:], True
+        for called in _CALLED:
+            n = starts(called)
+            if n:
+                words, changed = words[n:], True
+                break
+        subject = next((n for n in (starts(s) for s in _ASSISTANT) if n), 0)
+        verbs = _ASSISTANT_DOES + (_ASSISTANT_SAYS if subject else ())
+        for verb in verbs:
+            n = starts(verb, subject)
+            if n:
+                words, changed = words[subject + n :], True
+                break
+    return words
+
+
+_NO_TAIL = frozenset(
+    "dau oi vay the ne mo he ru rua ak ah nhe nghen nha hen ha hong ko k u uh roai r cho dau".split()
+)
+"""What may follow a bare "no": "không phải đâu em ơi", "sai rồi nha"."""
+
 _SELF_CORRECTION = frozenset({"a nham", "em nham", "minh nham", "toi nham", "noi nham", "nho nham", "go nham", "viet nham"})
 
 _META_FILLERS = frozenset(
@@ -696,6 +743,9 @@ class TurnReading:
     persist: Dict[str, float] = field(default_factory=dict)
     """What a technician checks next, after a fix the customer reports did not work."""
     denied_previous: bool = False
+    bare_denial: bool = False
+    """The "no" stood alone ("sai rồi", "không phải đâu"); not "không phải do
+    điện đâu", which turns down one cause and leaves the symptom standing."""
     confirmed_previous: bool = False
     danger: bool = False
     """The customer described danger in this turn, and did not negate it."""
@@ -1009,19 +1059,31 @@ class _ClauseReader:
                 i += 1
         return " ".join(out)
 
-    def denies_previous(self, text: str) -> bool:
+    def denies_previous(self, text: str, typed: Sequence[str] = ()) -> bool:
         if not self.previous:
+            return False
+        if "dùng" in typed and "đúng" not in typed:
+            # Folded, "không dùng được nữa" and "chưa dùng lần nào" read as
+            # "không đúng" and "chưa đúng": a symptom taken for a denial.
             return False
         # "À, hông phải dzậy", "ờ sai rồi": a filler in front is still a no.
         if any(_contains(text, marker) for marker in _SELF_CORRECTION):
             # "À nhầm, thật ra chưa vệ sinh": the customer taking back their own
             # words, which must not take the assistant's answer away with them.
             return False
-        words = text.split()
-        while words and words[0] in _LEADING_FILLERS:
-            words = words[1:]
+        words = _without_opening(text.split())
         text = " ".join(words)
         return any(text == p or text.startswith(p + " ") for p in self.lex.previous_denials)
+
+    def is_bare_no(self, text: str) -> bool:
+        """A denial of the last answer with nothing of its own after it."""
+        words = _without_opening(text.split())
+        text = " ".join(words)
+        for pattern in self.lex.previous_denials:
+            if text == pattern or text.startswith(pattern + " "):
+                rest = text[len(pattern) :].split()
+                return all(w in _PARTICLES or w in _NO_TAIL for w in rest)
+        return False
 
     def confirms_previous(self, text: str) -> bool:
         return any(_contains(text, c) for c in self.lex.confirmations)
@@ -1078,12 +1140,13 @@ def read_turn(
         # A "no" that goes on to say what it is instead ("không phải đâu, nó
         # vặn nặng tay") is still a no. One that names a cause ("hông phải dơ
         # đâu") denies that cause, not the whole last answer.
-        denied = reader.denies_previous(folded_text) and not any(
+        denied = reader.denies_previous(folded_text, [t.a for t in tokens if t.a]) and not any(
             e.kind == "cause" or e.fault_code == (reader.previous[0] if reader.previous else None)
             for e in exclusions
         )
         if denied:
             reading.denied_previous = True
+            reading.bare_denial = reading.bare_denial or reader.is_bare_no(folded_text)
             code = reader.previous[0]
             if code not in seen:
                 seen.add(code)
