@@ -515,3 +515,18 @@ def test_a_symptom_only_one_appliance_has_beats_a_misread_photograph():
     first = _run(pipeline, description="máy lạnh không mát", images=[_photo("air_conditioner")])
     again = _run(pipeline, description="em gửi thêm ảnh, cái này ngăn đá không đông", images=[_photo("washing_machine")], session_id=first.session_id)
     assert _lead(again) == "refrigerator"
+
+
+def test_overlapping_names_are_read_the_same_way_every_time():
+    from app.services.pipeline.local_pipeline import _named_spans_uncached
+
+    # "vòi nước máy" holds "vòi nước" and "nước máy"; which won depended on the
+    # order a set iterated in, so one message was cut differently per process.
+    spans = _named_spans_uncached("máy lọc nước nhà em tắc lõi, vòi nước máy bên cạnh vẫn chảy", KB)
+    assert [s[0] for s in spans] == ["water_purifier", "faucet"] or [s[0] for s in sorted(spans, key=lambda s: s[2])] == [
+        "water_purifier", "faucet"
+    ]
+    # And a name never runs across punctuation: "đọng nước - máy lạnh".
+    spans = _named_spans_uncached("đèn bên trong đọng nước - máy lạnh chạy có mùi khét", KB)
+    assert "water_pipe" not in [s[0] for s in spans]
+    assert "air_conditioner" in [s[0] for s in spans]

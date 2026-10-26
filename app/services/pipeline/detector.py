@@ -33,6 +33,19 @@ class Detection:
     box_xywh: tuple[int, int, int, int]
     crop: ImagePayload
     """The cropped device region handed to the VLM stage."""
+    checked: str = ""
+    """How a doubtful detection was settled (see LocalPipeline._second_look):
+    "agreed" when the vision-language model saw the same appliance, "model"
+    when the appliance is the model's and not the detector's, "unsure" when
+    nobody could confirm it. Empty for a confident detection."""
+
+    first_reading: str = ""
+    """What the detector itself read, when a second look changed or confirmed it."""
+
+    @property
+    def uncertain(self) -> bool:
+        """Whether the appliance is a guess the customer should be able to correct."""
+        return self.checked in ("model", "unsure")
 
 
 class Detector(Protocol):

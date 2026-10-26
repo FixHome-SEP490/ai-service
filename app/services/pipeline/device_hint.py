@@ -132,6 +132,22 @@ def _keep_false_friends_apart(text: str) -> str:
 
 
 def devices_named_in(description: str, kb: KnowledgeBase) -> List[DeviceHint]:
+    """The appliances a description names (see _devices_named_in).
+
+    Remembered per text: one turn asks about the same sentence a dozen times,
+    from the cut, the router, the photograph's lead and the switch check, and
+    this was a third of the time a turn took. A copy, so no caller can change
+    what the next one reads.
+    """
+    return list(_devices_named_in_cached(description, kb))
+
+
+@lru_cache(maxsize=4096)
+def _devices_named_in_cached(description: str, kb: KnowledgeBase) -> tuple:
+    return tuple(_devices_named_in(description, kb))
+
+
+def _devices_named_in(description: str, kb: KnowledgeBase) -> List[DeviceHint]:
     """Every device the text names, longest alias first.
 
     Longest first because "máy giặt cửa trên" contains "máy giặt", and reporting
@@ -272,8 +288,12 @@ def _by_brand(folded: str, kb: KnowledgeBase) -> List[DeviceHint]:
     return found if len(devices) == 1 else []
 
 
+@lru_cache(maxsize=1 << 16)
 def _one_edit(a: str, b: str) -> int:
-    """Edit distance between two short words, stopping once past one."""
+    """Edit distance between two short words, stopping once past one.
+
+    Remembered: the same pairs come up in every message ("may" against
+    "may", "lanh" against "lanh"), five million calls in 400 messages."""
     if a == b:
         return 0
     if abs(len(a) - len(b)) > 1:
@@ -287,6 +307,19 @@ def _one_edit(a: str, b: str) -> int:
     return previous[-1]
 
 
+@lru_cache(maxsize=8)
+def _long_aliases(kb: KnowledgeBase) -> tuple:
+    """(device, folded words) for the aliases a slip is looked for in: two
+    words or more and six letters or more, folded once instead of per message."""
+    out = []
+    for device_type in kb.device_types:
+        for alias in kb.aliases_vi(device_type):
+            words = _fold(alias).split()
+            if len(words) >= 2 and sum(len(w) for w in words) >= 6:
+                out.append((device_type, tuple(words)))
+    return tuple(out)
+
+
 def _misspelt(folded: str, kb: KnowledgeBase) -> List[DeviceHint]:
     """An alias typed with one letter wrong: "máy giặc", "đìu hòa", "bồn càu".
 
@@ -297,17 +330,14 @@ def _misspelt(folded: str, kb: KnowledgeBase) -> List[DeviceHint]:
     tokens = _folded_words(folded).split()
     devices = set()
     hits: List[DeviceHint] = []
-    for device_type in kb.device_types:
-        for alias in kb.aliases_vi(device_type):
-            words = _fold(alias).split()
-            if len(words) < 2 or sum(len(w) for w in words) < 6:
-                continue
+    for device_type, words in _long_aliases(kb):
+        if True:
             n = len(words)
             for i in range(len(tokens) - n + 1):
                 window = tokens[i : i + n]
                 if window[0][:1] != words[0][:1]:
                     continue
-                edits = [(_one_edit(x, y), y) for x, y in zip(window, words)]
+                edits = [(_one_edit(x, y), y) for x, y in zip(window, words)]  # noqa: B007
                 # The slip has to be in a word long enough to keep its identity:
                 # "quạt gắn" is one letter from "quạt bàn" and means a ceiling.
                 if sum(e for e, _ in edits) == 1 and all(len(y) >= 4 for e, y in edits if e):

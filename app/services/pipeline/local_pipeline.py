@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import asyncio
+import dataclasses
 import hashlib
 import re
 import time
@@ -25,6 +26,7 @@ from app.schemas.diagnosis import (
     DiagnosisResponse,
     DiagnosisStatus,
     Engine,
+    PhotoReading,
     ModelInfo,
     EvidenceSource,
     PriceEstimate,
@@ -594,6 +596,16 @@ socket, and every word said after that was searched against the wrong machine.
 
 
 def _named_spans(text: str, kb: KnowledgeBase) -> List[tuple]:
+    """See _named_spans_uncached; remembered per text, as devices_named_in is."""
+    return list(_named_spans_cached(text, kb))
+
+
+@lru_cache(maxsize=4096)
+def _named_spans_cached(text: str, kb: KnowledgeBase) -> tuple:
+    return tuple(_named_spans_uncached(text, kb))
+
+
+def _named_spans_uncached(text: str, kb: KnowledgeBase) -> List[tuple]:
     """(device, alias, start, end) for each appliance named, on word boundaries.
 
     `devices_named_in` matches inside words, so "nám" holds "ấm" and "quạt trần"
@@ -604,10 +616,18 @@ def _named_spans(text: str, kb: KnowledgeBase) -> List[tuple]:
     considering the devices it accepts.
     """
     allowed = {h.device_type for h in device_hint.devices_named_in(text, kb)}
-    typed = re.findall(r"[^\W_]+", unicodedata.normalize("NFC", text.lower()))
+    lowered = unicodedata.normalize("NFC", text.lower())
+    words_at = list(re.finditer(r"[^\W_]+", lowered))
+    typed = [m.group(0) for m in words_at]
     folded = [_fold_vi(w) for w in typed]
+    # Where punctuation stands between two words: a name never spans it.
+    # "Đọng nước - máy lạnh chạy..." read as "nước máy", a water pipe.
+    broken = {
+        k for k in range(1, len(words_at))
+        if re.search(r"[,.;!?:\n\-–—()]", lowered[words_at[k - 1].end() : words_at[k].start()])
+    }
     spans = []
-    for device in allowed:
+    for device in sorted(allowed):
         for alias in kb.aliases_vi(device):
             wanted = re.findall(r"[^\W_]+", unicodedata.normalize("NFC", alias.lower()))
             if not wanted:
@@ -625,12 +645,27 @@ def _named_spans(text: str, kb: KnowledgeBase) -> List[tuple]:
                     for j in range(n)
                 ):
                     continue
+                if any(k in broken for k in range(i + 1, i + n)):
+                    continue
                 spans.append((device, alias, i, i + n))
     # Most specific first: length without the classifier, so "quạt trần" beats
     # "cái quạt" over the same words of "cái quạt trần".
+    # Then the one that starts first, then by name: two names of one length
+    # overlapping ("vòi nước máy" holds "vòi nước" and "nước máy") used to be
+    # settled by the order a set happened to iterate in, which changes from one
+    # process to the next, and the same message was cut differently each run.
+    def words_of(alias: str) -> List[str]:
+        return [w for w in re.findall(r"[^\W_]+", _fold_vi(alias)) if w not in ("cai", "chiec")]
+
     spans.sort(
-        key=lambda span: -sum(
-            1 for w in re.findall(r"[^\W_]+", _fold_vi(span[1])) if w not in ("cai", "chiec")
+        key=lambda span: (
+            -len(words_of(span[1])),
+            # Of two names of one length overlapping, the one that names a
+            # machine: "nước máy lạnh" is the air conditioner, not tap water.
+            0 if (words_of(span[1]) or [""])[0] in _DEVICE_HEADS else 1,
+            span[2],
+            span[0],
+            span[1],
         )
     )
     kept: List[tuple] = []
@@ -678,13 +713,27 @@ def _what_it_is(mention: tuple, folded: List[str]) -> Optional[tuple]:
 
 
 def _appliance_mentions(text: str, kb: KnowledgeBase) -> List[tuple]:
+    """See _appliance_mentions_uncached; remembered per text.
+
+    A turn read the same message for its appliances four times: to cut it,
+    to check for a correction, to route it and to pick the photograph's lead.
+    """
+    return list(_appliance_mentions_cached(text, kb))
+
+
+@lru_cache(maxsize=4096)
+def _appliance_mentions_cached(text: str, kb: KnowledgeBase) -> tuple:
+    return tuple(_appliance_mentions_uncached(text, kb))
+
+
+def _appliance_mentions_uncached(text: str, kb: KnowledgeBase) -> List[tuple]:
     """(device, first token, end token) for every appliance the customer reports.
 
     By the names that name a machine (not "nóng lạnh", a tap setting), and by
     a brand with the word for the kind of thing before it ("lò Sharp", "con
     Senko", "bếp Taka") when the brand and that word leave one appliance. A
     name used as the object of someone else's sentence is left out. Token
-    positions are those of `re.findall(r"[^\W_]+", NFC(text).lower())`.
+    positions are those of `re.findall(r"[^\\W_]+", NFC(text).lower())`.
     """
     typed = re.findall(r"[^\W_]+", unicodedata.normalize("NFC", text.lower()))
     folded = [_fold_vi(w) for w in typed]
@@ -1469,7 +1518,72 @@ class LocalPipeline:
             return await self._diagnose_locked(request)
 
     async def _diagnose_locked(self, request: DiagnosisRequest) -> DiagnosisResponse:
+        response = await self._diagnose_routed(request)
+        return self._with_photo_guesses(response, request)
+
+    def _with_photo_guesses(self, response: DiagnosisResponse, request: DiagnosisRequest) -> DiagnosisResponse:
+        """What each photograph of this request was read as, and the guesses said aloud.
+
+        Not a question: the diagnosis goes on, and the customer who sees a
+        guess is wrong says so in a word ("ảnh 2 là tủ lạnh"), or with the
+        label the client shows under the photograph."""
+        if not request.images:
+            return response
+        readings = []
+        for index, image in enumerate(request.images[:3]):
+            seen = self._seen_photos.get(hashlib.sha1(image.encode("ascii", "ignore")).hexdigest())
+            device_type = seen.device_type if seen is not None else None
+            uncertain = bool(seen is not None and seen.uncertain)
+            if len(request.images) == 1 and response.device is not None:
+                # One photograph and the words named its appliance: it is that one.
+                device_type = response.device.device_type
+                uncertain = response.device.uncertain
+            name = self._kb.device_name_vi(device_type) if device_type else None
+            readings.append(PhotoReading(index=index, device_type=device_type, name_vi=name, uncertain=uncertain))
+        guessed = [(r.index, r.name_vi) for r in readings if r.uncertain and r.name_vi]
+        update = {"photos": readings}
+        if guessed:
+            several = len(request.images) > 1
+            said = [f"{'ảnh ' + str(i + 1) if several else 'ảnh'} là {name.lower()}" for i, name in guessed]
+            example = f"ảnh {guessed[0][0] + 1} là ..." if several else "ảnh là ..."
+            note = f"Em đoán {', '.join(said)}, nếu chưa đúng anh/chị nhắn em \"{example}\" để em xem lại nhé."
+            update["message_vi"] = f"{response.message_vi}\n\n{note}" if response.message_vi else note
+        return response.model_copy(update=update)
+
+    def _photo_fix(self, chat: Conversation, text: str) -> Optional[tuple]:
+        """(photograph index, appliance it shows) for "ảnh 2 là tủ lạnh", if this says so."""
+        folded = " " + dialogue_state.get_lexicon(self._kb).normalize(text) + " "
+        match = re.search(
+            r" (?:anh|hinh|tam)(?: anh)?\s*(?:so |thu )?(1|2|3|mot|hai|ba|nay|do)?\s*(?:la|moi la|phai la|chup)\s+(.+)",
+            folded,
+        )
+        if not match:
+            return None
+        rest = match.group(2)
+        device = _strongly_named_in(dialogue_state.get_lexicon(self._kb).normalize_accented(rest), self._kb) or _device_named_in(
+            rest, self._kb
+        )
+        if device is None:
+            return None
+        photos = chat.memo.get("", {}).get("photos", [])
+        word = match.group(1)
+        if word in ("nay", "do", None):
+            place = len(photos) - 1 if photos else 0
+        else:
+            place = _ORDINAL_WORDS.get(word, 0)
+        return place, device
+
+    async def _diagnose_routed(self, request: DiagnosisRequest) -> DiagnosisResponse:
         known = self._conversations.peek(request.session_id)
+        fix = (
+            self._photo_fix(known, request.description)
+            if known is not None and known.parent_id is None and known.device_type and not request.images
+            else None
+        )
+        if fix is not None:
+            corrected = await self._correct_photo(known, request, *fix)
+            if corrected is not None:
+                return corrected
         photographed: List[Optional[Detection]] = []
         if known is not None and known.parent_id is None and known.device_type and request.images:
             photographed = list(
@@ -1508,6 +1622,44 @@ class LocalPipeline:
                     or [self._seen_photos.get(hashlib.sha1(i.encode("ascii", "ignore")).hexdigest()) for i in request.images[:3]],
                 )
         return self._with_devices(response, chat, request.description, fresh=fresh)
+
+    async def _correct_photo(
+        self, chat: Conversation, request: DiagnosisRequest, place: int, device_type: str
+    ) -> Optional[DiagnosisResponse]:
+        """The customer says photograph `place` shows `device_type`.
+
+        The appliance it was taken for leaves the visit and the named one takes
+        its place, asked what is wrong with it like any appliance only seen in
+        a photograph; when it was the conversation's own appliance, the
+        ordinary correction ("không phải X mà là Y") does the switch."""
+        photos = chat.memo.setdefault("", {}).setdefault("photos", [])
+        old = photos[place] if 0 <= place < len(photos) else None
+        if old == device_type:
+            return None
+        if 0 <= place < len(photos):
+            photos[place] = device_type
+        old_memo = chat.memo.get(old, {}) if old else {}
+        new_memo = chat.memo.setdefault(device_type, {})
+        if old_memo.get("image_index") is not None:
+            new_memo["image_index"] = old_memo["image_index"]
+        new_memo["uncertain"] = False
+        name = (self._kb.device_name_vi(device_type) or device_type).lower()
+        if old is not None and old == chat.device_type:
+            old_name = (self._kb.device_name_vi(old) or old).lower()
+            switched = request.model_copy(update={"description": f"không phải {old_name} mà là {name}"})
+            # diagnose() already holds the visit's lock for this turn.
+            response = await self._diagnose_one(switched)
+            chat.memo.setdefault("", {})["lead"] = device_type
+            return self._with_devices(response, chat, switched.description)
+        if old is not None:
+            chat.others.pop(old, None)
+            chat.queued.pop(old, None)
+            chat.memo.pop(old, None)
+        if device_type not in chat.others and device_type != chat.device_type:
+            self._join_visit(chat, device_type, 0.0, "image")
+        if device_type == chat.device_type:
+            return None
+        return await self._answer_other(chat, device_type, request.model_copy(update={"description": name}))
 
     @staticmethod
     def _remember_photos(chat: Conversation, found: Sequence[Optional[Detection]]) -> None:
@@ -1630,6 +1782,7 @@ class LocalPipeline:
             if shown is not None and shown.device_type != chat.device_type:
                 if shown.device_type in chat.others:
                     return shown.device_type
+                chat.memo.setdefault(shown.device_type, {})["uncertain"] = shown.uncertain
                 return self._join_visit(chat, shown.device_type, shown.confidence, "image")
             if shown is None and named in chat.others:
                 return named
@@ -1962,6 +2115,7 @@ class LocalPipeline:
             image_index=image_index,
             confidence=round(float(memo.get("confidence", 0.0)), 4) if image_index is not None else 0.0,
             is_primary=primary,
+            uncertain=bool(memo.get("uncertain")) and image_index is not None,
             suspected_faults=faults,
             service=service,
             variant_code=variant,
@@ -2344,6 +2498,8 @@ class LocalPipeline:
             confidence=round(detection.confidence, 4) if detection else None,
             box=list(detection.box_xywh) if detection else None,
             seen=[{"image": i, "device": d, "confidence": round(c, 4)} for i, d, c in chat.seen],
+            checked=detection.checked if detection else None,
+            detector_said=detection.first_reading if detection else None,
         )
         detected = detection.device_type if detection else None
 
@@ -3622,9 +3778,12 @@ class LocalPipeline:
             return self._seen_photos[key]
         payload: ImagePayload = load_base64_image(image)
         detections = await self._detector.detect(payload)
-        best = detections[0] if detections else None
+        raw = detections[0] if detections else None
+        best = raw
         if best is not None and best.confidence < settings.DETECTOR_CONFIDENCE_THRESHOLD:
             best = None
+        if raw is None or raw.confidence < settings.PHOTO_CHECK_BELOW:
+            best = await self._second_look(payload, raw, best)
         # The router reads a photograph to know which appliance it shows, and
         # the conversation it is routed to reads it again for the diagnosis.
         self._seen_photos[key] = best
@@ -3699,12 +3858,53 @@ class LocalPipeline:
             memo = chat.memo.setdefault(d.device_type, {})
             memo["image_index"] = index
             memo["confidence"] = d.confidence
+            memo["uncertain"] = d.uncertain
             if (lead is not None and d.device_type == lead.device_type) or d.device_type == chat.device_type:
                 continue
             if d.device_type not in chat.queued:
                 chat.queued[d.device_type] = memo.get("text", "")
                 chat.just_seen.append(d.device_type)
         return lead
+
+    async def _second_look(
+        self, payload: ImagePayload, raw: Optional[Detection], best: Optional[Detection]
+    ) -> Optional[Detection]:
+        """What a photograph shows when the detector is unsure: asked of the VLM.
+
+        On the served detector, 25/10/2026, washing machines were read as a
+        sink or a smart lock and water heaters as a fridge, at confidences a
+        threshold of 0.45 let through, and the reply followed the photograph.
+        Below PHOTO_CHECK_BELOW the vision-language model, which reads the
+        whole photograph, is asked which appliance it is. The same answer
+        confirms the detector; another answer replaces it, marked as a guess;
+        no answer leaves the detector's reading, marked as a guess when it was
+        weak. A guess is said in the reply and can be corrected ("ảnh 2 là
+        tủ lạnh"), so a wrong one costs a tap, not a wrong diagnosis.
+        """
+        identify = getattr(self._vlm, "identify", None)
+        seen = None
+        if identify is not None:
+            choices = [(d, self._kb.device_name_vi(d) or d) for d in self._kb.device_types]
+            try:
+                seen = await identify(payload, choices)
+            except Exception as exc:  # pragma: no cover - a second look is never load-bearing
+                logger.warning("photo_second_look_failed: %s", type(exc).__name__)
+        if seen not in self._kb.device_types:
+            seen = None
+        whole = (0, 0, payload.width, payload.height)
+        said = raw.device_type if raw is not None else ""
+        if seen is not None and raw is not None and seen == raw.device_type:
+            return dataclasses.replace(
+                raw, confidence=max(raw.confidence, settings.PHOTO_CHECK_BELOW), checked="agreed", first_reading=said
+            )
+        if seen is not None:
+            return Detection(
+                device_type=seen, confidence=settings.PHOTO_CHECK_TRUST, box_xywh=whole, crop=payload,
+                checked="model", first_reading=said,
+            )
+        if best is not None:
+            return dataclasses.replace(best, checked="unsure", first_reading=said)
+        return None
 
     async def _safe_detect(self, image: str) -> Optional[Detection]:
         try:
@@ -4251,6 +4451,7 @@ class LocalPipeline:
             confidence=detection.confidence,
             source=EvidenceSource.IMAGE,
             bounding_box=BoundingBox(x=x, y=y, width=w, height=h),
+            uncertain=detection.uncertain,
         )
 
     def _resolve_conditions(self, verdict: VlmVerdict) -> List[VisibleCondition]:
