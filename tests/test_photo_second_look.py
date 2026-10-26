@@ -131,3 +131,17 @@ def test_each_photograph_of_the_request_is_reported_in_order():
 def test_no_photograph_no_readings():
     reply = _run(_pipeline(_Detector(), _Looks()), description="máy lạnh không mát")
     assert reply.photos == []
+
+
+def test_the_served_model_wrapper_passes_on_everything_the_pipeline_calls():
+    # The second look was measured on the served model, 26/10/2026, and never
+    # ran: QwenVlm, the wrapper the service uses, had no identify, so the
+    # pipeline saw no model to ask. Every method of the client the pipeline
+    # relies on has to be on the wrapper.
+    from app.services.pipeline.qwen_client import QwenClient
+    from app.services.pipeline.vlm import QwenVlm
+
+    for name in ("assess", "assess_context", "answer", "answer_generally", "narrate", "identify"):
+        assert callable(getattr(QwenClient, name, None)), name
+        assert callable(getattr(QwenVlm, name, None)), name
+    assert callable(getattr(StubVlm, "identify", None))

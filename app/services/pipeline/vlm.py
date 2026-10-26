@@ -202,3 +202,6 @@ class QwenVlm:
 
     async def assess_context(self, crop, context, candidate_condition_codes) -> VlmVerdict:
         return await self._client.assess_context(crop, context, candidate_condition_codes)
+
+    async def identify(self, image: ImagePayload, choices: List[Tuple[str, str]]) -> Optional[str]:
+        return await self._client.identify(image, choices)
