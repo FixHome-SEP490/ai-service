@@ -594,6 +594,16 @@ socket, and every word said after that was searched against the wrong machine.
 
 
 def _named_spans(text: str, kb: KnowledgeBase) -> List[tuple]:
+    """See _named_spans_uncached; remembered per text, as devices_named_in is."""
+    return list(_named_spans_cached(text, kb))
+
+
+@lru_cache(maxsize=4096)
+def _named_spans_cached(text: str, kb: KnowledgeBase) -> tuple:
+    return tuple(_named_spans_uncached(text, kb))
+
+
+def _named_spans_uncached(text: str, kb: KnowledgeBase) -> List[tuple]:
     """(device, alias, start, end) for each appliance named, on word boundaries.
 
     `devices_named_in` matches inside words, so "nám" holds "ấm" and "quạt trần"
@@ -604,10 +614,18 @@ def _named_spans(text: str, kb: KnowledgeBase) -> List[tuple]:
     considering the devices it accepts.
     """
     allowed = {h.device_type for h in device_hint.devices_named_in(text, kb)}
-    typed = re.findall(r"[^\W_]+", unicodedata.normalize("NFC", text.lower()))
+    lowered = unicodedata.normalize("NFC", text.lower())
+    words_at = list(re.finditer(r"[^\W_]+", lowered))
+    typed = [m.group(0) for m in words_at]
     folded = [_fold_vi(w) for w in typed]
+    # Where punctuation stands between two words: a name never spans it.
+    # "Đọng nước - máy lạnh chạy..." read as "nước máy", a water pipe.
+    broken = {
+        k for k in range(1, len(words_at))
+        if re.search(r"[,.;!?:\n\-–—()]", lowered[words_at[k - 1].end() : words_at[k].start()])
+    }
     spans = []
-    for device in allowed:
+    for device in sorted(allowed):
         for alias in kb.aliases_vi(device):
             wanted = re.findall(r"[^\W_]+", unicodedata.normalize("NFC", alias.lower()))
             if not wanted:
@@ -625,12 +643,27 @@ def _named_spans(text: str, kb: KnowledgeBase) -> List[tuple]:
                     for j in range(n)
                 ):
                     continue
+                if any(k in broken for k in range(i + 1, i + n)):
+                    continue
                 spans.append((device, alias, i, i + n))
     # Most specific first: length without the classifier, so "quạt trần" beats
     # "cái quạt" over the same words of "cái quạt trần".
+    # Then the one that starts first, then by name: two names of one length
+    # overlapping ("vòi nước máy" holds "vòi nước" and "nước máy") used to be
+    # settled by the order a set happened to iterate in, which changes from one
+    # process to the next, and the same message was cut differently each run.
+    def words_of(alias: str) -> List[str]:
+        return [w for w in re.findall(r"[^\W_]+", _fold_vi(alias)) if w not in ("cai", "chiec")]
+
     spans.sort(
-        key=lambda span: -sum(
-            1 for w in re.findall(r"[^\W_]+", _fold_vi(span[1])) if w not in ("cai", "chiec")
+        key=lambda span: (
+            -len(words_of(span[1])),
+            # Of two names of one length overlapping, the one that names a
+            # machine: "nước máy lạnh" is the air conditioner, not tap water.
+            0 if (words_of(span[1]) or [""])[0] in _DEVICE_HEADS else 1,
+            span[2],
+            span[0],
+            span[1],
         )
     )
     kept: List[tuple] = []
@@ -678,6 +711,20 @@ def _what_it_is(mention: tuple, folded: List[str]) -> Optional[tuple]:
 
 
 def _appliance_mentions(text: str, kb: KnowledgeBase) -> List[tuple]:
+    """See _appliance_mentions_uncached; remembered per text.
+
+    A turn read the same message for its appliances four times: to cut it,
+    to check for a correction, to route it and to pick the photograph's lead.
+    """
+    return list(_appliance_mentions_cached(text, kb))
+
+
+@lru_cache(maxsize=4096)
+def _appliance_mentions_cached(text: str, kb: KnowledgeBase) -> tuple:
+    return tuple(_appliance_mentions_uncached(text, kb))
+
+
+def _appliance_mentions_uncached(text: str, kb: KnowledgeBase) -> List[tuple]:
     """(device, first token, end token) for every appliance the customer reports.
 
     By the names that name a machine (not "nóng lạnh", a tap setting), and by
