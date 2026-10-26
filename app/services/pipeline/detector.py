@@ -39,6 +39,9 @@ class Detection:
     when the appliance is the model's and not the detector's, "unsure" when
     nobody could confirm it. Empty for a confident detection."""
 
+    first_reading: str = ""
+    """What the detector itself read, when a second look changed or confirmed it."""
+
     @property
     def uncertain(self) -> bool:
         """Whether the appliance is a guess the customer should be able to correct."""

@@ -2498,6 +2498,8 @@ class LocalPipeline:
             confidence=round(detection.confidence, 4) if detection else None,
             box=list(detection.box_xywh) if detection else None,
             seen=[{"image": i, "device": d, "confidence": round(c, 4)} for i, d, c in chat.seen],
+            checked=detection.checked if detection else None,
+            detector_said=detection.first_reading if detection else None,
         )
         detected = detection.device_type if detection else None
 
@@ -3890,14 +3892,18 @@ class LocalPipeline:
         if seen not in self._kb.device_types:
             seen = None
         whole = (0, 0, payload.width, payload.height)
+        said = raw.device_type if raw is not None else ""
         if seen is not None and raw is not None and seen == raw.device_type:
-            return dataclasses.replace(raw, confidence=max(raw.confidence, settings.PHOTO_CHECK_BELOW), checked="agreed")
+            return dataclasses.replace(
+                raw, confidence=max(raw.confidence, settings.PHOTO_CHECK_BELOW), checked="agreed", first_reading=said
+            )
         if seen is not None:
             return Detection(
-                device_type=seen, confidence=settings.PHOTO_CHECK_TRUST, box_xywh=whole, crop=payload, checked="model"
+                device_type=seen, confidence=settings.PHOTO_CHECK_TRUST, box_xywh=whole, crop=payload,
+                checked="model", first_reading=said,
             )
         if best is not None:
-            return dataclasses.replace(best, checked="unsure")
+            return dataclasses.replace(best, checked="unsure", first_reading=said)
         return None
 
     async def _safe_detect(self, image: str) -> Optional[Detection]:
