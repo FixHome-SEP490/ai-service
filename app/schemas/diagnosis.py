@@ -301,6 +301,20 @@ class TraceStage(BaseModel):
     model_config = ConfigDict(alias_generator=to_camel, populate_by_name=True)
 
 
+class PhotoReading(BaseModel):
+    """What one photograph of this request was read as."""
+
+    index: int = Field(ge=0, le=2)
+    """Its place among this request's images."""
+    device_type: Optional[str] = None
+    """None when nothing was recognised in it."""
+    name_vi: Optional[str] = None
+    uncertain: bool = False
+    """A guess the customer may correct: "ảnh 2 là tủ lạnh"."""
+
+    model_config = ConfigDict(alias_generator=to_camel, populate_by_name=True)
+
+
 class DiagnosisResponse(BaseModel):
     request_id: Optional[str] = None
     session_id: Optional[str] = None
@@ -348,6 +362,12 @@ class DiagnosisResponse(BaseModel):
     primary first, at most three (a visit's limit). Empty for one appliance:
     the top-level fields already describe it. `recommended_services` then holds
     one service per appliance, in the same order."""
+
+    photos: List[PhotoReading] = Field(default_factory=list, max_length=3)
+    """One per image of this request, in order: what each was read as. The
+    client labels each photograph with it and lets the customer correct it.
+    Unlike `devices[].image_index`, which may point into an earlier message,
+    these are always about this request's images."""
 
     disclaimer_vi: str
 

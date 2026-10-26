@@ -111,3 +111,23 @@ def test_the_conversation_own_appliance_corrected_by_its_photograph():
     chat = pipeline._conversations.get_or_create(first.session_id)
     assert chat.device_type == "air_conditioner"
     assert all(f.fault_code.startswith("AC_") for f in fixed.suspected_faults)
+
+
+def test_each_photograph_of_the_request_is_reported_in_order():
+    detector = _Detector(0.55, reads_as={"refrigerator": "washing_machine"})
+    reply = _run(
+        _pipeline(detector, _Looks(sees=False)),
+        description="máy lạnh nhà em không mát",
+        images=[_photo("air_conditioner"), _photo("refrigerator")],
+    )
+    assert [(p.index, p.device_type, p.uncertain) for p in reply.photos] == [
+        (0, "air_conditioner", True),
+        (1, "washing_machine", True),
+    ]
+    wire = reply.model_dump(by_alias=True)
+    assert wire["photos"][1] == {"index": 1, "deviceType": "washing_machine", "nameVi": "Máy giặt", "uncertain": True}
+
+
+def test_no_photograph_no_readings():
+    reply = _run(_pipeline(_Detector(), _Looks()), description="máy lạnh không mát")
+    assert reply.photos == []

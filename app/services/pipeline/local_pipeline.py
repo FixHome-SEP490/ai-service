@@ -26,6 +26,7 @@ from app.schemas.diagnosis import (
     DiagnosisResponse,
     DiagnosisStatus,
     Engine,
+    PhotoReading,
     ModelInfo,
     EvidenceSource,
     PriceEstimate,
@@ -1521,32 +1522,33 @@ class LocalPipeline:
         return self._with_photo_guesses(response, request)
 
     def _with_photo_guesses(self, response: DiagnosisResponse, request: DiagnosisRequest) -> DiagnosisResponse:
-        """One sentence naming each appliance this turn's photographs were guessed to be.
+        """What each photograph of this request was read as, and the guesses said aloud.
 
-        Not a question: the diagnosis goes on, and the customer who sees it is
-        wrong says so in a word ("ảnh 2 là tủ lạnh"), or with the label the
-        client shows under the photograph."""
+        Not a question: the diagnosis goes on, and the customer who sees a
+        guess is wrong says so in a word ("ảnh 2 là tủ lạnh"), or with the
+        label the client shows under the photograph."""
         if not request.images:
             return response
-        guessed = []
-        for entry in response.devices or []:
-            if entry.uncertain and entry.image_index is not None:
-                guessed.append((entry.image_index, entry.name_vi))
-        if not response.devices and response.device is not None and response.device.uncertain:
-            guessed.append((0, response.device.name_vi))
-        if not guessed:
-            return response
-        several = len(request.images) > 1
-        said = []
-        for index, name in sorted(guessed):
-            where = f"ảnh {index + 1}" if several else "ảnh"
-            said.append(f"{where} là {name.lower()}")
-        example = f"ảnh {guessed[0][0] + 1} là ..." if several else "ảnh là ..."
-        note = (
-            f"Em đoán {', '.join(said)}, nếu chưa đúng anh/chị nhắn em \"{example}\" để em xem lại nhé."
-        )
-        message = f"{response.message_vi}\n\n{note}" if response.message_vi else note
-        return response.model_copy(update={"message_vi": dialogue_state.address_as(message, None)})
+        readings = []
+        for index, image in enumerate(request.images[:3]):
+            seen = self._seen_photos.get(hashlib.sha1(image.encode("ascii", "ignore")).hexdigest())
+            device_type = seen.device_type if seen is not None else None
+            uncertain = bool(seen is not None and seen.uncertain)
+            if len(request.images) == 1 and response.device is not None:
+                # One photograph and the words named its appliance: it is that one.
+                device_type = response.device.device_type
+                uncertain = response.device.uncertain
+            name = self._kb.device_name_vi(device_type) if device_type else None
+            readings.append(PhotoReading(index=index, device_type=device_type, name_vi=name, uncertain=uncertain))
+        guessed = [(r.index, r.name_vi) for r in readings if r.uncertain and r.name_vi]
+        update = {"photos": readings}
+        if guessed:
+            several = len(request.images) > 1
+            said = [f"{'ảnh ' + str(i + 1) if several else 'ảnh'} là {name.lower()}" for i, name in guessed]
+            example = f"ảnh {guessed[0][0] + 1} là ..." if several else "ảnh là ..."
+            note = f"Em đoán {', '.join(said)}, nếu chưa đúng anh/chị nhắn em \"{example}\" để em xem lại nhé."
+            update["message_vi"] = f"{response.message_vi}\n\n{note}" if response.message_vi else note
+        return response.model_copy(update=update)
 
     def _photo_fix(self, chat: Conversation, text: str) -> Optional[tuple]:
         """(photograph index, appliance it shows) for "ảnh 2 là tủ lạnh", if this says so."""
