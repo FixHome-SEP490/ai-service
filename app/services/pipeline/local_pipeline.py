@@ -38,6 +38,7 @@ from app.schemas.diagnosis import (
     VisibleCondition,
 )
 from app.services.pipeline import answer_guard
+from app.services.pipeline import pricing
 from app.services.pipeline import clarifier
 from app.services.pipeline import context
 from app.services.pipeline import device_hint
@@ -1562,6 +1563,7 @@ class LocalPipeline:
             "rejected_vi": [n for n in rejected_vi if n],
             "said_vi": chat.said_before()[:1000] or None,
             "correction_vi": (text or "")[:1000],
+            "rest_vi": "" if kind == "photo" else dialogue_state.account_after_denial(text or "")[:1000],
         }
 
     def _with_pushback(self, response):
@@ -2217,6 +2219,12 @@ class LocalPipeline:
         if service is not None and service.device_type != device_type:
             service = service.model_copy(update={"device_type": device_type})
         variant, questions = self._variant_for(service, faults)
+        if service is not None:
+            own = [
+                f.fault_code for f in faults
+                if any(ref.service_code == service.service_code for ref in self._kb.services_for_fault(f.fault_code))
+            ]
+            price = pricing.estimate(service.service_code, own, device_type, variant) or price
         name = self._kb.device_name_vi(device_type) or device_type
         if text and _fold_vi(text) == _fold_vi(name):
             text = ""
@@ -2265,7 +2273,7 @@ class LocalPipeline:
                 for c in strong
             ]
             assess = any(c.fault.requires_assessment for c in strong)
-            price = PriceEstimate(
+            price = self._estimate_for(offer[:1], faults, device_type) or PriceEstimate(
                 min=min(c.fault.price_min for c in strong),
                 max=None if assess else max(c.fault.price_max for c in strong),
                 requires_assessment=assess,
@@ -2276,10 +2284,30 @@ class LocalPipeline:
             return None, [], None
         return offer[0], [], self._service_price(offer[0])
 
+    def _estimate_for(
+        self, services: Sequence[RecommendedService], faults: Sequence[SuspectedFault], device_type: Optional[str]
+    ) -> Optional[PriceEstimate]:
+        """The first service's price to that price plus the parts of the faults it repairs.
+
+        The first service is the one "Đặt thợ" books, so the low end is the
+        figure the booking form shows next to it. Faults another service
+        handles (a cleaning beside a repair) do not add their parts to it."""
+        if not services:
+            return None
+        code = services[0].service_code
+        own = [
+            f.fault_code for f in faults
+            if any(ref.service_code == code for ref in self._kb.services_for_fault(f.fault_code))
+        ]
+        return pricing.estimate(code, own, device_type)
+
     @staticmethod
     def _service_price(service: Optional[RecommendedService]) -> Optional[PriceEstimate]:
         """The catalogue's own labour range for a service: firm for a fixed
         price, "from" for a repair priced on inspection."""
+        priced = pricing.estimate(service.service_code) if service else None
+        if priced is not None:
+            return priced
         ref = service_catalog.current().ref_for(service.service_code) if service else None
         if ref is None or not ref.base_price:
             return None
@@ -3371,6 +3399,7 @@ class LocalPipeline:
         actions: List[str],
         services: List[RecommendedService],
         ruled_out: Sequence[str] = (),
+        estimate: Optional[PriceEstimate] = None,
     ) -> Optional[str]:
         """Hand the finished answer to the model to phrase, nothing more.
 
@@ -3393,6 +3422,9 @@ class LocalPipeline:
             lines.append(f"- giá: {money(price_min)}đ")
         elif price_min is not None:
             lines.append(f"- giá: từ {money(price_min)}đ, thợ xem tận nơi rồi báo giá")
+        if estimate is not None and estimate.parts_max:
+            # What the range is made of, so it is not read as the labour alone.
+            lines.append(f"- trong đó: tiền công từ {money(estimate.min)}đ, cộng linh kiện nếu phải thay")
         if actions:
             lines.append("- làm trước: " + " | ".join(a.rstrip(".").lower() for a in actions))
         if services:
@@ -4503,6 +4535,10 @@ class LocalPipeline:
                 request, confidence, shortlist, detection, chat, trace
             )
 
+        estimate = self._estimate_for(services, faults, device.device_type if device else None)
+        if estimate is not None:
+            price_min, price_max, needs_assessment = estimate.min, estimate.max, estimate.requires_assessment
+
         if trace is not None:
             trace.add(
                 "knowledge_base",
@@ -4520,9 +4556,10 @@ class LocalPipeline:
             chat.add("assistant", ", ".join(f.name_vi for f in faults))
 
         message_vi = await self._narrate(
-            device, faults, price_min, None if needs_assessment else price_max,
+            device, faults, price_min, price_max if estimate is not None or not needs_assessment else None,
             actions, services,
             ruled_out=self._ruled_out_names(chat) if chat is not None else (),
+            estimate=estimate,
         )
         if not services:
             note = self._not_open_note(faults and self._kb.fault(faults[0].fault_code).device_type)
@@ -4545,7 +4582,7 @@ class LocalPipeline:
             # ceiling among the others would put a firm number on a case nobody
             # can price yet, and it is the low one that the customer would read
             # as the whole cost.
-            price_estimate=PriceEstimate(
+            price_estimate=estimate or PriceEstimate(
                 min=price_min or 0,
                 max=None if needs_assessment else (price_max or 0),
                 requires_assessment=needs_assessment,

@@ -1,8 +1,8 @@
 """The prices in the knowledge base must stay traceable to the catalogue.
 
-Every figure a customer sees comes from a Backend service's labour (S) plus
-the parts the fault usually needs (P), from the V3 table the team agreed on
-19/10/2026. If a code is renamed in either catalogue, the fault that cited it
+Every figure a customer sees comes from a Backend service's price plus the
+parts the fault usually needs, priced at FixHome's selling price (PO
+26/10/2026; which parts, from the V3 table the team agreed on 19/10/2026). If a code is renamed in either catalogue, the fault that cited it
 would otherwise keep a number nothing supports, which is invisible from the
 response.
 """
@@ -34,31 +34,44 @@ def test_every_fault_is_priced_from_the_tables():
             assert fault.price_reviewed
 
 
-def test_a_fault_either_has_a_ceiling_or_says_a_technician_must_look():
-    """The two are exclusive, and one of them always holds.
+def test_a_fault_of_an_open_service_always_has_a_ceiling():
+    """PO 26/10/2026: the customer is told a range, low to high, every time.
 
-    A fault with neither would show a floor alone, which reads as the price of
-    the whole job.
+    A fault no open service repairs (a television panel, a dishwasher) is
+    never priced to the customer and is left as it was.
     """
     kb = get_knowledge_base()
     for device in kb.device_types:
         for fault in kb.faults_for_device(device):
-            if fault.requires_assessment:
-                assert fault.price_max == 0
-            else:
-                assert fault.price_max >= fault.price_min > 0
+            if kb.services_for_fault(fault.fault_code):
+                assert fault.price_max >= fault.price_min > 0, fault.fault_code
 
 
-def test_the_floor_is_the_service_labour_plus_the_cheapest_parts():
+def test_the_floor_is_the_service_price_and_the_ceiling_adds_the_parts():
+    """Low: the service's price as the booking form shows it. High: plus parts."""
+    from app.services.pipeline import part_prices, pricing
+
     kb = get_knowledge_base()
     mapping = _load("fault_pricing_map.json")["map"]
     services = {s["code"]: s for s in _load("service_catalog.json")["services"]}
+    prices = part_prices.snapshot()
     for device in kb.device_types:
         for fault in kb.faults_for_device(device):
-            entry = mapping[fault.fault_code]
-            assert fault.price_min == entry["labour_min"] + entry["parts_min"], fault.fault_code
-            # The labour is the service's own price, not a figure of our own.
-            assert entry["labour_min"] >= services[fault.labour_code]["price_min_vnd"], fault.fault_code
+            refs = kb.services_for_fault(fault.fault_code)
+            if not refs:
+                continue
+            service = services[refs[0].service_code]
+            assert fault.price_min == service["price_min_vnd"], fault.fault_code
+            top = service["price_max_vnd"] if service["pricing"] == "fixed" else service["price_min_vnd"]
+            parts = pricing.parts_ceiling(fault.fault_code, fault.device_type)
+            assert fault.price_max == top + parts, fault.fault_code
+            assert mapping[fault.fault_code]["parts_max"] == parts, fault.fault_code
+            # Every part the ceiling counts has a price: Backend's, or the V3
+            # table's for the few Backend does not sell yet.
+            for group in pricing.part_groups(fault.fault_code, fault.device_type):
+                assert any(prices.price(code) or part_prices.reference().get(code) for code in group), (
+                    fault.fault_code, group,
+                )
 
 
 def test_a_fixed_price_fault_only_names_variants_backend_books():

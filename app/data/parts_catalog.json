@@ -13,7 +13,8 @@
       "section_vi": "Điều hòa / Máy lạnh",
       "device_types": [
         "air_conditioner"
-      ]
+      ],
+      "price": 1800000
     },
     {
       "code": "AC002",
@@ -26,7 +27,8 @@
       "section_vi": "Điều hòa / Máy lạnh",
       "device_types": [
         "air_conditioner"
-      ]
+      ],
+      "price": 2000000
     },
     {
       "code": "AC003",
@@ -39,7 +41,8 @@
       "section_vi": "Điều hòa / Máy lạnh",
       "device_types": [
         "air_conditioner"
-      ]
+      ],
+      "price": 2800000
     },
     {
       "code": "AC004",
@@ -52,7 +55,8 @@
       "section_vi": "Điều hòa / Máy lạnh",
       "device_types": [
         "air_conditioner"
-      ]
+      ],
+      "price": 3500000
     },
     {
       "code": "AC005",
@@ -65,7 +69,8 @@
       "section_vi": "Điều hòa / Máy lạnh",
       "device_types": [
         "air_conditioner"
-      ]
+      ],
+      "price": 2500000
     },
     {
       "code": "AC006",
@@ -78,7 +83,8 @@
       "section_vi": "Điều hòa / Máy lạnh",
       "device_types": [
         "air_conditioner"
-      ]
+      ],
+      "price": 2800000
     },
     {
       "code": "AC007",
@@ -91,7 +97,8 @@
       "section_vi": "Điều hòa / Máy lạnh",
       "device_types": [
         "air_conditioner"
-      ]
+      ],
+      "price": 3800000
     },
     {
       "code": "AC008",
@@ -104,7 +111,8 @@
       "section_vi": "Điều hòa / Máy lạnh",
       "device_types": [
         "air_conditioner"
-      ]
+      ],
+      "price": 4500000
     },
     {
       "code": "AC009",
@@ -117,7 +125,8 @@
       "section_vi": "Điều hòa / Máy lạnh",
       "device_types": [
         "air_conditioner"
-      ]
+      ],
+      "price": 800000
     },
     {
       "code": "AC010",
@@ -130,7 +139,8 @@
       "section_vi": "Điều hòa / Máy lạnh",
       "device_types": [
         "air_conditioner"
-      ]
+      ],
+      "price": 1200000
     },
     {
       "code": "AC011",
@@ -143,7 +153,8 @@
       "section_vi": "Điều hòa / Máy lạnh",
       "device_types": [
         "air_conditioner"
-      ]
+      ],
+      "price": 1800000
     },
     {
       "code": "AC012",
@@ -156,7 +167,8 @@
       "section_vi": "Điều hòa / Máy lạnh",
       "device_types": [
         "air_conditioner"
-      ]
+      ],
+      "price": 2200000
     },
     {
       "code": "AC013",
@@ -169,7 +181,8 @@
       "section_vi": "Điều hòa / Máy lạnh",
       "device_types": [
         "air_conditioner"
-      ]
+      ],
+      "price": 3000000
     },
     {
       "code": "AC014",
@@ -182,7 +195,8 @@
       "section_vi": "Điều hòa / Máy lạnh",
       "device_types": [
         "air_conditioner"
-      ]
+      ],
+      "price": 3800000
     },
     {
       "code": "AC015",
@@ -195,7 +209,8 @@
       "section_vi": "Điều hòa / Máy lạnh",
       "device_types": [
         "air_conditioner"
-      ]
+      ],
+      "price": 300000
     },
     {
       "code": "AC016",
@@ -208,7 +223,8 @@
       "section_vi": "Điều hòa / Máy lạnh",
       "device_types": [
         "air_conditioner"
-      ]
+      ],
+      "price": 250000
     },
     {
       "code": "AC017",
@@ -221,7 +237,8 @@
       "section_vi": "Điều hòa / Máy lạnh",
       "device_types": [
         "air_conditioner"
-      ]
+      ],
+      "price": 500000
     },
     {
       "code": "AC018",
@@ -234,7 +251,8 @@
       "section_vi": "Điều hòa / Máy lạnh",
       "device_types": [
         "air_conditioner"
-      ]
+      ],
+      "price": 180000
     },
     {
       "code": "AC019",
@@ -247,7 +265,8 @@
       "section_vi": "Điều hòa / Máy lạnh",
       "device_types": [
         "air_conditioner"
-      ]
+      ],
+      "price": 150000
     },
     {
       "code": "AC020",
@@ -260,7 +279,8 @@
       "section_vi": "Điều hòa / Máy lạnh",
       "device_types": [
         "air_conditioner"
-      ]
+      ],
+      "price": 120000
     },
     {
       "code": "AC021",
@@ -273,7 +293,8 @@
       "section_vi": "Điều hòa / Máy lạnh",
       "device_types": [
         "air_conditioner"
-      ]
+      ],
+      "price": 250000
     },
     {
       "code": "AC022",
@@ -286,7 +307,8 @@
       "section_vi": "Điều hòa / Máy lạnh",
       "device_types": [
         "air_conditioner"
-      ]
+      ],
+      "price": 280000
     },
     {
       "code": "AC023",
@@ -299,7 +321,8 @@
       "section_vi": "Điều hòa / Máy lạnh",
       "device_types": [
         "air_conditioner"
-      ]
+      ],
+      "price": 300000
     },
     {
       "code": "AC024",
@@ -312,7 +335,8 @@
       "section_vi": "Điều hòa / Máy lạnh",
       "device_types": [
         "air_conditioner"
-      ]
+      ],
+      "price": 320000
     },
     {
       "code": "AC025",
@@ -325,7 +349,8 @@
       "section_vi": "Điều hòa / Máy lạnh",
       "device_types": [
         "air_conditioner"
-      ]
+      ],
+      "price": 350000
     },
     {
       "code": "AC026",
@@ -338,7 +363,8 @@
       "section_vi": "Điều hòa / Máy lạnh",
       "device_types": [
         "air_conditioner"
-      ]
+      ],
+      "price": 380000
     },
     {
       "code": "AC027",
@@ -351,7 +377,8 @@
       "section_vi": "Điều hòa / Máy lạnh",
       "device_types": [
         "air_conditioner"
-      ]
+      ],
+      "price": 180000
     },
     {
       "code": "AC028",
@@ -364,7 +391,8 @@
       "section_vi": "Điều hòa / Máy lạnh",
       "device_types": [
         "air_conditioner"
-      ]
+      ],
+      "price": 220000
     },
     {
       "code": "AC029",
@@ -377,7 +405,8 @@
       "section_vi": "Điều hòa / Máy lạnh",
       "device_types": [
         "air_conditioner"
-      ]
+      ],
+      "price": 550000
     },
     {
       "code": "AC030",
@@ -390,7 +419,8 @@
       "section_vi": "Điều hòa / Máy lạnh",
       "device_types": [
         "air_conditioner"
-      ]
+      ],
+      "price": 900000
     },
     {
       "code": "AC031",
@@ -403,7 +433,8 @@
       "section_vi": "Điều hòa / Máy lạnh",
       "device_types": [
         "air_conditioner"
-      ]
+      ],
+      "price": 700000
     },
     {
       "code": "AC032",
@@ -416,7 +447,8 @@
       "section_vi": "Điều hòa / Máy lạnh",
       "device_types": [
         "air_conditioner"
-      ]
+      ],
+      "price": 1100000
     },
     {
       "code": "AC033",
@@ -429,7 +461,8 @@
       "section_vi": "Điều hòa / Máy lạnh",
       "device_types": [
         "air_conditioner"
-      ]
+      ],
+      "price": 650000
     },
     {
       "code": "AC034",
@@ -442,7 +475,8 @@
       "section_vi": "Điều hòa / Máy lạnh",
       "device_types": [
         "air_conditioner"
-      ]
+      ],
+      "price": 350000
     },
     {
       "code": "AC035",
@@ -455,7 +489,8 @@
       "section_vi": "Điều hòa / Máy lạnh",
       "device_types": [
         "air_conditioner"
-      ]
+      ],
+      "price": 250000
     },
     {
       "code": "AC036",
@@ -468,7 +503,8 @@
       "section_vi": "Điều hòa / Máy lạnh",
       "device_types": [
         "air_conditioner"
-      ]
+      ],
+      "price": 250000
     },
     {
       "code": "AC037",
@@ -481,7 +517,8 @@
       "section_vi": "Điều hòa / Máy lạnh",
       "device_types": [
         "air_conditioner"
-      ]
+      ],
+      "price": 180000
     },
     {
       "code": "AC038",
@@ -494,7 +531,8 @@
       "section_vi": "Điều hòa / Máy lạnh",
       "device_types": [
         "air_conditioner"
-      ]
+      ],
+      "price": 180000
     },
     {
       "code": "AC039",
@@ -507,7 +545,8 @@
       "section_vi": "Điều hòa / Máy lạnh",
       "device_types": [
         "air_conditioner"
-      ]
+      ],
+      "price": 180000
     },
     {
       "code": "AC040",
@@ -520,7 +559,8 @@
       "section_vi": "Điều hòa / Máy lạnh",
       "device_types": [
         "air_conditioner"
-      ]
+      ],
+      "price": 180000
     },
     {
       "code": "AC041",
@@ -533,7 +573,8 @@
       "section_vi": "Điều hòa / Máy lạnh",
       "device_types": [
         "air_conditioner"
-      ]
+      ],
+      "price": 250000
     },
     {
       "code": "AC042",
@@ -546,7 +587,8 @@
       "section_vi": "Điều hòa / Máy lạnh",
       "device_types": [
         "air_conditioner"
-      ]
+      ],
+      "price": 300000
     },
     {
       "code": "AC043",
@@ -559,7 +601,8 @@
       "section_vi": "Điều hòa / Máy lạnh",
       "device_types": [
         "air_conditioner"
-      ]
+      ],
+      "price": 250000
     },
     {
       "code": "AC044",
@@ -572,7 +615,8 @@
       "section_vi": "Điều hòa / Máy lạnh",
       "device_types": [
         "air_conditioner"
-      ]
+      ],
+      "price": 850000
     },
     {
       "code": "AC045",
@@ -585,7 +629,8 @@
       "section_vi": "Điều hòa / Máy lạnh",
       "device_types": [
         "air_conditioner"
-      ]
+      ],
+      "price": 350000
     },
     {
       "code": "AC046",
@@ -598,7 +643,8 @@
       "section_vi": "Điều hòa / Máy lạnh",
       "device_types": [
         "air_conditioner"
-      ]
+      ],
+      "price": 700000
     },
     {
       "code": "AC047",
@@ -611,7 +657,8 @@
       "section_vi": "Điều hòa / Máy lạnh",
       "device_types": [
         "air_conditioner"
-      ]
+      ],
+      "price": 250000
     },
     {
       "code": "AC048",
@@ -624,7 +671,8 @@
       "section_vi": "Điều hòa / Máy lạnh",
       "device_types": [
         "air_conditioner"
-      ]
+      ],
+      "price": 300000
     },
     {
       "code": "AC049",
@@ -637,7 +685,8 @@
       "section_vi": "Điều hòa / Máy lạnh",
       "device_types": [
         "air_conditioner"
-      ]
+      ],
+      "price": 250000
     },
     {
       "code": "AC050",
@@ -650,7 +699,8 @@
       "section_vi": "Điều hòa / Máy lạnh",
       "device_types": [
         "air_conditioner"
-      ]
+      ],
+      "price": 120000
     },
     {
       "code": "AC051",
@@ -663,7 +713,8 @@
       "section_vi": "Điều hòa / Máy lạnh",
       "device_types": [
         "air_conditioner"
-      ]
+      ],
+      "price": 150000
     },
     {
       "code": "AC052",
@@ -676,7 +727,8 @@
       "section_vi": "Điều hòa / Máy lạnh",
       "device_types": [
         "air_conditioner"
-      ]
+      ],
+      "price": 450000
     },
     {
       "code": "AC053",
@@ -689,7 +741,8 @@
       "section_vi": "Điều hòa / Máy lạnh",
       "device_types": [
         "air_conditioner"
-      ]
+      ],
+      "price": 750000
     },
     {
       "code": "AC054",
@@ -702,7 +755,8 @@
       "section_vi": "Điều hòa / Máy lạnh",
       "device_types": [
         "air_conditioner"
-      ]
+      ],
+      "price": 25000
     },
     {
       "code": "AC055",
@@ -715,7 +769,8 @@
       "section_vi": "Điều hòa / Máy lạnh",
       "device_types": [
         "air_conditioner"
-      ]
+      ],
+      "price": 120000
     },
     {
       "code": "AC056",
@@ -728,7 +783,8 @@
       "section_vi": "Điều hòa / Máy lạnh",
       "device_types": [
         "air_conditioner"
-      ]
+      ],
+      "price": 150000
     },
     {
       "code": "AC057",
@@ -741,7 +797,8 @@
       "section_vi": "Điều hòa / Máy lạnh",
       "device_types": [
         "air_conditioner"
-      ]
+      ],
+      "price": 180000
     },
     {
       "code": "AC058",
@@ -754,7 +811,8 @@
       "section_vi": "Điều hòa / Máy lạnh",
       "device_types": [
         "air_conditioner"
-      ]
+      ],
+      "price": 30000
     },
     {
       "code": "AC059",
@@ -767,7 +825,8 @@
       "section_vi": "Điều hòa / Máy lạnh",
       "device_types": [
         "air_conditioner"
-      ]
+      ],
+      "price": 300000
     },
     {
       "code": "AC060",
@@ -780,7 +839,8 @@
       "section_vi": "Điều hòa / Máy lạnh",
       "device_types": [
         "air_conditioner"
-      ]
+      ],
+      "price": 100000
     },
     {
       "code": "ACV001",
@@ -793,7 +853,8 @@
       "section_vi": "Điều hòa / Máy lạnh",
       "device_types": [
         "air_conditioner"
-      ]
+      ],
+      "price": 70000
     },
     {
       "code": "ACV002",
@@ -806,7 +867,8 @@
       "section_vi": "Điều hòa / Máy lạnh",
       "device_types": [
         "air_conditioner"
-      ]
+      ],
+      "price": 95000
     },
     {
       "code": "ACV003",
@@ -819,7 +881,8 @@
       "section_vi": "Điều hòa / Máy lạnh",
       "device_types": [
         "air_conditioner"
-      ]
+      ],
+      "price": 120000
     },
     {
       "code": "ACV004",
@@ -832,7 +895,8 @@
       "section_vi": "Điều hòa / Máy lạnh",
       "device_types": [
         "air_conditioner"
-      ]
+      ],
+      "price": 150000
     },
     {
       "code": "ACV005",
@@ -845,7 +909,8 @@
       "section_vi": "Điều hòa / Máy lạnh",
       "device_types": [
         "air_conditioner"
-      ]
+      ],
+      "price": 190000
     },
     {
       "code": "ACV006",
@@ -858,7 +923,8 @@
       "section_vi": "Điều hòa / Máy lạnh",
       "device_types": [
         "air_conditioner"
-      ]
+      ],
+      "price": 170000
     },
     {
       "code": "ACV007",
@@ -871,7 +937,8 @@
       "section_vi": "Điều hòa / Máy lạnh",
       "device_types": [
         "air_conditioner"
-      ]
+      ],
+      "price": 190000
     },
     {
       "code": "ACV008",
@@ -884,7 +951,8 @@
       "section_vi": "Điều hòa / Máy lạnh",
       "device_types": [
         "air_conditioner"
-      ]
+      ],
+      "price": 220000
     },
     {
       "code": "ACV009",
@@ -897,7 +965,8 @@
       "section_vi": "Điều hòa / Máy lạnh",
       "device_types": [
         "air_conditioner"
-      ]
+      ],
+      "price": 300000
     },
     {
       "code": "ACV010",
@@ -910,7 +979,8 @@
       "section_vi": "Điều hòa / Máy lạnh",
       "device_types": [
         "air_conditioner"
-      ]
+      ],
+      "price": 360000
     },
     {
       "code": "ACV011",
@@ -923,7 +993,8 @@
       "section_vi": "Điều hòa / Máy lạnh",
       "device_types": [
         "air_conditioner"
-      ]
+      ],
+      "price": 20000
     },
     {
       "code": "ACV012",
@@ -936,7 +1007,8 @@
       "section_vi": "Điều hòa / Máy lạnh",
       "device_types": [
         "air_conditioner"
-      ]
+      ],
+      "price": 25000
     },
     {
       "code": "ACV013",
@@ -949,7 +1021,8 @@
       "section_vi": "Điều hòa / Máy lạnh",
       "device_types": [
         "air_conditioner"
-      ]
+      ],
+      "price": 30000
     },
     {
       "code": "ACV014",
@@ -962,7 +1035,8 @@
       "section_vi": "Điều hòa / Máy lạnh",
       "device_types": [
         "air_conditioner"
-      ]
+      ],
+      "price": 40000
     },
     {
       "code": "ACV015",
@@ -975,7 +1049,8 @@
       "section_vi": "Điều hòa / Máy lạnh",
       "device_types": [
         "air_conditioner"
-      ]
+      ],
+      "price": 50000
     },
     {
       "code": "ACV016",
@@ -988,7 +1063,8 @@
       "section_vi": "Điều hòa / Máy lạnh",
       "device_types": [
         "air_conditioner"
-      ]
+      ],
+      "price": 25000
     },
     {
       "code": "ACV017",
@@ -1001,7 +1077,8 @@
       "section_vi": "Điều hòa / Máy lạnh",
       "device_types": [
         "air_conditioner"
-      ]
+      ],
+      "price": 30000
     },
     {
       "code": "ACV018",
@@ -1014,7 +1091,8 @@
       "section_vi": "Điều hòa / Máy lạnh",
       "device_types": [
         "air_conditioner"
-      ]
+      ],
+      "price": 35000
     },
     {
       "code": "ACV019",
@@ -1027,7 +1105,8 @@
       "section_vi": "Điều hòa / Máy lạnh",
       "device_types": [
         "air_conditioner"
-      ]
+      ],
+      "price": 45000
     },
     {
       "code": "ACV020",
@@ -1040,7 +1119,8 @@
       "section_vi": "Điều hòa / Máy lạnh",
       "device_types": [
         "air_conditioner"
-      ]
+      ],
+      "price": 60000
     },
     {
       "code": "ACV021",
@@ -1053,7 +1133,8 @@
       "section_vi": "Điều hòa / Máy lạnh",
       "device_types": [
         "air_conditioner"
-      ]
+      ],
+      "price": 20000
     },
     {
       "code": "ACV022",
@@ -1066,7 +1147,8 @@
       "section_vi": "Điều hòa / Máy lạnh",
       "device_types": [
         "air_conditioner"
-      ]
+      ],
+      "price": 25000
     },
     {
       "code": "ACV023",
@@ -1079,7 +1161,8 @@
       "section_vi": "Điều hòa / Máy lạnh",
       "device_types": [
         "air_conditioner"
-      ]
+      ],
+      "price": 30000
     },
     {
       "code": "ACV024",
@@ -1092,7 +1175,8 @@
       "section_vi": "Điều hòa / Máy lạnh",
       "device_types": [
         "air_conditioner"
-      ]
+      ],
+      "price": 40000
     },
     {
       "code": "ACV025",
@@ -1105,7 +1189,8 @@
       "section_vi": "Điều hòa / Máy lạnh",
       "device_types": [
         "air_conditioner"
-      ]
+      ],
+      "price": 50000
     },
     {
       "code": "ACV026",
@@ -1118,7 +1203,8 @@
       "section_vi": "Điều hòa / Máy lạnh",
       "device_types": [
         "air_conditioner"
-      ]
+      ],
+      "price": 12000
     },
     {
       "code": "ACV027",
@@ -1131,7 +1217,8 @@
       "section_vi": "Điều hòa / Máy lạnh",
       "device_types": [
         "air_conditioner"
-      ]
+      ],
+      "price": 15000
     },
     {
       "code": "ACV028",
@@ -1144,7 +1231,8 @@
       "section_vi": "Điều hòa / Máy lạnh",
       "device_types": [
         "air_conditioner"
-      ]
+      ],
+      "price": 18000
     },
     {
       "code": "ACV029",
@@ -1157,7 +1245,8 @@
       "section_vi": "Điều hòa / Máy lạnh",
       "device_types": [
         "air_conditioner"
-      ]
+      ],
+      "price": 22000
     },
     {
       "code": "ACV030",
@@ -1170,7 +1259,8 @@
       "section_vi": "Điều hòa / Máy lạnh",
       "device_types": [
         "air_conditioner"
-      ]
+      ],
+      "price": 25000
     },
     {
       "code": "ACV031",
@@ -1183,7 +1273,8 @@
       "section_vi": "Điều hòa / Máy lạnh",
       "device_types": [
         "air_conditioner"
-      ]
+      ],
+      "price": 10000
     },
     {
       "code": "ACV032",
@@ -1196,7 +1287,8 @@
       "section_vi": "Điều hòa / Máy lạnh",
       "device_types": [
         "air_conditioner"
-      ]
+      ],
+      "price": 10000
     },
     {
       "code": "ACV033",
@@ -1209,7 +1301,8 @@
       "section_vi": "Điều hòa / Máy lạnh",
       "device_types": [
         "air_conditioner"
-      ]
+      ],
+      "price": 8000
     },
     {
       "code": "ACV034",
@@ -1222,7 +1315,8 @@
       "section_vi": "Điều hòa / Máy lạnh",
       "device_types": [
         "air_conditioner"
-      ]
+      ],
+      "price": 5000
     },
     {
       "code": "ACV035",
@@ -1235,7 +1329,8 @@
       "section_vi": "Điều hòa / Máy lạnh",
       "device_types": [
         "air_conditioner"
-      ]
+      ],
+      "price": 25000
     },
     {
       "code": "ACV036",
@@ -1248,7 +1343,8 @@
       "section_vi": "Điều hòa / Máy lạnh",
       "device_types": [
         "air_conditioner"
-      ]
+      ],
+      "price": 6000
     },
     {
       "code": "ACV037",
@@ -1261,7 +1357,8 @@
       "section_vi": "Điều hòa / Máy lạnh",
       "device_types": [
         "air_conditioner"
-      ]
+      ],
+      "price": 8000
     },
     {
       "code": "ACV038",
@@ -1274,7 +1371,8 @@
       "section_vi": "Điều hòa / Máy lạnh",
       "device_types": [
         "air_conditioner"
-      ]
+      ],
+      "price": 10000
     },
     {
       "code": "ACV039",
@@ -1287,7 +1385,8 @@
       "section_vi": "Điều hòa / Máy lạnh",
       "device_types": [
         "air_conditioner"
-      ]
+      ],
+      "price": 15000
     },
     {
       "code": "ACV040",
@@ -1300,7 +1399,8 @@
       "section_vi": "Điều hòa / Máy lạnh",
       "device_types": [
         "air_conditioner"
-      ]
+      ],
+      "price": 3000
     },
     {
       "code": "ACV041",
@@ -1313,7 +1413,8 @@
       "section_vi": "Điều hòa / Máy lạnh",
       "device_types": [
         "air_conditioner"
-      ]
+      ],
+      "price": 5000
     },
     {
       "code": "ACV042",
@@ -1326,7 +1427,8 @@
       "section_vi": "Điều hòa / Máy lạnh",
       "device_types": [
         "air_conditioner"
-      ]
+      ],
+      "price": 4000
     },
     {
       "code": "ACV043",
@@ -1339,7 +1441,8 @@
       "section_vi": "Điều hòa / Máy lạnh",
       "device_types": [
         "air_conditioner"
-      ]
+      ],
+      "price": 3000
     },
     {
       "code": "ACV044",
@@ -1352,7 +1455,8 @@
       "section_vi": "Điều hòa / Máy lạnh",
       "device_types": [
         "air_conditioner"
-      ]
+      ],
+      "price": 20000
     },
     {
       "code": "ACV045",
@@ -1365,7 +1469,8 @@
       "section_vi": "Điều hòa / Máy lạnh",
       "device_types": [
         "air_conditioner"
-      ]
+      ],
+      "price": 1000
     },
     {
       "code": "ACV046",
@@ -1378,7 +1483,8 @@
       "section_vi": "Điều hòa / Máy lạnh",
       "device_types": [
         "air_conditioner"
-      ]
+      ],
+      "price": 7000
     },
     {
       "code": "ACV047",
@@ -1391,7 +1497,8 @@
       "section_vi": "Điều hòa / Máy lạnh",
       "device_types": [
         "air_conditioner"
-      ]
+      ],
+      "price": 9000
     },
     {
       "code": "ACV048",
@@ -1404,7 +1511,8 @@
       "section_vi": "Điều hòa / Máy lạnh",
       "device_types": [
         "air_conditioner"
-      ]
+      ],
+      "price": 15000
     },
     {
       "code": "ACV049",
@@ -1417,7 +1525,8 @@
       "section_vi": "Điều hòa / Máy lạnh",
       "device_types": [
         "air_conditioner"
-      ]
+      ],
+      "price": 25000
     },
     {
       "code": "ACV050",
@@ -1430,7 +1539,8 @@
       "section_vi": "Điều hòa / Máy lạnh",
       "device_types": [
         "air_conditioner"
-      ]
+      ],
+      "price": 15000
     },
     {
       "code": "ACV051",
@@ -1443,7 +1553,8 @@
       "section_vi": "Điều hòa / Máy lạnh",
       "device_types": [
         "air_conditioner"
-      ]
+      ],
+      "price": 22000
     },
     {
       "code": "ACV052",
@@ -1456,7 +1567,8 @@
       "section_vi": "Điều hòa / Máy lạnh",
       "device_types": [
         "air_conditioner"
-      ]
+      ],
+      "price": 22000
     },
     {
       "code": "ACV053",
@@ -1469,7 +1581,8 @@
       "section_vi": "Điều hòa / Máy lạnh",
       "device_types": [
         "air_conditioner"
-      ]
+      ],
+      "price": 32000
     },
     {
       "code": "ACV054",
@@ -1482,7 +1595,8 @@
       "section_vi": "Điều hòa / Máy lạnh",
       "device_types": [
         "air_conditioner"
-      ]
+      ],
+      "price": 30000
     },
     {
       "code": "ACV055",
@@ -1495,7 +1609,8 @@
       "section_vi": "Điều hòa / Máy lạnh",
       "device_types": [
         "air_conditioner"
-      ]
+      ],
+      "price": 35000
     },
     {
       "code": "ACV056",
@@ -1508,7 +1623,8 @@
       "section_vi": "Điều hòa / Máy lạnh",
       "device_types": [
         "air_conditioner"
-      ]
+      ],
+      "price": 1000
     },
     {
       "code": "ACV057",
@@ -1521,7 +1637,8 @@
       "section_vi": "Điều hòa / Máy lạnh",
       "device_types": [
         "air_conditioner"
-      ]
+      ],
+      "price": 1000
     },
     {
       "code": "ACV058",
@@ -1534,7 +1651,8 @@
       "section_vi": "Điều hòa / Máy lạnh",
       "device_types": [
         "air_conditioner"
-      ]
+      ],
+      "price": 10000
     },
     {
       "code": "ACV059",
@@ -1547,7 +1665,8 @@
       "section_vi": "Điều hòa / Máy lạnh",
       "device_types": [
         "air_conditioner"
-      ]
+      ],
+      "price": 15000
     },
     {
       "code": "ACV060",
@@ -1560,7 +1679,8 @@
       "section_vi": "Điều hòa / Máy lạnh",
       "device_types": [
         "air_conditioner"
-      ]
+      ],
+      "price": 60000
     },
     {
       "code": "ACV061",
@@ -1573,7 +1693,8 @@
       "section_vi": "Điều hòa / Máy lạnh",
       "device_types": [
         "air_conditioner"
-      ]
+      ],
+      "price": 70000
     },
     {
       "code": "ACV062",
@@ -1586,7 +1707,8 @@
       "section_vi": "Điều hòa / Máy lạnh",
       "device_types": [
         "air_conditioner"
-      ]
+      ],
+      "price": 80000
     },
     {
       "code": "ACV063",
@@ -1599,7 +1721,8 @@
       "section_vi": "Điều hòa / Máy lạnh",
       "device_types": [
         "air_conditioner"
-      ]
+      ],
+      "price": 220000
     },
     {
       "code": "ACV064",
@@ -1612,7 +1735,8 @@
       "section_vi": "Điều hòa / Máy lạnh",
       "device_types": [
         "air_conditioner"
-      ]
+      ],
+      "price": 250000
     },
     {
       "code": "ACV065",
@@ -1625,7 +1749,8 @@
       "section_vi": "Điều hòa / Máy lạnh",
       "device_types": [
         "air_conditioner"
-      ]
+      ],
+      "price": 80000
     },
     {
       "code": "ACV066",
@@ -1638,7 +1763,8 @@
       "section_vi": "Điều hòa / Máy lạnh",
       "device_types": [
         "air_conditioner"
-      ]
+      ],
+      "price": 90000
     },
     {
       "code": "ACV067",
@@ -1651,7 +1777,8 @@
       "section_vi": "Điều hòa / Máy lạnh",
       "device_types": [
         "air_conditioner"
-      ]
+      ],
+      "price": 100000
     },
     {
       "code": "ACV068",
@@ -1664,7 +1791,8 @@
       "section_vi": "Điều hòa / Máy lạnh",
       "device_types": [
         "air_conditioner"
-      ]
+      ],
+      "price": 130000
     },
     {
       "code": "ACV069",
@@ -1677,7 +1805,8 @@
       "section_vi": "Điều hòa / Máy lạnh",
       "device_types": [
         "air_conditioner"
-      ]
+      ],
+      "price": 20000
     },
     {
       "code": "ACV070",
@@ -1690,7 +1819,8 @@
       "section_vi": "Điều hòa / Máy lạnh",
       "device_types": [
         "air_conditioner"
-      ]
+      ],
+      "price": 70000
     },
     {
       "code": "ACV071",
@@ -1703,7 +1833,8 @@
       "section_vi": "Điều hòa / Máy lạnh",
       "device_types": [
         "air_conditioner"
-      ]
+      ],
+      "price": 20000
     },
     {
       "code": "ACV072",
@@ -1716,7 +1847,8 @@
       "section_vi": "Điều hòa / Máy lạnh",
       "device_types": [
         "air_conditioner"
-      ]
+      ],
+      "price": 3000
     },
     {
       "code": "ACV073",
@@ -1729,7 +1861,8 @@
       "section_vi": "Điều hòa / Máy lạnh",
       "device_types": [
         "air_conditioner"
-      ]
+      ],
+      "price": 5000
     },
     {
       "code": "ACV074",
@@ -1742,7 +1875,8 @@
       "section_vi": "Điều hòa / Máy lạnh",
       "device_types": [
         "air_conditioner"
-      ]
+      ],
+      "price": 2000
     },
     {
       "code": "ACV075",
@@ -1755,7 +1889,8 @@
       "section_vi": "Điều hòa / Máy lạnh",
       "device_types": [
         "air_conditioner"
-      ]
+      ],
+      "price": 3000
     },
     {
       "code": "ACV076",
@@ -1768,7 +1903,8 @@
       "section_vi": "Điều hòa / Máy lạnh",
       "device_types": [
         "air_conditioner"
-      ]
+      ],
+      "price": 500
     },
     {
       "code": "ACV077",
@@ -1781,7 +1917,8 @@
       "section_vi": "Điều hòa / Máy lạnh",
       "device_types": [
         "air_conditioner"
-      ]
+      ],
+      "price": 500
     },
     {
       "code": "ACV078",
@@ -1794,7 +1931,8 @@
       "section_vi": "Điều hòa / Máy lạnh",
       "device_types": [
         "air_conditioner"
-      ]
+      ],
+      "price": 800
     },
     {
       "code": "ACV079",
@@ -1807,7 +1945,8 @@
       "section_vi": "Điều hòa / Máy lạnh",
       "device_types": [
         "air_conditioner"
-      ]
+      ],
+      "price": 2000
     },
     {
       "code": "ACV080",
@@ -1820,7 +1959,8 @@
       "section_vi": "Điều hòa / Máy lạnh",
       "device_types": [
         "air_conditioner"
-      ]
+      ],
+      "price": 25000
     },
     {
       "code": "ACV081",
@@ -1833,7 +1973,8 @@
       "section_vi": "Điều hòa / Máy lạnh",
       "device_types": [
         "air_conditioner"
-      ]
+      ],
+      "price": 520000
     },
     {
       "code": "ACV082",
@@ -1846,7 +1987,8 @@
       "section_vi": "Điều hòa / Máy lạnh",
       "device_types": [
         "air_conditioner"
-      ]
+      ],
+      "price": 600000
     },
     {
       "code": "ACV083",
@@ -1859,7 +2001,8 @@
       "section_vi": "Điều hòa / Máy lạnh",
       "device_types": [
         "air_conditioner"
-      ]
+      ],
+      "price": 550000
     },
     {
       "code": "ACV084",
@@ -1872,7 +2015,8 @@
       "section_vi": "Điều hòa / Máy lạnh",
       "device_types": [
         "air_conditioner"
-      ]
+      ],
+      "price": 180000
     },
     {
       "code": "ACV085",
@@ -1885,7 +2029,8 @@
       "section_vi": "Điều hòa / Máy lạnh",
       "device_types": [
         "air_conditioner"
-      ]
+      ],
+      "price": 150000
     },
     {
       "code": "ACV086",
@@ -1898,7 +2043,8 @@
       "section_vi": "Điều hòa / Máy lạnh",
       "device_types": [
         "air_conditioner"
-      ]
+      ],
+      "price": 15000
     },
     {
       "code": "ACV087",
@@ -1911,7 +2057,8 @@
       "section_vi": "Điều hòa / Máy lạnh",
       "device_types": [
         "air_conditioner"
-      ]
+      ],
+      "price": 30000
     },
     {
       "code": "ACV088",
@@ -1924,7 +2071,8 @@
       "section_vi": "Điều hòa / Máy lạnh",
       "device_types": [
         "air_conditioner"
-      ]
+      ],
+      "price": 50000
     },
     {
       "code": "ACV089",
@@ -1937,7 +2085,8 @@
       "section_vi": "Điều hòa / Máy lạnh",
       "device_types": [
         "air_conditioner"
-      ]
+      ],
+      "price": 120000
     },
     {
       "code": "ACV090",
@@ -1950,7 +2099,8 @@
       "section_vi": "Điều hòa / Máy lạnh",
       "device_types": [
         "air_conditioner"
-      ]
+      ],
+      "price": 150000
     },
     {
       "code": "ACV091",
@@ -1963,7 +2113,8 @@
       "section_vi": "Điều hòa / Máy lạnh",
       "device_types": [
         "air_conditioner"
-      ]
+      ],
+      "price": 20000
     },
     {
       "code": "ACV092",
@@ -1976,7 +2127,8 @@
       "section_vi": "Điều hòa / Máy lạnh",
       "device_types": [
         "air_conditioner"
-      ]
+      ],
+      "price": 25000
     },
     {
       "code": "ACV093",
@@ -1989,7 +2141,8 @@
       "section_vi": "Điều hòa / Máy lạnh",
       "device_types": [
         "air_conditioner"
-      ]
+      ],
+      "price": 15000
     },
     {
       "code": "ACV094",
@@ -2002,7 +2155,8 @@
       "section_vi": "Điều hòa / Máy lạnh",
       "device_types": [
         "air_conditioner"
-      ]
+      ],
+      "price": 10000
     },
     {
       "code": "ACV095",
@@ -2015,7 +2169,8 @@
       "section_vi": "Điều hòa / Máy lạnh",
       "device_types": [
         "air_conditioner"
-      ]
+      ],
+      "price": 5000
     },
     {
       "code": "ACV096",
@@ -2028,7 +2183,8 @@
       "section_vi": "Điều hòa / Máy lạnh",
       "device_types": [
         "air_conditioner"
-      ]
+      ],
+      "price": 8000
     },
     {
       "code": "ACV097",
@@ -2041,7 +2197,8 @@
       "section_vi": "Điều hòa / Máy lạnh",
       "device_types": [
         "air_conditioner"
-      ]
+      ],
+      "price": 10000
     },
     {
       "code": "ACV098",
@@ -2054,7 +2211,8 @@
       "section_vi": "Điều hòa / Máy lạnh",
       "device_types": [
         "air_conditioner"
-      ]
+      ],
+      "price": 30000
     },
     {
       "code": "ACV099",
@@ -2067,7 +2225,8 @@
       "section_vi": "Điều hòa / Máy lạnh",
       "device_types": [
         "air_conditioner"
-      ]
+      ],
+      "price": 50000
     },
     {
       "code": "ACV100",
@@ -2080,7 +2239,8 @@
       "section_vi": "Điều hòa / Máy lạnh",
       "device_types": [
         "air_conditioner"
-      ]
+      ],
+      "price": 30000
     },
     {
       "code": "WM001",
@@ -2093,7 +2253,8 @@
       "section_vi": "Máy giặt",
       "device_types": [
         "washing_machine"
-      ]
+      ],
+      "price": 350000
     },
     {
       "code": "WM002",
@@ -2106,7 +2267,8 @@
       "section_vi": "Máy giặt",
       "device_types": [
         "washing_machine"
-      ]
+      ],
+      "price": 450000
     },
     {
       "code": "WM003",
@@ -2119,7 +2281,8 @@
       "section_vi": "Máy giặt",
       "device_types": [
         "washing_machine"
-      ]
+      ],
+      "price": 550000
     },
     {
       "code": "WM004",
@@ -2132,7 +2295,8 @@
       "section_vi": "Máy giặt",
       "device_types": [
         "washing_machine"
-      ]
+      ],
+      "price": 650000
     },
     {
       "code": "WM005",
@@ -2145,7 +2309,8 @@
       "section_vi": "Máy giặt",
       "device_types": [
         "washing_machine"
-      ]
+      ],
+      "price": 750000
     },
     {
       "code": "WM006",
@@ -2158,7 +2323,8 @@
       "section_vi": "Máy giặt",
       "device_types": [
         "washing_machine"
-      ]
+      ],
+      "price": 450000
     },
     {
       "code": "WM007",
@@ -2171,7 +2337,8 @@
       "section_vi": "Máy giặt",
       "device_types": [
         "washing_machine"
-      ]
+      ],
+      "price": 500000
     },
     {
       "code": "WM008",
@@ -2184,7 +2351,8 @@
       "section_vi": "Máy giặt",
       "device_types": [
         "washing_machine"
-      ]
+      ],
+      "price": 650000
     },
     {
       "code": "WM009",
@@ -2197,7 +2365,8 @@
       "section_vi": "Máy giặt",
       "device_types": [
         "washing_machine"
-      ]
+      ],
+      "price": 350000
     },
     {
       "code": "WM010",
@@ -2210,7 +2379,8 @@
       "section_vi": "Máy giặt",
       "device_types": [
         "washing_machine"
-      ]
+      ],
+      "price": 450000
     },
     {
       "code": "WM011",
@@ -2223,7 +2393,8 @@
       "section_vi": "Máy giặt",
       "device_types": [
         "washing_machine"
-      ]
+      ],
+      "price": 80000
     },
     {
       "code": "WM012",
@@ -2236,7 +2407,8 @@
       "section_vi": "Máy giặt",
       "device_types": [
         "washing_machine"
-      ]
+      ],
+      "price": 750000
     },
     {
       "code": "WM013",
@@ -2249,7 +2421,8 @@
       "section_vi": "Máy giặt",
       "device_types": [
         "washing_machine"
-      ]
+      ],
+      "price": 1000000
     },
     {
       "code": "WM014",
@@ -2262,7 +2435,8 @@
       "section_vi": "Máy giặt",
       "device_types": [
         "washing_machine"
-      ]
+      ],
+      "price": 1300000
     },
     {
       "code": "WM015",
@@ -2275,7 +2449,8 @@
       "section_vi": "Máy giặt",
       "device_types": [
         "washing_machine"
-      ]
+      ],
+      "price": 900000
     },
     {
       "code": "WM016",
@@ -2288,7 +2463,8 @@
       "section_vi": "Máy giặt",
       "device_types": [
         "washing_machine"
-      ]
+      ],
+      "price": 900000
     },
     {
       "code": "WM017",
@@ -2301,7 +2477,8 @@
       "section_vi": "Máy giặt",
       "device_types": [
         "washing_machine"
-      ]
+      ],
+      "price": 250000
     },
     {
       "code": "WM018",
@@ -2314,7 +2491,8 @@
       "section_vi": "Máy giặt",
       "device_types": [
         "washing_machine"
-      ]
+      ],
+      "price": 180000
     },
     {
       "code": "WM019",
@@ -2327,7 +2505,8 @@
       "section_vi": "Máy giặt",
       "device_types": [
         "washing_machine"
-      ]
+      ],
+      "price": 200000
     },
     {
       "code": "WM020",
@@ -2340,7 +2519,8 @@
       "section_vi": "Máy giặt",
       "device_types": [
         "washing_machine"
-      ]
+      ],
+      "price": 220000
     },
     {
       "code": "WM021",
@@ -2353,7 +2533,8 @@
       "section_vi": "Máy giặt",
       "device_types": [
         "washing_machine"
-      ]
+      ],
+      "price": 250000
     },
     {
       "code": "WM022",
@@ -2366,7 +2547,8 @@
       "section_vi": "Máy giặt",
       "device_types": [
         "washing_machine"
-      ]
+      ],
+      "price": 250000
     },
     {
       "code": "WM023",
@@ -2379,7 +2561,8 @@
       "section_vi": "Máy giặt",
       "device_types": [
         "washing_machine"
-      ]
+      ],
+      "price": 280000
     },
     {
       "code": "WM024",
@@ -2392,7 +2575,8 @@
       "section_vi": "Máy giặt",
       "device_types": [
         "washing_machine"
-      ]
+      ],
+      "price": 300000
     },
     {
       "code": "WM025",
@@ -2405,7 +2589,8 @@
       "section_vi": "Máy giặt",
       "device_types": [
         "washing_machine"
-      ]
+      ],
+      "price": 650000
     },
     {
       "code": "WM026",
@@ -2418,7 +2603,8 @@
       "section_vi": "Máy giặt",
       "device_types": [
         "washing_machine"
-      ]
+      ],
+      "price": 850000
     },
     {
       "code": "WM027",
@@ -2431,7 +2617,8 @@
       "section_vi": "Máy giặt",
       "device_types": [
         "washing_machine"
-      ]
+      ],
+      "price": 1000000
     },
     {
       "code": "WM028",
@@ -2444,7 +2631,8 @@
       "section_vi": "Máy giặt",
       "device_types": [
         "washing_machine"
-      ]
+      ],
+      "price": 450000
     },
     {
       "code": "WM029",
@@ -2457,7 +2645,8 @@
       "section_vi": "Máy giặt",
       "device_types": [
         "washing_machine"
-      ]
+      ],
+      "price": 700000
     },
     {
       "code": "WM030",
@@ -2470,7 +2659,8 @@
       "section_vi": "Máy giặt",
       "device_types": [
         "washing_machine"
-      ]
+      ],
+      "price": 800000
     },
     {
       "code": "WM031",
@@ -2483,7 +2673,8 @@
       "section_vi": "Máy giặt",
       "device_types": [
         "washing_machine"
-      ]
+      ],
+      "price": 150000
     },
     {
       "code": "WM032",
@@ -2496,7 +2687,8 @@
       "section_vi": "Máy giặt",
       "device_types": [
         "washing_machine"
-      ]
+      ],
+      "price": 180000
     },
     {
       "code": "WM033",
@@ -2509,7 +2701,8 @@
       "section_vi": "Máy giặt",
       "device_types": [
         "washing_machine"
-      ]
+      ],
+      "price": 200000
     },
     {
       "code": "WM034",
@@ -2522,7 +2715,8 @@
       "section_vi": "Máy giặt",
       "device_types": [
         "washing_machine"
-      ]
+      ],
+      "price": 180000
     },
     {
       "code": "WM035",
@@ -2535,7 +2729,8 @@
       "section_vi": "Máy giặt",
       "device_types": [
         "washing_machine"
-      ]
+      ],
+      "price": 650000
     },
     {
       "code": "WM036",
@@ -2548,7 +2743,8 @@
       "section_vi": "Máy giặt",
       "device_types": [
         "washing_machine"
-      ]
+      ],
+      "price": 200000
     },
     {
       "code": "WM037",
@@ -2561,7 +2757,8 @@
       "section_vi": "Máy giặt",
       "device_types": [
         "washing_machine"
-      ]
+      ],
+      "price": 750000
     },
     {
       "code": "WM038",
@@ -2574,7 +2771,8 @@
       "section_vi": "Máy giặt",
       "device_types": [
         "washing_machine"
-      ]
+      ],
+      "price": 250000
     },
     {
       "code": "WM039",
@@ -2587,7 +2785,8 @@
       "section_vi": "Máy giặt",
       "device_types": [
         "washing_machine"
-      ]
+      ],
+      "price": 700000
     },
     {
       "code": "WM040",
@@ -2600,7 +2799,8 @@
       "section_vi": "Máy giặt",
       "device_types": [
         "washing_machine"
-      ]
+      ],
+      "price": 150000
     },
     {
       "code": "WM041",
@@ -2613,7 +2813,8 @@
       "section_vi": "Máy giặt",
       "device_types": [
         "washing_machine"
-      ]
+      ],
+      "price": 450000
     },
     {
       "code": "WM042",
@@ -2626,7 +2827,8 @@
       "section_vi": "Máy giặt",
       "device_types": [
         "washing_machine"
-      ]
+      ],
+      "price": 300000
     },
     {
       "code": "WM043",
@@ -2639,7 +2841,8 @@
       "section_vi": "Máy giặt",
       "device_types": [
         "washing_machine"
-      ]
+      ],
+      "price": 200000
     },
     {
       "code": "WM044",
@@ -2652,7 +2855,8 @@
       "section_vi": "Máy giặt",
       "device_types": [
         "washing_machine"
-      ]
+      ],
+      "price": 250000
     },
     {
       "code": "WM045",
@@ -2665,7 +2869,8 @@
       "section_vi": "Máy giặt",
       "device_types": [
         "washing_machine"
-      ]
+      ],
+      "price": 550000
     },
     {
       "code": "WM046",
@@ -2678,7 +2883,8 @@
       "section_vi": "Máy giặt",
       "device_types": [
         "washing_machine"
-      ]
+      ],
+      "price": 500000
     },
     {
       "code": "WM047",
@@ -2691,7 +2897,8 @@
       "section_vi": "Máy giặt",
       "device_types": [
         "washing_machine"
-      ]
+      ],
+      "price": 750000
     },
     {
       "code": "WM048",
@@ -2704,7 +2911,8 @@
       "section_vi": "Máy giặt",
       "device_types": [
         "washing_machine"
-      ]
+      ],
+      "price": 1000000
     },
     {
       "code": "WM049",
@@ -2717,7 +2925,8 @@
       "section_vi": "Máy giặt",
       "device_types": [
         "washing_machine"
-      ]
+      ],
+      "price": 1200000
     },
     {
       "code": "WM050",
@@ -2730,7 +2939,8 @@
       "section_vi": "Máy giặt",
       "device_types": [
         "washing_machine"
-      ]
+      ],
+      "price": 500000
     },
     {
       "code": "WM051",
@@ -2743,7 +2953,8 @@
       "section_vi": "Máy giặt",
       "device_types": [
         "washing_machine"
-      ]
+      ],
+      "price": 250000
     },
     {
       "code": "WM052",
@@ -2756,7 +2967,8 @@
       "section_vi": "Máy giặt",
       "device_types": [
         "washing_machine"
-      ]
+      ],
+      "price": 250000
     },
     {
       "code": "WM053",
@@ -2769,7 +2981,8 @@
       "section_vi": "Máy giặt",
       "device_types": [
         "washing_machine"
-      ]
+      ],
+      "price": 300000
     },
     {
       "code": "WM054",
@@ -2782,7 +2995,8 @@
       "section_vi": "Máy giặt",
       "device_types": [
         "washing_machine"
-      ]
+      ],
+      "price": 350000
     },
     {
       "code": "WM055",
@@ -2795,7 +3009,8 @@
       "section_vi": "Máy giặt",
       "device_types": [
         "washing_machine"
-      ]
+      ],
+      "price": 180000
     },
     {
       "code": "WM056",
@@ -2808,7 +3023,8 @@
       "section_vi": "Máy giặt",
       "device_types": [
         "washing_machine"
-      ]
+      ],
+      "price": 120000
     },
     {
       "code": "WM057",
@@ -2821,7 +3037,8 @@
       "section_vi": "Máy giặt",
       "device_types": [
         "washing_machine"
-      ]
+      ],
+      "price": 450000
     },
     {
       "code": "WM058",
@@ -2834,7 +3051,8 @@
       "section_vi": "Máy giặt",
       "device_types": [
         "washing_machine"
-      ]
+      ],
+      "price": 120000
     },
     {
       "code": "WM059",
@@ -2847,7 +3065,8 @@
       "section_vi": "Máy giặt",
       "device_types": [
         "washing_machine"
-      ]
+      ],
+      "price": 150000
     },
     {
       "code": "WM060",
@@ -2860,7 +3079,8 @@
       "section_vi": "Máy giặt",
       "device_types": [
         "washing_machine"
-      ]
+      ],
+      "price": 250000
     },
     {
       "code": "WMS001",
@@ -2873,7 +3093,8 @@
       "section_vi": "Máy giặt",
       "device_types": [
         "washing_machine"
-      ]
+      ],
+      "price": 30000
     },
     {
       "code": "WMS002",
@@ -2886,7 +3107,8 @@
       "section_vi": "Máy giặt",
       "device_types": [
         "washing_machine"
-      ]
+      ],
+      "price": 10000
     },
     {
       "code": "WMS003",
@@ -2899,7 +3121,8 @@
       "section_vi": "Máy giặt",
       "device_types": [
         "washing_machine"
-      ]
+      ],
+      "price": 10000
     },
     {
       "code": "WMS004",
@@ -2912,7 +3135,8 @@
       "section_vi": "Máy giặt",
       "device_types": [
         "washing_machine"
-      ]
+      ],
+      "price": 80000
     },
     {
       "code": "WMS005",
@@ -2925,7 +3149,8 @@
       "section_vi": "Máy giặt",
       "device_types": [
         "washing_machine"
-      ]
+      ],
+      "price": 180000
     },
     {
       "code": "WMS006",
@@ -2938,7 +3163,8 @@
       "section_vi": "Máy giặt",
       "device_types": [
         "washing_machine"
-      ]
+      ],
+      "price": 50000
     },
     {
       "code": "WMS007",
@@ -2951,7 +3177,8 @@
       "section_vi": "Máy giặt",
       "device_types": [
         "washing_machine"
-      ]
+      ],
+      "price": 350000
     },
     {
       "code": "WMS008",
@@ -2964,7 +3191,8 @@
       "section_vi": "Máy giặt",
       "device_types": [
         "washing_machine"
-      ]
+      ],
+      "price": 30000
     },
     {
       "code": "WMS009",
@@ -2977,7 +3205,8 @@
       "section_vi": "Máy giặt",
       "device_types": [
         "washing_machine"
-      ]
+      ],
+      "price": 250000
     },
     {
       "code": "WMS010",
@@ -2990,7 +3219,8 @@
       "section_vi": "Máy giặt",
       "device_types": [
         "washing_machine"
-      ]
+      ],
+      "price": 180000
     },
     {
       "code": "WMS011",
@@ -3003,7 +3233,8 @@
       "section_vi": "Máy giặt",
       "device_types": [
         "washing_machine"
-      ]
+      ],
+      "price": 30000
     },
     {
       "code": "WMS012",
@@ -3016,7 +3247,8 @@
       "section_vi": "Máy giặt",
       "device_types": [
         "washing_machine"
-      ]
+      ],
+      "price": 30000
     },
     {
       "code": "WMS013",
@@ -3029,7 +3261,8 @@
       "section_vi": "Máy giặt",
       "device_types": [
         "washing_machine"
-      ]
+      ],
+      "price": 50000
     },
     {
       "code": "WMS014",
@@ -3042,7 +3275,8 @@
       "section_vi": "Máy giặt",
       "device_types": [
         "washing_machine"
-      ]
+      ],
+      "price": 120000
     },
     {
       "code": "WMS015",
@@ -3055,7 +3289,8 @@
       "section_vi": "Máy giặt",
       "device_types": [
         "washing_machine"
-      ]
+      ],
+      "price": 120000
     },
     {
       "code": "WMS016",
@@ -3068,7 +3303,8 @@
       "section_vi": "Máy giặt",
       "device_types": [
         "washing_machine"
-      ]
+      ],
+      "price": 120000
     },
     {
       "code": "WMS017",
@@ -3081,7 +3317,8 @@
       "section_vi": "Máy giặt",
       "device_types": [
         "washing_machine"
-      ]
+      ],
+      "price": 180000
     },
     {
       "code": "WMS018",
@@ -3094,7 +3331,8 @@
       "section_vi": "Máy giặt",
       "device_types": [
         "washing_machine"
-      ]
+      ],
+      "price": 180000
     },
     {
       "code": "WMS019",
@@ -3107,7 +3345,8 @@
       "section_vi": "Máy giặt",
       "device_types": [
         "washing_machine"
-      ]
+      ],
+      "price": 50000
     },
     {
       "code": "WMS020",
@@ -3120,7 +3359,8 @@
       "section_vi": "Máy giặt",
       "device_types": [
         "washing_machine"
-      ]
+      ],
+      "price": 150000
     },
     {
       "code": "WMS021",
@@ -3133,7 +3373,8 @@
       "section_vi": "Máy giặt",
       "device_types": [
         "washing_machine"
-      ]
+      ],
+      "price": 200000
     },
     {
       "code": "WMS022",
@@ -3146,7 +3387,8 @@
       "section_vi": "Máy giặt",
       "device_types": [
         "washing_machine"
-      ]
+      ],
+      "price": 150000
     },
     {
       "code": "WMS023",
@@ -3159,7 +3401,8 @@
       "section_vi": "Máy giặt",
       "device_types": [
         "washing_machine"
-      ]
+      ],
+      "price": 10000
     },
     {
       "code": "WMS024",
@@ -3172,7 +3415,8 @@
       "section_vi": "Máy giặt",
       "device_types": [
         "washing_machine"
-      ]
+      ],
+      "price": 15000
     },
     {
       "code": "WMS025",
@@ -3185,7 +3429,8 @@
       "section_vi": "Máy giặt",
       "device_types": [
         "washing_machine"
-      ]
+      ],
+      "price": 20000
     },
     {
       "code": "WMS026",
@@ -3198,7 +3443,8 @@
       "section_vi": "Máy giặt",
       "device_types": [
         "washing_machine"
-      ]
+      ],
+      "price": 50000
     },
     {
       "code": "WMS027",
@@ -3211,7 +3457,8 @@
       "section_vi": "Máy giặt",
       "device_types": [
         "washing_machine"
-      ]
+      ],
+      "price": 50000
     },
     {
       "code": "WMS028",
@@ -3224,7 +3471,8 @@
       "section_vi": "Máy giặt",
       "device_types": [
         "washing_machine"
-      ]
+      ],
+      "price": 60000
     },
     {
       "code": "WMS029",
@@ -3237,7 +3485,8 @@
       "section_vi": "Máy giặt",
       "device_types": [
         "washing_machine"
-      ]
+      ],
+      "price": 40000
     },
     {
       "code": "WMS030",
@@ -3250,7 +3499,8 @@
       "section_vi": "Máy giặt",
       "device_types": [
         "washing_machine"
-      ]
+      ],
+      "price": 20000
     },
     {
       "code": "WMS031",
@@ -3263,7 +3513,8 @@
       "section_vi": "Máy giặt",
       "device_types": [
         "washing_machine"
-      ]
+      ],
+      "price": 20000
     },
     {
       "code": "WMS032",
@@ -3276,7 +3527,8 @@
       "section_vi": "Máy giặt",
       "device_types": [
         "washing_machine"
-      ]
+      ],
+      "price": 100000
     },
     {
       "code": "WMS033",
@@ -3289,7 +3541,8 @@
       "section_vi": "Máy giặt",
       "device_types": [
         "washing_machine"
-      ]
+      ],
+      "price": 100000
     },
     {
       "code": "WMS034",
@@ -3302,7 +3555,8 @@
       "section_vi": "Máy giặt",
       "device_types": [
         "washing_machine"
-      ]
+      ],
+      "price": 80000
     },
     {
       "code": "WMS035",
@@ -3315,7 +3569,8 @@
       "section_vi": "Máy giặt",
       "device_types": [
         "washing_machine"
-      ]
+      ],
+      "price": 150000
     },
     {
       "code": "TV001",
@@ -3328,7 +3583,8 @@
       "section_vi": "TV / Smart TV",
       "device_types": [
         "television"
-      ]
+      ],
+      "price": 450000
     },
     {
       "code": "TV002",
@@ -3341,7 +3597,8 @@
       "section_vi": "TV / Smart TV",
       "device_types": [
         "television"
-      ]
+      ],
+      "price": 550000
     },
     {
       "code": "TV003",
@@ -3354,7 +3611,8 @@
       "section_vi": "TV / Smart TV",
       "device_types": [
         "television"
-      ]
+      ],
+      "price": 700000
     },
     {
       "code": "TV004",
@@ -3367,7 +3625,8 @@
       "section_vi": "TV / Smart TV",
       "device_types": [
         "television"
-      ]
+      ],
+      "price": 800000
     },
     {
       "code": "TV005",
@@ -3380,7 +3639,8 @@
       "section_vi": "TV / Smart TV",
       "device_types": [
         "television"
-      ]
+      ],
+      "price": 1000000
     },
     {
       "code": "TV006",
@@ -3393,7 +3653,8 @@
       "section_vi": "TV / Smart TV",
       "device_types": [
         "television"
-      ]
+      ],
+      "price": 700000
     },
     {
       "code": "TV007",
@@ -3406,7 +3667,8 @@
       "section_vi": "TV / Smart TV",
       "device_types": [
         "television"
-      ]
+      ],
+      "price": 900000
     },
     {
       "code": "TV008",
@@ -3419,7 +3681,8 @@
       "section_vi": "TV / Smart TV",
       "device_types": [
         "television"
-      ]
+      ],
+      "price": 1100000
     },
     {
       "code": "TV009",
@@ -3432,7 +3695,8 @@
       "section_vi": "TV / Smart TV",
       "device_types": [
         "television"
-      ]
+      ],
+      "price": 1300000
     },
     {
       "code": "TV010",
@@ -3445,7 +3709,8 @@
       "section_vi": "TV / Smart TV",
       "device_types": [
         "television"
-      ]
+      ],
+      "price": 1600000
     },
     {
       "code": "TV011",
@@ -3458,7 +3723,8 @@
       "section_vi": "TV / Smart TV",
       "device_types": [
         "television"
-      ]
+      ],
+      "price": 400000
     },
     {
       "code": "TV012",
@@ -3471,7 +3737,8 @@
       "section_vi": "TV / Smart TV",
       "device_types": [
         "television"
-      ]
+      ],
+      "price": 450000
     },
     {
       "code": "TV013",
@@ -3484,7 +3751,8 @@
       "section_vi": "TV / Smart TV",
       "device_types": [
         "television"
-      ]
+      ],
+      "price": 500000
     },
     {
       "code": "TV014",
@@ -3497,7 +3765,8 @@
       "section_vi": "TV / Smart TV",
       "device_types": [
         "television"
-      ]
+      ],
+      "price": 650000
     },
     {
       "code": "TV015",
@@ -3510,7 +3779,8 @@
       "section_vi": "TV / Smart TV",
       "device_types": [
         "television"
-      ]
+      ],
+      "price": 450000
     },
     {
       "code": "TV016",
@@ -3523,7 +3793,8 @@
       "section_vi": "TV / Smart TV",
       "device_types": [
         "television"
-      ]
+      ],
+      "price": 350000
     },
     {
       "code": "TV017",
@@ -3536,7 +3807,8 @@
       "section_vi": "TV / Smart TV",
       "device_types": [
         "television"
-      ]
+      ],
+      "price": 350000
     },
     {
       "code": "TV018",
@@ -3549,7 +3821,8 @@
       "section_vi": "TV / Smart TV",
       "device_types": [
         "television"
-      ]
+      ],
+      "price": 450000
     },
     {
       "code": "TV019",
@@ -3562,7 +3835,8 @@
       "section_vi": "TV / Smart TV",
       "device_types": [
         "television"
-      ]
+      ],
+      "price": 550000
     },
     {
       "code": "TV020",
@@ -3575,7 +3849,8 @@
       "section_vi": "TV / Smart TV",
       "device_types": [
         "television"
-      ]
+      ],
+      "price": 600000
     },
     {
       "code": "TV021",
@@ -3588,7 +3863,8 @@
       "section_vi": "TV / Smart TV",
       "device_types": [
         "television"
-      ]
+      ],
+      "price": 700000
     },
     {
       "code": "TV022",
@@ -3601,7 +3877,8 @@
       "section_vi": "TV / Smart TV",
       "device_types": [
         "television"
-      ]
+      ],
+      "price": 750000
     },
     {
       "code": "TV023",
@@ -3614,7 +3891,8 @@
       "section_vi": "TV / Smart TV",
       "device_types": [
         "television"
-      ]
+      ],
+      "price": 800000
     },
     {
       "code": "TV024",
@@ -3627,7 +3905,8 @@
       "section_vi": "TV / Smart TV",
       "device_types": [
         "television"
-      ]
+      ],
+      "price": 1100000
     },
     {
       "code": "TV025",
@@ -3640,7 +3919,8 @@
       "section_vi": "TV / Smart TV",
       "device_types": [
         "television"
-      ]
+      ],
+      "price": 120000
     },
     {
       "code": "TV026",
@@ -3653,7 +3933,8 @@
       "section_vi": "TV / Smart TV",
       "device_types": [
         "television"
-      ]
+      ],
+      "price": 350000
     },
     {
       "code": "TV027",
@@ -3666,7 +3947,8 @@
       "section_vi": "TV / Smart TV",
       "device_types": [
         "television"
-      ]
+      ],
+      "price": 350000
     },
     {
       "code": "TV028",
@@ -3679,7 +3961,8 @@
       "section_vi": "TV / Smart TV",
       "device_types": [
         "television"
-      ]
+      ],
+      "price": 450000
     },
     {
       "code": "TV029",
@@ -3692,7 +3975,8 @@
       "section_vi": "TV / Smart TV",
       "device_types": [
         "television"
-      ]
+      ],
+      "price": 180000
     },
     {
       "code": "TV030",
@@ -3705,7 +3989,8 @@
       "section_vi": "TV / Smart TV",
       "device_types": [
         "television"
-      ]
+      ],
+      "price": 180000
     },
     {
       "code": "TV031",
@@ -3718,7 +4003,8 @@
       "section_vi": "TV / Smart TV",
       "device_types": [
         "television"
-      ]
+      ],
+      "price": 200000
     },
     {
       "code": "TV032",
@@ -3731,7 +4017,8 @@
       "section_vi": "TV / Smart TV",
       "device_types": [
         "television"
-      ]
+      ],
+      "price": 250000
     },
     {
       "code": "TV033",
@@ -3744,7 +4031,8 @@
       "section_vi": "TV / Smart TV",
       "device_types": [
         "television"
-      ]
+      ],
+      "price": 300000
     },
     {
       "code": "TV034",
@@ -3757,7 +4045,8 @@
       "section_vi": "TV / Smart TV",
       "device_types": [
         "television"
-      ]
+      ],
+      "price": 350000
     },
     {
       "code": "TV035",
@@ -3770,7 +4059,8 @@
       "section_vi": "TV / Smart TV",
       "device_types": [
         "television"
-      ]
+      ],
+      "price": 450000
     },
     {
       "code": "TV036",
@@ -3783,7 +4073,8 @@
       "section_vi": "TV / Smart TV",
       "device_types": [
         "television"
-      ]
+      ],
+      "price": 150000
     },
     {
       "code": "TV037",
@@ -3796,7 +4087,8 @@
       "section_vi": "TV / Smart TV",
       "device_types": [
         "television"
-      ]
+      ],
+      "price": 100000
     },
     {
       "code": "TV038",
@@ -3809,7 +4101,8 @@
       "section_vi": "TV / Smart TV",
       "device_types": [
         "television"
-      ]
+      ],
+      "price": 100000
     },
     {
       "code": "TV039",
@@ -3822,7 +4115,8 @@
       "section_vi": "TV / Smart TV",
       "device_types": [
         "television"
-      ]
+      ],
+      "price": 80000
     },
     {
       "code": "TV040",
@@ -3835,7 +4129,8 @@
       "section_vi": "TV / Smart TV",
       "device_types": [
         "television"
-      ]
+      ],
+      "price": 80000
     },
     {
       "code": "TV041",
@@ -3848,7 +4143,8 @@
       "section_vi": "TV / Smart TV",
       "device_types": [
         "television"
-      ]
+      ],
+      "price": 1300000
     },
     {
       "code": "TV042",
@@ -3861,7 +4157,8 @@
       "section_vi": "TV / Smart TV",
       "device_types": [
         "television"
-      ]
+      ],
+      "price": 1800000
     },
     {
       "code": "TV043",
@@ -3874,7 +4171,8 @@
       "section_vi": "TV / Smart TV",
       "device_types": [
         "television"
-      ]
+      ],
+      "price": 2800000
     },
     {
       "code": "TV044",
@@ -3887,7 +4185,8 @@
       "section_vi": "TV / Smart TV",
       "device_types": [
         "television"
-      ]
+      ],
+      "price": 3800000
     },
     {
       "code": "TV045",
@@ -3900,7 +4199,8 @@
       "section_vi": "TV / Smart TV",
       "device_types": [
         "television"
-      ]
+      ],
+      "price": 4500000
     },
     {
       "code": "TV046",
@@ -3913,7 +4213,8 @@
       "section_vi": "TV / Smart TV",
       "device_types": [
         "television"
-      ]
+      ],
+      "price": 7000000
     },
     {
       "code": "TV047",
@@ -3926,7 +4227,8 @@
       "section_vi": "TV / Smart TV",
       "device_types": [
         "television"
-      ]
+      ],
+      "price": 120000
     },
     {
       "code": "TV048",
@@ -3939,7 +4241,8 @@
       "section_vi": "TV / Smart TV",
       "device_types": [
         "television"
-      ]
+      ],
+      "price": 350000
     },
     {
       "code": "TV049",
@@ -3952,7 +4255,8 @@
       "section_vi": "TV / Smart TV",
       "device_types": [
         "television"
-      ]
+      ],
+      "price": 550000
     },
     {
       "code": "TV050",
@@ -3965,7 +4269,8 @@
       "section_vi": "TV / Smart TV",
       "device_types": [
         "television"
-      ]
+      ],
+      "price": 450000
     },
     {
       "code": "TVS001",
@@ -3978,7 +4283,8 @@
       "section_vi": "TV / Smart TV",
       "device_types": [
         "television"
-      ]
+      ],
+      "price": 20000
     },
     {
       "code": "TVS002",
@@ -3991,7 +4297,8 @@
       "section_vi": "TV / Smart TV",
       "device_types": [
         "television"
-      ]
+      ],
+      "price": 20000
     },
     {
       "code": "TVS003",
@@ -4004,7 +4311,8 @@
       "section_vi": "TV / Smart TV",
       "device_types": [
         "television"
-      ]
+      ],
+      "price": 20000
     },
     {
       "code": "TVS004",
@@ -4017,7 +4325,8 @@
       "section_vi": "TV / Smart TV",
       "device_types": [
         "television"
-      ]
+      ],
+      "price": 40000
     },
     {
       "code": "TVS005",
@@ -4030,7 +4339,8 @@
       "section_vi": "TV / Smart TV",
       "device_types": [
         "television"
-      ]
+      ],
+      "price": 50000
     },
     {
       "code": "TVS006",
@@ -4043,7 +4353,8 @@
       "section_vi": "TV / Smart TV",
       "device_types": [
         "television"
-      ]
+      ],
+      "price": 60000
     },
     {
       "code": "TVS007",
@@ -4056,7 +4367,8 @@
       "section_vi": "TV / Smart TV",
       "device_types": [
         "television"
-      ]
+      ],
+      "price": 15000
     },
     {
       "code": "TVS008",
@@ -4069,7 +4381,8 @@
       "section_vi": "TV / Smart TV",
       "device_types": [
         "television"
-      ]
+      ],
+      "price": 10000
     },
     {
       "code": "TVS009",
@@ -4082,7 +4395,8 @@
       "section_vi": "TV / Smart TV",
       "device_types": [
         "television"
-      ]
+      ],
+      "price": 50000
     },
     {
       "code": "TVS010",
@@ -4095,7 +4409,8 @@
       "section_vi": "TV / Smart TV",
       "device_types": [
         "television"
-      ]
+      ],
+      "price": 20000
     },
     {
       "code": "TVS011",
@@ -4108,7 +4423,8 @@
       "section_vi": "TV / Smart TV",
       "device_types": [
         "television"
-      ]
+      ],
+      "price": 60000
     },
     {
       "code": "TVS012",
@@ -4121,7 +4437,8 @@
       "section_vi": "TV / Smart TV",
       "device_types": [
         "television"
-      ]
+      ],
+      "price": 50000
     },
     {
       "code": "TVS013",
@@ -4134,7 +4451,8 @@
       "section_vi": "TV / Smart TV",
       "device_types": [
         "television"
-      ]
+      ],
+      "price": 10000
     },
     {
       "code": "TVS014",
@@ -4147,7 +4465,8 @@
       "section_vi": "TV / Smart TV",
       "device_types": [
         "television"
-      ]
+      ],
+      "price": 10000
     },
     {
       "code": "TVS015",
@@ -4160,7 +4479,8 @@
       "section_vi": "TV / Smart TV",
       "device_types": [
         "television"
-      ]
+      ],
+      "price": 5000
     },
     {
       "code": "TVS016",
@@ -4173,7 +4493,8 @@
       "section_vi": "TV / Smart TV",
       "device_types": [
         "television"
-      ]
+      ],
+      "price": 30000
     },
     {
       "code": "TVS017",
@@ -4186,7 +4507,8 @@
       "section_vi": "TV / Smart TV",
       "device_types": [
         "television"
-      ]
+      ],
+      "price": 20000
     },
     {
       "code": "TVS018",
@@ -4199,7 +4521,8 @@
       "section_vi": "TV / Smart TV",
       "device_types": [
         "television"
-      ]
+      ],
+      "price": 30000
     },
     {
       "code": "TVS019",
@@ -4212,7 +4535,8 @@
       "section_vi": "TV / Smart TV",
       "device_types": [
         "television"
-      ]
+      ],
+      "price": 80000
     },
     {
       "code": "TVS020",
@@ -4225,7 +4549,8 @@
       "section_vi": "TV / Smart TV",
       "device_types": [
         "television"
-      ]
+      ],
+      "price": 50000
     },
     {
       "code": "TVS021",
@@ -4238,7 +4563,8 @@
       "section_vi": "TV / Smart TV",
       "device_types": [
         "television"
-      ]
+      ],
+      "price": 50000
     },
     {
       "code": "TVS022",
@@ -4251,7 +4577,8 @@
       "section_vi": "TV / Smart TV",
       "device_types": [
         "television"
-      ]
+      ],
+      "price": 80000
     },
     {
       "code": "TVS023",
@@ -4264,7 +4591,8 @@
       "section_vi": "TV / Smart TV",
       "device_types": [
         "television"
-      ]
+      ],
+      "price": 80000
     },
     {
       "code": "TVS024",
@@ -4277,7 +4605,8 @@
       "section_vi": "TV / Smart TV",
       "device_types": [
         "television"
-      ]
+      ],
+      "price": 180000
     },
     {
       "code": "TVS025",
@@ -4290,7 +4619,8 @@
       "section_vi": "TV / Smart TV",
       "device_types": [
         "television"
-      ]
+      ],
+      "price": 250000
     },
     {
       "code": "RF001",
@@ -4303,7 +4633,8 @@
       "section_vi": "Tủ lạnh",
       "device_types": [
         "refrigerator"
-      ]
+      ],
+      "price": 1200000
     },
     {
       "code": "RF002",
@@ -4316,7 +4647,8 @@
       "section_vi": "Tủ lạnh",
       "device_types": [
         "refrigerator"
-      ]
+      ],
+      "price": 1500000
     },
     {
       "code": "RF003",
@@ -4329,7 +4661,8 @@
       "section_vi": "Tủ lạnh",
       "device_types": [
         "refrigerator"
-      ]
+      ],
+      "price": 1500000
     },
     {
       "code": "RF004",
@@ -4342,7 +4675,8 @@
       "section_vi": "Tủ lạnh",
       "device_types": [
         "refrigerator"
-      ]
+      ],
+      "price": 2200000
     },
     {
       "code": "RF005",
@@ -4355,7 +4689,8 @@
       "section_vi": "Tủ lạnh",
       "device_types": [
         "refrigerator"
-      ]
+      ],
+      "price": 3000000
     },
     {
       "code": "RF006",
@@ -4368,7 +4703,8 @@
       "section_vi": "Tủ lạnh",
       "device_types": [
         "refrigerator"
-      ]
+      ],
+      "price": 650000
     },
     {
       "code": "RF007",
@@ -4381,7 +4717,8 @@
       "section_vi": "Tủ lạnh",
       "device_types": [
         "refrigerator"
-      ]
+      ],
+      "price": 900000
     },
     {
       "code": "RF008",
@@ -4394,7 +4731,8 @@
       "section_vi": "Tủ lạnh",
       "device_types": [
         "refrigerator"
-      ]
+      ],
+      "price": 900000
     },
     {
       "code": "RF009",
@@ -4407,7 +4745,8 @@
       "section_vi": "Tủ lạnh",
       "device_types": [
         "refrigerator"
-      ]
+      ],
+      "price": 600000
     },
     {
       "code": "RF010",
@@ -4420,7 +4759,8 @@
       "section_vi": "Tủ lạnh",
       "device_types": [
         "refrigerator"
-      ]
+      ],
+      "price": 700000
     },
     {
       "code": "RF011",
@@ -4433,7 +4773,8 @@
       "section_vi": "Tủ lạnh",
       "device_types": [
         "refrigerator"
-      ]
+      ],
+      "price": 350000
     },
     {
       "code": "RF012",
@@ -4446,7 +4787,8 @@
       "section_vi": "Tủ lạnh",
       "device_types": [
         "refrigerator"
-      ]
+      ],
+      "price": 300000
     },
     {
       "code": "RF013",
@@ -4459,7 +4801,8 @@
       "section_vi": "Tủ lạnh",
       "device_types": [
         "refrigerator"
-      ]
+      ],
+      "price": 350000
     },
     {
       "code": "RF014",
@@ -4472,7 +4815,8 @@
       "section_vi": "Tủ lạnh",
       "device_types": [
         "refrigerator"
-      ]
+      ],
+      "price": 350000
     },
     {
       "code": "RF015",
@@ -4485,7 +4829,8 @@
       "section_vi": "Tủ lạnh",
       "device_types": [
         "refrigerator"
-      ]
+      ],
+      "price": 180000
     },
     {
       "code": "RF016",
@@ -4498,7 +4843,8 @@
       "section_vi": "Tủ lạnh",
       "device_types": [
         "refrigerator"
-      ]
+      ],
+      "price": 180000
     },
     {
       "code": "RF017",
@@ -4511,7 +4857,8 @@
       "section_vi": "Tủ lạnh",
       "device_types": [
         "refrigerator"
-      ]
+      ],
+      "price": 200000
     },
     {
       "code": "RF018",
@@ -4524,7 +4871,8 @@
       "section_vi": "Tủ lạnh",
       "device_types": [
         "refrigerator"
-      ]
+      ],
+      "price": 200000
     },
     {
       "code": "RF019",
@@ -4537,7 +4885,8 @@
       "section_vi": "Tủ lạnh",
       "device_types": [
         "refrigerator"
-      ]
+      ],
+      "price": 180000
     },
     {
       "code": "RF020",
@@ -4550,7 +4899,8 @@
       "section_vi": "Tủ lạnh",
       "device_types": [
         "refrigerator"
-      ]
+      ],
+      "price": 300000
     },
     {
       "code": "RF021",
@@ -4563,7 +4913,8 @@
       "section_vi": "Tủ lạnh",
       "device_types": [
         "refrigerator"
-      ]
+      ],
+      "price": 120000
     },
     {
       "code": "RF022",
@@ -4576,7 +4927,8 @@
       "section_vi": "Tủ lạnh",
       "device_types": [
         "refrigerator"
-      ]
+      ],
+      "price": 180000
     },
     {
       "code": "RF023",
@@ -4589,7 +4941,8 @@
       "section_vi": "Tủ lạnh",
       "device_types": [
         "refrigerator"
-      ]
+      ],
+      "price": 220000
     },
     {
       "code": "RF024",
@@ -4602,7 +4955,8 @@
       "section_vi": "Tủ lạnh",
       "device_types": [
         "refrigerator"
-      ]
+      ],
+      "price": 450000
     },
     {
       "code": "RF025",
@@ -4615,7 +4969,8 @@
       "section_vi": "Tủ lạnh",
       "device_types": [
         "refrigerator"
-      ]
+      ],
+      "price": 150000
     },
     {
       "code": "RF026",
@@ -4628,7 +4983,8 @@
       "section_vi": "Tủ lạnh",
       "device_types": [
         "refrigerator"
-      ]
+      ],
+      "price": 120000
     },
     {
       "code": "RF027",
@@ -4641,7 +4997,8 @@
       "section_vi": "Tủ lạnh",
       "device_types": [
         "refrigerator"
-      ]
+      ],
+      "price": 150000
     },
     {
       "code": "RF028",
@@ -4654,7 +5011,8 @@
       "section_vi": "Tủ lạnh",
       "device_types": [
         "refrigerator"
-      ]
+      ],
+      "price": 120000
     },
     {
       "code": "RF029",
@@ -4667,7 +5025,8 @@
       "section_vi": "Tủ lạnh",
       "device_types": [
         "refrigerator"
-      ]
+      ],
+      "price": 180000
     },
     {
       "code": "RF030",
@@ -4680,7 +5039,8 @@
       "section_vi": "Tủ lạnh",
       "device_types": [
         "refrigerator"
-      ]
+      ],
+      "price": 450000
     },
     {
       "code": "RF031",
@@ -4693,7 +5053,8 @@
       "section_vi": "Tủ lạnh",
       "device_types": [
         "refrigerator"
-      ]
+      ],
+      "price": 450000
     },
     {
       "code": "RF032",
@@ -4706,7 +5067,8 @@
       "section_vi": "Tủ lạnh",
       "device_types": [
         "refrigerator"
-      ]
+      ],
+      "price": 250000
     },
     {
       "code": "RF033",
@@ -4719,7 +5081,8 @@
       "section_vi": "Tủ lạnh",
       "device_types": [
         "refrigerator"
-      ]
+      ],
+      "price": 120000
     },
     {
       "code": "RF034",
@@ -4732,7 +5095,8 @@
       "section_vi": "Tủ lạnh",
       "device_types": [
         "refrigerator"
-      ]
+      ],
+      "price": 180000
     },
     {
       "code": "RF035",
@@ -4745,7 +5109,8 @@
       "section_vi": "Tủ lạnh",
       "device_types": [
         "refrigerator"
-      ]
+      ],
+      "price": 300000
     },
     {
       "code": "RF036",
@@ -4758,7 +5123,8 @@
       "section_vi": "Tủ lạnh",
       "device_types": [
         "refrigerator"
-      ]
+      ],
+      "price": 350000
     },
     {
       "code": "RF037",
@@ -4771,7 +5137,8 @@
       "section_vi": "Tủ lạnh",
       "device_types": [
         "refrigerator"
-      ]
+      ],
+      "price": 150000
     },
     {
       "code": "RF038",
@@ -4784,7 +5151,8 @@
       "section_vi": "Tủ lạnh",
       "device_types": [
         "refrigerator"
-      ]
+      ],
+      "price": 500000
     },
     {
       "code": "RF039",
@@ -4797,7 +5165,8 @@
       "section_vi": "Tủ lạnh",
       "device_types": [
         "refrigerator"
-      ]
+      ],
+      "price": 1000000
     },
     {
       "code": "RF040",
@@ -4810,7 +5179,8 @@
       "section_vi": "Tủ lạnh",
       "device_types": [
         "refrigerator"
-      ]
+      ],
+      "price": 450000
     },
     {
       "code": "RF041",
@@ -4823,7 +5193,8 @@
       "section_vi": "Tủ lạnh",
       "device_types": [
         "refrigerator"
-      ]
+      ],
+      "price": 500000
     },
     {
       "code": "RF042",
@@ -4836,7 +5207,8 @@
       "section_vi": "Tủ lạnh",
       "device_types": [
         "refrigerator"
-      ]
+      ],
+      "price": 350000
     },
     {
       "code": "RF043",
@@ -4849,7 +5221,8 @@
       "section_vi": "Tủ lạnh",
       "device_types": [
         "refrigerator"
-      ]
+      ],
+      "price": 250000
     },
     {
       "code": "RF044",
@@ -4862,7 +5235,8 @@
       "section_vi": "Tủ lạnh",
       "device_types": [
         "refrigerator"
-      ]
+      ],
+      "price": 250000
     },
     {
       "code": "RF045",
@@ -4875,7 +5249,8 @@
       "section_vi": "Tủ lạnh",
       "device_types": [
         "refrigerator"
-      ]
+      ],
+      "price": 100000
     },
     {
       "code": "RFS001",
@@ -4888,7 +5263,8 @@
       "section_vi": "Tủ lạnh",
       "device_types": [
         "refrigerator"
-      ]
+      ],
+      "price": 70000
     },
     {
       "code": "RFS002",
@@ -4901,7 +5277,8 @@
       "section_vi": "Tủ lạnh",
       "device_types": [
         "refrigerator"
-      ]
+      ],
+      "price": 30000
     },
     {
       "code": "RFS003",
@@ -4914,7 +5291,8 @@
       "section_vi": "Tủ lạnh",
       "device_types": [
         "refrigerator"
-      ]
+      ],
+      "price": 35000
     },
     {
       "code": "RFS004",
@@ -4927,7 +5305,8 @@
       "section_vi": "Tủ lạnh",
       "device_types": [
         "refrigerator"
-      ]
+      ],
+      "price": 80000
     },
     {
       "code": "RFS005",
@@ -4940,7 +5319,8 @@
       "section_vi": "Tủ lạnh",
       "device_types": [
         "refrigerator"
-      ]
+      ],
+      "price": 90000
     },
     {
       "code": "RFS006",
@@ -4953,7 +5333,8 @@
       "section_vi": "Tủ lạnh",
       "device_types": [
         "refrigerator"
-      ]
+      ],
+      "price": 80000
     },
     {
       "code": "RFS007",
@@ -4966,7 +5347,8 @@
       "section_vi": "Tủ lạnh",
       "device_types": [
         "refrigerator"
-      ]
+      ],
+      "price": 120000
     },
     {
       "code": "RFS008",
@@ -4979,7 +5361,8 @@
       "section_vi": "Tủ lạnh",
       "device_types": [
         "refrigerator"
-      ]
+      ],
+      "price": 120000
     },
     {
       "code": "RFS009",
@@ -4992,7 +5375,8 @@
       "section_vi": "Tủ lạnh",
       "device_types": [
         "refrigerator"
-      ]
+      ],
+      "price": 120000
     },
     {
       "code": "RFS010",
@@ -5005,7 +5389,8 @@
       "section_vi": "Tủ lạnh",
       "device_types": [
         "refrigerator"
-      ]
+      ],
+      "price": 100000
     },
     {
       "code": "RFS011",
@@ -5018,7 +5403,8 @@
       "section_vi": "Tủ lạnh",
       "device_types": [
         "refrigerator"
-      ]
+      ],
+      "price": 120000
     },
     {
       "code": "RFS012",
@@ -5031,7 +5417,8 @@
       "section_vi": "Tủ lạnh",
       "device_types": [
         "refrigerator"
-      ]
+      ],
+      "price": 100000
     },
     {
       "code": "RFS013",
@@ -5044,7 +5431,8 @@
       "section_vi": "Tủ lạnh",
       "device_types": [
         "refrigerator"
-      ]
+      ],
+      "price": 100000
     },
     {
       "code": "RFS014",
@@ -5057,7 +5445,8 @@
       "section_vi": "Tủ lạnh",
       "device_types": [
         "refrigerator"
-      ]
+      ],
+      "price": 120000
     },
     {
       "code": "RFS015",
@@ -5070,7 +5459,8 @@
       "section_vi": "Tủ lạnh",
       "device_types": [
         "refrigerator"
-      ]
+      ],
+      "price": 150000
     },
     {
       "code": "RFS016",
@@ -5083,7 +5473,8 @@
       "section_vi": "Tủ lạnh",
       "device_types": [
         "refrigerator"
-      ]
+      ],
+      "price": 150000
     },
     {
       "code": "RFS017",
@@ -5096,7 +5487,8 @@
       "section_vi": "Tủ lạnh",
       "device_types": [
         "refrigerator"
-      ]
+      ],
+      "price": 180000
     },
     {
       "code": "RFS018",
@@ -5109,7 +5501,8 @@
       "section_vi": "Tủ lạnh",
       "device_types": [
         "refrigerator"
-      ]
+      ],
+      "price": 200000
     },
     {
       "code": "RFS019",
@@ -5122,7 +5515,8 @@
       "section_vi": "Tủ lạnh",
       "device_types": [
         "refrigerator"
-      ]
+      ],
+      "price": 150000
     },
     {
       "code": "RFS020",
@@ -5135,7 +5529,8 @@
       "section_vi": "Tủ lạnh",
       "device_types": [
         "refrigerator"
-      ]
+      ],
+      "price": 180000
     },
     {
       "code": "RFS021",
@@ -5148,7 +5543,8 @@
       "section_vi": "Tủ lạnh",
       "device_types": [
         "refrigerator"
-      ]
+      ],
+      "price": 250000
     },
     {
       "code": "RFS022",
@@ -5161,7 +5557,8 @@
       "section_vi": "Tủ lạnh",
       "device_types": [
         "refrigerator"
-      ]
+      ],
+      "price": 100000
     },
     {
       "code": "RFS023",
@@ -5174,7 +5571,8 @@
       "section_vi": "Tủ lạnh",
       "device_types": [
         "refrigerator"
-      ]
+      ],
+      "price": 30000
     },
     {
       "code": "RFS024",
@@ -5187,7 +5585,8 @@
       "section_vi": "Tủ lạnh",
       "device_types": [
         "refrigerator"
-      ]
+      ],
+      "price": 50000
     },
     {
       "code": "RFS025",
@@ -5200,7 +5599,8 @@
       "section_vi": "Tủ lạnh",
       "device_types": [
         "refrigerator"
-      ]
+      ],
+      "price": 30000
     },
     {
       "code": "HA001",
@@ -5213,7 +5613,8 @@
       "section_vi": "Đồ điện gia dụng",
       "device_types": [
         "induction_hob"
-      ]
+      ],
+      "price": 15000
     },
     {
       "code": "HA002",
@@ -5226,7 +5627,8 @@
       "section_vi": "Đồ điện gia dụng",
       "device_types": [
         "induction_hob"
-      ]
+      ],
+      "price": 150000
     },
     {
       "code": "HA003",
@@ -5239,7 +5641,8 @@
       "section_vi": "Đồ điện gia dụng",
       "device_types": [
         "induction_hob"
-      ]
+      ],
+      "price": 250000
     },
     {
       "code": "HA004",
@@ -5252,7 +5655,8 @@
       "section_vi": "Đồ điện gia dụng",
       "device_types": [
         "induction_hob"
-      ]
+      ],
+      "price": 100000
     },
     {
       "code": "HA005",
@@ -5265,7 +5669,8 @@
       "section_vi": "Đồ điện gia dụng",
       "device_types": [
         "induction_hob"
-      ]
+      ],
+      "price": 100000
     },
     {
       "code": "HA006",
@@ -5278,7 +5683,8 @@
       "section_vi": "Đồ điện gia dụng",
       "device_types": [
         "induction_hob"
-      ]
+      ],
+      "price": 80000
     },
     {
       "code": "HA007",
@@ -5291,7 +5697,8 @@
       "section_vi": "Đồ điện gia dụng",
       "device_types": [
         "induction_hob"
-      ]
+      ],
+      "price": 100000
     },
     {
       "code": "HA008",
@@ -5304,7 +5711,8 @@
       "section_vi": "Đồ điện gia dụng",
       "device_types": [
         "induction_hob"
-      ]
+      ],
+      "price": 600000
     },
     {
       "code": "HA009",
@@ -5317,7 +5725,8 @@
       "section_vi": "Đồ điện gia dụng",
       "device_types": [
         "induction_hob"
-      ]
+      ],
+      "price": 200000
     },
     {
       "code": "HA010",
@@ -5330,7 +5739,8 @@
       "section_vi": "Đồ điện gia dụng",
       "device_types": [
         "induction_hob"
-      ]
+      ],
+      "price": 120000
     },
     {
       "code": "HA011",
@@ -5343,7 +5753,8 @@
       "section_vi": "Đồ điện gia dụng",
       "device_types": [
         "induction_hob"
-      ]
+      ],
+      "price": 500000
     },
     {
       "code": "HA012",
@@ -5356,7 +5767,8 @@
       "section_vi": "Đồ điện gia dụng",
       "device_types": [
         "induction_hob"
-      ]
+      ],
+      "price": 600000
     },
     {
       "code": "HA013",
@@ -5369,7 +5781,8 @@
       "section_vi": "Đồ điện gia dụng",
       "device_types": [
         "induction_hob"
-      ]
+      ],
+      "price": 700000
     },
     {
       "code": "HA014",
@@ -5382,7 +5795,8 @@
       "section_vi": "Đồ điện gia dụng",
       "device_types": [
         "induction_hob"
-      ]
+      ],
+      "price": 500000
     },
     {
       "code": "HA015",
@@ -5395,7 +5809,8 @@
       "section_vi": "Đồ điện gia dụng",
       "device_types": [
         "induction_hob"
-      ]
+      ],
+      "price": 700000
     },
     {
       "code": "HA016",
@@ -5408,7 +5823,8 @@
       "section_vi": "Đồ điện gia dụng",
       "device_types": [
         "microwave_oven"
-      ]
+      ],
+      "price": 450000
     },
     {
       "code": "HA017",
@@ -5421,7 +5837,8 @@
       "section_vi": "Đồ điện gia dụng",
       "device_types": [
         "microwave_oven"
-      ]
+      ],
+      "price": 750000
     },
     {
       "code": "HA018",
@@ -5434,7 +5851,8 @@
       "section_vi": "Đồ điện gia dụng",
       "device_types": [
         "microwave_oven"
-      ]
+      ],
+      "price": 180000
     },
     {
       "code": "HA019",
@@ -5447,7 +5865,8 @@
       "section_vi": "Đồ điện gia dụng",
       "device_types": [
         "microwave_oven"
-      ]
+      ],
+      "price": 100000
     },
     {
       "code": "HA020",
@@ -5460,7 +5879,8 @@
       "section_vi": "Đồ điện gia dụng",
       "device_types": [
         "microwave_oven"
-      ]
+      ],
+      "price": 450000
     },
     {
       "code": "HA021",
@@ -5473,7 +5893,8 @@
       "section_vi": "Đồ điện gia dụng",
       "device_types": [
         "microwave_oven"
-      ]
+      ],
+      "price": 800000
     },
     {
       "code": "HA022",
@@ -5486,7 +5907,8 @@
       "section_vi": "Đồ điện gia dụng",
       "device_types": [
         "microwave_oven"
-      ]
+      ],
+      "price": 250000
     },
     {
       "code": "HA023",
@@ -5499,7 +5921,8 @@
       "section_vi": "Đồ điện gia dụng",
       "device_types": [
         "microwave_oven"
-      ]
+      ],
+      "price": 300000
     },
     {
       "code": "HA024",
@@ -5512,7 +5935,8 @@
       "section_vi": "Đồ điện gia dụng",
       "device_types": [
         "microwave_oven"
-      ]
+      ],
+      "price": 100000
     },
     {
       "code": "HA025",
@@ -5525,7 +5949,8 @@
       "section_vi": "Đồ điện gia dụng",
       "device_types": [
         "microwave_oven"
-      ]
+      ],
+      "price": 200000
     },
     {
       "code": "HA026",
@@ -5538,7 +5963,8 @@
       "section_vi": "Đồ điện gia dụng",
       "device_types": [
         "microwave_oven"
-      ]
+      ],
+      "price": 500000
     },
     {
       "code": "HA027",
@@ -5549,7 +5975,8 @@
       "price_max": 650000,
       "unit_vi": "cái",
       "section_vi": "Đồ điện gia dụng",
-      "device_types": []
+      "device_types": [],
+      "price": 200000
     },
     {
       "code": "HA028",
@@ -5560,7 +5987,8 @@
       "price_max": 350000,
       "unit_vi": "cái",
       "section_vi": "Đồ điện gia dụng",
-      "device_types": []
+      "device_types": [],
+      "price": 100000
     },
     {
       "code": "HA029",
@@ -5571,7 +5999,8 @@
       "price_max": 180000,
       "unit_vi": "cái",
       "section_vi": "Đồ điện gia dụng",
-      "device_types": []
+      "device_types": [],
+      "price": 50000
     },
     {
       "code": "HA030",
@@ -5582,7 +6011,8 @@
       "price_max": 300000,
       "unit_vi": "cái",
       "section_vi": "Đồ điện gia dụng",
-      "device_types": []
+      "device_types": [],
+      "price": 100000
     },
     {
       "code": "HA031",
@@ -5593,7 +6023,8 @@
       "price_max": 900000,
       "unit_vi": "bộ",
       "section_vi": "Đồ điện gia dụng",
-      "device_types": []
+      "device_types": [],
+      "price": 300000
     },
     {
       "code": "HA032",
@@ -5604,7 +6035,8 @@
       "price_max": 800000,
       "unit_vi": "bộ",
       "section_vi": "Đồ điện gia dụng",
-      "device_types": []
+      "device_types": [],
+      "price": 250000
     },
     {
       "code": "HA033",
@@ -5615,7 +6047,8 @@
       "price_max": 1800000,
       "unit_vi": "bộ",
       "section_vi": "Đồ điện gia dụng",
-      "device_types": []
+      "device_types": [],
+      "price": 600000
     },
     {
       "code": "HA034",
@@ -5626,7 +6059,8 @@
       "price_max": 500000,
       "unit_vi": "cái",
       "section_vi": "Đồ điện gia dụng",
-      "device_types": []
+      "device_types": [],
+      "price": 180000
     },
     {
       "code": "HA035",
@@ -5640,7 +6074,8 @@
       "device_types": [
         "electric_fan",
         "ceiling_fan"
-      ]
+      ],
+      "price": 250000
     },
     {
       "code": "HA036",
@@ -5654,7 +6089,8 @@
       "device_types": [
         "electric_fan",
         "ceiling_fan"
-      ]
+      ],
+      "price": 10000
     },
     {
       "code": "HA037",
@@ -5668,7 +6104,8 @@
       "device_types": [
         "electric_fan",
         "ceiling_fan"
-      ]
+      ],
+      "price": 10000
     },
     {
       "code": "HA038",
@@ -5682,7 +6119,8 @@
       "device_types": [
         "electric_fan",
         "ceiling_fan"
-      ]
+      ],
+      "price": 10000
     },
     {
       "code": "HA039",
@@ -5696,7 +6134,8 @@
       "device_types": [
         "electric_fan",
         "ceiling_fan"
-      ]
+      ],
+      "price": 200000
     },
     {
       "code": "HA040",
@@ -5710,7 +6149,8 @@
       "device_types": [
         "electric_fan",
         "ceiling_fan"
-      ]
+      ],
+      "price": 180000
     },
     {
       "code": "HA041",
@@ -5724,7 +6164,8 @@
       "device_types": [
         "electric_fan",
         "ceiling_fan"
-      ]
+      ],
+      "price": 100000
     },
     {
       "code": "HA042",
@@ -5737,7 +6178,8 @@
       "section_vi": "Đồ điện gia dụng",
       "device_types": [
         "water_heater"
-      ]
+      ],
+      "price": 300000
     },
     {
       "code": "HA043",
@@ -5750,7 +6192,8 @@
       "section_vi": "Đồ điện gia dụng",
       "device_types": [
         "water_heater"
-      ]
+      ],
+      "price": 150000
     },
     {
       "code": "HA044",
@@ -5763,7 +6206,8 @@
       "section_vi": "Đồ điện gia dụng",
       "device_types": [
         "water_heater"
-      ]
+      ],
+      "price": 250000
     },
     {
       "code": "HA045",
@@ -5776,7 +6220,8 @@
       "section_vi": "Đồ điện gia dụng",
       "device_types": [
         "water_heater"
-      ]
+      ],
+      "price": 300000
     },
     {
       "code": "HA046",
@@ -5789,7 +6234,8 @@
       "section_vi": "Đồ điện gia dụng",
       "device_types": [
         "water_heater"
-      ]
+      ],
+      "price": 180000
     },
     {
       "code": "HA047",
@@ -5802,7 +6248,8 @@
       "section_vi": "Đồ điện gia dụng",
       "device_types": [
         "water_heater"
-      ]
+      ],
+      "price": 80000
     },
     {
       "code": "HA048",
@@ -5815,7 +6262,8 @@
       "section_vi": "Đồ điện gia dụng",
       "device_types": [
         "water_purifier"
-      ]
+      ],
+      "price": 250000
     },
     {
       "code": "HA049",
@@ -5828,7 +6276,8 @@
       "section_vi": "Đồ điện gia dụng",
       "device_types": [
         "water_purifier"
-      ]
+      ],
+      "price": 250000
     },
     {
       "code": "HA050",
@@ -5841,7 +6290,8 @@
       "section_vi": "Đồ điện gia dụng",
       "device_types": [
         "water_purifier"
-      ]
+      ],
+      "price": 450000
     },
     {
       "code": "HA051",
@@ -5854,7 +6304,8 @@
       "section_vi": "Đồ điện gia dụng",
       "device_types": [
         "water_purifier"
-      ]
+      ],
+      "price": 150000
     },
     {
       "code": "HA052",
@@ -5867,7 +6318,8 @@
       "section_vi": "Đồ điện gia dụng",
       "device_types": [
         "water_purifier"
-      ]
+      ],
+      "price": 120000
     },
     {
       "code": "HA053",
@@ -5880,7 +6332,8 @@
       "section_vi": "Đồ điện gia dụng",
       "device_types": [
         "water_purifier"
-      ]
+      ],
+      "price": 120000
     },
     {
       "code": "HA054",
@@ -5893,7 +6346,8 @@
       "section_vi": "Đồ điện gia dụng",
       "device_types": [
         "water_purifier"
-      ]
+      ],
+      "price": 80000
     },
     {
       "code": "HA055",
@@ -5906,7 +6360,8 @@
       "section_vi": "Đồ điện gia dụng",
       "device_types": [
         "water_purifier"
-      ]
+      ],
+      "price": 450000
     },
     {
       "code": "HA056",
@@ -5919,7 +6374,8 @@
       "section_vi": "Đồ điện gia dụng",
       "device_types": [
         "water_purifier"
-      ]
+      ],
+      "price": 15000
     },
     {
       "code": "HA057",
@@ -5932,7 +6388,8 @@
       "section_vi": "Đồ điện gia dụng",
       "device_types": [
         "water_purifier"
-      ]
+      ],
+      "price": 80000
     },
     {
       "code": "HA058",
@@ -5945,7 +6402,8 @@
       "section_vi": "Đồ điện gia dụng",
       "device_types": [
         "water_purifier"
-      ]
+      ],
+      "price": 80000
     },
     {
       "code": "HA059",
@@ -5958,7 +6416,8 @@
       "section_vi": "Đồ điện gia dụng",
       "device_types": [
         "water_purifier"
-      ]
+      ],
+      "price": 350000
     },
     {
       "code": "HA060",
@@ -5971,7 +6430,8 @@
       "section_vi": "Đồ điện gia dụng",
       "device_types": [
         "water_purifier"
-      ]
+      ],
+      "price": 170000
     },
     {
       "code": "HA061",
@@ -5984,7 +6444,8 @@
       "section_vi": "Đồ điện gia dụng",
       "device_types": [
         "water_purifier"
-      ]
+      ],
+      "price": 550000
     },
     {
       "code": "HA062",
@@ -5997,7 +6458,8 @@
       "section_vi": "Đồ điện gia dụng",
       "device_types": [
         "water_purifier"
-      ]
+      ],
+      "price": 180000
     },
     {
       "code": "HA063",
@@ -6010,7 +6472,8 @@
       "section_vi": "Đồ điện gia dụng",
       "device_types": [
         "water_purifier"
-      ]
+      ],
+      "price": 200000
     },
     {
       "code": "HA064",
@@ -6023,7 +6486,8 @@
       "section_vi": "Đồ điện gia dụng",
       "device_types": [
         "water_purifier"
-      ]
+      ],
+      "price": 180000
     },
     {
       "code": "HA065",
@@ -6036,7 +6500,8 @@
       "section_vi": "Đồ điện gia dụng",
       "device_types": [
         "water_purifier"
-      ]
+      ],
+      "price": 350000
     },
     {
       "code": "HAS001",
@@ -6060,7 +6525,8 @@
         "water_purifier",
         "light_bulb",
         "power_outlet"
-      ]
+      ],
+      "price": 50000
     },
     {
       "code": "HAS002",
@@ -6084,7 +6550,8 @@
         "water_purifier",
         "light_bulb",
         "power_outlet"
-      ]
+      ],
+      "price": 80000
     },
     {
       "code": "HAS003",
@@ -6108,7 +6575,8 @@
         "water_purifier",
         "light_bulb",
         "power_outlet"
-      ]
+      ],
+      "price": 120000
     },
     {
       "code": "HAS004",
@@ -6132,7 +6600,8 @@
         "water_purifier",
         "light_bulb",
         "power_outlet"
-      ]
+      ],
+      "price": 20000
     },
     {
       "code": "HAS005",
@@ -6156,7 +6625,8 @@
         "water_purifier",
         "light_bulb",
         "power_outlet"
-      ]
+      ],
+      "price": 30000
     },
     {
       "code": "HAS006",
@@ -6180,7 +6650,8 @@
         "water_purifier",
         "light_bulb",
         "power_outlet"
-      ]
+      ],
+      "price": 10000
     },
     {
       "code": "HAS007",
@@ -6204,7 +6675,8 @@
         "water_purifier",
         "light_bulb",
         "power_outlet"
-      ]
+      ],
+      "price": 10000
     },
     {
       "code": "HAS008",
@@ -6228,7 +6700,8 @@
         "water_purifier",
         "light_bulb",
         "power_outlet"
-      ]
+      ],
+      "price": 15000
     },
     {
       "code": "HAS009",
@@ -6252,7 +6725,8 @@
         "water_purifier",
         "light_bulb",
         "power_outlet"
-      ]
+      ],
+      "price": 20000
     },
     {
       "code": "HAS010",
@@ -6276,7 +6750,8 @@
         "water_purifier",
         "light_bulb",
         "power_outlet"
-      ]
+      ],
+      "price": 20000
     },
     {
       "code": "HAS011",
@@ -6300,7 +6775,8 @@
         "water_purifier",
         "light_bulb",
         "power_outlet"
-      ]
+      ],
+      "price": 20000
     },
     {
       "code": "HAS012",
@@ -6324,7 +6800,8 @@
         "water_purifier",
         "light_bulb",
         "power_outlet"
-      ]
+      ],
+      "price": 30000
     },
     {
       "code": "HAS013",
@@ -6348,7 +6825,8 @@
         "water_purifier",
         "light_bulb",
         "power_outlet"
-      ]
+      ],
+      "price": 40000
     },
     {
       "code": "HAS014",
@@ -6372,7 +6850,8 @@
         "water_purifier",
         "light_bulb",
         "power_outlet"
-      ]
+      ],
+      "price": 20000
     },
     {
       "code": "HAS015",
@@ -6396,7 +6875,8 @@
         "water_purifier",
         "light_bulb",
         "power_outlet"
-      ]
+      ],
+      "price": 30000
     },
     {
       "code": "HAS016",
@@ -6420,7 +6900,8 @@
         "water_purifier",
         "light_bulb",
         "power_outlet"
-      ]
+      ],
+      "price": 60000
     },
     {
       "code": "HAS017",
@@ -6444,7 +6925,8 @@
         "water_purifier",
         "light_bulb",
         "power_outlet"
-      ]
+      ],
+      "price": 30000
     },
     {
       "code": "HAS018",
@@ -6468,7 +6950,8 @@
         "water_purifier",
         "light_bulb",
         "power_outlet"
-      ]
+      ],
+      "price": 20000
     },
     {
       "code": "HAS019",
@@ -6492,7 +6975,8 @@
         "water_purifier",
         "light_bulb",
         "power_outlet"
-      ]
+      ],
+      "price": 30000
     },
     {
       "code": "HAS020",
@@ -6516,7 +7000,8 @@
         "water_purifier",
         "light_bulb",
         "power_outlet"
-      ]
+      ],
+      "price": 15000
     },
     {
       "code": "HAS021",
@@ -6540,7 +7025,8 @@
         "water_purifier",
         "light_bulb",
         "power_outlet"
-      ]
+      ],
+      "price": 15000
     },
     {
       "code": "HAS022",
@@ -6564,7 +7050,8 @@
         "water_purifier",
         "light_bulb",
         "power_outlet"
-      ]
+      ],
+      "price": 30000
     },
     {
       "code": "HAS023",
@@ -6588,7 +7075,8 @@
         "water_purifier",
         "light_bulb",
         "power_outlet"
-      ]
+      ],
+      "price": 40000
     },
     {
       "code": "HAS024",
@@ -6612,7 +7100,8 @@
         "water_purifier",
         "light_bulb",
         "power_outlet"
-      ]
+      ],
+      "price": 30000
     },
     {
       "code": "HAS025",
@@ -6636,7 +7125,8 @@
         "water_purifier",
         "light_bulb",
         "power_outlet"
-      ]
+      ],
+      "price": 20000
     },
     {
       "code": "HAS026",
@@ -6660,7 +7150,8 @@
         "water_purifier",
         "light_bulb",
         "power_outlet"
-      ]
+      ],
+      "price": 5000
     },
     {
       "code": "HAS027",
@@ -6684,7 +7175,8 @@
         "water_purifier",
         "light_bulb",
         "power_outlet"
-      ]
+      ],
+      "price": 1000
     },
     {
       "code": "HAS028",
@@ -6708,7 +7200,8 @@
         "water_purifier",
         "light_bulb",
         "power_outlet"
-      ]
+      ],
+      "price": 1000
     },
     {
       "code": "HAS029",
@@ -6732,7 +7225,8 @@
         "water_purifier",
         "light_bulb",
         "power_outlet"
-      ]
+      ],
+      "price": 3000
     },
     {
       "code": "HAS030",
@@ -6756,7 +7250,8 @@
         "water_purifier",
         "light_bulb",
         "power_outlet"
-      ]
+      ],
+      "price": 5000
     },
     {
       "code": "HAS031",
@@ -6780,7 +7275,8 @@
         "water_purifier",
         "light_bulb",
         "power_outlet"
-      ]
+      ],
+      "price": 7000
     },
     {
       "code": "HAS032",
@@ -6804,7 +7300,8 @@
         "water_purifier",
         "light_bulb",
         "power_outlet"
-      ]
+      ],
+      "price": 300
     },
     {
       "code": "HAS033",
@@ -6828,7 +7325,8 @@
         "water_purifier",
         "light_bulb",
         "power_outlet"
-      ]
+      ],
+      "price": 500
     },
     {
       "code": "HAS034",
@@ -6852,7 +7350,8 @@
         "water_purifier",
         "light_bulb",
         "power_outlet"
-      ]
+      ],
+      "price": 50000
     },
     {
       "code": "HAS035",
@@ -6876,7 +7375,8 @@
         "water_purifier",
         "light_bulb",
         "power_outlet"
-      ]
+      ],
+      "price": 30000
     },
     {
       "code": "SNK001",
@@ -6889,7 +7389,8 @@
       "section_vi": "Bồn rửa / Chậu rửa",
       "device_types": [
         "sink"
-      ]
+      ],
+      "price": 80000
     },
     {
       "code": "SNK002",
@@ -6902,7 +7403,8 @@
       "section_vi": "Bồn rửa / Chậu rửa",
       "device_types": [
         "sink"
-      ]
+      ],
+      "price": 100000
     },
     {
       "code": "SNK003",
@@ -6915,7 +7417,8 @@
       "section_vi": "Bồn rửa / Chậu rửa",
       "device_types": [
         "sink"
-      ]
+      ],
+      "price": 30000
     },
     {
       "code": "SNK004",
@@ -6928,7 +7431,8 @@
       "section_vi": "Bồn rửa / Chậu rửa",
       "device_types": [
         "sink"
-      ]
+      ],
+      "price": 20000
     },
     {
       "code": "SNK005",
@@ -6941,7 +7445,8 @@
       "section_vi": "Bồn rửa / Chậu rửa",
       "device_types": [
         "sink"
-      ]
+      ],
+      "price": 150000
     },
     {
       "code": "SNK006",
@@ -6954,7 +7459,8 @@
       "section_vi": "Bồn rửa / Chậu rửa",
       "device_types": [
         "sink"
-      ]
+      ],
+      "price": 180000
     },
     {
       "code": "SNK007",
@@ -6967,7 +7473,8 @@
       "section_vi": "Bồn rửa / Chậu rửa",
       "device_types": [
         "sink"
-      ]
+      ],
+      "price": 250000
     },
     {
       "code": "SNK008",
@@ -6980,7 +7487,8 @@
       "section_vi": "Bồn rửa / Chậu rửa",
       "device_types": [
         "sink"
-      ]
+      ],
+      "price": 50000
     },
     {
       "code": "SNK009",
@@ -6993,7 +7501,8 @@
       "section_vi": "Bồn rửa / Chậu rửa",
       "device_types": [
         "sink"
-      ]
+      ],
+      "price": 60000
     },
     {
       "code": "SNK010",
@@ -7006,7 +7515,8 @@
       "section_vi": "Bồn rửa / Chậu rửa",
       "device_types": [
         "sink"
-      ]
+      ],
+      "price": 120000
     },
     {
       "code": "SNK011",
@@ -7019,7 +7529,8 @@
       "section_vi": "Bồn rửa / Chậu rửa",
       "device_types": [
         "sink"
-      ]
+      ],
+      "price": 130000
     },
     {
       "code": "SNK012",
@@ -7032,7 +7543,8 @@
       "section_vi": "Bồn rửa / Chậu rửa",
       "device_types": [
         "sink"
-      ]
+      ],
+      "price": 120000
     },
     {
       "code": "SNK013",
@@ -7045,7 +7557,8 @@
       "section_vi": "Bồn rửa / Chậu rửa",
       "device_types": [
         "sink"
-      ]
+      ],
+      "price": 180000
     },
     {
       "code": "SNK014",
@@ -7058,7 +7571,8 @@
       "section_vi": "Bồn rửa / Chậu rửa",
       "device_types": [
         "sink"
-      ]
+      ],
+      "price": 20000
     },
     {
       "code": "SNK015",
@@ -7071,7 +7585,8 @@
       "section_vi": "Bồn rửa / Chậu rửa",
       "device_types": [
         "sink"
-      ]
+      ],
+      "price": 25000
     },
     {
       "code": "SNK016",
@@ -7084,7 +7599,8 @@
       "section_vi": "Bồn rửa / Chậu rửa",
       "device_types": [
         "sink"
-      ]
+      ],
+      "price": 25000
     },
     {
       "code": "SNK017",
@@ -7097,7 +7613,8 @@
       "section_vi": "Bồn rửa / Chậu rửa",
       "device_types": [
         "sink"
-      ]
+      ],
+      "price": 15000
     },
     {
       "code": "SNK018",
@@ -7110,7 +7627,8 @@
       "section_vi": "Bồn rửa / Chậu rửa",
       "device_types": [
         "sink"
-      ]
+      ],
+      "price": 10000
     },
     {
       "code": "SNK019",
@@ -7123,7 +7641,8 @@
       "section_vi": "Bồn rửa / Chậu rửa",
       "device_types": [
         "sink"
-      ]
+      ],
+      "price": 10000
     },
     {
       "code": "SNK020",
@@ -7136,7 +7655,8 @@
       "section_vi": "Bồn rửa / Chậu rửa",
       "device_types": [
         "sink"
-      ]
+      ],
+      "price": 30000
     },
     {
       "code": "SNK021",
@@ -7149,7 +7669,8 @@
       "section_vi": "Bồn rửa / Chậu rửa",
       "device_types": [
         "sink"
-      ]
+      ],
+      "price": 20000
     },
     {
       "code": "SNK022",
@@ -7162,7 +7683,8 @@
       "section_vi": "Bồn rửa / Chậu rửa",
       "device_types": [
         "sink"
-      ]
+      ],
+      "price": 80000
     },
     {
       "code": "SNK023",
@@ -7175,7 +7697,8 @@
       "section_vi": "Bồn rửa / Chậu rửa",
       "device_types": [
         "sink"
-      ]
+      ],
+      "price": 10000
     },
     {
       "code": "SNK024",
@@ -7188,7 +7711,8 @@
       "section_vi": "Bồn rửa / Chậu rửa",
       "device_types": [
         "sink"
-      ]
+      ],
+      "price": 60000
     },
     {
       "code": "SNK025",
@@ -7201,7 +7725,8 @@
       "section_vi": "Bồn rửa / Chậu rửa",
       "device_types": [
         "sink"
-      ]
+      ],
+      "price": 60000
     },
     {
       "code": "SNK026",
@@ -7214,7 +7739,8 @@
       "section_vi": "Bồn rửa / Chậu rửa",
       "device_types": [
         "sink"
-      ]
+      ],
+      "price": 70000
     },
     {
       "code": "SNK027",
@@ -7227,7 +7753,8 @@
       "section_vi": "Bồn rửa / Chậu rửa",
       "device_types": [
         "sink"
-      ]
+      ],
+      "price": 50000
     },
     {
       "code": "SNK028",
@@ -7240,7 +7767,8 @@
       "section_vi": "Bồn rửa / Chậu rửa",
       "device_types": [
         "sink"
-      ]
+      ],
+      "price": 60000
     },
     {
       "code": "SNK029",
@@ -7253,7 +7781,8 @@
       "section_vi": "Bồn rửa / Chậu rửa",
       "device_types": [
         "sink"
-      ]
+      ],
+      "price": 100000
     },
     {
       "code": "SNK030",
@@ -7266,7 +7795,8 @@
       "section_vi": "Bồn rửa / Chậu rửa",
       "device_types": [
         "sink"
-      ]
+      ],
+      "price": 20000
     },
     {
       "code": "SNK031",
@@ -7279,7 +7809,8 @@
       "section_vi": "Bồn rửa / Chậu rửa",
       "device_types": [
         "sink"
-      ]
+      ],
+      "price": 5000
     },
     {
       "code": "SNK032",
@@ -7292,7 +7823,8 @@
       "section_vi": "Bồn rửa / Chậu rửa",
       "device_types": [
         "sink"
-      ]
+      ],
+      "price": 90000
     },
     {
       "code": "FCT001",
@@ -7305,7 +7837,8 @@
       "section_vi": "Vòi nước / Sen vòi",
       "device_types": [
         "faucet"
-      ]
+      ],
+      "price": 70000
     },
     {
       "code": "FCT002",
@@ -7318,7 +7851,8 @@
       "section_vi": "Vòi nước / Sen vòi",
       "device_types": [
         "faucet"
-      ]
+      ],
+      "price": 80000
     },
     {
       "code": "FCT003",
@@ -7331,7 +7865,8 @@
       "section_vi": "Vòi nước / Sen vòi",
       "device_types": [
         "faucet"
-      ]
+      ],
+      "price": 90000
     },
     {
       "code": "FCT004",
@@ -7344,7 +7879,8 @@
       "section_vi": "Vòi nước / Sen vòi",
       "device_types": [
         "faucet"
-      ]
+      ],
+      "price": 60000
     },
     {
       "code": "FCT005",
@@ -7357,7 +7893,8 @@
       "section_vi": "Vòi nước / Sen vòi",
       "device_types": [
         "faucet"
-      ]
+      ],
+      "price": 70000
     },
     {
       "code": "FCT006",
@@ -7370,7 +7907,8 @@
       "section_vi": "Vòi nước / Sen vòi",
       "device_types": [
         "faucet"
-      ]
+      ],
+      "price": 70000
     },
     {
       "code": "FCT007",
@@ -7383,7 +7921,8 @@
       "section_vi": "Vòi nước / Sen vòi",
       "device_types": [
         "faucet"
-      ]
+      ],
+      "price": 30000
     },
     {
       "code": "FCT008",
@@ -7396,7 +7935,8 @@
       "section_vi": "Vòi nước / Sen vòi",
       "device_types": [
         "faucet"
-      ]
+      ],
+      "price": 30000
     },
     {
       "code": "FCT009",
@@ -7409,7 +7949,8 @@
       "section_vi": "Vòi nước / Sen vòi",
       "device_types": [
         "faucet"
-      ]
+      ],
+      "price": 15000
     },
     {
       "code": "FCT010",
@@ -7422,7 +7963,8 @@
       "section_vi": "Vòi nước / Sen vòi",
       "device_types": [
         "faucet"
-      ]
+      ],
+      "price": 5000
     },
     {
       "code": "FCT011",
@@ -7435,7 +7977,8 @@
       "section_vi": "Vòi nước / Sen vòi",
       "device_types": [
         "faucet"
-      ]
+      ],
+      "price": 70000
     },
     {
       "code": "FCT012",
@@ -7448,7 +7991,8 @@
       "section_vi": "Vòi nước / Sen vòi",
       "device_types": [
         "faucet"
-      ]
+      ],
+      "price": 180000
     },
     {
       "code": "FCT013",
@@ -7461,7 +8005,8 @@
       "section_vi": "Vòi nước / Sen vòi",
       "device_types": [
         "faucet"
-      ]
+      ],
+      "price": 150000
     },
     {
       "code": "FCT014",
@@ -7474,7 +8019,8 @@
       "section_vi": "Vòi nước / Sen vòi",
       "device_types": [
         "faucet"
-      ]
+      ],
+      "price": 50000
     },
     {
       "code": "FCT015",
@@ -7487,7 +8033,8 @@
       "section_vi": "Vòi nước / Sen vòi",
       "device_types": [
         "faucet"
-      ]
+      ],
+      "price": 50000
     },
     {
       "code": "FCT016",
@@ -7500,7 +8047,8 @@
       "section_vi": "Vòi nước / Sen vòi",
       "device_types": [
         "faucet"
-      ]
+      ],
+      "price": 60000
     },
     {
       "code": "FCT017",
@@ -7513,7 +8061,8 @@
       "section_vi": "Vòi nước / Sen vòi",
       "device_types": [
         "faucet"
-      ]
+      ],
+      "price": 60000
     },
     {
       "code": "FCT018",
@@ -7526,7 +8075,8 @@
       "section_vi": "Vòi nước / Sen vòi",
       "device_types": [
         "faucet"
-      ]
+      ],
+      "price": 60000
     },
     {
       "code": "FCT019",
@@ -7539,7 +8089,8 @@
       "section_vi": "Vòi nước / Sen vòi",
       "device_types": [
         "faucet"
-      ]
+      ],
+      "price": 5000
     },
     {
       "code": "FCT020",
@@ -7552,7 +8103,8 @@
       "section_vi": "Vòi nước / Sen vòi",
       "device_types": [
         "faucet"
-      ]
+      ],
+      "price": 10000
     },
     {
       "code": "FCT021",
@@ -7565,7 +8117,8 @@
       "section_vi": "Vòi nước / Sen vòi",
       "device_types": [
         "faucet"
-      ]
+      ],
+      "price": 30000
     },
     {
       "code": "FCT022",
@@ -7578,7 +8131,8 @@
       "section_vi": "Vòi nước / Sen vòi",
       "device_types": [
         "faucet"
-      ]
+      ],
+      "price": 30000
     },
     {
       "code": "FCT023",
@@ -7591,7 +8145,8 @@
       "section_vi": "Vòi nước / Sen vòi",
       "device_types": [
         "faucet"
-      ]
+      ],
+      "price": 100000
     },
     {
       "code": "FCT024",
@@ -7604,7 +8159,8 @@
       "section_vi": "Vòi nước / Sen vòi",
       "device_types": [
         "faucet"
-      ]
+      ],
+      "price": 5000
     },
     {
       "code": "FCT025",
@@ -7617,7 +8173,8 @@
       "section_vi": "Vòi nước / Sen vòi",
       "device_types": [
         "faucet"
-      ]
+      ],
+      "price": 5000
     },
     {
       "code": "FCT026",
@@ -7630,7 +8187,8 @@
       "section_vi": "Vòi nước / Sen vòi",
       "device_types": [
         "faucet"
-      ]
+      ],
+      "price": 180000
     },
     {
       "code": "FCT027",
@@ -7643,7 +8201,8 @@
       "section_vi": "Vòi nước / Sen vòi",
       "device_types": [
         "faucet"
-      ]
+      ],
+      "price": 180000
     },
     {
       "code": "FCT028",
@@ -7656,7 +8215,8 @@
       "section_vi": "Vòi nước / Sen vòi",
       "device_types": [
         "faucet"
-      ]
+      ],
+      "price": 150000
     },
     {
       "code": "FCT029",
@@ -7669,7 +8229,8 @@
       "section_vi": "Vòi nước / Sen vòi",
       "device_types": [
         "faucet"
-      ]
+      ],
+      "price": 180000
     },
     {
       "code": "FCT030",
@@ -7682,7 +8243,8 @@
       "section_vi": "Vòi nước / Sen vòi",
       "device_types": [
         "faucet"
-      ]
+      ],
+      "price": 50000
     },
     {
       "code": "FCT031",
@@ -7695,7 +8257,8 @@
       "section_vi": "Vòi nước / Sen vòi",
       "device_types": [
         "faucet"
-      ]
+      ],
+      "price": 10000
     },
     {
       "code": "FCT032",
@@ -7708,7 +8271,8 @@
       "section_vi": "Vòi nước / Sen vòi",
       "device_types": [
         "faucet"
-      ]
+      ],
+      "price": 50000
     },
     {
       "code": "FCT033",
@@ -7721,7 +8285,8 @@
       "section_vi": "Vòi nước / Sen vòi",
       "device_types": [
         "faucet"
-      ]
+      ],
+      "price": 70000
     },
     {
       "code": "FCT034",
@@ -7734,7 +8299,8 @@
       "section_vi": "Vòi nước / Sen vòi",
       "device_types": [
         "faucet"
-      ]
+      ],
+      "price": 120000
     },
     {
       "code": "FCT035",
@@ -7747,7 +8313,8 @@
       "section_vi": "Vòi nước / Sen vòi",
       "device_types": [
         "faucet"
-      ]
+      ],
+      "price": 30000
     },
     {
       "code": "TLC001",
@@ -7760,7 +8327,8 @@
       "section_vi": "Bồn cầu / Thiết bị vệ sinh",
       "device_types": [
         "toilet"
-      ]
+      ],
+      "price": 150000
     },
     {
       "code": "TLC002",
@@ -7773,7 +8341,8 @@
       "section_vi": "Bồn cầu / Thiết bị vệ sinh",
       "device_types": [
         "toilet"
-      ]
+      ],
+      "price": 80000
     },
     {
       "code": "TLC003",
@@ -7786,7 +8355,8 @@
       "section_vi": "Bồn cầu / Thiết bị vệ sinh",
       "device_types": [
         "toilet"
-      ]
+      ],
+      "price": 100000
     },
     {
       "code": "TLC004",
@@ -7799,7 +8369,8 @@
       "section_vi": "Bồn cầu / Thiết bị vệ sinh",
       "device_types": [
         "toilet"
-      ]
+      ],
+      "price": 180000
     },
     {
       "code": "TLC005",
@@ -7812,7 +8383,8 @@
       "section_vi": "Bồn cầu / Thiết bị vệ sinh",
       "device_types": [
         "toilet"
-      ]
+      ],
+      "price": 220000
     },
     {
       "code": "TLC006",
@@ -7825,7 +8397,8 @@
       "section_vi": "Bồn cầu / Thiết bị vệ sinh",
       "device_types": [
         "toilet"
-      ]
+      ],
+      "price": 80000
     },
     {
       "code": "TLC007",
@@ -7838,7 +8411,8 @@
       "section_vi": "Bồn cầu / Thiết bị vệ sinh",
       "device_types": [
         "toilet"
-      ]
+      ],
+      "price": 50000
     },
     {
       "code": "TLC008",
@@ -7851,7 +8425,8 @@
       "section_vi": "Bồn cầu / Thiết bị vệ sinh",
       "device_types": [
         "toilet"
-      ]
+      ],
+      "price": 50000
     },
     {
       "code": "TLC009",
@@ -7864,7 +8439,8 @@
       "section_vi": "Bồn cầu / Thiết bị vệ sinh",
       "device_types": [
         "toilet"
-      ]
+      ],
+      "price": 100000
     },
     {
       "code": "TLC010",
@@ -7877,7 +8453,8 @@
       "section_vi": "Bồn cầu / Thiết bị vệ sinh",
       "device_types": [
         "toilet"
-      ]
+      ],
+      "price": 120000
     },
     {
       "code": "TLC011",
@@ -7890,7 +8467,8 @@
       "section_vi": "Bồn cầu / Thiết bị vệ sinh",
       "device_types": [
         "toilet"
-      ]
+      ],
+      "price": 30000
     },
     {
       "code": "TLC012",
@@ -7903,7 +8481,8 @@
       "section_vi": "Bồn cầu / Thiết bị vệ sinh",
       "device_types": [
         "toilet"
-      ]
+      ],
+      "price": 30000
     },
     {
       "code": "TLC013",
@@ -7916,7 +8495,8 @@
       "section_vi": "Bồn cầu / Thiết bị vệ sinh",
       "device_types": [
         "toilet"
-      ]
+      ],
+      "price": 80000
     },
     {
       "code": "TLC014",
@@ -7929,7 +8509,8 @@
       "section_vi": "Bồn cầu / Thiết bị vệ sinh",
       "device_types": [
         "toilet"
-      ]
+      ],
+      "price": 60000
     },
     {
       "code": "TLC015",
@@ -7942,7 +8523,8 @@
       "section_vi": "Bồn cầu / Thiết bị vệ sinh",
       "device_types": [
         "toilet"
-      ]
+      ],
+      "price": 30000
     },
     {
       "code": "TLC016",
@@ -7955,7 +8537,8 @@
       "section_vi": "Bồn cầu / Thiết bị vệ sinh",
       "device_types": [
         "toilet"
-      ]
+      ],
+      "price": 100000
     },
     {
       "code": "TLC017",
@@ -7968,7 +8551,8 @@
       "section_vi": "Bồn cầu / Thiết bị vệ sinh",
       "device_types": [
         "toilet"
-      ]
+      ],
+      "price": 30000
     },
     {
       "code": "TLC018",
@@ -7981,7 +8565,8 @@
       "section_vi": "Bồn cầu / Thiết bị vệ sinh",
       "device_types": [
         "toilet"
-      ]
+      ],
+      "price": 10000
     },
     {
       "code": "TLC019",
@@ -7994,7 +8579,8 @@
       "section_vi": "Bồn cầu / Thiết bị vệ sinh",
       "device_types": [
         "toilet"
-      ]
+      ],
+      "price": 50000
     },
     {
       "code": "TLC020",
@@ -8007,7 +8593,8 @@
       "section_vi": "Bồn cầu / Thiết bị vệ sinh",
       "device_types": [
         "toilet"
-      ]
+      ],
+      "price": 60000
     },
     {
       "code": "TLC021",
@@ -8020,7 +8607,8 @@
       "section_vi": "Bồn cầu / Thiết bị vệ sinh",
       "device_types": [
         "toilet"
-      ]
+      ],
+      "price": 70000
     },
     {
       "code": "TLC022",
@@ -8033,7 +8621,8 @@
       "section_vi": "Bồn cầu / Thiết bị vệ sinh",
       "device_types": [
         "toilet"
-      ]
+      ],
+      "price": 80000
     },
     {
       "code": "TLC023",
@@ -8046,7 +8635,8 @@
       "section_vi": "Bồn cầu / Thiết bị vệ sinh",
       "device_types": [
         "toilet"
-      ]
+      ],
+      "price": 100000
     },
     {
       "code": "TLC024",
@@ -8059,7 +8649,8 @@
       "section_vi": "Bồn cầu / Thiết bị vệ sinh",
       "device_types": [
         "toilet"
-      ]
+      ],
+      "price": 120000
     },
     {
       "code": "TLC025",
@@ -8072,7 +8663,8 @@
       "section_vi": "Bồn cầu / Thiết bị vệ sinh",
       "device_types": [
         "toilet"
-      ]
+      ],
+      "price": 150000
     },
     {
       "code": "TLC026",
@@ -8085,7 +8677,8 @@
       "section_vi": "Bồn cầu / Thiết bị vệ sinh",
       "device_types": [
         "toilet"
-      ]
+      ],
+      "price": 30000
     },
     {
       "code": "TLC027",
@@ -8098,7 +8691,8 @@
       "section_vi": "Bồn cầu / Thiết bị vệ sinh",
       "device_types": [
         "toilet"
-      ]
+      ],
+      "price": 120000
     },
     {
       "code": "TLC028",
@@ -8111,7 +8705,8 @@
       "section_vi": "Bồn cầu / Thiết bị vệ sinh",
       "device_types": [
         "toilet"
-      ]
+      ],
+      "price": 30000
     },
     {
       "code": "TLC029",
@@ -8124,7 +8719,8 @@
       "section_vi": "Bồn cầu / Thiết bị vệ sinh",
       "device_types": [
         "toilet"
-      ]
+      ],
+      "price": 250000
     },
     {
       "code": "TLC030",
@@ -8137,7 +8733,8 @@
       "section_vi": "Bồn cầu / Thiết bị vệ sinh",
       "device_types": [
         "toilet"
-      ]
+      ],
+      "price": 450000
     },
     {
       "code": "TLC031",
@@ -8150,7 +8747,8 @@
       "section_vi": "Bồn cầu / Thiết bị vệ sinh",
       "device_types": [
         "toilet"
-      ]
+      ],
+      "price": 100000
     },
     {
       "code": "TLC032",
@@ -8163,7 +8761,8 @@
       "section_vi": "Bồn cầu / Thiết bị vệ sinh",
       "device_types": [
         "toilet"
-      ]
+      ],
+      "price": 30000
     },
     {
       "code": "TLC033",
@@ -8176,7 +8775,8 @@
       "section_vi": "Bồn cầu / Thiết bị vệ sinh",
       "device_types": [
         "toilet"
-      ]
+      ],
+      "price": 300000
     },
     {
       "code": "TLC034",
@@ -8189,7 +8789,8 @@
       "section_vi": "Bồn cầu / Thiết bị vệ sinh",
       "device_types": [
         "toilet"
-      ]
+      ],
+      "price": 900000
     },
     {
       "code": "TLC035",
@@ -8202,7 +8803,8 @@
       "section_vi": "Bồn cầu / Thiết bị vệ sinh",
       "device_types": [
         "toilet"
-      ]
+      ],
+      "price": 500000
     },
     {
       "code": "TLC036",
@@ -8215,7 +8817,8 @@
       "section_vi": "Bồn cầu / Thiết bị vệ sinh",
       "device_types": [
         "toilet"
-      ]
+      ],
+      "price": 800000
     },
     {
       "code": "TLC037",
@@ -8228,7 +8831,8 @@
       "section_vi": "Bồn cầu / Thiết bị vệ sinh",
       "device_types": [
         "toilet"
-      ]
+      ],
+      "price": 120000
     },
     {
       "code": "TLC038",
@@ -8241,7 +8845,8 @@
       "section_vi": "Bồn cầu / Thiết bị vệ sinh",
       "device_types": [
         "toilet"
-      ]
+      ],
+      "price": 60000
     },
     {
       "code": "TLC039",
@@ -8254,7 +8859,8 @@
       "section_vi": "Bồn cầu / Thiết bị vệ sinh",
       "device_types": [
         "toilet"
-      ]
+      ],
+      "price": 90000
     },
     {
       "code": "TLC040",
@@ -8267,7 +8873,8 @@
       "section_vi": "Bồn cầu / Thiết bị vệ sinh",
       "device_types": [
         "toilet"
-      ]
+      ],
+      "price": 70000
     },
     {
       "code": "PIP001",
@@ -8280,7 +8887,8 @@
       "section_vi": "Ống nước & phụ kiện PVC/PPR",
       "device_types": [
         "water_pipe"
-      ]
+      ],
+      "price": 12000
     },
     {
       "code": "PIP002",
@@ -8293,7 +8901,8 @@
       "section_vi": "Ống nước & phụ kiện PVC/PPR",
       "device_types": [
         "water_pipe"
-      ]
+      ],
+      "price": 16000
     },
     {
       "code": "PIP003",
@@ -8306,7 +8915,8 @@
       "section_vi": "Ống nước & phụ kiện PVC/PPR",
       "device_types": [
         "water_pipe"
-      ]
+      ],
+      "price": 22000
     },
     {
       "code": "PIP004",
@@ -8319,7 +8929,8 @@
       "section_vi": "Ống nước & phụ kiện PVC/PPR",
       "device_types": [
         "water_pipe"
-      ]
+      ],
+      "price": 30000
     },
     {
       "code": "PIP005",
@@ -8332,7 +8943,8 @@
       "section_vi": "Ống nước & phụ kiện PVC/PPR",
       "device_types": [
         "water_pipe"
-      ]
+      ],
+      "price": 40000
     },
     {
       "code": "PIP006",
@@ -8345,7 +8957,8 @@
       "section_vi": "Ống nước & phụ kiện PVC/PPR",
       "device_types": [
         "water_pipe"
-      ]
+      ],
+      "price": 55000
     },
     {
       "code": "PIP007",
@@ -8358,7 +8971,8 @@
       "section_vi": "Ống nước & phụ kiện PVC/PPR",
       "device_types": [
         "water_pipe"
-      ]
+      ],
+      "price": 90000
     },
     {
       "code": "PIP008",
@@ -8371,7 +8985,8 @@
       "section_vi": "Ống nước & phụ kiện PVC/PPR",
       "device_types": [
         "water_pipe"
-      ]
+      ],
+      "price": 120000
     },
     {
       "code": "PIP009",
@@ -8384,7 +8999,8 @@
       "section_vi": "Ống nước & phụ kiện PVC/PPR",
       "device_types": [
         "water_pipe"
-      ]
+      ],
+      "price": 190000
     },
     {
       "code": "PIP010",
@@ -8397,7 +9013,8 @@
       "section_vi": "Ống nước & phụ kiện PVC/PPR",
       "device_types": [
         "water_pipe"
-      ]
+      ],
+      "price": 260000
     },
     {
       "code": "PIP011",
@@ -8410,7 +9027,8 @@
       "section_vi": "Ống nước & phụ kiện PVC/PPR",
       "device_types": [
         "water_pipe"
-      ]
+      ],
+      "price": 25000
     },
     {
       "code": "PIP012",
@@ -8423,7 +9041,8 @@
       "section_vi": "Ống nước & phụ kiện PVC/PPR",
       "device_types": [
         "water_pipe"
-      ]
+      ],
+      "price": 35000
     },
     {
       "code": "PIP013",
@@ -8436,7 +9055,8 @@
       "section_vi": "Ống nước & phụ kiện PVC/PPR",
       "device_types": [
         "water_pipe"
-      ]
+      ],
+      "price": 55000
     },
     {
       "code": "PIP014",
@@ -8449,7 +9069,8 @@
       "section_vi": "Ống nước & phụ kiện PVC/PPR",
       "device_types": [
         "water_pipe"
-      ]
+      ],
+      "price": 75000
     },
     {
       "code": "PIP015",
@@ -8462,7 +9083,8 @@
       "section_vi": "Ống nước & phụ kiện PVC/PPR",
       "device_types": [
         "water_pipe"
-      ]
+      ],
+      "price": 110000
     },
     {
       "code": "PIP016",
@@ -8475,7 +9097,8 @@
       "section_vi": "Ống nước & phụ kiện PVC/PPR",
       "device_types": [
         "water_pipe"
-      ]
+      ],
+      "price": 160000
     },
     {
       "code": "PIP017",
@@ -8488,7 +9111,8 @@
       "section_vi": "Ống nước & phụ kiện PVC/PPR",
       "device_types": [
         "water_pipe"
-      ]
+      ],
+      "price": 5000
     },
     {
       "code": "PIP018",
@@ -8501,7 +9125,8 @@
       "section_vi": "Ống nước & phụ kiện PVC/PPR",
       "device_types": [
         "water_pipe"
-      ]
+      ],
+      "price": 7000
     },
     {
       "code": "PIP019",
@@ -8514,7 +9139,8 @@
       "section_vi": "Ống nước & phụ kiện PVC/PPR",
       "device_types": [
         "water_pipe"
-      ]
+      ],
+      "price": 9000
     },
     {
       "code": "PIP020",
@@ -8527,7 +9153,8 @@
       "section_vi": "Ống nước & phụ kiện PVC/PPR",
       "device_types": [
         "water_pipe"
-      ]
+      ],
+      "price": 12000
     },
     {
       "code": "PIP021",
@@ -8540,7 +9167,8 @@
       "section_vi": "Ống nước & phụ kiện PVC/PPR",
       "device_types": [
         "water_pipe"
-      ]
+      ],
+      "price": 5000
     },
     {
       "code": "PIP022",
@@ -8553,7 +9181,8 @@
       "section_vi": "Ống nước & phụ kiện PVC/PPR",
       "device_types": [
         "water_pipe"
-      ]
+      ],
+      "price": 9000
     },
     {
       "code": "PIP023",
@@ -8566,7 +9195,8 @@
       "section_vi": "Ống nước & phụ kiện PVC/PPR",
       "device_types": [
         "water_pipe"
-      ]
+      ],
+      "price": 6000
     },
     {
       "code": "PIP024",
@@ -8579,7 +9209,8 @@
       "section_vi": "Ống nước & phụ kiện PVC/PPR",
       "device_types": [
         "water_pipe"
-      ]
+      ],
+      "price": 8000
     },
     {
       "code": "PIP025",
@@ -8592,7 +9223,8 @@
       "section_vi": "Ống nước & phụ kiện PVC/PPR",
       "device_types": [
         "water_pipe"
-      ]
+      ],
+      "price": 12000
     },
     {
       "code": "PIP026",
@@ -8605,7 +9237,8 @@
       "section_vi": "Ống nước & phụ kiện PVC/PPR",
       "device_types": [
         "water_pipe"
-      ]
+      ],
+      "price": 15000
     },
     {
       "code": "PIP027",
@@ -8618,7 +9251,8 @@
       "section_vi": "Ống nước & phụ kiện PVC/PPR",
       "device_types": [
         "water_pipe"
-      ]
+      ],
+      "price": 4000
     },
     {
       "code": "PIP028",
@@ -8631,7 +9265,8 @@
       "section_vi": "Ống nước & phụ kiện PVC/PPR",
       "device_types": [
         "water_pipe"
-      ]
+      ],
+      "price": 5000
     },
     {
       "code": "PIP029",
@@ -8644,7 +9279,8 @@
       "section_vi": "Ống nước & phụ kiện PVC/PPR",
       "device_types": [
         "water_pipe"
-      ]
+      ],
+      "price": 7000
     },
     {
       "code": "PIP030",
@@ -8657,7 +9293,8 @@
       "section_vi": "Ống nước & phụ kiện PVC/PPR",
       "device_types": [
         "water_pipe"
-      ]
+      ],
+      "price": 9000
     },
     {
       "code": "PIP031",
@@ -8670,7 +9307,8 @@
       "section_vi": "Ống nước & phụ kiện PVC/PPR",
       "device_types": [
         "water_pipe"
-      ]
+      ],
+      "price": 6000
     },
     {
       "code": "PIP032",
@@ -8683,7 +9321,8 @@
       "section_vi": "Ống nước & phụ kiện PVC/PPR",
       "device_types": [
         "water_pipe"
-      ]
+      ],
+      "price": 8000
     },
     {
       "code": "PIP033",
@@ -8696,7 +9335,8 @@
       "section_vi": "Ống nước & phụ kiện PVC/PPR",
       "device_types": [
         "water_pipe"
-      ]
+      ],
+      "price": 10000
     },
     {
       "code": "PIP034",
@@ -8709,7 +9349,8 @@
       "section_vi": "Ống nước & phụ kiện PVC/PPR",
       "device_types": [
         "water_pipe"
-      ]
+      ],
+      "price": 4000
     },
     {
       "code": "PIP035",
@@ -8722,7 +9363,8 @@
       "section_vi": "Ống nước & phụ kiện PVC/PPR",
       "device_types": [
         "water_pipe"
-      ]
+      ],
+      "price": 6000
     },
     {
       "code": "PIP036",
@@ -8735,7 +9377,8 @@
       "section_vi": "Ống nước & phụ kiện PVC/PPR",
       "device_types": [
         "water_pipe"
-      ]
+      ],
+      "price": 35000
     },
     {
       "code": "PIP037",
@@ -8748,7 +9391,8 @@
       "section_vi": "Ống nước & phụ kiện PVC/PPR",
       "device_types": [
         "water_pipe"
-      ]
+      ],
+      "price": 45000
     },
     {
       "code": "PIP038",
@@ -8761,7 +9405,8 @@
       "section_vi": "Ống nước & phụ kiện PVC/PPR",
       "device_types": [
         "water_pipe"
-      ]
+      ],
+      "price": 30000
     },
     {
       "code": "PIP039",
@@ -8774,7 +9419,8 @@
       "section_vi": "Ống nước & phụ kiện PVC/PPR",
       "device_types": [
         "water_pipe"
-      ]
+      ],
+      "price": 40000
     },
     {
       "code": "PIP040",
@@ -8787,7 +9433,8 @@
       "section_vi": "Ống nước & phụ kiện PVC/PPR",
       "device_types": [
         "water_pipe"
-      ]
+      ],
+      "price": 35000
     },
     {
       "code": "PIP041",
@@ -8800,7 +9447,8 @@
       "section_vi": "Ống nước & phụ kiện PVC/PPR",
       "device_types": [
         "water_pipe"
-      ]
+      ],
+      "price": 8000
     },
     {
       "code": "PIP042",
@@ -8813,7 +9461,8 @@
       "section_vi": "Ống nước & phụ kiện PVC/PPR",
       "device_types": [
         "water_pipe"
-      ]
+      ],
+      "price": 10000
     },
     {
       "code": "PIP043",
@@ -8826,7 +9475,8 @@
       "section_vi": "Ống nước & phụ kiện PVC/PPR",
       "device_types": [
         "water_pipe"
-      ]
+      ],
+      "price": 15000
     },
     {
       "code": "PIP044",
@@ -8839,7 +9489,8 @@
       "section_vi": "Ống nước & phụ kiện PVC/PPR",
       "device_types": [
         "water_pipe"
-      ]
+      ],
+      "price": 10000
     },
     {
       "code": "PIP045",
@@ -8852,7 +9503,8 @@
       "section_vi": "Ống nước & phụ kiện PVC/PPR",
       "device_types": [
         "water_pipe"
-      ]
+      ],
+      "price": 15000
     },
     {
       "code": "PIP046",
@@ -8865,7 +9517,8 @@
       "section_vi": "Ống nước & phụ kiện PVC/PPR",
       "device_types": [
         "water_pipe"
-      ]
+      ],
+      "price": 22000
     },
     {
       "code": "PIP047",
@@ -8878,7 +9531,8 @@
       "section_vi": "Ống nước & phụ kiện PVC/PPR",
       "device_types": [
         "water_pipe"
-      ]
+      ],
+      "price": 5000
     },
     {
       "code": "PIP048",
@@ -8891,7 +9545,8 @@
       "section_vi": "Ống nước & phụ kiện PVC/PPR",
       "device_types": [
         "water_pipe"
-      ]
+      ],
+      "price": 7000
     },
     {
       "code": "PIP049",
@@ -8904,7 +9559,8 @@
       "section_vi": "Ống nước & phụ kiện PVC/PPR",
       "device_types": [
         "water_pipe"
-      ]
+      ],
+      "price": 10000
     },
     {
       "code": "PIP050",
@@ -8917,7 +9573,8 @@
       "section_vi": "Ống nước & phụ kiện PVC/PPR",
       "device_types": [
         "water_pipe"
-      ]
+      ],
+      "price": 30000
     },
     {
       "code": "PIP051",
@@ -8930,7 +9587,8 @@
       "section_vi": "Ống nước & phụ kiện PVC/PPR",
       "device_types": [
         "water_pipe"
-      ]
+      ],
+      "price": 30000
     },
     {
       "code": "PIP052",
@@ -8943,7 +9601,8 @@
       "section_vi": "Ống nước & phụ kiện PVC/PPR",
       "device_types": [
         "water_pipe"
-      ]
+      ],
+      "price": 35000
     },
     {
       "code": "PIP053",
@@ -8956,7 +9615,8 @@
       "section_vi": "Ống nước & phụ kiện PVC/PPR",
       "device_types": [
         "water_pipe"
-      ]
+      ],
+      "price": 35000
     },
     {
       "code": "PIP054",
@@ -8969,7 +9629,8 @@
       "section_vi": "Ống nước & phụ kiện PVC/PPR",
       "device_types": [
         "water_pipe"
-      ]
+      ],
+      "price": 45000
     },
     {
       "code": "PIP055",
@@ -8982,7 +9643,8 @@
       "section_vi": "Ống nước & phụ kiện PVC/PPR",
       "device_types": [
         "water_pipe"
-      ]
+      ],
+      "price": 50000
     },
     {
       "code": "PIP056",
@@ -8995,7 +9657,8 @@
       "section_vi": "Ống nước & phụ kiện PVC/PPR",
       "device_types": [
         "water_pipe"
-      ]
+      ],
+      "price": 65000
     },
     {
       "code": "PIP057",
@@ -9008,7 +9671,8 @@
       "section_vi": "Ống nước & phụ kiện PVC/PPR",
       "device_types": [
         "water_pipe"
-      ]
+      ],
+      "price": 90000
     },
     {
       "code": "PIP058",
@@ -9021,7 +9685,8 @@
       "section_vi": "Ống nước & phụ kiện PVC/PPR",
       "device_types": [
         "water_pipe"
-      ]
+      ],
+      "price": 100000
     },
     {
       "code": "PIP059",
@@ -9034,7 +9699,8 @@
       "section_vi": "Ống nước & phụ kiện PVC/PPR",
       "device_types": [
         "water_pipe"
-      ]
+      ],
+      "price": 80000
     },
     {
       "code": "PIP060",
@@ -9047,7 +9713,8 @@
       "section_vi": "Ống nước & phụ kiện PVC/PPR",
       "device_types": [
         "water_pipe"
-      ]
+      ],
+      "price": 100000
     },
     {
       "code": "PIP061",
@@ -9060,7 +9727,8 @@
       "section_vi": "Ống nước & phụ kiện PVC/PPR",
       "device_types": [
         "water_pipe"
-      ]
+      ],
+      "price": 80000
     },
     {
       "code": "PIP062",
@@ -9073,7 +9741,8 @@
       "section_vi": "Ống nước & phụ kiện PVC/PPR",
       "device_types": [
         "water_pipe"
-      ]
+      ],
+      "price": 250000
     },
     {
       "code": "PIP063",
@@ -9086,7 +9755,8 @@
       "section_vi": "Ống nước & phụ kiện PVC/PPR",
       "device_types": [
         "water_pipe"
-      ]
+      ],
+      "price": 120000
     },
     {
       "code": "PIP064",
@@ -9099,7 +9769,8 @@
       "section_vi": "Ống nước & phụ kiện PVC/PPR",
       "device_types": [
         "water_pipe"
-      ]
+      ],
+      "price": 3000
     },
     {
       "code": "PIP065",
@@ -9112,7 +9783,8 @@
       "section_vi": "Ống nước & phụ kiện PVC/PPR",
       "device_types": [
         "water_pipe"
-      ]
+      ],
+      "price": 5000
     },
     {
       "code": "PIP066",
@@ -9125,7 +9797,8 @@
       "section_vi": "Ống nước & phụ kiện PVC/PPR",
       "device_types": [
         "water_pipe"
-      ]
+      ],
+      "price": 25000
     },
     {
       "code": "PIP067",
@@ -9138,7 +9811,8 @@
       "section_vi": "Ống nước & phụ kiện PVC/PPR",
       "device_types": [
         "water_pipe"
-      ]
+      ],
+      "price": 5000
     },
     {
       "code": "RFX001",
@@ -9151,7 +9825,8 @@
       "section_vi": "Tủ lạnh — linh kiện bổ sung chi tiết",
       "device_types": [
         "refrigerator"
-      ]
+      ],
+      "price": 250000
     },
     {
       "code": "RFX002",
@@ -9164,7 +9839,8 @@
       "section_vi": "Tủ lạnh — linh kiện bổ sung chi tiết",
       "device_types": [
         "refrigerator"
-      ]
+      ],
+      "price": 180000
     },
     {
       "code": "RFX003",
@@ -9177,7 +9853,8 @@
       "section_vi": "Tủ lạnh — linh kiện bổ sung chi tiết",
       "device_types": [
         "refrigerator"
-      ]
+      ],
+      "price": 50000
     },
     {
       "code": "RFX004",
@@ -9190,7 +9867,8 @@
       "section_vi": "Tủ lạnh — linh kiện bổ sung chi tiết",
       "device_types": [
         "refrigerator"
-      ]
+      ],
+      "price": 450000
     },
     {
       "code": "RFX005",
@@ -9203,7 +9881,8 @@
       "section_vi": "Tủ lạnh — linh kiện bổ sung chi tiết",
       "device_types": [
         "refrigerator"
-      ]
+      ],
+      "price": 250000
     },
     {
       "code": "RFX006",
@@ -9216,7 +9895,8 @@
       "section_vi": "Tủ lạnh — linh kiện bổ sung chi tiết",
       "device_types": [
         "refrigerator"
-      ]
+      ],
+      "price": 650000
     },
     {
       "code": "RFX007",
@@ -9229,7 +9909,8 @@
       "section_vi": "Tủ lạnh — linh kiện bổ sung chi tiết",
       "device_types": [
         "refrigerator"
-      ]
+      ],
+      "price": 750000
     },
     {
       "code": "RFX008",
@@ -9242,7 +9923,8 @@
       "section_vi": "Tủ lạnh — linh kiện bổ sung chi tiết",
       "device_types": [
         "refrigerator"
-      ]
+      ],
+      "price": 350000
     },
     {
       "code": "RFX009",
@@ -9255,7 +9937,8 @@
       "section_vi": "Tủ lạnh — linh kiện bổ sung chi tiết",
       "device_types": [
         "refrigerator"
-      ]
+      ],
+      "price": 20000
     },
     {
       "code": "RFX010",
@@ -9268,7 +9951,8 @@
       "section_vi": "Tủ lạnh — linh kiện bổ sung chi tiết",
       "device_types": [
         "refrigerator"
-      ]
+      ],
+      "price": 30000
     },
     {
       "code": "RFX011",
@@ -9281,7 +9965,8 @@
       "section_vi": "Tủ lạnh — linh kiện bổ sung chi tiết",
       "device_types": [
         "refrigerator"
-      ]
+      ],
+      "price": 40000
     },
     {
       "code": "RFX012",
@@ -9294,7 +9979,8 @@
       "section_vi": "Tủ lạnh — linh kiện bổ sung chi tiết",
       "device_types": [
         "refrigerator"
-      ]
+      ],
+      "price": 50000
     },
     {
       "code": "RFX013",
@@ -9307,7 +9993,8 @@
       "section_vi": "Tủ lạnh — linh kiện bổ sung chi tiết",
       "device_types": [
         "refrigerator"
-      ]
+      ],
+      "price": 450000
     },
     {
       "code": "RFX014",
@@ -9320,7 +10007,8 @@
       "section_vi": "Tủ lạnh — linh kiện bổ sung chi tiết",
       "device_types": [
         "refrigerator"
-      ]
+      ],
+      "price": 80000
     },
     {
       "code": "RFX015",
@@ -9333,7 +10021,8 @@
       "section_vi": "Tủ lạnh — linh kiện bổ sung chi tiết",
       "device_types": [
         "refrigerator"
-      ]
+      ],
+      "price": 250000
     },
     {
       "code": "RFX016",
@@ -9346,7 +10035,8 @@
       "section_vi": "Tủ lạnh — linh kiện bổ sung chi tiết",
       "device_types": [
         "refrigerator"
-      ]
+      ],
+      "price": 400000
     },
     {
       "code": "RFX017",
@@ -9359,7 +10049,8 @@
       "section_vi": "Tủ lạnh — linh kiện bổ sung chi tiết",
       "device_types": [
         "refrigerator"
-      ]
+      ],
+      "price": 350000
     },
     {
       "code": "RFX018",
@@ -9372,7 +10063,8 @@
       "section_vi": "Tủ lạnh — linh kiện bổ sung chi tiết",
       "device_types": [
         "refrigerator"
-      ]
+      ],
+      "price": 100000
     },
     {
       "code": "RFX019",
@@ -9385,7 +10077,8 @@
       "section_vi": "Tủ lạnh — linh kiện bổ sung chi tiết",
       "device_types": [
         "refrigerator"
-      ]
+      ],
+      "price": 180000
     },
     {
       "code": "RFX020",
@@ -9398,7 +10091,8 @@
       "section_vi": "Tủ lạnh — linh kiện bổ sung chi tiết",
       "device_types": [
         "refrigerator"
-      ]
+      ],
+      "price": 250000
     },
     {
       "code": "MWV001",
@@ -9411,7 +10105,8 @@
       "section_vi": "Lò vi sóng — linh kiện chi tiết",
       "device_types": [
         "microwave_oven"
-      ]
+      ],
+      "price": 450000
     },
     {
       "code": "MWV002",
@@ -9424,7 +10119,8 @@
       "section_vi": "Lò vi sóng — linh kiện chi tiết",
       "device_types": [
         "microwave_oven"
-      ]
+      ],
+      "price": 500000
     },
     {
       "code": "MWV003",
@@ -9437,7 +10133,8 @@
       "section_vi": "Lò vi sóng — linh kiện chi tiết",
       "device_types": [
         "microwave_oven"
-      ]
+      ],
+      "price": 800000
     },
     {
       "code": "MWV004",
@@ -9450,7 +10147,8 @@
       "section_vi": "Lò vi sóng — linh kiện chi tiết",
       "device_types": [
         "microwave_oven"
-      ]
+      ],
+      "price": 180000
     },
     {
       "code": "MWV005",
@@ -9463,7 +10161,8 @@
       "section_vi": "Lò vi sóng — linh kiện chi tiết",
       "device_types": [
         "microwave_oven"
-      ]
+      ],
+      "price": 180000
     },
     {
       "code": "MWV006",
@@ -9476,7 +10175,8 @@
       "section_vi": "Lò vi sóng — linh kiện chi tiết",
       "device_types": [
         "microwave_oven"
-      ]
+      ],
+      "price": 200000
     },
     {
       "code": "MWV007",
@@ -9489,7 +10189,8 @@
       "section_vi": "Lò vi sóng — linh kiện chi tiết",
       "device_types": [
         "microwave_oven"
-      ]
+      ],
+      "price": 100000
     },
     {
       "code": "MWV008",
@@ -9502,7 +10203,8 @@
       "section_vi": "Lò vi sóng — linh kiện chi tiết",
       "device_types": [
         "microwave_oven"
-      ]
+      ],
+      "price": 80000
     },
     {
       "code": "MWV009",
@@ -9515,7 +10217,8 @@
       "section_vi": "Lò vi sóng — linh kiện chi tiết",
       "device_types": [
         "microwave_oven"
-      ]
+      ],
+      "price": 20000
     },
     {
       "code": "MWV010",
@@ -9528,7 +10231,8 @@
       "section_vi": "Lò vi sóng — linh kiện chi tiết",
       "device_types": [
         "microwave_oven"
-      ]
+      ],
+      "price": 450000
     },
     {
       "code": "MWV011",
@@ -9541,7 +10245,8 @@
       "section_vi": "Lò vi sóng — linh kiện chi tiết",
       "device_types": [
         "microwave_oven"
-      ]
+      ],
+      "price": 800000
     },
     {
       "code": "MWV012",
@@ -9554,7 +10259,8 @@
       "section_vi": "Lò vi sóng — linh kiện chi tiết",
       "device_types": [
         "microwave_oven"
-      ]
+      ],
+      "price": 250000
     },
     {
       "code": "MWV013",
@@ -9567,7 +10273,8 @@
       "section_vi": "Lò vi sóng — linh kiện chi tiết",
       "device_types": [
         "microwave_oven"
-      ]
+      ],
+      "price": 50000
     },
     {
       "code": "MWV014",
@@ -9580,7 +10287,8 @@
       "section_vi": "Lò vi sóng — linh kiện chi tiết",
       "device_types": [
         "microwave_oven"
-      ]
+      ],
+      "price": 100000
     },
     {
       "code": "MWV015",
@@ -9593,7 +10301,8 @@
       "section_vi": "Lò vi sóng — linh kiện chi tiết",
       "device_types": [
         "microwave_oven"
-      ]
+      ],
+      "price": 180000
     },
     {
       "code": "MWV016",
@@ -9606,7 +10315,8 @@
       "section_vi": "Lò vi sóng — linh kiện chi tiết",
       "device_types": [
         "microwave_oven"
-      ]
+      ],
+      "price": 200000
     },
     {
       "code": "MWV017",
@@ -9619,7 +10329,8 @@
       "section_vi": "Lò vi sóng — linh kiện chi tiết",
       "device_types": [
         "microwave_oven"
-      ]
+      ],
+      "price": 250000
     },
     {
       "code": "MWV018",
@@ -9632,7 +10343,8 @@
       "section_vi": "Lò vi sóng — linh kiện chi tiết",
       "device_types": [
         "microwave_oven"
-      ]
+      ],
+      "price": 50000
     },
     {
       "code": "MWV019",
@@ -9645,7 +10357,8 @@
       "section_vi": "Lò vi sóng — linh kiện chi tiết",
       "device_types": [
         "microwave_oven"
-      ]
+      ],
+      "price": 50000
     },
     {
       "code": "MWV020",
@@ -9658,7 +10371,8 @@
       "section_vi": "Lò vi sóng — linh kiện chi tiết",
       "device_types": [
         "microwave_oven"
-      ]
+      ],
+      "price": 50000
     },
     {
       "code": "MWV021",
@@ -9671,7 +10385,8 @@
       "section_vi": "Lò vi sóng — linh kiện chi tiết",
       "device_types": [
         "microwave_oven"
-      ]
+      ],
+      "price": 80000
     },
     {
       "code": "MWV022",
@@ -9684,7 +10399,8 @@
       "section_vi": "Lò vi sóng — linh kiện chi tiết",
       "device_types": [
         "microwave_oven"
-      ]
+      ],
+      "price": 180000
     },
     {
       "code": "MWV023",
@@ -9697,7 +10413,8 @@
       "section_vi": "Lò vi sóng — linh kiện chi tiết",
       "device_types": [
         "microwave_oven"
-      ]
+      ],
+      "price": 50000
     },
     {
       "code": "MWV024",
@@ -9710,7 +10427,8 @@
       "section_vi": "Lò vi sóng — linh kiện chi tiết",
       "device_types": [
         "microwave_oven"
-      ]
+      ],
+      "price": 80000
     },
     {
       "code": "MWV025",
@@ -9723,7 +10441,8 @@
       "section_vi": "Lò vi sóng — linh kiện chi tiết",
       "device_types": [
         "microwave_oven"
-      ]
+      ],
+      "price": 120000
     },
     {
       "code": "OVN001",
@@ -9736,7 +10455,8 @@
       "section_vi": "Lò nướng — linh kiện chi tiết",
       "device_types": [
         "oven"
-      ]
+      ],
+      "price": 350000
     },
     {
       "code": "OVN002",
@@ -9749,7 +10469,8 @@
       "section_vi": "Lò nướng — linh kiện chi tiết",
       "device_types": [
         "oven"
-      ]
+      ],
+      "price": 400000
     },
     {
       "code": "OVN003",
@@ -9762,7 +10483,8 @@
       "section_vi": "Lò nướng — linh kiện chi tiết",
       "device_types": [
         "oven"
-      ]
+      ],
+      "price": 350000
     },
     {
       "code": "OVN004",
@@ -9775,7 +10497,8 @@
       "section_vi": "Lò nướng — linh kiện chi tiết",
       "device_types": [
         "oven"
-      ]
+      ],
+      "price": 400000
     },
     {
       "code": "OVN005",
@@ -9788,7 +10511,8 @@
       "section_vi": "Lò nướng — linh kiện chi tiết",
       "device_types": [
         "oven"
-      ]
+      ],
+      "price": 500000
     },
     {
       "code": "OVN006",
@@ -9801,7 +10525,8 @@
       "section_vi": "Lò nướng — linh kiện chi tiết",
       "device_types": [
         "oven"
-      ]
+      ],
+      "price": 450000
     },
     {
       "code": "OVN007",
@@ -9814,7 +10539,8 @@
       "section_vi": "Lò nướng — linh kiện chi tiết",
       "device_types": [
         "oven"
-      ]
+      ],
+      "price": 150000
     },
     {
       "code": "OVN008",
@@ -9827,7 +10553,8 @@
       "section_vi": "Lò nướng — linh kiện chi tiết",
       "device_types": [
         "oven"
-      ]
+      ],
+      "price": 350000
     },
     {
       "code": "OVN009",
@@ -9840,7 +10567,8 @@
       "section_vi": "Lò nướng — linh kiện chi tiết",
       "device_types": [
         "oven"
-      ]
+      ],
+      "price": 300000
     },
     {
       "code": "OVN010",
@@ -9853,7 +10581,8 @@
       "section_vi": "Lò nướng — linh kiện chi tiết",
       "device_types": [
         "oven"
-      ]
+      ],
+      "price": 300000
     },
     {
       "code": "OVN011",
@@ -9866,7 +10595,8 @@
       "section_vi": "Lò nướng — linh kiện chi tiết",
       "device_types": [
         "oven"
-      ]
+      ],
+      "price": 50000
     },
     {
       "code": "OVN012",
@@ -9879,7 +10609,8 @@
       "section_vi": "Lò nướng — linh kiện chi tiết",
       "device_types": [
         "oven"
-      ]
+      ],
+      "price": 180000
     },
     {
       "code": "OVN013",
@@ -9892,7 +10623,8 @@
       "section_vi": "Lò nướng — linh kiện chi tiết",
       "device_types": [
         "oven"
-      ]
+      ],
+      "price": 300000
     },
     {
       "code": "OVN014",
@@ -9905,7 +10637,8 @@
       "section_vi": "Lò nướng — linh kiện chi tiết",
       "device_types": [
         "oven"
-      ]
+      ],
+      "price": 120000
     },
     {
       "code": "OVN015",
@@ -9918,7 +10651,8 @@
       "section_vi": "Lò nướng — linh kiện chi tiết",
       "device_types": [
         "oven"
-      ]
+      ],
+      "price": 900000
     },
     {
       "code": "OVN016",
@@ -9931,7 +10665,8 @@
       "section_vi": "Lò nướng — linh kiện chi tiết",
       "device_types": [
         "oven"
-      ]
+      ],
+      "price": 600000
     },
     {
       "code": "OVN017",
@@ -9944,7 +10679,8 @@
       "section_vi": "Lò nướng — linh kiện chi tiết",
       "device_types": [
         "oven"
-      ]
+      ],
+      "price": 70000
     },
     {
       "code": "OVN018",
@@ -9957,7 +10693,8 @@
       "section_vi": "Lò nướng — linh kiện chi tiết",
       "device_types": [
         "oven"
-      ]
+      ],
+      "price": 50000
     },
     {
       "code": "OVN019",
@@ -9970,7 +10707,8 @@
       "section_vi": "Lò nướng — linh kiện chi tiết",
       "device_types": [
         "oven"
-      ]
+      ],
+      "price": 100000
     },
     {
       "code": "OVN020",
@@ -9983,7 +10721,8 @@
       "section_vi": "Lò nướng — linh kiện chi tiết",
       "device_types": [
         "oven"
-      ]
+      ],
+      "price": 80000
     },
     {
       "code": "OVN021",
@@ -9996,7 +10735,8 @@
       "section_vi": "Lò nướng — linh kiện chi tiết",
       "device_types": [
         "oven"
-      ]
+      ],
+      "price": 350000
     },
     {
       "code": "OVN022",
@@ -10009,7 +10749,8 @@
       "section_vi": "Lò nướng — linh kiện chi tiết",
       "device_types": [
         "oven"
-      ]
+      ],
+      "price": 350000
     },
     {
       "code": "OVN023",
@@ -10022,7 +10763,8 @@
       "section_vi": "Lò nướng — linh kiện chi tiết",
       "device_types": [
         "oven"
-      ]
+      ],
+      "price": 350000
     },
     {
       "code": "OVN024",
@@ -10035,7 +10777,8 @@
       "section_vi": "Lò nướng — linh kiện chi tiết",
       "device_types": [
         "oven"
-      ]
+      ],
+      "price": 250000
     },
     {
       "code": "OVN025",
@@ -10048,7 +10791,8 @@
       "section_vi": "Lò nướng — linh kiện chi tiết",
       "device_types": [
         "oven"
-      ]
+      ],
+      "price": 250000
     },
     {
       "code": "GAS001",
@@ -10061,7 +10805,8 @@
       "section_vi": "Bếp gas — linh kiện chi tiết",
       "device_types": [
         "gas_stove"
-      ]
+      ],
+      "price": 100000
     },
     {
       "code": "GAS002",
@@ -10074,7 +10819,8 @@
       "section_vi": "Bếp gas — linh kiện chi tiết",
       "device_types": [
         "gas_stove"
-      ]
+      ],
+      "price": 150000
     },
     {
       "code": "GAS003",
@@ -10087,7 +10833,8 @@
       "section_vi": "Bếp gas — linh kiện chi tiết",
       "device_types": [
         "gas_stove"
-      ]
+      ],
+      "price": 180000
     },
     {
       "code": "GAS004",
@@ -10100,7 +10847,8 @@
       "section_vi": "Bếp gas — linh kiện chi tiết",
       "device_types": [
         "gas_stove"
-      ]
+      ],
+      "price": 250000
     },
     {
       "code": "GAS005",
@@ -10113,7 +10861,8 @@
       "section_vi": "Bếp gas — linh kiện chi tiết",
       "device_types": [
         "gas_stove"
-      ]
+      ],
+      "price": 50000
     },
     {
       "code": "GAS006",
@@ -10126,7 +10875,8 @@
       "section_vi": "Bếp gas — linh kiện chi tiết",
       "device_types": [
         "gas_stove"
-      ]
+      ],
+      "price": 50000
     },
     {
       "code": "GAS007",
@@ -10139,7 +10889,8 @@
       "section_vi": "Bếp gas — linh kiện chi tiết",
       "device_types": [
         "gas_stove"
-      ]
+      ],
+      "price": 180000
     },
     {
       "code": "GAS008",
@@ -10152,7 +10903,8 @@
       "section_vi": "Bếp gas — linh kiện chi tiết",
       "device_types": [
         "gas_stove"
-      ]
+      ],
+      "price": 300000
     },
     {
       "code": "GAS009",
@@ -10165,7 +10917,8 @@
       "section_vi": "Bếp gas — linh kiện chi tiết",
       "device_types": [
         "gas_stove"
-      ]
+      ],
+      "price": 70000
     },
     {
       "code": "GAS010",
@@ -10178,7 +10931,8 @@
       "section_vi": "Bếp gas — linh kiện chi tiết",
       "device_types": [
         "gas_stove"
-      ]
+      ],
+      "price": 50000
     },
     {
       "code": "GAS011",
@@ -10191,7 +10945,8 @@
       "section_vi": "Bếp gas — linh kiện chi tiết",
       "device_types": [
         "gas_stove"
-      ]
+      ],
+      "price": 120000
     },
     {
       "code": "GAS012",
@@ -10204,7 +10959,8 @@
       "section_vi": "Bếp gas — linh kiện chi tiết",
       "device_types": [
         "gas_stove"
-      ]
+      ],
+      "price": 150000
     },
     {
       "code": "GAS013",
@@ -10217,7 +10973,8 @@
       "section_vi": "Bếp gas — linh kiện chi tiết",
       "device_types": [
         "gas_stove"
-      ]
+      ],
+      "price": 200000
     },
     {
       "code": "GAS014",
@@ -10230,7 +10987,8 @@
       "section_vi": "Bếp gas — linh kiện chi tiết",
       "device_types": [
         "gas_stove"
-      ]
+      ],
+      "price": 350000
     },
     {
       "code": "GAS015",
@@ -10243,7 +11001,8 @@
       "section_vi": "Bếp gas — linh kiện chi tiết",
       "device_types": [
         "gas_stove"
-      ]
+      ],
+      "price": 30000
     },
     {
       "code": "GAS016",
@@ -10256,7 +11015,8 @@
       "section_vi": "Bếp gas — linh kiện chi tiết",
       "device_types": [
         "gas_stove"
-      ]
+      ],
+      "price": 120000
     },
     {
       "code": "GAS017",
@@ -10269,7 +11029,8 @@
       "section_vi": "Bếp gas — linh kiện chi tiết",
       "device_types": [
         "gas_stove"
-      ]
+      ],
+      "price": 200000
     },
     {
       "code": "GAS018",
@@ -10282,7 +11043,8 @@
       "section_vi": "Bếp gas — linh kiện chi tiết",
       "device_types": [
         "gas_stove"
-      ]
+      ],
+      "price": 20000
     },
     {
       "code": "GAS019",
@@ -10295,7 +11057,8 @@
       "section_vi": "Bếp gas — linh kiện chi tiết",
       "device_types": [
         "gas_stove"
-      ]
+      ],
+      "price": 100000
     },
     {
       "code": "GAS020",
@@ -10308,7 +11071,8 @@
       "section_vi": "Bếp gas — linh kiện chi tiết",
       "device_types": [
         "gas_stove"
-      ]
+      ],
+      "price": 800000
     },
     {
       "code": "GAS021",
@@ -10321,7 +11085,8 @@
       "section_vi": "Bếp gas — linh kiện chi tiết",
       "device_types": [
         "gas_stove"
-      ]
+      ],
+      "price": 70000
     },
     {
       "code": "GAS022",
@@ -10334,7 +11099,8 @@
       "section_vi": "Bếp gas — linh kiện chi tiết",
       "device_types": [
         "gas_stove"
-      ]
+      ],
+      "price": 150000
     },
     {
       "code": "GAS023",
@@ -10347,7 +11113,8 @@
       "section_vi": "Bếp gas — linh kiện chi tiết",
       "device_types": [
         "gas_stove"
-      ]
+      ],
+      "price": 180000
     },
     {
       "code": "GAS024",
@@ -10360,7 +11127,8 @@
       "section_vi": "Bếp gas — linh kiện chi tiết",
       "device_types": [
         "gas_stove"
-      ]
+      ],
+      "price": 10000
     },
     {
       "code": "GAS025",
@@ -10373,7 +11141,8 @@
       "section_vi": "Bếp gas — linh kiện chi tiết",
       "device_types": [
         "gas_stove"
-      ]
+      ],
+      "price": 30000
     },
     {
       "code": "GAS026",
@@ -10386,7 +11155,8 @@
       "section_vi": "Bếp gas — linh kiện chi tiết",
       "device_types": [
         "gas_stove"
-      ]
+      ],
+      "price": 5000
     },
     {
       "code": "GAS027",
@@ -10399,7 +11169,8 @@
       "section_vi": "Bếp gas — linh kiện chi tiết",
       "device_types": [
         "gas_stove"
-      ]
+      ],
+      "price": 20000
     },
     {
       "code": "KTL001",
@@ -10412,7 +11183,8 @@
       "section_vi": "Ấm đun / Ấm siêu tốc",
       "device_types": [
         "kettle"
-      ]
+      ],
+      "price": 150000
     },
     {
       "code": "KTL002",
@@ -10425,7 +11197,8 @@
       "section_vi": "Ấm đun / Ấm siêu tốc",
       "device_types": [
         "kettle"
-      ]
+      ],
+      "price": 180000
     },
     {
       "code": "KTL003",
@@ -10438,7 +11211,8 @@
       "section_vi": "Ấm đun / Ấm siêu tốc",
       "device_types": [
         "kettle"
-      ]
+      ],
+      "price": 200000
     },
     {
       "code": "KTL004",
@@ -10451,7 +11225,8 @@
       "section_vi": "Ấm đun / Ấm siêu tốc",
       "device_types": [
         "kettle"
-      ]
+      ],
+      "price": 180000
     },
     {
       "code": "KTL005",
@@ -10464,7 +11239,8 @@
       "section_vi": "Ấm đun / Ấm siêu tốc",
       "device_types": [
         "kettle"
-      ]
+      ],
+      "price": 150000
     },
     {
       "code": "KTL006",
@@ -10477,7 +11253,8 @@
       "section_vi": "Ấm đun / Ấm siêu tốc",
       "device_types": [
         "kettle"
-      ]
+      ],
+      "price": 80000
     },
     {
       "code": "KTL007",
@@ -10490,7 +11267,8 @@
       "section_vi": "Ấm đun / Ấm siêu tốc",
       "device_types": [
         "kettle"
-      ]
+      ],
+      "price": 20000
     },
     {
       "code": "KTL008",
@@ -10503,7 +11281,8 @@
       "section_vi": "Ấm đun / Ấm siêu tốc",
       "device_types": [
         "kettle"
-      ]
+      ],
+      "price": 20000
     },
     {
       "code": "KTL009",
@@ -10516,7 +11295,8 @@
       "section_vi": "Ấm đun / Ấm siêu tốc",
       "device_types": [
         "kettle"
-      ]
+      ],
+      "price": 50000
     },
     {
       "code": "KTL010",
@@ -10529,7 +11309,8 @@
       "section_vi": "Ấm đun / Ấm siêu tốc",
       "device_types": [
         "kettle"
-      ]
+      ],
+      "price": 20000
     },
     {
       "code": "KTL011",
@@ -10542,7 +11323,8 @@
       "section_vi": "Ấm đun / Ấm siêu tốc",
       "device_types": [
         "kettle"
-      ]
+      ],
+      "price": 180000
     },
     {
       "code": "KTL012",
@@ -10555,7 +11337,8 @@
       "section_vi": "Ấm đun / Ấm siêu tốc",
       "device_types": [
         "kettle"
-      ]
+      ],
+      "price": 120000
     },
     {
       "code": "KTL013",
@@ -10568,7 +11351,8 @@
       "section_vi": "Ấm đun / Ấm siêu tốc",
       "device_types": [
         "kettle"
-      ]
+      ],
+      "price": 80000
     },
     {
       "code": "KTL014",
@@ -10581,7 +11365,8 @@
       "section_vi": "Ấm đun / Ấm siêu tốc",
       "device_types": [
         "kettle"
-      ]
+      ],
+      "price": 30000
     },
     {
       "code": "KTL015",
@@ -10594,7 +11379,8 @@
       "section_vi": "Ấm đun / Ấm siêu tốc",
       "device_types": [
         "kettle"
-      ]
+      ],
+      "price": 30000
     },
     {
       "code": "KTL016",
@@ -10607,7 +11393,8 @@
       "section_vi": "Ấm đun / Ấm siêu tốc",
       "device_types": [
         "kettle"
-      ]
+      ],
+      "price": 20000
     },
     {
       "code": "KTL017",
@@ -10620,7 +11407,8 @@
       "section_vi": "Ấm đun / Ấm siêu tốc",
       "device_types": [
         "kettle"
-      ]
+      ],
+      "price": 50000
     },
     {
       "code": "KTL018",
@@ -10633,7 +11421,8 @@
       "section_vi": "Ấm đun / Ấm siêu tốc",
       "device_types": [
         "kettle"
-      ]
+      ],
+      "price": 50000
     },
     {
       "code": "KTL019",
@@ -10646,7 +11435,8 @@
       "section_vi": "Ấm đun / Ấm siêu tốc",
       "device_types": [
         "kettle"
-      ]
+      ],
+      "price": 30000
     },
     {
       "code": "KTL020",
@@ -10659,7 +11449,8 @@
       "section_vi": "Ấm đun / Ấm siêu tốc",
       "device_types": [
         "kettle"
-      ]
+      ],
+      "price": 80000
     },
     {
       "code": "LGT001",
@@ -11218,7 +12009,8 @@
       "section_vi": "Máy rửa bát — linh kiện",
       "device_types": [
         "dishwasher"
-      ]
+      ],
+      "price": 600000
     },
     {
       "code": "DWS002",
@@ -11231,7 +12023,8 @@
       "section_vi": "Máy rửa bát — linh kiện",
       "device_types": [
         "dishwasher"
-      ]
+      ],
+      "price": 1500000
     },
     {
       "code": "DWS003",
@@ -11244,7 +12037,8 @@
       "section_vi": "Máy rửa bát — linh kiện",
       "device_types": [
         "dishwasher"
-      ]
+      ],
+      "price": 800000
     },
     {
       "code": "DWS004",
@@ -11257,7 +12051,8 @@
       "section_vi": "Máy rửa bát — linh kiện",
       "device_types": [
         "dishwasher"
-      ]
+      ],
+      "price": 300000
     },
     {
       "code": "DWS005",
@@ -11270,7 +12065,8 @@
       "section_vi": "Máy rửa bát — linh kiện",
       "device_types": [
         "dishwasher"
-      ]
+      ],
+      "price": 200000
     },
     {
       "code": "DWS006",
@@ -11283,7 +12079,8 @@
       "section_vi": "Máy rửa bát — linh kiện",
       "device_types": [
         "dishwasher"
-      ]
+      ],
+      "price": 500000
     },
     {
       "code": "DWS007",
@@ -11296,7 +12093,8 @@
       "section_vi": "Máy rửa bát — linh kiện",
       "device_types": [
         "dishwasher"
-      ]
+      ],
+      "price": 1500000
     },
     {
       "code": "DWS008",
@@ -11309,7 +12107,8 @@
       "section_vi": "Máy rửa bát — linh kiện",
       "device_types": [
         "dishwasher"
-      ]
+      ],
+      "price": 1900000
     },
     {
       "code": "DWS009",
@@ -11322,7 +12121,8 @@
       "section_vi": "Máy rửa bát — linh kiện",
       "device_types": [
         "dishwasher"
-      ]
+      ],
+      "price": 100000
     },
     {
       "code": "DWS010",
@@ -11335,7 +12135,8 @@
       "section_vi": "Máy rửa bát — linh kiện",
       "device_types": [
         "dishwasher"
-      ]
+      ],
+      "price": 500000
     },
     {
       "code": "DWS011",
@@ -11348,7 +12149,8 @@
       "section_vi": "Máy rửa bát — linh kiện",
       "device_types": [
         "dishwasher"
-      ]
+      ],
+      "price": 300000
     },
     {
       "code": "DWS012",
@@ -11361,7 +12163,8 @@
       "section_vi": "Máy rửa bát — linh kiện",
       "device_types": [
         "dishwasher"
-      ]
+      ],
+      "price": 300000
     },
     {
       "code": "DWS013",
@@ -11374,7 +12177,8 @@
       "section_vi": "Máy rửa bát — linh kiện",
       "device_types": [
         "dishwasher"
-      ]
+      ],
+      "price": 150000
     },
     {
       "code": "DWS014",
@@ -11387,7 +12191,8 @@
       "section_vi": "Máy rửa bát — linh kiện",
       "device_types": [
         "dishwasher"
-      ]
+      ],
+      "price": 1350000
     },
     {
       "code": "DWS015",
@@ -11400,7 +12205,8 @@
       "section_vi": "Máy rửa bát — linh kiện",
       "device_types": [
         "dishwasher"
-      ]
+      ],
+      "price": 1500000
     },
     {
       "code": "DRY001",
@@ -11413,7 +12219,8 @@
       "section_vi": "Máy sấy quần áo — linh kiện",
       "device_types": [
         "clothes_dryer"
-      ]
+      ],
+      "price": 400000
     },
     {
       "code": "DRY002",
@@ -11426,7 +12233,8 @@
       "section_vi": "Máy sấy quần áo — linh kiện",
       "device_types": [
         "clothes_dryer"
-      ]
+      ],
+      "price": 150000
     },
     {
       "code": "DRY003",
@@ -11439,7 +12247,8 @@
       "section_vi": "Máy sấy quần áo — linh kiện",
       "device_types": [
         "clothes_dryer"
-      ]
+      ],
+      "price": 150000
     },
     {
       "code": "DRY004",
@@ -11452,7 +12261,8 @@
       "section_vi": "Máy sấy quần áo — linh kiện",
       "device_types": [
         "clothes_dryer"
-      ]
+      ],
+      "price": 200000
     },
     {
       "code": "DRY005",
@@ -11465,7 +12275,8 @@
       "section_vi": "Máy sấy quần áo — linh kiện",
       "device_types": [
         "clothes_dryer"
-      ]
+      ],
+      "price": 900000
     },
     {
       "code": "DRY006",
@@ -11478,7 +12289,8 @@
       "section_vi": "Máy sấy quần áo — linh kiện",
       "device_types": [
         "clothes_dryer"
-      ]
+      ],
+      "price": 300000
     },
     {
       "code": "DRY007",
@@ -11491,7 +12303,8 @@
       "section_vi": "Máy sấy quần áo — linh kiện",
       "device_types": [
         "clothes_dryer"
-      ]
+      ],
+      "price": 150000
     },
     {
       "code": "DRY008",
@@ -11504,7 +12317,8 @@
       "section_vi": "Máy sấy quần áo — linh kiện",
       "device_types": [
         "clothes_dryer"
-      ]
+      ],
+      "price": 20000
     },
     {
       "code": "DRY009",
@@ -11517,7 +12331,8 @@
       "section_vi": "Máy sấy quần áo — linh kiện",
       "device_types": [
         "clothes_dryer"
-      ]
+      ],
+      "price": 150000
     },
     {
       "code": "DRY010",
@@ -11530,7 +12345,8 @@
       "section_vi": "Máy sấy quần áo — linh kiện",
       "device_types": [
         "clothes_dryer"
-      ]
+      ],
+      "price": 1000000
     },
     {
       "code": "DRY011",
@@ -11543,7 +12359,8 @@
       "section_vi": "Máy sấy quần áo — linh kiện",
       "device_types": [
         "clothes_dryer"
-      ]
+      ],
+      "price": 150000
     },
     {
       "code": "DRY012",
@@ -11556,7 +12373,8 @@
       "section_vi": "Máy sấy quần áo — linh kiện",
       "device_types": [
         "clothes_dryer"
-      ]
+      ],
+      "price": 400000
     },
     {
       "code": "DRY013",
@@ -11569,7 +12387,8 @@
       "section_vi": "Máy sấy quần áo — linh kiện",
       "device_types": [
         "clothes_dryer"
-      ]
+      ],
+      "price": 1200000
     },
     {
       "code": "DRY014",
@@ -11582,7 +12401,8 @@
       "section_vi": "Máy sấy quần áo — linh kiện",
       "device_types": [
         "clothes_dryer"
-      ]
+      ],
+      "price": 2500000
     },
     {
       "code": "DRY015",
@@ -11595,7 +12415,8 @@
       "section_vi": "Máy sấy quần áo — linh kiện",
       "device_types": [
         "clothes_dryer"
-      ]
+      ],
+      "price": 80000
     },
     {
       "code": "LCK001",
@@ -11608,7 +12429,8 @@
       "section_vi": "Khóa thông minh — linh kiện",
       "device_types": [
         "smart_lock"
-      ]
+      ],
+      "price": 60000
     },
     {
       "code": "LCK002",
@@ -11621,7 +12443,8 @@
       "section_vi": "Khóa thông minh — linh kiện",
       "device_types": [
         "smart_lock"
-      ]
+      ],
+      "price": 600000
     },
     {
       "code": "LCK003",
@@ -11634,7 +12457,8 @@
       "section_vi": "Khóa thông minh — linh kiện",
       "device_types": [
         "smart_lock"
-      ]
+      ],
+      "price": 150000
     },
     {
       "code": "LCK004",
@@ -11647,7 +12471,8 @@
       "section_vi": "Khóa thông minh — linh kiện",
       "device_types": [
         "smart_lock"
-      ]
+      ],
+      "price": 400000
     },
     {
       "code": "LCK005",
@@ -11660,7 +12485,8 @@
       "section_vi": "Khóa thông minh — linh kiện",
       "device_types": [
         "smart_lock"
-      ]
+      ],
+      "price": 500000
     },
     {
       "code": "LCK006",
@@ -11673,7 +12499,8 @@
       "section_vi": "Khóa thông minh — linh kiện",
       "device_types": [
         "smart_lock"
-      ]
+      ],
+      "price": 300000
     },
     {
       "code": "LCK007",
@@ -11686,7 +12513,8 @@
       "section_vi": "Khóa thông minh — linh kiện",
       "device_types": [
         "smart_lock"
-      ]
+      ],
+      "price": 200000
     },
     {
       "code": "LCK008",
@@ -11699,7 +12527,8 @@
       "section_vi": "Khóa thông minh — linh kiện",
       "device_types": [
         "smart_lock"
-      ]
+      ],
+      "price": 800000
     },
     {
       "code": "LCK009",
@@ -11712,7 +12541,8 @@
       "section_vi": "Khóa thông minh — linh kiện",
       "device_types": [
         "smart_lock"
-      ]
+      ],
+      "price": 300000
     },
     {
       "code": "LCK010",
@@ -11725,7 +12555,8 @@
       "section_vi": "Khóa thông minh — linh kiện",
       "device_types": [
         "smart_lock"
-      ]
+      ],
+      "price": 300000
     },
     {
       "code": "LCK011",
@@ -11738,7 +12569,8 @@
       "section_vi": "Khóa thông minh — linh kiện",
       "device_types": [
         "smart_lock"
-      ]
+      ],
+      "price": 80000
     },
     {
       "code": "LCK012",
@@ -11751,7 +12583,8 @@
       "section_vi": "Khóa thông minh — linh kiện",
       "device_types": [
         "smart_lock"
-      ]
+      ],
+      "price": 25000
     },
     {
       "code": "HA066",
@@ -11764,7 +12597,8 @@
       "section_vi": "Đồ điện gia dụng",
       "device_types": [
         "ceiling_fan"
-      ]
+      ],
+      "price": 20000
     },
     {
       "code": "HA067",
@@ -11777,7 +12611,9 @@
       "section_vi": "Đồ điện gia dụng",
       "device_types": [
         "electric_fan"
-      ]
+      ],
+      "price": 10000
     }
-  ]
+  ],
+  "_price_comment_vi": "price: giá bán FixHome của mã (bảng fixhome_parts của backend), chép bằng tools/sync_part_prices.py; price_min/price_max là khoảng giá bảng V3 cũ, chỉ để tham khảo."
 }

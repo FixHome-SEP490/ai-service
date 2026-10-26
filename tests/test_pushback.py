@@ -121,7 +121,7 @@ def test_it_is_said_once():
 def test_it_travels_as_camel_case():
     _one, two = _two_turns("máy lạnh chạy mà không mát", "không phải đâu em")
     body = two.model_dump(by_alias=True)
-    assert set(body["customerDisagreed"]) == {"kind", "rejected", "rejectedVi", "saidVi", "correctionVi"}
+    assert set(body["customerDisagreed"]) == {"kind", "rejected", "rejectedVi", "saidVi", "correctionVi", "restVi"}
 
 
 class _Writes(StubVlm):
@@ -151,3 +151,14 @@ def test_what_is_left_is_said_once_when_the_model_writes_the_answer():
 def test_without_a_written_answer_what_is_left_is_still_named():
     _one, two = _two_turns("máy lạnh chạy mà không mát", "không phải đâu em")
     assert "Khả năng còn lại là" in two.message_vi
+
+
+def test_what_the_customer_now_says_comes_without_the_denial():
+    """For the booking description the technician reads (PO 26/10/2026)."""
+    _one, two = _two_turns("máy lạnh chạy mà không mát", "sai rồi, máy vẫn mát nhưng chảy nước")
+    assert two.customer_disagreed.rest_vi == "máy vẫn mát nhưng chảy nước"
+    assert two.suspected_faults[0].fault_code == "AC_DRAIN_BLOCKED"
+    _one, bare = _two_turns("tủ lạnh kêu to", "nói sai rồi em ơi")
+    assert bare.customer_disagreed.rest_vi == ""
+    _one, cause = _two_turns("bình nóng lạnh không nóng", "không phải do điện đâu, đèn vẫn sáng")
+    assert cause.customer_disagreed.rest_vi == "không phải do điện đâu, đèn vẫn sáng"

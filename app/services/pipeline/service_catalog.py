@@ -62,6 +62,13 @@ class LiveService:
     price_max: Optional[int] = None
     kind: str = ""
     device_types: tuple = ()
+    price_kind: str = ""
+    """Backend's priceSummary.kind: "fixed_range" (a fixed price per variant,
+    shown on the booking form as "min – max") or "inspection_reference"
+    (priced on site, shown as "Tham khảo <base_price>")."""
+    variant_prices: tuple = ()
+    """(variant code, fixed labour price) of a fixed-price service, from the
+    snapshot; Backend's list does not carry them."""
     """The appliances it is for, from the snapshot. Empty for an appliance the
     knowledge base does not know (range hoods)."""
 
@@ -115,6 +122,8 @@ class LiveCatalog:
                     device_types=service.device_types or seen.device_types,
                     base_price=service.base_price if service.base_price is not None else seen.base_price,
                     price_max=service.price_max if service.price_max is not None else seen.price_max,
+                    price_kind=service.price_kind or seen.price_kind,
+                    variant_prices=service.variant_prices or seen.variant_prices,
                 )
             self.services[service.code] = service
         self.loaded_at = loaded_at
@@ -254,6 +263,10 @@ def snapshot() -> LiveCatalog:
                 price_max=r.get("price_max_vnd"),
                 kind=r.get("kind", ""),
                 device_types=tuple(r.get("device_types") or ()),
+                price_kind="fixed_range" if r.get("pricing") == "fixed" else "inspection_reference",
+                variant_prices=tuple(
+                    (v["code"], int(v["price_vnd"])) for v in r.get("variants") or () if v.get("price_vnd")
+                ),
             )
             for r in rows
             if r.get("active")
@@ -331,6 +344,7 @@ def parse(payload) -> List[LiveService]:
                 description_vi=(row.get("description") or "").strip(),
                 base_price=low or _price(row.get("basePrice")),
                 price_max=_price(summary.get("maxLaborVnd")),
+                price_kind=str(summary.get("kind") or ""),
             )
         )
     return out
