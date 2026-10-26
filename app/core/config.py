@@ -155,6 +155,13 @@ class Settings(BaseSettings):
     team wrote for one fault almost exactly. Asking anything after that is
     asking them to repeat themselves."""
 
+    RETRIEVAL_CLEAR_LEAD_SCORE: float = 0.7
+    RETRIEVAL_CLEAR_LEAD_MARGIN: float = 0.25
+    """A fault at RETRIEVAL_CLEAR_LEAD_SCORE or more and this far ahead of every
+    other also settles it, whatever confidence the model reports: one fault
+    well ahead is a report the customer has finished ("quạt khô dầu" at 0.75,
+    the next at 0.47). A tie still asks ("tivi bị đơ")."""
+
     GREETING_MESSAGE_VI: str = (
         "Dạ em chào anh/chị ạ. Nhà mình đang có thiết bị nào trục trặc không ạ? "
         "Anh/chị tả giúp em hiện tượng, có ảnh thì gửi kèm luôn ạ."

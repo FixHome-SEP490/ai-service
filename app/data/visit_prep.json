@@ -1,0 +1,131 @@
+{
+  "_comment": "Việc khách nên chuẩn bị trước khi thợ tới, theo từng loại thiết bị (PO 26/10/2026: phải hợp với thiết bị, không để bếp gas mà dặn khoá ống nước). Mỗi câu lấy từ việc nên làm của các lỗi trong fault_knowledge_base.json hoặc từ tài liệu thiết bị trong knowledge/devices; 'general' chỉ dùng khi không biết thiết bị nào. Trả lời nguyên văn, không qua mô hình.",
+  "general": [
+    "ghi lại hiện tượng, bắt đầu từ khi nào và mã lỗi trên màn hình nếu có",
+    "thấy mùi khét, tia lửa hoặc rò điện thì ngắt cầu dao khu vực, rò nước thì khoá van, ngửi thấy mùi gas thì khoá van bình gas, mở cửa cho thoáng và không bật tắt công tắc điện",
+    "không tự tháo hay sửa thêm, để thợ thấy đúng hiện trạng",
+    "dọn trống chỗ quanh thiết bị và lối đi tới đó"
+  ],
+  "devices": {
+    "air_conditioner": [
+      "tắt máy và ngắt nguồn nếu máy chảy nước, chớp đèn báo lỗi hoặc có mùi khét, ghi lại mã lỗi hoặc kiểu nháy đèn",
+      "nếu dàn lạnh đang nhỏ nước thì hứng chậu hoặc lót khăn bên dưới để tránh thấm tường",
+      "dọn trống chỗ ngay dưới dàn lạnh để thợ đặt thang, dời giường, tủ và đồ dễ ướt ra xa",
+      "mở sẵn lối ra chỗ đặt cục nóng (ban công, sân thượng, cửa sổ) và cất đồ trên đường đi",
+      "để sẵn điều khiển của máy để thợ thử"
+    ],
+    "washing_machine": [
+      "rút điện và khoá van cấp nước của máy nếu máy rò nước hoặc báo lỗi, ghi lại mã lỗi trên màn hình",
+      "lấy quần áo ra khỏi lồng, máy cửa ngang còn nước trong lồng thì không mở cửa, để thợ xả nước",
+      "lau khô sàn quanh máy để tránh trơn trượt và chập điện",
+      "dọn trống hai bên và phía sau máy vì thợ cần kéo máy ra để xem ống cấp, ống xả"
+    ],
+    "refrigerator": [
+      "chuyển thực phẩm dễ hỏng sang tủ khác hoặc thùng giữ lạnh",
+      "không dùng vật nhọn cạy lớp tuyết trong ngăn đá",
+      "nếu tủ chảy nước thì lấy hết nước đọng và đồ ở ngăn dưới ra, lót khăn dưới chân tủ",
+      "dọn trống phía sau và hai bên tủ để thợ kéo tủ ra kiểm tra phía sau"
+    ],
+    "electric_fan": [
+      "rút phích cắm và không cắm lại để thử nếu quạt có mùi khét, kẹt cánh hoặc dây điện bị hở",
+      "không đẩy cánh bằng tay khi quạt đang cắm điện",
+      "để quạt trên mặt phẳng, chỗ đủ sáng, gần ổ cắm, và giữ lại lồng, cánh, ốc nếu đã tháo ra"
+    ],
+    "ceiling_fan": [
+      "tắt quạt và không đứng ngay bên dưới nếu quạt rung lắc",
+      "ngắt cầu dao khu vực nếu hộp số nóng hoặc có mùi khét",
+      "dọn trống khoảng sàn ngay dưới quạt (bàn, giường) để thợ đặt thang",
+      "biết vị trí cầu dao của phòng để thợ ngắt điện khi làm"
+    ],
+    "water_heater": [
+      "tắt nguồn bình, nếu nước quá nóng, rò điện hoặc rò nước thì ngắt cầu dao, khoá van cấp nước vào bình và không tắm cho tới khi thợ kiểm tra",
+      "biết vị trí cầu dao và van cấp nước vào bình",
+      "dọn trống phòng tắm quanh vị trí bình và chỗ đặt thang nếu bình treo cao"
+    ],
+    "microwave_oven": [
+      "rút điện và ngưng dùng nếu có tia lửa, mùi khét, vỏ nóng bất thường hoặc cửa không đóng khít, không chèn cửa để máy chạy",
+      "lấy hết thức ăn, đĩa và đồ chứa ra khỏi lò",
+      "dọn chỗ trống trên mặt bàn quanh lò để thợ có chỗ tháo vỏ"
+    ],
+    "oven": [
+      "rút điện lò, kính cửa đã nứt thì ngưng dùng vì kính có thể vỡ khi gặp nhiệt",
+      "để lò nguội hẳn và lấy khay, vỉ, thức ăn ra",
+      "lò âm tủ thì dọn đồ trong tủ bếp xung quanh để thợ kéo lò ra"
+    ],
+    "gas_stove": [
+      "khoá van bình gas, nếu ngửi thấy mùi gas thì mở cửa cho thoáng, tuyệt đối không bật tắt công tắc điện hay đánh lửa",
+      "không tự tháo lắp van điều áp hay ống dẫn gas",
+      "để mặt bếp nguội hẳn và dọn nồi chảo trên mặt bếp",
+      "dọn trống chỗ để bình gas (thường dưới tủ bếp) để thợ kiểm tra van và ống dẫn"
+    ],
+    "induction_hob": [
+      "rút phích cắm hoặc ngắt aptomat của bếp, bếp làm nhảy aptomat thì không đóng lại để thử",
+      "mặt kính đã nứt thì ngưng dùng, vì kính có thể vỡ tiếp khi nóng",
+      "ghi lại mã lỗi hiện trên màn hình và để sẵn chiếc nồi hay dùng để thợ thử",
+      "để mặt bếp nguội và trống, bếp âm thì dọn đồ trong tủ phía dưới để thợ tháo bếp"
+    ],
+    "kettle": [
+      "rút phích cắm và ngưng dùng, nhất là khi nước rò xuống đế điện hoặc ấm không tự ngắt",
+      "đổ hết nước trong ấm, để ấm và đế khô ráo",
+      "để sẵn đế cắm điện đi kèm ấm"
+    ],
+    "television": [
+      "tắt tivi, rút điện và ghi lại hiện tượng (mất hình, mất tiếng, sọc màn hình) cùng lúc nào bị",
+      "để sẵn điều khiển, và đầu thu nếu đang dùng",
+      "dọn trống phía trước và phía sau tivi, tivi treo tường thì dọn chỗ đặt thang"
+    ],
+    "sink": [
+      "hạn chế dùng bồn rửa và ngưng đổ dầu mỡ, thức ăn thừa xuống, đang rò thì hứng chậu dưới chỗ rò",
+      "không đổ hoá chất thông cống trước khi thợ tới",
+      "dọn trống tủ dưới bồn rửa để thợ tiếp cận ống thoát và xi phông"
+    ],
+    "faucet": [
+      "vòi đang rò thì khoá van chặn dưới bồn, không có van chặn thì khoá van nước tổng",
+      "biết vị trí van nước tổng",
+      "dọn trống tủ dưới bồn và quanh vòi để thợ thao tác",
+      "đã mua vòi mới để thay thì để sẵn"
+    ],
+    "toilet": [
+      "bồn cầu nghẹt hoặc sắp tràn thì ngưng xả nước, nước chảy không ngừng thì khoá van chặn sau bồn cầu",
+      "không đổ hoá chất thông cống trước khi thợ tới",
+      "dọn trống sàn quanh bồn cầu và đồ để trên nắp két nước"
+    ],
+    "water_pipe": [
+      "ống đang rò hoặc vỡ thì khoá van nước tổng, chỗ bị ngập thì ngắt điện khu vực",
+      "hứng nước tạm và chuyển đồ đạc ra khỏi chỗ bị thấm",
+      "biết vị trí van tổng và đồng hồ nước, dọn lối tới chỗ ống đi qua (gầm tủ, hộp kỹ thuật, trần)"
+    ],
+    "power_outlet": [
+      "ổ cắm nóng, có mùi khét, tia lửa hoặc hở phần mang điện thì ngắt cầu dao khu vực và không cắm thêm thiết bị vào ổ đó",
+      "rút các thiết bị đang cắm ở ổ đó",
+      "biết vị trí tủ điện và cầu dao của khu vực để thợ ngắt điện an toàn",
+      "dọn đồ che trước ổ cắm"
+    ],
+    "light_bulb": [
+      "tắt công tắc đèn, công tắc nóng, có mùi khét hoặc nước rò vào đèn thì ngắt cầu dao khu vực",
+      "dọn trống chỗ ngay dưới đèn để thợ đặt thang",
+      "đã mua bóng hoặc đèn mới để thay thì để sẵn"
+    ],
+    "smart_lock": [
+      "đang bị nhốt ở ngoài thì thử chìa cơ, hoặc sạc dự phòng qua cổng nguồn khẩn cấp dưới thân khoá nếu khoá có, không giật mạnh tay nắm",
+      "chuẩn bị giấy tờ chứng minh là chủ nhà, vì thợ mở khoá xác minh chủ quyền trước khi làm",
+      "để sẵn chìa cơ, thẻ từ đã đăng ký và pin mới đúng loại khoá dùng"
+    ],
+    "dishwasher": [
+      "máy rò nước thì tắt máy, khoá van cấp nước và lau khô sàn, nước gần ổ điện thì ngắt điện máy",
+      "lấy hết bát đĩa ra, còn nước đọng trong máy thì để thợ xử lý, không tự tháo",
+      "máy âm tủ thì dọn đồ trong tủ quanh máy và dưới bồn rửa để thợ tiếp cận ống cấp, ống xả"
+    ],
+    "clothes_dryer": [
+      "dừng máy và rút điện nếu có mùi khét, không bật lại cho tới khi thợ kiểm tra",
+      "lấy hết quần áo ra và trải rộng cho nguội",
+      "dọn trống quanh máy và chỗ ống thoát khí phía sau để thợ kéo máy ra"
+    ],
+    "water_purifier": [
+      "máy rò nước hoặc bơm chạy liên tục thì khoá van cấp nước vào máy và rút điện",
+      "nước có mùi lạ thì ngưng uống nước từ máy cho tới khi thợ kiểm tra",
+      "dọn trống tủ hoặc gầm chậu đặt máy để thợ thay lõi và kiểm tra ống"
+    ]
+  },
+  "closing": "Nhà mình nhớ có người lớn ở nhà đúng giờ hẹn và để ý điện thoại, thợ sẽ gọi trước khi sang ạ."
+}

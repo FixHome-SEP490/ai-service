@@ -39,13 +39,40 @@ CONVERSATIONS = [
     ("ổ cắm có mùi khét", "chắc không phải chập đâu", "giờ làm sao"),
 ]
 
+# --mix (26/10/2026): since V13 a turn may diagnose two or three appliances at
+# once and ask the model about an unsure photograph, which costs more model
+# calls than the single-appliance conversations above. Half the customers
+# then talk like this, with photographs when the collected set is there.
+MIXED = [
+    ("máy lạnh không mát, còn máy giặt thì vắt kêu rất to", "nó còn rung lắc mạnh nữa", "trước khi thợ tới em cần làm gì"),
+    ("tủ lạnh ngăn mát không lạnh với lại bình nóng lạnh tắm không nóng", "cái thứ hai thì sao em", "sửa hết bao nhiêu tiền"),
+    ("quạt trần quay yếu, ổ cắm cạnh giường có mùi khét, vòi nước nhỏ giọt", "ổ cắm có nguy hiểm không", "vậy giờ sao"),
+]
+PHOTOS = Path(__file__).resolve().parents[1] / "datasets" / "collected"
 
-async def _conversation(client: httpx.AsyncClient, url: str, turns, latencies: List[float], failures: List[str]) -> bool:
+
+def _photos(rng: random.Random, count: int) -> List[str]:
+    import base64
+
+    folders = [f for f in PHOTOS.iterdir() if f.is_dir()] if PHOTOS.exists() else []
+    out = []
+    for folder in rng.sample(folders, min(count, len(folders))):
+        files = sorted(folder.glob("*.jp*g"))
+        if files:
+            out.append("data:image/jpeg;base64," + base64.b64encode(rng.choice(files).read_bytes()).decode("ascii"))
+    return out
+
+
+async def _conversation(
+    client: httpx.AsyncClient, url: str, turns, latencies: List[float], failures: List[str], images=()
+) -> bool:
     session = None
     for index, text in enumerate(turns):
         question = index == len(turns) - 1
         path = "/api/v1/chat/ask" if question else "/api/v1/diagnosis/analyze"
         body = {"question": text} if question else {"description": text}
+        if index == 0 and images:
+            body["images"] = list(images)
         if session:
             body["sessionId"] = session
         started = time.perf_counter()
@@ -63,16 +90,20 @@ async def _conversation(client: httpx.AsyncClient, url: str, turns, latencies: L
     return True
 
 
-async def _round(url: str, users: int) -> dict:
+async def _round(url: str, users: int, mix: bool = False) -> dict:
     latencies: List[float] = []
     failures: List[str] = []
     rng = random.Random(users)
     limits = httpx.Limits(max_connections=users + 5, max_keepalive_connections=users + 5)
     async with httpx.AsyncClient(limits=limits) as client:
         started = time.perf_counter()
-        results = await asyncio.gather(
-            *(_conversation(client, url, rng.choice(CONVERSATIONS), latencies, failures) for _ in range(users))
-        )
+        jobs = []
+        for i in range(users):
+            if mix and i % 2:
+                jobs.append(_conversation(client, url, rng.choice(MIXED), latencies, failures, _photos(rng, 2)))
+            else:
+                jobs.append(_conversation(client, url, rng.choice(CONVERSATIONS), latencies, failures))
+        results = await asyncio.gather(*jobs)
         elapsed = time.perf_counter() - started
     ordered = sorted(latencies)
     pick = lambda q: ordered[min(len(ordered) - 1, int(len(ordered) * q))] if ordered else 0.0  # noqa: E731
@@ -93,11 +124,12 @@ def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--url", required=True)
     parser.add_argument("--users", type=int, nargs="+", default=[10, 30, 50])
+    parser.add_argument("--mix", action="store_true", help="half the customers talk about two or three appliances, with photos")
     args = parser.parse_args()
     url = args.url.rstrip("/")
     print(f"{'người':>6} {'xong':>6} {'lỗi':>5} {'p50 s':>7} {'p95 s':>7} {'max s':>7} {'cuộc/phút':>10}")
     for users in args.users:
-        row = asyncio.run(_round(url, users))
+        row = asyncio.run(_round(url, users, args.mix))
         print(
             f"{row['users']:>6} {row['finished']:>6} {row['failures']:>5} {row['p50']:>7.2f} "
             f"{row['p95']:>7.2f} {row['max']:>7.2f} {row['per_minute']:>10.1f}"

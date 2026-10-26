@@ -42,6 +42,7 @@ from app.services.pipeline import context
 from app.services.pipeline import device_hint
 from app.services.pipeline import error_codes
 from app.services.pipeline import service_catalog
+from app.services.pipeline import visit_prep
 from app.services.pipeline import dialogue_state
 from app.services.pipeline.conversation import Conversation, day_vi, get_conversation_store
 from app.services.pipeline.detector import Detection, Detector
@@ -1573,7 +1574,43 @@ class LocalPipeline:
             place = _ORDINAL_WORDS.get(word, 0)
         return place, device
 
+    def _visit_prep_text(self, chat: Conversation, text: str) -> str:
+        """What to get ready, for the appliance the message names, else the visit's."""
+        lexicon = dialogue_state.get_lexicon(self._kb)
+        named = _strongly_named_in(lexicon.normalize_accented(text), self._kb) or _device_named_in(text, self._kb)
+        if named:
+            appliances = [named]
+        else:
+            lead = chat.memo.get("", {}).get("lead")
+            appliances = list(dict.fromkeys(d for d in [lead, chat.device_type, *chat.others] if d))
+        return visit_prep.reply_vi([(d, self._kb.device_name_vi(d) or d) for d in appliances[:3]])
+
+    def _visit_prep_response(self, request: DiagnosisRequest) -> DiagnosisResponse:
+        """The same, on the diagnosis route, with the visit's appliances kept on the reply.
+
+        Kept because the client rebuilds its booking bar from `devices` on
+        every reply, and a reply without them would take the bar away."""
+        chat = self._conversations.get_or_create(request.session_id)
+        chat.add("customer", request.description)
+        response = DiagnosisResponse(
+            request_id=request.request_id,
+            session_id=chat.session_id,
+            status=DiagnosisStatus.OK,
+            message_vi=dialogue_state.address_as(self._visit_prep_text(chat, request.description), chat.address),
+            confidence=0.9,
+            disclaimer_vi=settings.AI_DISCLAIMER_VI,
+        )
+        lead = chat.memo.get("", {}).get("lead") or chat.device_type
+        order = list(dict.fromkeys(d for d in [lead, chat.device_type, *chat.kept, *chat.others] if d))[:3]
+        if len(order) < 2:
+            return response
+        devices = [self._device_entry(d, chat, i == 0, None) for i, d in enumerate(order)]
+        services = [e.service.model_copy(update={"device_type": e.device_type}) for e in devices if e.service is not None]
+        return response.model_copy(update={"devices": devices, "recommended_services": services})
+
     async def _diagnose_routed(self, request: DiagnosisRequest) -> DiagnosisResponse:
+        if not request.images and visit_prep.asks_how_to_prepare(request.description):
+            return self._visit_prep_response(request)
         known = self._conversations.peek(request.session_id)
         fix = (
             self._photo_fix(known, request.description)
@@ -2752,7 +2789,19 @@ class LocalPipeline:
         enough_said = (said >= settings.DECISIVE_MIN_WORDS and names_something) or (
             said == settings.DECISIVE_MIN_WORDS - 1 and clear_lead
         )
-        decisive = (
+        # One fault well ahead of every other, though short of the decisive
+        # score: "quạt khô dầu" matched its fault at 0.75 and the next at 0.47.
+        # On the served model, 26/10/2026, sixteen such reports in the chat
+        # suite were asked back because the model put its own confidence
+        # below the threshold; the customer had said the thing that settles it.
+        rest = [c.score for c in candidates[1:]] if candidates else []
+        well_ahead = (
+            device_type is not None
+            and bool(candidates)
+            and candidates[0].score >= settings.RETRIEVAL_CLEAR_LEAD_SCORE
+            and candidates[0].score - max(rest, default=0.0) >= settings.RETRIEVAL_CLEAR_LEAD_MARGIN
+        )
+        decisive = (well_ahead and enough_said) or (
             bool(candidates)
             # Never without knowing the appliance. Retrieval then searches all
             # seventeen at once, and "cái này bị sọc" — a photograph of a
@@ -2813,6 +2862,18 @@ class LocalPipeline:
         Kept separate from diagnosis: it may discuss maintenance intervals and
         platform policy, but it never recommends a service or a booking.
         """
+        if visit_prep.asks_how_to_prepare(request.question):
+            async with self._conversations.lock(request.session_id):
+                chat = self._conversations.get_or_create(request.session_id)
+                chat.add("customer", request.question)
+                return ChatResponse(
+                    request_id=request.request_id,
+                    session_id=chat.session_id,
+                    status=AnswerStatus.OK,
+                    answer_vi=dialogue_state.address_as(self._visit_prep_text(chat, request.question), chat.address),
+                    confidence=0.9,
+                    disclaimer_vi=settings.AI_DISCLAIMER_VI,
+                )
         known = self._conversations.peek(request.session_id) if request.session_id else None
         if known is not None and known.parent_id is None and known.others:
             # A question goes to the appliance it is about, like a description
