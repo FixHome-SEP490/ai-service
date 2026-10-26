@@ -22,8 +22,8 @@
         "đường ống đồng bám tuyết",
         "máy lạnh không lạnh"
       ],
-      "price_min": 399000,
-      "price_max": 899000,
+      "price_min": 249000,
+      "price_max": 999000,
       "price_reviewed": true,
       "urgency": "MEDIUM",
       "suggested_actions_vi": [
@@ -32,6 +32,7 @@
       "requires_assessment": false,
       "labour_code": "AC-01",
       "part_codes": [
+        "ACV081",
         "AC051"
       ],
       "price_note_vi": "Gia nap gas tuy luong va loai gas, tho bao sau khi do ap.",
@@ -132,8 +133,8 @@
         "chết lốc",
         "cháy lốc"
       ],
-      "price_min": 2249000,
-      "price_max": 0,
+      "price_min": 249000,
+      "price_max": 4749000,
       "price_reviewed": true,
       "urgency": "HIGH",
       "suggested_actions_vi": [
@@ -143,7 +144,8 @@
       "requires_assessment": true,
       "labour_code": "AC-01",
       "part_codes": [
-        "AC002"
+        "AC002",
+        "AC005"
       ],
       "candidate_variants": []
     },
@@ -165,8 +167,8 @@
         "máy không phản hồi",
         "cháy bo"
       ],
-      "price_min": 1049000,
-      "price_max": 2249000,
+      "price_min": 249000,
+      "price_max": 4049000,
       "price_reviewed": true,
       "urgency": "MEDIUM",
       "suggested_actions_vi": [
@@ -175,7 +177,8 @@
       "requires_assessment": false,
       "labour_code": "AC-01",
       "part_codes": [
-        "AC009"
+        "AC009",
+        "AC011"
       ],
       "candidate_variants": []
     },
@@ -195,8 +198,8 @@
         "quạt không quay",
         "cánh đảo gió"
       ],
-      "price_min": 799000,
-      "price_max": 1799000,
+      "price_min": 249000,
+      "price_max": 1149000,
       "price_reviewed": true,
       "urgency": "MEDIUM",
       "suggested_actions_vi": [
@@ -224,8 +227,8 @@
         "mô tơ ngoài không chạy",
         "cục nóng không chạy"
       ],
-      "price_min": 949000,
-      "price_max": 2249000,
+      "price_min": 249000,
+      "price_max": 1349000,
       "price_reviewed": true,
       "urgency": "MEDIUM",
       "suggested_actions_vi": [
@@ -251,8 +254,8 @@
         "cục pin trong cục nóng hỏng",
         "mô tơ ngoài không chạy"
       ],
-      "price_min": 529000,
-      "price_max": 929000,
+      "price_min": 249000,
+      "price_max": 629000,
       "price_reviewed": true,
       "urgency": "MEDIUM",
       "suggested_actions_vi": [
@@ -281,8 +284,8 @@
         "tắt máy rồi mà nước còn chảy, chảy mạnh hơn lúc đang chạy",
         "do máy quá lạnh"
       ],
-      "price_min": 429000,
-      "price_max": 999000,
+      "price_min": 249000,
+      "price_max": 429000,
       "price_reviewed": true,
       "urgency": "MEDIUM",
       "suggested_actions_vi": [
@@ -310,8 +313,8 @@
         "mất remote",
         "cái mắt hỏng"
       ],
-      "price_min": 499000,
-      "price_max": 1099000,
+      "price_min": 249000,
+      "price_max": 499000,
       "price_reviewed": true,
       "urgency": "LOW",
       "suggested_actions_vi": [
@@ -337,8 +340,8 @@
         "kêu như máy cày",
         "chạy không êm"
       ],
-      "price_min": 899000,
-      "price_max": 1849000,
+      "price_min": 249000,
+      "price_max": 899000,
       "price_reviewed": true,
       "urgency": "LOW",
       "suggested_actions_vi": [
@@ -365,8 +368,8 @@
         "máy lạnh chạy",
         "máy lạnh chảy"
       ],
-      "price_min": 399000,
-      "price_max": 0,
+      "price_min": 249000,
+      "price_max": 399000,
       "price_reviewed": true,
       "urgency": "HIGH",
       "suggested_actions_vi": [
@@ -407,8 +410,8 @@
         "quạt trần chạy như không chạy",
         "chắc quạt cũ quá rồi hả em"
       ],
-      "price_min": 309000,
-      "price_max": 339000,
+      "price_min": 149000,
+      "price_max": 159000,
       "price_reviewed": true,
       "urgency": "LOW",
       "suggested_actions_vi": [
@@ -449,8 +452,8 @@
         "quạt trần kêu như con ve",
         "kêu ù ù"
       ],
-      "price_min": 319000,
-      "price_max": 449000,
+      "price_min": 149000,
+      "price_max": 169000,
       "price_reviewed": true,
       "urgency": "MEDIUM",
       "suggested_actions_vi": [
@@ -489,7 +492,7 @@
         "nhìn nó lung lay sợ quá",
         "nằm dưới mà không dám ngủ"
       ],
-      "price_min": 299000,
+      "price_min": 199000,
       "price_max": 299000,
       "price_reviewed": true,
       "urgency": "HIGH",
@@ -528,8 +531,8 @@
         "quạt trần chỉ có một tốc độ thôi",
         "cái điều tốc hỏng"
       ],
-      "price_min": 329000,
-      "price_max": 399000,
+      "price_min": 149000,
+      "price_max": 179000,
       "price_reviewed": true,
       "urgency": "MEDIUM",
       "suggested_actions_vi": [
@@ -565,8 +568,8 @@
         "nhà em ngửi thấy mùi nhựa cháy",
         "có mùi cháy mà không biết ở đâu"
       ],
-      "price_min": 549000,
-      "price_max": 1149000,
+      "price_min": 149000,
+      "price_max": 399000,
       "price_reviewed": true,
       "urgency": "HIGH",
       "suggested_actions_vi": [
@@ -611,8 +614,8 @@
         "quạt kêu như cối xay",
         "quạt nhà em rên"
       ],
-      "price_min": 159000,
-      "price_max": 0,
+      "price_min": 149000,
+      "price_max": 159000,
       "price_reviewed": true,
       "urgency": "LOW",
       "suggested_actions_vi": [
@@ -653,8 +656,8 @@
         "quạt hết pin rồi hả em",
         "cục pin quạt"
       ],
-      "price_min": 159000,
-      "price_max": 189000,
+      "price_min": 149000,
+      "price_max": 159000,
       "price_reviewed": true,
       "urgency": "LOW",
       "suggested_actions_vi": [
@@ -694,8 +697,8 @@
         "tối qua ngủ dậy thấy mùi khét trong phòng",
         "quạt sờ vào bỏng tay"
       ],
-      "price_min": 399000,
-      "price_max": 999000,
+      "price_min": 149000,
+      "price_max": 399000,
       "price_reviewed": true,
       "urgency": "HIGH",
       "suggested_actions_vi": [
@@ -735,8 +738,8 @@
         "bấm hoài không nhảy số",
         "cái nút nó lì lắm"
       ],
-      "price_min": 179000,
-      "price_max": 249000,
+      "price_min": 149000,
+      "price_max": 179000,
       "price_reviewed": true,
       "urgency": "LOW",
       "suggested_actions_vi": [
@@ -777,8 +780,8 @@
         "cái nút đảo bấm không ăn",
         "quạt đảo được một bên thôi"
       ],
-      "price_min": 329000,
-      "price_max": 599000,
+      "price_min": 149000,
+      "price_max": 329000,
       "price_reviewed": true,
       "urgency": "LOW",
       "suggested_actions_vi": [
@@ -821,8 +824,8 @@
         "cắm điện nghe xẹt một cái",
         "Nứt cổ gà"
       ],
-      "price_min": 169000,
-      "price_max": 329000,
+      "price_min": 149000,
+      "price_max": 269000,
       "price_reviewed": true,
       "urgency": "HIGH",
       "suggested_actions_vi": [
@@ -864,7 +867,7 @@
         "quạt tự đi"
       ],
       "price_min": 149000,
-      "price_max": 0,
+      "price_max": 149000,
       "price_reviewed": true,
       "urgency": "LOW",
       "suggested_actions_vi": [
@@ -891,8 +894,8 @@
         "nghe tiếng bơm chạy mà nước không rút",
         "cái nắp tròn dưới góc máy"
       ],
-      "price_min": 749000,
-      "price_max": 1399000,
+      "price_min": 249000,
+      "price_max": 749000,
       "price_reviewed": true,
       "urgency": "MEDIUM",
       "suggested_actions_vi": [
@@ -921,8 +924,8 @@
         "trong lồng còn nước",
         "sấy khô"
       ],
-      "price_min": 529000,
-      "price_max": 799000,
+      "price_min": 249000,
+      "price_max": 549000,
       "price_reviewed": true,
       "urgency": "MEDIUM",
       "suggested_actions_vi": [
@@ -950,8 +953,8 @@
         "vào được một ít rồi dừng",
         "khoá nước"
       ],
-      "price_min": 599000,
-      "price_max": 949000,
+      "price_min": 249000,
+      "price_max": 999000,
       "price_reviewed": true,
       "urgency": "MEDIUM",
       "suggested_actions_vi": [
@@ -979,8 +982,8 @@
         "vệt rỉ nâu",
         "thay bi máy giặt"
       ],
-      "price_min": 899000,
-      "price_max": 0,
+      "price_min": 249000,
+      "price_max": 899000,
       "price_reviewed": true,
       "urgency": "MEDIUM",
       "suggested_actions_vi": [
@@ -1009,8 +1012,8 @@
         "cháy bo",
         "màn hình hiện chữ"
       ],
-      "price_min": 999000,
-      "price_max": 2299000,
+      "price_min": 249000,
+      "price_max": 1449000,
       "price_reviewed": true,
       "urgency": "MEDIUM",
       "suggested_actions_vi": [
@@ -1020,7 +1023,8 @@
       "requires_assessment": false,
       "labour_code": "WM-01",
       "part_codes": [
-        "WM047"
+        "WM047",
+        "WM049"
       ],
       "candidate_variants": []
     },
@@ -1039,8 +1043,8 @@
         "kéo gioăng ra thấy nứt",
         "cái bọc cửa bị rách"
       ],
-      "price_min": 799000,
-      "price_max": 1699000,
+      "price_min": 249000,
+      "price_max": 799000,
       "price_reviewed": true,
       "urgency": "MEDIUM",
       "suggested_actions_vi": [
@@ -1068,8 +1072,8 @@
         "phải đẩy rất mạnh mới đóng ăn",
         "dây kéo dưới góc máy"
       ],
-      "price_min": 699000,
-      "price_max": 1299000,
+      "price_min": 249000,
+      "price_max": 699000,
       "price_reviewed": true,
       "urgency": "MEDIUM",
       "suggested_actions_vi": [
@@ -1126,8 +1130,8 @@
         "quay được một chiều",
         "máy nóng bất thường"
       ],
-      "price_min": 999000,
-      "price_max": 0,
+      "price_min": 249000,
+      "price_max": 1549000,
       "price_reviewed": true,
       "urgency": "MEDIUM",
       "suggested_actions_vi": [
@@ -1136,7 +1140,9 @@
       "requires_assessment": true,
       "labour_code": "WM-01",
       "part_codes": [
-        "WM012"
+        "WM012",
+        "WM013",
+        "WM014"
       ],
       "candidate_variants": []
     },
@@ -1153,8 +1159,8 @@
         "máy giặt chảy nước ra sàn",
         "cái phao hỏng nên nước vào hoài"
       ],
-      "price_min": 599000,
-      "price_max": 949000,
+      "price_min": 249000,
+      "price_max": 599000,
       "price_reviewed": true,
       "urgency": "HIGH",
       "suggested_actions_vi": [
@@ -1186,8 +1192,8 @@
         "hết hơi",
         "hết khí lạnh"
       ],
-      "price_min": 279000,
-      "price_max": 699000,
+      "price_min": 199000,
+      "price_max": 439000,
       "price_reviewed": true,
       "urgency": "MEDIUM",
       "suggested_actions_vi": [
@@ -1215,8 +1221,8 @@
         "đá bám thành mảng",
         "sò lạnh"
       ],
-      "price_min": 319000,
-      "price_max": 1249000,
+      "price_min": 199000,
+      "price_max": 499000,
       "price_reviewed": true,
       "urgency": "MEDIUM",
       "suggested_actions_vi": [
@@ -1246,8 +1252,8 @@
         "tủ lạnh hư mô tơ",
         "cục đề"
       ],
-      "price_min": 1699000,
-      "price_max": 0,
+      "price_min": 199000,
+      "price_max": 3199000,
       "price_reviewed": true,
       "urgency": "HIGH",
       "suggested_actions_vi": [
@@ -1257,7 +1263,8 @@
       "requires_assessment": true,
       "labour_code": "FR-01",
       "part_codes": [
-        "RF002"
+        "RF002",
+        "RF004"
       ],
       "candidate_variants": []
     },
@@ -1274,8 +1281,8 @@
         "cửa tự bung ra",
         "đọng sương quanh cửa"
       ],
-      "price_min": 649000,
-      "price_max": 1399000,
+      "price_min": 199000,
+      "price_max": 649000,
       "price_reviewed": true,
       "urgency": "LOW",
       "suggested_actions_vi": [
@@ -1301,8 +1308,8 @@
         "quạt kêu rồi im hẳn",
         "quạt tủ lạnh"
       ],
-      "price_min": 549000,
-      "price_max": 1349000,
+      "price_min": 199000,
+      "price_max": 549000,
       "price_reviewed": true,
       "urgency": "MEDIUM",
       "suggested_actions_vi": [
@@ -1327,8 +1334,8 @@
         "dưới khay rau có lớp đá",
         "cái lỗ ở đáy tủ bị nghẹt"
       ],
-      "price_min": 299000,
-      "price_max": 699000,
+      "price_min": 199000,
+      "price_max": 299000,
       "price_reviewed": true,
       "urgency": "LOW",
       "suggested_actions_vi": [
@@ -1356,8 +1363,8 @@
         "đèn tủ lạnh chạy",
         "cái nút ở khung cửa bị kẹt"
       ],
-      "price_min": 379000,
-      "price_max": 899000,
+      "price_min": 199000,
+      "price_max": 379000,
       "price_reviewed": true,
       "urgency": "LOW",
       "suggested_actions_vi": [
@@ -1383,8 +1390,8 @@
         "vẫn lạnh bình thường",
         "tủ lạnh kêu như máy cày"
       ],
-      "price_min": 349000,
-      "price_max": 799000,
+      "price_min": 199000,
+      "price_max": 379000,
       "price_reviewed": true,
       "urgency": "LOW",
       "suggested_actions_vi": [
@@ -1654,8 +1661,8 @@
         "nướng gà mà mặt dưới trắng hếu",
         "lò nướng không ăn thua"
       ],
-      "price_min": 549000,
-      "price_max": 1249000,
+      "price_min": 199000,
+      "price_max": 699000,
       "price_reviewed": true,
       "urgency": "MEDIUM",
       "suggested_actions_vi": [
@@ -1664,7 +1671,8 @@
       "requires_assessment": false,
       "labour_code": "KT-08",
       "part_codes": [
-        "OVN001"
+        "OVN001",
+        "OVN005"
       ],
       "candidate_variants": []
     },
@@ -1692,8 +1700,8 @@
         "lò không chuẩn độ",
         "mỗi lần nướng phải canh chừng"
       ],
-      "price_min": 499000,
-      "price_max": 1149000,
+      "price_min": 199000,
+      "price_max": 499000,
       "price_reviewed": true,
       "urgency": "MEDIUM",
       "suggested_actions_vi": [
@@ -1730,8 +1738,8 @@
         "bấm nút không được",
         "màn hình lò nhấp nháy"
       ],
-      "price_min": 499000,
-      "price_max": 1249000,
+      "price_min": 199000,
+      "price_max": 499000,
       "price_reviewed": true,
       "urgency": "MEDIUM",
       "suggested_actions_vi": [
@@ -1769,8 +1777,8 @@
         "sờ cửa lò bỏng tay",
         "kính lò bị rạn"
       ],
-      "price_min": 549000,
-      "price_max": 1349000,
+      "price_min": 199000,
+      "price_max": 549000,
       "price_reviewed": true,
       "urgency": "MEDIUM",
       "suggested_actions_vi": [
@@ -1806,8 +1814,8 @@
         "lò kêu ầm ầm",
         "sờ vỏ lò nóng rát"
       ],
-      "price_min": 649000,
-      "price_max": 1549000,
+      "price_min": 199000,
+      "price_max": 649000,
       "price_reviewed": true,
       "urgency": "LOW",
       "suggested_actions_vi": [
@@ -1848,8 +1856,8 @@
         "Không đánh lửa",
         "bếp gas không dùng được"
       ],
-      "price_min": 379000,
-      "price_max": 849000,
+      "price_min": 199000,
+      "price_max": 499000,
       "price_reviewed": true,
       "urgency": "MEDIUM",
       "suggested_actions_vi": [
@@ -1895,8 +1903,8 @@
         "nấu lâu",
         "lâu sôi"
       ],
-      "price_min": 299000,
-      "price_max": 649000,
+      "price_min": 199000,
+      "price_max": 349000,
       "price_reviewed": true,
       "urgency": "LOW",
       "suggested_actions_vi": [
@@ -1932,8 +1940,8 @@
         "bốc mùi gas",
         "nhà em có mùi khét như mùi gas"
       ],
-      "price_min": 204000,
-      "price_max": 479000,
+      "price_min": 199000,
+      "price_max": 269000,
       "price_reviewed": true,
       "urgency": "HIGH",
       "suggested_actions_vi": [
@@ -1976,8 +1984,8 @@
         "bếp nhà em không tắt được, sợ quá",
         "không tắt được"
       ],
-      "price_min": 399000,
-      "price_max": 899000,
+      "price_min": 199000,
+      "price_max": 399000,
       "price_reviewed": true,
       "urgency": "HIGH",
       "suggested_actions_vi": [
@@ -2016,8 +2024,8 @@
         "phải đè tay xuống",
         "phải dỗ nó"
       ],
-      "price_min": 319000,
-      "price_max": 699000,
+      "price_min": 199000,
+      "price_max": 319000,
       "price_reviewed": true,
       "urgency": "HIGH",
       "suggested_actions_vi": [
@@ -2054,8 +2062,8 @@
         "đại lý mới đổi bình mà dùng không được",
         "bình này chắc bị bơm thiếu"
       ],
-      "price_min": 379000,
-      "price_max": 799000,
+      "price_min": 199000,
+      "price_max": 379000,
       "price_reviewed": true,
       "urgency": "HIGH",
       "suggested_actions_vi": [
@@ -2093,8 +2101,8 @@
         "gạt xuống nó bật lên liền",
         "ấm không chịu chạy nữa"
       ],
-      "price_min": 329000,
-      "price_max": 649000,
+      "price_min": 149000,
+      "price_max": 329000,
       "price_reviewed": true,
       "urgency": "MEDIUM",
       "suggested_actions_vi": [
@@ -2130,8 +2138,8 @@
         "ấm chạy mà không nóng",
         "ấm hết đời rồi hả em"
       ],
-      "price_min": 299000,
-      "price_max": 599000,
+      "price_min": 149000,
+      "price_max": 349000,
       "price_reviewed": true,
       "urgency": "LOW",
       "suggested_actions_vi": [
@@ -2168,8 +2176,8 @@
         "cái đế lúc nào cũng ẩm",
         "ấm chảy nước"
       ],
-      "price_min": 179000,
-      "price_max": 269000,
+      "price_min": 149000,
+      "price_max": 179000,
       "price_reviewed": true,
       "urgency": "HIGH",
       "suggested_actions_vi": [
@@ -2206,7 +2214,7 @@
         "ấm nhà em bị ố đáy"
       ],
       "price_min": 149000,
-      "price_max": 0,
+      "price_max": 149000,
       "price_reviewed": true,
       "urgency": "LOW",
       "suggested_actions_vi": [
@@ -2240,8 +2248,8 @@
         "đặt lên phải chỉnh chỉnh mới lên",
         "cái đế nó chập chờn"
       ],
-      "price_min": 199000,
-      "price_max": 329000,
+      "price_min": 149000,
+      "price_max": 199000,
       "price_reviewed": true,
       "urgency": "MEDIUM",
       "suggested_actions_vi": [
@@ -2536,7 +2544,7 @@
         "cống nhà em nghẹt"
       ],
       "price_min": 299000,
-      "price_max": 0,
+      "price_max": 549000,
       "price_reviewed": true,
       "urgency": "MEDIUM",
       "suggested_actions_vi": [
@@ -2573,8 +2581,8 @@
         "cái ống cong nó rỉ",
         "sàn tủ bị mục ra"
       ],
-      "price_min": 279000,
-      "price_max": 599000,
+      "price_min": 149000,
+      "price_max": 679000,
       "price_reviewed": true,
       "urgency": "MEDIUM",
       "suggested_actions_vi": [
@@ -2612,8 +2620,8 @@
         "bồn rửa nhà em hôi như cống",
         "lau mãi không hết"
       ],
-      "price_min": 209000,
-      "price_max": 0,
+      "price_min": 199000,
+      "price_max": 329000,
       "price_reviewed": true,
       "urgency": "LOW",
       "suggested_actions_vi": [
@@ -2648,8 +2656,8 @@
         "cái vành thoát bị mục ra",
         "bồn rửa nhà em bị rỉ sét"
       ],
-      "price_min": 329000,
-      "price_max": 699000,
+      "price_min": 149000,
+      "price_max": 729000,
       "price_reviewed": true,
       "urgency": "LOW",
       "suggested_actions_vi": [
@@ -2689,8 +2697,8 @@
         "vòi bị són nước",
         "vặn hết cỡ vẫn chảy"
       ],
-      "price_min": 179000,
-      "price_max": 269000,
+      "price_min": 149000,
+      "price_max": 579000,
       "price_reviewed": true,
       "urgency": "LOW",
       "suggested_actions_vi": [
@@ -2730,8 +2738,8 @@
         "chỉnh nước nóng mà ra nước lạnh",
         "vòi gạt bị rít"
       ],
-      "price_min": 229000,
-      "price_max": 449000,
+      "price_min": 149000,
+      "price_max": 639000,
       "price_reviewed": true,
       "urgency": "LOW",
       "suggested_actions_vi": [
@@ -2770,8 +2778,8 @@
         "tắm mà như mưa phùn",
         "vòi ra nước nhỏ xíu"
       ],
-      "price_min": 214000,
-      "price_max": 269000,
+      "price_min": 199000,
+      "price_max": 214000,
       "price_reviewed": true,
       "urgency": "LOW",
       "suggested_actions_vi": [
@@ -2807,8 +2815,8 @@
         "tủ dưới bồn rửa có mùi",
         "đáy tủ bị mủn ra"
       ],
-      "price_min": 159000,
-      "price_max": 349000,
+      "price_min": 149000,
+      "price_max": 609000,
       "price_reviewed": true,
       "urgency": "MEDIUM",
       "suggested_actions_vi": [
@@ -2849,8 +2857,8 @@
         "nước lên tới miệng rồi",
         "xả hoài không xuống"
       ],
-      "price_min": 499000,
-      "price_max": 0,
+      "price_min": 299000,
+      "price_max": 549000,
       "price_reviewed": true,
       "urgency": "HIGH",
       "suggested_actions_vi": [
@@ -2888,7 +2896,7 @@
         "két nó kêu rít rít",
         "bồn cầu xả yếu"
       ],
-      "price_min": 399000,
+      "price_min": 199000,
       "price_max": 699000,
       "price_reviewed": true,
       "urgency": "MEDIUM",
@@ -2925,8 +2933,8 @@
         "nghe róc rách cả đêm không ngủ được",
         "cái két nó kêu ù ù rồi im, một lúc lại kêu"
       ],
-      "price_min": 329000,
-      "price_max": 499000,
+      "price_min": 199000,
+      "price_max": 279000,
       "price_reviewed": true,
       "urgency": "MEDIUM",
       "suggested_actions_vi": [
@@ -2964,8 +2972,8 @@
         "gạch quanh bồn cầu bị bong",
         "vữa bị mủn"
       ],
-      "price_min": 329000,
-      "price_max": 0,
+      "price_min": 199000,
+      "price_max": 299000,
       "price_reviewed": true,
       "urgency": "HIGH",
       "suggested_actions_vi": [
@@ -3003,8 +3011,8 @@
         "bồn cầu hết lực",
         "bồn cầu bị nghẹt"
       ],
-      "price_min": 429000,
-      "price_max": 749000,
+      "price_min": 199000,
+      "price_max": 419000,
       "price_reviewed": true,
       "urgency": "LOW",
       "suggested_actions_vi": [
@@ -3043,8 +3051,8 @@
         "nắp bồn cầu bị bung",
         "cái vòng ngồi bị nứt"
       ],
-      "price_min": 499000,
-      "price_max": 999000,
+      "price_min": 199000,
+      "price_max": 449000,
       "price_reviewed": true,
       "urgency": "LOW",
       "suggested_actions_vi": [
@@ -3085,8 +3093,8 @@
         "ổ điện nó nổ một cái",
         "chỗ cắm điện bị nám"
       ],
-      "price_min": 257000,
-      "price_max": 369000,
+      "price_min": 249000,
+      "price_max": 509000,
       "price_reviewed": true,
       "urgency": "HIGH",
       "suggested_actions_vi": [
@@ -3131,8 +3139,8 @@
         "phải lay lay mới ăn",
         "phải để dây một tư thế"
       ],
-      "price_min": 127000,
-      "price_max": 239000,
+      "price_min": 119000,
+      "price_max": 379000,
       "price_reviewed": true,
       "urgency": "MEDIUM",
       "suggested_actions_vi": [
@@ -3173,8 +3181,8 @@
         "mất điện",
         "cúp điện"
       ],
-      "price_min": 257000,
-      "price_max": 499000,
+      "price_min": 249000,
+      "price_max": 569000,
       "price_reviewed": true,
       "urgency": "MEDIUM",
       "suggested_actions_vi": [
@@ -3216,8 +3224,8 @@
         "gạt lên được một lúc lại xuống",
         "cái cục điện nó tự tắt"
       ],
-      "price_min": 304000,
-      "price_max": 0,
+      "price_min": 249000,
+      "price_max": 949000,
       "price_reviewed": true,
       "urgency": "HIGH",
       "suggested_actions_vi": [
@@ -3257,8 +3265,8 @@
         "điện nhà em yếu quá",
         "không sao đâu ạ"
       ],
-      "price_min": 309000,
-      "price_max": 599000,
+      "price_min": 249000,
+      "price_max": 569000,
       "price_reviewed": true,
       "urgency": "HIGH",
       "suggested_actions_vi": [
@@ -3295,8 +3303,8 @@
         "con em làm vỡ cái ổ điện",
         "ổ cắm bị bung ra khỏi tường"
       ],
-      "price_min": 127000,
-      "price_max": 239000,
+      "price_min": 119000,
+      "price_max": 379000,
       "price_reviewed": true,
       "urgency": "HIGH",
       "suggested_actions_vi": [
@@ -3336,8 +3344,8 @@
         "bật hoài không lên",
         "cái đèn chết rồi"
       ],
-      "price_min": 144000,
-      "price_max": 239000,
+      "price_min": 119000,
+      "price_max": 259000,
       "price_reviewed": true,
       "urgency": "LOW",
       "suggested_actions_vi": [
@@ -3378,7 +3386,7 @@
         "đèn cứ giật giật",
         "ngồi dưới đèn đó bị nhức đầu"
       ],
-      "price_min": 144000,
+      "price_min": 119000,
       "price_max": 229000,
       "price_reviewed": true,
       "urgency": "MEDIUM",
@@ -3420,8 +3428,8 @@
         "bấm không ăn",
         "phải bấm kiểu gì đó nó mới lên"
       ],
-      "price_min": 139000,
-      "price_max": 219000,
+      "price_min": 119000,
+      "price_max": 229000,
       "price_reviewed": true,
       "urgency": "MEDIUM",
       "suggested_actions_vi": [
@@ -3461,8 +3469,8 @@
         "phòng cứ âm u",
         "đèn như đèn dầu"
       ],
-      "price_min": 144000,
-      "price_max": 229000,
+      "price_min": 119000,
+      "price_max": 259000,
       "price_reviewed": true,
       "urgency": "LOW",
       "suggested_actions_vi": [
@@ -3501,8 +3509,8 @@
         "trần chỗ đèn bị vàng",
         "nước rỉ ra chỗ đèn"
       ],
-      "price_min": 134000,
-      "price_max": 379000,
+      "price_min": 119000,
+      "price_max": 459000,
       "price_reviewed": true,
       "urgency": "HIGH",
       "suggested_actions_vi": [
@@ -3535,8 +3543,8 @@
         "may so",
         "may so hỏng"
       ],
-      "price_min": 329000,
-      "price_max": 949000,
+      "price_min": 249000,
+      "price_max": 549000,
       "price_reviewed": true,
       "urgency": "MEDIUM",
       "suggested_actions_vi": [
@@ -3564,8 +3572,8 @@
         "phải nhấn nút mới chạy lại",
         "phải nhấn nút đỏ"
       ],
-      "price_min": 499000,
-      "price_max": 899000,
+      "price_min": 249000,
+      "price_max": 499000,
       "price_reviewed": true,
       "urgency": "HIGH",
       "suggested_actions_vi": [
@@ -3592,8 +3600,8 @@
         "cái hộp đen trên dây điện của bình",
         "nhà em không có dây mát"
       ],
-      "price_min": 549000,
-      "price_max": 1099000,
+      "price_min": 249000,
+      "price_max": 549000,
       "price_reviewed": true,
       "urgency": "HIGH",
       "suggested_actions_vi": [
@@ -3649,8 +3657,8 @@
         "trần tầng dưới thấm",
         "ruột bình bị thủng"
       ],
-      "price_min": 349000,
-      "price_max": 0,
+      "price_min": 299000,
+      "price_max": 349000,
       "price_reviewed": true,
       "urgency": "HIGH",
       "suggested_actions_vi": [
@@ -3676,8 +3684,8 @@
         "bình không ra nước",
         "củ sen"
       ],
-      "price_min": 429000,
-      "price_max": 699000,
+      "price_min": 249000,
+      "price_max": 429000,
       "price_reviewed": true,
       "urgency": "LOW",
       "suggested_actions_vi": [
@@ -3703,8 +3711,8 @@
         "máy không ăn",
         "máy không kích"
       ],
-      "price_min": 549000,
-      "price_max": 949000,
+      "price_min": 249000,
+      "price_max": 549000,
       "price_reviewed": true,
       "urgency": "MEDIUM",
       "suggested_actions_vi": [
@@ -3746,8 +3754,8 @@
         "nhà em bị thấm không biết ở đâu",
         "nghe tiếng nước chảy trong tường khi không ai dùng nước"
       ],
-      "price_min": 204000,
-      "price_max": 619000,
+      "price_min": 199000,
+      "price_max": 264000,
       "price_reviewed": true,
       "urgency": "MEDIUM",
       "suggested_actions_vi": [
@@ -3790,8 +3798,8 @@
         "nước tuôn không ngừng",
         "nước chảy trong tường"
       ],
-      "price_min": 209000,
-      "price_max": 599000,
+      "price_min": 199000,
+      "price_max": 359000,
       "price_reviewed": true,
       "urgency": "HIGH",
       "suggested_actions_vi": [
@@ -3832,8 +3840,8 @@
         "nước lên ngược",
         "nhà tắm lúc nào cũng ướt"
       ],
-      "price_min": 549000,
-      "price_max": 0,
+      "price_min": 299000,
+      "price_max": 549000,
       "price_reviewed": true,
       "urgency": "MEDIUM",
       "suggested_actions_vi": [
@@ -3869,8 +3877,8 @@
         "tắm không nổi",
         "nước lúc mạnh lúc yếu"
       ],
-      "price_min": 319000,
-      "price_max": 849000,
+      "price_min": 199000,
+      "price_max": 319000,
       "price_reviewed": true,
       "urgency": "LOW",
       "suggested_actions_vi": [
@@ -3906,8 +3914,8 @@
         "tường nhà em kêu răng rắc khi mở nước",
         "nghe cốp một cái khi đóng vòi"
       ],
-      "price_min": 202000,
-      "price_max": 511000,
+      "price_min": 199000,
+      "price_max": 204000,
       "price_reviewed": true,
       "urgency": "LOW",
       "suggested_actions_vi": [
@@ -3944,8 +3952,8 @@
         "nước tanh tanh",
         "giặt quần áo trắng bị ố vàng"
       ],
-      "price_min": 254000,
-      "price_max": 0,
+      "price_min": 199000,
+      "price_max": 359000,
       "price_reviewed": true,
       "urgency": "MEDIUM",
       "suggested_actions_vi": [
@@ -3987,8 +3995,8 @@
         "chắc bếp hỏng mâm từ rồi",
         "bếp này dùng được hai năm là hỏng đúng không em"
       ],
-      "price_min": 264000,
-      "price_max": 0,
+      "price_min": 249000,
+      "price_max": 849000,
       "price_reviewed": true,
       "urgency": "LOW",
       "suggested_actions_vi": [
@@ -4029,8 +4037,8 @@
         "em tra mạng thấy E1 là quá nhiệt",
         "cái đó là của hãng khác"
       ],
-      "price_min": 264000,
-      "price_max": 0,
+      "price_min": 249000,
+      "price_max": 849000,
       "price_reviewed": true,
       "urgency": "MEDIUM",
       "suggested_actions_vi": [
@@ -4067,8 +4075,8 @@
         "nấu nồi nước sôi lâu hơn trước",
         "bếp mới lắp mấy tháng đã hay tắt giữa chừng"
       ],
-      "price_min": 449000,
-      "price_max": 0,
+      "price_min": 249000,
+      "price_max": 449000,
       "price_reviewed": true,
       "urgency": "MEDIUM",
       "suggested_actions_vi": [
@@ -4107,8 +4115,8 @@
         "chắc mặt kính hết nhạy",
         "hết nhạy"
       ],
-      "price_min": 949000,
-      "price_max": 0,
+      "price_min": 249000,
+      "price_max": 949000,
       "price_reviewed": true,
       "urgency": "MEDIUM",
       "suggested_actions_vi": [
@@ -4147,8 +4155,8 @@
         "bat bep tu la cup dien",
         "at to mat"
       ],
-      "price_min": 349000,
-      "price_max": 0,
+      "price_min": 249000,
+      "price_max": 849000,
       "price_reviewed": true,
       "urgency": "HIGH",
       "suggested_actions_vi": [
@@ -4183,8 +4191,8 @@
         "bếp vẫn nấu được bình thường mà",
         "chắc dán keo lại là xong đúng không"
       ],
-      "price_min": 749000,
-      "price_max": 0,
+      "price_min": 249000,
+      "price_max": 949000,
       "price_reviewed": true,
       "urgency": "HIGH",
       "suggested_actions_vi": [
@@ -4423,8 +4431,8 @@
         "tiền điện tăng mà áo vẫn không khô",
         "áo có mùi ẩm mốc dù đã sấy"
       ],
-      "price_min": 219000,
-      "price_max": 0,
+      "price_min": 199000,
+      "price_max": 599000,
       "price_reviewed": true,
       "urgency": "MEDIUM",
       "suggested_actions_vi": [
@@ -4514,8 +4522,8 @@
         "máy rung làm đổ cả chai trên nóc",
         "chạy máy là cả nhà phải nói to lên mới nghe nhau"
       ],
-      "price_min": 349000,
-      "price_max": 0,
+      "price_min": 199000,
+      "price_max": 499000,
       "price_reviewed": true,
       "urgency": "LOW",
       "suggested_actions_vi": [
@@ -4553,8 +4561,8 @@
         "máy chạy mà quần áo không xoay tí nào",
         "lồng không quay"
       ],
-      "price_min": 349000,
-      "price_max": 0,
+      "price_min": 199000,
+      "price_max": 1099000,
       "price_reviewed": true,
       "urgency": "MEDIUM",
       "suggested_actions_vi": [
@@ -4588,8 +4596,8 @@
         "may say chet nguon",
         "cam may say la nhay at to mat"
       ],
-      "price_min": 219000,
-      "price_max": 0,
+      "price_min": 199000,
+      "price_max": 1199000,
       "price_reviewed": true,
       "urgency": "MEDIUM",
       "suggested_actions_vi": [
@@ -4631,8 +4639,8 @@
         "bình đun nước nhà em hứng cả tiếng chưa đầy",
         "bình áp"
       ],
-      "price_min": 319000,
-      "price_max": 0,
+      "price_min": 199000,
+      "price_max": 749000,
       "price_reviewed": true,
       "urgency": "MEDIUM",
       "suggested_actions_vi": [
@@ -4673,8 +4681,8 @@
         "gầm tủ có mùi mốc",
         "hoá đơn tiền nước tháng này tăng vọt"
       ],
-      "price_min": 279000,
-      "price_max": 0,
+      "price_min": 199000,
+      "price_max": 379000,
       "price_reviewed": true,
       "urgency": "MEDIUM",
       "suggested_actions_vi": [
@@ -4715,8 +4723,8 @@
         "máy này lọc kém rồi",
         "chắc tại nguồn nước nhà em bẩn"
       ],
-      "price_min": 164000,
-      "price_max": 0,
+      "price_min": 149000,
+      "price_max": 229000,
       "price_reviewed": true,
       "urgency": "LOW",
       "suggested_actions_vi": [
@@ -4759,8 +4767,8 @@
         "ban đêm nằm nghe tiếng máy không ngủ được",
         "máy nóng ran khi sờ vào"
       ],
-      "price_min": 279000,
-      "price_max": 0,
+      "price_min": 199000,
+      "price_max": 349000,
       "price_reviewed": true,
       "urgency": "MEDIUM",
       "suggested_actions_vi": [
@@ -4797,8 +4805,8 @@
         "nhà em phải đi mua nước bình mấy hôm nay",
         "máy im từ hôm mất điện cả khu"
       ],
-      "price_min": 399000,
-      "price_max": 0,
+      "price_min": 199000,
+      "price_max": 449000,
       "price_reviewed": true,
       "urgency": "MEDIUM",
       "suggested_actions_vi": [
@@ -4840,8 +4848,8 @@
         "chắc phải thay khoá mới",
         "ai mở được, mã số có vào không"
       ],
-      "price_min": 699000,
-      "price_max": 0,
+      "price_min": 199000,
+      "price_max": 999000,
       "price_reviewed": true,
       "urgency": "MEDIUM",
       "suggested_actions_vi": [
@@ -4882,8 +4890,8 @@
         "chắc khoá hỏng rồi phải thay bộ mới",
         "mới thay pin tháng trước mà đã hết"
       ],
-      "price_min": 259000,
-      "price_max": 0,
+      "price_min": 199000,
+      "price_max": 799000,
       "price_reviewed": true,
       "urgency": "MEDIUM",
       "suggested_actions_vi": [
@@ -4922,8 +4930,8 @@
         "khoá này dùng hai năm là hỏng đúng không em",
         "chắc phải thay cả bộ khoá"
       ],
-      "price_min": 349000,
-      "price_max": 0,
+      "price_min": 199000,
+      "price_max": 599000,
       "price_reviewed": true,
       "urgency": "MEDIUM",
       "suggested_actions_vi": [
@@ -4962,8 +4970,8 @@
         "em để chìa trong nhà rồi",
         "đồ ăn em để ngoài cửa nãy giờ"
       ],
-      "price_min": 209000,
-      "price_max": 0,
+      "price_min": 199000,
+      "price_max": 499000,
       "price_reviewed": true,
       "urgency": "MEDIUM",
       "suggested_actions_vi": [
@@ -4999,8 +5007,8 @@
         "chắc khoá hỏng đầu đọc",
         "chắc mất mã rồi phải phá khoá"
       ],
-      "price_min": 224000,
-      "price_max": 0,
+      "price_min": 199000,
+      "price_max": 499000,
       "price_reviewed": true,
       "urgency": "MEDIUM",
       "suggested_actions_vi": [

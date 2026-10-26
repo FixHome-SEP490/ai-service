@@ -138,6 +138,15 @@ class PriceEstimate(BaseModel):
     requires_assessment: bool = False
     """A technician has to look before this can be priced at all."""
 
+    labour_min: Optional[int] = Field(default=None, ge=0)
+    """The price of the service itself, as the booking form shows it (PO
+    26/10/2026): `min` is always this. Absent on estimates made before."""
+    labour_max: Optional[int] = Field(default=None, ge=0)
+    """Its top when the service is a fixed price per variant not yet known."""
+    parts_max: Optional[int] = Field(default=None, ge=0)
+    """The parts the suspected fault usually needs, at FixHome's selling price:
+    `max` is `labour_max` plus this. 0 when nothing is usually replaced."""
+
     @model_validator(mode="after")
     def check_order(self) -> "PriceEstimate":
         if self.max is not None and self.min > self.max:
@@ -319,6 +328,10 @@ class Disagreement(BaseModel):
     """What the customer had said before, the words that were read wrong."""
     correction_vi: str
     """This turn's words."""
+    rest_vi: str = ""
+    """This turn's words without the opening "sai rồi": what the customer is
+    now saying about the appliance, for the booking description. Empty when
+    the turn was only the denial, or only "ảnh 2 là tủ lạnh"."""
 
     model_config = ConfigDict(alias_generator=to_camel, populate_by_name=True)
 

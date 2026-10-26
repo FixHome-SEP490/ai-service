@@ -1089,6 +1089,59 @@ class _ClauseReader:
         return any(_contains(text, c) for c in self.lex.confirmations)
 
 
+_SEGMENTS = re.compile(r"[,.;!?\n]+")
+
+
+def account_after_denial(text: str, lexicon: Optional["DialogueLexicon"] = None) -> str:
+    """The customer's words with the opening "sai rồi" taken off, as typed.
+
+    For the booking form's description, which the technician reads: "sai rồi,
+    máy vẫn mát nhưng chảy nước" becomes "máy vẫn mát nhưng chảy nước", and a
+    turn that was only the denial becomes empty. Only leading pieces that are
+    a bare "no" go; anything that says something stays in the customer's own
+    spelling."""
+    lex = lexicon or get_lexicon()
+    pieces = [p.strip() for p in _SEGMENTS.split(text or "")]
+    while pieces:
+        words = _without_opening(lex.normalize(pieces[0]).split())
+        joined = " ".join(words)
+        bare = not words or any(
+            (joined == p or joined.startswith(p + " "))
+            and all(w in _PARTICLES or w in _NO_TAIL for w in joined[len(p):].split())
+            for p in lex.previous_denials
+        )
+        if not bare:
+            break
+        pieces = pieces[1:]
+    return ", ".join(p for p in pieces if p)
+
+
+def _without_still(folded_text: str, tokens: Sequence[Tok]) -> str:
+    """The clause for retrieval without "vẫn", when the customer typed it so.
+
+    Folded, "vẫn" is "van", a valve, and a rare word in the symptom lists
+    ("thay pin vẫn không được" is the remote's), so "máy vẫn mát nhưng chảy
+    nước" ranked the remote control above the blocked drain on that one word
+    (fixhome.sbs, 26/10/2026). Typed without its accents it may be the valve
+    and stays."""
+    if not any(t.a == "vẫn" for t in tokens) or any(t.a == "van" for t in tokens):
+        return folded_text
+    # Only in "vẫn mát": the cooling still works, which says the complaint is
+    # something else. Not "vẫn lạnh", a water heater's "nước vẫn lạnh". Elsewhere the word tells faults apart and
+    # stays: "cục ngoài vẫn chạy" is the indoor fan's, "gió vẫn thổi đều" the
+    # fridge's low gas (dropping it everywhere cost 59 first places on the
+    # 35.410 phrasings), and "vẫn ấm", "vẫn sáng", "vẫn lạnh" are a water
+    # heater's own complaint and indicator (20 more).
+    words = folded_text.split()
+    return " ".join(
+        word for i, word in enumerate(words)
+        if word != "van" or not (i + 1 < len(words) and words[i + 1] in _STILL_WORKS)
+    )
+
+
+_STILL_WORKS = frozenset({"mat"})
+
+
 def read_turn(
     text: str,
     faults: Sequence,
@@ -1157,7 +1210,7 @@ def read_turn(
         if meta:
             metas += 1
         if not (factual or denied or meta):
-            kept.append(folded_text)
+            kept.append(_without_still(folded_text, tokens))
         clauses += 1
     reading.retrieval_text = " ".join(kept)
     reading.meta_only = clauses > 0 and metas == clauses

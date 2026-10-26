@@ -8,7 +8,7 @@ from app.core.config import settings
 from app.core.exceptions import AIServiceException, ai_exception_handler
 from app.api.v1.router import api_router
 from app.web.routes import router as web_router
-from app.services.pipeline import service_catalog
+from app.services.pipeline import part_prices, service_catalog
 from app.services.pipeline.corpus import get_corpus
 
 
@@ -67,6 +67,15 @@ async def _follow_the_service_catalog() -> None:
                 settings.CATALOG_TIMEOUT_SECONDS,
             )
         )
+        # Part prices from the same Backend (`…/parts/prices`), for the top
+        # of each estimate. See `part_prices`.
+        parts_url = part_prices.url_from_catalog(settings.BACKEND_CATALOG_URL)
+        if parts_url:
+            asyncio.get_running_loop().create_task(
+                part_prices.refresh_forever(
+                    parts_url, settings.CATALOG_REFRESH_SECONDS, settings.CATALOG_TIMEOUT_SECONDS
+                )
+            )
 
 
 # Include API routes
