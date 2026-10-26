@@ -122,3 +122,32 @@ def test_it_travels_as_camel_case():
     _one, two = _two_turns("máy lạnh chạy mà không mát", "không phải đâu em")
     body = two.model_dump(by_alias=True)
     assert set(body["customerDisagreed"]) == {"kind", "rejected", "rejectedVi", "saidVi", "correctionVi"}
+
+
+class _Writes(StubVlm):
+    """A model that writes its own message, as the served one does."""
+
+    async def narrate(self, facts_vi, allowed_numbers):
+        return "Dạ, máy giặt nhà mình có thể bị nghẹt van cấp nước, thợ xem tận nơi rồi mới báo giá chính xác ạ."
+
+
+def test_what_is_left_is_said_once_when_the_model_writes_the_answer():
+    """fixhome.sbs, 26/10/2026: "Khả năng còn lại là X. Dạ, ... có thể bị X"."""
+
+    async def run():
+        sc.install(sc.LiveCatalog())
+        pipeline = LocalPipeline(detector=_NoDetector(), vlm=_Writes(), retriever=Retriever(KB), kb=KB)
+        one = await pipeline.diagnose(DiagnosisRequest(description="máy giặt vắt kêu to"))
+        return await pipeline.diagnose(
+            DiagnosisRequest(description="không phải bệnh đó, máy kêu lúc cấp nước", session_id=one.session_id)
+        )
+
+    two = asyncio.run(run())
+    assert "em loại khả năng" in two.message_vi
+    assert "Khả năng còn lại" not in two.message_vi
+    assert "nghẹt van cấp nước" in two.message_vi
+
+
+def test_without_a_written_answer_what_is_left_is_still_named():
+    _one, two = _two_turns("máy lạnh chạy mà không mát", "không phải đâu em")
+    assert "Khả năng còn lại là" in two.message_vi
