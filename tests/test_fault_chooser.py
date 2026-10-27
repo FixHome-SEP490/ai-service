@@ -3,7 +3,7 @@
 Off, which is the default, nothing changes: retrieval's shortlist is offered
 and retrieval's leader comes first on a text-only turn. On, the adapter is
 offered every fault of the appliance and its pick leads, with retrieval's
-order kept behind it, three possibilities in all as the base model gives.
+order kept behind it, two possibilities in all as the base model mostly gives.
 """
 
 import asyncio
@@ -60,15 +60,18 @@ def test_the_picked_fault_leads_and_retrieval_follows():
     assert _ranked_by_retrieval(["AC_DIRTY_FILTER"], shortlist, saw_a_photograph=False)[0] == "AC_LOW_REFRIGERANT"
 
 
-def test_the_adapter_answering_one_code_still_leaves_three_possibilities():
+def test_a_pick_that_agrees_with_retrieval_still_leaves_a_second_possibility():
     shortlist = [F(fault_code=c) for c in ("AC_LOW_REFRIGERANT", "AC_DIRTY_FILTER", "AC_COMPRESSOR_FAULT", "AC_PCB_FAULT")]
+    assert _ranked_by_retrieval(["AC_LOW_REFRIGERANT"], shortlist, saw_a_photograph=False, model_leads=True) == [
+        "AC_LOW_REFRIGERANT", "AC_DIRTY_FILTER",
+    ]
     assert _ranked_by_retrieval(["AC_PCB_FAULT"], shortlist, saw_a_photograph=False, model_leads=True) == [
-        "AC_PCB_FAULT", "AC_LOW_REFRIGERANT", "AC_DIRTY_FILTER",
+        "AC_PCB_FAULT", "AC_LOW_REFRIGERANT",
     ]
     # What the customer ruled out is not among the possibilities either.
     assert _ranked_by_retrieval(
         ["AC_PCB_FAULT"], shortlist, saw_a_photograph=False, model_leads=True, excluded={"AC_LOW_REFRIGERANT"},
-    ) == ["AC_PCB_FAULT", "AC_DIRTY_FILTER", "AC_COMPRESSOR_FAULT"]
+    ) == ["AC_PCB_FAULT", "AC_DIRTY_FILTER"]
 
 
 def test_a_pick_outside_the_offer_or_ruled_out_does_not_lead():

@@ -367,8 +367,11 @@ def _reads_back_the_data(text: str) -> bool:
     Seen on the served model on 25/10/2026, on fixhome.sbs: "Có thể hỏng: mòn
     bạc đạn ... Chi phí tham khảo: từ 529.000đ ... Dịch vụ để đặt: Sửa máy
     giặt". The caller's own wording is better than that.
+
+    So is the facts' " | " separator in the prose ("mòn gioăng, rò rỉ vòi nước
+    | rò rỉ chân vòi", 28/10/2026): no sentence written for a customer has one.
     """
-    return len(_DATA_LABEL.findall(text)) >= 2
+    return len(_DATA_LABEL.findall(text)) >= 2 or "|" in text
 
 
 def _tidy_answer(text: str, services: Optional[tuple] = None) -> str:

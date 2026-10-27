@@ -1342,8 +1342,14 @@ _SEGMENT_RE = re.compile(r"[,.;!?\n]+|\s(?:còn|với lại|với cả|ngoài ra
 """Where one message moves from one appliance to the next."""
 
 
-_MODEL_LEADS_KEEPS = 3
-"""Possibilities kept when the trained chooser leads: as many as the base model names."""
+_MODEL_LEADS_KEEPS = 2
+"""Possibilities kept when the trained chooser leads.
+
+Two, the breadth the base model's answers mostly have (one or two faults, three
+in 47 of 780 live replies). Three on every reply was measured too: the prose
+grew a fifth longer, the price range and the to-do list widened with the third
+fault, and the narrating model copied the data's " | " into 40 of 780 replies.
+"""
 
 
 def _ranked_by_retrieval(
@@ -1407,12 +1413,12 @@ def _ranked_by_retrieval(
     if model_leads and chosen:
         # The trained fault chooser (VLM_FAULT_MODEL), measured against this
         # rule on the held-out half before it was switched on: its pick leads,
-        # retrieval's order follows as the other possibilities. Still only
-        # codes it was offered. It answers with one code where the base model
-        # named two or three, and with only its pick and retrieval's leader the
-        # third possibility went missing: on the real model the right fault fell
-        # out of the top three in 29 of 802 held-out sentences that the base
-        # model had kept it in.
+        # retrieval's order follows as the other possibility. Still only codes
+        # it was offered. It answers with one code where the base model named
+        # two or three; with its pick and retrieval's leader only, a pick that
+        # agreed with the leader left a single fault, and on the real model the
+        # right one dropped out of the answer in 29 of 802 held-out sentences
+        # the base model had kept it in.
         offered = [getattr(f, "fault_code", None) for f in (shortlist or [])]
         picked = [code for code in chosen if code in offered]
         if picked:
