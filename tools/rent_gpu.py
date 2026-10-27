@@ -618,7 +618,8 @@ def cmd_lora(args: argparse.Namespace) -> None:
 
     The box pulls lora/<data-run>/ from the dataset repo, trains, evaluates the
     adapter on the served AWQ model through vLLM, pushes everything to the
-    weights repo under <run-name>/ and writes <run-name>/DONE (or FAILED) last.
+    weights repo under <run-name>/ and writes <run-name>/DONE (or FAILED) last;
+    PUSH_FAILED means an upload did not go through: read `logs` before destroying.
     Destroy it then: `python tools/rent_gpu.py destroy`."""
     _check_gpu_supported(args.offer, args.force_gpu)
     if INSTANCE_FILE.exists():
