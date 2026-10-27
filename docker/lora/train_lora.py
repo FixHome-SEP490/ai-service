@@ -87,7 +87,7 @@ def main() -> None:
         train = train[:MAX_TRAIN]
     encoded = [encode(r) for r in train]
     lengths = sorted(len(x[0]) for x in encoded)
-    print(f"train {len(encoded)}, val {len(val)}, tokens median {lengths[len(lengths) // 2]}, p95 {lengths[int(len(lengths) * .95)]}, max {lengths[-1]}")
+    print(f"train {len(encoded)}, val {len(val)}, tokens median {lengths[len(lengths) // 2]}, p95 {lengths[int(len(lengths) * .95)]}, max {lengths[-1]}", flush=True)
 
     optimizer = torch.optim.AdamW([p for p in model.parameters() if p.requires_grad], lr=LR, weight_decay=0.0)
     steps_total = math.ceil(len(encoded) * EPOCHS / (BATCH * ACCUM))
@@ -122,13 +122,27 @@ def main() -> None:
             mask[row, : len(x)] = 1
         return ids.cuda(), labels.cuda(), mask.cuda()
 
+    # The answer is a few dozen tokens at the end of a prompt of thousands, so
+    # the vocabulary projection is taken only where there is something to
+    # learn. Through `labels=` the model projects every position in fp32:
+    # 4 x 3584 x 151k logits, 8.7 GB, and the first run ran out of memory.
+    inner = model.base_model.model
+    head = inner.get_output_embeddings()
+
+    def answer_loss(ids, labels, mask):
+        hidden = inner.model(input_ids=ids, attention_mask=mask, use_cache=False).last_hidden_state
+        target = labels[:, 1:]
+        where = target != -100
+        logits = head(hidden[:, :-1][where]).float()
+        return torch.nn.functional.cross_entropy(logits, target[where])
+
     model.train()
     log = {"losses": []}
     step = 0
     running = 0.0
     for micro, idx in enumerate(batches()):
         ids, labels, mask = collate(idx)
-        loss = model(input_ids=ids, attention_mask=mask, labels=labels).loss / ACCUM
+        loss = answer_loss(ids, labels, mask) / ACCUM
         loss.backward()
         running += loss.item()
         if (micro + 1) % ACCUM == 0:

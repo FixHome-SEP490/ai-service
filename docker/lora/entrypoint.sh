@@ -18,6 +18,7 @@ export DATA_DIR="${DATA_DIR:-/workspace/data}"
 export OUT_DIR="${OUT_DIR:-/workspace/adapter}"
 LOG="/workspace/run.log"
 mkdir -p /workspace "${OUT_DIR}"
+export PYTORCH_CUDA_ALLOC_CONF="${PYTORCH_CUDA_ALLOC_CONF:-expandable_segments:True}" PYTHONUNBUFFERED=1
 
 log() { printf '\n== %s\n' "$*" | tee -a "$LOG"; }
 
