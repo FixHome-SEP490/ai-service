@@ -31,6 +31,7 @@ from typing import Any, Dict, List, Optional, Tuple
 
 import httpx
 
+from app.core.config import settings
 from app.services.pipeline.corpus import voice_guidance
 from app.services.pipeline.images import ImagePayload
 from app.services.pipeline.vlm import FaultCandidate, VlmVerdict
@@ -666,10 +667,13 @@ class QwenClient:
         self._max_tokens = max_tokens
 
     async def _chat(
-        self, messages: List[Dict[str, Any]], timeout_seconds: Optional[float] = None
+        self,
+        messages: List[Dict[str, Any]],
+        timeout_seconds: Optional[float] = None,
+        model: Optional[str] = None,
     ) -> Optional[str]:
         payload = {
-            "model": self._model,
+            "model": model or self._model,
             "messages": messages,
             # Deterministic on purpose: the same photo and description must give
             # the same answer, otherwise the fixed regression set measures noise.
@@ -728,7 +732,9 @@ class QwenClient:
             [
                 {"role": "system", "content": _assess_system(crop is not None)},
                 {"role": "user", "content": content},
-            ]
+            ],
+            # The fault adapter learned text only; a photograph goes to the base.
+            model=(settings.VLM_FAULT_MODEL or None) if crop is None else None,
         )
         if raw is None:
             return VlmVerdict()

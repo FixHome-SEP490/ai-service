@@ -610,6 +610,46 @@ def cmd_train(args: argparse.Namespace) -> None:
     print("    https://cloud.vast.ai/instances/  (delete button)")
 
 
+LORA_IMAGE = "ghcr.io/fixhome-sep490/fixhome-lora:latest"
+
+
+def cmd_lora(args: argparse.Namespace) -> None:
+    """Rent a 24 GB card and train the fault-choosing adapter (docker/lora).
+
+    The box pulls lora/<data-run>/ from the dataset repo, trains, evaluates the
+    adapter on the served AWQ model through vLLM, pushes everything to the
+    weights repo under <run-name>/ and writes <run-name>/DONE (or FAILED) last.
+    Destroy it then: `python tools/rent_gpu.py destroy`."""
+    _check_gpu_supported(args.offer, args.force_gpu)
+    if INSTANCE_FILE.exists():
+        raise SystemExit(f"{INSTANCE_FILE.name} already names instance {INSTANCE_FILE.read_text().strip()}. Destroy it first.")
+    env = [
+        f"-e HF_TOKEN={get_secret('HF_TOKEN')}",
+        f"-e HF_DATASET_REPO={get_secret('HF_DATASET_REPO')}",
+        f"-e HF_WEIGHTS_REPO={get_secret('HF_WEIGHTS_REPO')}",
+        f"-e DATA_RUN={args.data_run}",
+        f"-e RUN_NAME={args.run_name}",
+        f"-e EPOCHS={args.epochs}",
+        f"-e LR={args.lr}",
+        f"-e RANK={args.rank}",
+        f"-e MAX_TRAIN={args.max_train}",
+    ]
+    image = LORA_IMAGE.rsplit(":", 1)[0] + ":" + args.image_tag.replace("/", "-")
+    print(f"Renting offer {args.offer}: {image}, data {args.data_run}, run {args.run_name}")
+    create = ["create", "instance", str(args.offer), "--image", image, "--disk", "90", "--env", " ".join(env)]
+    login = _registry_login()
+    if login:
+        create += ["--login", login]
+    result = _cli(*create, "--raw", trailing=("--args", "train"))
+    created = _reply(result, doing=f"renting offer {args.offer}")
+    instance_id = created.get("new_contract")
+    if not instance_id:
+        raise SystemExit(f"No instance id in the reply: {created}")
+    INSTANCE_FILE.write_text(str(instance_id), encoding="utf-8")
+    print(f"Instance {instance_id}, id saved to {INSTANCE_FILE.name}")
+    print(f"Destroy when {args.run_name}/DONE appears: python tools/rent_gpu.py destroy --instance {instance_id}")
+
+
 SERVE_IMAGE = "ghcr.io/fixhome-sep490/fixhome-serve:latest"
 """The whole service in one container: vLLM, the detector, retrieval and the API.
 
@@ -1010,6 +1050,17 @@ def main() -> None:
         help="rent a card the image cannot use; only after rebuilding it",
     )
 
+    lora = sub.add_parser("lora", help="rent a 24 GB card and train the fault adapter (docker/lora)")
+    lora.add_argument("--offer", required=True, type=int)
+    lora.add_argument("--data-run", default="fault-v1", help="lora/<name>/ in the dataset repo (tools/build_lora_data.py)")
+    lora.add_argument("--run-name", default="lora-fault-v1")
+    lora.add_argument("--epochs", default="1")
+    lora.add_argument("--lr", default="1e-4")
+    lora.add_argument("--rank", default="16")
+    lora.add_argument("--max-train", default="0", help="cap on training examples, 0 for all")
+    lora.add_argument("--image-tag", default="latest", help="branch build of fixhome-lora")
+    lora.add_argument("--force-gpu", action="store_true")
+
     logs = sub.add_parser("logs", help="what the training container has printed")
     logs.add_argument("--instance", type=int)
     logs.add_argument("--tail", type=int, default=60)
@@ -1076,6 +1127,7 @@ def main() -> None:
     {
         "offers": cmd_offers,
         "train": cmd_train,
+        "lora": cmd_lora,
         "logs": cmd_logs,
         "status": cmd_status,
         "destroy": cmd_destroy,

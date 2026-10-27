@@ -50,7 +50,7 @@ from app.services.pipeline.conversation import Conversation, day_vi, get_convers
 from app.services.pipeline.detector import Detection, Detector
 from app.services.pipeline.images import ImagePayload, load_base64_image
 from app.services.pipeline.knowledge_base import KnowledgeBase
-from app.services.pipeline.retriever import Retriever
+from app.services.pipeline.retriever import Retriever, ScoredFault
 from app.services.pipeline.vlm import VisionLanguageModel, VlmVerdict
 
 _IDENTIFY_PATTERNS = (
@@ -1292,6 +1292,7 @@ def _ranked_by_retrieval(
     *,
     saw_a_photograph: bool,
     excluded: Optional[set] = None,
+    model_leads: bool = False,
 ) -> List[str]:
     """Retrieval's leader first, then whatever the model chose from the shortlist.
 
@@ -1343,6 +1344,16 @@ def _ranked_by_retrieval(
     chosen = [code for code in chosen if code not in banned]
     if saw_a_photograph:
         return list(chosen)
+    if model_leads and chosen:
+        # The trained fault chooser (VLM_FAULT_MODEL), measured against this
+        # rule on the held-out half before it was switched on: its pick leads,
+        # retrieval's leader follows as the second possibility. Still only
+        # codes it was offered.
+        offered = [getattr(f, "fault_code", None) for f in (shortlist or [])]
+        picked = [code for code in chosen if code in offered]
+        if picked:
+            leader = next((code for code in offered if code and code not in banned), None)
+            return picked + ([leader] if leader and leader not in picked else [])
     ranked = [getattr(f, "fault_code", None) for f in (shortlist or [])]
     ranked = [code for code in ranked if code and code not in banned]
     if not ranked:
@@ -2799,6 +2810,7 @@ class LocalPipeline:
         # customers use, the policies that bear on this device and the rows that
         # price it. Handing over a bare list of codes is what made the answers
         # read like a lookup table.
+        offered = self._offered(candidates, searched, device_type, chat, detection is not None)
         ctx = context.build(
             kb=self._kb,
             retriever=self._retriever,
@@ -2806,7 +2818,7 @@ class LocalPipeline:
             latest_message=request.description,
             device_type=device_type,
             device_source=chat.device_source_vi,
-            candidates=candidates,
+            candidates=offered,
             has_image=detection is not None,
         )
         trace.add(
@@ -2961,8 +2973,35 @@ class LocalPipeline:
                 )
 
         return await self._build_response(
-            request, detection, verdict, confidence, shortlist, chat, trace
+            request, detection, verdict, confidence,
+            [c.fault for c in offered] if offered is not candidates else shortlist, chat, trace,
         )
+
+    def _offered(self, candidates, searched: str, device_type: Optional[str], chat: Conversation, has_image: bool):
+        """The faults the model may choose from.
+
+        The base model gets retrieval's shortlist, as always. The trained fault
+        chooser (VLM_FAULT_MODEL) is offered every fault of the appliance, in
+        retrieval's order and then the rest: it learned to read descriptions the
+        word scorer misses, and could not choose a fault the scorer had left off
+        the list. Not with a photograph, which goes to the base model."""
+        if not settings.VLM_FAULT_MODEL or not device_type or has_image:
+            return candidates
+        banned = chat.state.excluded_codes()
+        ranked = self._retriever.candidate_faults(
+            description=searched,
+            device_type=device_type,
+            top_k=settings.VLM_FAULT_CANDIDATES,
+            exclude=banned,
+            penalties=chat.state.factors(),
+        )
+        seen = {c.fault.fault_code for c in ranked}
+        rest = [
+            ScoredFault(fault=f, score=0.0)
+            for f in self._kb.faults_for_device(device_type)
+            if f.fault_code not in seen and f.fault_code not in banned
+        ]
+        return (list(ranked) + rest)[: settings.VLM_FAULT_CANDIDATES]
 
     async def answer(self, request: ChatRequest) -> ChatResponse:
         return self._with_pushback(await self._answer_routed(request))
@@ -4496,6 +4535,7 @@ class LocalPipeline:
             # of retrieval's low refrigerant.
             saw_a_photograph=detection is not None and bool(verdict.condition_codes),
             excluded=chat.state.excluded_codes() if chat is not None else None,
+            model_leads=bool(settings.VLM_FAULT_MODEL) and detection is None,
         ):
             fault = self._kb.fault(code)
             if fault is None:
