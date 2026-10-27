@@ -417,6 +417,30 @@ def test_teencode_names_are_found_with_the_others():
     ]
 
 
+def test_bare_bet_and_den_opening_a_clause_are_the_toilet_and_the_light():
+    # eval_multi_message.py dev half, 27/10/2026: the two appliances missed most.
+    assert _devices(
+        "bệt nhà mình ngồi xuống là tấm ngồi kêu cót két rồi lệch sang một bên, cả con Daikin cái điều khiển giờ như cục gạch"
+    ) == ["toilet", "air_conditioner"]
+    assert _devices(
+        "máy giặt mở nắp ra là xộc lên mùi hôi như cống, còn đèn vừa bật lên thì chớp sáng chói một cái rồi tối hẳn"
+    ) == ["washing_machine", "light_bulb"]
+    # Not where it is the appliance's own light, or sitting on the floor.
+    assert "light_bulb" not in _devices("lò vi sóng em đã thay cầu chì mà đèn không lên, máy giặt không vắt")
+    assert "light_bulb" not in _devices("tủ lạnh không lạnh, đèn trong tủ vẫn sáng, máy giặt không vắt")
+    assert "toilet" not in _devices("ngồi bệt xuống nhìn thì máy giặt rỉ nước dưới gầm, tủ lạnh không lạnh")
+
+
+def test_a_connector_with_a_classifier_still_opens_the_next_appliance():
+    # "Ngoài ra cái điều hòa" read as "ra cái điều hòa", an object, and was dropped.
+    assert _devices(
+        "chậu rửa bị gỉ ăn thủng, giọt nước nâu nhỏ xuống, còn lò nướng núm hẹn giờ bị lờn ngoài ra cái điều hòa mở 24 độ mà dàn trong kết đá"
+    ) == ["sink", "oven", "air_conditioner"]
+    assert _devices(
+        "bồn rửa nước xoay vòng rồi đứng lại ngoài ra con Daikin bật lại được nửa ngày thì lớp trắng lại phủ kín"
+    ) == ["sink", "air_conditioner"]
+
+
 def test_what_is_meant_by_the_words_around_a_name():
     assert "light_bulb" not in _devices("bếp từ đèn chờ không sáng, máy giặt không vắt")
     assert _devices("cái quạt trên trần nhà quay uể oải, máy giặt không vắt") == ["ceiling_fan", "washing_machine"]

@@ -715,6 +715,55 @@ def _what_it_is(mention: tuple, folded: List[str]) -> Optional[tuple]:
     return mention
 
 
+_BARE_HEADS = {"bệt": "toilet", "bet": "toilet", "đèn": "light_bulb", "den": "light_bulb"}
+"""Words that are an appliance only where they open a clause: "ngồi bệt" and
+"đèn báo" name nothing, "..., bệt nhà mình ngồi xuống là kêu" and "còn đèn vừa
+bật lên thì chớp" are the toilet and the light."""
+
+_NOT_A_LIGHT_AFTER = frozenset("trong tren o cua phia ben man mat vien dom ban phim so but nho".split())
+"""After a bare "đèn", the light of the appliance just described: "đèn trong
+tủ", "đèn trên cục chia", "đèn ở mặt máy", "đèn đóm", "đèn bàn phím"."""
+
+_MOVES_ON = frozenset(_fold_vi(w) for w in "còn cả thêm quên nhân tiện ngoài ra với lại kèm theo".split())
+"""Connectors that leave the appliance being described. A bare "đèn" after a
+comma or "mà" is that appliance's own light far more often than a lamp: "đã
+thay cầu chì mà đèn không lên", "chạy được, đèn sáng đủ"."""
+
+
+def _bare_heads(text: str, typed: List[str], folded: List[str]) -> List[tuple]:
+    """Bare "bệt" and "đèn" opening a clause (see _BARE_HEADS).
+
+    Only asked for in a message that already names an appliance: there the
+    customer is going through several, and these are how people say the
+    toilet and the light. Measured on the dev half of eval_multi_message,
+    where they were the two appliances missed most."""
+    out = []
+    for i, word in enumerate(typed):
+        device = _BARE_HEADS.get(word)
+        if device is None:
+            continue
+        before = folded[max(0, i - 2) : i]
+        after = folded[i + 1 : i + 2]
+        if device == "light_bulb":
+            gap = unicodedata.normalize("NFC", text.lower())
+            words = list(re.finditer(r"[^\W_]+", gap))
+            colon = i > 0 and ":" in gap[words[i - 1].end() : words[i].start()]
+            opens = i == 0 or colon or bool(before[-1:] and before[-1] in _MOVES_ON)
+            if after and (after[0] in _INDICATOR_AFTER or after[0] in _NOT_A_LIGHT_AFTER):
+                continue
+        else:
+            opens = (
+                i == 0
+                or _punctuated_before(text, i)
+                or bool(before[-1:] and before[-1] in _FOLDED_CONNECTORS)
+                or " ".join(before) in _TWO_WORD_CONNECTORS
+            )
+        if not opens:
+            continue
+        out.append((device, i, i + 1))
+    return out
+
+
 def _appliance_mentions(text: str, kb: KnowledgeBase) -> List[tuple]:
     """See _appliance_mentions_uncached; remembered per text.
 
@@ -796,6 +845,8 @@ def _appliance_mentions_uncached(text: str, kb: KnowledgeBase) -> List[tuple]:
                         candidates = [d for d in candidates if d in points_to] or candidates
             if len(candidates) == 1:
                 found.append((candidates[0], start, at + n))
+    if found:
+        found += _bare_heads(text, typed, folded)
     found = [_what_it_is(m, folded) for m in found]
     found = [m for m in found if m is not None]
     found.sort(key=lambda m: (m[1], -(m[2] - m[1])))
@@ -818,9 +869,14 @@ def _appliance_mentions_uncached(text: str, kb: KnowledgeBase) -> List[tuple]:
             # vào không nảy lên, khóa Xiaomi" start a new clause.
             kept.append(mention)
             continue
-        if any(w in _AS_AN_OBJECT for w in before[-1:]) or (
-            len(before) == 2 and before[-1] in ("cái", "chiếc", "con") and before[0] in _AS_AN_OBJECT
-        ):
+        # "Ngoài ra cái điều hòa", "với lại con Daikin": the connector again,
+        # with the classifier between it and the name, not "ra cái" an object.
+        classified = len(before) == 2 and before[-1] in ("cái", "chiếc", "con")
+        lead_in = " ".join(_fold_vi(w) for w in typed[max(0, mention[1] - 3) : mention[1] - 1])
+        if classified and lead_in in _TWO_WORD_CONNECTORS:
+            kept.append(mention)
+            continue
+        if any(w in _AS_AN_OBJECT for w in before[-1:]) or (classified and before[0] in _AS_AN_OBJECT):
             continue
         kept.append(mention)
     if not kept or not re.search(r"[,.;!?\n]", text):
