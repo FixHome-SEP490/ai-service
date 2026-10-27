@@ -5,14 +5,14 @@
     "AC_LOW_REFRIGERANT": {
       "labour": "AC-01",
       "parts": [
-        "ACV081",
+        "ACG001",
         "AC051"
       ],
       "labour_min": 249000,
       "labour_max": 449000,
       "parts_min": 150000,
-      "parts_max": 750000,
-      "note_vi": "Nạp gas (một bình theo loại gas của máy) và thay phin lọc gas",
+      "parts_max": 1050000,
+      "note_vi": "Nạp gas (bổ sung hoặc nạp mới theo loại gas và công suất máy) và thay phin lọc gas",
       "together": true
     },
     "AC_DIRTY_FILTER": {
@@ -383,14 +383,14 @@
     "FRIDGE_LOW_GAS": {
       "labour": "FR-01",
       "parts": [
-        "RFS007",
+        "RFG001",
         "RFS004"
       ],
       "labour_min": 199000,
       "labour_max": 399000,
       "parts_min": 80000,
-      "parts_max": 240000,
-      "note_vi": "Nạp gas và thay phin lọc",
+      "parts_max": 1420000,
+      "note_vi": "Nạp gas theo dung tích tủ và thay phin lọc",
       "together": true
     },
     "FRIDGE_DEFROST_FAULT": {
@@ -945,7 +945,7 @@
       "labour_min": 249000,
       "labour_max": 249000,
       "parts_min": 8000,
-      "parts_max": 260000,
+      "parts_max": 90000,
       "note_vi": ""
     },
     "OUTLET_LOOSE_CONTACT": {
@@ -958,7 +958,7 @@
       "labour_min": 119000,
       "labour_max": 119000,
       "parts_min": 8000,
-      "parts_max": 260000,
+      "parts_max": 90000,
       "note_vi": ""
     },
     "OUTLET_NO_POWER": {
@@ -971,7 +971,7 @@
       "labour_min": 249000,
       "labour_max": 249000,
       "parts_min": 8000,
-      "parts_max": 320000,
+      "parts_max": 120000,
       "note_vi": ""
     },
     "OUTLET_TRIPS_BREAKER": {
@@ -983,7 +983,7 @@
       "labour_min": 249000,
       "labour_max": 249000,
       "parts_min": 55000,
-      "parts_max": 700000,
+      "parts_max": 250000,
       "note_vi": ""
     },
     "OUTLET_OVERLOAD": {
@@ -996,7 +996,7 @@
       "labour_min": 249000,
       "labour_max": 249000,
       "parts_min": 60000,
-      "parts_max": 320000,
+      "parts_max": 120000,
       "note_vi": ""
     },
     "OUTLET_BROKEN_FACE": {
@@ -1010,7 +1010,7 @@
       "labour_min": 119000,
       "labour_max": 119000,
       "parts_min": 8000,
-      "parts_max": 260000,
+      "parts_max": 90000,
       "note_vi": ""
     },
     "LIGHT_BULB_DEAD": {
@@ -1023,7 +1023,7 @@
       "labour_min": 119000,
       "labour_max": 119000,
       "parts_min": 25000,
-      "parts_max": 140000,
+      "parts_max": 55000,
       "note_vi": ""
     },
     "LIGHT_FLICKERING": {
@@ -1035,7 +1035,7 @@
       "labour_min": 119000,
       "labour_max": 119000,
       "parts_min": 25000,
-      "parts_max": 110000,
+      "parts_max": 35000,
       "note_vi": ""
     },
     "LIGHT_SWITCH_FAULT": {
@@ -1048,7 +1048,7 @@
       "labour_min": 119000,
       "labour_max": 119000,
       "parts_min": 20000,
-      "parts_max": 110000,
+      "parts_max": 35000,
       "note_vi": "Thay công tắc"
     },
     "LIGHT_DIM": {
@@ -1061,7 +1061,7 @@
       "labour_min": 119000,
       "labour_max": 119000,
       "parts_min": 25000,
-      "parts_max": 140000,
+      "parts_max": 55000,
       "note_vi": ""
     },
     "LIGHT_FIXTURE_LEAK": {
@@ -1074,7 +1074,7 @@
       "labour_min": 119000,
       "labour_max": 119000,
       "parts_min": 15000,
-      "parts_max": 340000,
+      "parts_max": 120000,
       "note_vi": ""
     },
     "WH_HEATING_ELEMENT": {
@@ -1113,12 +1113,14 @@
     },
     "WH_SCALE_BUILDUP": {
       "labour": "WH-01",
-      "parts": [],
+      "parts": [
+        "WHA001"
+      ],
       "labour_min": 349000,
       "labour_max": 349000,
       "parts_min": 0,
-      "parts_max": 0,
-      "note_vi": "Vệ sinh bình"
+      "parts_max": 250000,
+      "note_vi": "Vệ sinh bình, thay thanh magie theo dung tích bình"
     },
     "WH_TANK_LEAK": {
       "labour": "WH-03",

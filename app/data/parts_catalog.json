@@ -11465,7 +11465,8 @@
         "light_bulb"
       ],
       "price_estimated": true,
-      "price_note_vi": "Uoc luong theo gia thi truong pho thong 2026, Admin can ra lai truoc khi chot."
+      "price_note_vi": "Uoc luong theo gia thi truong pho thong 2026, Admin can ra lai truoc khi chot.",
+      "price": 25000
     },
     {
       "code": "LGT002",
@@ -11480,7 +11481,8 @@
         "light_bulb"
       ],
       "price_estimated": true,
-      "price_note_vi": "Uoc luong theo gia thi truong pho thong 2026, Admin can ra lai truoc khi chot."
+      "price_note_vi": "Uoc luong theo gia thi truong pho thong 2026, Admin can ra lai truoc khi chot.",
+      "price": 35000
     },
     {
       "code": "LGT003",
@@ -11495,7 +11497,8 @@
         "light_bulb"
       ],
       "price_estimated": true,
-      "price_note_vi": "Uoc luong theo gia thi truong pho thong 2026, Admin can ra lai truoc khi chot."
+      "price_note_vi": "Uoc luong theo gia thi truong pho thong 2026, Admin can ra lai truoc khi chot.",
+      "price": 55000
     },
     {
       "code": "LGT004",
@@ -11510,7 +11513,8 @@
         "light_bulb"
       ],
       "price_estimated": true,
-      "price_note_vi": "Uoc luong theo gia thi truong pho thong 2026, Admin can ra lai truoc khi chot."
+      "price_note_vi": "Uoc luong theo gia thi truong pho thong 2026, Admin can ra lai truoc khi chot.",
+      "price": 45000
     },
     {
       "code": "LGT005",
@@ -11525,7 +11529,8 @@
         "light_bulb"
       ],
       "price_estimated": true,
-      "price_note_vi": "Uoc luong theo gia thi truong pho thong 2026, Admin can ra lai truoc khi chot."
+      "price_note_vi": "Uoc luong theo gia thi truong pho thong 2026, Admin can ra lai truoc khi chot.",
+      "price": 30000
     },
     {
       "code": "LGT006",
@@ -11540,7 +11545,8 @@
         "light_bulb"
       ],
       "price_estimated": true,
-      "price_note_vi": "Uoc luong theo gia thi truong pho thong 2026, Admin can ra lai truoc khi chot."
+      "price_note_vi": "Uoc luong theo gia thi truong pho thong 2026, Admin can ra lai truoc khi chot.",
+      "price": 45000
     },
     {
       "code": "LGT007",
@@ -11555,7 +11561,8 @@
         "light_bulb"
       ],
       "price_estimated": true,
-      "price_note_vi": "Uoc luong theo gia thi truong pho thong 2026, Admin can ra lai truoc khi chot."
+      "price_note_vi": "Uoc luong theo gia thi truong pho thong 2026, Admin can ra lai truoc khi chot.",
+      "price": 55000
     },
     {
       "code": "LGT008",
@@ -11570,7 +11577,8 @@
         "light_bulb"
       ],
       "price_estimated": true,
-      "price_note_vi": "Uoc luong theo gia thi truong pho thong 2026, Admin can ra lai truoc khi chot."
+      "price_note_vi": "Uoc luong theo gia thi truong pho thong 2026, Admin can ra lai truoc khi chot.",
+      "price": 70000
     },
     {
       "code": "LGT009",
@@ -11585,7 +11593,8 @@
         "light_bulb"
       ],
       "price_estimated": true,
-      "price_note_vi": "Uoc luong theo gia thi truong pho thong 2026, Admin can ra lai truoc khi chot."
+      "price_note_vi": "Uoc luong theo gia thi truong pho thong 2026, Admin can ra lai truoc khi chot.",
+      "price": 90000
     },
     {
       "code": "LGT010",
@@ -11600,7 +11609,8 @@
         "light_bulb"
       ],
       "price_estimated": true,
-      "price_note_vi": "Uoc luong theo gia thi truong pho thong 2026, Admin can ra lai truoc khi chot."
+      "price_note_vi": "Uoc luong theo gia thi truong pho thong 2026, Admin can ra lai truoc khi chot.",
+      "price": 120000
     },
     {
       "code": "LGT011",
@@ -11615,7 +11625,8 @@
         "light_bulb"
       ],
       "price_estimated": true,
-      "price_note_vi": "Uoc luong theo gia thi truong pho thong 2026, Admin can ra lai truoc khi chot."
+      "price_note_vi": "Uoc luong theo gia thi truong pho thong 2026, Admin can ra lai truoc khi chot.",
+      "price": 60000
     },
     {
       "code": "LGT012",
@@ -11630,7 +11641,8 @@
         "light_bulb"
       ],
       "price_estimated": true,
-      "price_note_vi": "Uoc luong theo gia thi truong pho thong 2026, Admin can ra lai truoc khi chot."
+      "price_note_vi": "Uoc luong theo gia thi truong pho thong 2026, Admin can ra lai truoc khi chot.",
+      "price": 45000
     },
     {
       "code": "LGT013",
@@ -11645,7 +11657,8 @@
         "light_bulb"
       ],
       "price_estimated": true,
-      "price_note_vi": "Uoc luong theo gia thi truong pho thong 2026, Admin can ra lai truoc khi chot."
+      "price_note_vi": "Uoc luong theo gia thi truong pho thong 2026, Admin can ra lai truoc khi chot.",
+      "price": 25000
     },
     {
       "code": "LGT014",
@@ -11660,7 +11673,8 @@
         "light_bulb"
       ],
       "price_estimated": true,
-      "price_note_vi": "Uoc luong theo gia thi truong pho thong 2026, Admin can ra lai truoc khi chot."
+      "price_note_vi": "Uoc luong theo gia thi truong pho thong 2026, Admin can ra lai truoc khi chot.",
+      "price": 35000
     },
     {
       "code": "LGT015",
@@ -11675,7 +11689,8 @@
         "light_bulb"
       ],
       "price_estimated": true,
-      "price_note_vi": "Uoc luong theo gia thi truong pho thong 2026, Admin can ra lai truoc khi chot."
+      "price_note_vi": "Uoc luong theo gia thi truong pho thong 2026, Admin can ra lai truoc khi chot.",
+      "price": 10000
     },
     {
       "code": "LGT016",
@@ -11690,7 +11705,8 @@
         "light_bulb"
       ],
       "price_estimated": true,
-      "price_note_vi": "Uoc luong theo gia thi truong pho thong 2026, Admin can ra lai truoc khi chot."
+      "price_note_vi": "Uoc luong theo gia thi truong pho thong 2026, Admin can ra lai truoc khi chot.",
+      "price": 8000
     },
     {
       "code": "LGT017",
@@ -11705,7 +11721,8 @@
         "light_bulb"
       ],
       "price_estimated": true,
-      "price_note_vi": "Uoc luong theo gia thi truong pho thong 2026, Admin can ra lai truoc khi chot."
+      "price_note_vi": "Uoc luong theo gia thi truong pho thong 2026, Admin can ra lai truoc khi chot.",
+      "price": 15000
     },
     {
       "code": "LGT018",
@@ -11720,7 +11737,8 @@
         "light_bulb"
       ],
       "price_estimated": true,
-      "price_note_vi": "Uoc luong theo gia thi truong pho thong 2026, Admin can ra lai truoc khi chot."
+      "price_note_vi": "Uoc luong theo gia thi truong pho thong 2026, Admin can ra lai truoc khi chot.",
+      "price": 25000
     },
     {
       "code": "OUT001",
@@ -11735,7 +11753,8 @@
         "power_outlet"
       ],
       "price_estimated": true,
-      "price_note_vi": "Uoc luong theo gia thi truong pho thong 2026, Admin can ra lai truoc khi chot."
+      "price_note_vi": "Uoc luong theo gia thi truong pho thong 2026, Admin can ra lai truoc khi chot.",
+      "price": 25000
     },
     {
       "code": "OUT002",
@@ -11750,7 +11769,8 @@
         "power_outlet"
       ],
       "price_estimated": true,
-      "price_note_vi": "Uoc luong theo gia thi truong pho thong 2026, Admin can ra lai truoc khi chot."
+      "price_note_vi": "Uoc luong theo gia thi truong pho thong 2026, Admin can ra lai truoc khi chot.",
+      "price": 40000
     },
     {
       "code": "OUT003",
@@ -11765,7 +11785,8 @@
         "power_outlet"
       ],
       "price_estimated": true,
-      "price_note_vi": "Uoc luong theo gia thi truong pho thong 2026, Admin can ra lai truoc khi chot."
+      "price_note_vi": "Uoc luong theo gia thi truong pho thong 2026, Admin can ra lai truoc khi chot.",
+      "price": 55000
     },
     {
       "code": "OUT004",
@@ -11780,7 +11801,8 @@
         "power_outlet"
       ],
       "price_estimated": true,
-      "price_note_vi": "Uoc luong theo gia thi truong pho thong 2026, Admin can ra lai truoc khi chot."
+      "price_note_vi": "Uoc luong theo gia thi truong pho thong 2026, Admin can ra lai truoc khi chot.",
+      "price": 60000
     },
     {
       "code": "OUT005",
@@ -11795,7 +11817,8 @@
         "power_outlet"
       ],
       "price_estimated": true,
-      "price_note_vi": "Uoc luong theo gia thi truong pho thong 2026, Admin can ra lai truoc khi chot."
+      "price_note_vi": "Uoc luong theo gia thi truong pho thong 2026, Admin can ra lai truoc khi chot.",
+      "price": 90000
     },
     {
       "code": "OUT006",
@@ -11811,7 +11834,8 @@
         "light_bulb"
       ],
       "price_estimated": true,
-      "price_note_vi": "Uoc luong theo gia thi truong pho thong 2026, Admin can ra lai truoc khi chot."
+      "price_note_vi": "Uoc luong theo gia thi truong pho thong 2026, Admin can ra lai truoc khi chot.",
+      "price": 15000
     },
     {
       "code": "OUT007",
@@ -11827,7 +11851,8 @@
         "light_bulb"
       ],
       "price_estimated": true,
-      "price_note_vi": "Uoc luong theo gia thi truong pho thong 2026, Admin can ra lai truoc khi chot."
+      "price_note_vi": "Uoc luong theo gia thi truong pho thong 2026, Admin can ra lai truoc khi chot.",
+      "price": 8000
     },
     {
       "code": "OUT008",
@@ -11843,7 +11868,8 @@
         "light_bulb"
       ],
       "price_estimated": true,
-      "price_note_vi": "Uoc luong theo gia thi truong pho thong 2026, Admin can ra lai truoc khi chot."
+      "price_note_vi": "Uoc luong theo gia thi truong pho thong 2026, Admin can ra lai truoc khi chot.",
+      "price": 12000
     },
     {
       "code": "OUT009",
@@ -11859,7 +11885,8 @@
         "light_bulb"
       ],
       "price_estimated": true,
-      "price_note_vi": "Uoc luong theo gia thi truong pho thong 2026, Admin can ra lai truoc khi chot."
+      "price_note_vi": "Uoc luong theo gia thi truong pho thong 2026, Admin can ra lai truoc khi chot.",
+      "price": 20000
     },
     {
       "code": "OUT010",
@@ -11875,7 +11902,8 @@
         "light_bulb"
       ],
       "price_estimated": true,
-      "price_note_vi": "Uoc luong theo gia thi truong pho thong 2026, Admin can ra lai truoc khi chot."
+      "price_note_vi": "Uoc luong theo gia thi truong pho thong 2026, Admin can ra lai truoc khi chot.",
+      "price": 30000
     },
     {
       "code": "OUT011",
@@ -11891,7 +11919,8 @@
         "light_bulb"
       ],
       "price_estimated": true,
-      "price_note_vi": "Uoc luong theo gia thi truong pho thong 2026, Admin can ra lai truoc khi chot."
+      "price_note_vi": "Uoc luong theo gia thi truong pho thong 2026, Admin can ra lai truoc khi chot.",
+      "price": 35000
     },
     {
       "code": "OUT012",
@@ -11906,7 +11935,8 @@
         "power_outlet"
       ],
       "price_estimated": true,
-      "price_note_vi": "Uoc luong theo gia thi truong pho thong 2026, Admin can ra lai truoc khi chot."
+      "price_note_vi": "Uoc luong theo gia thi truong pho thong 2026, Admin can ra lai truoc khi chot.",
+      "price": 55000
     },
     {
       "code": "OUT013",
@@ -11921,7 +11951,8 @@
         "power_outlet"
       ],
       "price_estimated": true,
-      "price_note_vi": "Uoc luong theo gia thi truong pho thong 2026, Admin can ra lai truoc khi chot."
+      "price_note_vi": "Uoc luong theo gia thi truong pho thong 2026, Admin can ra lai truoc khi chot.",
+      "price": 60000
     },
     {
       "code": "OUT014",
@@ -11936,7 +11967,8 @@
         "power_outlet"
       ],
       "price_estimated": true,
-      "price_note_vi": "Uoc luong theo gia thi truong pho thong 2026, Admin can ra lai truoc khi chot."
+      "price_note_vi": "Uoc luong theo gia thi truong pho thong 2026, Admin can ra lai truoc khi chot.",
+      "price": 110000
     },
     {
       "code": "OUT015",
@@ -11951,7 +11983,8 @@
         "power_outlet"
       ],
       "price_estimated": true,
-      "price_note_vi": "Uoc luong theo gia thi truong pho thong 2026, Admin can ra lai truoc khi chot."
+      "price_note_vi": "Uoc luong theo gia thi truong pho thong 2026, Admin can ra lai truoc khi chot.",
+      "price": 250000
     },
     {
       "code": "OUT016",
@@ -11966,7 +11999,8 @@
         "power_outlet"
       ],
       "price_estimated": true,
-      "price_note_vi": "Uoc luong theo gia thi truong pho thong 2026, Admin can ra lai truoc khi chot."
+      "price_note_vi": "Uoc luong theo gia thi truong pho thong 2026, Admin can ra lai truoc khi chot.",
+      "price": 280000
     },
     {
       "code": "OUT017",
@@ -11981,7 +12015,8 @@
         "power_outlet"
       ],
       "price_estimated": true,
-      "price_note_vi": "Uoc luong theo gia thi truong pho thong 2026, Admin can ra lai truoc khi chot."
+      "price_note_vi": "Uoc luong theo gia thi truong pho thong 2026, Admin can ra lai truoc khi chot.",
+      "price": 8000
     },
     {
       "code": "OUT018",
@@ -11996,7 +12031,8 @@
         "power_outlet"
       ],
       "price_estimated": true,
-      "price_note_vi": "Uoc luong theo gia thi truong pho thong 2026, Admin can ra lai truoc khi chot."
+      "price_note_vi": "Uoc luong theo gia thi truong pho thong 2026, Admin can ra lai truoc khi chot.",
+      "price": 12000
     },
     {
       "code": "DWS001",
@@ -12613,6 +12649,226 @@
         "electric_fan"
       ],
       "price": 10000
+    },
+    {
+      "code": "ACG001",
+      "name_vi": "Nạp gas bổ sung R32/R410A (một máy)",
+      "group_vi": "Consumable",
+      "kind": "Gas refill",
+      "price_min": 250000,
+      "price_max": 450000,
+      "unit_vi": "lần",
+      "section_vi": "Điều hòa / Máy lạnh",
+      "device_types": [
+        "air_conditioner"
+      ],
+      "price": 250000
+    },
+    {
+      "code": "ACG002",
+      "name_vi": "Nạp gas mới R22 máy 9.000–12.000 BTU",
+      "group_vi": "Consumable",
+      "kind": "Gas refill",
+      "price_min": 300000,
+      "price_max": 600000,
+      "unit_vi": "lần",
+      "section_vi": "Điều hòa / Máy lạnh",
+      "device_types": [
+        "air_conditioner"
+      ],
+      "price": 300000
+    },
+    {
+      "code": "ACG003",
+      "name_vi": "Nạp gas mới R32/R410A máy 9.000–12.000 BTU",
+      "group_vi": "Consumable",
+      "kind": "Gas refill",
+      "price_min": 450000,
+      "price_max": 900000,
+      "unit_vi": "lần",
+      "section_vi": "Điều hòa / Máy lạnh",
+      "device_types": [
+        "air_conditioner"
+      ],
+      "price": 450000
+    },
+    {
+      "code": "ACG004",
+      "name_vi": "Nạp gas mới R32/R410A máy 18.000–24.000 BTU",
+      "group_vi": "Consumable",
+      "kind": "Gas refill",
+      "price_min": 900000,
+      "price_max": 1150000,
+      "unit_vi": "lần",
+      "section_vi": "Điều hòa / Máy lạnh",
+      "device_types": [
+        "air_conditioner"
+      ],
+      "price": 900000
+    },
+    {
+      "code": "RFG001",
+      "name_vi": "Nạp gas tủ lạnh mini dưới 150 lít",
+      "group_vi": "Consumable",
+      "kind": "Gas refill",
+      "price_min": 400000,
+      "price_max": 750000,
+      "unit_vi": "lần",
+      "section_vi": "Tủ lạnh",
+      "device_types": [
+        "refrigerator"
+      ],
+      "price": 400000
+    },
+    {
+      "code": "RFG002",
+      "name_vi": "Nạp gas tủ lạnh 150–300 lít",
+      "group_vi": "Consumable",
+      "kind": "Gas refill",
+      "price_min": 800000,
+      "price_max": 1300000,
+      "unit_vi": "lần",
+      "section_vi": "Tủ lạnh",
+      "device_types": [
+        "refrigerator"
+      ],
+      "price": 800000
+    },
+    {
+      "code": "RFG003",
+      "name_vi": "Nạp gas tủ lạnh Inverter 150–300 lít",
+      "group_vi": "Consumable",
+      "kind": "Gas refill",
+      "price_min": 1000000,
+      "price_max": 1500000,
+      "unit_vi": "lần",
+      "section_vi": "Tủ lạnh",
+      "device_types": [
+        "refrigerator"
+      ],
+      "price": 1000000
+    },
+    {
+      "code": "RFG004",
+      "name_vi": "Nạp gas tủ lạnh 301–400 lít",
+      "group_vi": "Consumable",
+      "kind": "Gas refill",
+      "price_min": 1300000,
+      "price_max": 1700000,
+      "unit_vi": "lần",
+      "section_vi": "Tủ lạnh",
+      "device_types": [
+        "refrigerator"
+      ],
+      "price": 1300000
+    },
+    {
+      "code": "WHA001",
+      "name_vi": "Thanh magie bình nóng lạnh 15–20 lít",
+      "group_vi": "Consumable",
+      "kind": "Anode rod",
+      "price_min": 150000,
+      "price_max": 200000,
+      "unit_vi": "cái",
+      "section_vi": "Bình nóng lạnh",
+      "device_types": [
+        "water_heater"
+      ],
+      "price": 150000
+    },
+    {
+      "code": "WHA002",
+      "name_vi": "Thanh magie bình nóng lạnh 30 lít",
+      "group_vi": "Consumable",
+      "kind": "Anode rod",
+      "price_min": 250000,
+      "price_max": 300000,
+      "unit_vi": "cái",
+      "section_vi": "Bình nóng lạnh",
+      "device_types": [
+        "water_heater"
+      ],
+      "price": 250000
+    },
+    {
+      "code": "RHD001",
+      "name_vi": "Motor máy hút mùi",
+      "group_vi": "Linh kiện",
+      "kind": "Range hood motor",
+      "price_min": 600000,
+      "price_max": 600000,
+      "unit_vi": "cái",
+      "section_vi": "Máy hút mùi",
+      "device_types": [],
+      "price": 600000
+    },
+    {
+      "code": "RHD002",
+      "name_vi": "Than hoạt tính máy hút mùi",
+      "group_vi": "Consumable",
+      "kind": "Charcoal filter",
+      "price_min": 150000,
+      "price_max": 500000,
+      "unit_vi": "bộ",
+      "section_vi": "Máy hút mùi",
+      "device_types": [],
+      "price": 150000
+    },
+    {
+      "code": "TVB001",
+      "name_vi": "Giá treo tivi cố định 32–55 inch",
+      "group_vi": "Linh kiện",
+      "kind": "TV wall mount",
+      "price_min": 350000,
+      "price_max": 1220000,
+      "unit_vi": "bộ",
+      "section_vi": "Tivi",
+      "device_types": [
+        "television"
+      ],
+      "price": 350000
+    },
+    {
+      "code": "TVB002",
+      "name_vi": "Giá treo tivi xoay 32–55 inch",
+      "group_vi": "Linh kiện",
+      "kind": "TV swivel mount",
+      "price_min": 248000,
+      "price_max": 790000,
+      "unit_vi": "bộ",
+      "section_vi": "Tivi",
+      "device_types": [
+        "television"
+      ],
+      "price": 248000
+    },
+    {
+      "code": "SHW001",
+      "name_vi": "Dây sen tắm 1,5 m",
+      "group_vi": "Linh kiện",
+      "kind": "Shower hose",
+      "price_min": 50000,
+      "price_max": 160000,
+      "unit_vi": "sợi",
+      "section_vi": "Thiết bị vệ sinh",
+      "device_types": [
+        "faucet"
+      ],
+      "price": 50000
+    },
+    {
+      "code": "SHW002",
+      "name_vi": "Bát sen tắm phổ thông",
+      "group_vi": "Linh kiện",
+      "kind": "Shower head",
+      "price_min": 100000,
+      "price_max": 210000,
+      "unit_vi": "cái",
+      "section_vi": "Thiết bị vệ sinh",
+      "device_types": [
+        "faucet"
+      ],
+      "price": 100000
     }
   ],
   "_price_comment_vi": "price: giá bán FixHome của mã (bảng fixhome_parts của backend), chép bằng tools/sync_part_prices.py; price_min/price_max là khoảng giá bảng V3 cũ, chỉ để tham khảo."
