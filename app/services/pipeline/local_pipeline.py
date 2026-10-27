@@ -1342,6 +1342,10 @@ _SEGMENT_RE = re.compile(r"[,.;!?\n]+|\s(?:còn|với lại|với cả|ngoài ra
 """Where one message moves from one appliance to the next."""
 
 
+_MODEL_LEADS_KEEPS = 3
+"""Possibilities kept when the trained chooser leads: as many as the base model names."""
+
+
 def _ranked_by_retrieval(
     chosen: Sequence[str],
     shortlist: Optional[Sequence[Any]],
@@ -1403,13 +1407,17 @@ def _ranked_by_retrieval(
     if model_leads and chosen:
         # The trained fault chooser (VLM_FAULT_MODEL), measured against this
         # rule on the held-out half before it was switched on: its pick leads,
-        # retrieval's leader follows as the second possibility. Still only
-        # codes it was offered.
+        # retrieval's order follows as the other possibilities. Still only
+        # codes it was offered. It answers with one code where the base model
+        # named two or three, and with only its pick and retrieval's leader the
+        # third possibility went missing: on the real model the right fault fell
+        # out of the top three in 29 of 802 held-out sentences that the base
+        # model had kept it in.
         offered = [getattr(f, "fault_code", None) for f in (shortlist or [])]
         picked = [code for code in chosen if code in offered]
         if picked:
-            leader = next((code for code in offered if code and code not in banned), None)
-            return picked + ([leader] if leader and leader not in picked else [])
+            rest = [code for code in offered if code and code not in banned and code not in picked]
+            return (picked + rest)[: max(_MODEL_LEADS_KEEPS, len(picked))]
     ranked = [getattr(f, "fault_code", None) for f in (shortlist or [])]
     ranked = [code for code in ranked if code and code not in banned]
     if not ranked:
