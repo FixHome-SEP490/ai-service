@@ -17,6 +17,7 @@ RUN_NAME="${RUN_NAME:-lora-${DATA_RUN}-$(date +%Y%m%d-%H%M)}"
 export DATA_DIR="${DATA_DIR:-/workspace/data}"
 export OUT_DIR="${OUT_DIR:-/workspace/adapter}"
 LOG="/workspace/run.log"
+mkdir -p /workspace "${OUT_DIR}"
 
 log() { printf '\n== %s\n' "$*" | tee -a "$LOG"; }
 

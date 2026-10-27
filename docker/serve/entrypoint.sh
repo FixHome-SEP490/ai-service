@@ -19,6 +19,11 @@ MODEL="${VLM_MODEL_NAME:-Qwen/Qwen2.5-VL-3B-Instruct-AWQ}"
 GPU_FRACTION="${GPU_FRACTION:-0.70}"
 MAX_LEN="${MAX_LEN:-8192}"
 WEIGHTS_DIR="${WEIGHTS_DIR:-/workspace/weights}"
+# The fault-choosing adapter (docker/lora), by run name in HF_WEIGHTS_REPO.
+# Unset, Qwen is served as it always was and retrieval leads.
+LORA_RUN="${LORA_RUN:-}"
+LORA_NAME="fixhome-fault"
+LORA_ARGS=()
 
 log() { printf '\n== %s\n' "$*"; }
 
@@ -67,6 +72,31 @@ PY
   log "Detector weights at ${YOLO_WEIGHTS_PATH}"
 }
 
+fetch_adapter() {
+  [[ -n "${LORA_RUN}" ]] || return 0
+  log "Downloading adapter ${HF_WEIGHTS_REPO}/${LORA_RUN}"
+  python3 - "$HF_WEIGHTS_REPO" "$LORA_RUN" "$WEIGHTS_DIR" <<'PY'
+import sys
+from huggingface_hub import snapshot_download
+
+repo, run, target = sys.argv[1], sys.argv[2], sys.argv[3]
+snapshot_download(
+    repo_id=repo, repo_type="model", local_dir=target,
+    allow_patterns=[f"{run}/adapter_config.json", f"{run}/adapter_model.safetensors"],
+)
+PY
+  local dir="${WEIGHTS_DIR}/${LORA_RUN}"
+  if [[ ! -f "${dir}/adapter_model.safetensors" ]]; then
+    # Same reasoning as the detector: refuse rather than quietly serve the
+    # base model under a configuration that says the adapter is on.
+    echo "No adapter under ${dir} after download. Check LORA_RUN=${LORA_RUN}." >&2
+    exit 1
+  fi
+  LORA_ARGS=(--enable-lora --max-lora-rank "${LORA_RANK:-16}" --lora-modules "${LORA_NAME}=${dir}")
+  export VLM_FAULT_MODEL="${LORA_NAME}"
+  log "Adapter ${LORA_RUN} served as ${LORA_NAME}"
+}
+
 start_vllm() {
   log "Starting Qwen (${MODEL}) on port ${VLM_PORT}, ${GPU_FRACTION} of the card"
   python3 -m vllm.entrypoints.openai.api_server \
@@ -75,7 +105,7 @@ start_vllm() {
     --host 127.0.0.1 \
     --port "${VLM_PORT}" \
     --gpu-memory-utilization "${GPU_FRACTION}" \
-    --max-model-len "${MAX_LEN}" &
+    --max-model-len "${MAX_LEN}"     "${LORA_ARGS[@]}" &
   VLM_PID=$!
   trap 'kill ${VLM_PID} 2>/dev/null || true' EXIT
 }
@@ -103,12 +133,14 @@ start_api() {
   log "Starting the API on port ${API_PORT}"
   log "  detector: ${YOLO_WEIGHTS_PATH:-stub}"
   log "  vlm:      ${VLM_BASE_URL}"
+  log "  adapter:  ${VLM_FAULT_MODEL:-none}"
   exec python3 -m uvicorn app.main:app --host 0.0.0.0 --port "${API_PORT}"
 }
 
 case "${1:-serve}" in
   serve)
     fetch_weights
+    fetch_adapter
     start_vllm
     wait_for_vllm
     start_api

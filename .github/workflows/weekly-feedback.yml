@@ -1,0 +1,74 @@
+name: Weekly customer feedback
+
+# Learning from real customers, every week (PO 27/10/2026). The assistant notices
+# when a customer says it was wrong ("sai rồi", "không phải bệnh đó", "ảnh 2 là
+# tủ lạnh") and Backend keeps each one. This pulls the week's into a review file
+# (tools/feedback_review.py pull) with what the assistant answers today and the
+# fault the conversation ended on.
+#
+# The customers' words stay in the review file, kept as a run artifact for 14
+# days; the issue it opens carries only how many there are and where the run
+# is, never what anyone said.
+#
+# Nothing is learned without a person: whoever reviews fills in the right fault,
+# runs `python tools/feedback_review.py apply review.json` (the phrasings go to
+# app/data/learned_phrasings.json and become cases in tools/feedback_cases.json,
+# which CI then keeps right), and the next adapter is trained with them
+# (tools/build_lora_data.py takes every reviewed case).
+#
+# Needs the repository secrets FIXHOME_API (e.g. https://api.fixhome.sbs),
+# FIXHOME_ADMIN_EMAIL and FIXHOME_ADMIN_PASSWORD. Without them it says so and
+# stops.
+
+on:
+  schedule:
+    - cron: "0 2 * * 1" # 09:00 thứ Hai giờ Việt Nam
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  pull:
+    name: Pull the week's "the assistant was wrong"
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      AI_ENGINE: local
+      VLM_BASE_URL: ""
+      YOLO_WEIGHTS_PATH: ""
+      PYTHONIOENCODING: utf-8
+      FIXHOME_API: ${{ secrets.FIXHOME_API }}
+      FIXHOME_ADMIN_EMAIL: ${{ secrets.FIXHOME_ADMIN_EMAIL }}
+      FIXHOME_ADMIN_PASSWORD: ${{ secrets.FIXHOME_ADMIN_PASSWORD }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Secrets present?
+        run: |
+          if [ -z "$FIXHOME_API" ] || [ -z "$FIXHOME_ADMIN_EMAIL" ] || [ -z "$FIXHOME_ADMIN_PASSWORD" ]; then
+            echo "Thiếu FIXHOME_API / FIXHOME_ADMIN_EMAIL / FIXHOME_ADMIN_PASSWORD trong secrets của repo." >> "$GITHUB_STEP_SUMMARY"
+            exit 1
+          fi
+      - uses: actions/setup-python@v5
+        with:
+          python-version-file: '.python-version'
+          cache: 'pip'
+      - run: pip install -r requirements-dev.txt
+      - name: Pull and prepare the review file
+        run: |
+          python tools/feedback_review.py pull --api "$FIXHOME_API" --email "$FIXHOME_ADMIN_EMAIL" --days 7 --out review.json > /dev/null
+          echo "COUNT=$(python -c "import json; print(len(json.load(open('review.json', encoding='utf-8'))))")" >> "$GITHUB_ENV"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: review-${{ github.run_id }}
+          path: review.json
+          retention-days: 14
+      - name: Open a review issue when there is something to review
+        if: env.COUNT != '0'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          gh issue create --title "Duyệt phản hồi khách tuần $(date -u +%G-W%V)" \
+            --body "${COUNT} lần khách nói trợ lý sai trong 7 ngày. Tải review.json ở artifact của lần chạy ${RUN_URL} (giữ 14 ngày), điền fault đúng và approve: true, rồi chạy python tools/feedback_review.py apply review.json."

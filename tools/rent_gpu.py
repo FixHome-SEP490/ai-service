@@ -729,6 +729,9 @@ def cmd_serve(args: argparse.Namespace) -> None:
             f"-e GPU_FRACTION={args.gpu_fraction}",
             f"-e MAX_LEN={args.max_len}",
         ]
+        # The fault-choosing adapter (docker/lora), only once it has beaten
+        # retrieval on the held-out half; without it nothing changes.
+        + ([f"-e LORA_RUN={args.lora_run}"] if args.lora_run else [])
         # Backend's public service list, so the rented box follows new
         # services, names and prices by itself (app/services/pipeline/service_catalog.py).
         + ([f"-e BACKEND_CATALOG_URL={catalog}"] if (catalog := _catalog_url(args)) else [])
@@ -1091,6 +1094,11 @@ def main() -> None:
         help="rent a host whose driver or link the image needs more of",
     )
     serve.add_argument("--max-len", type=int, default=8192)
+    serve.add_argument(
+        "--lora-run",
+        default="",
+        help="adapter run in HF_WEIGHTS_REPO to serve as fixhome-fault (docker/lora); empty serves the base model",
+    )
     serve.add_argument(
         "--catalog-url",
         default="",

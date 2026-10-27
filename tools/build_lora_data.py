@@ -30,6 +30,8 @@ Conversations (`kind`):
     vague_then   "máy lạnh bị sao á" first, the description next
     pushback     a description, then "sai rồi, ..." with another fault's words
     more         an indirect description, then the clear one of the same fault
+    feedback     real customers' words a person reviewed (tools/feedback_cases.json,
+                 written by tools/feedback_review.py apply), train only
 
 tools/dialogue_corpus.py conversations are not used: they label only what must
 not be answered (must_not), not the fault that is right.
@@ -152,6 +154,13 @@ def build_talks(single: int, dialogues: int, seed: int) -> List[Talk]:
             talks.append(Talk(kind, split, device, turns, gold))
             made += 1
 
+    # What real customers said, once a person settled the fault
+    # (tools/feedback_review.py apply): trained on every time, a few copies so
+    # a handful of real sentences is not lost among the generated ones.
+    cases = json.loads((TOOLS / "feedback_cases.json").read_text(encoding="utf-8")).get("cases", [])
+    for case in cases:
+        for _ in range(3):
+            talks.append(Talk("feedback", "dev", case["device"], [case["text"]], case["fault"]))
     return talks
 
 
