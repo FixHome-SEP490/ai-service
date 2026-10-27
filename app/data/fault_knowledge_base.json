@@ -23,7 +23,7 @@
         "máy lạnh không lạnh"
       ],
       "price_min": 249000,
-      "price_max": 999000,
+      "price_max": 1299000,
       "price_reviewed": true,
       "urgency": "MEDIUM",
       "suggested_actions_vi": [
@@ -32,7 +32,7 @@
       "requires_assessment": false,
       "labour_code": "AC-01",
       "part_codes": [
-        "ACV081",
+        "ACG001",
         "AC051"
       ],
       "price_note_vi": "Gia nap gas tuy luong va loai gas, tho bao sau khi do ap.",
@@ -1193,7 +1193,7 @@
         "hết khí lạnh"
       ],
       "price_min": 199000,
-      "price_max": 439000,
+      "price_max": 1619000,
       "price_reviewed": true,
       "urgency": "MEDIUM",
       "suggested_actions_vi": [
@@ -1202,7 +1202,7 @@
       "requires_assessment": false,
       "labour_code": "FR-01",
       "part_codes": [
-        "RFS007",
+        "RFG001",
         "RFS004"
       ],
       "candidate_variants": []
@@ -3094,7 +3094,7 @@
         "chỗ cắm điện bị nám"
       ],
       "price_min": 249000,
-      "price_max": 509000,
+      "price_max": 339000,
       "price_reviewed": true,
       "urgency": "HIGH",
       "suggested_actions_vi": [
@@ -3140,7 +3140,7 @@
         "phải để dây một tư thế"
       ],
       "price_min": 119000,
-      "price_max": 379000,
+      "price_max": 209000,
       "price_reviewed": true,
       "urgency": "MEDIUM",
       "suggested_actions_vi": [
@@ -3182,7 +3182,7 @@
         "cúp điện"
       ],
       "price_min": 249000,
-      "price_max": 569000,
+      "price_max": 369000,
       "price_reviewed": true,
       "urgency": "MEDIUM",
       "suggested_actions_vi": [
@@ -3225,7 +3225,7 @@
         "cái cục điện nó tự tắt"
       ],
       "price_min": 249000,
-      "price_max": 949000,
+      "price_max": 499000,
       "price_reviewed": true,
       "urgency": "HIGH",
       "suggested_actions_vi": [
@@ -3266,7 +3266,7 @@
         "không sao đâu ạ"
       ],
       "price_min": 249000,
-      "price_max": 569000,
+      "price_max": 369000,
       "price_reviewed": true,
       "urgency": "HIGH",
       "suggested_actions_vi": [
@@ -3304,7 +3304,7 @@
         "ổ cắm bị bung ra khỏi tường"
       ],
       "price_min": 119000,
-      "price_max": 379000,
+      "price_max": 209000,
       "price_reviewed": true,
       "urgency": "HIGH",
       "suggested_actions_vi": [
@@ -3345,7 +3345,7 @@
         "cái đèn chết rồi"
       ],
       "price_min": 119000,
-      "price_max": 259000,
+      "price_max": 174000,
       "price_reviewed": true,
       "urgency": "LOW",
       "suggested_actions_vi": [
@@ -3387,7 +3387,7 @@
         "ngồi dưới đèn đó bị nhức đầu"
       ],
       "price_min": 119000,
-      "price_max": 229000,
+      "price_max": 154000,
       "price_reviewed": true,
       "urgency": "MEDIUM",
       "suggested_actions_vi": [
@@ -3429,7 +3429,7 @@
         "phải bấm kiểu gì đó nó mới lên"
       ],
       "price_min": 119000,
-      "price_max": 229000,
+      "price_max": 154000,
       "price_reviewed": true,
       "urgency": "MEDIUM",
       "suggested_actions_vi": [
@@ -3470,7 +3470,7 @@
         "đèn như đèn dầu"
       ],
       "price_min": 119000,
-      "price_max": 259000,
+      "price_max": 174000,
       "price_reviewed": true,
       "urgency": "LOW",
       "suggested_actions_vi": [
@@ -3510,7 +3510,7 @@
         "nước rỉ ra chỗ đèn"
       ],
       "price_min": 119000,
-      "price_max": 459000,
+      "price_max": 239000,
       "price_reviewed": true,
       "urgency": "HIGH",
       "suggested_actions_vi": [
@@ -3630,7 +3630,7 @@
         "súc bình"
       ],
       "price_min": 349000,
-      "price_max": 349000,
+      "price_max": 599000,
       "price_reviewed": true,
       "urgency": "LOW",
       "suggested_actions_vi": [
@@ -3638,7 +3638,9 @@
       ],
       "requires_assessment": false,
       "labour_code": "WH-01",
-      "part_codes": [],
+      "part_codes": [
+        "WHA001"
+      ],
       "candidate_variants": [
         "WH-01-15"
       ]

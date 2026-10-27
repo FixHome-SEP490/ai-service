@@ -57,10 +57,13 @@ def test_a_part_is_priced_on_every_size_and_technology_of_it():
     assert estimate.parts_max == dearest == _price("AC008")
 
 
-def test_a_refrigerant_leak_needs_the_gas_and_the_filter_together():
-    gas = max(_price(c) for c in ("ACV081", "ACV082", "ACV083"))
+def test_a_refrigerant_leak_needs_the_gas_refill_and_the_filter_together():
+    """Priced on a refill for the machine (PO 27/10/2026), not on a 3 kg bottle."""
+    gas = max(_price(c) for c in ("ACG001", "ACG002", "ACG003", "ACG004"))
     drier = max(_price(c) for c in ("AC051", "ACV089", "ACV090"))
     assert pricing.parts_ceiling("AC_LOW_REFRIGERANT", "air_conditioner") == gas + drier
+    fridge_gas = max(_price(c) for c in ("RFG001", "RFG002", "RFG003", "RFG004"))
+    assert pricing.parts_ceiling("FRIDGE_LOW_GAS", "refrigerator") > fridge_gas
 
 
 def test_an_exact_part_is_not_widened_to_its_whole_kind():
@@ -85,10 +88,18 @@ def test_backend_prices_are_read_from_the_public_list():
     assert part_prices.url_from_catalog("") == ""
 
 
-def test_a_part_backend_does_not_sell_yet_keeps_its_table_price():
-    """Sockets and bulbs are not in Backend's parts list yet (26/10/2026)."""
-    assert _price("OUT001") is None
+def test_sockets_and_bulbs_are_priced_at_what_fixhome_sells_them_for():
+    """Added to Backend's parts on 27/10/2026; before that, the V3 table stood in."""
+    assert _price("OUT001") == 25_000
+    assert part_prices.reference() == {}
     assert pricing.parts_ceiling("OUTLET_BROKEN_FACE", "power_outlet") > 0
+
+
+def test_a_part_backend_does_not_sell_keeps_its_table_price(monkeypatch):
+    live = {code: price for code, price in part_prices.snapshot().prices.items() if not code.startswith("OUT")}
+    part_prices.install(part_prices.PartPrices(live, loaded_at=1.0))
+    monkeypatch.setattr(part_prices, "reference", lambda: {"OUT006": 50_000, "OUT007": 30_000})
+    assert pricing.parts_ceiling("OUTLET_BROKEN_FACE", "power_outlet") == 50_000
 
 
 class _NoDetector:
