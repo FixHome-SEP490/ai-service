@@ -667,6 +667,16 @@ Nothing outside has any business talking to the model directly, and a rented
 box publishes its ports to the open internet.
 """
 
+SERVE_LORA_RUN = "lora-fault-v1c"
+"""The fault adapter a serving box attaches unless told otherwise.
+
+Measured 28/10/2026 on the real model against a box with the same code and no
+adapter, on the held-out halves: understanding first fault 30.7 to 43.5
+percent, confidently wrong 20.6 to 19.0 percent; several appliances, right
+fault per appliance 51.9 to 67.8 percent; the 564-case suite 552 to 555; live
+dialogues, prompt injection and load no worse.
+"""
+
 
 def _registry_login() -> Optional[str]:
     """Docker credentials for the rented box, or None if the image is public.
@@ -1097,8 +1107,9 @@ def main() -> None:
     serve.add_argument("--max-len", type=int, default=8192)
     serve.add_argument(
         "--lora-run",
-        default="",
-        help="adapter run in HF_WEIGHTS_REPO to serve as fixhome-fault (docker/lora); empty serves the base model",
+        default=SERVE_LORA_RUN,
+        help=f"adapter run in HF_WEIGHTS_REPO to serve as fixhome-fault (docker/lora), {SERVE_LORA_RUN} by default; "
+        '--lora-run "" serves the base model alone',
     )
     serve.add_argument(
         "--catalog-url",
