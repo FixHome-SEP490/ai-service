@@ -1,0 +1,115 @@
+name: LoRA image
+
+# The image a rented 24 GB card runs to train the fault-choosing adapter
+# (docker/lora, tools/rent_gpu.py lora). Same shape as trainer-image.yml: built
+# here so nobody pushes seven gigabytes from a laptop, kept on GHCR (private,
+# the box logs in) and on Docker Hub when that is configured.
+#
+# Built on main and on feature branches that touch docker/lora, tagged with the
+# branch name, so an adapter can be trained and measured before anything merges.
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main, 'feat/**']
+    paths:
+      - 'docker/lora/**'
+      - '.github/workflows/lora-image.yml'
+
+permissions:
+  contents: read
+  packages: write
+
+concurrency:
+  group: lora-image
+  cancel-in-progress: true
+
+jobs:
+  build:
+    name: Build and push trainer image
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+
+      # Registry paths must be lowercase, and this organisation's name is not.
+      # metadata-action lowercases the tags it generates, but any reference
+      # written by hand below has to be lowercased too, or the build fails at
+      # the very end with "repository name must be lowercase".
+      - name: Lowercase the image path
+        run: echo "IMAGE=ghcr.io/$(echo '${{ github.repository_owner }}' | tr '[:upper:]' '[:lower:]')/fixhome-lora" >> "$GITHUB_ENV"
+
+      # The CUDA base image does not fit alongside the runner's preinstalled
+      # toolchains. Without this the build fails partway with "no space left on
+      # device", which reads like a Docker problem and is not.
+      - name: Reclaim runner disk
+        run: |
+          echo "before:"; df -h / | tail -1
+          sudo rm -rf /usr/share/dotnet /usr/local/lib/android /opt/ghc
+          sudo rm -rf /usr/local/share/boost "$AGENT_TOOLSDIRECTORY"
+          sudo docker image prune -af
+          echo "after:"; df -h / | tail -1
+
+      - uses: docker/setup-buildx-action@v3
+
+      - name: Log in to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Log in to Docker Hub
+        if: ${{ vars.DOCKERHUB_ENABLED == 'true' }}
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Note the Docker Hub image path
+        if: ${{ vars.DOCKERHUB_ENABLED == 'true' }}
+        run: echo "HUB_IMAGE=docker.io/${{ secrets.DOCKERHUB_USERNAME }}/fixhome-lora" >> "$GITHUB_ENV"
+
+      - id: meta
+        uses: docker/metadata-action@v5
+        with:
+          # metadata-action tolerates a blank line, so one images list covers
+          # both the always-on registry and the optional one.
+          images: |
+            ${{ env.IMAGE }}
+            ${{ env.HUB_IMAGE }}
+          tags: |
+            type=raw,value=latest,enable={{is_default_branch}}
+            type=ref,event=branch
+            type=sha,format=short
+
+      - name: Build and push
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: docker/lora/Dockerfile
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          # Layer cache lives in the registry, so a change to the project files
+          # rebuilds one thin layer instead of reinstalling the toolchain.
+          cache-from: type=registry,ref=${{ env.IMAGE }}:buildcache
+          cache-to: type=registry,ref=${{ env.IMAGE }}:buildcache,mode=max
+
+      - name: Report how to use it
+        run: |
+          echo "Images pushed:"
+          echo "  ${IMAGE}:latest   (GHCR, private in this organisation)"
+          if [ -n "${HUB_IMAGE:-}" ]; then
+            echo "  ${HUB_IMAGE}:latest   (Docker Hub)"
+            echo ""
+            echo "Pull on a rented GPU box with:"
+            echo "  docker pull ${HUB_IMAGE}:latest"
+            echo "Make that Docker Hub repository public once, so no login is needed."
+          else
+            echo ""
+            echo "Docker Hub is not configured, so the only image is on GHCR and"
+            echo "it is private. A rented box would have to log in to pull it."
+            echo "Set the DOCKERHUB_USERNAME and DOCKERHUB_TOKEN secrets and the"
+            echo "DOCKERHUB_ENABLED variable to 'true' to publish there as well."
+          fi

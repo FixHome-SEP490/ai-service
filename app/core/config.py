@@ -89,6 +89,16 @@ class Settings(BaseSettings):
     learned phrasings matched it. Below RETRIEVAL_DECISIVE_SCORE on purpose: it
     may be offered and asked about, never answered as settled on that alone."""
 
+    VLM_FAULT_MODEL: str = ""
+    """The LoRA adapter trained to choose the fault (PO 27/10/2026), as vLLM serves
+    it (`--lora-modules <name>=...`). Empty: the base model, retrieval leads,
+    exactly as before. Set: text-only turns go to the adapter, it is offered every
+    fault of the appliance (see VLM_FAULT_CANDIDATES) and its choice leads. See
+    tools/build_lora_data.py and docker/lora/."""
+    VLM_FAULT_CANDIDATES: int = 10
+    """How many faults the adapter is shown: retrieval's order first, then the
+    rest of the appliance's faults, so one the words missed can still be chosen."""
+
     VLM_SHORTLIST_SIZE: int = 3
     """How many faults the model may choose between.
 

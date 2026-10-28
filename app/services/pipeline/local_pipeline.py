@@ -50,7 +50,7 @@ from app.services.pipeline.conversation import Conversation, day_vi, get_convers
 from app.services.pipeline.detector import Detection, Detector
 from app.services.pipeline.images import ImagePayload, load_base64_image
 from app.services.pipeline.knowledge_base import KnowledgeBase
-from app.services.pipeline.retriever import Retriever
+from app.services.pipeline.retriever import Retriever, ScoredFault
 from app.services.pipeline.vlm import VisionLanguageModel, VlmVerdict
 
 _IDENTIFY_PATTERNS = (
@@ -715,6 +715,55 @@ def _what_it_is(mention: tuple, folded: List[str]) -> Optional[tuple]:
     return mention
 
 
+_BARE_HEADS = {"bệt": "toilet", "bet": "toilet", "đèn": "light_bulb", "den": "light_bulb"}
+"""Words that are an appliance only where they open a clause: "ngồi bệt" and
+"đèn báo" name nothing, "..., bệt nhà mình ngồi xuống là kêu" and "còn đèn vừa
+bật lên thì chớp" are the toilet and the light."""
+
+_NOT_A_LIGHT_AFTER = frozenset("trong tren o cua phia ben man mat vien dom ban phim so but nho".split())
+"""After a bare "đèn", the light of the appliance just described: "đèn trong
+tủ", "đèn trên cục chia", "đèn ở mặt máy", "đèn đóm", "đèn bàn phím"."""
+
+_MOVES_ON = frozenset(_fold_vi(w) for w in "còn cả thêm quên nhân tiện ngoài ra với lại kèm theo".split())
+"""Connectors that leave the appliance being described. A bare "đèn" after a
+comma or "mà" is that appliance's own light far more often than a lamp: "đã
+thay cầu chì mà đèn không lên", "chạy được, đèn sáng đủ"."""
+
+
+def _bare_heads(text: str, typed: List[str], folded: List[str]) -> List[tuple]:
+    """Bare "bệt" and "đèn" opening a clause (see _BARE_HEADS).
+
+    Only asked for in a message that already names an appliance: there the
+    customer is going through several, and these are how people say the
+    toilet and the light. Measured on the dev half of eval_multi_message,
+    where they were the two appliances missed most."""
+    out = []
+    for i, word in enumerate(typed):
+        device = _BARE_HEADS.get(word)
+        if device is None:
+            continue
+        before = folded[max(0, i - 2) : i]
+        after = folded[i + 1 : i + 2]
+        if device == "light_bulb":
+            gap = unicodedata.normalize("NFC", text.lower())
+            words = list(re.finditer(r"[^\W_]+", gap))
+            colon = i > 0 and ":" in gap[words[i - 1].end() : words[i].start()]
+            opens = i == 0 or colon or bool(before[-1:] and before[-1] in _MOVES_ON)
+            if after and (after[0] in _INDICATOR_AFTER or after[0] in _NOT_A_LIGHT_AFTER):
+                continue
+        else:
+            opens = (
+                i == 0
+                or _punctuated_before(text, i)
+                or bool(before[-1:] and before[-1] in _FOLDED_CONNECTORS)
+                or " ".join(before) in _TWO_WORD_CONNECTORS
+            )
+        if not opens:
+            continue
+        out.append((device, i, i + 1))
+    return out
+
+
 def _appliance_mentions(text: str, kb: KnowledgeBase) -> List[tuple]:
     """See _appliance_mentions_uncached; remembered per text.
 
@@ -796,6 +845,8 @@ def _appliance_mentions_uncached(text: str, kb: KnowledgeBase) -> List[tuple]:
                         candidates = [d for d in candidates if d in points_to] or candidates
             if len(candidates) == 1:
                 found.append((candidates[0], start, at + n))
+    if found:
+        found += _bare_heads(text, typed, folded)
     found = [_what_it_is(m, folded) for m in found]
     found = [m for m in found if m is not None]
     found.sort(key=lambda m: (m[1], -(m[2] - m[1])))
@@ -818,9 +869,14 @@ def _appliance_mentions_uncached(text: str, kb: KnowledgeBase) -> List[tuple]:
             # vào không nảy lên, khóa Xiaomi" start a new clause.
             kept.append(mention)
             continue
-        if any(w in _AS_AN_OBJECT for w in before[-1:]) or (
-            len(before) == 2 and before[-1] in ("cái", "chiếc", "con") and before[0] in _AS_AN_OBJECT
-        ):
+        # "Ngoài ra cái điều hòa", "với lại con Daikin": the connector again,
+        # with the classifier between it and the name, not "ra cái" an object.
+        classified = len(before) == 2 and before[-1] in ("cái", "chiếc", "con")
+        lead_in = " ".join(_fold_vi(w) for w in typed[max(0, mention[1] - 3) : mention[1] - 1])
+        if classified and lead_in in _TWO_WORD_CONNECTORS:
+            kept.append(mention)
+            continue
+        if any(w in _AS_AN_OBJECT for w in before[-1:]) or (classified and before[0] in _AS_AN_OBJECT):
             continue
         kept.append(mention)
     if not kept or not re.search(r"[,.;!?\n]", text):
@@ -1286,12 +1342,23 @@ _SEGMENT_RE = re.compile(r"[,.;!?\n]+|\s(?:còn|với lại|với cả|ngoài ra
 """Where one message moves from one appliance to the next."""
 
 
+_MODEL_LEADS_KEEPS = 2
+"""Possibilities kept when the trained chooser leads.
+
+Two, the breadth the base model's answers mostly have (one or two faults, three
+in 47 of 780 live replies). Three on every reply was measured too: the prose
+grew a fifth longer, the price range and the to-do list widened with the third
+fault, and the narrating model copied the data's " | " into 40 of 780 replies.
+"""
+
+
 def _ranked_by_retrieval(
     chosen: Sequence[str],
     shortlist: Optional[Sequence[Any]],
     *,
     saw_a_photograph: bool,
     excluded: Optional[set] = None,
+    model_leads: bool = False,
 ) -> List[str]:
     """Retrieval's leader first, then whatever the model chose from the shortlist.
 
@@ -1343,6 +1410,20 @@ def _ranked_by_retrieval(
     chosen = [code for code in chosen if code not in banned]
     if saw_a_photograph:
         return list(chosen)
+    if model_leads and chosen:
+        # The trained fault chooser (VLM_FAULT_MODEL), measured against this
+        # rule on the held-out half before it was switched on: its pick leads,
+        # retrieval's order follows as the other possibility. Still only codes
+        # it was offered. It answers with one code where the base model named
+        # two or three; with its pick and retrieval's leader only, a pick that
+        # agreed with the leader left a single fault, and on the real model the
+        # right one dropped out of the answer in 29 of 802 held-out sentences
+        # the base model had kept it in.
+        offered = [getattr(f, "fault_code", None) for f in (shortlist or [])]
+        picked = [code for code in chosen if code in offered]
+        if picked:
+            rest = [code for code in offered if code and code not in banned and code not in picked]
+            return (picked + rest)[: max(_MODEL_LEADS_KEEPS, len(picked))]
     ranked = [getattr(f, "fault_code", None) for f in (shortlist or [])]
     ranked = [code for code in ranked if code and code not in banned]
     if not ranked:
@@ -2799,6 +2880,7 @@ class LocalPipeline:
         # customers use, the policies that bear on this device and the rows that
         # price it. Handing over a bare list of codes is what made the answers
         # read like a lookup table.
+        offered = self._offered(candidates, searched, device_type, chat, detection is not None)
         ctx = context.build(
             kb=self._kb,
             retriever=self._retriever,
@@ -2806,7 +2888,7 @@ class LocalPipeline:
             latest_message=request.description,
             device_type=device_type,
             device_source=chat.device_source_vi,
-            candidates=candidates,
+            candidates=offered,
             has_image=detection is not None,
         )
         trace.add(
@@ -2961,8 +3043,35 @@ class LocalPipeline:
                 )
 
         return await self._build_response(
-            request, detection, verdict, confidence, shortlist, chat, trace
+            request, detection, verdict, confidence,
+            [c.fault for c in offered] if offered is not candidates else shortlist, chat, trace,
         )
+
+    def _offered(self, candidates, searched: str, device_type: Optional[str], chat: Conversation, has_image: bool):
+        """The faults the model may choose from.
+
+        The base model gets retrieval's shortlist, as always. The trained fault
+        chooser (VLM_FAULT_MODEL) is offered every fault of the appliance, in
+        retrieval's order and then the rest: it learned to read descriptions the
+        word scorer misses, and could not choose a fault the scorer had left off
+        the list. Not with a photograph, which goes to the base model."""
+        if not settings.VLM_FAULT_MODEL or not device_type or has_image:
+            return candidates
+        banned = chat.state.excluded_codes()
+        ranked = self._retriever.candidate_faults(
+            description=searched,
+            device_type=device_type,
+            top_k=settings.VLM_FAULT_CANDIDATES,
+            exclude=banned,
+            penalties=chat.state.factors(),
+        )
+        seen = {c.fault.fault_code for c in ranked}
+        rest = [
+            ScoredFault(fault=f, score=0.0)
+            for f in self._kb.faults_for_device(device_type)
+            if f.fault_code not in seen and f.fault_code not in banned
+        ]
+        return (list(ranked) + rest)[: settings.VLM_FAULT_CANDIDATES]
 
     async def answer(self, request: ChatRequest) -> ChatResponse:
         return self._with_pushback(await self._answer_routed(request))
@@ -4496,6 +4605,7 @@ class LocalPipeline:
             # of retrieval's low refrigerant.
             saw_a_photograph=detection is not None and bool(verdict.condition_codes),
             excluded=chat.state.excluded_codes() if chat is not None else None,
+            model_leads=bool(settings.VLM_FAULT_MODEL) and detection is None,
         ):
             fault = self._kb.fault(code)
             if fault is None:

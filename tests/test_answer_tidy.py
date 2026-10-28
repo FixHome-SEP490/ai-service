@@ -117,6 +117,10 @@ def test_the_data_handed_back_is_not_an_answer():
     assert not _reads_back_the_data(
         "Dạ, máy giặt kêu to khi vắt có thể do mòn bạc đạn ạ. Chi phí tham khảo từ 529.000đ."
     )
+    # The served model, 28/10/2026: the facts' separator copied into the prose.
+    assert _reads_back_the_data(
+        "Dạ, thiết bị vệ sinh nhà mình có thể bị hỏng lõi vòi trộn hoặc mòn gioăng, rò rỉ vòi nước | rò rỉ chân vòi, mối nối."
+    )
 
 
 def test_a_good_answer_is_left_as_it_is():
