@@ -1,0 +1,372 @@
+{
+  "$defs": {
+    "StateDevice": {
+      "properties": {
+        "deviceType": {
+          "title": "Devicetype",
+          "type": "string"
+        },
+        "nameVi": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Namevi"
+        },
+        "recognisedFrom": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Recognisedfrom"
+        },
+        "confidence": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Confidence"
+        },
+        "brand": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Brand"
+        },
+        "errorCodes": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Errorcodes",
+          "type": "array"
+        },
+        "images": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/StateImage"
+          },
+          "title": "Images",
+          "type": "array"
+        },
+        "statements": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/StateStatement"
+          },
+          "title": "Statements",
+          "type": "array"
+        },
+        "hypotheses": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/StateHypothesis"
+          },
+          "title": "Hypotheses",
+          "type": "array"
+        },
+        "service": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/StateService"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        }
+      },
+      "required": [
+        "deviceType"
+      ],
+      "title": "StateDevice",
+      "type": "object"
+    },
+    "StateHypothesis": {
+      "properties": {
+        "faultCode": {
+          "title": "Faultcode",
+          "type": "string"
+        },
+        "nameVi": {
+          "title": "Namevi",
+          "type": "string"
+        },
+        "status": {
+          "enum": [
+            "POSSIBLE",
+            "LESS_LIKELY",
+            "RULED_OUT"
+          ],
+          "title": "Status",
+          "type": "string"
+        },
+        "reasonVi": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Reasonvi"
+        },
+        "rank": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Rank"
+        }
+      },
+      "required": [
+        "faultCode",
+        "nameVi",
+        "status"
+      ],
+      "title": "StateHypothesis",
+      "type": "object"
+    },
+    "StateImage": {
+      "properties": {
+        "imageIndex": {
+          "title": "Imageindex",
+          "type": "integer"
+        },
+        "deviceType": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Devicetype"
+        },
+        "confidence": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Confidence"
+        },
+        "uncertain": {
+          "default": false,
+          "title": "Uncertain",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "imageIndex"
+      ],
+      "title": "StateImage",
+      "type": "object"
+    },
+    "StateQa": {
+      "properties": {
+        "questionVi": {
+          "title": "Questionvi",
+          "type": "string"
+        },
+        "askedTurn": {
+          "title": "Askedturn",
+          "type": "integer"
+        },
+        "source": {
+          "title": "Source",
+          "type": "string"
+        },
+        "answerVi": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Answervi"
+        },
+        "answeredTurn": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Answeredturn"
+        },
+        "status": {
+          "enum": [
+            "PENDING",
+            "ANSWERED",
+            "UNANSWERED"
+          ],
+          "title": "Status",
+          "type": "string"
+        }
+      },
+      "required": [
+        "questionVi",
+        "askedTurn",
+        "source",
+        "status"
+      ],
+      "title": "StateQa",
+      "type": "object"
+    },
+    "StateService": {
+      "properties": {
+        "serviceCode": {
+          "title": "Servicecode",
+          "type": "string"
+        },
+        "nameVi": {
+          "title": "Namevi",
+          "type": "string"
+        }
+      },
+      "required": [
+        "serviceCode",
+        "nameVi"
+      ],
+      "title": "StateService",
+      "type": "object"
+    },
+    "StateStatement": {
+      "description": "Something the customer said, kept in their words with when it was said.",
+      "properties": {
+        "textVi": {
+          "title": "Textvi",
+          "type": "string"
+        },
+        "turn": {
+          "title": "Turn",
+          "type": "integer"
+        },
+        "source": {
+          "default": "USER_REPORTED",
+          "enum": [
+            "USER_REPORTED",
+            "IMAGE_OBSERVED",
+            "AI_INFERRED",
+            "TECHNICIAN"
+          ],
+          "title": "Source",
+          "type": "string"
+        }
+      },
+      "required": [
+        "textVi",
+        "turn"
+      ],
+      "title": "StateStatement",
+      "type": "object"
+    }
+  },
+  "properties": {
+    "schemaVersion": {
+      "default": 1,
+      "title": "Schemaversion",
+      "type": "integer"
+    },
+    "stateVersion": {
+      "title": "Stateversion",
+      "type": "integer"
+    },
+    "sessionId": {
+      "title": "Sessionid",
+      "type": "string"
+    },
+    "updatedAt": {
+      "title": "Updatedat",
+      "type": "number"
+    },
+    "diagnosisStatus": {
+      "enum": [
+        "UNKNOWN",
+        "COLLECTING_INFORMATION",
+        "POSSIBLE",
+        "LIKELY",
+        "NEED_TECHNICIAN"
+      ],
+      "title": "Diagnosisstatus",
+      "type": "string"
+    },
+    "devices": {
+      "default": [],
+      "items": {
+        "$ref": "#/$defs/StateDevice"
+      },
+      "title": "Devices",
+      "type": "array"
+    },
+    "qa": {
+      "default": [],
+      "items": {
+        "$ref": "#/$defs/StateQa"
+      },
+      "title": "Qa",
+      "type": "array"
+    },
+    "danger": {
+      "default": false,
+      "title": "Danger",
+      "type": "boolean"
+    },
+    "turns": {
+      "default": 0,
+      "title": "Turns",
+      "type": "integer"
+    }
+  },
+  "required": [
+    "stateVersion",
+    "sessionId",
+    "updatedAt",
+    "diagnosisStatus"
+  ],
+  "title": "FixHome diagnostic state",
+  "type": "object",
+  "$id": "https://fixhome.sbs/schemas/diagnostic-state/v1.json"
+}

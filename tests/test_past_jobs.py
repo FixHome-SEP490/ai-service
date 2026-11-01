@@ -24,7 +24,7 @@ from app.services.pipeline.vlm import StubVlm
 
 AC_JOB = {"serviceVi": "Sửa điều hòa không mát / chảy nước", "deviceVi": "Máy lạnh", "faultVi": "Thiếu gas, xì gas", "date": "2026-08-03"}
 FRIDGE_JOB = {"serviceVi": "Sửa tủ lạnh không lạnh", "date": "2026-09-20"}
-RECALL = 'Em thấy ngày 03/08/2026 anh/chị đã đặt "Sửa điều hòa không mát / chảy nước".'
+RECALL = 'Em thấy anh/chị đã đặt lịch "Sửa điều hòa không mát / chảy nước" ngày 03/08/2026.'
 
 
 @pytest.fixture(scope="module")
@@ -83,7 +83,7 @@ def test_the_old_guess_is_never_said_to_the_customer(kb):
 
 def test_a_booking_for_another_appliance_is_not_mentioned(kb):
     replies = _talk(kb, ["máy giặt không vắt", "chưa thử gì"], [AC_JOB, FRIDGE_JOB])
-    assert not any("Em thấy ngày" in m for m in _said(replies))
+    assert not any("Em thấy" in m and "Sửa điều hòa" in m for m in _said(replies))
     assert not any("từng đặt" in n for r in replies for n in r.notes_vi)
 
 
@@ -99,7 +99,7 @@ def test_it_does_not_change_the_diagnosis(kb):
 def test_not_while_something_is_dangerous(kb):
     replies = _talk(kb, ["máy lạnh bốc khói có mùi khét", "giờ làm sao em"], [AC_JOB])
     assert all(r.urgency.value == "HIGH" for r in replies)
-    assert not any("Em thấy ngày" in m for m in _said(replies))
+    assert not any("Em thấy" in m and "Sửa điều hòa" in m for m in _said(replies))
     # The technician still gets both, the danger line last and never cut.
     notes = replies[-1].notes_vi
     assert notes[-1].startswith("Khách có tả dấu hiệu nguy hiểm")
@@ -108,7 +108,7 @@ def test_not_while_something_is_dangerous(kb):
 
 def test_the_customer_who_never_booked_hears_nothing_new(kb):
     replies = _talk(kb, ["máy lạnh không mát", "mới vệ sinh rồi"], [])
-    assert not any("Em thấy ngày" in m for m in _said(replies))
+    assert not any("Em thấy" in m and "Sửa điều hòa" in m for m in _said(replies))
     assert not any("từng đặt" in n for r in replies for n in r.notes_vi)
 
 
@@ -123,7 +123,7 @@ def test_the_question_path_mentions_it_too(kb):
 
     first, answer = asyncio.run(run())
     said = (first.message_vi or "") + " " + (answer.answer_vi or "")
-    assert said.count('đã đặt "Sửa tủ lạnh không lạnh"') == 1
+    assert said.count('đã đặt lịch "Sửa tủ lạnh không lạnh"') == 1
 
 
 def test_the_contract_is_strict():
@@ -140,3 +140,18 @@ def test_the_contract_is_strict():
 def test_day_vi():
     assert day_vi("2026-08-03") == "03/08/2026"
     assert day_vi("") == ""
+
+
+def test_a_finished_job_is_told_as_repaired_and_a_coming_one_as_scheduled(kb):
+    """PO 01/11/2026: a job the technician had only accepted, its day still
+    ahead, was told back as "anh/chị đã đặt"."""
+    done = _said(_talk(kb, ["máy lạnh không mát", "mới vệ sinh rồi"], [{**AC_JOB, "status": "COMPLETED"}]))
+    assert any('Em thấy ngày 03/08/2026 thợ FixHome đã sửa "Sửa điều hòa không mát / chảy nước"' in m for m in done), done
+    coming = _said(_talk(kb, ["máy lạnh không mát", "mới vệ sinh rồi"], [{**AC_JOB, "status": "SCHEDULED"}]))
+    assert any('đang có lịch "Sửa điều hòa không mát / chảy nước" ngày 03/08/2026' in m for m in coming), coming
+    assert not any("đã đặt" in m or "đã sửa" in m for m in coming)
+
+
+def test_the_technician_reads_whether_the_earlier_job_was_done(kb):
+    _, second = _talk(kb, ["máy lạnh không mát", "mới vệ sinh rồi"], [{**AC_JOB, "status": "SCHEDULED"}])
+    assert any(n.startswith('Khách đang có lịch "Sửa điều hòa không mát / chảy nước" ngày 03/08/2026') for n in second.notes_vi)

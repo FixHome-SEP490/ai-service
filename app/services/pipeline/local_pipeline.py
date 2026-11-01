@@ -46,7 +46,8 @@ from app.services.pipeline import error_codes
 from app.services.pipeline import service_catalog
 from app.services.pipeline import visit_prep
 from app.services.pipeline import dialogue_state
-from app.services.pipeline.conversation import Conversation, day_vi, get_conversation_store
+from app.services.pipeline import diagnostic_state
+from app.services.pipeline.conversation import MAX_FOLLOWUPS, Conversation, day_vi, get_conversation_store
 from app.services.pipeline.detector import Detection, Detector
 from app.services.pipeline.images import ImagePayload, load_base64_image
 from app.services.pipeline.knowledge_base import KnowledgeBase
@@ -282,6 +283,22 @@ someone whose complaint is that the booking they made has not produced anybody.
 Checked before the positive patterns, because the positive words are all present
 in these sentences too.
 """
+
+
+_TEMPLATE_QUESTION = re.compile(r"^Thiết bị có hiện tượng (.+) không\?$")
+
+
+def _spoken_question(question: str, device_name_vi: Optional[str]) -> str:
+    """The clarifier's templated question as one would say it in a message.
+
+    "Thiết bị có hiện tượng đóng tuyết không?" reads like a form; the template
+    stays the pending question, because that is what dialogue_state.answer_to
+    reads a "không" against."""
+    match = _TEMPLATE_QUESTION.match(question.strip())
+    if not match:
+        return question
+    subject = f"{device_name_vi.strip().lower()} nhà mình" if device_name_vi else "máy nhà mình"
+    return f"{subject[0].upper()}{subject[1:]} có bị {match.group(1)} không ạ?"
 
 
 def _wants_to_book(text: str) -> bool:
@@ -1660,7 +1677,23 @@ class LocalPipeline:
 
     async def diagnose(self, request: DiagnosisRequest) -> DiagnosisResponse:
         async with self._conversations.lock(request.session_id):
-            return await self._diagnose_locked(request)
+            if request.diagnostic_state and request.session_id:
+                diagnostic_state.restore(request.diagnostic_state, self._conversations, request.session_id)
+            response = await self._diagnose_locked(request)
+            return self._with_state(response)
+
+    def _with_state(self, response: DiagnosisResponse) -> DiagnosisResponse:
+        """The conversation's state after this turn, for Backend to keep."""
+        chat = self._conversations.peek(response.session_id)
+        if chat is None:
+            return response
+        chat.state_version += 1
+        try:
+            state = diagnostic_state.export(chat, self._conversations, self._kb)
+        except (TypeError, ValueError):
+            logger.exception("diagnostic state not exportable")
+            return response
+        return response.model_copy(update={"diagnostic_state": state, "state_version": chat.state_version})
 
     async def _diagnose_locked(self, request: DiagnosisRequest) -> DiagnosisResponse:
         response = await self._diagnose_routed(request)
@@ -2433,6 +2466,7 @@ class LocalPipeline:
                     "date": job.date,
                     "fault": (job.fault_vi or "").strip(),
                     "device": hits[0].device_type if hits else "",
+                    "status": job.status or "",
                 }
             )
 
@@ -2447,8 +2481,21 @@ class LocalPipeline:
         if urgent or not job or chat.device_type in chat.recalled:
             return None
         chat.recalled.append(chat.device_type)
+        # PO 01/11/2026: a job the technician had only accepted, its date still
+        # ahead, was told back as "anh/chị đã đặt" as if it had been done.
+        status = job.get("status")
+        if status == "SCHEDULED":
+            return (
+                f'Em thấy anh/chị đang có lịch "{job["service"]}" ngày {day_vi(job["date"])}. '
+                "Nếu là cùng thiết bị này, anh/chị cứ kể thêm với thợ khi thợ tới ạ."
+            )
+        if status == "COMPLETED":
+            return (
+                f'Em thấy ngày {day_vi(job["date"])} thợ FixHome đã sửa "{job["service"]}" cho anh/chị. '
+                "Nếu là lỗi cũ quay lại, anh/chị cứ kể với thợ để thợ xem lại lần sửa trước ạ."
+            )
         return (
-            f'Em thấy ngày {day_vi(job["date"])} anh/chị đã đặt "{job["service"]}". '
+            f'Em thấy anh/chị đã đặt lịch "{job["service"]}" ngày {day_vi(job["date"])}. '
             "Nếu là lỗi cũ quay lại, anh/chị cứ kể với thợ để thợ xem lại lần sửa trước ạ."
         )
 
@@ -3768,6 +3815,52 @@ class LocalPipeline:
             return None
         return RecommendedService(service_code=ref.service_code, name_vi=ref.name_vi)
 
+    def _answer_device(
+        self, device: Optional[DetectedDevice], chat: Optional[Conversation], codes: Sequence[str]
+    ) -> Optional[str]:
+        """The appliance an answer is about. A reply to words alone carries no
+        device, so the conversation's, else the leading fault's."""
+        if device is not None:
+            return device.device_type
+        if chat is not None and chat.device_type:
+            return chat.device_type
+        fault = self._kb.fault(codes[0]) if codes else None
+        return fault.device_type if fault else None
+
+    def _followup_question(
+        self, faults: List[SuspectedFault], device: Optional[DetectedDevice], chat: Conversation
+    ) -> Optional[str]:
+        """One question that tells the remaining faults apart, added to an
+        answer that still has two of them (PO 01/11/2026: keep asking as
+        before, but do not settle too early).
+
+        The question is the clarifier's, which ranks symptoms by how evenly
+        they split the faults, and is kept as the pending question so a bare
+        "không" next turn is read against it."""
+        if len(faults) < 2 or chat.followups >= MAX_FOLLOWUPS:
+            return None
+        if chat.times_asked + chat.followups >= settings.MAX_CLARIFYING_TURNS + MAX_FOLLOWUPS:
+            return None
+        candidates = [f for f in (self._kb.fault(s.fault_code) for s in faults[:3]) if f is not None]
+        device_type = device.device_type if device else chat.device_type
+        questions = clarifier.texts(
+            clarifier.build_questions(
+                candidates,
+                chat.customer_text(),
+                discriminators=self._kb.discriminators_for_device(device_type),
+            )
+        )
+        asked = set(chat.asked_symptoms) | {e.question_vi for e in chat.qa}
+        question = next((q for q in questions if q not in asked), None)
+        if question is None:
+            return None
+        shown = _spoken_question(question, device.name_vi if device else None)
+        chat.followups += 1
+        chat.remember_questions([question])
+        chat.pending_question = question
+        chat.asked(shown, "followup")
+        return f"Để em xác định chính xác hơn, anh/chị cho em hỏi thêm: {shown}"
+
     def _device_for_work(self, text: str) -> Optional[str]:
         """Of the appliances a request for work names, the first Backend sells
         that work for: "lắp thêm ổ cắm điện" names both the socket and, through
@@ -4363,6 +4456,7 @@ class LocalPipeline:
             chat.remember_questions(questions)
             chat.pending_question = questions[0] if questions else None
             for question in questions:
+                chat.asked(question, "clarifier")
                 chat.add("assistant", question)
 
         if trace is not None:
@@ -4639,7 +4733,7 @@ class LocalPipeline:
         needs_assessment = False
         urgency = UrgencyLevel.LOW
 
-        for code in _ranked_by_retrieval(
+        ranked = _ranked_by_retrieval(
             verdict.fault_codes,
             shortlist,
             # The model leads only when the photograph showed it something:
@@ -4651,7 +4745,15 @@ class LocalPipeline:
             saw_a_photograph=detection is not None and bool(verdict.condition_codes),
             excluded=chat.state.excluded_codes() if chat is not None else None,
             model_leads=bool(settings.VLM_FAULT_MODEL) and detection is None,
-        ):
+        )
+        about = self._answer_device(device, chat, ranked)
+        if chat is not None:
+            latest = next((t.text_vi for t in reversed(chat.turns) if t.role == "customer"), "")
+            new_symptom = (
+                chat.latest_brought_a_symptom() and bool(about) and self._names_a_symptom(latest, about)
+            )
+            ranked = chat.keep_hypotheses(ranked, about, new_symptom)
+        for code in ranked:
             fault = self._kb.fault(code)
             if fault is None:
                 continue  # model named a code outside the catalog; drop it
@@ -4713,8 +4815,9 @@ class LocalPipeline:
 
         if chat is not None:
             chat.shortlist = [f.fault_code for f in faults]
+            chat.hypotheses = [f.fault_code for f in faults]
+            chat.hypotheses_device = about
             chat.answered = True
-            chat.add("assistant", ", ".join(f.name_vi for f in faults))
 
         message_vi = await self._narrate(
             device, faults, price_min, price_max if estimate is not None or not needs_assessment else None,
@@ -4726,6 +4829,13 @@ class LocalPipeline:
             note = self._not_open_note(faults and self._kb.fault(faults[0].fault_code).device_type)
             if note:
                 message_vi = f"{message_vi} {note}" if message_vi else note
+        if chat is not None:
+            followup = self._followup_question(faults, device, chat)
+            if followup:
+                message_vi = f"{message_vi} {followup}" if message_vi else followup
+            # What the customer was shown, not only the fault names: the next
+            # turn's "không" is read against it, and the model reads it too.
+            chat.add("assistant", message_vi or ", ".join(f.name_vi for f in faults))
 
         return DiagnosisResponse(
             request_id=request.request_id,
