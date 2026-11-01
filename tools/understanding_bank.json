@@ -424,6 +424,26 @@
       "đồ ăn cất trong đó vẫn tươi, chỉ có điều khách tới chơi ai cũng hỏi nhà có máy bơm à",
       "hàng xóm chung tường than nghe tiếng rung rè rè từ bếp nhà em suốt đêm"
      ]
+    },
+    "FRIDGE_DIRTY_ODOR": {
+     "clear": [
+      "mở tủ ra là mùi xộc lên, tanh tanh lẫn mùi đồ ăn cũ, dù tủ vẫn lạnh bình thường",
+      "ngăn mát hôi quá, bỏ hết đồ hỏng rồi mà mùi vẫn còn ám trong tủ",
+      "gioăng cửa tủ có mấy vệt mốc đen, mở ra ngửi thấy mùi ẩm khó chịu",
+      "đá làm trong tủ có mùi lạ, uống nước đá thấy hôi hôi",
+      "dưới ngăn rau có nước nhớt nhớt, bốc mùi chua",
+      "để cá với thịt trong tủ lâu quá giờ cả tủ bị ám mùi tanh",
+      "tủ lạnh nhà em hôi lắm, chắc lâu rồi chưa ai lau dọn",
+      "bánh với sữa để trong tủ cứ bị lây mùi hành mùi cá",
+      "mùi hôi nồng từ trong tủ ra, lạnh thì vẫn lạnh chứ không hỏng gì",
+      "tu lanh hoi qua, mo cua ra la thay mui"
+     ],
+     "indirect": [
+      "mỗi lần mở tủ ra là phải nín thở",
+      "khách tới nhà mở tủ lấy nước mà ngại quá vì mùi",
+      "đồ ăn cất vào hôm sau ăn đã thấy có mùi tủ",
+      "con em bảo tủ lạnh có mùi kinh quá không dám để đồ"
+     ]
     }
    }
   },

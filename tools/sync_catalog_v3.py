@@ -40,6 +40,27 @@ DATA = ROOT / "app" / "data"
 BACKEND = ROOT.parent / "backend" / "src" / "database" / "catalog-v2"
 REMOVED = {"PU-01", "PU-02"}  # deleted from the database with the pump category
 
+# Faults written after the V3 file of 19/10/2026, kept here so a later sync does
+# not drop them. FRIDGE_DIRTY_ODOR (01/11/2026): the cleaning Backend sells as
+# FR-02 had no fault pointing at it, so "tủ lạnh có mùi hôi" was booked as a
+# repair. Labour is FR-02's own variant range; no part.
+ADDED_AFTER_V3 = [
+    {
+        "fault_code": "FRIDGE_DIRTY_ODOR",
+        "device_type": "refrigerator",
+        "service_code": "FR-02",
+        "likely_parts": [],
+        "candidate_variants": ["FR-02-43", "FR-02-44", "FR-02-45"],
+        "estimate_min_vnd": 249000,
+        "estimate_max_vnd": 499000,
+        "s_min_vnd": 249000,
+        "s_max_vnd": 499000,
+        "p_min_vnd": 0,
+        "p_max_vnd": 0,
+        "note": "Vệ sinh, khử mùi",
+    },
+]
+
 if hasattr(sys.stdout, "reconfigure"):
     sys.stdout.reconfigure(encoding="utf-8", errors="replace")
 
@@ -103,6 +124,8 @@ def main() -> None:
     args = parser.parse_args()
 
     v3 = json.loads(Path(args.v3).read_text(encoding="utf-8"))
+    known = {f["fault_code"] for f in v3["ai_fault_map"]}
+    v3["ai_fault_map"] += [f for f in ADDED_AFTER_V3 if f["fault_code"] not in known]
     services = read_backend(Path(args.backend))
     active = {c for c, s in services.items() if s["phase"] in ("M1", "M2")} - REMOVED
     if args.live:

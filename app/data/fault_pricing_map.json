@@ -472,6 +472,15 @@
       "parts_max": 180000,
       "note_vi": ""
     },
+    "FRIDGE_DIRTY_ODOR": {
+      "labour": "FR-02",
+      "parts": [],
+      "labour_min": 249000,
+      "labour_max": 499000,
+      "parts_min": 0,
+      "parts_max": 0,
+      "note_vi": "Vệ sinh, khử mùi"
+    },
     "MW_MAGNETRON": {
       "labour": "KT-05",
       "parts": [
