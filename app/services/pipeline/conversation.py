@@ -27,6 +27,7 @@ at all, and the shape below is what a Redis-backed store would implement.
 from __future__ import annotations
 
 import asyncio
+import re
 import time
 import uuid
 from dataclasses import dataclass, field
@@ -101,9 +102,60 @@ class Turn:
 
 
 @dataclass
+class QaEntry:
+    """One question put to the customer and what they said next.
+
+    PO 01/11/2026: "Không." and "Bên phải dàn lạnh." were read as free-floating
+    words, because only the yes/no meaning of a reply was ever kept and the
+    pair itself was thrown away. The pair is the record: the model is shown it
+    and does not ask again, and the technician reads it."""
+
+    question_vi: str
+    asked_turn: int
+    """How many customer messages there were when it was asked."""
+    source: str = "assistant"
+    answer_vi: Optional[str] = None
+    answered_turn: Optional[int] = None
+
+
+_QUESTION_WORDS = re.compile(
+    # Phrases only: "sao" alone is also "không sao", and "gì" is "không có gì".
+    r"\b(thấy sao|thay sao|sao vậy|sao lại|làm sao|vì sao|tại sao|tai sao|thế nào|the nao|như nào|nhu nao|"
+    r"gì vậy|là gì|bao nhiêu|bao nhieu|có được không|có phải|phải không|hả em|ha em)\b",
+    re.IGNORECASE,
+)
+
+
+def _asks_back(text: str) -> bool:
+    text = (text or "").strip()
+    return text.endswith("?") or bool(_QUESTION_WORDS.search(text))
+
+
+MAX_FOLLOWUPS = 2
+"""Questions added to an answer while two faults are still level (PO 01/11/2026:
+ask as before, but do not settle early). Two at most, on top of the clarifying
+rounds, so a conversation never becomes a form."""
+
+
+@dataclass
 class Conversation:
     session_id: str
     turns: List[Turn] = field(default_factory=list)
+
+    qa: List[QaEntry] = field(default_factory=list)
+    """Every question asked and its answer, oldest first."""
+
+    hypotheses: List[str] = field(default_factory=list)
+    """The faults the last answer gave for `hypotheses_device`, kept across turns:
+    a turn that brings no evidence against one does not drop it."""
+
+    hypotheses_device: Optional[str] = None
+
+    followups: int = 0
+    """Questions added to answers so far; see MAX_FOLLOWUPS."""
+
+    state_version: int = 0
+    """Bumped on every turn answered; Backend stores the state under it."""
 
     device_type: Optional[str] = None
     """Carried from whichever turn had a photograph.
@@ -229,6 +281,8 @@ class Conversation:
         self.turns.append(Turn(role=role, text_vi=text_vi))
         if len(self.turns) > MAX_TURNS:
             del self.turns[: len(self.turns) - MAX_TURNS]
+        if role == "customer":
+            self.answer_pending(text_vi)
         self.updated_at = time.time()
 
     def customer_text(self) -> str:
@@ -329,7 +383,8 @@ class Conversation:
         tail: List[str] = list(self.code_notes[-2:])
         job = self.past_job()
         if job:
-            line = f'Khách từng đặt "{job["service"]}" ngày {day_vi(job["date"])}'
+            how = {"COMPLETED": "Khách từng sửa", "SCHEDULED": "Khách đang có lịch"}.get(job.get("status") or "", "Khách từng đặt")
+            line = f'{how} "{job["service"]}" ngày {day_vi(job["date"])}'
             if job.get("fault"):
                 line += f', khi đó trợ lý nghi {job["fault"].lower()}'
             tail.append(line + ".")
@@ -396,6 +451,8 @@ class Conversation:
         for code, factor in self.state.penalties.items():
             if factor < 1.0 and code not in self.state.excluded:
                 lines.append(f"ÍT KHẢ NĂNG {code} — {name(code)} (khách nói không có triệu chứng của nó)")
+        # Questions already answered, in the customer's own words.
+        lines += [f"KHÁCH ĐÃ TRẢ LỜI: {line}" for line in self.qa_lines(4)]
         return lines
 
     def this_turn_had_no_symptom(self) -> None:
@@ -430,6 +487,69 @@ class Conversation:
         self.device_confidence = confidence
         self.device_source_vi = source_vi
         self.updated_at = time.time()
+
+    def customer_turns(self) -> int:
+        return sum(1 for t in self.turns if t.role == "customer")
+
+    def asked(self, question_vi: str, source: str = "assistant") -> None:
+        """Record a question as put to the customer, once."""
+        question_vi = (question_vi or "").strip()
+        if not question_vi or any(e.question_vi == question_vi and e.answer_vi is None for e in self.qa):
+            return
+        self.qa.append(QaEntry(question_vi=question_vi, asked_turn=self.customer_turns(), source=source))
+        self.updated_at = time.time()
+
+    def answer_pending(self, text_vi: str) -> Optional[QaEntry]:
+        """The newest customer message as the answer to what was asked just
+        before it. Called once the message has been added to the turns.
+
+        Only the questions of the reply right before: a question left unanswered
+        two messages ago is not what "không" refers to now."""
+        current = self.customer_turns()
+        answered = None
+        # Asked back ("vậy giờ em thấy sao?") is not an answer; the question
+        # stays unanswered rather than recorded as answered with a question.
+        if _asks_back(text_vi):
+            return None
+        for entry in self.qa:
+            if entry.answer_vi is None and entry.asked_turn == current - 1:
+                entry.answer_vi = (text_vi or "").strip()[:300]
+                entry.answered_turn = current
+                answered = entry
+        return answered
+
+    def latest_brought_a_symptom(self) -> bool:
+        """Whether the newest message told something new, rather than only
+        answering what was asked or asking something back."""
+        latest = next((t for t in reversed(self.turns) if t.role == "customer"), None)
+        if latest is None or not latest.carried_a_symptom:
+            return False
+        current = self.customer_turns()
+        return not any(e.answered_turn == current for e in self.qa)
+
+    def qa_lines(self, limit: int = 6) -> List[str]:
+        """The questions answered so far, as the model is shown them."""
+        done = [e for e in self.qa if e.answer_vi]
+        return [f'đã hỏi "{e.question_vi}" — khách đáp "{e.answer_vi}"' for e in done[-limit:]]
+
+    def keep_hypotheses(self, codes: List[str], device_type: Optional[str], new_symptom: bool) -> List[str]:
+        """This turn's faults, with the last answer's still in play.
+
+        Measured 01/11/2026 on the served model: "Bên phải dàn lạnh" dropped
+        low refrigerant for icing, and "Vậy giờ em thấy sao?" brought the first
+        answer back — the shortlist was rebuilt from scratch each turn. Now a
+        fault stays until the customer rules it out or a "no" lowers it; what
+        the customer confirmed comes first, and a new symptom may bring in a new
+        leader."""
+        if not device_type or self.hypotheses_device != device_type or not self.hypotheses:
+            return codes
+        excluded = set(self.state.excluded_codes())
+        factors = self.state.factors()
+        confirmed = [c for c in codes if factors.get(c, 1.0) > 1.0]
+        kept = [c for c in self.hypotheses if c not in excluded and factors.get(c, 1.0) >= 1.0]
+        lead = codes[:1] if new_symptom else []
+        merged = list(dict.fromkeys(confirmed + lead + kept + codes))
+        return merged[: max(2, len(codes))]
 
     def remember_questions(self, symptoms: List[str]) -> None:
         for symptom in symptoms:
@@ -483,6 +603,16 @@ class ConversationStore:
         self._sessions[new_id] = conversation
         self._evict_overflow()
         return conversation
+
+    def adopt(self, conversation: Conversation) -> None:
+        """Hold a conversation restored from Backend's record, under its own id.
+
+        Not the id-adoption `get_or_create` refuses: the id comes inside the
+        state Backend saved for this customer's session, together with the
+        whole conversation, so there is nothing for a second client to share.
+        See diagnostic_state.restore."""
+        self._sessions[conversation.session_id] = conversation
+        self._evict_overflow()
 
     def peek(self, session_id: Optional[str]) -> Optional[Conversation]:
         """The conversation this id names, without starting one."""

@@ -179,7 +179,7 @@ def build(
         said_so_far=said,
         latest_message=latest_message,
         history=history,
-        already_asked=list(chat.asked_symptoms),
+        already_asked=list(dict.fromkeys([*chat.asked_symptoms, *(e.question_vi for e in chat.qa)])),
         facts=chat.facts_vi(kb),
         candidates=list(candidates),
         policies=policies,

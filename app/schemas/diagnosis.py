@@ -9,7 +9,7 @@ service never dereferences a URL, which keeps it free of SSRF exposure.
 """
 
 from enum import Enum
-from typing import Annotated, List, Optional
+from typing import Annotated, Any, Dict, List, Literal, Optional
 
 from pydantic import BaseModel, ConfigDict, Field, model_validator
 from pydantic.alias_generators import to_camel
@@ -104,6 +104,10 @@ class PastJob(BaseModel):
     at the time, so it goes to the technician as one and never to the customer."""
     date: Annotated[str, Field(pattern=r"^\d{4}-\d{2}-\d{2}$")]
     """The booked day in Vietnam, YYYY-MM-DD."""
+    status: Optional[Literal["COMPLETED", "SCHEDULED"]] = None
+    """COMPLETED: repaired on `date`. SCHEDULED: accepted, not done yet, `date`
+    is the appointment. PO 01/11/2026: a job not yet done was told back as
+    "anh/chị đã đặt" with a date still to come. Absent from older backends."""
 
     model_config = ConfigDict(alias_generator=to_camel, populate_by_name=True, extra="forbid")
 
@@ -268,6 +272,13 @@ class DiagnosisRequest(BaseModel):
     include_trace: bool = False
     """Ask for the stage-by-stage trace. For the admin dashboard, not customers."""
 
+    diagnostic_state: Optional[Dict[str, Any]] = None
+    """The state this service returned for this session last time, as Backend
+    stored it (see app/services/pipeline/diagnostic_state.py). Used only when
+    this process no longer holds the session, or holds an older version of it:
+    after a restart the conversation carries on exactly where it stopped,
+    questions and answers included, instead of from the customer's words alone."""
+
     model_config = ConfigDict(alias_generator=to_camel, populate_by_name=True, extra="forbid")
 
 
@@ -403,6 +414,14 @@ class DiagnosisResponse(BaseModel):
     client labels each photograph with it and lets the customer correct it.
     Unlike `devices[].image_index`, which may point into an earlier message,
     these are always about this request's images."""
+
+    diagnostic_state: Optional[Dict[str, Any]] = None
+    """The conversation's state after this turn: `canonical` (versioned schema,
+    docs/diagnostic-state.schema.json) and `engine` (this service's own record,
+    opaque to everyone else). Backend stores it and sends it back."""
+
+    state_version: Optional[int] = None
+    """Bumped on every turn; Backend stores the state only over an older one."""
 
     customer_disagreed: Optional[Disagreement] = None
     """Set on the turn where the customer said the last answer was wrong."""
