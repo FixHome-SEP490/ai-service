@@ -219,3 +219,19 @@ def test_a_no_narrows_and_never_brings_in_a_fault_nobody_described():
     ]
     # A new symptom may still bring in a new leader.
     assert chat.keep_hypotheses(["AC_PCB_FAULT"], "air_conditioner", new_symptom=True)[0] == "AC_PCB_FAULT"
+
+
+def test_a_fault_the_answer_favours_but_nobody_had_in_play_stays_out():
+    """The served model, 01/11/2026: "Không." to "Có thấy nước nhỏ giọt ... dưới
+    dàn lạnh không?" favours low refrigerant *and* a faulty control board in the
+    hand-written question, and the board came in at 4.049.000đ."""
+    from app.services.pipeline.conversation import Conversation
+
+    chat = Conversation("s")
+    chat.hypotheses = ["AC_LOW_REFRIGERANT", "AC_DRAIN_BLOCKED"]
+    chat.hypotheses_device = "air_conditioner"
+    chat.state.penalties["AC_DRAIN_BLOCKED"] = 0.45
+    chat.state.boosts.update({"AC_LOW_REFRIGERANT": 1.6, "AC_PCB_FAULT": 1.6})
+    assert chat.keep_hypotheses(["AC_PCB_FAULT", "AC_LOW_REFRIGERANT"], "air_conditioner", new_symptom=False) == [
+        "AC_LOW_REFRIGERANT"
+    ]

@@ -547,12 +547,16 @@ class Conversation:
         factors = self.state.factors()
         confirmed = [c for c in codes if factors.get(c, 1.0) > 1.0]
         kept = [c for c in self.hypotheses if c not in excluded and factors.get(c, 1.0) >= 1.0]
-        if not new_symptom and (confirmed or kept):
+        if not new_symptom and kept:
             # A "không" or an answer brings no new fault into play: measured
             # 01/11/2026, "Không." to the drip question let a faulty control
             # board in to fill the second place, and the price jumped to
-            # 4.049.000đ on no evidence at all. It only narrows.
-            return list(dict.fromkeys(confirmed + kept))[: max(2, len(codes))]
+            # 4.049.000đ. The hand-written question's "no" side lists the board
+            # beside low refrigerant, so it came in as "confirmed" although
+            # nothing the customer said was about it. An answer only narrows:
+            # what it favours goes first only if it was already in play.
+            favoured = [c for c in confirmed if c in kept]
+            return list(dict.fromkeys(favoured + kept))[: max(2, len(codes))]
         lead = codes[:1] if new_symptom else []
         merged = list(dict.fromkeys(confirmed + lead + kept + codes))
         return merged[: max(2, len(codes))]
