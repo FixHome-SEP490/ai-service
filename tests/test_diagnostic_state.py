@@ -202,3 +202,20 @@ def test_the_published_schema_is_the_one_the_code_writes():
 def test_the_templated_question_is_said_as_a_person_would():
     assert _spoken_question("Thiết bị có hiện tượng đóng tuyết không?", "Máy lạnh") == "Máy lạnh nhà mình có bị đóng tuyết không ạ?"
     assert _spoken_question("Dàn nóng có quay không ạ?", "Máy lạnh") == "Dàn nóng có quay không ạ?"
+
+
+def test_a_no_narrows_and_never_brings_in_a_fault_nobody_described():
+    """Measured on the served model 01/11/2026: "Không." to the drip question
+    let a faulty control board in to fill the second place, and the price went
+    from 1.299.000đ to 4.049.000đ on no evidence."""
+    from app.services.pipeline.conversation import Conversation
+
+    chat = Conversation("s")
+    chat.hypotheses = ["AC_LOW_REFRIGERANT", "AC_DRAIN_BLOCKED"]
+    chat.hypotheses_device = "air_conditioner"
+    chat.state.penalties["AC_DRAIN_BLOCKED"] = 0.45
+    assert chat.keep_hypotheses(["AC_LOW_REFRIGERANT", "AC_PCB_FAULT"], "air_conditioner", new_symptom=False) == [
+        "AC_LOW_REFRIGERANT"
+    ]
+    # A new symptom may still bring in a new leader.
+    assert chat.keep_hypotheses(["AC_PCB_FAULT"], "air_conditioner", new_symptom=True)[0] == "AC_PCB_FAULT"
