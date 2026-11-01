@@ -1405,6 +1405,39 @@
       "candidate_variants": []
     },
     {
+      "fault_code": "FRIDGE_DIRTY_ODOR",
+      "device_type": "refrigerator",
+      "name_vi": "Tủ lạnh bẩn, có mùi hôi",
+      "symptoms_vi": [
+        "tủ lạnh có mùi hôi",
+        "mở tủ ra là bốc mùi",
+        "trong tủ có mùi tanh",
+        "ngăn mát có mùi khó chịu",
+        "tủ lạnh bẩn",
+        "có mốc trong tủ",
+        "gioăng cửa bị mốc đen",
+        "đá làm ra có mùi lạ",
+        "đồ ăn bị ám mùi",
+        "tủ vẫn lạnh bình thường"
+      ],
+      "price_min": 249000,
+      "price_max": 499000,
+      "price_reviewed": true,
+      "urgency": "LOW",
+      "suggested_actions_vi": [
+        "Bỏ thực phẩm hỏng, lau khay và ngăn tủ bằng nước ấm pha baking soda",
+        "Không dùng chất tẩy mạnh bên trong tủ"
+      ],
+      "requires_assessment": false,
+      "labour_code": "FR-02",
+      "part_codes": [],
+      "candidate_variants": [
+        "FR-02-43",
+        "FR-02-44",
+        "FR-02-45"
+      ]
+    },
+    {
       "fault_code": "MW_MAGNETRON",
       "device_type": "microwave_oven",
       "name_vi": "Hỏng sò cao tần",

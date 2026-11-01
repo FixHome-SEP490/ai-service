@@ -568,6 +568,23 @@
    ]
   },
   {
+   "fault_code": "FRIDGE_DIRTY_ODOR",
+   "services": [
+    {
+     "service_code": "FR-02",
+     "name_vi": "Vệ sinh, bảo dưỡng tủ lạnh",
+     "base_price": 249000,
+     "active": true,
+     "kind": "clean",
+     "variant_codes": [
+      "FR-02-43",
+      "FR-02-44",
+      "FR-02-45"
+     ]
+    }
+   ]
+  },
+  {
    "fault_code": "MW_MAGNETRON",
    "services": [
     {

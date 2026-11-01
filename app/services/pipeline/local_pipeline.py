@@ -2700,7 +2700,7 @@ class LocalPipeline:
         # "Bây giờ anh muốn đặt lịch vệ sinh máy lạnh" came back as a diagnosis
         # — two possible faults, a price range, and a list of things to try
         # first — to a customer who had asked for none of it.
-        if _wants_to_book(request.description) and not request.images:
+        if (_wants_to_book(request.description) or self._asks_for_work_only(request.description, chat)) and not request.images:
             booking = self._booking_response(request, chat, trace)
             if booking is not None:
                 return booking
@@ -3604,6 +3604,7 @@ class LocalPipeline:
             changed_to
             or chat.device_type
             or _device_named_in(chat.customer_text(), self._kb)
+            or self._device_for_work(request.description)
         )
         if device_type is None:
             return self._booking_needs_the_appliance(request, chat, trace)
@@ -3642,6 +3643,12 @@ class LocalPipeline:
         # fault's floor is a number from our labour table and named 100.000đ
         # under "Sửa tủ lạnh" — a different row from the one being booked.
         base: Optional[int] = None
+        # The work they asked for in so many words comes first: "vệ sinh tủ
+        # lạnh" is the cleaning, whatever fault the words also happen to match.
+        asked = self._asked_service(request.description, device_type)
+        if asked is not None:
+            services.append(asked)
+            base = self._asked_price(asked)
         # A service the customer has in effect already had goes last, not first:
         # booking a cleaning straight after "mới vệ sinh rồi" is the repeat the
         # customer complained about, in the one place they act on it.
@@ -3655,7 +3662,7 @@ class LocalPipeline:
                 )
                 and bool(self._kb.services_for_fault(c.fault.fault_code)),
             )
-        for scored in candidates:
+        for scored in [] if asked is not None else candidates:
             # Only what Backend sells. Before catalogue V2 a fault with no
             # service fell back to its labour row's code, which Backend never
             # knew; now an empty list means the service is not open yet.
@@ -3752,6 +3759,44 @@ class LocalPipeline:
             trace=trace.stages,
             disclaimer_vi=settings.AI_DISCLAIMER_VI,
         )
+
+    def _asked_service(self, text: str, device_type: Optional[str]) -> Optional[RecommendedService]:
+        """The open service of the kind of work named in this turn (cleaning,
+        installation, moving) for this appliance, if any."""
+        ref = service_catalog.current().requested_service(text, device_type, self._kb)
+        if ref is None:
+            return None
+        return RecommendedService(service_code=ref.service_code, name_vi=ref.name_vi)
+
+    def _device_for_work(self, text: str) -> Optional[str]:
+        """Of the appliances a request for work names, the first Backend sells
+        that work for: "lắp thêm ổ cắm điện" names both the socket and, through
+        "điện", the wiring, and only the socket has an installation."""
+        for hint in device_hint.devices_named_in(text, self._kb):
+            if self._asked_service(text, hint.device_type) is not None:
+                return hint.device_type
+        return None
+
+    def _asked_price(self, service: RecommendedService) -> Optional[int]:
+        ref = service_catalog.current().ref_for(service.service_code)
+        return ref.base_price if ref is not None else None
+
+    def _asks_for_work_only(self, text: str, chat: Conversation) -> bool:
+        """Asking for a job and describing no fault: "vệ sinh tủ lạnh", "lắp
+        máy giặt mới", "treo tivi". Answered like a request to book, with the
+        service asked for and no diagnosis of a problem nobody mentioned."""
+        if service_catalog.asked_kind(text) is None:
+            return False
+        device_type = (
+            _device_asked_for_now(text, self._kb) or _device_named_in(text, self._kb)
+            or self._device_for_work(text) or chat.device_type
+        )
+        if not device_type or self._asked_service(text, device_type) is None:
+            return False
+        rest = service_catalog.without_work_words(text)
+        if not rest or not service_catalog.says_something_is_wrong(rest):
+            return True
+        return not self._names_a_symptom(rest, device_type)
 
     def _services_for_device(self, device_type: str) -> List[RecommendedService]:
         """The service this appliance is most often booked for.
@@ -4644,6 +4689,12 @@ class LocalPipeline:
             return await self._clarification_response(
                 request, confidence, shortlist, detection, chat, trace
             )
+
+        # "Máy giặt hôi, cần vệ sinh lồng giặt": a fault and a request. The
+        # diagnosis stands; the service is the one they asked for.
+        asked = self._asked_service(request.description, device.device_type if device else None)
+        if asked is not None:
+            services = [asked] + [s for s in services if s.service_code != asked.service_code]
 
         estimate = self._estimate_for(services, faults, device.device_type if device else None)
         if estimate is not None:

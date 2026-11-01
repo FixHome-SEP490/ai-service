@@ -2802,6 +2802,25 @@
         "thẻ vẫn nhận",
         "mã vẫn mở được"
       ]
+    },
+    "FRIDGE_DIRTY_ODOR": {
+      "done": [
+        "vệ sinh tủ lạnh",
+        "đã vệ sinh tủ",
+        "mới lau tủ",
+        "vệ sinh rồi"
+      ],
+      "cause": [
+        "thức ăn hỏng",
+        "đồ ăn để lâu",
+        "bẩn",
+        "mốc"
+      ],
+      "absent": [
+        "không có mùi",
+        "không hôi",
+        "mùi khét"
+      ]
     }
   },
   "generic_tried": [

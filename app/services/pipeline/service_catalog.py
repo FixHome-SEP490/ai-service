@@ -82,7 +82,80 @@ def _words(text: str) -> List[str]:
     return re.findall(r"[a-z0-9]+", _fold(text))
 
 
-_CLEANING = ("ve sinh", "bao duong", "bao tri", "nap gas")
+_CLEANING = ("ve sinh", "bao duong", "bao tri", "nap gas", "lam sach")
+
+# What the customer asks to have done, as opposed to what is wrong (PO
+# 01/11/2026). Measured that day: "vệ sinh tủ lạnh" booked "Sửa tủ lạnh",
+# "lắp máy giặt mới" booked "Sửa máy giặt", and 12 of the 37 open services
+# could not be reached by any wording, because a cleaning or an installation is
+# not a fault and services were only ever found through faults.
+_ASK_CLEAN = ("ve sinh", "bao duong", "bao tri", "lam sach", "thay loi", "rua dan", "tay rua")
+_ASK_MOVE = ("thao", "di doi", "di chuyen", "doi cho", "chuyen nha", "chuyen sang")
+_ASK_INSTALL = ("lap", "lap dat", "lap moi", "lap them", "treo tivi", "treo tv", "treo ti vi", "treo len tuong")
+# The installation already happened and something is wrong with it: a repair.
+# "Máy lạnh mới lắp bị chảy nước" names the installation as when, not as what.
+_INSTALLED_ALREADY = (
+    "moi lap", "vua lap", "lap xong", "lap roi", "da lap", "lap hom", "lap duoc", "lap tu",
+    "luc lap", "khi lap", "sau khi lap", "tho lap", "lap sai", "lap lech", "lap lai",
+)
+_DONE_ALREADY = (
+    # "da" alone is also "đá" ("vệ sinh ngăn đá"), so only "đã" with the work.
+    "roi", "vua", "da ve sinh", "da bao duong", "da thay", "da lam", "tuan truoc", "thang truoc", "nam ngoai", "hom qua", "hom truoc", "lan truoc",
+    "moi ve sinh", "moi bao duong", "moi thay", "moi lam", "van vay", "van bi",
+)
+# "Thay" alone is a part ("thay gioăng", "thay tụ"); it is the whole appliance
+# only with "mới" or with the appliance itself right after it, and only where
+# Backend sells "Lắp hoặc thay ...".
+_REPLACE_WHOLE = ("thay moi", "thay cai moi", "mua moi")
+
+
+_WORK_WORDS = tuple(
+    sorted(set(_ASK_CLEAN + _ASK_MOVE + _ASK_INSTALL + _REPLACE_WHOLE + ("thay", "moi", "dinh ky", "lai")), key=len, reverse=True)
+)
+
+
+# Words that say something is wrong. A request for work that carries none of
+# them ("lắp bếp từ âm bàn", "treo tivi lên tường") describes no fault, whatever
+# its other words happen to match in the symptom lists.
+_TROUBLE = frozenset(
+    "khong k ko kg hk bi hong loi keu chay ro ri hoi mui yeu cham tat nhay chap ket tac nghet "
+    "dung chet nut vo gay long rung on ngung moc".split()
+)
+
+
+def says_something_is_wrong(text: str) -> bool:
+    return bool(set(_words(text)) & _TROUBLE)
+
+
+def without_work_words(text: str) -> str:
+    """The text with the request for work taken out, folded: what is left is
+    whatever the customer said is wrong, if anything."""
+    padded = " " + " ".join(_words(text)) + " "
+    for phrase in _WORK_WORDS:
+        padded = padded.replace(f" {phrase} ", " ")
+    return " ".join(padded.split())
+
+
+def asked_kind(text: str) -> Optional[str]:
+    """The kind of work the customer asks for in so many words: "clean",
+    "install" or "move"; None when they only describe a problem."""
+    padded = " " + " ".join(_words(text)) + " "
+    # Work already done, told as what has been tried: "vệ sinh rồi mà vẫn
+    # vậy", "mới thay lõi lọc tháng trước". That is evidence about the fault
+    # (dialogue_state reads it as such), never a request to do it again.
+    if any(f" {w} " in padded for w in _DONE_ALREADY):
+        return None
+    if any(f" {w} " in padded for w in _ASK_CLEAN):
+        return "clean"
+    if any(f" {w} " in padded for w in _INSTALLED_ALREADY):
+        return None
+    if any(f" {w} " in padded for w in _ASK_MOVE):
+        return "move"
+    if any(f" {w} " in padded for w in _ASK_INSTALL + _REPLACE_WHOLE):
+        return "install"
+    if " thay " in padded:
+        return "replace"
+    return None
 _INSTALL = ("lap dat", "lap ")
 _GENERIC = frozenset(
     "sua thay lap dat ve sinh bao duong tri tien cong co ban khong bi hong loi va hoac "
@@ -222,6 +295,36 @@ class LiveCatalog:
         if stand_in is not None and all(r.service_code != stand_in.service_code for r in added):
             added.append(stand_in)
         return added
+
+    def requested_service(self, text: str, device_type: Optional[str], kb):
+        """The open service of the kind of work the customer asked for, for
+        this appliance: "vệ sinh tủ lạnh" is "Vệ sinh, bảo dưỡng tủ lạnh",
+        "tháo máy lạnh chuyển nhà" is "Tháo hoặc di dời điều hòa". None when
+        they asked for no particular work, or Backend sells none of that kind
+        for the appliance."""
+        kind = asked_kind(text)
+        if kind is None or not device_type:
+            return None
+        padded = " " + " ".join(_words(text)) + " "
+        for service in sorted(self.services.values(), key=lambda s: s.code):
+            if device_type not in self.devices_of(service, kb):
+                continue
+            service_kind = service.kind or kind_of(service.name_vi)
+            name = " " + " ".join(_words(service.name_vi)) + " "
+            moves = any(f" {w} " in name for w in ("thao", "di doi"))
+            if kind == "clean" and service_kind == "clean":
+                return self.ref_for(service.code)
+            if kind == "move" and service_kind == "install" and moves:
+                return self.ref_for(service.code)
+            if kind == "install" and service_kind == "install" and not moves:
+                return self.ref_for(service.code)
+            # "Thay bồn cầu", "thay bình nóng lạnh": the appliance itself, where
+            # Backend sells "Lắp hoặc thay ...".
+            if kind == "replace" and service_kind == "install" and " thay " in name:
+                heads = {w for a in kb.aliases_vi(device_type) for w in [" ".join(_words(a))] if w}
+                if any(f" thay {h} " in padded or f" thay {h}" in padded for h in heads):
+                    return self.ref_for(service.code)
+        return None
 
     def service_named_in(self, text: str, kb) -> Optional[LiveService]:
         """A service for an appliance the knowledge base does not know, named in
