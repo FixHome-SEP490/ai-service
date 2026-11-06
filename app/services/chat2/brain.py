@@ -748,6 +748,12 @@ def fault_phrase(menu: DeviceMenu, fault) -> str:
     return name[:1].lower() + name[1:]
 
 
+# A concluded turn whose sentence still asks: "Anh/chị vui lòng cho em biết cụ
+# thể máy bị rơi như thế nào ... nhé." has no question mark and booked the
+# repair all the same (live, 07/11, the PO's dropped air conditioner).
+ASKING = ("hỏi thêm", "cho em biết", "cho em hỏi", "kể thêm", "mô tả thêm", "mô tả cụ thể", "nói rõ hơn", "cụ thể hơn")
+
+
 def _concluding_sentence(menu: DeviceMenu, kind: str, fault, service: Optional[ServiceItem]) -> str:
     """Used when the model wrote a question but the rules concluded."""
     name = menu.name_vi.lower()
@@ -782,7 +788,7 @@ def _compose(
         return Verdict(decision="ask", fault_code=fault.code if fault else None,
                        service_code=service.code if service else None, reply_vi=reply,
                        question_vi=reply, options_vi=options, **common)
-    if not reply or "?" in reply or "hỏi thêm" in reply.lower():
+    if not reply or "?" in reply or any(m in reply.lower() for m in ASKING):
         reply = _concluding_sentence(menu, kind, fault, service)
     parts: List[str] = []
     if fault and fault.urgency == URGENT and fault.actions_vi:
