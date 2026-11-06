@@ -533,27 +533,6 @@
    ],
    "summary_vi": "Mọi mã bệnh khác của máy sấy, xấu nhất là hỏng máy. Mã này xấu nhất là cháy. Xơ vải là bông. Bông khô, tơi, xốp, và bắt lửa ở nhiệt độ thấp hơn gần như mọi thứ khác trong nhà. Máy sấy làm đúng ba việc để biến nó thành nguy cơ: sinh ra xơ, thổi khí nóng qua nó, và gom nó lại một chỗ."
   },
-  "DRYER_NO_POWER": {
-   "signs_vi": [
-    "máy sấy không lên nguồn",
-    "máy sấy cắm điện không chạy",
-    "máy sấy quần áo chết nguồn",
-    "bấm nút máy sấy không có phản ứng gì",
-    "máy sấy sáng đèn mà không chạy",
-    "cắm máy sấy vào là nhảy aptomat",
-    "máy sấy chạy vài giây rồi tắt ngóm",
-    "may say khong len nguon"
-   ],
-   "rule_out_vi": [],
-   "ask_vi": "",
-   "versus_vi": {},
-   "confusable_with": [
-    "DRYER_NOT_SPINNING",
-    "DRYER_NOT_HEATING",
-    "DRYER_LINT_CLOGGED"
-   ],
-   "summary_vi": "Máy sấy có một công tắc nhỏ ở khung cửa. Cửa không đóng khít thì mạch hở và máy không chạy — đây là thiết kế an toàn, để lồng không quay khi cửa mở. Hệ quả: một cái công tắc mòn, hoặc một cánh cửa hơi vênh, làm máy trông y hệt như chết nguồn. Bấm nút không có gì xảy ra, đèn không sáng hoặc sáng rồi tắt."
-  },
   "DRYER_NOISY": {
    "signs_vi": [
     "máy sấy kêu cạch cạch",
@@ -617,6 +596,27 @@
    ],
    "summary_vi": "Một câu hỏi tách gần hết mã bệnh này: bật máy lên có nghe tiếng mô tơ chạy không? Nghe tiếng ù ù mà lồng đứng yên. Mô tơ sống, truyền động đứt. Gần như luôn là dây curoa — một vòng cao su dẹt quấn quanh lồng và trục mô tơ. Nó giãn dần theo năm rồi đứt, thường đứt hẳn chứ không đứt dần."
   },
+  "DRYER_NO_POWER": {
+   "signs_vi": [
+    "máy sấy không lên nguồn",
+    "máy sấy cắm điện không chạy",
+    "máy sấy quần áo chết nguồn",
+    "bấm nút máy sấy không có phản ứng gì",
+    "máy sấy sáng đèn mà không chạy",
+    "cắm máy sấy vào là nhảy aptomat",
+    "máy sấy chạy vài giây rồi tắt ngóm",
+    "may say khong len nguon"
+   ],
+   "rule_out_vi": [],
+   "ask_vi": "",
+   "versus_vi": {},
+   "confusable_with": [
+    "DRYER_NOT_SPINNING",
+    "DRYER_NOT_HEATING",
+    "DRYER_LINT_CLOGGED"
+   ],
+   "summary_vi": "Máy sấy có một công tắc nhỏ ở khung cửa. Cửa không đóng khít thì mạch hở và máy không chạy — đây là thiết kế an toàn, để lồng không quay khi cửa mở. Hệ quả: một cái công tắc mòn, hoặc một cánh cửa hơi vênh, làm máy trông y hệt như chết nguồn. Bấm nút không có gì xảy ra, đèn không sáng hoặc sáng rồi tắt."
+  },
   "DW_DOOR_LEAK": {
    "signs_vi": [
     "máy rửa bát chảy nước ra cửa",
@@ -637,6 +637,47 @@
     "DW_NO_WATER"
    ],
    "summary_vi": "Khác với mã đọng nước — ở đó nước ở yên trong khoang — mã này là nước ra ngoài khi máy đang phun. Nó chảy xuống mặt trước cửa, xuống chân máy, và vào sàn tủ bếp. Điều làm nó đáng xử lý nhanh không phải lượng nước, mà là chỗ nước đến."
+  },
+  "DW_NOT_CLEAN": {
+   "signs_vi": [
+    "máy rửa bát rửa không sạch",
+    "bát ra vẫn còn cặn",
+    "máy rửa chén không sạch dầu mỡ",
+    "bát còn vết trắng sau khi rửa",
+    "máy rửa bát rửa xong vẫn bẩn",
+    "máy rửa bát rửa xong bát vẫn còn nhớt",
+    "bát ra có vệt trắng lau mãi không hết",
+    "cốc thuỷ tinh ra mờ đục hết"
+   ],
+   "rule_out_vi": [],
+   "ask_vi": "",
+   "versus_vi": {},
+   "confusable_with": [
+    "DW_NOT_DRAINING",
+    "DW_NO_WATER"
+   ],
+   "summary_vi": "Máy rửa bát vào nhà người Việt muộn và gần như không ai được hướng dẫn. Thợ lắp tủ bếp lắp xong là đi, tờ hướng dẫn nằm trong ngăn kéo, và khách dùng nó như máy giặt: cho bát vào, đổ nước rửa chén, bấm nút. Nên trước khi nghĩ tới hỏng hóc, có bốn thứ phải hỏi."
+  },
+  "DW_NOT_DRAINING": {
+   "signs_vi": [
+    "máy rửa bát đọng nước dưới đáy",
+    "máy rửa chén không xả nước",
+    "máy rửa bát tràn nước ra sàn",
+    "nước không rút sau khi rửa xong",
+    "máy rửa bát báo lỗi xả nước",
+    "máy rửa bát đọng nước dưới đáy không rút",
+    "mở cửa máy rửa chén ra thấy đầy nước",
+    "máy rửa bát chạy xong vẫn còn nước bên trong"
+   ],
+   "rule_out_vi": [],
+   "ask_vi": "",
+   "versus_vi": {},
+   "confusable_with": [
+    "DW_DOOR_LEAK",
+    "DW_NO_WATER",
+    "DW_NOT_CLEAN"
+   ],
+   "summary_vi": "Mã bệnh này không chết người, nhưng nó có một đặc điểm phải xử lý trước khi chẩn đoán: máy rửa bát gần như luôn nằm trong tủ bếp, và trong tủ bếp gần như luôn có một ổ điện. Nước đọng trong khoang mà khách mở cửa ra là nước tràn xuống sàn, và sàn tủ bếp là gỗ công nghiệp, nở ra rồi không co lại."
   },
   "DW_NO_POWER": {
    "signs_vi": [
@@ -679,47 +720,6 @@
     "DW_NOT_CLEAN"
    ],
    "summary_vi": "Mã bệnh này khác phần lớn các mã khác ở một điểm: phần lớn nguyên nhân nằm ngoài cái máy. Trước khi nghĩ tới van cấp hay bo điều khiển, có ba thứ khách tự xem được trong hai phút. Van khoá nước vào máy. Nằm dưới chậu rửa, thường là van nhỏ màu bạc hoặc xanh trên ống dẫn vào máy."
-  },
-  "DW_NOT_CLEAN": {
-   "signs_vi": [
-    "máy rửa bát rửa không sạch",
-    "bát ra vẫn còn cặn",
-    "máy rửa chén không sạch dầu mỡ",
-    "bát còn vết trắng sau khi rửa",
-    "máy rửa bát rửa xong vẫn bẩn",
-    "máy rửa bát rửa xong bát vẫn còn nhớt",
-    "bát ra có vệt trắng lau mãi không hết",
-    "cốc thuỷ tinh ra mờ đục hết"
-   ],
-   "rule_out_vi": [],
-   "ask_vi": "",
-   "versus_vi": {},
-   "confusable_with": [
-    "DW_NOT_DRAINING",
-    "DW_NO_WATER"
-   ],
-   "summary_vi": "Máy rửa bát vào nhà người Việt muộn và gần như không ai được hướng dẫn. Thợ lắp tủ bếp lắp xong là đi, tờ hướng dẫn nằm trong ngăn kéo, và khách dùng nó như máy giặt: cho bát vào, đổ nước rửa chén, bấm nút. Nên trước khi nghĩ tới hỏng hóc, có bốn thứ phải hỏi."
-  },
-  "DW_NOT_DRAINING": {
-   "signs_vi": [
-    "máy rửa bát đọng nước dưới đáy",
-    "máy rửa chén không xả nước",
-    "máy rửa bát tràn nước ra sàn",
-    "nước không rút sau khi rửa xong",
-    "máy rửa bát báo lỗi xả nước",
-    "máy rửa bát đọng nước dưới đáy không rút",
-    "mở cửa máy rửa chén ra thấy đầy nước",
-    "máy rửa bát chạy xong vẫn còn nước bên trong"
-   ],
-   "rule_out_vi": [],
-   "ask_vi": "",
-   "versus_vi": {},
-   "confusable_with": [
-    "DW_DOOR_LEAK",
-    "DW_NO_WATER",
-    "DW_NOT_CLEAN"
-   ],
-   "summary_vi": "Mã bệnh này không chết người, nhưng nó có một đặc điểm phải xử lý trước khi chẩn đoán: máy rửa bát gần như luôn nằm trong tủ bếp, và trong tủ bếp gần như luôn có một ổ điện. Nước đọng trong khoang mà khách mở cửa ra là nước tràn xuống sàn, và sàn tủ bếp là gỗ công nghiệp, nở ra rồi không co lại."
   },
   "FAN_CAPACITOR": {
    "signs_vi": [

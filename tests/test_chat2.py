@@ -327,6 +327,20 @@ def test_fault_cards_are_rebuilt_from_the_documents():
     )
 
 
+def test_fault_cards_are_in_the_same_order_on_every_os():
+    """Windows sorts paths without case, Linux with it: DRYER_NO_POWER and DRYER_NOISY swap.
+
+    A file built on Windows then failed the freshness test above in CI (PR #136).
+    Sorting by name string gives one order everywhere, and this fails on either OS
+    when it is not.
+    """
+    from pathlib import Path
+
+    codes = list(json.loads((Path(__file__).resolve().parents[1] / "app" / "data" / "fault_cards.json")
+                            .read_text(encoding="utf-8"))["cards"])
+    assert codes == sorted(codes)
+
+
 def test_knowledge_index_is_rebuilt_from_the_documents():
     import importlib.util
     from pathlib import Path

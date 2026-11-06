@@ -180,7 +180,7 @@ def build() -> Dict[str, object]:
     names = {code: f["name_vi"] for code, f in kb.items()}
     cards = {
         path.stem: card(path, list(kb.get(path.stem, {}).get("symptoms_vi") or []), names)
-        for path in sorted(FAULT_DIR.glob("*.md"))
+        for path in sorted(FAULT_DIR.glob("*.md"), key=lambda p: p.name)
         if path.stem in kb
     }
     return {

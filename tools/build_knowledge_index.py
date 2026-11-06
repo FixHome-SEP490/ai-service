@@ -133,15 +133,15 @@ def build() -> Dict[str, object]:
         for n, (doc, section, text) in enumerate(_sections(KNOWLEDGE / "system" / f"{stem}.md")):
             if not fold(section).startswith(SKIP):
                 passages.append(_passage(f"system:{stem}:{n}", "platform", doc, section, text))
-    for path in sorted((KNOWLEDGE / "persona").glob("*.md")):
+    for path in sorted((KNOWLEDGE / "persona").glob("*.md"), key=lambda p: p.name):
         for n, (doc, section, text) in enumerate(_sections(path)):
             if fold(section).startswith(PERSONA_SECTIONS):
                 passages.append(_passage(f"persona:{path.stem}:{n}", "platform", doc, section, text))
-    for path in sorted((KNOWLEDGE / "devices").glob("*.md")):
+    for path in sorted((KNOWLEDGE / "devices").glob("*.md"), key=lambda p: p.name):
         for n, (doc, section, text) in enumerate(_sections(path)):
             if not fold(section).startswith(SKIP):
                 passages.append(_passage(f"device:{path.stem}:{n}", f"device:{path.stem}", doc, section, text))
-    for path in sorted((KNOWLEDGE / "faults").glob("*.md")):
+    for path in sorted((KNOWLEDGE / "faults").glob("*.md"), key=lambda p: p.name):
         for n, (doc, section, text) in enumerate(_sections(path)):
             if fold(section).startswith(FAULT_SECTIONS):
                 passages.append(_passage(f"fault:{path.stem}:{n}", f"fault:{path.stem}", doc, section, text))
