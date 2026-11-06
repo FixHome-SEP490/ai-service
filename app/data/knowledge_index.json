@@ -2186,6 +2186,13 @@
    "text_vi": "Tủ lạnh mới mua bao lâu thì lạnh. Thường vài tiếng mới đạt nhiệt độ ổn định, và nên để tủ chạy trống một thời gian trước khi cho nhiều thực phẩm vào.\n\nNên để tủ ở mức mấy. Mức giữa là hợp lý cho phần lớn nhà. Để mức lạnh nhất không làm tủ lạnh nhanh hơn, chỉ tốn điện và có thể làm đồ ngăn mát bị đông đá.\n\nHông tủ nóng có sao không. Không. Đó là dàn nóng đang thải nhiệt, và trên tủ đời mới dàn nóng thường nằm trong hông tủ.\n\nTủ chạy suốt không nghỉ có sao không. Với tủ inverter là bình thường. Với tủ thường thì đáng xem: gioăng hở, tủ sát tường, đặt nhiệt độ quá thấp, hoặc thiếu môi chất.\n\nCó nên rút điện tủ lạnh ban đêm để tiết kiệm không. Không nên. Tủ mất lạnh rồi phải kéo lại từ đầu, tốn hơn, và thực phẩm không an toàn.\n\nBao lâu vệ sinh tủ một lần. Bên trong thì hàng tháng. Dàn nóng phía sau và khay hứng nước thì mỗi vài tháng.\n\nTủ lạnh có cần bảo dưỡng như máy lạnh không. Ít hơn nhiều, vì hệ hàn kín. Nhưng vệ sinh dàn nóng, khay hứng nước và lỗ thoát nước thì nên làm định kỳ.\n\nMất điện bao lâu thì đồ trong tủ hỏng. Tủ đóng kín giữ lạnh được vài tiếng. Càng mở cửa càng mất nhanh. Với ngăn đá đầy thì lâu hơn ngăn đá vơi.\n\nChuyển nhà thì tủ lạnh có cần lưu ý gì. Có."
   },
   {
+   "id": "device:refrigerator:33",
+   "scope": "device:refrigerator",
+   "doc_vi": "Tủ lạnh",
+   "section_vi": "Nhiệt độ nên cài cho tủ lạnh",
+   "text_vi": "Theo khuyến nghị chung về an toàn thực phẩm, ngăn mát nên giữ ở 4°C hoặc thấp hơn và ngăn đá ở khoảng âm 18°C. Ở mức đó vi khuẩn chậm phát triển và đồ đông giữ được lâu. Tủ có núm số thay vì độ thì mức giữa thường gần với mức này; số càng lớn càng lạnh hay ngược lại tùy hãng, nên xem sách hướng dẫn của máy.\n\nTủ cài đúng mà ngăn mát vẫn ấm, đồ chua nhanh, hoặc ngăn đá không đông thì không phải chuyện cài đặt nữa mà là dấu hiệu bệnh, nên kể hiện tượng để kiểm tra."
+  },
+  {
    "id": "device:sink:0",
    "scope": "device:sink",
    "doc_vi": "Bồn rửa",

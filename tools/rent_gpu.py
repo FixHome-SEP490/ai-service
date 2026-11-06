@@ -1001,8 +1001,12 @@ def main() -> None:
     offers.add_argument(
         "--min-vram",
         type=int,
-        default=16,
-        help="GB of VRAM; the chat model (Qwen3.5-9B FP8) and the detector need 16",
+        default=24,
+        help=(
+            "GB of VRAM. 24 serves Qwen3.5-9B in FP8 beside the detector; 16 "
+            "is enough for the 4-bit AWQ build, which the image picks by itself "
+            "on a smaller card and which gets fewer clear descriptions right"
+        ),
     )
     offers.add_argument("--min-download", type=int, default=200, help="Mbps")
     offers.add_argument(

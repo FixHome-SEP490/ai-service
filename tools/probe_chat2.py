@@ -130,6 +130,56 @@ CONVERSATIONS: List[tuple] = [
         T("giá vệ sinh bao nhiêu", branch="answer", has=["199", "449"]),
         T("cảm ơn em", branch=("answer", "ask", "conclude")),
     ]),
+    ("ctx-brand-then-code", "context", None, [
+        T("máy giặt nhà em là Samsung cửa ngang", branch=("ask", "conclude", "answer"), device="washing_machine"),
+        T("nó đang giặt thì dừng lại", branch=("ask", "conclude")),
+        T("màn hình báo 4C", branch="conclude", has=["samsung", "4c", "nuoc"]),
+    ]),
+    ("ctx-pronoun", "context", None, [
+        T("cái bình nóng lạnh nhà em", branch="ask", device="water_heater"),
+        T("nó bật lên đèn đỏ mà nước không nóng", branch="conclude", service=("WH-02",)),
+        T("cái đó có nguy hiểm không em", branch="answer", has=["dien", "nguy", "an toan", "khong"]),
+    ]),
+    ("ctx-negation", "context", "air_conditioner", [
+        T("máy không mát", branch=("conclude", "ask")),
+        T("vệ sinh rồi mà vẫn không mát, cục nóng vẫn chạy bình thường", branch="conclude", service=("AC-01",), hasnt=["ve sinh dieu hoa"]),
+    ]),
+    ("ctx-compare", "context", None, [
+        T("vệ sinh máy lạnh với sửa máy lạnh khác gì nhau", branch="answer", has=["ve sinh", "sua"]),
+        T("vậy máy nhà em chảy nước thì đặt cái nào", branch="conclude", service=("AC-01", "AC-02")),
+    ]),
+    ("ctx-time", "context", None, [
+        T("tủ lạnh không lạnh", branch=("conclude", "ask")),
+        T("đặt rồi bao lâu thợ tới", branch="answer", has=["lich", "hen", "tho", "chon"]),
+    ]),
+    ("ctx-back-and-forth", "context", None, [
+        T("vòi nước bồn rửa chén nhỏ giọt cả đêm", branch="conclude", service=("SA-01", "SA-02")),
+        T("à còn bồn cầu xả nước yếu nữa", branch="conclude", device="toilet", service=("SA-01", "SA-03")),
+        T("quay lại cái vòi, thay cái mới luôn được không", branch=("conclude", "answer"), device="faucet"),
+    ]),
+    ("ctx-more-info", "context", None, [
+        T("quạt trần nhà em quay chậm", branch="conclude", device="ceiling_fan"),
+        T("bật số 5 vẫn chậm, kêu ù ù", branch="conclude", device="ceiling_fan", has=["tu", "quat"]),
+    ]),
+    ("d-south", "diagnosis", None, [T("cái máy giặt nhà tui nó hổng chịu vô nước á", branch="conclude", service=("WM-01",))]),
+    ("d-central", "diagnosis", None, [T("răng cái máy lạnh nhà tui chạy mà nỏ lạnh rứa", branch="conclude", service=("AC-01", "AC-02"))]),
+    ("d-noaccent", "diagnosis", None, [T("tu lanh nha e bi dong tuyet ngan mat", branch="conclude", device="refrigerator")]),
+    ("d-teen", "diagnosis", None, [T("ổ cắm nhà mk cắm vô là nhảy cb lun ạ", branch="conclude", service=("EL-01",), has=["ngat", "aptomat", "dien"])]),
+    ("d-english", "diagnosis", None, [T("smart lock nhà em không nhận fingerprint nữa", branch="conclude", service=("LK-02",))]),
+    ("d-story", "diagnosis", None, [T("hôm qua mưa to, sáng nay bật máy nước nóng thì aptomat chống giật cứ nhảy hoài", branch="conclude", service=("WH-02",), has=["ngat", "aptomat", "dien"])]),
+    ("d-measure", "diagnosis", "air_conditioner", [T("đo dòng thấy có 2A trong khi bình thường 5A, ống hồi không lạnh", branch="conclude", service=("AC-01",))]),
+    ("d-request-kind", "diagnosis", None, [T("máy lọc nước dùng hơn năm rồi chưa thay lõi", branch="conclude", service=("RO-02",))]),
+    ("d-install", "diagnosis", None, [T("mới mua bếp từ âm, cần người khoét đá lắp vào", branch="conclude", service=("KT-06",))]),
+    ("d-hood", "diagnosis", None, [T("máy hút mùi kêu to mà hút không ăn", branch="conclude", service=("KT-03", "KT-02"))]),
+    ("d-photo-other", "diagnosis", "television", [T("tiện hỏi luôn tủ lạnh nhà em bị chảy nước dưới sàn", branch="conclude", service=("FR-01", "FR-02"))]),
+    ("k-why", "knowledge", None, [T("vì sao máy lạnh để lâu không vệ sinh lại tốn điện", branch="answer", has=["dien", "gio", "bui", "ban"])]),
+    ("k-diy", "knowledge", None, [T("em tự vệ sinh lưới lọc máy lạnh được không", branch="answer", has=["luoi loc", "tu", "duoc"])]),
+    ("k-safety", "knowledge", None, [T("máy giặt bị giật điện nhẹ khi chạm có sao không", branch=("answer", "conclude"), has=["ngat", "dien", "nguy", "tiep dia"])]),
+    ("p-fees", "platform", None, [T("thợ có thu thêm phí đi lại không", branch="answer")]),
+    ("p-invoice", "platform", None, [T("có hoá đơn sau khi sửa không", branch="answer", has=["hoa don"])]),
+    ("p-ai-limit", "platform", None, [T("nếu AI đoán sai bệnh thì sao", branch="answer", has=["tho", "kiem tra", "bao gia"])]),
+    ("p-hours", "platform", None, [T("thợ làm cả chủ nhật không", branch="answer")]),
+    ("p-parts", "platform", None, [T("linh kiện thợ mang tới là hàng chính hãng không", branch="answer", has=["linh kien"])]),
     # ---------- edges ----------
     ("x-offtopic", "edge", None, [T("tối nay ăn gì ngon em", branch=("not_repair", "answer"))]),
     ("x-car", "edge", None, [T("xe máy đề không nổ", branch=("not_repair", "answer"), has=["khong"])]),
@@ -262,13 +312,25 @@ def main() -> None:
     p.add_argument("--model", default="m")
     p.add_argument("--concurrency", type=int, default=8)
     p.add_argument("--only", help="regex on conversation ids")
+    p.add_argument("--holdout", action="store_true", help="run tools/probe_holdout.py instead")
+    p.add_argument("--holdout2", action="store_true", help="run tools/probe_holdout2.py, written after the first held-out set was tuned on")
     p.add_argument("--out")
     p.add_argument("--md")
     args = p.parse_args()
     if hasattr(sys.stdout, "reconfigure"):
         sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+    global CONVERSATIONS
+    if args.holdout:
+        sys.path.insert(0, str(ROOT / "tools"))
+        from probe_holdout import HOLDOUT
+
+        CONVERSATIONS = HOLDOUT
+    if args.holdout2:
+        sys.path.insert(0, str(ROOT / "tools"))
+        from probe_holdout2 import HOLDOUT2
+
+        CONVERSATIONS = HOLDOUT2
     if args.only:
-        global CONVERSATIONS
         CONVERSATIONS = [c for c in CONVERSATIONS if re.search(args.only, c[0])]
     report = asyncio.run(run(args))
     print(json.dumps(report["summary"], ensure_ascii=False, indent=1))

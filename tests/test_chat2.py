@@ -66,6 +66,8 @@ def test_schema_enumerates_only_the_appliances_own_codes():
 def test_json_cut_before_its_closing_brace_is_read():
     assert _parse('{"a": 1, "b": "x"}') == {"a": 1, "b": "x"}
     assert _parse('{\n  "a": 1,\n  "b": "x"\n') == {"a": 1, "b": "x"}
+    # Cut between a key and its value: the fields that arrived are kept.
+    assert _parse('{\n  "quote": "Gò Vấp", \n  "reply": "Dạ có ạ.",\n  "grounded": ') == {"quote": "Gò Vấp", "reply": "Dạ có ạ."}
 
 
 def test_every_appliance_has_a_menu_and_every_fault_a_service():
@@ -136,6 +138,10 @@ def test_describes_nothing_keeps_real_symptoms():
     assert describes_nothing("điều hòa có vấn đề", menu)
     assert not describes_nothing("chảy nước", menu)
     assert not describes_nothing("máy lạnh không mát", menu)
+    fridge = menu_for("refrigerator")
+    assert not describes_nothing("ngăn mát không lạnh, ngăn đá vẫn lạnh", fridge)
+    assert describes_nothing("tủ lạnh có vấn đề", fridge)
+    assert not describes_nothing("khóa vân tay không nhận vân", menu_for("smart_lock"))
 
 
 @pytest.mark.asyncio
@@ -219,6 +225,15 @@ async def test_with_a_photograph_the_router_cannot_decline():
         [Turn("user", "hôm qua vừa bật lên là cả dãy phòng trọ cúp điện")],
     )
     assert v.decision == "conclude" and v.device_type == "air_conditioner" and len(calls) == 2
+
+
+def test_the_more_specific_name_wins_and_time_questions_are_not_bookings():
+    from app.services.chat2.brain import WHEN_WORDS, describes_nothing, mentions, named_in
+
+    assert named_in("cái quạt trần rớt xuống giường") == ["ceiling_fan"]
+    assert named_in("máy giặt không vắt, tiện vệ sinh luôn máy lạnh") == ["washing_machine", "air_conditioner"]
+    assert mentions("đặt rồi bao lâu thợ tới", WHEN_WORDS)
+    assert describes_nothing("máy này mấy hôm nay hơi lạ", menu_for("air_conditioner"))
 
 
 def test_names_appliance_reads_names_and_aliases_without_accents():
@@ -335,3 +350,36 @@ def test_every_platform_question_has_somewhere_to_be_answered_from():
                    "Thợ của FixHome có được kiểm tra không"):
         assert needed in platform, needed
     assert not [p for p in candidates("air_conditioner", None) if "ảnh" in p.section_vi.lower() and "đọc" in p.section_vi.lower()]
+
+
+def test_a_quoted_answer_never_says_there_is_no_information():
+    from app.services.chat2.answer import _tidy
+
+    quote = "Thành phố Hồ Chí Minh có mười bảy: Quận 1, Gò Vấp, Bình Thạnh."
+    assert _tidy("Em chưa có thông tin cụ thể về thợ tại Gò Vấp.", False, True, quote).startswith("Dạ, Thành phố Hồ Chí Minh")
+    assert _tidy("Chào anh/chị, em có nhận đơn tại Gò Vấp. Em chưa có thông tin chi tiết hơn.", False, True, quote) == "Em có nhận đơn tại Gò Vấp."
+    assert _tidy("Em chưa có thông tin đó.", False, False, "") == "Em chưa có thông tin đó."
+    assert _tidy("Anh/chị hãy bấm 'Đặt thợ' để hệ thống gợi ý dịch vụ.", False, True, "Hà Nội có Long Biên.").startswith("Dạ, Hà Nội")
+
+
+@pytest.mark.asyncio
+async def test_the_models_unclear_stands_for_a_vague_message_even_when_words_are_unusual():
+    # 06/11: overruling the model on words alone turned 86% of vague messages into guesses.
+    v, _ = await _run(
+        [_route("air_conditioner"),
+         _turn(need="dùng thấy không được ổn như trước", need_kind=UNCLEAR, decision="ask", reply="Dạ máy đang bị sao ạ?")],
+        [Turn("user", "dùng thấy không được ổn như trước")],
+    )
+    assert v.decision == "ask"
+
+
+@pytest.mark.asyncio
+async def test_unclear_with_a_named_fault_and_a_specific_message_concludes():
+    v, _ = await _run(
+        [_route("refrigerator"),
+         _turn(need="ngăn mát không lạnh, ngăn đá vẫn lạnh", need_kind=UNCLEAR, fault_code="FRIDGE_FAN_FAULT",
+               service_code="FR-01", decision="ask", reply="Ngăn đá có đóng tuyết không ạ?")],
+        [Turn("user", "tủ lạnh ngăn mát không lạnh mà ngăn đá vẫn lạnh")],
+        device="refrigerator",
+    )
+    assert v.decision == "conclude" and v.fault_code == "FRIDGE_FAN_FAULT"

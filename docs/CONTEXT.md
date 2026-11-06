@@ -1,6 +1,6 @@
 # Context repo ai-service — FixHome
 
-> Cập nhật lần cuối: 2026-11-06 20:07 (UTC+7) · Người cập nhật (git): ToanAltF4 · Nhánh: feat/chat-brain-v2
+> Cập nhật lần cuối: 2026-11-06 23:29 (UTC+7) · Người cập nhật (git): ToanAltF4 · Nhánh: feat/chat-brain-v2
 
 ## 0. Quy tắc cập nhật file này (bắt buộc)
 
@@ -205,6 +205,7 @@ Ngoài ra có `POST /api/v1/diagnosis/analyze-upload` (multipart), `GET /api/v1/
 
 ## 9. Nhật ký cập nhật context
 
+- 2026-11-06 23:29 (UTC+7) | ToanAltF4 | feat/chat-brain-v2 | chat2: router own_problem, tên máy theo catalog, hỏi đáp theo mục lục có trích, cân nhãn model với chữ, image serve tự chọn Qwen3.5-9B FP8 (card 24GB) hoặc AWQ (16GB)
 - 2026-11-06 20:07 (UTC+7) | ToanAltF4 | feat/chat-brain-v2 | Chat2 thêm tầng hỏi đáp: kho 985 đoạn theo mục (knowledge_index.json), chọn mục theo mục lục; ý định book; đổi chủ đề theo tin mới nhất; tài liệu câu hỏi thường gặp
 - 2026-11-06 18:59 (UTC+7) | ToanAltF4 | feat/chat-brain-v2 | Chat chạy bằng chat2: YOLO nhận thiết bị, Qwen3.5-9B chỉ chữ đọc thẻ chuyên môn từng lỗi, code quyết hỏi/chốt, answerOptionsVi; đo 4 model trong docs/CHAT-BRAIN-V2.md
 - 2026-11-01 19:40 (UTC+7) | ToanAltF4 | feat/ai-diagnostic-state | Trạng thái chẩn đoán có version gửi backend lưu, giữ khả năng lỗi qua lượt, sổ hỏi–đáp, câu hỏi phân biệt, nhắc đơn cũ theo trạng thái

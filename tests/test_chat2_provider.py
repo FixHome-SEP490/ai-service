@@ -148,7 +148,7 @@ def test_a_platform_question_is_answered_from_the_knowledge_index(client_with):
     client, model = client_with(
         {"devices": [], "intent": "question"},
         {"passages": ["system:tong-quan-fixhome:2", "catalog:services"]},
-        {"grounded": True, "reply": "Dạ FixHome là nền tảng kết nối anh/chị với thợ sửa đồ gia dụng tại nhà ạ."},
+        {"quote": "FixHome là nền tảng kết nối", "grounded": True, "reply": "Dạ FixHome là nền tảng kết nối anh/chị với thợ sửa đồ gia dụng tại nhà ạ."},
         device=None,
     )
     d = client.post("/api/v1/chat/ask", json={"question": "fixhome là gì vậy em"}).json()
@@ -173,7 +173,7 @@ def test_a_follow_up_question_is_asked_about_the_fault_just_concluded(client_wit
         _turn(need="chảy nước", fault_code="AC_DRAIN_BLOCKED", service_code="AC-02", reply="Dạ khả năng nghẹt ống thoát nước ạ."),
         {"devices": [], "intent": "question"},
         {"passages": ["fault:AC_DRAIN_BLOCKED:0"]},
-        {"grounded": True, "reply": "Dạ thông ống thoát nước thường làm xong trong một buổi ạ."},
+        {"quote": "thông ống trong một buổi", "grounded": True, "reply": "Dạ thông ống thoát nước thường làm xong trong một buổi ạ."},
     )
     first = client.post("/api/v1/diagnosis/analyze", json={"description": "máy lạnh chảy nước"}).json()
     d = client.post("/api/v1/diagnosis/analyze", json={"description": "sửa có lâu không em", "sessionId": first["sessionId"]}).json()

@@ -44,7 +44,17 @@ from app.schemas.diagnosis import (
 from app.services.ai_provider import AIProvider
 from app.services.chat2.answer import Answer
 from app.services.chat2.answer import answer as answer_question
-from app.services.chat2.brain import ChatBrain, Turn, Verdict
+from app.services.chat2.brain import (
+    DOMAIN_WORDS,
+    WHEN_WORDS,
+    ChatBrain,
+    Turn,
+    Verdict,
+    asks_price,
+    describes_nothing,
+    mentions,
+    named_in,
+)
 from app.services.chat2.menu import devices, menu_for
 from app.services.pipeline import pricing
 
@@ -177,16 +187,47 @@ class Chat2Provider(AIProvider):
         try:
             async with self._client() as client:
                 routed = await self._brain.route(client, session.turns)
+                latest = session.turns[-1].text
+                said = named_in(latest)
+                # Appliances called by name in this message are certain; the
+                # router's list may miss one ("bao lâu nên vệ sinh máy lạnh").
+                routed["devices"] = list(dict.fromkeys([*said, *(routed.get("devices") or [])]))
+                # own_problem catches "máy nhà em chảy nước thì đặt cái nào" filed
+                # as a question. Once a fault is concluded it no longer helps:
+                # the router reads the whole conversation, sees a broken
+                # appliance, and would send "sửa có lâu không" back to diagnosis.
+                concluded = bool(session.services)
+                new_appliance = bool(said) and said[0] != session.device
+                if routed.get("own_problem") and (not concluded or new_appliance) and routed.get("intent") in ("question", "greeting"):
+                    routed["intent"] = "repair"
+                if asks_price(latest) and (concluded or not routed.get("own_problem")):
+                    routed["intent"] = "question"
+                if routed.get("intent") == "book" and mentions(latest, WHEN_WORDS):
+                    routed["intent"] = "question"
+                if routed.get("intent") == "offtopic" and mentions(latest, DOMAIN_WORDS):
+                    routed["intent"] = "question"
+                if routed.get("intent") == "question" and said and not asks_price(latest) and not concluded:
+                    # "cái bình nóng lạnh nhà em": an appliance named and nothing
+                    # asked about it is the start of a report, so the diagnosis
+                    # asks what is wrong with it.
+                    menu = menu_for(said[0])
+                    if menu and describes_nothing(latest, menu):
+                        routed["intent"] = "repair"
                 if routed.get("intent") == "book" and session.services:
                     return "answer", _booking_nudge(session)
+                if routed.get("intent") == "greeting" and session.device and not routed.get("devices"):
+                    return "answer", Answer(
+                        "Dạ vâng ạ. Anh/chị cần em xem thêm gì cứ nhắn em nhé.", [], True
+                    )
                 if routed.get("intent") == "question":
-                    named = [d for d in routed.get("devices") or [] if d in devices()]
+                    named = [d for d in said if d in devices()] or [d for d in routed.get("devices") or [] if d in devices()]
                     device = named[0] if named else session.device
                     menu = menu_for(device) if device else None
                     fault = menu.fault(session.fault) if menu and device == session.device and session.fault else None
                     found = await answer_question(
                         self._brain, client, session.turns, device,
                         fault.code if fault else None, fault.name_vi if fault else None,
+                        also=[x.device_type for x in session.services if x.device_type],
                     )
                     if device:
                         session.device = device
@@ -336,11 +377,11 @@ def _faults(verdict: Verdict) -> List[SuspectedFault]:
 
 
 def _services(verdict: Verdict) -> List[RecommendedService]:
-    out = []
+    out: List[RecommendedService] = []
     for v in [verdict, *verdict.others]:
         menu = menu_for(v.device_type) if v.device_type else None
         service = menu.service(v.service_code) if menu else None
-        if service and v.decision == "conclude":
+        if service and v.decision == "conclude" and service.code not in {o.service_code for o in out}:
             out.append(RecommendedService(service_code=service.code, name_vi=service.name_vi, device_type=v.device_type))
     return out
 

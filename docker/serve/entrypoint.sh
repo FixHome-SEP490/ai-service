@@ -8,20 +8,29 @@
 # would know the difference.
 #
 # Both share one GPU, so vLLM is told to leave room. The chat model is
-# Qwen3.5-9B quantised to FP8 at load (about 10GB of weights), served text only:
-# the detector reads the photographs and the model never sees one. That needs
-# a 16GB card; at 0.80 vLLM takes 12.8GB and the detector keeps 3.2GB. The
-# 12GB plan of the 3B vision model no longer fits.
+# Qwen3.5-9B served text only: the detector reads the photographs and the
+# model never sees one. Which build depends on the card, picked below from its
+# memory unless VLM_MODEL_NAME says otherwise. Measured 06/11, same code, same
+# 707 cases: FP8 on a 24GB RTX 3090 got 83.1% of clear descriptions right
+# (16.1% wrong and sure of it), 4-bit AWQ on a 16GB RTX 4060 Ti 75.9% (22.3%).
+# FP8 does not fit 16GB: quantised at load it pulls the 19GB bf16 weights onto
+# the card, and the published FP8 checkpoint is 14GB. AWQ is 7.5GB of weights,
+# and at 0.80 leaves a KV cache of 62,557 tokens and 3.2GB to the detector.
 
 set -euo pipefail
 
 VLM_PORT="${VLM_PORT:-8001}"
 API_PORT="${API_PORT:-8000}"
-MODEL="${VLM_MODEL_NAME:-Qwen/Qwen3.5-9B}"
+FP8_MODEL="RedHatAI/Qwen3.5-9B-FP8-dynamic"
+AWQ_MODEL="cyankiwi/Qwen3.5-9B-AWQ-4bit"
+# 22,000 MiB rather than 24,576: cards sold as 24GB report a little less.
+FP8_MIN_MIB="${FP8_MIN_MIB:-22000}"
 GPU_FRACTION="${GPU_FRACTION:-0.80}"
-# FP8 weights computed at load, and no image or video inputs: the vision tower
-# is never loaded and its memory goes to the KV cache.
-read -r -a MODEL_ARGS <<< "${VLM_EXTRA_ARGS:---quantization fp8}"
+# No image or video inputs: the vision tower is never loaded and its memory
+# goes to the KV cache. Qwen3.5 keeps one Mamba cache block per running
+# sequence and has ~200 of them at this size, so vLLM's default of 256
+# sequences fails at CUDA graph capture; 64 is more than one card serves.
+read -r -a MODEL_ARGS <<< "${VLM_EXTRA_ARGS:---max-num-seqs 64}"
 MODEL_ARGS+=(--limit-mm-per-prompt '{"image":0,"video":0}')
 export AI_ENGINE="${AI_ENGINE:-chat2}"
 MAX_LEN="${MAX_LEN:-8192}"
@@ -39,6 +48,23 @@ nvidia-smi --query-gpu=name,memory.total --format=csv,noheader || {
   echo "No GPU visible. Pass --gpus all." >&2
   exit 1
 }
+
+pick_model() {
+  if [[ -n "${VLM_MODEL_NAME:-}" ]]; then
+    MODEL="${VLM_MODEL_NAME}"
+    log "Model ${MODEL} (set by VLM_MODEL_NAME)"
+    return
+  fi
+  local mib
+  mib="$(nvidia-smi --query-gpu=memory.total --format=csv,noheader,nounits | head -n 1 | tr -dc '0-9')"
+  if [[ -n "${mib}" ]] && (( mib >= FP8_MIN_MIB )); then
+    MODEL="${FP8_MODEL}"
+  else
+    MODEL="${AWQ_MODEL}"
+  fi
+  log "Model ${MODEL} for a card of ${mib:-unknown} MiB"
+}
+pick_model
 
 fetch_weights() {
   if [[ -n "${YOLO_WEIGHTS_PATH:-}" && -f "${YOLO_WEIGHTS_PATH}" ]]; then
