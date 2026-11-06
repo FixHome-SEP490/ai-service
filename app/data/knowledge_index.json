@@ -457,6 +457,13 @@
    "text_vi": "Trợ lý chỉ gợi ý sơ bộ bệnh khả năng cao nhất từ lời khách kể, để khách hiểu vấn đề sớm hơn và đặt đúng dịch vụ. Kết luận chính thức là của thợ sau khi kiểm tra tận nơi, và giá chính thức là báo giá thợ gửi để khách duyệt. Trợ lý không có quyền báo giá chính thức, phân công thợ hay đổi trạng thái đơn. Khi trợ lý gặp sự cố, khách vẫn đặt lịch bình thường."
   },
   {
+   "id": "system:cau-hoi-thuong-gap:9",
+   "scope": "platform",
+   "doc_vi": "Câu hỏi thường gặp về thợ, đơn và trợ lý",
+   "section_vi": "Khi nào thợ tới",
+   "text_vi": "Thợ tới theo khung giờ khách chọn khi đặt lịch. Lúc đặt, khách chọn địa chỉ sửa chữa và khung giờ mong muốn. Lịch được chốt khi một thợ nhận đơn. Đặt qua trợ lý cũng vậy: sau khi trò chuyện, khách bấm Đặt thợ rồi tự chọn địa chỉ và giờ trước khi xác nhận. Trợ lý không tự hẹn giờ hay cử thợ được."
+  },
+  {
    "id": "persona:giong-noi:0",
    "scope": "platform",
    "doc_vi": "Giọng nói của trợ lý FixHome",

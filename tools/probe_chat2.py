@@ -317,6 +317,7 @@ def main() -> None:
     p.add_argument("--holdout", action="store_true", help="run tools/probe_holdout.py instead")
     p.add_argument("--holdout2", action="store_true", help="run tools/probe_holdout2.py, written after the first held-out set was tuned on")
     p.add_argument("--holdout3", action="store_true", help="run tools/probe_holdout3.py (follow-ups after a conclusion, 07/11)")
+    p.add_argument("--live", action="store_true", help="run tools/probe_live.py (regression set from the live run of 07/11)")
     p.add_argument("--out")
     p.add_argument("--md")
     args = p.parse_args()
@@ -338,6 +339,11 @@ def main() -> None:
         from probe_holdout3 import HOLDOUT3
 
         CONVERSATIONS = HOLDOUT3
+    if args.live:
+        sys.path.insert(0, str(ROOT / "tools"))
+        from probe_live import LIVE
+
+        CONVERSATIONS = LIVE
     if args.only:
         CONVERSATIONS = [c for c in CONVERSATIONS if re.search(args.only, c[0])]
     report = asyncio.run(run(args))

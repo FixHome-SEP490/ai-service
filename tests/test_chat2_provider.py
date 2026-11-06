@@ -280,3 +280,16 @@ def test_model_down_is_a_503_backend_turns_into_the_manual_path(client_with):
     r = TestClient(app).post("/api/v1/diagnosis/analyze", json={"description": "máy lạnh không mát"})
     assert r.status_code == 503
     assert "refused" not in r.text
+
+
+def test_a_bare_no_to_the_assistants_own_question_goes_back_to_the_diagnosis(client_with):
+    client, model = client_with(
+        {"devices": ["refrigerator"], "intent": "repair"},
+        _turn(need_kind=UNCLEAR, decision="ask", service_code="FR-01", reply="Dạ tủ lạnh có hiện tượng gì ạ?", options=["Không lạnh", "Ồn"]),
+        {"devices": [], "intent": "question"},
+        _turn(need_kind=UNCLEAR, decision="ask", service_code="FR-01", reply="Dạ ngăn đá có còn đông đá không ạ?", options=["Có", "Không"]),
+        device="refrigerator",
+    )
+    first = client.post("/api/v1/diagnosis/analyze", json={"description": "tủ lạnh hư rồi em ơi"}).json()
+    d = client.post("/api/v1/diagnosis/analyze", json={"description": "Không", "sessionId": first["sessionId"]}).json()
+    assert d["status"] == "needs_clarification" and len(model.calls) == 4

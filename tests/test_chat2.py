@@ -408,7 +408,9 @@ def test_a_quoted_answer_never_says_there_is_no_information():
     from app.services.chat2.answer import _tidy
 
     quote = "Thành phố Hồ Chí Minh có mười bảy: Quận 1, Gò Vấp, Bình Thạnh."
-    assert _tidy("Em chưa có thông tin cụ thể về thợ tại Gò Vấp.", False, True, quote).startswith("Dạ, Thành phố Hồ Chí Minh")
+    assert _tidy("Em chưa có thông tin cụ thể về thợ tại Gò Vấp.", False, True, quote).startswith("Dạ, thành phố Hồ Chí Minh")
+    assert _tidy("Em chưa có thông tin.", False, True, "Khi tới nơi, thợ bấm xác nhận.") == "Dạ, khi tới nơi, thợ bấm xác nhận."
+    assert _tidy("Em chưa có thông tin.", False, True, "FixHome là nền tảng.") == "Dạ, FixHome là nền tảng."
     assert _tidy("Chào anh/chị, em có nhận đơn tại Gò Vấp. Em chưa có thông tin chi tiết hơn.", False, True, quote) == "Em có nhận đơn tại Gò Vấp."
     assert _tidy("Em chưa có thông tin đó.", False, False, "") == "Em chưa có thông tin đó."
     assert _tidy("Anh/chị hãy bấm 'Đặt thợ' để hệ thống gợi ý dịch vụ.", False, True, "Hà Nội có Long Biên.").startswith("Dạ, Hà Nội")
@@ -498,3 +500,80 @@ async def test_a_named_appliance_is_never_declined_as_off_topic():
         [Turn("user", "lap khoa van tay")], device=None,
     )
     assert v.decision == "conclude" and v.service_code == "LK-03"
+
+
+def test_an_appliance_first_named_now_is_diagnosed_from_its_own_message():
+    """Live 07/11: the fridge "kêu to" after "máy lạnh chảy nước" came back with a blocked drain."""
+    from app.services.chat2.brain import _scope
+
+    history = [Turn("user", "máy lạnh chảy nước"), Turn("assistant", "Dạ khả năng nghẹt ống thoát nước ạ."),
+               Turn("user", "còn cái tủ lạnh nhà em kêu to lắm")]
+    assert [t.text for t in _scope(history, "refrigerator", "air_conditioner", None)] == ["còn cái tủ lạnh nhà em kêu to lắm"]
+    assert _scope(history, "air_conditioner", "air_conditioner", None) == history
+    both = [Turn("user", "tủ lạnh với máy lạnh đều hỏng"), Turn("assistant", "Dạ máy lạnh bị sao ạ?"), Turn("user", "tủ lạnh không lạnh")]
+    assert _scope(both, "refrigerator", "air_conditioner", None) == both
+
+
+@pytest.mark.asyncio
+async def test_the_fridge_after_the_air_conditioner_sees_only_its_own_message():
+    history = [Turn("user", "máy lạnh chảy nước"), Turn("assistant", "Dạ khả năng nghẹt ống thoát nước ạ."),
+               Turn("user", "còn cái tủ lạnh nhà em kêu to lắm")]
+    transport, calls = _server([
+        _route("refrigerator"),
+        _turn(need="tủ lạnh kêu to", fault_code="FRIDGE_NOISY", service_code="FR-01", reply="Dạ tủ lạnh kêu to ạ."),
+    ])
+    async with httpx.AsyncClient(transport=transport) as client:
+        v = await ChatBrain("http://fake/v1", "m").turn(client, history, None, current="air_conditioner")
+    assert v.device_type == "refrigerator"
+    sent = [m["content"] for m in calls[1]["messages"][1:]]
+    assert sent == ["còn cái tủ lạnh nhà em kêu to lắm"]
+
+
+def test_the_concluded_faults_own_sections_are_always_offered():
+    from app.services.chat2.answer import candidates, shortlist
+
+    items = shortlist("giờ em phải làm gì trước", candidates("washing_machine", "WM_DOOR_SEAL_LEAK"), "washing_machine", "WM_DOOR_SEAL_LEAK")
+    own = [p for p in items if p.scope == "fault:WM_DOOR_SEAL_LEAK"]
+    assert len(own) == len([p for p in candidates(None, "WM_DOOR_SEAL_LEAK") if p.scope == "fault:WM_DOOR_SEAL_LEAK"]) > 5
+
+
+def test_an_ungrounded_quote_is_not_passed_off_as_the_answer():
+    from app.services.chat2.answer import _tidy
+
+    said = _tidy("Dạ câu này em chưa có thông tin ạ.", False, False, "Không có khoản ký quỹ của thợ.")
+    assert "chưa có thông tin" in said and "ký quỹ" not in said
+
+
+@pytest.mark.asyncio
+async def test_work_done_before_brings_the_warranty_route_once():
+    """Live 07/11: "mới vệ sinh tuần trước mà giờ lại chảy nước ... thợ bên em làm đó" only repeated the diagnosis."""
+    v, _ = await _run(
+        [_route("air_conditioner"),
+         _turn(need="chảy nước", fault_code="AC_DRAIN_BLOCKED", service_code="AC-02", reply="Dạ khả năng nghẹt ống thoát nước ạ.")],
+        [Turn("user", "máy lạnh mới vệ sinh tuần trước mà giờ lại chảy nước")],
+    )
+    assert "Bảo hành điện tử" in v.reply_vi and "không được bảo hành" not in v.reply_vi
+    from app.services.chat2.brain import warranty_note
+
+    said = [Turn("user", "thợ bên em làm đó"), Turn("assistant", v.reply_vi), Turn("user", "thợ bên em làm mà")]
+    assert warranty_note(said) is None
+    assert warranty_note([Turn("user", "máy lạnh chảy nước")]) is None
+
+
+@pytest.mark.asyncio
+async def test_a_shock_from_the_casing_is_a_warning_first_whatever_the_fault():
+    v, _ = await _run(
+        [_route("washing_machine"),
+         _turn(need="giật điện nhẹ khi chạm", fault_code="WM_PCB_FAULT", service_code="WM-01", reply="Dạ khả năng lỗi bo mạch ạ.")],
+        [Turn("user", "máy giặt bị giật điện nhẹ khi chạm có sao không")], device="washing_machine",
+    )
+    assert v.reply_vi.startswith("Trước tiên anh/chị ngắt aptomat")
+
+
+def test_a_quote_stands_in_for_an_answer_only_when_it_holds_the_question():
+    from app.services.chat2.answer import quote_holds_the_question as holds
+
+    assert not holds("anh không có tiền, có trả góp không", "Không có khoản ký quỹ của thợ, không có ví điện tử.")
+    assert holds("Gò Vấp có thợ không", "Thành phố Hồ Chí Minh có: Quận 1, Gò Vấp, Bình Thạnh.")
+    assert holds("Long Biên có thợ không em", "Hà Nội có Cầu Giấy, Long Biên.")
+    assert not holds("khi nào thợ tới được", "Khi tới nơi, thợ bấm xác nhận đã tới trên ứng dụng.")
