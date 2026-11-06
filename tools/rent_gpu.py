@@ -10,7 +10,7 @@ habits enforce that:
       success until the instance is gone from it
     - `status` tells you what is running and what it has cost so far
 
-    python tools/rent_gpu.py offers --gpu RTX_3060
+    python tools/rent_gpu.py offers --min-vram 24
     python tools/rent_gpu.py train --offer <id> --epochs 2
     python tools/rent_gpu.py logs
     python tools/rent_gpu.py status
@@ -990,11 +990,11 @@ def main() -> None:
     offers = sub.add_parser("offers", help="what is available and what it costs")
     offers.add_argument(
         "--gpu",
-        default="RTX_3060",
+        default="",
         help=(
-            "card to search for, as vast.ai names it: RTX_3060, RTX_A4000. "
-            'Pass an empty string ("") to search every card, which is what to '
-            "do when the pinned host is taken."
+            "card to search for, as vast.ai names it: RTX_3090, RTX_A5000. "
+            "Empty (the default) searches every card with --min-vram, which "
+            "is what the serve image needs: it picks its model from the memory."
         ),
     )
     offers.add_argument("--max-price", type=float, default=0.40)
