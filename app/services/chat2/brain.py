@@ -294,12 +294,45 @@ BARE_REPLIES = frozenset({
 VERDICT_WORDS = ("thay sao", "bi gi", "bi sao", "la sao", "the nao roi", "ket luan", "gio sao", "vay sao", "chan doan")
 
 
+def is_bare_reply(text: str) -> bool:
+    return _fold(text).strip() in BARE_REPLIES
+
+
 def asks_for_the_verdict(text: str, menu: DeviceMenu) -> bool:
     """"Không.", "đúng rồi", "vậy giờ em thấy sao?": nothing to answer but the conclusion."""
     folded = _fold(text).strip()
     if folded in BARE_REPLIES:
         return True
     return mentions(text, VERDICT_WORDS) and describes_nothing(text, menu)
+
+
+# The customer says the appliance was worked on before: "thợ bên em làm đó",
+# "mới vệ sinh tuần trước mà giờ lại chảy nước" (live, 07/11). The documents
+# (system/bao-hanh.md) say what may be said: the technician looks again, the
+# same fault within the period is under warranty, a different one is new work,
+# and the assistant never decides which.
+REDO_WORDS = ("tho ben em", "ben em lam", "ben em sua", "ben em ve sinh", "fixhome lam", "fixhome sua", "tho fixhome",
+              "moi sua", "vua sua", "moi ve sinh", "vua ve sinh", "moi thay", "vua thay", "sua roi ma", "lam roi ma")
+WARRANTY_NOTE = (
+    "Nếu lần trước do thợ FixHome làm và còn hạn bảo hành, anh/chị gửi yêu cầu ở mục Bảo hành điện tử. "
+    "Thợ sẽ xem lại, đúng chỗ đã sửa trong thời hạn thì thuộc bảo hành ạ."
+)
+
+
+def warranty_note(history: Sequence[Turn]) -> Optional[str]:
+    """Once per conversation, when the customer says it was repaired or cleaned before."""
+    if not mentions(_customer_text(history), REDO_WORDS):
+        return None
+    if any(t.role == "assistant" and "Bảo hành điện tử" in t.text for t in history):
+        return None
+    return WARRANTY_NOTE
+
+
+# A shock from the casing is a warning before anything else, whatever the fault:
+# devices/washing_machine.md "An toàn điện" says cut the breaker feeding the
+# appliance, do not switch it back on, do not touch it with wet feet.
+SHOCK_WORDS = ("giat dien", "bi giat", "dien giat", "te tay", "ro dien", "chich dien", "giat te")
+SHOCK_STEP = "Trước tiên anh/chị ngắt aptomat cấp điện cho máy, không bật lại và không chạm vào máy khi chân đang ướt."
 
 
 def mentions(text: str, words) -> bool:
@@ -481,7 +514,8 @@ class ChatBrain:
             return _without_device(intent, None, time.perf_counter() - started, routed)
         focus = len(order) > 1 or switched
         verdicts = await asyncio.gather(
-            *(self._diagnose(client, history, d, intent, devices()[d].lower() if focus else None) for d in order)
+            *(self._diagnose(client, _scope(history, d, current, device_type), d, intent, devices()[d].lower() if focus else None)
+              for d in order)
         )
         # A photograph of the television with "tiện hỏi luôn tủ lạnh chảy nước":
         # the fridge is the conversation, the television said nothing. Keep
@@ -490,6 +524,9 @@ class ChatBrain:
         lead = verdicts[0] if verdicts[0].decision == "conclude" or not concluded else concluded[0]
         first = lead
         first.others = [v for v in concluded if v is not lead]
+        note = warranty_note(history)
+        if note and first.decision == "conclude":
+            first.reply_vi = f"{first.reply_vi} {note}".strip()
         first.latency_s = time.perf_counter() - started
         return first
 
@@ -559,6 +596,23 @@ def _pick_schema(menu: DeviceMenu, allow_none: bool) -> dict:
         "required": ["fault_code"],
         "additionalProperties": False,
     }
+
+
+def _scope(history: Sequence[Turn], device: str, current: Optional[str], photo: Optional[str]) -> Sequence[Turn]:
+    """The part of the conversation that is about this appliance.
+
+    An appliance first named in the newest message, while the talk was about
+    another one, is diagnosed from that message on. With the whole
+    conversation, "còn cái tủ lạnh nhà em kêu to lắm" after "máy lạnh chảy
+    nước" came back as a fridge with a blocked drain (live, 07/11): the model
+    carried the air conditioner's water over."""
+    if photo or not current or device == current:
+        return history
+    last = max((i for i, t in enumerate(history) if t.role == "user"), default=0)
+    earlier = _customer_text(history[:last])
+    if names_appliance(earlier, device):
+        return history
+    return list(history[last:])
 
 
 def _without_device(intent: str, device_type: Optional[str], latency: float, raw: dict) -> Verdict:
@@ -734,6 +788,11 @@ def _compose(
     if fault and fault.urgency == URGENT and fault.actions_vi:
         action = fault.actions_vi[0]
         parts.append("Trước tiên anh/chị " + action[0].lower() + action[1:].rstrip(".") + ".")
+    elif mentions(" ".join([latest, *said]), SHOCK_WORDS):
+        # No fault of the appliance says "electric shock" (the washing machine
+        # has none), so "bị giật điện nhẹ khi chạm" concluded on the control
+        # board without a word of safety (06/11, probe k-safety).
+        parts.append(SHOCK_STEP)
     if code_sentence:
         parts.append(code_sentence)
     parts.append(reply)

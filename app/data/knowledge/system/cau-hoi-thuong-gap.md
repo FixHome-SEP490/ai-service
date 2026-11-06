@@ -45,3 +45,7 @@ Mỗi đơn đã làm có lịch sử sửa chữa: các mốc thời gian, dị
 ## Trợ lý đoán bệnh có chính xác không
 
 Trợ lý chỉ gợi ý sơ bộ bệnh khả năng cao nhất từ lời khách kể, để khách hiểu vấn đề sớm hơn và đặt đúng dịch vụ. Kết luận chính thức là của thợ sau khi kiểm tra tận nơi, và giá chính thức là báo giá thợ gửi để khách duyệt. Trợ lý không có quyền báo giá chính thức, phân công thợ hay đổi trạng thái đơn. Khi trợ lý gặp sự cố, khách vẫn đặt lịch bình thường.
+
+## Khi nào thợ tới
+
+Thợ tới theo khung giờ khách chọn khi đặt lịch. Lúc đặt, khách chọn địa chỉ sửa chữa và khung giờ mong muốn. Lịch được chốt khi một thợ nhận đơn. Đặt qua trợ lý cũng vậy: sau khi trò chuyện, khách bấm Đặt thợ rồi tự chọn địa chỉ và giờ trước khi xác nhận. Trợ lý không tự hẹn giờ hay cử thợ được.

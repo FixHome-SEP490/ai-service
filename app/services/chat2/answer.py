@@ -54,7 +54,7 @@ Mục lục (mã | tài liệu › mục — câu mở đầu):
 ANSWER_SYSTEM = """Bạn là trợ lý của FixHome, nhắn tin riêng với khách. Xưng "em", gọi khách là "anh/chị".
 Trả lời câu hỏi cuối của khách CHỈ bằng thông tin trong các đoạn tài liệu dưới đây.
 Trước hết chép vào "quote" nguyên văn câu trong đoạn tài liệu chứa ý trả lời (đọc kỹ cả danh sách, tên quận, tên thiết bị). Câu có cùng ý là đủ, không cần trùng chữ với câu hỏi: "nhắn tin với thợ trước khi đặt" được trả lời bởi câu nói khách nhắn được sau khi gửi đơn; "khiếu nại thợ" được trả lời bởi câu nói quản lý dịch vụ xử lý tranh chấp. Chỉ để "" khi không đoạn nào có ý đó. Rồi viết "reply" dựa trên câu đã chép.
-- Trả lời thẳng vào điều khách hỏi ngay câu đầu, tối đa hai câu ngắn, dưới 50 chữ, không chào hỏi, không xin lỗi, không lan man.
+- Trả lời thẳng vào điều khách hỏi ngay câu đầu, tối đa hai câu ngắn, dưới 50 chữ, không chào hỏi, không xin lỗi, không lan man. Câu hỏi có hay không ("có nguy hiểm không", "tự làm được không") thì câu đầu nói rõ có hay không; riêng khi đoạn tài liệu nói phải chờ thợ xem mới biết (như có được bảo hành không) thì nói đúng điều kiện đó, không nói chắc.
 - Không viết "theo tài liệu", không nhắc hotline, tổng đài, số điện thoại.
 - Khách hỏi giá thì nói đúng khoảng giá có trong đoạn tài liệu.
 - Số tiền, thời hạn, địa danh, điều khoản: chỉ nói khi có trong đoạn tài liệu, chép đúng.
@@ -149,6 +149,25 @@ def _document_frequency() -> Dict[str, int]:
     return df
 
 
+def quote_holds_the_question(question: str, quote: str) -> bool:
+    """Whether the quote holds a rare word of the question: the district, the brand, "trả góp".
+
+    The model marks a quote grounded when it is only near the subject: for
+    "có trả góp không" it quoted "Không có khoản ký quỹ của thợ" (07/11). A
+    district or a term the question names, rare across the index, has to be
+    in the quote before the quote is allowed to stand in for an answer."""
+    rarity = _document_frequency()
+    n = len(index())
+    asked, said = _fold(question), _fold(quote)
+    rare = {w for w in asked if len(w) > 1 and rarity.get(w, 0) <= max(1, n // 20)}
+    if rare & set(said):
+        return True
+    # A two-syllable name folds into common words ("Long Biên" is "long bien"):
+    # the pair, with one of its words not among the commonest, counts too.
+    pairs = {(a, b) for a, b in zip(asked, asked[1:]) if min(rarity.get(a, 0), rarity.get(b, 0)) <= n // 4}
+    return bool(pairs & set(zip(said, said[1:])))
+
+
 def _opening(text: str) -> str:
     first = re.split(r"(?<=[.?!:])\s", " ".join(text.split()), maxsplit=1)[0]
     return first[:110]
@@ -159,7 +178,9 @@ def _fold(text: str) -> List[str]:
     return re.findall(r"[a-z0-9]+", "".join(c for c in text if unicodedata.category(c) != "Mn"))
 
 
-def shortlist(question: str, items: Sequence[Passage], device_type: Optional[str]) -> List[Passage]:
+def shortlist(
+    question: str, items: Sequence[Passage], device_type: Optional[str], fault_code: Optional[str] = None
+) -> List[Passage]:
     """The sections worth showing the model for this question, best first.
 
     A table of 110 titles was too much to choose from: "thợ có được kiểm tra
@@ -194,7 +215,11 @@ def shortlist(question: str, items: Sequence[Passage], device_type: Optional[str
     ranked = [e[0] for e in sorted(docs, key=score, reverse=True)]
     always = [index()[i] for i in ("catalog:services", f"catalog:{device_type}") if i in index()]
     core = [p for p in items if p.scope == "platform" and p.section_vi.startswith(CORE_SECTIONS)]
-    return list(dict.fromkeys([*always, *core, *ranked]))[:SHORTLIST + len(core)]
+    # The fault just concluded has at most a dozen sections, all written for
+    # the questions that follow a diagnosis; offered by words alone, "giờ em
+    # phải làm gì trước" and "có nguy hiểm không" found none of them (07/11).
+    own = [p for p in items if fault_code and p.scope == f"fault:{fault_code}"]
+    return list(dict.fromkeys([*always, *own, *core, *ranked]))[:SHORTLIST + len(core) + len(own)]
 
 
 def _pick_schema(items: Sequence[Passage]) -> dict:
@@ -232,7 +257,7 @@ async def answer(
 
     started = time.perf_counter()
     latest = next((t.text for t in reversed(history) if t.role == "user"), "")
-    items = shortlist(latest, candidates(device_type, fault_code), device_type)
+    items = shortlist(latest, candidates(device_type, fault_code), device_type, fault_code)
     transcript = [{"role": t.role, "content": t.text} for t in history]
     picked = await brain._call(
         client,
@@ -263,7 +288,11 @@ async def answer(
         260,
     )
     quote = (raw.get("quote") or "").strip()
-    reply = _trim(_tidy(" ".join((raw.get("reply") or "").split()), about_appliance=bool(device_type), answered=bool(quote), quote=quote))
+    # A quote the model itself does not call grounded proves nothing: "có trả
+    # góp không" came back as "Không có khoản ký quỹ của thợ" (07/11).
+    grounded = bool(raw.get("grounded")) and bool(quote) and quote_holds_the_question(latest, quote)
+    reply = _trim(_tidy(" ".join((raw.get("reply") or "").split()), about_appliance=bool(device_type),
+                        answered=grounded, quote=quote))
     return Answer(reply, chosen, bool(raw.get("grounded")) and bool((raw.get("quote") or "").strip()), time.perf_counter() - started)
 
 
@@ -291,6 +320,10 @@ def _tidy(reply: str, about_appliance: bool, answered: bool = False, quote: str 
         if all(any(f in x.lower() for f in FILLER) for x in sentences):
             sentences = []
         if not sentences and quote:
-            sentences = ["Dạ, " + quote]
+            # "Dạ, Khi tới nơi" read wrong; a name keeps its capital ("FixHome").
+            words = quote.split()
+            name = len(words) > 1 and words[1][:1].isupper() or any(c.isupper() for c in words[0][1:])
+            lead = quote if name else quote[:1].lower() + quote[1:]
+            sentences = ["Dạ, " + lead]
     out = " ".join(sentences).strip()
     return (out[:1].upper() + out[1:]) if out else reply

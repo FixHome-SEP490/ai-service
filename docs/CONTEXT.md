@@ -1,6 +1,6 @@
 # Context repo ai-service — FixHome
 
-> Cập nhật lần cuối: 2026-11-07 01:35 (UTC+7) · Người cập nhật (git): ToanAltF4 · Nhánh: feat/chat-brain-v2
+> Cập nhật lần cuối: 2026-11-07 02:54 (UTC+7) · Người cập nhật (git): ToanAltF4 · Nhánh: fix/chat2-followups
 
 ## 0. Quy tắc cập nhật file này (bắt buộc)
 
@@ -205,6 +205,7 @@ Ngoài ra có `POST /api/v1/diagnosis/analyze-upload` (multipart), `GET /api/v1/
 
 ## 9. Nhật ký cập nhật context
 
+- 2026-11-07 02:54 (UTC+7) | ToanAltF4 | fix/chat2-followups | chat2: máy mới chỉ đọc tin của nó, câu trích phải chứa từ của câu hỏi, mục của bệnh vừa chốt luôn có trong mục lục, câu bảo hành khi máy đã sửa trước, bước an toàn khi giật điện, đáp cụt cho câu hỏi chẩn đoán về chẩn đoán; FAQ khi nào thợ tới; probe_live
 - 2026-11-07 01:35 (UTC+7) | ToanAltF4 | feat/chat-brain-v2 | chat2 vòng 07/11: nhắc lại kết luận bằng code, hư hại có tên giữ lỗi, lượt chọn lỗi thứ hai, tên máy gõ đích danh thắng router, câu mơ hồ xét trên lời khách; FAQ độ chính xác của trợ lý; probe_holdout3
 - 2026-11-06 23:29 (UTC+7) | ToanAltF4 | feat/chat-brain-v2 | chat2: router own_problem, tên máy theo catalog, hỏi đáp theo mục lục có trích, cân nhãn model với chữ, image serve tự chọn Qwen3.5-9B FP8 (card 24GB) hoặc AWQ (16GB)
 - 2026-11-06 20:07 (UTC+7) | ToanAltF4 | feat/chat-brain-v2 | Chat2 thêm tầng hỏi đáp: kho 985 đoạn theo mục (knowledge_index.json), chọn mục theo mục lục; ý định book; đổi chủ đề theo tin mới nhất; tài liệu câu hỏi thường gặp

@@ -54,6 +54,7 @@ from app.services.chat2.brain import (
     asks_for_the_verdict,
     describes_nothing,
     fault_phrase,
+    is_bare_reply,
     mentions,
     named_in,
 )
@@ -215,6 +216,12 @@ class Chat2Provider(AIProvider):
                     menu = menu_for(said[0])
                     if menu and describes_nothing(latest, menu):
                         routed["intent"] = "repair"
+                previous = next((t.text for t in reversed(session.turns[:-1]) if t.role == "assistant"), "")
+                if not concluded and previous.rstrip().endswith("?") and is_bare_reply(latest):
+                    # "Không" to the assistant's own question about the appliance
+                    # answers it; filed as a question it went to the documents and
+                    # came back "em chưa có thông tin" (holdout3, 07/11).
+                    routed["intent"] = "repair"
                 current_menu = menu_for(session.device) if session.device else None
                 if concluded and not new_appliance and current_menu and asks_for_the_verdict(latest, current_menu):
                     # The question tier has to pick a document, and for these it
