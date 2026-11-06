@@ -577,3 +577,17 @@ def test_a_quote_stands_in_for_an_answer_only_when_it_holds_the_question():
     assert holds("Gò Vấp có thợ không", "Thành phố Hồ Chí Minh có: Quận 1, Gò Vấp, Bình Thạnh.")
     assert holds("Long Biên có thợ không em", "Hà Nội có Cầu Giấy, Long Biên.")
     assert not holds("khi nào thợ tới được", "Khi tới nơi, thợ bấm xác nhận đã tới trên ứng dụng.")
+
+
+@pytest.mark.asyncio
+async def test_a_concluded_drop_never_reads_as_a_question():
+    """Live 07/11: the PO's dropped air conditioner booked the repair but asked how it fell."""
+    v, _ = await _run(
+        [_route("air_conditioner"),
+         _turn(need="máy bị rơi", need_kind=DAMAGE, service_code="AC-01",
+               reply="Máy bị rơi có thể gây hư hại nhiều bộ phận. Anh/chị vui lòng cho em biết cụ thể máy bị rơi như thế nào để em hỗ trợ nhé."),
+         {"fault_code": "NONE"}],
+        [Turn("user", "Điều hoà nhà tôi bị rơi xuống")],
+    )
+    assert v.decision == "conclude" and v.service_code == "AC-01"
+    assert "cho em biết" not in v.reply_vi and "kiểm tra hư hại" in v.reply_vi
