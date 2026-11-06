@@ -23,8 +23,9 @@ write the FixHome database, or transition Service Orders. `backend` owns those r
 - FastAPI 0.115 and Uvicorn 0.32
 - Pydantic 2 and pydantic-settings 2
 - HTTPX for outbound calls to the model server
-- YOLO11s via Ultralytics for device detection across 22 classes,
-  Qwen2.5-VL-3B-Instruct AWQ served by vLLM
+- YOLO11s via Ultralytics for device detection across 22 classes
+- Chat model (from 06/11/2026): Qwen3.5-9B, FP8 at load, text only, served by vLLM v0.33.0
+  (`AI_ENGINE=chat2`); the earlier Qwen2.5-VL-3B-Instruct AWQ pipeline remains as `AI_ENGINE=local`
 - Pillow for image handling
 - python-dotenv and multipart support
 - Pytest and pytest-asyncio
@@ -35,6 +36,13 @@ Do not upgrade model runtimes or FastAPI as part of unrelated work. Pin model ve
 (weights, HuggingFace revision, vLLM, CUDA) so results stay reproducible across rentals.
 
 ## 3. Existing Architecture
+
+Main path since 06/11/2026 (`app/services/chat2`, see `docs/CHAT-BRAIN-V2.md`): the detector names
+the appliance from photographs; a text-only LLM reads the whole conversation against that
+appliance's fault cards (`app/data/fault_cards.json`) and fills a JSON schema whose enums are the
+appliance's own fault and service codes; code decides whether to ask one question or conclude, and
+adds the safety step, the manufacturer's error-code meaning and the catalogue price. The model never
+sees an image. The pipeline below is the earlier `AI_ENGINE=local` engine.
 
 ```text
 Uvicorn

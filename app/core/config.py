@@ -7,8 +7,15 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
 class Settings(BaseSettings):
-    # Engine selection: "local" runs the self-hosted pipeline, "mock" is for CI.
+    # Engine selection: "chat2" runs the chat brain (detector + text LLM +
+    # fault cards, app/services/chat2), "local" the earlier retrieval-led
+    # pipeline, "mock" fixed replies for CI.
     AI_ENGINE: str = "local"
+
+    # Chat brain (chat2). Same server and model name as VLM_* below.
+    CHAT_TIMEOUT_SECONDS: float = 25.0
+    # Qwen3.x writes its reasoning before the answer unless told not to.
+    CHAT_DISABLE_THINKING: bool = True
 
     # Detector stage (YOLO11s). Empty weights path falls back to the stub.
     YOLO_WEIGHTS_PATH: str = ""

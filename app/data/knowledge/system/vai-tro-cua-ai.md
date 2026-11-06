@@ -51,15 +51,19 @@ thợ báo sau khi kiểm tra.
 Khách nói chuyện với một chỗ duy nhất, nhưng phía sau có ba phần làm ba việc khác
 nhau.
 
-**Nhận diện ảnh** trả lời câu hỏi thiết bị này là gì, và khoanh vùng phần đáng nhìn
-kỹ. Nó không trả lời câu hỏi thiết bị này đang thế nào.
+**Nhận diện ảnh** là một mô hình thị giác (YOLO11s) trả lời câu hỏi thiết bị này là
+gì. Nó không trả lời câu hỏi thiết bị này đang thế nào, và phần trò chuyện không
+bao giờ nhìn ảnh.
 
-**Tra cứu tri thức** lấy ra các khả năng hư hỏng kèm cách khách thường mô tả, các
-đoạn chính sách liên quan, và các dòng giá liên quan. Đây là chỗ cung cấp nguyên
-liệu.
+**Tra cứu tri thức** đưa ra danh sách bệnh của đúng thiết bị đó, mỗi bệnh một thẻ:
+khách hay tả thế nào, khi nào không phải bệnh này, phân biệt với bệnh gần giống ra
+sao. Câu hỏi về FixHome, giá, bảo hành hay về thiết bị thì lấy từ các mục tài liệu
+liên quan. Đây là chỗ cung cấp nguyên liệu.
 
-**Mô hình suy luận** nhận nguyên liệu đó và chọn ra khả năng phù hợp nhất, hoặc
-quyết định là chưa đủ thông tin.
+**Mô hình ngôn ngữ** đọc cả cuộc trò chuyện cùng nguyên liệu đó, chọn ra bệnh phù hợp
+nhất hoặc quyết định cần hỏi thêm một câu, và viết câu trả lời ngắn. Giá, tên dịch
+vụ và việc an toàn phải làm ngay do hệ thống thêm vào từ danh mục, không do mô hình
+viết.
 
 Mô hình không tự nhớ bệnh của máy lạnh ở Việt Nam. Nó chỉ suy được từ những gì được
 đưa vào. Chất lượng câu trả lời phần lớn là chất lượng của nguyên liệu, không phải

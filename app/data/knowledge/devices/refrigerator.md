@@ -738,10 +738,25 @@ Tủ lạnh cũ mua lại có nên không. Rủi ro là không biết lịch s�
 và tủ đời cũ ăn điện hơn đáng kể mà tủ thì chạy quanh năm. Nói theo hướng cân
 nhắc.
 
+## Nhiệt độ nên cài cho tủ lạnh
+
+Theo khuyến nghị chung về an toàn thực phẩm, ngăn mát nên giữ ở 4°C hoặc thấp hơn
+và ngăn đá ở khoảng âm 18°C. Ở mức đó vi khuẩn chậm phát triển và đồ đông giữ được
+lâu. Tủ có núm số thay vì độ thì mức giữa thường gần với mức này; số càng lớn càng
+lạnh hay ngược lại tùy hãng, nên xem sách hướng dẫn của máy.
+
+Tủ cài đúng mà ngăn mát vẫn ấm, đồ chua nhanh, hoặc ngăn đá không đông thì không
+phải chuyện cài đặt nữa mà là dấu hiệu bệnh, nên kể hiện tượng để kiểm tra.
+
 ## Nền tri thức của tài liệu này
 
 Toàn bộ nội dung được viết lại bằng lời của dự án, không sao chép nguyên văn từ
 nguồn nào.
+
+Phần nhiệt độ nên cài: theo khuyến nghị an toàn thực phẩm của Cục Quản lý Thực phẩm
+và Dược phẩm Hoa Kỳ (FDA, "Refrigerator & Freezer Storage Chart": tủ lạnh ở 40°F
+tức 4°C hoặc thấp hơn, tủ đông ở 0°F tức âm 18°C). Ngưỡng riêng của từng model vẫn
+chờ thợ xác nhận.
 
 Phần cấu tạo, chu trình lạnh, vai trò của ống mao, và đường đi của gió lạnh từ
 dàn lạnh xuống ngăn mát trên tủ không đóng tuyết: nền kiến thức kỹ thuật lạnh

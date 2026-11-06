@@ -1,6 +1,6 @@
 # Context repo ai-service — FixHome
 
-> Cập nhật lần cuối: 2026-11-01 19:40 (UTC+7) · Người cập nhật (git): ToanAltF4 · Nhánh: feat/ai-diagnostic-state
+> Cập nhật lần cuối: 2026-11-07 01:35 (UTC+7) · Người cập nhật (git): ToanAltF4 · Nhánh: feat/chat-brain-v2
 
 ## 0. Quy tắc cập nhật file này (bắt buộc)
 
@@ -92,6 +92,7 @@ Luật nghiệp vụ gốc nằm ở tài liệu dự án (bản chính thức c
 
 ## 3. Trạng thái hiện tại
 
+- Từ 06/11/2026 (PO chốt, SEP-172) chat chạy bằng `app/services/chat2` (`AI_ENGINE=chat2`, mặc định trong image serve): YOLO11s nhận thiết bị từ ảnh, LLM `Qwen/Qwen3.5-9B` (FP8, chỉ chữ, tắt suy nghĩ) đọc cả cuộc trò chuyện cùng thẻ chuyên môn của đúng thiết bị (`app/data/fault_cards.json`, một lỗi một thẻ) và điền nhu cầu, loại nhu cầu, lỗi, dịch vụ theo JSON schema; code quyết hỏi hay chốt (khách đã kể gì là chốt, chưa kể gì mới hỏi một câu kèm nút `clarification.answerOptionsVi`, tối đa 2 câu). Câu trả lời 1-2 câu, không nhắc lại giá và tên dịch vụ. Chi tiết, số đo và cách đo: `docs/CHAT-BRAIN-V2.md`. Các mục dưới đây mô tả pipeline cũ (`AI_ENGINE=local`), còn giữ nhưng không còn là đường chính.
 - Chẩn đoán: cổng chặn trước (không phải đồ gia dụng, lời chào, ngoài phạm vi, ý định đặt lịch), nhận diện thiết bị từ ảnh hoặc chữ hoặc phiên trước, truy hồi lỗi theo triệu chứng, Qwen chọn trong danh sách rút gọn, hỏi lại tối đa 2 lượt rồi dùng xếp hạng của truy hồi.
 - Chatbot: trả `ok`, `out_of_scope`, `general_knowledge` hoặc `no_grounding`; có trả `recommendedServices`.
 - Tên tiếng Việt, mã dịch vụ, giá và mức khẩn cấp lấy từ `app/data/`, không lấy từ chữ tự do của mô hình. Mã không có trong danh mục bị bỏ. Luôn kèm lời miễn trừ.
@@ -129,7 +130,8 @@ Luật nghiệp vụ gốc nằm ở tài liệu dự án (bản chính thức c
 - `app/main.py`: tạo app, CORS, `/health`; dừng khởi động nếu kho tri thức dưới 1000 đoạn.
 - `app/api/v1/endpoints/`: `diagnosis.py`, `chat.py`, `meta.py`.
 - `app/schemas/`: schema Pydantic, tên trường camelCase trên dây, `extra="forbid"`.
-- `app/services/ai_provider.py`: `AIProvider`, `MockAIProvider`, `LocalPipelineProvider`. Engine nào cũng nằm sau adapter này.
+- `app/services/ai_provider.py`: `AIProvider`, `MockAIProvider`, `LocalPipelineProvider`; `AI_ENGINE=chat2` trả `Chat2Provider`. Engine nào cũng nằm sau adapter này.
+- `app/services/chat2/`: `menu.py` (lỗi, dịch vụ, câu hỏi của một thiết bị; `range_hood` cho KT-02/KT-03), `brain.py` (router, prompt, schema, luật hỏi/chốt), `provider.py` (phiên, `diagnosticState` kèm `version`, ảnh qua detector, map ra `DiagnosisResponse`/`ChatResponse`). Thẻ lỗi sinh bằng `tools/build_fault_cards.py`; đo bằng `tools/eval_chat2.py` (707 ca) và `tools/sim_chat2.py` (khách giả lập, 45 kịch bản tự do).
 - `app/services/pipeline/`: detector, truy hồi (BM25), kho tri thức, VLM (`QwenVlm`, `StubVlm`), `local_pipeline.py` điều phối, quản lý phiên, câu hỏi làm rõ.
 - `app/data/`: danh mục thiết bị, lỗi, ánh xạ dịch vụ, giá công, linh kiện, câu chờ. `dialogue_knowledge.json`: từ điển chuẩn hoá cách gõ, dấu hiệu phủ định, cụm loại trừ theo từng lỗi, thứ tự kiểm tra kế tiếp (`if_persists`), thuật ngữ giữ nguyên.
 - `docker/serve/`: image chạy vLLM, YOLO và API trong một container. `docker/train/`: image huấn luyện YOLO.
@@ -143,6 +145,8 @@ Luật nghiệp vụ gốc nằm ở tài liệu dự án (bản chính thức c
 | --- | --- | --- |
 | POST | `/api/v1/diagnosis/analyze` | JSON; `description` 1 đến 2000 ký tự (bắt buộc), `images` tối đa 3 (base64 hoặc data URI, mỗi ảnh tối đa 8 MiB, chỉ ảnh đầu được phân tích), `sessionId`, `requestId`, `categoryHint` tối đa 64, `history` tuỳ chọn (tối đa 20 chuỗi, mỗi chuỗi 1 đến 2000 ký tự, chỉ lời khách) |
 | POST | `/api/v1/chat/ask` | `question` 1 đến 1000 ký tự, `deviceType` và `sessionId` tối đa 64, `history` như trên |
+
+Từ chat2 (06/11): `clarification` có thêm `answerOptionsVi` (mảng tối đa 4 câu trả lời ngắn cho câu hỏi đầu, web hiện thành nút); lượt hỏi trả `messageVi` null vì câu hỏi đã nằm trong `clarification.questionsVi`; `suggestedActionsVi` luôn rỗng (bước an toàn đã ở đầu `messageVi`). `diagnosticState` của chat2 có `engine: "chat2.1"`, các lượt chat, thiết bị và `version`; trạng thái của pipeline cũ gửi lại thì bị bỏ qua và phiên dựng từ `history`. Chat2 không dùng `pastJobs` và `customerDisagreed` luôn null.
 
 Cả hai câu trả lời có `customerDisagreed` (null hoặc object, xem mục 3) để backend ghi lại lần khách nói trợ lý sai.
 
@@ -161,7 +165,7 @@ Ngoài ra có `POST /api/v1/diagnosis/analyze-upload` (multipart), `GET /api/v1/
 
 ### Biến môi trường (chỉ tên, xem `.env.example`)
 
-`AI_ENGINE` (`local` hoặc `mock`), `YOLO_WEIGHTS_PATH`, `DETECTOR_CONFIDENCE_THRESHOLD`, `VLM_BASE_URL`, `VLM_MODEL_NAME`, `VLM_TIMEOUT_SECONDS`, `VLM_API_KEY`, `VLM_FAULT_MODEL`, `VLM_FAULT_CANDIDATES`, `RETRIEVAL_TOP_K`, `RETRIEVAL_WRITTEN_WEIGHT`, `RETRIEVAL_LEARNED_WEIGHT`, `RETRIEVAL_EVIDENCE_GATE`, `RETRIEVAL_EVIDENCE_GATE_FLOOR`, `RETRIEVAL_EVIDENCE_ONLY_CAP`, `RETRIEVAL_WRITTEN_CAP`, `RETRIEVAL_WRITTEN_FLOOR`, `BACKEND_CATALOG_URL`, `CATALOG_REFRESH_SECONDS`, `CATALOG_TIMEOUT_SECONDS`, `AI_CONFIDENCE_THRESHOLD`, `IMAGE_MAX_BYTES`, `CORS_ORIGINS`. `tools/rent_gpu.py serve` chuyển `BACKEND_CATALOG_URL` (hoặc `--catalog-url`) vào máy thuê. Biến chỉ cho công cụ: `ROBOFLOW_API_KEY`, `SERPER_API_KEY`, `HF_TOKEN`, `HF_DATASET_REPO`, `HF_WEIGHTS_REPO`, `DOCKERHUB_USERNAME`, `DOCKERHUB_TOKEN`.
+`AI_ENGINE` (`chat2`, `local` hoặc `mock`), `YOLO_WEIGHTS_PATH`, `DETECTOR_CONFIDENCE_THRESHOLD`, `VLM_BASE_URL`, `VLM_MODEL_NAME`, `VLM_TIMEOUT_SECONDS`, `VLM_API_KEY`, `VLM_FAULT_MODEL`, `VLM_FAULT_CANDIDATES`, `RETRIEVAL_TOP_K`, `RETRIEVAL_WRITTEN_WEIGHT`, `RETRIEVAL_LEARNED_WEIGHT`, `RETRIEVAL_EVIDENCE_GATE`, `RETRIEVAL_EVIDENCE_GATE_FLOOR`, `RETRIEVAL_EVIDENCE_ONLY_CAP`, `RETRIEVAL_WRITTEN_CAP`, `RETRIEVAL_WRITTEN_FLOOR`, `BACKEND_CATALOG_URL`, `CATALOG_REFRESH_SECONDS`, `CATALOG_TIMEOUT_SECONDS`, `AI_CONFIDENCE_THRESHOLD`, `IMAGE_MAX_BYTES`, `CORS_ORIGINS`, `CHAT_TIMEOUT_SECONDS`, `CHAT_DISABLE_THINKING`. `tools/rent_gpu.py serve` chuyển `BACKEND_CATALOG_URL` (hoặc `--catalog-url`) vào máy thuê. Biến chỉ cho công cụ: `ROBOFLOW_API_KEY`, `SERPER_API_KEY`, `HF_TOKEN`, `HF_DATASET_REPO`, `HF_WEIGHTS_REPO`, `DOCKERHUB_USERNAME`, `DOCKERHUB_TOKEN`.
 
 ## 6. Chạy, kiểm thử và cổng chất lượng
 
@@ -176,7 +180,8 @@ Ngoài ra có `POST /api/v1/diagnosis/analyze-upload` (multipart), `GET /api/v1/
 
 ## 7. Quyết định đã chốt
 
-- Tự host YOLO và Qwen2.5-VL; không thêm lại adapter Gemini hay OpenAI khi chưa có quyết định ghi lại.
+- 06/11/2026 PO: model chat là Qwen3.5-9B chạy chỉ chữ (đo 4 model cùng thiết kế, `docs/CHAT-BRAIN-V2.md`); model chat không xem ảnh, YOLO11s chỉ nhận thiết bị; trả lời ngắn, chưa rõ thì hỏi một câu, đã mô tả thì chốt ngay. Máy serve cần card 16 GB. Adapter `lora-fault-v1c` (của Qwen2.5-VL-3B) không còn gắn mặc định.
+- Tự host YOLO và model chat; không thêm lại adapter Gemini hay OpenAI khi chưa có quyết định ghi lại.
 - AI chỉ gợi ý; mọi chữ, mã, giá đi ra phải lấy từ `app/data/`.
 - AI hỏng hoặc chậm không được chặn đặt lịch; `backend` có câu trả lời dự phòng.
 - Không thuê GPU khi chưa được PO cho phép.
@@ -185,7 +190,8 @@ Ngoài ra có `POST /api/v1/diagnosis/analyze-upload` (multipart), `GET /api/v1/
 
 - Chẩn đoán chỉ có ảnh không chạy: schema bắt `description` ít nhất 1 ký tự, trong khi `backend` gửi chuỗi rỗng khi khách chỉ gửi ảnh, nên luôn rơi vào câu dự phòng. Cần sửa ở `ai-service` (cho phép rỗng khi có ảnh) hoặc ở `backend`.
 - Không có xác thực giữa `backend` và service, không giới hạn tần suất; API và trang `/chat` mở công khai trên máy GPU khi đang thuê.
-- Ràng buộc đầu ra là kiểm tra sau khi sinh (`_parse_verdict`), chưa ràng buộc lúc giải mã.
+- Pipeline cũ: ràng buộc đầu ra là kiểm tra sau khi sinh (`_parse_verdict`). Chat2 ràng buộc lúc giải mã bằng JSON schema của vLLM (enum mã lỗi, mã dịch vụ), vẫn kiểm lại sau khi sinh.
+- Chat2: khách tự chẩn đoán sai đôi khi được tin theo; luật "chữ chung chung thì hỏi" và "mã lỗi lạ thì bỏ qua" thêm sau lượt đo GPU 06/11, CHƯA ĐO LẠI trên GPU. Phiên giữ trong bộ nhớ, bền qua restart nhờ `diagnosticState` backend gửi lại.
 - Trường hợp xấu nhất của chatbot (câu an toàn 25 giây cộng trả lời chung 8 giây) có thể vượt timeout 30 giây của `backend`; tính từ code, CHƯA KIỂM CHỨNG bằng đo thật.
 - `categoryHint` được nhận nhưng chưa dùng; chỉ ảnh đầu tiên được phân tích.
 - Trạng thái chẩn đoán chỉ bền khi `backend` lưu `diagnosticState` và gửi lại; `backend` chưa có phần đó thì vẫn chỉ có `history`. Câu hỏi phân biệt kèm câu trả lời và việc giữ khả năng lỗi CHƯA ĐO trên Qwen thật (bộ 564 câu, hội thoại sống) tại thời điểm viết.
@@ -199,6 +205,10 @@ Ngoài ra có `POST /api/v1/diagnosis/analyze-upload` (multipart), `GET /api/v1/
 
 ## 9. Nhật ký cập nhật context
 
+- 2026-11-07 01:35 (UTC+7) | ToanAltF4 | feat/chat-brain-v2 | chat2 vòng 07/11: nhắc lại kết luận bằng code, hư hại có tên giữ lỗi, lượt chọn lỗi thứ hai, tên máy gõ đích danh thắng router, câu mơ hồ xét trên lời khách; FAQ độ chính xác của trợ lý; probe_holdout3
+- 2026-11-06 23:29 (UTC+7) | ToanAltF4 | feat/chat-brain-v2 | chat2: router own_problem, tên máy theo catalog, hỏi đáp theo mục lục có trích, cân nhãn model với chữ, image serve tự chọn Qwen3.5-9B FP8 (card 24GB) hoặc AWQ (16GB)
+- 2026-11-06 20:07 (UTC+7) | ToanAltF4 | feat/chat-brain-v2 | Chat2 thêm tầng hỏi đáp: kho 985 đoạn theo mục (knowledge_index.json), chọn mục theo mục lục; ý định book; đổi chủ đề theo tin mới nhất; tài liệu câu hỏi thường gặp
+- 2026-11-06 18:59 (UTC+7) | ToanAltF4 | feat/chat-brain-v2 | Chat chạy bằng chat2: YOLO nhận thiết bị, Qwen3.5-9B chỉ chữ đọc thẻ chuyên môn từng lỗi, code quyết hỏi/chốt, answerOptionsVi; đo 4 model trong docs/CHAT-BRAIN-V2.md
 - 2026-11-01 19:40 (UTC+7) | ToanAltF4 | feat/ai-diagnostic-state | Trạng thái chẩn đoán có version gửi backend lưu, giữ khả năng lỗi qua lượt, sổ hỏi–đáp, câu hỏi phân biệt, nhắc đơn cũ theo trạng thái
 - 2026-11-01 19:12 (UTC+7) | ToanAltF4 | feat/ai-service-understanding | AI hiểu loại việc khách xin (vệ sinh, lắp, tháo) và chọn đúng mọi dịch vụ đang mở; thêm lỗi tủ lạnh bẩn có mùi
 - 2026-10-28 07:52 (UTC+7) | ToanAltF4 | feat/qwen-lora-fault | Adapter LoRA chọn lỗi lora-fault-v1c gắn mặc định khi thuê máy serve (đo thật: hiểu ý lỗi đầu 30,7->43,5%, nhiều máy đúng lỗi từng máy 51,9->67,8%); tách nhiều máy bệt/đèn, 'ngoài ra cái X'; máy train đẩy từng file, PUSH_FAILED; học từ khách thật hằng tuần (weekly-feedback.yml)

@@ -1,4 +1,4 @@
-# The whole service on one rented GPU: vLLM, YOLO, retrieval and the API.
+# The whole service on one rented GPU: vLLM (the chat model), YOLO and the API.
 #
 # Everything in one container because everything shares one card. Running Qwen
 # on a rented box while the API and the detector stayed on a laptop worked for
@@ -8,7 +8,7 @@
 # Built on the vLLM image rather than installing vLLM onto a CUDA base. That
 # image already carries a matched torch, CUDA and vLLM, and matching them by
 # hand is the single most reliable way to lose an afternoon.
-FROM vllm/vllm-openai:v0.29.0
+FROM vllm/vllm-openai:v0.33.0
 
 ENV PYTHONUNBUFFERED=1 \
     PIP_NO_CACHE_DIR=1 \

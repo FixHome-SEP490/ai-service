@@ -1,0 +1,3451 @@
+{
+ "_comment_vi": "Sinh bởi tools/build_fault_cards.py từ app/data/knowledge/faults. Không sửa tay.",
+ "cards": {
+  "AC_CAPACITOR": {
+   "signs_vi": [
+    "cục nóng ù không chạy",
+    "quạt cục nóng phải quay tay mới chạy",
+    "bật lên nghe ù rồi tắt",
+    "máy nén không khởi động được",
+    "gạt tay thì quạt chạy",
+    "cục pin trong cục nóng hỏng",
+    "mô tơ ngoài không chạy"
+   ],
+   "rule_out_vi": [
+    "Không kết luận khi máy là loại inverter.",
+    "Không kết luận khi bật máy lên là nhảy aptomat ngay.",
+    "Không kết luận khi cục nóng hoàn toàn im, không tiếng nào.",
+    "Không kết luận khi cục nóng chạy bình thường mà chỉ kém lạnh."
+   ],
+   "ask_vi": "cục nóng hoàn toàn im lặng, hay có phát ra tiếng ù rồi tắt, hay chạy được một lúc rồi mới ngưng.",
+   "versus_vi": {
+    "AC_COMPRESSOR_FAULT": "Đây là cặp phải tách cho bằng được, vì hai bên chênh nhau rất xa về chi phí, và chẩn đoán sai về phía đắt làm khách hoảng, còn sai về phía rẻ làm thợ mất công.",
+    "AC_OUTDOOR_FAN_MOTOR": "Hai bệnh này chồng lấn, vì tụ quạt hỏng cũng làm quạt không quay.",
+    "AC_PCB_FAULT": "Mất nguồn hoặc lỗi bo thì không có điện tới, nên hoàn toàn im.",
+    "AC_LOW_REFRIGERANT": "Máy vẫn quay đủ, chỉ là chạy mà không ra kết quả, và diễn tiến từ từ trong nhiều tuần."
+   },
+   "confusable_with": [
+    "AC_COMPRESSOR_FAULT",
+    "AC_OUTDOOR_FAN_MOTOR",
+    "AC_PCB_FAULT",
+    "AC_LOW_REFRIGERANT"
+   ],
+   "summary_vi": "Tụ điện là một khối trụ nhỏ nằm trong cục nóng, làm nhiệm vụ tạo cú đẩy ban đầu cho máy nén và cho quạt khởi động, và giữ cho chúng chạy ổn định sau đó. Nó không phải bộ phận sinh ra cái lạnh, nhưng thiếu nó thì không thứ gì trong cục nóng quay được."
+  },
+  "AC_COMPRESSOR_FAULT": {
+   "signs_vi": [
+    "cục nóng không chạy",
+    "kêu to rồi tắt",
+    "nhảy aptomat khi bật",
+    "quạt chạy mà không lạnh",
+    "máy nén nóng bất thường",
+    "cục nóng ù ù rồi im",
+    "ngoài trời không chạy",
+    "block không lên"
+   ],
+   "rule_out_vi": [
+    "Không kết luận khi cục nóng chỉ ù rồi tắt, không nhảy aptomat, không tiếng gõ, và chưa ai thay tụ.",
+    "Không kết luận khi cục nóng hoàn toàn im lặng, không tiếng nào.",
+    "Không kết luận khi cục nóng chạy bình thường và chỉ kém lạnh dần.",
+    "Không kết luận khi cục nóng chạy mà quạt cục nóng không quay."
+   ],
+   "ask_vi": "bật máy lên có nhảy aptomat không, và cục nóng có phát ra tiếng gõ kim loại hay chỉ ù rồi tắt.",
+   "versus_vi": {
+    "AC_CAPACITOR": "Chung nhau: cục nóng ù rồi tắt, lặp lại theo chu kỳ, trong nhà vẫn có gió nhưng không lạnh.",
+    "AC_OUTDOOR_FAN_MOTOR": "Máy nén hỏng: máy nén không chạy được, hoặc chạy mà có tiếng lạ.",
+    "AC_PCB_FAULT": "Lỗi bo thì thường không có điện ra cục nóng, nên cục nóng im hoàn toàn.",
+    "AC_LOW_REFRIGERANT": "Thiếu gas: cục nóng chạy bình thường, kém lạnh dần trong nhiều tuần, không tiếng lạ, không nhảy aptomat.",
+    "AC_SMELL_BURNT": "Nếu có mùi khét, có khói, hoặc có tiếng nổ, thì bất kể nguyên nhân gì cũng chuyển sang nhánh an toàn trước: ngắt aptomat, không bật lại, không tự mở máy, gọi thợ."
+   },
+   "confusable_with": [
+    "AC_CAPACITOR",
+    "AC_OUTDOOR_FAN_MOTOR",
+    "AC_PCB_FAULT",
+    "AC_LOW_REFRIGERANT",
+    "AC_SMELL_BURNT"
+   ],
+   "summary_vi": "Máy nén là bộ phận nén môi chất trong cục nóng, và là quả tim của cả hệ thống. Nó cũng là bộ phận đắt nhất. Khi máy nén hỏng, máy lạnh mất hoàn toàn khả năng làm lạnh, dù quạt trong nhà vẫn thổi bình thường. Đây là bệnh ít gặp nhất trong nhóm máy lạnh, nhưng là bệnh nặng nhất về chi phí."
+  },
+  "AC_DIRTY_FILTER": {
+   "signs_vi": [
+    "hôi",
+    "có mùi",
+    "mùi ẩm mốc",
+    "gió yếu",
+    "lâu không vệ sinh",
+    "bụi bám",
+    "thổi ra bụi",
+    "mùi khó chịu khi mới bật"
+   ],
+   "rule_out_vi": [
+    "Không kết luận khi khách nói gió vẫn mạnh như thường.",
+    "Không kết luận khi cục nóng ngoài trời không chạy.",
+    "Không kết luận khi mùi là mùi khét, mùi nhựa cháy.",
+    "Không kết luận khi máy vừa được vệ sinh trong vòng một tháng."
+   ],
+   "ask_vi": "gió thổi ra có còn mạnh như trước không, và máy được vệ sinh lần gần nhất cách đây bao lâu.",
+   "versus_vi": {
+    "AC_LOW_REFRIGERANT": "Tuyết nếu có thì phủ đều cả mặt dàn.",
+    "AC_INDOOR_FAN_MOTOR": "Cả hai đều cho ra gió yếu, nhưng mức độ khác nhau rõ.",
+    "AC_ICING": "Nếu khách kể dàn đóng tuyết và gió rất yếu và lâu chưa vệ sinh: gốc là bẩn.",
+    "AC_DRAIN_BLOCKED": "Hai bệnh này rất hay đi chung, vì cùng một gốc là lâu không vệ sinh, nhưng triệu chứng chính khác nhau.",
+    "AC_SMELL_BURNT": "Đây là chỗ tuyệt đối không được nhầm, vì mức độ khẩn khác hẳn."
+   },
+   "confusable_with": [
+    "AC_LOW_REFRIGERANT",
+    "AC_ICING",
+    "AC_INDOOR_FAN_MOTOR",
+    "AC_DRAIN_BLOCKED",
+    "AC_NOISY_INDOOR",
+    "AC_SMELL_BURNT"
+   ],
+   "summary_vi": "Máy lạnh hút không khí trong phòng đi qua một tấm lưới lọc rồi qua dàn trao đổi nhiệt, làm mát rồi thổi trở lại. Bụi trong phòng bị giữ lại trên lưới và trên các lá nhôm của dàn. Sau vài tháng, lớp bụi đó dày đủ để cản gió. Khi gió qua dàn giảm, dàn vẫn lạnh đủ nhưng hơi mát không ra được tới người ngồi."
+  },
+  "AC_DRAIN_BLOCKED": {
+   "signs_vi": [
+    "chảy nước",
+    "nhỏ nước xuống sàn",
+    "ướt tường dưới dàn lạnh",
+    "nước rỉ ra từ máy",
+    "máy lạnh bị dột",
+    "nước nhỏ giọt vào giường",
+    "ẩm tường chỗ gắn máy",
+    "chảy nước khi bật lâu"
+   ],
+   "rule_out_vi": [
+    "Không kết luận khi dàn lạnh đang đóng đá dày.",
+    "Không kết luận khi nước chảy ra từ cục nóng chứ không phải cục lạnh.",
+    "Không kết luận khi nước chảy dọc theo đường ống đồng bó chung chứ không từ thân máy.",
+    "Không kết luận khi triệu chứng chính là kém lạnh còn nước chỉ là chuyện phụ."
+   ],
+   "ask_vi": "trên dàn lạnh có thấy tuyết hoặc đá bám không.",
+   "versus_vi": {
+    "AC_ICING": "Đây là cặp phải tách cho bằng được, vì thông ống cho một ca đóng tuyết là sửa sai chỗ và khách sẽ quay lại.",
+    "AC_DIRTY_FILTER": "Hai bệnh này cùng một gốc là lâu không vệ sinh, và rất hay đi chung."
+   },
+   "confusable_with": [
+    "AC_DIRTY_FILTER",
+    "AC_ICING",
+    "AC_LOW_REFRIGERANT"
+   ],
+   "summary_vi": "Máy lạnh chạy thì hơi nước trong phòng ngưng tụ trên dàn lạnh và nhỏ xuống một cái máng hứng đặt bên dưới. Máng dẫn nước ra một ống nhựa nhỏ chạy ra ngoài nhà. Một máy chạy cả đêm trong phòng ẩm có thể thải ra vài lít nước."
+  },
+  "AC_ICING": {
+   "signs_vi": [
+    "đóng tuyết",
+    "đóng đá ở dàn lạnh",
+    "có băng bám",
+    "tuyết phủ trắng dàn",
+    "chảy nước nhiều sau khi tắt",
+    "đóng đá ở ống đồng",
+    "đóng đá",
+    "đông đá"
+   ],
+   "rule_out_vi": [
+    "Không dừng lại khi chưa biết gốc rễ.",
+    "Không kết luận nghẽn gió khi khách nói gió vẫn mạnh.",
+    "Không kết luận thiếu môi chất khi khách nói gió rất yếu và lâu chưa vệ sinh.",
+    "Không kết luận đóng tuyết khi thứ khách thấy là nước đọng chứ không phải đá."
+   ],
+   "ask_vi": "gió thổi ra có còn mạnh như trước không, và máy được vệ sinh lần gần nhất cách đây bao lâu.",
+   "versus_vi": {
+    "AC_DIRTY_FILTER": "Không phải phân biệt mà là quan hệ nhân quả: bẩn dàn là nguyên nhân phổ biến nhất của đóng tuyết.",
+    "AC_LOW_REFRIGERANT": "Cũng là quan hệ nhân quả chứ không phải hai bệnh loại trừ nhau.",
+    "AC_DRAIN_BLOCKED": "Nghẹt thoát nước thuần túy: dàn khô ráo, không có đá.",
+    "AC_INDOOR_FAN_MOTOR": "Mô tơ quạt yếu là một trong các gốc rễ, nên không loại trừ nhau.",
+    "AC_PCB_FAULT": "Dấu hiệu nghiêng về nhánh này: đóng tuyết bắt đầu ngay sau một lần vệ sinh hoặc sau một lần sửa chữa, gió vẫn mạnh, máy không lâu ngày chưa vệ sinh, và máy có thể kèm…"
+   },
+   "confusable_with": [
+    "AC_DIRTY_FILTER",
+    "AC_LOW_REFRIGERANT",
+    "AC_INDOOR_FAN_MOTOR",
+    "AC_DRAIN_BLOCKED",
+    "AC_PCB_FAULT"
+   ],
+   "summary_vi": "Dàn lạnh bám một lớp tuyết trắng, có khi thành mảng đá dày. Khách mở nắp ra thấy trắng xóa, hoặc thấy đá bám ở ống đồng, hoặc thấy nước chảy nhiều bất thường sau khi tắt máy. Điều quan trọng nhất cần nói với khách: đóng tuyết không phải là một cái hỏng, nó là một dấu hiệu."
+  },
+  "AC_INDOOR_FAN_MOTOR": {
+   "signs_vi": [
+    "quạt trong nhà không quay",
+    "gió rất yếu",
+    "kêu rít",
+    "có tiếng va đập trong dàn lạnh",
+    "quạt quay chậm",
+    "nghe tiếng ù trong máy",
+    "cánh quạt lồng sóc không quay",
+    "bật lên không có gió"
+   ],
+   "rule_out_vi": [
+    "Không kết luận khi gió chỉ yếu đi dần trong nhiều tháng và máy lâu chưa vệ sinh.",
+    "Không kết luận khi máy đang ở tốc độ quạt thấp hoặc chế độ tự động.",
+    "Không kết luận khi cánh đảo gió đang hướng lên trần hoặc đang kẹt ở vị trí đóng, làm khách tưởng không có gió.",
+    "Không kết luận khi đồ đạc, rèm, tủ chắn ngay trước cửa gió."
+   ],
+   "ask_vi": "gió mất hẳn hay chỉ yếu đi, và máy được vệ sinh lần gần nhất cách đây bao lâu.",
+   "versus_vi": {
+    "AC_DIRTY_FILTER": "Đây là cặp phải tách đầu tiên vì nó quyết định chi phí.",
+    "AC_ICING": "Nếu khách kể vừa không có gió vừa đóng tuyết, thì gốc là quạt hoặc là bẩn, và cả hai đều thuộc nhánh nghẽn gió.",
+    "AC_NOISY_INDOOR": "Nếu triệu chứng chính là tiếng ồn mà gió vẫn bình thường: dùng mã máy chạy ồn.",
+    "AC_PCB_FAULT": "Mô tơ hỏng: quạt không quay nhưng đèn vẫn sáng, remote vẫn ăn, máy vẫn nhận lệnh.",
+    "AC_LOW_REFRIGERANT": "Thiếu gas: gió vẫn mạnh như thường, chỉ là gió không lạnh."
+   },
+   "confusable_with": [
+    "AC_DIRTY_FILTER",
+    "AC_ICING",
+    "AC_NOISY_INDOOR",
+    "AC_PCB_FAULT",
+    "AC_LOW_REFRIGERANT"
+   ],
+   "summary_vi": "Cục lạnh trong phòng có một cái quạt hình ống dài nằm ngang, gọi là quạt lồng sóc. Nó hút không khí trong phòng qua lưới lọc và qua dàn lạnh rồi thổi trở lại. Mô tơ quay cái quạt đó nằm ở một đầu, bên trong vỏ. Khi mô tơ hỏng, gió trong phòng rất yếu hoặc mất hẳn."
+  },
+  "AC_LOW_REFRIGERANT": {
+   "signs_vi": [
+    "không mát",
+    "kém lạnh",
+    "chạy lâu mới mát",
+    "hơi ra yếu",
+    "máy chạy liên tục không ngắt",
+    "dàn lạnh bám tuyết mỏng",
+    "mở 16 độ vẫn không mát",
+    "lạnh yếu hơn trước"
+   ],
+   "rule_out_vi": [
+    "Phần này quan trọng ngang phần triệu chứng, vì lỗi đoán bừa đắt hơn lỗi hỏi lại.",
+    "Không kết luận khi cục nóng hoàn toàn không chạy và máy mới chết trong một ngày.",
+    "Không kết luận khi khách nói gió ra rất yếu hoặc gần như không có gió.",
+    "Không kết luận khi khách nói máy bật lên là nhảy aptomat."
+   ],
+   "ask_vi": "Hệ thống bị giới hạn hai lần hỏi lại.",
+   "versus_vi": {
+    "AC_DIRTY_FILTER": "Đây là cặp bệnh hay bị nhầm nhất, vì cả hai đều cho ra đúng một câu than: máy không lạnh, máy chạy hoài.",
+    "AC_ICING": "Vì vậy khi khách chỉ nói dàn lạnh đóng tuyết, chưa đủ để chọn giữa hai bệnh.",
+    "AC_OUTDOOR_FAN_MOTOR": "Nếu cục nóng ngoài trời hoàn toàn không quay, không kêu, thì vấn đề gần như chắc chắn không phải thiếu gas.",
+    "AC_CAPACITOR": "Tụ điện hỏng là bệnh của máy không inverter, và cho ra một biểu hiện rất đặc trưng: cục nóng ù lên một tiếng rồi đứng, quạt không quay hoặc quay được một vòng rồi dừng,…",
+    "AC_COMPRESSOR_FAULT": "Điểm khác nằm ở tiếng và ở dòng điện."
+   },
+   "confusable_with": [
+    "AC_DIRTY_FILTER",
+    "AC_ICING",
+    "AC_COMPRESSOR_FAULT",
+    "AC_OUTDOOR_FAN_MOTOR",
+    "AC_CAPACITOR",
+    "AC_PCB_FAULT",
+    "AC_INDOOR_FAN_MOTOR"
+   ],
+   "summary_vi": "Máy vẫn chạy, quạt vẫn quay, đèn vẫn sáng, nhưng hơi thổi ra không còn lạnh như trước. Đó là biểu hiện quen thuộc nhất của bệnh thiếu gas. Gas ở đây là môi chất làm lạnh chạy vòng tròn khép kín trong ống đồng, không phải nhiên liệu bị đốt hết. Máy chạy đúng thì lượng môi chất giữ nguyên năm này qua năm khác."
+  },
+  "AC_NOISY_INDOOR": {
+   "signs_vi": [
+    "máy lạnh kêu to",
+    "ồn hơn trước",
+    "rung lắc khi chạy",
+    "kêu lạch cạch",
+    "nghe tiếng va đập",
+    "kêu như máy cày",
+    "chạy không êm"
+   ],
+   "rule_out_vi": [
+    "Không kết luận khi tiếng là gõ kim loại nặng từ cục nóng.",
+    "Không kết luận khi có tiếng nổ mạnh, tiếng tách lớn kèm mất điện, hoặc kèm mùi khét.",
+    "Không kết luận khi tiếng đi kèm gió mất hẳn.",
+    "Không kết luận khi tiếng là tiếng xì rõ và liên tục kèm máy kém lạnh."
+   ],
+   "ask_vi": "tiếng phát ra từ cục trong phòng hay cục ngoài trời, và nghe giống tiếng gì trong số rung đều, rào rào, rít, lạch…",
+   "versus_vi": {
+    "AC_INDOOR_FAN_MOTOR": "Nếu triệu chứng chính là tiếng ồn mà gió vẫn bình thường: dùng mã này.",
+    "AC_DIRTY_FILTER": "Bẩn thường gây tiếng rào rào và gió yếu, không gây rung mạnh hay tiếng va đập.",
+    "AC_COMPRESSOR_FAULT": "Chỉ từ cục nóng.",
+    "AC_OUTDOOR_FAN_MOTOR": "Quạt cục nóng hỏng hẳn thì không quay, và triệu chứng chính là không lạnh chứ không phải ồn.",
+    "AC_LOW_REFRIGERANT": "Thiếu gas có thể gây tiếng xì hoặc tiếng sôi trong cục lạnh, nhưng triệu chứng chính là kém lạnh chứ không phải ồn."
+   },
+   "confusable_with": [
+    "AC_INDOOR_FAN_MOTOR",
+    "AC_DIRTY_FILTER",
+    "AC_COMPRESSOR_FAULT",
+    "AC_OUTDOOR_FAN_MOTOR",
+    "AC_LOW_REFRIGERANT"
+   ],
+   "summary_vi": "Máy lạnh treo tường chạy đúng thì rất êm, chỉ nghe tiếng gió nhẹ. Khi nó bắt đầu kêu to, rung, hoặc phát ra tiếng lạ, thì có thứ gì đó đã lệch đi. Phần lớn ca thuộc nhóm nhẹ: giá treo lỏng, quạt lồng sóc bám bụi làm mất cân bằng, vỏ máy lắp chưa khít sau một lần vệ sinh, hoặc có vật lạ lọt vào."
+  },
+  "AC_OUTDOOR_FAN_MOTOR": {
+   "signs_vi": [
+    "quạt ngoài trời không quay",
+    "cục nóng nóng ran",
+    "cục nóng kêu to",
+    "quạt ngoài quay chậm",
+    "cánh quạt cục nóng đứng yên",
+    "máy chạy một lúc thì ngắt",
+    "lạnh được một lúc rồi thôi, lặp lại",
+    "mô tơ ngoài không chạy"
+   ],
+   "rule_out_vi": [
+    "Không kết luận khi cục nóng hoàn toàn im, không có tiếng máy nén.",
+    "Không kết luận khi cả máy nén lẫn quạt đều ù rồi tắt cùng lúc.",
+    "Không kết luận khi quạt cục nóng vẫn quay bình thường mà máy chỉ kém lạnh.",
+    "Không kết luận khi máy inverter đang chạy chậm và quạt quay chậm theo."
+   ],
+   "ask_vi": "khi máy đang chạy, cục nóng có tiếng máy nén chạy không, và cánh quạt có quay không.",
+   "versus_vi": {
+    "AC_CAPACITOR": "Đây là cặp chồng lấn nhiều nhất, vì tụ quạt hỏng cũng cho ra quạt không quay.",
+    "AC_COMPRESSOR_FAULT": "Quạt cục nóng hỏng: có tiếng máy nén chạy đều, chỉ cánh quạt đứng im.",
+    "AC_LOW_REFRIGERANT": "Thiếu gas: cả quạt lẫn máy nén đều chạy bình thường, chỉ là máy kém lạnh dần trong nhiều tuần."
+   },
+   "confusable_with": [
+    "AC_CAPACITOR",
+    "AC_COMPRESSOR_FAULT",
+    "AC_PCB_FAULT",
+    "AC_LOW_REFRIGERANT",
+    "AC_SMELL_BURNT"
+   ],
+   "summary_vi": "Cục nóng ngoài trời có một cánh quạt lớn thổi thẳng ra mặt trước. Nhiệm vụ của nó là thổi không khí qua dàn nóng để đẩy nhiệt trong nhà ra ngoài. Không có quạt đó thì nhiệt không đi đâu được, và cả hệ thống ngừng làm việc dù máy nén vẫn chạy."
+  },
+  "AC_PCB_FAULT": {
+   "signs_vi": [
+    "không nhận remote",
+    "tự tắt",
+    "nháy đèn báo lỗi",
+    "bật không lên",
+    "chớp đèn liên tục",
+    "hiện mã lỗi",
+    "bấm remote không ăn",
+    "tự bật tự tắt"
+   ],
+   "rule_out_vi": [
+    "Không kết luận khi chưa thay pin remote và chưa thử nút nguồn trên thân máy.",
+    "Không kết luận khi aptomat đang nhảy hoặc ổ cắm mất điện.",
+    "Không kết luận khi triệu chứng là cục nóng ù rồi tắt, không nhảy aptomat.",
+    "Không kết luận khi máy chạy hoàn toàn bình thường mà chỉ kém lạnh dần."
+   ],
+   "ask_vi": "bấm nút nguồn trên thân cục lạnh thì máy có chạy không, và đã thay pin remote mới chưa.",
+   "versus_vi": {
+    "AC_REMOTE_FAULT": "Đây là cặp phải tách đầu tiên và tách rất dễ.",
+    "AC_CAPACITOR": "Bo hỏng: thường có biểu hiện trong nhà, như đèn nháy, không nhận lệnh, tự tắt.",
+    "AC_COMPRESSOR_FAULT": "Bo hỏng không cấp điện ra cục nóng: cục nóng hoàn toàn im, không tiếng gì.",
+    "AC_INDOOR_FAN_MOTOR": "Khi quạt không đạt tốc độ, bo cho máy dừng kèm mã lỗi.",
+    "AC_SMELL_BURNT": "Lỗi bo không mùi thì là bệnh này."
+   },
+   "confusable_with": [
+    "AC_REMOTE_FAULT",
+    "AC_CAPACITOR",
+    "AC_COMPRESSOR_FAULT",
+    "AC_INDOOR_FAN_MOTOR",
+    "AC_SMELL_BURNT"
+   ],
+   "summary_vi": "Máy lạnh có bo mạch điều khiển, thường một bo trong cục lạnh và trên máy inverter thì thêm một bo công suất trong cục nóng. Bo là phần quyết định máy chạy hay dừng, chạy ở chế độ nào, quạt quay tốc độ nào, và đọc tín hiệu từ các cảm biến."
+  },
+  "AC_REMOTE_FAULT": {
+   "signs_vi": [
+    "remote không ăn",
+    "remote mất chữ",
+    "thay pin vẫn không được",
+    "phải đứng sát mới bấm được",
+    "remote loạn nút",
+    "bấm nút trên máy thì chạy",
+    "máy lạnh bật không lên",
+    "mất remote"
+   ],
+   "rule_out_vi": [
+    "Không kết luận khi bấm nút nguồn trên thân máy cũng không chạy.",
+    "Không kết luận khi máy nhận lệnh nhưng chạy sai: bật lên rồi tự tắt, đặt lạnh mà thổi gió nóng, tự đổi chế độ.",
+    "Không kết luận khi máy chạy bình thường mà chỉ kém lạnh.",
+    "Không kết luận khi máy đang bị khóa trẻ em."
+   ],
+   "ask_vi": "đã thay pin mới chưa, và bấm nút nguồn trên thân cục lạnh thì máy có chạy không.",
+   "versus_vi": {
+    "AC_PCB_FAULT": "Đây là cặp phải tách, và tách rất dễ."
+   },
+   "confusable_with": [
+    "AC_PCB_FAULT"
+   ],
+   "summary_vi": "Điều khiển từ xa gửi lệnh tới máy lạnh bằng tín hiệu hồng ngoại, giống điều khiển tivi. Khi nó hỏng, máy không nhận được lệnh nào, nên nhìn bề ngoài giống hệt máy hỏng nặng. Đây là bệnh nhẹ nhất trong cả nhóm máy lạnh, và cũng là bệnh đáng loại trừ đầu tiên mỗi khi khách kể máy không phản ứng."
+  },
+  "AC_SMELL_BURNT": {
+   "signs_vi": [
+    "mùi khét",
+    "mùi nhựa cháy",
+    "khói ra từ máy lạnh",
+    "mùi cháy khi bật máy",
+    "may lanh chay",
+    "máy lạnh cháy",
+    "máy lạnh chạy",
+    "máy lạnh chảy"
+   ],
+   "rule_out_vi": [
+    "Không xếp vào đây khi mùi là mùi ẩm mốc, tanh, chua.",
+    "Không xếp vào đây khi mùi là mùi chuột chết hoặc mùi xác động vật.",
+    "Không xếp vào đây khi mùi đến từ trong phòng chứ không từ máy: sơn mới, đồ nội thất mới, thức ăn, nhang.",
+    "Không xếp vào đây khi máy mới mua và có mùi nhẹ trong vài lần chạy đầu tiên rồi hết."
+   ],
+   "ask_vi": "Cảnh báo trước, hỏi sau.",
+   "versus_vi": {
+    "AC_DIRTY_FILTER": "Đã nói ở phần tách mùi bên trên, nhưng nhắc lại vì đây là cặp nhầm nguy hiểm nhất.",
+    "AC_PCB_FAULT": "Lỗi bo không có mùi thì là bệnh bo thông thường: máy tự tắt, không nhận remote, báo mã lỗi, thất thường.",
+    "AC_COMPRESSOR_FAULT": "Nếu khách kể mùi khét từ cục nóng cộng nhảy aptomat cộng cục nóng không chạy, thì hai bệnh này chồng lên nhau, và cách xử lý là theo bệnh này trước về mặt an toàn, rồi…"
+   },
+   "confusable_with": [
+    "AC_DIRTY_FILTER",
+    "AC_PCB_FAULT",
+    "AC_COMPRESSOR_FAULT",
+    "AC_INDOOR_FAN_MOTOR",
+    "AC_OUTDOOR_FAN_MOTOR"
+   ],
+   "summary_vi": "Mùi khét từ máy lạnh nghĩa là có thứ gì đó đang bị nung quá mức: lớp cách điện của dây, cuộn dây mô tơ, linh kiện trên bo mạch, hoặc bụi bẩn tích tụ chạm vào chỗ nóng. Việc cần làm ngay là ngắt điện cấp cho máy tại aptomat, mở cửa cho thoáng, và không bật lại cho tới khi thợ kiểm tra."
+  },
+  "CEILFAN_BEARING": {
+   "signs_vi": [
+    "kêu cọt kẹt",
+    "kêu ù",
+    "rung lắc",
+    "quay nặng",
+    "kêu rè rè trên trần",
+    "tiếng kêu nghe khó chịu",
+    "quạt trần kêu to về đêm",
+    "quạt trần kêu"
+   ],
+   "rule_out_vi": [],
+   "ask_vi": "",
+   "versus_vi": {
+    "CEILFAN_CAPACITOR": "Tách bằng tiếng: tụ yếu thì im, chỉ chậm; bạc thì kêu.",
+    "CEILFAN_MOUNT_LOOSE": "Đây là cặp quan trọng nhất phải tách, vì một bên là bệnh trung bình còn bên kia là bệnh ưu tiên cao.",
+    "CEILFAN_MOTOR_BURNT": "Tách bằng mùi và bằng nhiệt."
+   },
+   "confusable_with": [
+    "CEILFAN_CAPACITOR",
+    "CEILFAN_MOUNT_LOOSE",
+    "CEILFAN_MOTOR_BURNT"
+   ],
+   "summary_vi": "Ở quạt cây, khô bạc là bệnh ưu tiên thấp: quạt kêu, quạt yếu, phiền nhưng không sao. Ở quạt trần thì nó được đẩy lên một mức, vì hai lý do."
+  },
+  "CEILFAN_CAPACITOR": {
+   "signs_vi": [
+    "quay chậm",
+    "quay yếu",
+    "phải quay tay mới chạy",
+    "ù mà không quay",
+    "bật số lớn vẫn quay chậm",
+    "quạt trần yếu gió",
+    "quạt trần quay chậm",
+    "quạt trần chạy yếu"
+   ],
+   "rule_out_vi": [],
+   "ask_vi": "\"Anh chị bật số cao nhất thì quạt có chạy bình thường không ạ?\"",
+   "versus_vi": {
+    "CEILFAN_SPEED_SWITCH": "Tách bằng cách hỏng: tụ yếu thì các số thấp yếu dần chứ vẫn còn phản ứng khi xoay núm; hộp số hỏng thì mất hẳn một số trong khi các số khác vẫn đúng tốc độ như cũ.",
+    "CEILFAN_BEARING": "Tách bằng tiếng kêu.",
+    "CEILFAN_MOTOR_BURNT": "Quan hệ nhân quả chứ không song song: tụ hỏng để lâu, bật thử nhiều lần, thì dẫn tới đó."
+   },
+   "confusable_with": [
+    "CEILFAN_SPEED_SWITCH",
+    "CEILFAN_BEARING",
+    "CEILFAN_MOTOR_BURNT"
+   ],
+   "summary_vi": "Trong cụm quạt trần, đây là mã được gọi nhiều nhất, và nó cũng là mã có kết cục dễ chịu nhất: linh kiện rẻ, thay xong quạt chạy như cũ. Triệu chứng đặc trưng của nó khác với quạt cây, và khác theo cách rất dễ nhận ra: quạt trần hiếm khi đứng im hẳn, nó thường quay rất chậm."
+  },
+  "CEILFAN_MOTOR_BURNT": {
+   "signs_vi": [
+    "mùi khét trên trần",
+    "quạt nóng ran",
+    "chạy được lát rồi dừng",
+    "khói",
+    "quạt trần có mùi khét",
+    "trần nhà có mùi khét",
+    "quạt trần bốc khói",
+    "quạt trần ù mà không quay"
+   ],
+   "rule_out_vi": [],
+   "ask_vi": "",
+   "versus_vi": {
+    "CEILFAN_CAPACITOR": "Triệu chứng ù mà không quay là chung, và đây là chỗ nhầm tốn kém nhất, vì nhầm theo hướng tụ thì khách sẽ bật thử tiếp.",
+    "CEILFAN_BEARING": "Bạc kẹt là nguyên nhân dẫn tới đây chứ không phải bệnh song song.",
+    "CEILFAN_SPEED_SWITCH": "Cùng nhóm mùi khét nhưng vị trí khác và giá khác hẳn."
+   },
+   "confusable_with": [
+    "CEILFAN_CAPACITOR",
+    "CEILFAN_BEARING",
+    "CEILFAN_SPEED_SWITCH"
+   ],
+   "summary_vi": "Cơ chế thì giống hệt quạt cây: cuộn dây nóng quá mức, lớp men cách điện hỏng, các vòng dây chạm nhau, và quá trình đó tự nuôi mình. Nhưng bối cảnh đổi hẳn mức độ, theo ba cách."
+  },
+  "CEILFAN_MOUNT_LOOSE": {
+   "signs_vi": [
+    "lắc mạnh",
+    "rung trần",
+    "nghe lục cục trên trần",
+    "cánh đảo",
+    "quạt trần đảo vòng",
+    "sợ rơi",
+    "quạt trần lắc lư",
+    "quạt trần rung"
+   ],
+   "rule_out_vi": [],
+   "ask_vi": "",
+   "versus_vi": {
+    "CEILFAN_BEARING": "Tách bằng loại tiếng và bằng phạm vi lắc: bạc thì tiếng lạo xạo đều theo vòng quay và phần ty treo đứng yên; bộ treo thì tiếng lộc cộc theo nhịp và cả ty cùng lắc.",
+    "CEILFAN_CAPACITOR": "Không giống về triệu chứng, nhưng có một điểm giao đáng biết: quạt chạy chậm bất thường do tụ yếu đôi khi rung nhiều hơn ở một dải tốc độ nhất định, vì nó đi qua vùng…"
+   },
+   "confusable_with": [
+    "CEILFAN_BEARING",
+    "CEILFAN_CAPACITOR"
+   ],
+   "summary_vi": "Trong toàn bộ kho tri thức, các bệnh nguy hiểm chia làm mấy nhóm quen thuộc: điện giật, cháy, rò gas, ngộ độc. Bệnh này không thuộc nhóm nào trong số đó. Nó là một khối kim loại nặng vài kilogam, treo trên trần, quay nhanh, và đang lỏng dần ra. Phía dưới nó thường là giường ngủ, bàn ăn, hoặc chỗ trẻ con chơi."
+  },
+  "CEILFAN_SPEED_SWITCH": {
+   "signs_vi": [
+    "chỉnh số không ăn",
+    "chỉ chạy một tốc độ",
+    "vặn núm không đổi gió",
+    "hộp số nóng",
+    "chiết áp kêu rè",
+    "hộp số quạt trần hỏng",
+    "xoay số không ăn",
+    "quạt trần chỉ chạy một tốc độ"
+   ],
+   "rule_out_vi": [],
+   "ask_vi": "",
+   "versus_vi": {
+    "CEILFAN_CAPACITOR": "Tách bằng câu hỏi về nấc cao nhất, và bằng cách hỏng là mất hẳn một nấc hay yếu dần đều.",
+    "CEILFAN_MOTOR_BURNT": "Tách bằng vị trí: mùi ở hộp trên tường thì là bệnh này; mùi ở trên trần thì là mô tơ."
+   },
+   "confusable_with": [
+    "CEILFAN_CAPACITOR",
+    "CEILFAN_MOTOR_BURNT"
+   ],
+   "summary_vi": "Mọi bệnh khác của quạt trần đều nằm trên trần: tụ, bạc, mô tơ, bộ treo. Khách không chạm tới được cái nào. Bệnh này thì khác. Cái hộp số nằm trên tường, ngang tầm mắt, và khách nhìn thấy nó, sờ được nó, và ngửi được nó."
+  },
+  "DRYER_LINT_CLOGGED": {
+   "signs_vi": [
+    "máy sấy lâu khô hơn trước",
+    "máy sấy nóng bất thường",
+    "máy sấy có mùi khét nhẹ",
+    "lọc xơ máy sấy đầy bông",
+    "máy sấy báo lỗi lọc",
+    "máy sấy có mùi khét",
+    "máy sấy nhà em bốc mùi khét nhẹ khi chạy",
+    "máy sấy nóng ran cả vỏ máy"
+   ],
+   "rule_out_vi": [],
+   "ask_vi": "",
+   "versus_vi": {},
+   "confusable_with": [
+    "DRYER_NOT_HEATING",
+    "DRYER_NOISY",
+    "DRYER_NO_POWER"
+   ],
+   "summary_vi": "Mọi mã bệnh khác của máy sấy, xấu nhất là hỏng máy. Mã này xấu nhất là cháy. Xơ vải là bông. Bông khô, tơi, xốp, và bắt lửa ở nhiệt độ thấp hơn gần như mọi thứ khác trong nhà. Máy sấy làm đúng ba việc để biến nó thành nguy cơ: sinh ra xơ, thổi khí nóng qua nó, và gom nó lại một chỗ."
+  },
+  "DRYER_NOISY": {
+   "signs_vi": [
+    "máy sấy kêu cạch cạch",
+    "máy sấy quần áo kêu rất to",
+    "lồng máy sấy quay bị rung",
+    "máy sấy kêu rít khi quay",
+    "máy sấy kêu ken két nghe ghê lắm",
+    "máy sấy chạy ầm ĩ cả nhà nghe thấy",
+    "máy sấy dạo này kêu to hơn trước",
+    "may say keu to"
+   ],
+   "rule_out_vi": [],
+   "ask_vi": "",
+   "versus_vi": {},
+   "confusable_with": [
+    "DRYER_NOT_SPINNING",
+    "DRYER_LINT_CLOGGED",
+    "DRYER_NOT_HEATING"
+   ],
+   "summary_vi": "Đây là mã bệnh mà mô tả của khách chứa gần hết thông tin cần thiết — miễn là hỏi cho ra kiểu tiếng chứ không chỉ \"kêu to\". Bốn kiểu, bốn nguyên nhân khác nhau:"
+  },
+  "DRYER_NOT_HEATING": {
+   "signs_vi": [
+    "máy sấy quần áo không nóng",
+    "máy sấy chạy mà quần áo vẫn ẩm",
+    "máy sấy quay nhưng không nóng",
+    "sấy xong quần áo vẫn ướt",
+    "máy sấy chạy cả tiếng mà áo vẫn ẩm",
+    "máy sấy quần áo không nóng nữa",
+    "máy sấy phải chạy hai lần mới khô",
+    "máy sấy mới mua mà sấy không khô bằng máy cũ"
+   ],
+   "rule_out_vi": [],
+   "ask_vi": "",
+   "versus_vi": {},
+   "confusable_with": [
+    "DRYER_LINT_CLOGGED",
+    "DRYER_NOT_SPINNING",
+    "DRYER_NO_POWER"
+   ],
+   "summary_vi": "Khách nói \"máy sấy không nóng\", nhưng gần như không ai sờ vào lồng để biết nó nóng hay không. Cái họ thật sự quan sát được là quần áo vẫn ẩm khi lấy ra. Ba chuyện rất khác nhau đều tạo ra đúng quan sát đó: Máy không sinh đủ nhiệt. Thanh nhiệt đứt, cầu chì nhiệt đứt, hoặc với máy bơm nhiệt thì hệ bơm nhiệt yếu."
+  },
+  "DRYER_NOT_SPINNING": {
+   "signs_vi": [
+    "máy sấy không quay lồng",
+    "máy sấy chạy mà lồng đứng yên",
+    "máy sấy kêu ù nhưng không quay",
+    "dây curoa máy sấy đứt",
+    "lồng máy sấy quay được tí rồi dừng",
+    "máy sấy bật lên không thấy gì chạy",
+    "lồng sấy quay giật cục",
+    "may say khong quay long"
+   ],
+   "rule_out_vi": [],
+   "ask_vi": "",
+   "versus_vi": {},
+   "confusable_with": [
+    "DRYER_NOT_HEATING",
+    "DRYER_NOISY",
+    "DRYER_NO_POWER"
+   ],
+   "summary_vi": "Một câu hỏi tách gần hết mã bệnh này: bật máy lên có nghe tiếng mô tơ chạy không? Nghe tiếng ù ù mà lồng đứng yên. Mô tơ sống, truyền động đứt. Gần như luôn là dây curoa — một vòng cao su dẹt quấn quanh lồng và trục mô tơ. Nó giãn dần theo năm rồi đứt, thường đứt hẳn chứ không đứt dần."
+  },
+  "DRYER_NO_POWER": {
+   "signs_vi": [
+    "máy sấy không lên nguồn",
+    "máy sấy cắm điện không chạy",
+    "máy sấy quần áo chết nguồn",
+    "bấm nút máy sấy không có phản ứng gì",
+    "máy sấy sáng đèn mà không chạy",
+    "cắm máy sấy vào là nhảy aptomat",
+    "máy sấy chạy vài giây rồi tắt ngóm",
+    "may say khong len nguon"
+   ],
+   "rule_out_vi": [],
+   "ask_vi": "",
+   "versus_vi": {},
+   "confusable_with": [
+    "DRYER_NOT_SPINNING",
+    "DRYER_NOT_HEATING",
+    "DRYER_LINT_CLOGGED"
+   ],
+   "summary_vi": "Máy sấy có một công tắc nhỏ ở khung cửa. Cửa không đóng khít thì mạch hở và máy không chạy — đây là thiết kế an toàn, để lồng không quay khi cửa mở. Hệ quả: một cái công tắc mòn, hoặc một cánh cửa hơi vênh, làm máy trông y hệt như chết nguồn. Bấm nút không có gì xảy ra, đèn không sáng hoặc sáng rồi tắt."
+  },
+  "DW_DOOR_LEAK": {
+   "signs_vi": [
+    "máy rửa bát chảy nước ra cửa",
+    "nước rỉ dưới chân máy rửa bát",
+    "gioăng cửa máy rửa bát bị hở",
+    "máy rửa chén rò nước khi chạy",
+    "chạy máy là nước tràn ra sàn bếp",
+    "có bọt trắng chảy ra ở cửa máy",
+    "máy rửa bát rò nước một bên thôi",
+    "may rua bat chay nuoc ra cua"
+   ],
+   "rule_out_vi": [],
+   "ask_vi": "Có bọt trắng không?",
+   "versus_vi": {},
+   "confusable_with": [
+    "DW_NOT_DRAINING",
+    "DW_NOT_CLEAN",
+    "DW_NO_WATER"
+   ],
+   "summary_vi": "Khác với mã đọng nước — ở đó nước ở yên trong khoang — mã này là nước ra ngoài khi máy đang phun. Nó chảy xuống mặt trước cửa, xuống chân máy, và vào sàn tủ bếp. Điều làm nó đáng xử lý nhanh không phải lượng nước, mà là chỗ nước đến."
+  },
+  "DW_NOT_CLEAN": {
+   "signs_vi": [
+    "máy rửa bát rửa không sạch",
+    "bát ra vẫn còn cặn",
+    "máy rửa chén không sạch dầu mỡ",
+    "bát còn vết trắng sau khi rửa",
+    "máy rửa bát rửa xong vẫn bẩn",
+    "máy rửa bát rửa xong bát vẫn còn nhớt",
+    "bát ra có vệt trắng lau mãi không hết",
+    "cốc thuỷ tinh ra mờ đục hết"
+   ],
+   "rule_out_vi": [],
+   "ask_vi": "",
+   "versus_vi": {},
+   "confusable_with": [
+    "DW_NOT_DRAINING",
+    "DW_NO_WATER"
+   ],
+   "summary_vi": "Máy rửa bát vào nhà người Việt muộn và gần như không ai được hướng dẫn. Thợ lắp tủ bếp lắp xong là đi, tờ hướng dẫn nằm trong ngăn kéo, và khách dùng nó như máy giặt: cho bát vào, đổ nước rửa chén, bấm nút. Nên trước khi nghĩ tới hỏng hóc, có bốn thứ phải hỏi."
+  },
+  "DW_NOT_DRAINING": {
+   "signs_vi": [
+    "máy rửa bát đọng nước dưới đáy",
+    "máy rửa chén không xả nước",
+    "máy rửa bát tràn nước ra sàn",
+    "nước không rút sau khi rửa xong",
+    "máy rửa bát báo lỗi xả nước",
+    "máy rửa bát đọng nước dưới đáy không rút",
+    "mở cửa máy rửa chén ra thấy đầy nước",
+    "máy rửa bát chạy xong vẫn còn nước bên trong"
+   ],
+   "rule_out_vi": [],
+   "ask_vi": "",
+   "versus_vi": {},
+   "confusable_with": [
+    "DW_DOOR_LEAK",
+    "DW_NO_WATER",
+    "DW_NOT_CLEAN"
+   ],
+   "summary_vi": "Mã bệnh này không chết người, nhưng nó có một đặc điểm phải xử lý trước khi chẩn đoán: máy rửa bát gần như luôn nằm trong tủ bếp, và trong tủ bếp gần như luôn có một ổ điện. Nước đọng trong khoang mà khách mở cửa ra là nước tràn xuống sàn, và sàn tủ bếp là gỗ công nghiệp, nở ra rồi không co lại."
+  },
+  "DW_NO_POWER": {
+   "signs_vi": [
+    "máy rửa bát không lên nguồn",
+    "máy rửa chén cắm điện không chạy",
+    "máy rửa bát bấm không phản hồi",
+    "máy rửa bát chết nguồn",
+    "máy rửa bát sáng đèn rồi tắt ngay",
+    "máy rửa chén nhấp nháy đèn liên tục",
+    "cắm máy rửa bát vào là nhảy aptomat",
+    "may rua bat khong len nguon"
+   ],
+   "rule_out_vi": [],
+   "ask_vi": "",
+   "versus_vi": {},
+   "confusable_with": [
+    "DW_NO_WATER",
+    "DW_NOT_DRAINING",
+    "DW_DOOR_LEAK"
+   ],
+   "summary_vi": "Máy rửa bát có hai cơ chế tự khoá, và cả hai làm máy trông hệt như chết nguồn. Chúng phải được loại trừ trước mọi thứ khác. Chốt cửa chưa ăn. Cửa không đóng tới nấc khoá thì mạch hở, máy không chạy và nhiều dòng không sáng đèn luôn."
+  },
+  "DW_NO_WATER": {
+   "signs_vi": [
+    "máy rửa bát không vào nước",
+    "máy rửa chén báo lỗi cấp nước",
+    "máy chạy mà không thấy nước",
+    "máy rửa bát kêu ù ù rồi dừng",
+    "máy chạy mà không thấy nước vào",
+    "máy rửa bát vào nước rất chậm",
+    "máy rửa chén chạy mãi không xong một chu trình",
+    "máy rửa bát báo lỗi ngay khi vừa bấm"
+   ],
+   "rule_out_vi": [],
+   "ask_vi": "",
+   "versus_vi": {},
+   "confusable_with": [
+    "DW_NOT_DRAINING",
+    "DW_NO_POWER",
+    "DW_NOT_CLEAN"
+   ],
+   "summary_vi": "Mã bệnh này khác phần lớn các mã khác ở một điểm: phần lớn nguyên nhân nằm ngoài cái máy. Trước khi nghĩ tới van cấp hay bo điều khiển, có ba thứ khách tự xem được trong hai phút. Van khoá nước vào máy. Nằm dưới chậu rửa, thường là van nhỏ màu bạc hoặc xanh trên ống dẫn vào máy."
+  },
+  "FAN_CAPACITOR": {
+   "signs_vi": [
+    "ù mà không quay",
+    "phải đẩy cánh mới chạy",
+    "số nhỏ không chạy",
+    "bật lên không quay",
+    "quay yếu hẳn",
+    "quạt kêu ù ù mà đứng im",
+    "quạt không quay",
+    "quạt phải lấy tay quay mới chạy"
+   ],
+   "rule_out_vi": [],
+   "ask_vi": "",
+   "versus_vi": {
+    "FAN_WORN_BEARING": "Bạc khô nặng cũng làm quạt không khởi động nổi, và cũng ù.",
+    "FAN_SWITCH_FAULT": "Tách bằng tiếng ù: có ù là điện đã tới cuộn dây, không ù là chưa tới.",
+    "FAN_MOTOR_BURNT": "Tách bằng nhiệt và mùi: nóng nhanh hoặc có mùi khét thì không phải tụ, và phải rút điện trước."
+   },
+   "confusable_with": [
+    "FAN_WORN_BEARING",
+    "FAN_SWITCH_FAULT",
+    "FAN_MOTOR_BURNT"
+   ],
+   "summary_vi": "Trong cụm quạt điện, đây là mã được gọi nhiều nhất. Nó cũng là mã có kết cục tốt nhất: linh kiện rẻ, thay nhanh, và sau khi thay thì quạt chạy đúng như lúc còn mới. Vì vậy giọng trả lời của mã này nên rõ ràng và yên tâm. Khách gọi tới với một cái quạt không quay thường đang nghĩ là quạt hỏng rồi, phải mua cái mới."
+  },
+  "FAN_CORD_DAMAGE": {
+   "signs_vi": [
+    "dây điện bị đứt",
+    "phải ngoáy dây mới chạy",
+    "chập chờn khi cử động dây",
+    "dây nóng",
+    "phích cắm nóng",
+    "dây bị chuột cắn",
+    "dây quạt bị đứt",
+    "dây quạt hở"
+   ],
+   "rule_out_vi": [],
+   "ask_vi": "",
+   "versus_vi": {
+    "FAN_SWITCH_FAULT": "Tách bằng việc chập chờn theo cái gì: theo động tác gạt dây thì là dây; theo động tác bấm nút hoặc theo số nào đó thì là công tắc.",
+    "FAN_MOTOR_BURNT": "Tách bằng vị trí phát nhiệt: nóng ở phích và dây thì là mã này, nóng ở thân mô tơ thì là mã kia.",
+    "FAN_CAPACITOR": "Tách bằng tiếng ù, và kiểm tra ổ cắm bằng thiết bị khác trước vì đó là việc miễn phí."
+   },
+   "confusable_with": [
+    "FAN_SWITCH_FAULT",
+    "FAN_MOTOR_BURNT",
+    "FAN_CAPACITOR"
+   ],
+   "summary_vi": "Thay một sợi dây nguồn là việc nhỏ, và linh kiện thì rẻ. Nhưng mã này được xếp ưu tiên cao, và lý do không nằm ở việc sửa mà nằm ở việc chưa sửa. Dây nguồn hở là điện trần nằm trong không gian sinh hoạt. Nó nằm trên sàn phòng khách, trong phòng ngủ, trong phòng trẻ con chơi."
+  },
+  "FAN_MOTOR_BURNT": {
+   "signs_vi": [
+    "có mùi khét",
+    "nóng ran",
+    "khói",
+    "chạy được vài phút rồi tắt",
+    "mùi nhựa cháy",
+    "sờ vào nóng bỏng tay",
+    "quạt có mùi khét",
+    "quạt bốc khói"
+   ],
+   "rule_out_vi": [],
+   "ask_vi": "",
+   "versus_vi": {
+    "FAN_CAPACITOR": "Triệu chứng ù mà không quay là chung.",
+    "FAN_WORN_BEARING": "Bạc kẹt là nguyên nhân dẫn tới bệnh này chứ không phải bệnh song song.",
+    "FAN_CORD_DAMAGE": "Tách bằng vị trí phát nhiệt: ở phích và dây, hay ở thân quạt."
+   },
+   "confusable_with": [
+    "FAN_CAPACITOR",
+    "FAN_WORN_BEARING",
+    "FAN_CORD_DAMAGE"
+   ],
+   "summary_vi": "Đây là mã ưu tiên cao nằm trên thiết bị rẻ nhất của cả kho tri thức, và điều đó nghe như mâu thuẫn cho tới khi nhìn vào bối cảnh thật. Quạt là thiết bị chạy nhiều giờ nhất trong nhà, và phần lớn số giờ đó là lúc không ai nhìn: quạt chạy suốt đêm trong phòng ngủ, quạt chạy trong phòng trẻ con, quạt chạy khi cả nhà đi…"
+  },
+  "FAN_OSCILLATION_FAULT": {
+   "signs_vi": [
+    "không đảo",
+    "không quay qua quay lại",
+    "gạt cần đảo không ăn",
+    "kêu lạch cạch khi đảo",
+    "đảo được một bên",
+    "quạt không đảo",
+    "quạt không quay đầu",
+    "quạt không tuốc năng"
+   ],
+   "rule_out_vi": [],
+   "ask_vi": "",
+   "versus_vi": {
+    "FAN_WOBBLE": "Cả hai đều liên quan tới chuyển động của đầu quạt, và khách đôi khi mô tả lẫn.",
+    "FAN_SWITCH_FAULT": "Trên quạt có điều khiển từ xa, việc bật đảo đi qua bo mạch chứ không qua nút cơ.",
+    "FAN_WORN_BEARING": "Giao nhau ở nhánh không đảo được ở số thấp: có thể vì hộp số khô, cũng có thể vì mô tơ đã yếu do bạc khô."
+   },
+   "confusable_with": [
+    "FAN_WOBBLE",
+    "FAN_SWITCH_FAULT",
+    "FAN_WORN_BEARING"
+   ],
+   "summary_vi": "Đây là mã ít nguy hiểm nhất của cụm quạt điện. Quạt vẫn quay, vẫn ra gió, vẫn dùng được. Chỉ là nó đứng yên một chỗ thay vì lắc qua lắc lại. Không có nguy cơ cháy, không có nguy cơ giật, không có nhánh nào cần cảnh báo trước."
+  },
+  "FAN_SWITCH_FAULT": {
+   "signs_vi": [
+    "bấm số không ăn",
+    "chỉ chạy một số",
+    "chập chờn khi chỉnh",
+    "nút bị kẹt",
+    "bấm nút không bật được",
+    "nút quạt không ăn",
+    "số 1 không chạy",
+    "bấm số không đổi gì"
+   ],
+   "rule_out_vi": [],
+   "ask_vi": "",
+   "versus_vi": {
+    "FAN_CORD_DAMAGE": "Tách bằng câu hỏi: chập chờn theo động tác bấm nút, hay theo động tác gạt dây.",
+    "FAN_CAPACITOR": "Cả hai làm quạt không chạy.",
+    "FAN_MOTOR_BURNT": "Tách bằng vị trí: mùi ở vùng phím thì là công tắc, mùi ở thân mô tơ thì là cuộn dây."
+   },
+   "confusable_with": [
+    "FAN_CORD_DAMAGE",
+    "FAN_CAPACITOR",
+    "FAN_MOTOR_BURNT"
+   ],
+   "summary_vi": "Bệnh này dễ nhận ra hơn mọi bệnh khác của quạt, vì triệu chứng của nó gắn với một động tác cụ thể mà khách làm được ngay: bấm nút. Khách kể rất đúng: số một không ăn, số ba thì chạy, bấm nút nghe lụp cụp mà quạt không đổi gì, phải bấm mạnh mới được, hoặc nút bấm xuống không bật lên."
+  },
+  "FAN_WOBBLE": {
+   "signs_vi": [
+    "quạt rung",
+    "lắc lư",
+    "đổ nghiêng",
+    "cánh cọ vào lồng",
+    "chạy bị lệch",
+    "quạt lắc",
+    "quạt rung lắc mạnh",
+    "quạt chạy không êm"
+   ],
+   "rule_out_vi": [],
+   "ask_vi": "",
+   "versus_vi": {
+    "FAN_WORN_BEARING": "Bạc mòn là một trong bốn nguyên nhân của rung, nhưng là nguyên nhân duy nhất không tự xử lý được.",
+    "FAN_OSCILLATION_FAULT": "Nhầm do từ ngữ chứ không do triệu chứng."
+   },
+   "confusable_with": [
+    "FAN_WORN_BEARING",
+    "FAN_OSCILLATION_FAULT"
+   ],
+   "summary_vi": "Đây là bệnh có tỷ lệ tự xử lý cao nhất trong cả kho tri thức, và nguyên nhân phổ biến nhất của nó không phải hỏng hóc gì cả. Nó là bụi. Vì vậy câu trả lời đầu tiên gần như luôn là một câu hỏi: \"lần gần nhất anh chị tháo cánh ra rửa là bao giờ ạ?\""
+  },
+  "FAN_WORN_BEARING": {
+   "signs_vi": [
+    "kêu cộc cộc",
+    "quay chậm",
+    "kêu rít",
+    "nóng thân quạt",
+    "quay một lúc thì dừng",
+    "quay chậm hơn lúc trước",
+    "kêu ù ù",
+    "trục quạt rơ"
+   ],
+   "rule_out_vi": [],
+   "ask_vi": "",
+   "versus_vi": {
+    "FAN_CAPACITOR": "Cả hai làm quạt không khởi động.",
+    "FAN_WOBBLE": "Tách bằng tiếng: rung do bụi thì không kèm tiếng lạo xạo.",
+    "FAN_MOTOR_BURNT": "Nếu đã có mùi khét thì xử lý theo bệnh kia trước."
+   },
+   "confusable_with": [
+    "FAN_CAPACITOR",
+    "FAN_WOBBLE",
+    "FAN_MOTOR_BURNT"
+   ],
+   "summary_vi": "Quạt chạy hàng ngàn giờ mỗi mùa. Trục mô tơ quay liên tục trong hai ổ đỡ, và giữa trục với ổ chỉ có một lớp dầu rất mỏng ngăn hai mặt kim loại chạm nhau. Lớp dầu đó cạn dần. Nó bay hơi vì nhiệt, nó bị bụi trộn vào làm bẩn, và nó biến chất theo năm tháng."
+  },
+  "FAUCET_BASE_LEAK": {
+   "signs_vi": [
+    "chảy nước ở chân vòi",
+    "ướt mặt bàn quanh vòi",
+    "rò ở dây cấp nước",
+    "dây cấp nước phồng",
+    "chân vòi bị rò",
+    "nước đọng quanh chân vòi",
+    "dưới gầm bồn rửa bị ướt",
+    "tủ bếp bị ướt"
+   ],
+   "rule_out_vi": [],
+   "ask_vi": "",
+   "versus_vi": {
+    "FAUCET_DRIP": "Tách bằng vị trí: miệng vòi thì là mã kia và nó nhẹ; chân vòi hoặc gầm thì là mã này và nó ở mức trung bình.",
+    "SINK_TRAP_LEAK": "Cặp quan trọng nhất phải tách, vì cả hai cho ra nước dưới gầm cùng một chỗ.",
+    "PIPE_JOINT_LEAK": "Nếu ẩm lan rộng ra ngoài khu vực gầm bồn rửa, hoặc nếu tường cũng ẩm, thì nghi đường ống trong tường chứ không chỉ mối nối ở vòi."
+   },
+   "confusable_with": [
+    "FAUCET_DRIP",
+    "SINK_TRAP_LEAK",
+    "PIPE_JOINT_LEAK"
+   ],
+   "summary_vi": "Lượng nước ở đây thường rất ít. Một vệt ẩm dưới gầm, hoặc vài giọt đọng quanh chân vòi. Nó ở mức trung bình không phải vì lượng nước mà vì nơi nước đi."
+  },
+  "FAUCET_CARTRIDGE": {
+   "signs_vi": [
+    "vặn nặng",
+    "không chỉnh được nóng lạnh",
+    "gạt bị kẹt",
+    "nước ra yếu một bên",
+    "gạt cần thấy rít",
+    "chỉ ra nước lạnh",
+    "vòi bị kẹt",
+    "gạt vòi nặng lắm"
+   ],
+   "rule_out_vi": [],
+   "ask_vi": "",
+   "versus_vi": {
+    "FAUCET_DRIP": "Với vòi gạt thì hai mã này gần như là một: cùng chi tiết, cùng cách xử lý.",
+    "FAUCET_LOW_FLOW": "Tách bằng phép thử tháo ống mềm, và bằng việc đã rửa đầu lọc chưa."
+   },
+   "confusable_with": [
+    "FAUCET_DRIP",
+    "FAUCET_LOW_FLOW",
+    "WH_THERMOSTAT"
+   ],
+   "summary_vi": "Lõi vòi là khối trụ nhỏ nằm trong thân vòi gạt. Nó làm ba việc cùng lúc: mở đóng nước, chỉnh lưu lượng, và trộn nóng lạnh. Vì nó làm nhiều việc, nên khi hỏng nó cho ra nhiều triệu chứng trông không liên quan gì tới nhau."
+  },
+  "FAUCET_DRIP": {
+   "signs_vi": [
+    "nhỏ giọt",
+    "rỉ nước",
+    "khoá rồi vẫn chảy",
+    "chảy ri rỉ",
+    "vòi nước nhỏ nước cả đêm",
+    "khoá chặt vẫn rỉ",
+    "vòi nước bị rỉ",
+    "vòi nhỏ giọt"
+   ],
+   "rule_out_vi": [],
+   "ask_vi": "",
+   "versus_vi": {
+    "FAUCET_CARTRIDGE": "Với vòi gạt thì hai mã này gần như là một: cùng chi tiết, cùng cách xử lý.",
+    "FAUCET_BASE_LEAK": "Tách bằng vị trí nước ra."
+   },
+   "confusable_with": [
+    "FAUCET_CARTRIDGE",
+    "FAUCET_BASE_LEAK"
+   ],
+   "summary_vi": "Trong cả kho tri thức, đây là mã có chi phí sửa thấp nhất và mức nguy hiểm bằng không. Một cái gioăng cao su nhỏ, hoặc một cái lõi vòi. Không có nhánh nào cần cảnh báo. Vì vậy giọng trả lời nên nhẹ và đi thẳng vào việc làm."
+  },
+  "FAUCET_LOW_FLOW": {
+   "signs_vi": [
+    "nước chảy yếu",
+    "nước ra ít",
+    "tia nước phun tung toé",
+    "nước ra không đều",
+    "vòi nước chảy yếu",
+    "nước ra nhỏ",
+    "vòi bếp yếu quá",
+    "vòi sen yếu"
+   ],
+   "rule_out_vi": [],
+   "ask_vi": "",
+   "versus_vi": {
+    "PIPE_LOW_PRESSURE": "Cặp phải tách đầu tiên, và tách bằng câu hỏi về các vòi khác.",
+    "FAUCET_CARTRIDGE": "Tách bằng phép thử tháo ống mềm: nước mạnh ở ống mềm nhưng yếu ở vòi thì vấn đề trong thân vòi.",
+    "WH_LOW_PRESSURE": "Nếu chỉ nước nóng yếu thì không phải mã này."
+   },
+   "confusable_with": [
+    "PIPE_LOW_PRESSURE",
+    "FAUCET_CARTRIDGE",
+    "WH_LOW_PRESSURE"
+   ],
+   "summary_vi": "Trong hơn một trăm mã bệnh, đây là mã mà phần lớn ca kết thúc trong năm phút, không cần ai tới nhà, và không tốn một đồng nào. Nguyên nhân số một chiếm phần lớn số ca: một cái lưới nhỏ ở miệng vòi bị cặn bít. Tháo ra rửa là xong."
+  },
+  "FRIDGE_COMPRESSOR": {
+   "signs_vi": [
+    "không chạy",
+    "kêu ù rồi tắt",
+    "nóng phía sau bất thường",
+    "nhảy aptomat",
+    "block nóng ran",
+    "không nghe tiếng máy chạy",
+    "im re không hoạt động",
+    "đèn trong tủ vẫn sáng"
+   ],
+   "rule_out_vi": [
+    "Không kết luận khi đèn trong tủ không sáng.",
+    "Không kết luận khi chỉ ù rồi tắt mà chưa ai thay rơ le, không nhảy aptomat, không tiếng gõ.",
+    "Không kết luận khi ngăn đá vẫn đông đá.",
+    "Không kết luận khi block chạy đều và tủ chỉ kém lạnh."
+   ],
+   "ask_vi": "đèn trong tủ có sáng khi mở cửa không, và ở phía sau dưới đáy tủ có nghe tiếng gì không.",
+   "versus_vi": {
+    "FRIDGE_DEFROST_FAULT": "Chung nhau: block ù rồi tắt, lặp lại, tủ không lạnh.",
+    "FRIDGE_LOW_GAS": "Thiếu gas: block chạy đều và chạy liên tục, tủ kém lạnh dần trong nhiều tuần, không tiếng lạ, không nhảy aptomat.",
+    "FRIDGE_NOISY": "Tủ kê không cân, chân chưa chỉnh, hoặc tủ sát tường thì rung và kêu, nhưng tủ vẫn lạnh bình thường."
+   },
+   "confusable_with": [
+    "FRIDGE_LOW_GAS",
+    "FRIDGE_DEFROST_FAULT",
+    "FRIDGE_NOISY"
+   ],
+   "summary_vi": "Block, hay máy nén, là khối kim loại nặng nằm ở khoang phía sau dưới đáy tủ. Nó nén môi chất và đẩy đi vòng quanh hệ thống. Không có nó thì tủ hoàn toàn không lạnh. Đây là bộ phận đắt nhất của tủ lạnh và cũng là bộ phận ít hỏng nhất. Khi nó hỏng, câu chuyện với khách thường chuyển từ sửa hay không sang sửa hay thay tủ."
+  },
+  "FRIDGE_DEFROST_FAULT": {
+   "signs_vi": [
+    "đóng tuyết",
+    "đóng đá dày",
+    "ngăn mát ấm mà ngăn đá lạnh",
+    "quạt kêu va vào đá",
+    "tuyết phủ kín ngăn đá",
+    "phải xả đá thủ công hoài",
+    "đá bám thành mảng",
+    "sò lạnh"
+   ],
+   "rule_out_vi": [
+    "Không kết luận khi tủ là loại đóng tuyết thủ công.",
+    "Không kết luận khi cả hai ngăn đều không lạnh.",
+    "Không kết luận khi ngăn mát không lạnh mà hoàn toàn không có tuyết ở đâu cả.",
+    "Không kết luận khi tuyết chỉ tập trung quanh mép cửa và có đọng sương ở gioăng."
+   ],
+   "ask_vi": "ngăn đá có còn đông đá bình thường không, và có thấy tuyết hay đá bám dày trong ngăn đá hoặc sau tấm ốp không.",
+   "versus_vi": {
+    "FRIDGE_FAN_FAULT": "Đây là cặp phải tách, vì cả hai cho ra cùng một triệu chứng chính: ngăn đá lạnh mà ngăn mát ấm.",
+    "FRIDGE_LOW_GAS": "Ngăn đá không đông được đá, hoặc đông rất chậm.",
+    "FRIDGE_DOOR_GASKET": "Dấu hiệu nghiêng về gioăng: tuyết tập trung gần mép cửa và ở khu vực gần chỗ hở, có đọng sương hoặc đọng nước quanh gioăng bên ngoài, cửa không hít, gioăng nhìn thấy…",
+    "FRIDGE_DRAIN_BLOCKED": "Nghẹt lỗ thoát ở ngăn mát: nước đọng dưới khay rau, không liên quan tới tuyết trên dàn lạnh, và ngăn mát vẫn lạnh."
+   },
+   "confusable_with": [
+    "FRIDGE_FAN_FAULT",
+    "FRIDGE_LOW_GAS",
+    "FRIDGE_DOOR_GASKET",
+    "FRIDGE_DRAIN_BLOCKED",
+    "FRIDGE_NOISY"
+   ],
+   "summary_vi": "Tủ lạnh đời nay phần lớn là loại không đóng tuyết. Nó chỉ có một dàn lạnh duy nhất, giấu sau tấm ốp phía sau ngăn đá, và một cái quạt thổi hơi lạnh từ đó vào ngăn đá rồi theo đường gió xuống ngăn mát. Trong lúc chạy, hơi ẩm trong tủ bám lên dàn lạnh thành tuyết."
+  },
+  "FRIDGE_DIRTY_ODOR": {
+   "signs_vi": [
+    "tủ lạnh có mùi hôi",
+    "mở tủ ra là bốc mùi",
+    "trong tủ có mùi tanh",
+    "ngăn mát có mùi khó chịu",
+    "tủ lạnh bẩn",
+    "có mốc trong tủ",
+    "gioăng cửa bị mốc đen",
+    "đá làm ra có mùi lạ"
+   ],
+   "rule_out_vi": [
+    "Mùi khét, mùi cháy, có khói: không phải bẩn, là sự cố điện hoặc máy nén.",
+    "Tủ lạnh vừa có mùi vừa không lạnh, ngăn đá không đông: mùi đến từ thức ăn hỏng vì tủ mất lạnh.",
+    "Nước chảy ra sàn kèm mùi: có thể là nghẹt lỗ thoát nước, thợ sửa thông đường thoát nước trước rồi mới vệ sinh."
+   ],
+   "ask_vi": "Câu một: mùi trong tủ lạnh là mùi tanh, ôi thức ăn, hay mùi khét?",
+   "versus_vi": {
+    "FRIDGE_DRAIN_BLOCKED": "Nếu khách nói có nước đọng hoặc nước chảy ra ngoài thì nghiêng về nghẹt lỗ thoát nước.",
+    "FRIDGE_DOOR_GASKET": "Gioăng cửa tủ lạnh bị mốc đen nhưng vẫn kín, cửa tủ lạnh vẫn hít chặt khi đóng, thì chỉ là bẩn: vệ sinh, bảo dưỡng tủ lạnh là đủ."
+   },
+   "confusable_with": [
+    "FRIDGE_DRAIN_BLOCKED",
+    "FRIDGE_DOOR_GASKET"
+   ],
+   "summary_vi": "Tủ lạnh có mùi hôi thường không phải tủ hỏng. Thức ăn để lâu, nước rỉ từ thịt cá, rau úa đọng dưới ngăn rau, mốc ở gioăng cửa và nước đọng trong khay thoát nước là những chỗ sinh mùi."
+  },
+  "FRIDGE_DOOR_GASKET": {
+   "signs_vi": [
+    "đọng nước trong tủ",
+    "cửa không hít",
+    "chảy nước ra ngoài",
+    "tủ chạy nhiều hơn bình thường",
+    "gioăng bị mục",
+    "cửa tự bung ra",
+    "đọng sương quanh cửa"
+   ],
+   "rule_out_vi": [
+    "Không kết luận khi cửa không đóng được vì có đồ vướng: khay kệ đặt lệch, chai lọ để sát cửa, ngăn kéo chưa đẩy hết vào.",
+    "Không kết luận khi tủ kê nghiêng về phía trước làm cửa tự bung.",
+    "Không kết luận khi cửa nặng và khách đẩy quá nhẹ.",
+    "Không kết luận khi vừa đóng cửa xong mở lại ngay thấy nặng."
+   ],
+   "ask_vi": "cửa tủ có tự hít vào khi đẩy nhẹ không, và gioăng cao su quanh cửa nhìn có mục, rách, hoặc biến dạng không.",
+   "versus_vi": {
+    "FRIDGE_DEFROST_FAULT": "Cửa không hít.",
+    "FRIDGE_DRAIN_BLOCKED": "Câu hỏi tách: nước đọng ở đáy tủ thành vũng, hay đọng rải rác khắp các kệ và ở mép cửa.",
+    "FRIDGE_LOW_GAS": "Gioăng hở: tủ vẫn lạnh, ngăn đá vẫn đông đá, chỉ là chạy nhiều hơn và tốn điện."
+   },
+   "confusable_with": [
+    "FRIDGE_DEFROST_FAULT",
+    "FRIDGE_DRAIN_BLOCKED",
+    "FRIDGE_LOW_GAS"
+   ],
+   "summary_vi": "Gioăng cửa là dải cao su chạy quanh mép cánh tủ, bên trong có nam châm. Nó ép vào thân tủ để giữ kín, và nam châm là thứ làm cửa tự hít vào khi đẩy nhẹ. Khi gioăng mục, rách, biến dạng, hoặc mất từ tính, cửa không còn kín. Khí lạnh thoát ra và không khí ẩm nóng bên ngoài lọt vào liên tục."
+  },
+  "FRIDGE_DRAIN_BLOCKED": {
+   "signs_vi": [
+    "đọng nước dưới đáy tủ",
+    "nước chảy ra sàn bếp",
+    "ngăn rau đọng nước",
+    "nước đóng băng dưới khay rau",
+    "dưới khay rau có lớp đá",
+    "cái lỗ ở đáy tủ bị nghẹt"
+   ],
+   "rule_out_vi": [
+    "Không kết luận khi nước đọng rải rác khắp kệ và có đọng sương quanh mép cửa.",
+    "Không kết luận khi ngăn mát ấm và có tuyết dày trong ngăn đá.",
+    "Không kết luận khi nước chảy ở phía sau tủ chứ không phải trong tủ.",
+    "Không kết luận khi khách vừa cất rau còn ướt, vừa để đồ ăn lỏng không đậy, hoặc vừa xả đá thủ công."
+   ],
+   "ask_vi": "nước đọng thành vũng ở đáy ngăn mát và dưới khay rau, hay đọng rải rác khắp các kệ và quanh mép cửa.",
+   "versus_vi": {
+    "FRIDGE_DOOR_GASKET": "Câu hỏi tách: nước đọng thành vũng ở đáy hay rải rác khắp kệ.",
+    "FRIDGE_DEFROST_FAULT": "Nghẹt lỗ thoát: không có tuyết bất thường, ngăn mát vẫn lạnh, nước đọng đều đặn.",
+    "FRIDGE_FAN_FAULT": "Vừa cất rau còn ướt, hoặc vừa rửa rau xong bỏ vào ngăn."
+   },
+   "confusable_with": [
+    "FRIDGE_DOOR_GASKET",
+    "FRIDGE_DEFROST_FAULT",
+    "FRIDGE_FAN_FAULT"
+   ],
+   "summary_vi": "Trong tủ lạnh luôn có nước. Hơi ẩm từ thực phẩm và từ không khí lọt vào mỗi lần mở cửa sẽ ngưng tụ, và ở tủ không đóng tuyết thì mỗi chu kỳ xả đá còn tạo ra một lượng nước nữa. Nước đó phải có đường thoát."
+  },
+  "FRIDGE_FAN_FAULT": {
+   "signs_vi": [
+    "ngăn mát không lạnh",
+    "có tiếng kêu lạ trong tủ",
+    "ngăn đá lạnh nhưng ngăn mát ấm",
+    "nghe tiếng rẹt rẹt trong tủ",
+    "quạt kêu rồi im",
+    "quạt kêu rồi im hẳn",
+    "quạt tủ lạnh"
+   ],
+   "rule_out_vi": [
+    "Không kết luận khi cả hai ngăn đều không lạnh.",
+    "Không kết luận khi có tuyết dày sau tấm ốp ngăn đá.",
+    "Không kết luận khi thực phẩm chất kín che khe gió ở thành sau ngăn mát.",
+    "Không kết luận chỉ vì khách không nghe tiếng quạt khi mở cửa, vì nhiều tủ tắt quạt khi mở cửa theo thiết kế."
+   ],
+   "ask_vi": "ngăn đá có còn đông đá không, và có thấy tuyết hay đá bám dày sau tấm ốp ngăn đá không.",
+   "versus_vi": {
+    "FRIDGE_DEFROST_FAULT": "Tuyết là dấu hiệu tách chính.",
+    "FRIDGE_LOW_GAS": "Thiếu gas: cả hai ngăn kém lạnh, ngăn đá không đông được đá, máy nén chạy liên tục không nghỉ.",
+    "FRIDGE_NOISY": "Nếu triệu chứng chính là tiếng ồn mà tủ vẫn lạnh đủ cả hai ngăn: dùng mã tủ chạy ồn, và kiểm tra quạt là một trong các hướng."
+   },
+   "confusable_with": [
+    "FRIDGE_DEFROST_FAULT",
+    "FRIDGE_LOW_GAS",
+    "FRIDGE_NOISY",
+    "FRIDGE_COMPRESSOR"
+   ],
+   "summary_vi": "Tủ lạnh không đóng tuyết chỉ có một dàn lạnh duy nhất, giấu sau tấm ốp phía sau ngăn đá. Hơi lạnh từ dàn đó được một cái quạt nhỏ thổi vào ngăn đá, và một phần theo đường ống dẫn gió xuống ngăn mát. Khi quạt đó không quay, hơi lạnh không đi đâu được."
+  },
+  "FRIDGE_LIGHT_FAULT": {
+   "signs_vi": [
+    "đèn trong tủ không sáng",
+    "mở cửa không thấy đèn",
+    "đèn cháy",
+    "tủ vẫn lạnh bình thường",
+    "đèn sáng liên tục kể cả khi đóng cửa",
+    "den tu lanh chay",
+    "đèn tủ lạnh cháy",
+    "đèn tủ lạnh chạy"
+   ],
+   "rule_out_vi": [
+    "Không kết luận khi tủ cũng không lạnh và không nghe tiếng máy chạy.",
+    "Không kết luận khi đèn sáng liên tục kể cả khi đóng cửa.",
+    "Không kết luận khi ngăn mát ấm cùng lúc với đèn sáng liên tục.",
+    "Không kết luận khi tủ đời mới và đèn tắt theo một lịch riêng."
+   ],
+   "ask_vi": "tủ có còn lạnh bình thường không.",
+   "versus_vi": {
+    "FRIDGE_FAN_FAULT": "Không phải hai bệnh giống nhau, mà là quan hệ nhân quả cần nhớ."
+   },
+   "confusable_with": [
+    "FRIDGE_COMPRESSOR",
+    "FRIDGE_FAN_FAULT"
+   ],
+   "summary_vi": "Tủ lạnh có một hoặc vài bóng đèn bên trong, bật lên khi mở cửa và tắt khi đóng cửa. Một cái công tắc nhỏ ở khung cửa làm việc đó. Khi đèn không sáng, tủ vẫn làm lạnh bình thường. Đây là bệnh nhẹ nhất trong cả nhóm tủ lạnh, không ảnh hưởng tới việc bảo quản thực phẩm, và khách hoàn toàn có thể dùng tiếp trong lúc chờ."
+  },
+  "FRIDGE_LOW_GAS": {
+   "signs_vi": [
+    "không lạnh",
+    "ngăn mát không mát",
+    "ngăn đá không đông",
+    "chạy liên tục không nghỉ",
+    "tủ lạnh mát yếu",
+    "đá không đông được",
+    "để đồ vẫn hư",
+    "lạnh kém hẳn"
+   ],
+   "rule_out_vi": [
+    "Không kết luận khi ngăn đá vẫn đông đá bình thường.",
+    "Không kết luận khi máy nén không chạy.",
+    "Không kết luận khi tủ mới cắm điện chưa đủ lâu để làm lạnh.",
+    "Không kết luận khi tủ vừa được nhồi đầy thực phẩm còn nóng."
+   ],
+   "ask_vi": "ngăn đá có còn đông đá không.",
+   "versus_vi": {
+    "FRIDGE_FAN_FAULT": "Thiếu gas: cả hai ngăn kém lạnh, ngăn đá không đông được đá.",
+    "FRIDGE_COMPRESSOR": "Cả hai đều cho ra cả hai ngăn không lạnh.",
+    "FRIDGE_DOOR_GASKET": "Gioăng hở: tủ chạy liên tục không nghỉ, tốn điện, có đọng sương quanh cửa, và thường có tuyết nhiều bất thường."
+   },
+   "confusable_with": [
+    "FRIDGE_COMPRESSOR",
+    "FRIDGE_DEFROST_FAULT",
+    "FRIDGE_FAN_FAULT",
+    "FRIDGE_DOOR_GASKET"
+   ],
+   "summary_vi": "Môi chất lạnh chạy vòng tròn khép kín trong ống đồng và ống nhôm của tủ. Hệ thống này được hàn kín tại nhà máy, không có mối nối siết tay như máy lạnh, nên về nguyên tắc lượng môi chất giữ nguyên suốt đời tủ. Vì vậy khi tủ thiếu gas, gần như chắc chắn là có một chỗ thủng hoặc nứt."
+  },
+  "FRIDGE_NOISY": {
+   "signs_vi": [
+    "tủ lạnh kêu to",
+    "rung lắc",
+    "kêu ù ù cả đêm",
+    "kêu lạch cạch",
+    "ồn hơn lúc mới mua",
+    "vẫn lạnh bình thường",
+    "tủ lạnh kêu như máy cày"
+   ],
+   "rule_out_vi": [
+    "Không xếp vào đây khi tiếng là gõ kim loại nặng từ khoang máy nén và tủ cũng không lạnh.",
+    "Không xếp vào đây khi tiếng rẹt rẹt đi kèm ngăn mát ấm.",
+    "Không xếp vào đây khi có mùi khét hoặc có tiếng nổ.",
+    "Không xếp vào đây khi tủ nhảy aptomat."
+   ],
+   "ask_vi": "tiếng phát ra từ phía sau dưới đáy tủ hay từ bên trong tủ, và tủ có còn lạnh bình thường cả hai ngăn không.",
+   "versus_vi": {
+    "FRIDGE_FAN_FAULT": "Nếu triệu chứng chính là tiếng ồn mà tủ vẫn lạnh đủ cả hai ngăn: dùng mã này, và kiểm tra quạt là một trong các hướng.",
+    "FRIDGE_DEFROST_FAULT": "Không phải hai bệnh giống nhau, mà là quan hệ nhân quả.",
+    "FRIDGE_COMPRESSOR": "Ca này chỉ cần tách ống ra và chèn đệm, chi phí gần như không có gì, trong khi khách đã lo là hỏng block."
+   },
+   "confusable_with": [
+    "FRIDGE_FAN_FAULT",
+    "FRIDGE_COMPRESSOR",
+    "FRIDGE_DEFROST_FAULT"
+   ],
+   "summary_vi": "Tủ lạnh chạy đúng thì có tiếng, nhưng là tiếng đều và nhẹ: tiếng ù của máy nén, tiếng gió của quạt, và thỉnh thoảng tiếng nước chảy róc rách của môi chất. Khi tủ bắt đầu kêu to hơn, rung, hoặc phát ra tiếng lạ, thì có thứ gì đó đã lệch."
+  },
+  "HOB_ERROR_CODE": {
+   "signs_vi": [
+    "bếp từ báo lỗi E1",
+    "bếp báo E2",
+    "bếp từ hiện chữ E rồi tắt",
+    "bếp từ nhấp nháy báo lỗi",
+    "bếp chạy vài phút là báo lỗi",
+    "bếp từ tự ngắt và hiện mã lỗi",
+    "bếp báo E0 mà em vẫn đặt nồi lên",
+    "bếp từ nhấp nháy báo lỗi liên tục"
+   ],
+   "rule_out_vi": [],
+   "ask_vi": "",
+   "versus_vi": {},
+   "confusable_with": [
+    "HOB_NO_PAN_DETECT",
+    "HOB_FAN_NOISY",
+    "HOB_TOUCH_FAULT",
+    "HOB_NO_POWER"
+   ],
+   "summary_vi": "Đây là chỗ dễ sai nhất của mã bệnh này, và sai theo hướng tệ: mỗi hãng đánh số lỗi một kiểu. E0 của hãng này là không nhận nồi, của hãng kia là lỗi cảm biến nhiệt. Trả lời \"E1 là quá nhiệt\" cho một khách không rõ bếp hãng gì là đoán, và khách sẽ làm theo."
+  },
+  "HOB_FAN_NOISY": {
+   "signs_vi": [
+    "bếp từ kêu to khi nấu",
+    "quạt bếp từ kêu rè rè",
+    "bếp từ nóng máy rồi tự tắt",
+    "bếp từ chạy một lúc là ngắt",
+    "bếp từ thổi hơi nóng ra rất mạnh",
+    "bếp tắt rồi mà vẫn nghe tiếng quạt chạy",
+    "bếp từ kêu rít nghe khó chịu",
+    "bep tu keu to khi nau"
+   ],
+   "rule_out_vi": [],
+   "ask_vi": "",
+   "versus_vi": {},
+   "confusable_with": [
+    "HOB_ERROR_CODE",
+    "HOB_TOUCH_FAULT",
+    "HOB_NO_POWER"
+   ],
+   "summary_vi": "Bếp từ sinh nhiệt ở nồi, nhưng bản thân nó cũng nóng: sò công suất IGBT, cuộn dây, bo nguồn đều toả nhiệt. Một cái quạt nhỏ hút gió qua khe dưới đáy bếp, thổi qua khối tản nhiệt, rồi đẩy ra khe sau hoặc khe bên."
+  },
+  "HOB_GLASS_CRACKED": {
+   "signs_vi": [
+    "mặt kính bếp từ bị nứt",
+    "bếp từ vỡ mặt kính",
+    "mặt bếp từ rạn chân chim",
+    "bếp từ nhà em vỡ mặt kính rồi",
+    "mặt bếp từ rạn chân chim một đường",
+    "làm rơi cái nồi xuống nứt mặt bếp",
+    "bếp từ nứt một đường có dùng tiếp được không",
+    "mat kinh bep tu bi nut"
+   ],
+   "rule_out_vi": [],
+   "ask_vi": "",
+   "versus_vi": {},
+   "confusable_with": [
+    "HOB_TOUCH_FAULT",
+    "HOB_ERROR_CODE",
+    "HOB_NO_POWER"
+   ],
+   "summary_vi": "Mặt bếp từ là kính ceramic chịu nhiệt, và nó không chỉ để nấu cho đẹp. Nó là lớp ngăn duy nhất giữa cuộn dây cao tần bên dưới và cái nồi nước đang sôi bên trên. Một vết nứt là một đường cho nước tràn xuống, và bên dưới là mâm dây, bo mạch công suất và nguồn điện lưới. Vết nứt còn nguy hiểm theo cách thứ hai."
+  },
+  "HOB_NO_PAN_DETECT": {
+   "signs_vi": [
+    "bếp từ không nhận nồi",
+    "bếp báo E0",
+    "đặt nồi lên mà bếp kêu bíp bíp",
+    "bếp từ không nóng dù đã bật",
+    "bếp nhận nồi này không nhận nồi kia",
+    "bếp từ kêu tít tít rồi tắt",
+    "bếp không ăn nồi",
+    "đặt nồi lên bếp kêu bíp bíp rồi tắt"
+   ],
+   "rule_out_vi": [],
+   "ask_vi": "",
+   "versus_vi": {},
+   "confusable_with": [
+    "HOB_ERROR_CODE",
+    "HOB_TOUCH_FAULT",
+    "HOB_NO_POWER"
+   ],
+   "summary_vi": "Đây là lý do gọi nhiều nhất của bếp từ, và phần lớn số ca không có gì hỏng cả. Bếp từ không đun cái nồi, nó đun bằng cái nồi: cuộn dây dưới mặt kính sinh từ trường biến thiên, từ trường ấy tạo dòng xoáy trong đáy nồi, và đáy nồi nóng lên."
+  },
+  "HOB_NO_POWER": {
+   "signs_vi": [
+    "bếp từ không lên nguồn",
+    "bếp từ cắm điện không lên",
+    "bếp từ tối thui không sáng đèn",
+    "bếp từ chết hẳn",
+    "cắm bếp từ là nhảy aptomat",
+    "bếp từ nhà em cắm điện mà không lên",
+    "bếp từ tối thui không sáng đèn gì cả",
+    "bếp từ tự nhiên chết hẳn không dùng được nữa"
+   ],
+   "rule_out_vi": [],
+   "ask_vi": "",
+   "versus_vi": {},
+   "confusable_with": [
+    "HOB_ERROR_CODE",
+    "HOB_TOUCH_FAULT",
+    "OUTLET_TRIPS_BREAKER",
+    "OUTLET_SHORT_CIRCUIT"
+   ],
+   "summary_vi": "Một cái bếp không lên đèn nghe như chuyện bất tiện buổi tối. Nhưng bếp từ là thiết bị rút dòng lớn nhất trong bếp nhà dân, thường hai nghìn watt trở lên cho mỗi vùng nấu, và nó được nối vào một đường dây riêng chạy trong tường. Khi một thiết bị như vậy tắt ngóm, có hai khả năng."
+  },
+  "HOB_TOUCH_FAULT": {
+   "signs_vi": [
+    "bếp từ bấm không ăn",
+    "nút cảm ứng bếp từ không nhạy",
+    "bếp từ tự tăng giảm công suất",
+    "bảng điều khiển bếp từ đơ",
+    "bếp từ không tắt được",
+    "bảng điều khiển bếp từ bị đơ",
+    "bếp từ kêu bíp liên tục mà em không chạm gì",
+    "bếp từ hiện hình ổ khoá nhỏ"
+   ],
+   "rule_out_vi": [],
+   "ask_vi": "Tất cả các nút đều không ăn, hay chỉ một vài nút?",
+   "versus_vi": {},
+   "confusable_with": [
+    "HOB_ERROR_CODE",
+    "HOB_NO_PAN_DETECT",
+    "HOB_NO_POWER",
+    "HOB_FAN_NOISY"
+   ],
+   "summary_vi": "Bảng cảm ứng bếp từ đọc bằng điện dung — nó cảm nhận ngón tay qua lớp kính bằng sự thay đổi điện trường. Nghĩa là bất cứ thứ gì dẫn điện nằm giữa ngón tay và cảm ứng đều làm nó đọc sai, và thứ dẫn điện phổ biến nhất trong bếp là nước. Một, nước hoặc dầu trên mặt kính."
+  },
+  "KETTLE_HEATING_BASE": {
+   "signs_vi": [
+    "không nóng",
+    "đun rất lâu",
+    "bật đèn nhưng không sôi",
+    "nước chỉ ấm",
+    "ấm không nóng",
+    "ấm siêu tốc không đun được",
+    "cắm điện mà nước không nóng",
+    "ấm không lên nhiệt"
+   ],
+   "rule_out_vi": [],
+   "ask_vi": "",
+   "versus_vi": {
+    "KETTLE_SWITCH": "Cặp phải tách đầu tiên và tách bằng đèn báo.",
+    "KETTLE_SCALE": "Cặp quan trọng nhất về mặt kinh tế.",
+    "KETTLE_THERMOSTAT": "Nếu ấm tắt sớm rồi không bật lại, thì có thể là rơ le chống cạn chứ không phải mâm đứt."
+   },
+   "confusable_with": [
+    "KETTLE_SWITCH",
+    "KETTLE_SCALE",
+    "KETTLE_THERMOSTAT"
+   ],
+   "summary_vi": "Trong cụm ấm siêu tốc, đây là mã mà câu trả lời gần như luôn là thay ấm. Không phải vì nguy hiểm, và không phải vì không sửa được. Mà vì mâm nhiệt là chi tiết chính của cái ấm: nó chiếm phần lớn giá trị, và việc thay nó đòi tháo tới phần kín giữa nước và điện."
+  },
+  "KETTLE_LEAK": {
+   "signs_vi": [
+    "rỉ nước",
+    "đọng nước dưới đế",
+    "ướt mặt bàn khi đun",
+    "nước chảy ra chân đế",
+    "ấm siêu tốc bị rò nước",
+    "đáy ấm chảy nước",
+    "đun nước là chảy ra bàn",
+    "ấm bị rỉ nước"
+   ],
+   "rule_out_vi": [],
+   "ask_vi": "",
+   "versus_vi": {
+    "KETTLE_HEATING_BASE": "Quan hệ nhân quả: nước vào phần điện làm mâm nhiệt hỏng, hoặc mâm nhiệt thủng gây rò.",
+    "KETTLE_SCALE": "Không giao về triệu chứng, nhưng có một liên hệ đáng nói: cạo cặn vôi bằng vật cứng làm hỏng lớp bảo vệ của mâm nhiệt, và đó là một con đường dẫn tới rò."
+   },
+   "confusable_with": [
+    "KETTLE_HEATING_BASE",
+    "KETTLE_SCALE"
+   ],
+   "summary_vi": "Lượng nước ở đây rất ít. Vài giọt quanh đáy ấm, hoặc một vệt ẩm trên mặt bàn sau khi đun. Mã này ở mức ưu tiên cao vì nước đó đang đi vào đúng chỗ không được phép có nước."
+  },
+  "KETTLE_SCALE": {
+   "signs_vi": [
+    "có cặn trắng",
+    "nước có váng",
+    "đáy bình đóng cặn",
+    "đun lâu sôi hơn trước",
+    "ấm bị đóng cặn",
+    "đáy ấm có lớp trắng",
+    "ấm siêu tốc bị cáu cặn",
+    "nước có cặn trắng"
+   ],
+   "rule_out_vi": [],
+   "ask_vi": "",
+   "versus_vi": {
+    "KETTLE_THERMOSTAT": "Không phải nhầm mà là quan hệ nhân quả theo cả hai hướng: cặn làm ấm tắt sớm, và cặn bít đường dẫn hơi làm ấm không tự tắt.",
+    "KETTLE_HEATING_BASE": "Cũng nhân quả: cặn dày làm mâm chạy quá nhiệt nhiều năm và cuối cùng là cháy.",
+    "KETTLE_LEAK": "Liên hệ qua việc cạo cặn: cạo bằng vật cứng làm hỏng lớp bảo vệ và có thể dẫn tới rò.",
+    "PIPE_RUSTY_WATER": "Tách bằng màu: cặn trắng là khoáng từ nước cứng, cặn nâu đỏ là rỉ từ đường ống."
+   },
+   "confusable_with": [
+    "KETTLE_HEATING_BASE",
+    "KETTLE_THERMOSTAT",
+    "PIPE_RUSTY_WATER"
+   ],
+   "summary_vi": "Cặn vôi không làm hỏng gì ngay. Ấm vẫn đun, nước vẫn sôi, không nguy hiểm. Vì vậy mã này ở mức ưu tiên thấp và khách coi nó là chuyện thẩm mỹ."
+  },
+  "KETTLE_SWITCH": {
+   "signs_vi": [
+    "gạt công tắc không xuống",
+    "công tắc bật lên liền",
+    "phải đè mới chạy",
+    "đặt lên đế không ăn điện",
+    "công tắc ấm không giữ",
+    "gạt xuống nó bật lên liền",
+    "ấm không lên điện",
+    "đặt lên đế không ăn"
+   ],
+   "rule_out_vi": [],
+   "ask_vi": "",
+   "versus_vi": {
+    "KETTLE_THERMOSTAT": "Cặp phải tách đầu tiên và tách bằng một câu: ấm có vừa đun xong không.",
+    "KETTLE_HEATING_BASE": "Tách bằng đèn báo.",
+    "KETTLE_LEAK": "Quan hệ nhân quả: ấm rò ở đáy làm nước vào cụm tiếp điểm, và triệu chứng đầu tiên khách thấy có thể là ấm chập chờn chứ không phải nước."
+   },
+   "confusable_with": [
+    "KETTLE_THERMOSTAT",
+    "KETTLE_HEATING_BASE",
+    "KETTLE_LEAK"
+   ],
+   "summary_vi": "Mã này gộp hai thứ nằm ở hai chỗ khác nhau, và tách chúng là việc đầu tiên. Công tắc ở tay cầm. Cái cần gạt mà người dùng chạm vào, cùng với cơ cấu lẫy giữ nó ở vị trí bật và bộ tiếp điểm bên trong."
+  },
+  "KETTLE_THERMOSTAT": {
+   "signs_vi": [
+    "không tự ngắt",
+    "sôi rồi vẫn đun",
+    "ngắt sớm khi chưa sôi",
+    "phải rút điện thủ công",
+    "nước trào ra ngoài",
+    "ấm không tự tắt",
+    "ấm sôi rồi không nhảy",
+    "ấm siêu tốc không ngắt"
+   ],
+   "rule_out_vi": [],
+   "ask_vi": "",
+   "versus_vi": {
+    "KETTLE_SCALE": "Đây là cặp quan trọng nhất, và quan hệ là nhân quả chứ không phải nhầm: cặn vôi gây cả hai triệu chứng của mã này, theo hai hướng khác nhau.",
+    "KETTLE_SWITCH": "Nhánh công tắc không giữ thuộc cả hai mã.",
+    "KETTLE_HEATING_BASE": "Nếu ấm hoàn toàn không nóng, không phải tắt sớm, thì đó là mã kia."
+   },
+   "confusable_with": [
+    "KETTLE_SCALE",
+    "KETTLE_SWITCH",
+    "KETTLE_HEATING_BASE"
+   ],
+   "summary_vi": "Khách báo mã này bằng một trong hai câu: ấm sôi rồi mà không tự tắt, hoặc ấm tắt trước khi nước sôi. Cả hai đều là triệu chứng của rơ le nhiệt. Nhưng trong phần lớn ca, rơ le vẫn tốt và nó đang phản ứng đúng với một điều kiện sai."
+  },
+  "LIGHT_BULB_DEAD": {
+   "signs_vi": [
+    "đèn không sáng",
+    "bóng cháy",
+    "đèn tắt hẳn",
+    "thay bóng mới vẫn không sáng",
+    "bóng đèn cháy",
+    "đèn hỏng rồi",
+    "bật công tắc không lên",
+    "đèn phòng khách tắt ngúm"
+   ],
+   "rule_out_vi": [],
+   "ask_vi": "",
+   "versus_vi": {
+    "LIGHT_SWITCH_FAULT": "Cặp phải tách và tách bằng phép thử bóng.",
+    "LIGHT_FLICKERING": "Nếu khách kể là đèn chớp một thời gian trước khi tắt, thì đó là driver chứ không phải bóng cháy đột ngột.",
+    "OUTLET_NO_POWER": "Nếu cả phòng mất điện, gồm cả ổ cắm, thì không phải chuyện của cái đèn.",
+    "LIGHT_FIXTURE_LEAK": "Nếu đèn ở nhà tắm hoặc ở nơi ẩm và nó hỏng, đáng hỏi thêm về nước trong máng."
+   },
+   "confusable_with": [
+    "LIGHT_SWITCH_FAULT",
+    "LIGHT_FLICKERING",
+    "OUTLET_NO_POWER"
+   ],
+   "summary_vi": "Trong kho tri thức, đây là mã có chi phí thấp nhất và độ nguy hiểm thấp nhất. Một cái bóng đèn. Phần lớn ca kết thúc bằng việc khách vặn ra một cái bóng và vặn vào một cái khác."
+  },
+  "LIGHT_DIM": {
+   "signs_vi": [
+    "đèn sáng mờ",
+    "không đủ sáng",
+    "đèn vàng hơn trước",
+    "cả nhà đèn đều yếu",
+    "đèn sáng yếu",
+    "đèn không sáng như trước",
+    "đèn mờ",
+    "đèn tối"
+   ],
+   "rule_out_vi": [],
+   "ask_vi": "",
+   "versus_vi": {
+    "LIGHT_FLICKERING": "Tách bằng việc ánh sáng có dao động không, hay chỉ yếu đều.",
+    "LIGHT_BULB_DEAD": "Nhưng led thường chết đột ngột chứ không mờ dần, nên nếu đèn led mờ dần thì nghi driver hơn là nghi chip.",
+    "OUTLET_LOOSE_CONTACT": "Nếu nhiều đèn cùng yếu và có ổ cắm nóng trên cùng nhánh thì đó là một chuyện, và nó ưu tiên cao hơn."
+   },
+   "confusable_with": [
+    "LIGHT_FLICKERING",
+    "LIGHT_BULB_DEAD",
+    "PIPE_LOW_PRESSURE"
+   ],
+   "summary_vi": "Đèn sáng yếu không nguy hiểm, không hỏng thêm gì, và vẫn dùng được. Đây là mã ưu tiên thấp nhất của cụm đèn, và giọng trả lời nên nhẹ theo đúng mức đó."
+  },
+  "LIGHT_FIXTURE_LEAK": {
+   "signs_vi": [
+    "đèn bị thấm nước",
+    "máng đèn có nước",
+    "đèn ngoài trời bị vào nước",
+    "đèn nhà tắm bị đọng hơi",
+    "đèn bị vào nước",
+    "nước nhỏ từ đèn xuống",
+    "đèn nhà tắm bị ẩm",
+    "đèn âm trần chảy nước"
+   ],
+   "rule_out_vi": [],
+   "ask_vi": "",
+   "versus_vi": {},
+   "confusable_with": [
+    "LIGHT_FLICKERING",
+    "LIGHT_BULB_DEAD",
+    "PIPE_JOINT_LEAK"
+   ],
+   "summary_vi": "Bốn mã còn lại của cụm đèn đều nhẹ: đèn không sáng, đèn chớp, đèn yếu, công tắc hỏng. Không cái nào nguy hiểm. Mã này khác, và lý do rất đơn giản: đây là nước và điện gặp nhau ở trên đầu người."
+  },
+  "LIGHT_FLICKERING": {
+   "signs_vi": [
+    "đèn nhấp nháy",
+    "đèn chớp",
+    "sáng yếu dần",
+    "lúc sáng lúc tắt",
+    "đèn nháy như đèn disco",
+    "sáng mờ rồi tắt",
+    "đèn chớp nháy",
+    "đèn chớp chớp"
+   ],
+   "rule_out_vi": [],
+   "ask_vi": "",
+   "versus_vi": {
+    "LIGHT_BULB_DEAD": "Không phải nhầm mà là hai giai đoạn: driver chớp trước, rồi chết hẳn.",
+    "LIGHT_SWITCH_FAULT": "Tách bằng việc chớp có theo động tác gạt công tắc không.",
+    "LIGHT_DIM": "Tách bằng việc ánh sáng có dao động không, hay chỉ yếu đều.",
+    "OUTLET_LOOSE_CONTACT": "Nhánh mối nối lỏng thực ra thuộc về cùng một cơ chế với mã đó, chỉ khác là nó ở trên nhánh chiếu sáng thay vì ở ổ cắm."
+   },
+   "confusable_with": [
+    "LIGHT_BULB_DEAD",
+    "LIGHT_SWITCH_FAULT",
+    "LIGHT_DIM",
+    "OUTLET_LOOSE_CONTACT"
+   ],
+   "summary_vi": "Đèn chớp nháy là chuyện khó chịu. Nó không làm ai bị thương và nó không làm cháy gì, ít nhất là không trực tiếp. Mã này ở mức trung bình vì hai lý do, và chúng khác nhau về bản chất."
+  },
+  "LIGHT_SWITCH_FAULT": {
+   "signs_vi": [
+    "bật không lên",
+    "công tắc kêu tạch",
+    "phải bật nhiều lần",
+    "công tắc nóng",
+    "gạt công tắc không ăn",
+    "công tắc bị lỏng",
+    "công tắc đèn hỏng",
+    "bấm công tắc không lên đèn"
+   ],
+   "rule_out_vi": [],
+   "ask_vi": "",
+   "versus_vi": {
+    "LIGHT_BULB_DEAD": "Cặp phải tách đầu tiên và tách bằng phép thử bóng.",
+    "LIGHT_FLICKERING": "Tách bằng việc chớp có theo động tác bấm không.",
+    "OUTLET_LOOSE_CONTACT": "Không giao về vị trí nhưng giống hệt về cơ chế: tiếp xúc kém, phát nhiệt, vòng lặp tự nuôi."
+   },
+   "confusable_with": [
+    "LIGHT_BULB_DEAD",
+    "LIGHT_FLICKERING",
+    "OUTLET_LOOSE_CONTACT"
+   ],
+   "summary_vi": "Công tắc đèn là thứ rẻ. Hỏng thì phiền chứ không nguy hiểm, và người ta vẫn dùng đèn được bằng cách bấm mạnh hơn hoặc bấm nhiều lần. Mã này ở mức trung bình vì đúng cái thói quen đó."
+  },
+  "LOCK_CARD_FAULT": {
+   "signs_vi": [
+    "khoá cửa không đọc thẻ từ",
+    "nhập mã đúng mà khoá báo sai",
+    "khoá thông minh quên mật khẩu",
+    "thẻ từ quẹt không ăn",
+    "khoá báo sai mã liên tục rồi im luôn",
+    "thẻ của em không mở được mà thẻ của vợ thì được",
+    "bấm mã xong khoá không phản ứng gì",
+    "khoa khong doc the tu"
+   ],
+   "rule_out_vi": [],
+   "ask_vi": "",
+   "versus_vi": {},
+   "confusable_with": [
+    "LOCK_FINGERPRINT_FAIL",
+    "LOCK_LOW_BATTERY",
+    "LOCK_LOCKED_OUT",
+    "LOCK_MOTOR_FAULT"
+   ],
+   "summary_vi": "Thẻ từ và mã số nghe như hai chuyện khác nhau, nhưng trên khoá thông minh chúng đi qua cùng một bo nhận dạng và cùng một bộ nhớ. Hỏng bo thì cả hai cùng tắt, và khách mô tả bằng bất kỳ cái nào họ hay dùng. Nên câu hỏi đầu tiên là: còn cách nào mở được không — vân tay, thẻ khác, hay chìa cơ?"
+  },
+  "LOCK_FINGERPRINT_FAIL": {
+   "signs_vi": [
+    "khóa vân tay không nhận",
+    "khóa cửa thông minh quét vân tay không được",
+    "khoá vân tay báo lỗi liên tục",
+    "đặt tay mãi khoá không mở",
+    "khóa vân tay nhà em không nhận vân nữa",
+    "đặt tay mãi mà khoá không mở",
+    "khoá vân tay lúc được lúc không",
+    "khoá cửa thông minh quét vân tay không được"
+   ],
+   "rule_out_vi": [],
+   "ask_vi": "",
+   "versus_vi": {
+    "LOCK_LOW_BATTERY": "Pin yếu gây triệu chứng giống hệt: khoá nhận vân chậm, nhận sai, hoặc không phản hồi."
+   },
+   "confusable_with": [
+    "LOCK_LOW_BATTERY",
+    "LOCK_CARD_FAULT",
+    "LOCK_MOTOR_FAULT",
+    "LOCK_LOCKED_OUT"
+   ],
+   "summary_vi": "Khách nói \"khoá không nhận vân tay\", và ba chuyện rất khác nhau đều tạo ra câu đó. Một câu hỏi tách được cả ba: Nhà mình có ai mở được không, và mã số hay thẻ từ có vào được không?"
+  },
+  "LOCK_LOCKED_OUT": {
+   "signs_vi": [
+    "bị khoá ngoài cửa",
+    "không mở được cửa vào nhà",
+    "khoá cửa thông minh kẹt không vào nhà được",
+    "mất thẻ từ không vào được",
+    "em đang đứng ngoài cửa không vào nhà được",
+    "bị khoá ngoài cửa rồi làm sao ạ",
+    "mất thẻ từ không mở được cửa",
+    "khoá hết pin mà em đang ở ngoài"
+   ],
+   "rule_out_vi": [],
+   "ask_vi": "",
+   "versus_vi": {},
+   "confusable_with": [
+    "LOCK_LOW_BATTERY",
+    "LOCK_FINGERPRINT_FAIL",
+    "LOCK_MOTOR_FAULT",
+    "LOCK_CARD_FAULT"
+   ],
+   "summary_vi": "Người nhắn tin đang đứng ngoài cửa. Có thể đang mưa, đang bế con, đang muộn giờ, hoặc đang nửa đêm. Họ không cần biết mô tơ chốt hay bo nhận dạng là gì. Nên trật tự trả lời ở mã này ngược với mọi mã khác: cách vào nhà trước, chẩn đoán sau."
+  },
+  "LOCK_LOW_BATTERY": {
+   "signs_vi": [
+    "khóa cửa thông minh báo pin yếu",
+    "khoá vân tay kêu tít liên tục",
+    "khóa điện tử hết pin không mở được",
+    "khoá thông minh sập nguồn",
+    "khoá vân tay kêu tít tít mỗi lần mở",
+    "khóa cửa nháy đèn đỏ liên tục",
+    "khoá điện tử hết pin không mở được",
+    "khoá thông minh tự nhiên sập nguồn"
+   ],
+   "rule_out_vi": [],
+   "ask_vi": "",
+   "versus_vi": {},
+   "confusable_with": [
+    "LOCK_LOCKED_OUT",
+    "LOCK_FINGERPRINT_FAIL",
+    "LOCK_MOTOR_FAULT",
+    "LOCK_CARD_FAULT"
+   ],
+   "summary_vi": "Hết pin không phải hỏng. Nó là thứ duy nhất trong cả kho tri thức này mà khách có thể tự giải quyết trọn vẹn trong hai phút, không cần thợ, không mất tiền. Nhưng nó có một tính chất làm nó nguy hiểm theo cách riêng: nó báo trước rồi mới chết."
+  },
+  "LOCK_MOTOR_FAULT": {
+   "signs_vi": [
+    "khóa thông minh kêu nhưng không mở",
+    "chốt khoá cửa không rút vào",
+    "khoá vân tay nhận vân mà cửa không mở",
+    "khoá điện tử kẹt chốt",
+    "khoá nhận vân rồi mà cửa vẫn không bật ra",
+    "khoá thông minh kêu nhưng không mở",
+    "phải nhấc cửa lên thì khoá mới ăn",
+    "khoá kêu è è một tiếng rồi thôi"
+   ],
+   "rule_out_vi": [],
+   "ask_vi": "",
+   "versus_vi": {},
+   "confusable_with": [
+    "LOCK_LOW_BATTERY",
+    "LOCK_FINGERPRINT_FAIL",
+    "LOCK_LOCKED_OUT"
+   ],
+   "summary_vi": "Đây là mã bệnh mà phần điện tử hoạt động hoàn hảo và phần cơ khí thì không. Khách đặt vân tay, khoá kêu tiếng xác nhận, đèn xanh sáng — rồi không có gì xảy ra. Hoặc nghe một tiếng mô tơ ù lên rồi im. Nó khác hẳn mã không nhận vân tay, và khách hay gộp hai thứ làm một khi nhắn tin."
+  },
+  "MW_DOOR_SWITCH": {
+   "signs_vi": [
+    "không chạy khi đóng cửa",
+    "báo lỗi cửa",
+    "bấm start không ăn",
+    "phải ấn cửa mới chạy",
+    "cửa đóng rồi máy vẫn không nhận",
+    "đóng cửa mà lò không chạy",
+    "lò vi sóng không chạy",
+    "lò không hoạt động"
+   ],
+   "rule_out_vi": [],
+   "ask_vi": "",
+   "versus_vi": {
+    "MW_NO_POWER": "Tách bằng bảng điều khiển: bảng còn sáng thì máy còn điện, và đó là bệnh này.",
+    "MW_MAGNETRON": "Tách bằng việc lò có chạy không: bệnh này thì lò không chạy gì cả; mã kia thì lò chạy đủ mà không nóng."
+   },
+   "confusable_with": [
+    "MW_NO_POWER",
+    "MW_MAGNETRON"
+   ],
+   "summary_vi": "Cửa lò vi sóng không phải chỉ là cái nắp đậy. Nó là một phần của hệ thống giữ sóng, và phía sau nó có ba công tắc nhỏ mắc liên động. Ba cái chứ không phải một, và đó là chi tiết đáng biết: nhà sản xuất không tin vào một công tắc duy nhất cho một việc quan trọng tới vậy."
+  },
+  "MW_FAN_NOISY": {
+   "signs_vi": [
+    "chạy rất ồn",
+    "kêu to bất thường",
+    "nóng vỏ ngoài",
+    "có mùi khét nhẹ",
+    "lò vi sóng kêu to",
+    "lò kêu ầm ầm",
+    "lò vi sóng kêu rít",
+    "lò kêu như máy bay"
+   ],
+   "rule_out_vi": [],
+   "ask_vi": "",
+   "versus_vi": {
+    "MW_TURNTABLE_MOTOR": "Tách bằng hai câu: tiếng từ phía sau hay từ đáy khoang, và tiếng có còn kéo dài sau khi nấu xong không.",
+    "MW_MAGNETRON": "Quan hệ nhân quả chứ không song song, và đó là điểm chính của mã này: quạt yếu làm sò xuống cấp nhanh."
+   },
+   "confusable_with": [
+    "MW_TURNTABLE_MOTOR",
+    "MW_MAGNETRON"
+   ],
+   "summary_vi": "Nghe thì đây là chuyện tiếng ồn: lò kêu to hơn trước, khó chịu, nhưng vẫn nấu được. Nó được xếp ở mức trung bình chứ không thấp vì một lý do cụ thể: quạt tản nhiệt là thứ giữ cho sò cao tần không chết sớm."
+  },
+  "MW_MAGNETRON": {
+   "signs_vi": [
+    "không nóng",
+    "quay mà không nóng",
+    "hâm không nóng thức ăn",
+    "chạy bình thường nhưng nguội",
+    "quay đủ thời gian vẫn lạnh",
+    "mất nhiệt hoàn toàn",
+    "lò vi sóng không nóng",
+    "lò chạy mà đồ ăn không nóng"
+   ],
+   "rule_out_vi": [],
+   "ask_vi": "",
+   "versus_vi": {
+    "MW_NO_POWER": "Tách rất dễ và nên tách sớm: lò có sáng đèn và mâm có quay không.",
+    "MW_DOOR_SWITCH": "Công tắc cửa hỏng thì lò bấm chạy mà không có gì xảy ra: đèn không sáng, mâm không quay.",
+    "MW_SPARKING": "Nếu khách kể là lò từng toé lửa nhiều lần trước đó thì nhánh sò mạnh lên, và đó cũng là bài học cho lần sau."
+   },
+   "confusable_with": [
+    "MW_NO_POWER",
+    "MW_DOOR_SWITCH",
+    "MW_SPARKING"
+   ],
+   "summary_vi": "Với hầu hết thiết bị, hỏng thì có dấu hiệu: không chạy, kêu to, nóng, có mùi. Bệnh này thì không. Lò sáng đèn, mâm quay đều, quạt chạy, bảng điều khiển đếm ngược bình thường, hết giờ thì kêu bíp đúng lúc. Mọi thứ trông hoàn hảo."
+  },
+  "MW_NO_POWER": {
+   "signs_vi": [
+    "không lên điện",
+    "bấm không có phản ứng",
+    "màn hình tối",
+    "cắm điện không thấy gì",
+    "nhảy aptomat khi cắm",
+    "lò vi sóng không lên",
+    "lò vi sóng không vào điện",
+    "lò chết hẳn"
+   ],
+   "rule_out_vi": [],
+   "ask_vi": "",
+   "versus_vi": {
+    "MW_DOOR_SWITCH": "Hai chiều.",
+    "MW_MAGNETRON": "Tách rất dễ: bệnh này thì lò im hẳn; mã kia thì lò chạy đủ mà không nóng."
+   },
+   "confusable_with": [
+    "MW_DOOR_SWITCH",
+    "MW_MAGNETRON"
+   ],
+   "summary_vi": "Khách gọi tới bệnh này với một cái lò hoàn toàn im lặng: không đèn, không màn hình, không tiếng bíp, bấm gì cũng không phản ứng. Trông như đã hỏng hẳn. Thực tế thì đây là một trong những nhánh rẻ nhất của cụm lò vi sóng. Nguyên nhân phổ biến nhất là một cái cầu chì, và cầu chì là chi tiết rẻ nhất trong máy."
+  },
+  "MW_SPARKING": {
+   "signs_vi": [
+    "nổ lẹt đẹt",
+    "toé lửa",
+    "có tia lửa bên trong",
+    "cháy đen trong lòng lò",
+    "nghe tiếng nổ nhỏ khi chạy",
+    "loé sáng trong lò",
+    "lò vi sóng toé lửa",
+    "lò vi sóng đánh lửa"
+   ],
+   "rule_out_vi": [],
+   "ask_vi": "",
+   "versus_vi": {
+    "MW_MAGNETRON": "Không giống về triệu chứng nhưng có quan hệ.",
+    "MW_DOOR_SWITCH": "Không giao về triệu chứng, nhưng cùng thuộc nhóm bệnh liên quan tới tính toàn vẹn của khoang lò."
+   },
+   "confusable_with": [
+    "MW_MAGNETRON",
+    "MW_DOOR_SWITCH"
+   ],
+   "summary_vi": "Khách nhắn tới khi đang đứng trước một cái lò đang toé lửa, hoặc vừa toé lửa xong. Câu đầu tiên phải là việc làm, không phải câu hỏi. Nếu lò vẫn đang chạy và chỉ có tia lửa, chưa có lửa cháy: bấm dừng và mở cửa ra."
+  },
+  "MW_TURNTABLE_MOTOR": {
+   "signs_vi": [
+    "mâm không quay",
+    "quay giật cục",
+    "kêu lạch cạch khi quay",
+    "đĩa đứng yên",
+    "đĩa trong lò không xoay",
+    "mâm xoay bị kẹt",
+    "mâm quay giật cục",
+    "lò vi sóng không quay"
+   ],
+   "rule_out_vi": [],
+   "ask_vi": "",
+   "versus_vi": {
+    "MW_MAGNETRON": "Không giống nhau, nhưng khách đôi khi gộp: \"lò không quay mà đồ ăn cũng không nóng\".",
+    "MW_FAN_NOISY": "Tách bằng vị trí và bằng thời điểm: tiếng mâm xoay thì ở đáy khoang và theo nhịp quay chậm; tiếng quạt thì ở phía sau lò và đều, và nó còn kéo dài sau khi lò đã ngừng…"
+   },
+   "confusable_with": [
+    "MW_MAGNETRON",
+    "MW_FAN_NOISY"
+   ],
+   "summary_vi": "Đây là mã duy nhất ở mức ưu tiên thấp trong cả cụm lò vi sóng, và nó xứng đáng ở đó. Lò vẫn phát sóng, vẫn làm nóng, vẫn dùng được. Chỉ là thức ăn không xoay. Nhưng điều đáng nói nhất về bệnh này là: phần lớn ca không phải hỏng gì cả."
+  },
+  "OUTLET_BROKEN_FACE": {
+   "signs_vi": [
+    "mặt ổ bị nứt",
+    "ổ cắm bể",
+    "lộ phần kim loại bên trong",
+    "ổ cắm bị gãy",
+    "ổ cắm bị vỡ",
+    "ổ cắm bị nứt",
+    "mặt ổ cắm bể",
+    "ổ điện bị nứt"
+   ],
+   "rule_out_vi": [],
+   "ask_vi": "",
+   "versus_vi": {
+    "OUTLET_LOOSE_CONTACT": "Ổ vỡ thì thường cũng lỏng tiếp xúc, và ổ lỏng khỏi tường thì dẫn tới tiếp xúc kém ở các mối nối.",
+    "OUTLET_SHORT_CIRCUIT": "Nếu vết nứt kèm vết đen, kèm nhựa chảy, hoặc kèm mùi khét, thì nứt là hậu quả của nhiệt chứ không phải của va đập."
+   },
+   "confusable_with": [
+    "OUTLET_LOOSE_CONTACT",
+    "OUTLET_SHORT_CIRCUIT"
+   ],
+   "summary_vi": "Nghe thì đây là chuyện thẩm mỹ: cái mặt nhựa bị nứt, xấu, nhưng ổ vẫn cắm được và thiết bị vẫn chạy. Nó là mã ưu tiên cao vì một lý do rất đơn giản: cái mặt nhựa đó là thứ duy nhất ngăn ngón tay, vật kim loại, và nước chạm vào phần mang điện bên trong."
+  },
+  "OUTLET_LOOSE_CONTACT": {
+   "signs_vi": [
+    "cắm vào lỏng",
+    "chập chờn",
+    "phải lắc mới có điện",
+    "phích cắm tuột ra",
+    "cắm vào rơi ra",
+    "phải giữ phích mới chạy",
+    "lúc có điện lúc không",
+    "ổ cắm bị lỏng"
+   ],
+   "rule_out_vi": [],
+   "ask_vi": "",
+   "versus_vi": {
+    "OUTLET_SHORT_CIRCUIT": "Không phải bệnh song song mà là giai đoạn sau của chính mã này.",
+    "OUTLET_NO_POWER": "Ổ lỏng nặng thì có lúc không tiếp điện được chút nào, và khách báo là mất điện.",
+    "OUTLET_OVERLOAD": "Tách bằng câu hỏi: nóng cả khi chỉ cắm một thiết bị nhẹ, hay chỉ nóng khi cắm nhiều."
+   },
+   "confusable_with": [
+    "OUTLET_SHORT_CIRCUIT",
+    "OUTLET_NO_POWER",
+    "OUTLET_OVERLOAD"
+   ],
+   "summary_vi": "Khách kể bệnh này bằng giọng phiền chứ không phải giọng lo. Cắm cái phích vào thì nó lỏng lẻo, phải cắm đi cắm lại, hoặc phải đẩy lên một chút mới ăn, hoặc động vào là thiết bị tắt. Nghe như chuyện vặt. Và đúng là ngay lúc này thì chưa có gì nguy hiểm."
+  },
+  "OUTLET_NO_POWER": {
+   "signs_vi": [
+    "không có điện",
+    "ổ cắm không lên",
+    "cả mảng ổ mất điện",
+    "cắm vào không chạy",
+    "bút thử điện không sáng",
+    "ổ cắm không có điện",
+    "ổ cắm mất điện",
+    "ổ điện chết"
+   ],
+   "rule_out_vi": [],
+   "ask_vi": "",
+   "versus_vi": {
+    "OUTLET_LOOSE_CONTACT": "Tách bằng việc lay phích có ăn lại không.",
+    "OUTLET_TRIPS_BREAKER": "Nếu nguyên nhân là aptomat nhảy, thì câu hỏi tiếp theo là vì sao nó nhảy, và đó là mã kia.",
+    "OUTLET_SHORT_CIRCUIT": "Nếu ổ mất điện sau một tiếng nổ, một tia lửa, hoặc kèm mùi khét và vết đen, thì đây là hậu quả của chập chứ không phải mã này."
+   },
+   "confusable_with": [
+    "OUTLET_LOOSE_CONTACT",
+    "OUTLET_TRIPS_BREAKER",
+    "OUTLET_SHORT_CIRCUIT"
+   ],
+   "summary_vi": "Trong cụm ổ cắm, đây là mã hiền nhất: không cháy, không giật, không có gì đang xấu đi. Chỉ là một cái ổ không có điện. Và nó là mã có tỷ lệ tự xử lý cao nhất của cụm, vì phần lớn ca không phải ổ cắm hỏng."
+  },
+  "OUTLET_OVERLOAD": {
+   "signs_vi": [
+    "ổ cắm nóng",
+    "dây nguồn nóng",
+    "cắm nhiều thiết bị bị sụt điện",
+    "ổ chia nóng ran",
+    "dùng nồi cơm với ấm siêu tốc là nhảy điện",
+    "cắm nhiều thứ quá bị nhảy điện",
+    "bật máy lạnh là nhảy aptomat",
+    "cắm ấm siêu tốc là cúp điện"
+   ],
+   "rule_out_vi": [],
+   "ask_vi": "",
+   "versus_vi": {
+    "OUTLET_TRIPS_BREAKER": "Tách bằng hai câu: có nhảy cả khi chỉ cắm một thiết bị nhẹ không, và có nhảy đúng lúc bật một thiết bị nặng không.",
+    "OUTLET_SHORT_CIRCUIT": "Quá tải kéo dài là một con đường dẫn tới chập, nên chúng nối nhau chứ không loại trừ nhau.",
+    "OUTLET_LOOSE_CONTACT": "Tách bằng việc nóng khi nào: quá tải thì nóng khi cắm nhiều; tiếp xúc kém thì nóng cả khi chỉ cắm một thứ."
+   },
+   "confusable_with": [
+    "OUTLET_SHORT_CIRCUIT",
+    "OUTLET_TRIPS_BREAKER",
+    "OUTLET_LOOSE_CONTACT"
+   ],
+   "summary_vi": "Trong cả kho tri thức, đây là mã đặc biệt: không có gì hỏng cả. Ổ cắm nguyên vẹn, dây nguyên vẹn, aptomat nguyên vẹn, thiết bị nguyên vẹn. Vấn đề là có quá nhiều thứ cắm vào một chỗ, và chỗ đó không được thiết kế cho từng đó."
+  },
+  "OUTLET_SHORT_CIRCUIT": {
+   "signs_vi": [
+    "cháy khét",
+    "nổ tia lửa",
+    "nóng ổ cắm",
+    "mất điện cục bộ",
+    "ổ cắm đen sạm",
+    "khói ra từ ổ điện",
+    "nghe tiếng nổ ở ổ cắm",
+    "ổ cắm bị chảy nhựa"
+   ],
+   "rule_out_vi": [],
+   "ask_vi": "",
+   "versus_vi": {
+    "OUTLET_TRIPS_BREAKER": "Tách bằng tiếng nổ, tia lửa, mùi khét, và vết đen.",
+    "OUTLET_OVERLOAD": "Quá tải kéo dài là một trong những con đường dẫn tới chập, nên chúng nối nhau.",
+    "OUTLET_LOOSE_CONTACT": "Đây là giai đoạn sớm của chính mã này, không phải bệnh song song."
+   },
+   "confusable_with": [
+    "OUTLET_TRIPS_BREAKER",
+    "OUTLET_OVERLOAD",
+    "OUTLET_LOOSE_CONTACT"
+   ],
+   "summary_vi": "Trong cụm ổ cắm, đây là mã mà hậu quả đang diễn ra chứ không phải sắp diễn ra. Có một điểm đang cháy hoặc vừa cháy, và nó nằm trong tường hoặc sau tủ. Câu đầu tiên phải là việc làm, không phải câu hỏi."
+  },
+  "OUTLET_TRIPS_BREAKER": {
+   "signs_vi": [
+    "nhảy aptomat",
+    "cúp điện khi cắm thiết bị",
+    "giật nhẹ khi chạm",
+    "tê tay khi sờ vào vỏ thiết bị",
+    "cầu dao nhảy liên tục",
+    "chống giật nhảy hoài",
+    "nhảy cầu dao",
+    "cúp điện hoài"
+   ],
+   "rule_out_vi": [],
+   "ask_vi": "",
+   "versus_vi": {
+    "OUTLET_SHORT_CIRCUIT": "Rò thì nhảy mà không có mấy dấu hiệu đó.",
+    "OUTLET_OVERLOAD": "Rò thì nhảy không theo tải."
+   },
+   "confusable_with": [
+    "OUTLET_SHORT_CIRCUIT",
+    "OUTLET_OVERLOAD"
+   ],
+   "summary_vi": "Câu quan trọng nhất của tài liệu này, và nó nên được nói sớm vì nó đổi cách khách hành xử. Khách nhìn aptomat nhảy như một sự cố. Thực ra nó là một thiết bị an toàn vừa phát hiện ra điều gì đó bất thường và vừa cắt điện để ngăn hậu quả."
+  },
+  "OVEN_DOOR_GLASS": {
+   "signs_vi": [
+    "kính cửa nứt",
+    "cửa không đóng khít",
+    "bản lề lỏng",
+    "nhiệt thoát ra ngoài",
+    "cửa lò bị xệ",
+    "kính cửa lò bị nứt",
+    "kính lò nướng bị rạn",
+    "cửa lò không đóng kín"
+   ],
+   "rule_out_vi": [],
+   "ask_vi": "",
+   "versus_vi": {
+    "OVEN_THERMOSTAT": "Cửa không kín làm lò không đạt nhiệt và nướng lâu hơn, và triệu chứng giống hệt rơ le sai.",
+    "OVEN_HEATING_ELEMENT": "Cùng làm món chín không đều.",
+    "OVEN_FAN_FAULT": "Với nhánh cửa nóng bất thường, quạt làm mát vỏ là một nguyên nhân cần loại."
+   },
+   "confusable_with": [
+    "OVEN_THERMOSTAT",
+    "OVEN_HEATING_ELEMENT"
+   ],
+   "summary_vi": "Với nhiều thiết bị, cửa chỉ để đóng cho gọn. Với lò nướng thì không. Cửa lò làm ba việc cùng lúc, và mỗi việc ứng với một nhánh của mã này."
+  },
+  "OVEN_FAN_FAULT": {
+   "signs_vi": [
+    "quạt trong lò không quay",
+    "nướng không đều",
+    "kêu to khi bật quạt",
+    "quạt lò không chạy",
+    "lò nướng không đều",
+    "một bên chín một bên sống",
+    "lò nướng kêu to",
+    "quạt trong lò kêu rít"
+   ],
+   "rule_out_vi": [],
+   "ask_vi": "",
+   "versus_vi": {
+    "OVEN_HEATING_ELEMENT": "Cặp quan trọng nhất phải tách, và tách bằng hướng không đều.",
+    "OVEN_THERMOSTAT": "Tách bằng việc món có chín đều không: rơ le sai thì chín đều nhưng sai nhiệt; quạt hỏng thì chín không đều.",
+    "OVEN_DOOR_GLASS": "Cửa không kín làm phần gần cửa nguội, và nó giống hệt quạt hỏng ở nhánh không đều theo chiều trước sau."
+   },
+   "confusable_with": [
+    "OVEN_HEATING_ELEMENT",
+    "OVEN_THERMOSTAT",
+    "OVEN_DOOR_GLASS"
+   ],
+   "summary_vi": "Điều đầu tiên phải tách, vì hai cái quạt này làm hai việc khác nhau và hỏng thì hậu quả khác hẳn. Quạt đối lưu. Nằm ở thành sau bên trong khoang lò, thường có một vòng thanh nhiệt quanh nó."
+  },
+  "OVEN_HEATING_ELEMENT": {
+   "signs_vi": [
+    "không nóng",
+    "chỉ nóng một bên",
+    "nướng không chín",
+    "thanh nhiệt không đỏ",
+    "nướng lâu vẫn sống",
+    "chỉ thanh trên đỏ",
+    "lò nướng không nóng",
+    "chỉ có thanh trên đỏ"
+   ],
+   "rule_out_vi": [],
+   "ask_vi": "",
+   "versus_vi": {
+    "OVEN_THERMOSTAT": "Cặp phải tách và tách bằng câu hỏi quan sát.",
+    "OVEN_FAN_FAULT": "Cả hai làm chín không đều.",
+    "OVEN_TIMER_FAULT": "Nếu không thanh nào đỏ và đèn vẫn sáng, thì bộ hẹn giờ có thể là thủ phạm, vì trên nhiều lò cơ nó nằm trên mạch cấp cho thanh nhiệt."
+   },
+   "confusable_with": [
+    "OVEN_THERMOSTAT",
+    "OVEN_FAN_FAULT",
+    "OVEN_TIMER_FAULT"
+   ],
+   "summary_vi": "Phần lớn bệnh trong kho tri thức phải suy ra từ triệu chứng gián tiếp. Mã này thì không. Khách nhìn thẳng vào chỗ hỏng qua cửa kính, và thấy được ngay."
+  },
+  "OVEN_THERMOSTAT": {
+   "signs_vi": [
+    "nóng quá mức",
+    "cháy đồ ăn",
+    "không giữ được nhiệt",
+    "nhiệt độ sai so với cài đặt",
+    "vặn 180 độ mà nóng như 250",
+    "nhiệt lên xuống thất thường",
+    "lò không đúng nhiệt độ",
+    "lò nướng quá nóng"
+   ],
+   "rule_out_vi": [],
+   "ask_vi": "",
+   "versus_vi": {
+    "OVEN_HEATING_ELEMENT": "Cặp quan trọng nhất phải tách, vì thanh nhiệt đứt phổ biến hơn rơ le hỏng.",
+    "OVEN_DOOR_GLASS": "Cửa không kín làm lò không đạt nhiệt, và triệu chứng giống hệt rơ le sai.",
+    "OVEN_FAN_FAULT": "Quạt đối lưu không chạy làm nhiệt phân bố không đều, và khách có thể mô tả là lò không đúng nhiệt."
+   },
+   "confusable_with": [
+    "OVEN_HEATING_ELEMENT",
+    "OVEN_DOOR_GLASS",
+    "OVEN_FAN_FAULT"
+   ],
+   "summary_vi": "Khách báo mã này bằng một câu: lò nhà em không đúng nhiệt độ. Và trong rất nhiều ca, cái lò đang làm việc đúng như nó vốn làm việc."
+  },
+  "OVEN_TIMER_FAULT": {
+   "signs_vi": [
+    "vặn giờ không ăn",
+    "không tự tắt",
+    "chạy liên tục",
+    "chuông không kêu",
+    "hẹn giờ chạy sai",
+    "hẹn giờ lò không chạy",
+    "lò không tự tắt",
+    "vặn núm mà lò không lên"
+   ],
+   "rule_out_vi": [],
+   "ask_vi": "",
+   "versus_vi": {
+    "OVEN_HEATING_ELEMENT": "Cặp phải tách và tách bằng quan sát thanh nhiệt.",
+    "OVEN_THERMOSTAT": "Cả hai có thể làm lò không nóng, và cả hai có nhánh lò không cắt."
+   },
+   "confusable_with": [
+    "OVEN_HEATING_ELEMENT",
+    "OVEN_THERMOSTAT"
+   ],
+   "summary_vi": "Trên phần lớn thiết bị, bộ hẹn giờ chỉ là tiện nghi. Không có nó thì người dùng tự canh giờ. Trên lò nướng cơ thì khác, và đây là điểm quan trọng nhất của mã này:"
+  },
+  "PIPE_BURST": {
+   "signs_vi": [
+    "nước phun",
+    "ngập nước",
+    "mất áp lực nước",
+    "nghe tiếng nước chảy trong tường",
+    "nước phun thành tia",
+    "vỡ ống nước",
+    "nước tràn khắp nhà",
+    "ống nước bị bể"
+   ],
+   "rule_out_vi": [],
+   "ask_vi": "",
+   "versus_vi": {
+    "PIPE_JOINT_LEAK": "Cùng là rò nhưng khác mức độ và khác tốc độ.",
+    "PIPE_LOW_PRESSURE": "Vỡ ống ngầm làm áp lực trong nhà tụt, nên khách có thể báo là nước yếu chứ không báo là vỡ ống."
+   },
+   "confusable_with": [
+    "PIPE_JOINT_LEAK",
+    "PIPE_LOW_PRESSURE"
+   ],
+   "summary_vi": "Mọi ca khẩn khác trong kho tri thức đều có một mức độ thiệt hại cố định: cái quạt đã cháy thì đã cháy, ổ cắm đã chập thì đã chập. Ca này khác. Thiệt hại tăng lên theo từng phút, và nó tăng nhanh. Mỗi phút chậm là thêm một lượng nước vào nhà, vào tường, vào sàn, và vào trần nhà dưới."
+  },
+  "PIPE_CLOGGED": {
+   "signs_vi": [
+    "thoát nước chậm",
+    "ứ nước",
+    "trào ngược",
+    "hôi cống",
+    "cống bị tắc",
+    "nước dâng ngược lên sàn",
+    "ống nước bị nghẹt",
+    "nước thoát chậm"
+   ],
+   "rule_out_vi": [],
+   "ask_vi": "",
+   "versus_vi": {
+    "PIPE_NOISY": "Tách bằng việc nước có thoát chậm không: chậm thì là mã này; thoát bình thường mà vẫn ọc ọc thì nghiêng về thông hơi và về mã kia."
+   },
+   "confusable_with": [
+    "TOILET_CLOGGED",
+    "SINK_CLOGGED",
+    "PIPE_NOISY"
+   ],
+   "summary_vi": "Trong kho tri thức có ba mã về nghẹt, và chúng khác nhau ở vị trí chứ không ở triệu chứng. TOILET_CLOGGED: tắc trong hoặc ngay sau bồn cầu."
+  },
+  "PIPE_JOINT_LEAK": {
+   "signs_vi": [
+    "rỉ nước",
+    "ẩm tường",
+    "nhỏ giọt",
+    "đọng nước sàn",
+    "thấm trần",
+    "tường bị loang ố",
+    "nước rỉ ở khớp nối",
+    "sơn tường bong vì ẩm"
+   ],
+   "rule_out_vi": [],
+   "ask_vi": "",
+   "versus_vi": {
+    "PIPE_BURST": "Cùng là rò nhưng khác tốc độ."
+   },
+   "confusable_with": [
+    "PIPE_BURST",
+    "TOILET_BASE_LEAK",
+    "FAUCET_BASE_LEAK",
+    "SINK_TRAP_LEAK"
+   ],
+   "summary_vi": "Thân ống nhựa gần như không tự rò. Nó chỉ hỏng khi bị va đập, bị lão hoá vì nắng, hoặc bị khoan trúng. Phần lớn rò nằm ở mối nối, và có lý do rõ ràng cho chuyện đó."
+  },
+  "PIPE_LOW_PRESSURE": {
+   "signs_vi": [
+    "nước yếu",
+    "nước chảy nhỏ giọt",
+    "tầng trên không có nước",
+    "giờ cao điểm không có nước",
+    "bơm chạy mà nước vẫn yếu",
+    "nước chảy nhỏ",
+    "áp lực nước yếu",
+    "nước không lên được tầng trên"
+   ],
+   "rule_out_vi": [],
+   "ask_vi": "",
+   "versus_vi": {
+    "FAUCET_LOW_FLOW": "Cặp phải tách đầu tiên, vì đó là nhánh phổ biến nhất và rẻ nhất.",
+    "PIPE_BURST": "Tách bằng ba dấu hiệu: yếu đột ngột, hoá đơn nước tăng, và kim đồng hồ quay khi không dùng nước.",
+    "PIPE_RUSTY_WATER": "Nếu khách có cả hai triệu chứng thì chúng là một chuyện, và nó nói lên rằng cả tuyến đã tới tuổi.",
+    "WH_LOW_PRESSURE": "Nếu chỉ nước nóng yếu thì không phải mã này."
+   },
+   "confusable_with": [
+    "FAUCET_LOW_FLOW",
+    "PIPE_BURST",
+    "PIPE_RUSTY_WATER",
+    "WH_LOW_PRESSURE"
+   ],
+   "summary_vi": "Khách báo mã này bằng một câu: nước nhà em yếu quá. Và trong một phần đáng kể số ca, không có gì hỏng cả. Áp lực nguồn vốn như vậy, hoặc nhà ở tầng cao, hoặc đang là giờ cao điểm."
+  },
+  "PIPE_NOISY": {
+   "signs_vi": [
+    "ống nước kêu",
+    "nghe tiếng ầm khi khoá vòi",
+    "đường ống rung",
+    "kêu ù ù trong tường khi mở nước",
+    "nghe tiếng gõ trong tường",
+    "đóng vòi là nghe cốp một cái",
+    "ống nước rung",
+    "tường kêu khi mở nước"
+   ],
+   "rule_out_vi": [],
+   "ask_vi": "",
+   "versus_vi": {
+    "PIPE_CLOGGED": "Tiếng ọc ọc thuộc cả hai mã nhưng ý nghĩa khác nhau.",
+    "PIPE_LOW_PRESSURE": "Tiếng ù ù khi nước chảy có thể do tiết diện hẹp, và khi đó nó đi kèm áp lực yếu.",
+    "PIPE_JOINT_LEAK": "Tiếng nước khi không dùng nước thuộc mã kia, và đó là nhánh quan trọng nhất phải nhận ra trong toàn bộ tài liệu này."
+   },
+   "confusable_with": [
+    "PIPE_CLOGGED",
+    "PIPE_LOW_PRESSURE",
+    "FAUCET_DRIP"
+   ],
+   "summary_vi": "Ống nước kêu là chuyện khó chịu chứ không nguy hiểm. Nó không làm ngập nhà, không giật ai, không hỏng nước. Vì vậy mã này ở mức ưu tiên thấp, và giọng trả lời nên nhẹ."
+  },
+  "PIPE_RUSTY_WATER": {
+   "signs_vi": [
+    "nước đục",
+    "nước có màu vàng",
+    "nước có cặn",
+    "nước tanh mùi sắt",
+    "mở vòi ra nước đỏ",
+    "nước bị đục",
+    "nước bị vàng",
+    "nước đục như sữa"
+   ],
+   "rule_out_vi": [],
+   "ask_vi": "",
+   "versus_vi": {
+    "PIPE_LOW_PRESSURE": "Không phải nhầm mà là cùng một nguyên nhân gốc ở nhà cũ: ống thép tráng kẽm rỉ làm hẹp lòng ống và làm đục nước.",
+    "PIPE_CLOGGED": "Không giao về triệu chứng, nhưng cặn trong hệ cấp và cặn trong hệ thoát là hai chuyện khác nhau và khách có thể gộp.",
+    "SINK_SMELL": "Với nhánh mùi hôi, phép thử mang cốc nước sang phòng khác tách được hai mã trong ba mươi giây."
+   },
+   "confusable_with": [
+    "PIPE_LOW_PRESSURE",
+    "PIPE_CLOGGED"
+   ],
+   "summary_vi": "Mọi mã khác trong kho tri thức nói về thiết bị hỏng. Mã này nói về chất lượng nước mà cả nhà dùng để nấu ăn, để tắm, và có khi để uống. Điều đó đổi hai thứ."
+  },
+  "PURIFIER_FILTER_DUE": {
+   "signs_vi": [
+    "nước máy lọc có mùi lạ",
+    "nước lọc uống thấy tanh",
+    "máy lọc nước báo thay lõi",
+    "nước lọc có cặn trắng",
+    "lâu rồi chưa thay lõi máy lọc",
+    "nước lọc uống thấy có vị lạ",
+    "nước máy lọc có mùi tanh",
+    "nước lọc dạo này uống nhạt hơn trước"
+   ],
+   "rule_out_vi": [],
+   "ask_vi": "",
+   "versus_vi": {},
+   "confusable_with": [
+    "PURIFIER_NO_WATER",
+    "PURIFIER_LEAK",
+    "PURIFIER_PUMP_RUNS_ON"
+   ],
+   "summary_vi": "Máy lạnh hỏng thì nóng. Bếp hỏng thì không nấu được. Máy lọc nước hết hạn lõi thì vẫn chảy ra nước trong, vẫn kêu, vẫn sáng đèn, và người trong nhà vẫn uống. Không có tín hiệu nào cả. Lõi không kêu, không nháy, không báo lỗi."
+  },
+  "PURIFIER_LEAK": {
+   "signs_vi": [
+    "máy lọc nước chảy nước ra sàn",
+    "máy lọc nước rỉ nước ở lõi",
+    "cốc lọc máy lọc nước bị rò",
+    "máy lọc nước ướt chân tủ",
+    "máy lọc nước rỉ nước ở chỗ lõi",
+    "máy lọc nước ướt hết chân tủ",
+    "dưới gầm chậu rửa cứ ẩm ẩm",
+    "máy lọc nước mới thay lõi xong là bị chảy nước"
+   ],
+   "rule_out_vi": [],
+   "ask_vi": "",
+   "versus_vi": {},
+   "confusable_with": [
+    "PURIFIER_NO_WATER",
+    "PURIFIER_PUMP_RUNS_ON",
+    "PURIFIER_FILTER_DUE"
+   ],
+   "summary_vi": "Máy lọc nước ở Việt Nam thường nằm một trong ba chỗ, và cùng một vết rò ở ba chỗ đó là ba câu chuyện khác nhau. Gầm tủ bếp, cạnh chậu rửa. Hay gặp nhất, và cũng là chỗ tệ nhất: trong tủ gần như luôn có ổ điện cho máy, nước rò chảy trên sàn tủ gỗ công nghiệp, và không ai nhìn thấy cho tới khi tủ phồng hoặc bốc mùi."
+  },
+  "PURIFIER_NO_POWER": {
+   "signs_vi": [
+    "máy lọc nước không lên đèn",
+    "máy lọc nước cắm điện không chạy",
+    "cây nước nóng lạnh không vào điện",
+    "máy lọc nước chết hẳn không kêu gì",
+    "máy lọc nước tự nhiên ngừng hoạt động",
+    "cục sạc của máy lọc không sáng đèn",
+    "máy lọc nước hỏng sau hôm nhà em bị ngập",
+    "may loc nuoc khong len den"
+   ],
+   "rule_out_vi": [],
+   "ask_vi": "",
+   "versus_vi": {},
+   "confusable_with": [
+    "PURIFIER_NO_WATER",
+    "PURIFIER_PUMP_RUNS_ON",
+    "PURIFIER_LEAK"
+   ],
+   "summary_vi": "Máy lọc nước không cắm thẳng vào điện lưới. Nó dùng một adapter — cục nguồn rời giống sạc laptop — đổi 220V xuống 24V hoặc 36V cho bơm và bo. Cục adapter đó là bộ phận hỏng nhiều nhất của cả cái máy, vì ba lý do rất đời thường. Nó nằm dưới gầm tủ bếp, nơi có nước. Nó cắm vào một ổ điện cũng nằm dưới đó, ẩm quanh năm."
+  },
+  "PURIFIER_NO_WATER": {
+   "signs_vi": [
+    "máy lọc nước không ra nước",
+    "máy lọc nước chảy rất chậm",
+    "vòi máy lọc không có nước",
+    "máy lọc nước bơm mà không ra nước",
+    "máy lọc nước không ra nước nữa",
+    "mở vòi ra được vài giây rồi hết nước",
+    "cây nước nóng lạnh không ra nước",
+    "nước lọc chảy yếu dần mấy hôm nay"
+   ],
+   "rule_out_vi": [],
+   "ask_vi": "",
+   "versus_vi": {},
+   "confusable_with": [
+    "PURIFIER_NO_POWER",
+    "PURIFIER_PUMP_RUNS_ON",
+    "PURIFIER_FILTER_DUE"
+   ],
+   "summary_vi": "Mở vòi ra thì không có giọt nào, hay có nước vài giây rồi hết? Câu này quan trọng hơn mọi câu khác ở đây, vì hai câu trả lời dẫn tới hai bộ phận hoàn toàn khác nhau, và khách mô tả cả hai bằng cùng một câu \"máy không ra nước\"."
+  },
+  "PURIFIER_PUMP_RUNS_ON": {
+   "signs_vi": [
+    "máy lọc nước bơm chạy suốt",
+    "máy lọc nước kêu ù ù cả ngày",
+    "bơm máy lọc không ngắt",
+    "máy lọc nước chạy liên tục không nghỉ",
+    "máy lọc nước bơm chạy suốt không nghỉ",
+    "máy lọc nước kêu ù ù cả đêm",
+    "máy lọc cứ cạch cạch rồi chạy lại liên tục",
+    "máy lọc nước kêu to hơn trước nhiều"
+   ],
+   "rule_out_vi": [],
+   "ask_vi": "",
+   "versus_vi": {},
+   "confusable_with": [
+    "PURIFIER_NO_WATER",
+    "PURIFIER_LEAK",
+    "PURIFIER_NO_POWER"
+   ],
+   "summary_vi": "Bơm máy lọc nước là bơm màng nhỏ, làm mát bằng chính dòng nước đi qua nó. Khi nó chạy mà không có nước để đẩy — vì hết nước vào, vì lõi tắc, vì van kẹt — thì không có gì mang nhiệt đi. Cuộn dây nóng lên và cháy. Nên ở mã bệnh này, việc đầu tiên không phải hỏi mà là bảo khách rút điện máy ngay."
+  },
+  "SINK_CLOGGED": {
+   "signs_vi": [
+    "nước thoát chậm",
+    "nghẹt",
+    "ứ nước trong bồn",
+    "trào ngược",
+    "hôi cống",
+    "nước rút rất chậm",
+    "đổ nước xuống bị dâng lên",
+    "bồn rửa bị tắc"
+   ],
+   "rule_out_vi": [],
+   "ask_vi": "",
+   "versus_vi": {
+    "PIPE_CLOGGED": "Cặp quan trọng nhất phải tách, và tách bằng câu hỏi phạm vi.",
+    "SINK_SMELL": "Không phải nhầm mà là quan hệ nhân quả: nghẹt làm nước và cặn đọng lâu trong bẫy, và nó sinh mùi.",
+    "SINK_TRAP_LEAK": "Cũng có quan hệ, theo hướng ngược: sau khi tháo bẫy ra lắp lại, nếu gioăng lắp lệch hoặc đai ốc siết chưa đủ thì nó rò."
+   },
+   "confusable_with": [
+    "PIPE_CLOGGED",
+    "SINK_SMELL",
+    "SINK_TRAP_LEAK"
+   ],
+   "summary_vi": "Khách gọi tới mã này với một cái bồn đầy nước và nghĩ rằng đường ống trong tường đã tắc. Trong phần lớn ca thì không. Chỗ tắc nằm trong bẫy nước, tức là đoạn ống cong ngay dưới gầm, và nó tháo được bằng tay trong năm phút."
+  },
+  "SINK_DRAIN_CORRODED": {
+   "signs_vi": [
+    "giỏ thoát bị rỉ",
+    "nước rỉ quanh lỗ thoát",
+    "ron bồn bị mục",
+    "lỗ thoát bồn rửa bị rỉ sét",
+    "cái lưới thoát bị mục",
+    "bồn rửa bị rỉ quanh lỗ thoát",
+    "chậu inox bị rỉ",
+    "miệng thoát bị đen"
+   ],
+   "rule_out_vi": [],
+   "ask_vi": "",
+   "versus_vi": {
+    "SINK_TRAP_LEAK": "Quan hệ nhân quả chứ không phải nhầm: giỏ thoát mục dẫn tới rò ở chỗ đáy chậu.",
+    "PIPE_RUSTY_WATER": "Không giao, nhưng đáng tách một chỗ: nếu nước ra từ vòi có màu vàng thì đó là chuyện của đường ống, không phải của giỏ thoát."
+   },
+   "confusable_with": [
+    "SINK_TRAP_LEAK",
+    "PIPE_RUSTY_WATER"
+   ],
+   "summary_vi": "Giỏ thoát rỉ không làm gì cả. Nước vẫn xuống, bồn vẫn dùng, không có mùi, không nguy hiểm. Vì vậy mã này ở mức ưu tiên thấp và khách thường coi nó là chuyện thẩm mỹ."
+  },
+  "SINK_SMELL": {
+   "signs_vi": [
+    "hôi cống bốc lên",
+    "mùi hôi từ bồn rửa",
+    "mùi thối ở bếp",
+    "bồn rửa bốc mùi",
+    "lavabo có mùi hôi",
+    "hôi cống ở bồn rửa",
+    "mùi cống bốc lên",
+    "bồn rửa chén hôi quá"
+   ],
+   "rule_out_vi": [],
+   "ask_vi": "",
+   "versus_vi": {
+    "SINK_CLOGGED": "Quan hệ nhân quả chứ không phải nhầm: nghẹt làm nước và cặn đọng lâu, và nó sinh mùi.",
+    "SINK_TRAP_LEAK": "Tách bằng việc đáy tủ có ẩm không, và bằng loại mùi: mốc thì ẩm mốc, cống thì hắc.",
+    "PIPE_CLOGGED": "Nếu mùi lên ở nhiều chỗ, hoặc có tiếng ọc ọc khi dùng nước ở chỗ khác, thì vấn đề ở hệ thoát chung hoặc ở ống thông hơi, không ở cái bồn rửa."
+   },
+   "confusable_with": [
+    "SINK_CLOGGED",
+    "SINK_TRAP_LEAK",
+    "PIPE_CLOGGED"
+   ],
+   "summary_vi": "Trong kho tri thức, đây là mã có nhánh xử lý nhanh nhất và rẻ nhất: mở nước cho chảy vài giây. Lý do nằm ở bẫy nước."
+  },
+  "SINK_TRAP_LEAK": {
+   "signs_vi": [
+    "chảy nước dưới bồn",
+    "ướt tủ bếp",
+    "đọng nước trong tủ dưới",
+    "mối nối ống bị rỉ",
+    "tủ bếp bị mục vì nước",
+    "dưới bồn rửa bị rò nước",
+    "gầm tủ bếp bị ướt",
+    "ống thoát dưới bồn bị rỉ"
+   ],
+   "rule_out_vi": [],
+   "ask_vi": "",
+   "versus_vi": {
+    "FAUCET_BASE_LEAK": "Cặp quan trọng nhất phải tách, vì cả hai cho nước ở đúng một chỗ.",
+    "SINK_DRAIN_CORRODED": "Giao ở nhánh thứ hai: giỏ thoát rỉ thì gioăng không ép kín được, và nó rò ngay chỗ đáy chậu.",
+    "PIPE_JOINT_LEAK": "Nếu ẩm lan rộng ra ngoài khoang tủ, hoặc nếu ướt cả khi dùng nước ở chỗ khác, thì nghi đoạn ống chung chứ không phải bộ thoát của bồn này."
+   },
+   "confusable_with": [
+    "FAUCET_BASE_LEAK",
+    "SINK_DRAIN_CORRODED",
+    "PIPE_JOINT_LEAK"
+   ],
+   "summary_vi": "Khách mở cánh tủ dưới bồn rửa và thấy ướt. Đó là tất cả những gì họ biết. Nhưng có ba cụm bệnh khác nhau cho ra đúng vũng nước đó, và chúng ở ba nơi khác nhau:"
+  },
+  "STOVE_BURNER_CLOGGED": {
+   "signs_vi": [
+    "lửa đỏ",
+    "lửa yếu",
+    "lửa cháy không đều",
+    "nồi bị ám đen",
+    "lửa phù",
+    "lửa cháy một bên",
+    "nấu lâu chín",
+    "lửa vàng khè"
+   ],
+   "rule_out_vi": [],
+   "ask_vi": "",
+   "versus_vi": {
+    "STOVE_REGULATOR": "Tách bằng phạm vi: nghẹt thì thường một bếp, van điều áp thì cả hai.",
+    "STOVE_FLAME_OUT": "Tách bằng triệu chứng giữ núm: nghẹt thì không phải giữ núm, cảm ứng thì phải giữ.",
+    "STOVE_IGNITER": "Nghẹt tới mức không lên lửa nổi thì khách kể giống bệnh kia."
+   },
+   "confusable_with": [
+    "STOVE_REGULATOR",
+    "STOVE_FLAME_OUT",
+    "STOVE_IGNITER"
+   ],
+   "summary_vi": "Đây là mã có mức ưu tiên thấp nhất của cụm bếp gas, và phần lớn ca khách tự xử lý được bằng một buổi rửa bếp. Không cần thợ, không cần linh kiện. Nhưng có một điểm cần nói rõ với khách chứ không được bỏ qua: lửa đỏ hoặc vàng nghĩa là gas đang cháy không hết, và cháy không hết thì sinh nhiều khí độc hơn trong một căn…"
+  },
+  "STOVE_FLAME_OUT": {
+   "signs_vi": [
+    "đang nấu tự tắt",
+    "lửa tắt khi vặn nhỏ",
+    "phải giữ núm mới cháy",
+    "lửa yếu dần rồi tắt",
+    "cảm ứng nhiệt hỏng",
+    "bếp gas tự tắt",
+    "đang nấu tự nhiên tắt lửa",
+    "lửa cứ tắt"
+   ],
+   "rule_out_vi": [],
+   "ask_vi": "",
+   "versus_vi": {
+    "STOVE_BURNER_CLOGGED": "Họng lửa nghẹt cũng làm lửa yếu và cháy không đều, và ở mức vặn nhỏ có thể tắt.",
+    "STOVE_REGULATOR": "Tách bằng phạm vi: van điều áp thì cả hai bếp cùng yếu, cảm ứng thì thường chỉ một bếp.",
+    "STOVE_GAS_LEAK": "Nếu khách nhắc tới mùi gas thì cảnh báo an toàn đi trước, chẩn đoán đi sau.",
+    "STOVE_IGNITER": "Khách đôi khi gộp hai chuyện: khó lên lửa và giữ không được lửa."
+   },
+   "confusable_with": [
+    "STOVE_BURNER_CLOGGED",
+    "STOVE_REGULATOR",
+    "STOVE_GAS_LEAK"
+   ],
+   "summary_vi": "Khách kể chuyện này bằng giọng bực mình chứ không phải giọng lo. Đang nấu thì lửa tắt, phải bật lại, nấu lâu hơn, phiền. Nhưng cái đáng lo không nằm ở lần lửa tắt mà khách nhìn thấy. Nó nằm ở lần lửa tắt mà không ai nhìn thấy."
+  },
+  "STOVE_GAS_LEAK": {
+   "signs_vi": [
+    "mùi gas",
+    "hôi gas",
+    "ngửi thấy mùi khí",
+    "dây gas nứt",
+    "xì gas",
+    "nghe tiếng xì",
+    "mùi gas nồng trong bếp",
+    "dây dẫn gas cũ nứt nẻ"
+   ],
+   "rule_out_vi": [],
+   "ask_vi": "",
+   "versus_vi": {},
+   "confusable_with": [
+    "STOVE_REGULATOR",
+    "STOVE_VALVE_STUCK",
+    "STOVE_FLAME_OUT"
+   ],
+   "summary_vi": "Mọi mã bệnh khác trong kho này, xấu nhất là hỏng máy hoặc điện giật một người. Mã này xấu nhất là cháy nổ cả căn nhà và cả căn bên cạnh. Vì vậy tài liệu này có một quy tắc riêng, khác mọi tài liệu còn lại: cảnh báo trước, hỏi sau. Không hỏi máy hãng gì, không hỏi dùng bao lâu rồi, không hỏi có gửi ảnh được không."
+  },
+  "STOVE_IGNITER": {
+   "signs_vi": [
+    "không lên lửa",
+    "đánh lửa yếu",
+    "phải bật nhiều lần",
+    "kêu tạch tạch mà không cháy",
+    "bật hoài không cháy",
+    "đánh lửa liên tục không ngừng",
+    "một bên không lên lửa",
+    "bếp không lên lửa"
+   ],
+   "rule_out_vi": [],
+   "ask_vi": "\"Anh chị bấm đánh lửa có nghe tiếng tạch tạch và thấy tia lửa không ạ?\"",
+   "versus_vi": {
+    "STOVE_FLAME_OUT": "Khách gộp hai chuyện làm một khi nói \"bếp không cháy\".",
+    "STOVE_BURNER_CLOGGED": "Nghẹt nặng thì cũng không lên lửa nổi.",
+    "STOVE_REGULATOR": "Van điều áp hỏng cũng làm gas không tới bếp.",
+    "STOVE_GAS_LEAK": "Nếu khách nhắc mùi gas thì cảnh báo trước, chẩn đoán sau, không có ngoại lệ."
+   },
+   "confusable_with": [
+    "STOVE_REGULATOR",
+    "STOVE_BURNER_CLOGGED",
+    "STOVE_FLAME_OUT",
+    "STOVE_GAS_LEAK"
+   ],
+   "summary_vi": "Bệnh này được đánh mức ưu tiên trung bình, nhưng nó có một cạnh nguy hiểm mà phải nói ngay ở câu đầu, trước khi hỏi bất cứ điều gì. Khách gặp bệnh này thì phản xạ là bấm đánh lửa nhiều lần. Bấm, không lên, bấm tiếp, vẫn không lên, bấm tiếp nữa."
+  },
+  "STOVE_REGULATOR": {
+   "signs_vi": [
+    "van bình không khớp",
+    "lắp vào bị xì",
+    "gas ra yếu",
+    "bình còn gas mà lửa nhỏ",
+    "van điều áp cũ",
+    "van điều áp hỏng",
+    "củ van hỏng",
+    "van gas bị xì"
+   ],
+   "rule_out_vi": [],
+   "ask_vi": "\"Nhà mình mới đổi bình gas gần đây không ạ?\"",
+   "versus_vi": {
+    "STOVE_BURNER_CLOGGED": "Tách bằng phạm vi: một bếp là nghẹt, cả hai bếp là van hoặc bình.",
+    "STOVE_IGNITER": "Cả hai làm không lên lửa.",
+    "STOVE_FLAME_OUT": "Áp yếu làm lửa nhỏ và cảm ứng nhiệt không nóng đủ nên tắt.",
+    "STOVE_GAS_LEAK": "Quy tắc không đổi: có mùi gas thì cảnh báo trước, chẩn đoán sau."
+   },
+   "confusable_with": [
+    "STOVE_GAS_LEAK",
+    "STOVE_BURNER_CLOGGED",
+    "STOVE_IGNITER",
+    "STOVE_FLAME_OUT"
+   ],
+   "summary_vi": "Mã này khác các mã còn lại ở một điểm hành chính, và nói rõ nó ngay từ đầu giúp khách đỡ mất thời gian. Bếp là của khách. Bình gas và van điều áp thì thường thuộc về đại lý gas. Bình là vỏ đi mượn theo mỗi lần đổi, và van điều áp trong nhiều trường hợp cũng do đại lý cấp hoặc bán kèm."
+  },
+  "STOVE_VALVE_STUCK": {
+   "signs_vi": [
+    "núm vặn kẹt",
+    "không tắt được lửa",
+    "vặn nặng",
+    "lửa không nhỏ lại được",
+    "núm bị rít",
+    "vặn hết cỡ lửa vẫn to",
+    "vặn không được",
+    "núm cứng quá"
+   ],
+   "rule_out_vi": [],
+   "ask_vi": "",
+   "versus_vi": {
+    "STOVE_GAS_LEAK": "Giao nhau ở nhánh van không đóng hết.",
+    "STOVE_REGULATOR": "Cả hai làm không chỉnh được lửa.",
+    "STOVE_BURNER_CLOGGED": "Khách nói \"không vặn nhỏ được\" có thể là núm kẹt, cũng có thể là họng nghẹt nên lửa không đều ở mức nhỏ."
+   },
+   "confusable_with": [
+    "STOVE_GAS_LEAK",
+    "STOVE_REGULATOR",
+    "STOVE_BURNER_CLOGGED"
+   ],
+   "summary_vi": "Bệnh này có hai nửa rất khác nhau. Nửa nhẹ là núm vặn cứng, khó xoay, phiền nhưng không nguy hiểm. Nửa nặng là không tắt được lửa, và đó là tình huống khách đang đứng trong bếp với một ngọn lửa không chịu tắt. Với nửa nặng, câu đầu tiên không phải là câu hỏi. Nó là:"
+  },
+  "TOILET_BASE_LEAK": {
+   "signs_vi": [
+    "nước rỉ quanh chân",
+    "ẩm sàn nhà vệ sinh",
+    "có mùi hôi cống",
+    "nền quanh bồn cầu luôn ướt",
+    "bồn cầu bị lung lay",
+    "chân bồn cầu bị rò",
+    "nước rỉ ở chân bồn cầu",
+    "sàn quanh bồn cầu ướt"
+   ],
+   "rule_out_vi": [],
+   "ask_vi": "",
+   "versus_vi": {
+    "PIPE_JOINT_LEAK": "Nếu ẩm lan rộng hơn khu vực bồn cầu, hoặc nếu tường cũng ẩm, thì nghi đường ống trong tường chứ không chỉ chân bồn."
+   },
+   "confusable_with": [
+    "TOILET_FILL_VALVE",
+    "TOILET_FLAPPER_LEAK",
+    "PIPE_JOINT_LEAK"
+   ],
+   "summary_vi": "Lượng nước ở đây không lớn. Nhiều khi chỉ là một vệt ẩm quanh chân bồn mà lau xong lại có. Mã này ưu tiên cao vì ba lý do, và không lý do nào liên quan tới lượng nước."
+  },
+  "TOILET_CLOGGED": {
+   "signs_vi": [
+    "nghẹt",
+    "không rút nước",
+    "nước dâng lên",
+    "xả không trôi",
+    "tắc bồn cầu",
+    "xả nước trào ngược",
+    "rút rất chậm",
+    "bồn cầu bị nghẹt"
+   ],
+   "rule_out_vi": [],
+   "ask_vi": "",
+   "versus_vi": {
+    "TOILET_WEAK_FLUSH": "Cặp hay nhầm nhất, và khách gộp chúng làm một vì triệu chứng bề ngoài giống nhau: xả không trôi.",
+    "PIPE_CLOGGED": "Nếu nhiều chỗ thoát cùng bị thì vấn đề ở đường ống chứ không ở bồn cầu."
+   },
+   "confusable_with": [
+    "TOILET_WEAK_FLUSH",
+    "PIPE_CLOGGED"
+   ],
+   "summary_vi": "Khách nhắn tới mã này trong một tình huống gấp, và có một việc sai mà họ sắp làm. Đừng xả thêm nữa."
+  },
+  "TOILET_FILL_VALVE": {
+   "signs_vi": [
+    "két không đầy nước",
+    "nước chảy vào liên tục",
+    "kêu rít khi cấp nước",
+    "phải chờ lâu mới xả được lần nữa",
+    "két nước không lên",
+    "két nước không đầy",
+    "nước vào chậm",
+    "bồn cầu lâu đầy nước"
+   ],
+   "rule_out_vi": [],
+   "ask_vi": "",
+   "versus_vi": {
+    "TOILET_FLAPPER_LEAK": "Cặp phải tách và chúng rất hay nhầm, vì cả hai đều cho tiếng nước chảy liên tục và cả hai đều tốn nước.",
+    "TOILET_WEAK_FLUSH": "Nếu khách báo xả yếu, việc đầu tiên nên làm là nhìn mực nước trong két, vì nó vừa miễn phí vừa tách được hai mã.",
+    "PIPE_LOW_PRESSURE": "Nếu vòi nước trong nhà cũng yếu thì vấn đề ở áp lực nước chứ không ở van."
+   },
+   "confusable_with": [
+    "TOILET_FLAPPER_LEAK",
+    "TOILET_WEAK_FLUSH",
+    "PIPE_LOW_PRESSURE"
+   ],
+   "summary_vi": "Khách báo mã này bằng một trong hai câu: két không đầy, hoặc nước không ngừng vào két. Nhưng trước khi nghĩ tới cái van, có ba thứ phải loại trừ, và cả ba đều miễn phí."
+  },
+  "TOILET_FLAPPER_LEAK": {
+   "signs_vi": [
+    "nước chảy hoài",
+    "nghe tiếng nước róc rách",
+    "hoá đơn nước tăng bất thường",
+    "nước rỉ vào lòng bồn cầu",
+    "két nước tự đầy rồi lại cạn",
+    "bồn cầu chảy nước liên tục",
+    "nước cứ chảy rỉ rả",
+    "nghe tiếng nước chảy suốt"
+   ],
+   "rule_out_vi": [],
+   "ask_vi": "",
+   "versus_vi": {
+    "TOILET_FILL_VALVE": "Cặp phải tách và chúng rất hay nhầm, vì cả hai đều cho tiếng nước chảy liên tục.",
+    "TOILET_BASE_LEAK": "Cả hai làm khách nghe hoặc thấy nước, nhưng khác hẳn: mã này thì nước chảy trong bồn và không ra sàn; mã kia thì nước ra sàn và có mùi.",
+    "TOILET_WEAK_FLUSH": "Vùng giao thật: nắp van xả đóng quá sớm thì vừa làm xả yếu vừa không kín."
+   },
+   "confusable_with": [
+    "TOILET_FILL_VALVE",
+    "TOILET_BASE_LEAK",
+    "TOILET_WEAK_FLUSH"
+   ],
+   "summary_vi": "Bệnh này không làm hỏng gì, không gây nguy hiểm, không cản trở việc dùng bồn cầu. Nó chỉ làm một việc: thả nước sạch xuống cống, hai mươi bốn giờ mỗi ngày, không nghỉ. Và đó là lý do nó đáng được xử lý sớm hơn vẻ ngoài của nó."
+  },
+  "TOILET_SEAT_BROKEN": {
+   "signs_vi": [
+    "nắp bị gãy",
+    "nắp lung lay",
+    "bản lề nắp hỏng",
+    "nắp trượt khi ngồi",
+    "nắp bồn cầu bị gãy",
+    "nắp bồn cầu lỏng",
+    "nắp bồn cầu bị xê dịch",
+    "bệ ngồi bị nứt"
+   ],
+   "rule_out_vi": [],
+   "ask_vi": "",
+   "versus_vi": {},
+   "confusable_with": [
+    "TOILET_BASE_LEAK"
+   ],
+   "summary_vi": "Đây là mã có hậu quả thấp nhất trong toàn bộ hơn một trăm mã bệnh. Không nguy hiểm, không hỏng thêm gì, không ảnh hưởng tới việc dùng bồn cầu, và không tốn nước. Vì vậy giọng trả lời nên nhẹ và thực tế. Không cảnh báo, không nhấn mạnh, không kéo dài."
+  },
+  "TOILET_WEAK_FLUSH": {
+   "signs_vi": [
+    "xả yếu",
+    "nước xả ít",
+    "phải xả hai ba lần",
+    "nước không xoáy",
+    "bồn cầu xả yếu",
+    "xả không trôi",
+    "phải xả hai lần",
+    "xả không sạch"
+   ],
+   "rule_out_vi": [],
+   "ask_vi": "",
+   "versus_vi": {
+    "TOILET_CLOGGED": "Cặp quan trọng nhất phải tách, và tách bằng một câu: nước có rút bình thường không.",
+    "TOILET_FILL_VALVE": "Không cần phân biệt quá rạch ròi khi nói với khách; việc cần làm là chỉnh mực nước.",
+    "TOILET_FLAPPER_LEAK": "Cũng giao, ở nhánh van xả đóng sớm."
+   },
+   "confusable_with": [
+    "TOILET_CLOGGED",
+    "TOILET_FILL_VALVE",
+    "TOILET_FLAPPER_LEAK"
+   ],
+   "summary_vi": "Khách báo bệnh này bằng một câu quen thuộc: xả không trôi, phải xả hai ba lần. Và gần như mọi khách đều nghĩ theo cùng một hướng: chắc bồn cầu bị nghẹt."
+  },
+  "TV_BACKLIGHT": {
+   "signs_vi": [
+    "màn hình tối",
+    "có tiếng mà không có hình",
+    "soi đèn pin mới thấy hình",
+    "hình mờ tối",
+    "màn hình đen thui nhưng có âm thanh",
+    "sáng một góc",
+    "tivi có tiếng mà không có hình",
+    "màn hình đen thui"
+   ],
+   "rule_out_vi": [],
+   "ask_vi": "",
+   "versus_vi": {
+    "TV_PANEL_DAMAGE": "Đây là cặp quan trọng nhất phải tách, vì một bên sửa đáng còn bên kia thường không.",
+    "TV_POWER_BOARD": "Bo nguồn hỏng thì máy không lên chút nào: không tiếng, không đèn báo.",
+    "TV_MAIN_BOARD": "Bo xử lý hỏng thì thường có hình lỗi chứ không phải màn tối hoàn toàn."
+   },
+   "confusable_with": [
+    "TV_PANEL_DAMAGE",
+    "TV_POWER_BOARD",
+    "TV_MAIN_BOARD"
+   ],
+   "summary_vi": "Khách gọi tới bệnh này với một cái tivi màn hình đen thui, và trong đầu họ thì cái tivi đã hỏng. Sự thật thường ngược lại: tấm nền vẫn tốt, bo vẫn chạy, tín hiệu vẫn tới nơi, chỉ là không có ánh sáng để nhìn thấy nó."
+  },
+  "TV_MAIN_BOARD": {
+   "signs_vi": [
+    "mất hình",
+    "mất tiếng",
+    "treo logo",
+    "không nhận cổng HDMI",
+    "hình bị sọc",
+    "đứng ở màn hình khởi động",
+    "không vào được menu",
+    "tivi bị vỡ hình"
+   ],
+   "rule_out_vi": [],
+   "ask_vi": "",
+   "versus_vi": {},
+   "confusable_with": [
+    "TV_POWER_BOARD",
+    "TV_PANEL_DAMAGE",
+    "TV_NO_SOUND"
+   ],
+   "summary_vi": "Bo nguồn hỏng thì máy không lên: dễ nhận. Đèn nền hỏng thì có tiếng mà màn tối: dễ nhận, và có phép thử đèn pin. Tấm nền hỏng thì nhìn thấy: dễ nhận. Bo xử lý thì không có triệu chứng riêng nào cả. Nó làm quá nhiều việc, nên hỏng ở đâu thì biểu hiện ra ở đó, và cái gì cũng có thể."
+  },
+  "TV_NO_SOUND": {
+   "signs_vi": [
+    "không có tiếng",
+    "tiếng rè",
+    "tiếng nhỏ dù đã tăng",
+    "tiếng lúc có lúc không",
+    "tivi mất tiếng",
+    "tivi không có tiếng",
+    "có hình mà không có tiếng",
+    "tivi bị câm"
+   ],
+   "rule_out_vi": [],
+   "ask_vi": "\"Anh chị thử tăng âm lượng lên xem trên màn hình có hiện thanh âm lượng chạy lên không ạ?\"",
+   "versus_vi": {
+    "TV_MAIN_BOARD": "Tách bằng phép thử cắm loa ngoài: có tiếng ra ngoài thì phần giải mã còn tốt.",
+    "TV_REMOTE_FAULT": "Nếu thanh âm lượng không hiện khi bấm, thì máy không nhận lệnh, và đó là nhánh remote chứ không phải nhánh âm thanh."
+   },
+   "confusable_with": [
+    "TV_MAIN_BOARD",
+    "TV_REMOTE_FAULT"
+   ],
+   "summary_vi": "Trong cụm tivi, đây là mã mà phần lớn ca kết thúc mà không cần ai tới nhà, và không cần thay gì cả. Lý do là âm thanh trên tivi hiện đại đi qua rất nhiều lớp cài đặt, và mỗi lớp đều có một cách làm im tiếng mà không hỏng gì."
+  },
+  "TV_PANEL_DAMAGE": {
+   "signs_vi": [
+    "màn hình có vệt",
+    "loang màu",
+    "sọc dọc",
+    "sọc ngang",
+    "nứt màn hình",
+    "một vùng màn hình đen",
+    "hình bị nhoè một góc",
+    "màn hình bị vỡ"
+   ],
+   "rule_out_vi": [],
+   "ask_vi": "",
+   "versus_vi": {
+    "TV_BACKLIGHT": "Cặp quan trọng nhất phải tách, và tách sai theo hướng này thì khách mất một cái tivi còn sửa được.",
+    "TV_MAIN_BOARD": "Tách bằng một câu hỏi khách tự làm được: hiện tượng có đổi khi chuyển kênh hay đổi cổng tín hiệu không."
+   },
+   "confusable_with": [
+    "TV_BACKLIGHT",
+    "TV_MAIN_BOARD"
+   ],
+   "summary_vi": "Trong toàn bộ kho tri thức, phần lớn các bệnh đều kết thúc bằng một lời khuyên sửa. Bệnh này thì thường không, và đó là lý do nó cần được viết cẩn thận hơn là viết dài. Tấm nền chiếm phần lớn giá trị của một cái tivi. Nó là chi tiết đắt nhất, và nó không sửa được, chỉ thay."
+  },
+  "TV_POWER_BOARD": {
+   "signs_vi": [
+    "không lên nguồn",
+    "đèn báo nháy",
+    "bật không lên",
+    "tự tắt sau vài giây",
+    "đèn đỏ nhấp nháy",
+    "cắm điện không có phản ứng",
+    "tivi không lên",
+    "tivi không vào điện"
+   ],
+   "rule_out_vi": [],
+   "ask_vi": "",
+   "versus_vi": {
+    "TV_MAIN_BOARD": "Tách được không qua tin nhắn; cần đo.",
+    "TV_BACKLIGHT": "Phép thử đèn pin xác định được tấm nền còn tốt, nhưng không tách được led với mạch cấp cho led.",
+    "TV_REMOTE_FAULT": "Nếu bấm nút trên thân máy thì lên bình thường, vấn đề nằm ở remote hoặc mắt nhận chứ không ở bo nguồn."
+   },
+   "confusable_with": [
+    "TV_MAIN_BOARD",
+    "TV_BACKLIGHT",
+    "TV_REMOTE_FAULT"
+   ],
+   "summary_vi": "Trong tất cả các bo của một cái tivi, bo nguồn là cái hỏng nhiều nhất. Lý do đơn giản: nó là cái duy nhất đứng trực tiếp trước điện lưới. Mọi thứ xấu từ ngoài đi vào đều đập vào nó trước. Điện áp cao bất thường, điện áp tụt, xung sét, đóng cắt đột ngột khi mất điện rồi có lại. Các bo khác được nó che chắn cho."
+  },
+  "TV_REMOTE_FAULT": {
+   "signs_vi": [
+    "remote không ăn",
+    "phải chĩa sát mới được",
+    "thay pin vẫn không được",
+    "một số nút không ăn",
+    "điều khiển không được",
+    "bấm remote không nhận",
+    "rì mốt hỏng",
+    "phải lại gần mới bấm được"
+   ],
+   "rule_out_vi": [],
+   "ask_vi": "",
+   "versus_vi": {
+    "TV_MAIN_BOARD": "Tách bằng nút trên thân máy.",
+    "TV_POWER_BOARD": "Tivi không bật lên có thể là bo nguồn hoặc là remote.",
+    "TV_NO_SOUND": "Nếu bấm tăng âm lượng mà thanh âm lượng không hiện trên màn, thì máy không nhận lệnh, và đó là nhánh này chứ không phải nhánh âm thanh."
+   },
+   "confusable_with": [
+    "TV_MAIN_BOARD",
+    "TV_POWER_BOARD",
+    "TV_NO_SOUND"
+   ],
+   "summary_vi": "Trong hơn một trăm mã bệnh của kho tri thức này, đây là mã có chi phí xử lý thấp nhất. Phần lớn ca kết thúc bằng hai viên pin. Vì vậy điều quan trọng nhất của tài liệu này không phải là chẩn đoán sâu. Nó là loại trừ nhánh này thật sớm trong mọi ca tivi không phản ứng, để khách không đi một vòng vô ích."
+  },
+  "WH_ELCB_TRIPS": {
+   "signs_vi": [
+    "nhảy aptomat khi bật",
+    "đèn chống giật nháy đỏ",
+    "tê tay khi chạm vòi sen",
+    "giật khi tắm",
+    "cầu dao nhảy mỗi lần bật bình",
+    "chống giật tự ngắt",
+    "cái hộp đen trên dây điện của bình",
+    "nhà em không có dây mát"
+   ],
+   "rule_out_vi": [
+    "Không hạ mức khi khách nói chỉ tê nhẹ thôi.",
+    "Không hạ mức khi khách nói dùng mấy năm nay vẫn vậy.",
+    "Không hạ mức khi khách nói đã thay chống giật mới rồi.",
+    "Không hạ mức khi khách nói chỉ nhảy thỉnh thoảng."
+   ],
+   "ask_vi": "Cảnh báo trước, hỏi sau.",
+   "versus_vi": {
+    "WH_HEATING_ELEMENT": "Thanh đốt có hai kiểu hỏng, và chúng khác nhau về mức độ.",
+    "WH_TANK_LEAK": "Dấu hiệu tách: có thấy nước chảy hoặc vệt ẩm ở thân bình, trên tường dưới bình, hoặc trần thấm không."
+   },
+   "confusable_with": [
+    "WH_HEATING_ELEMENT",
+    "WH_TANK_LEAK",
+    "WH_SCALE_BUILDUP"
+   ],
+   "summary_vi": "Đây là mã bệnh nguy hiểm nhất trong toàn bộ kho tri thức, và cách xử lý khác mọi ca khác. Câu trả lời đầu tiên phải chứa ba việc, theo đúng thứ tự:"
+  },
+  "WH_HEATING_ELEMENT": {
+   "signs_vi": [
+    "không nóng",
+    "nước âm ấm",
+    "lâu nóng",
+    "bật đèn nhưng nước lạnh",
+    "bật cả tiếng vẫn không nóng",
+    "nước chỉ hơi ấm",
+    "hoàn toàn lạnh",
+    "chỉ âm ấm"
+   ],
+   "rule_out_vi": [
+    "Không kết luận khi thiết bị chống giật đã ngắt.",
+    "Không kết luận khi đèn báo không sáng.",
+    "Không kết luận khi chưa bật đủ thời gian đun.",
+    "Không kết luận khi nước quá nóng thay vì không nóng."
+   ],
+   "ask_vi": "đèn báo của bình có sáng không, cục chống giật trên dây có đang ở vị trí bật không, và đã bật bình bao lâu.",
+   "versus_vi": {
+    "WH_THERMOSTAT": "Cả hai cho ra nước không nóng khi rơ le kẹt ở trạng thái mở.",
+    "WH_SCALE_BUILDUP": "Thanh đốt đứt: nước không nóng chút nào.",
+    "WH_ELCB_TRIPS": "Đèn báo không sáng: không có điện tới bình.",
+    "WH_INSTANT_NO_HOT": "Nếu là máy trực tiếp, nhánh hoàn toàn khác: mã riêng, và nguyên nhân số một là áp lực nước chứ không phải điện trở."
+   },
+   "confusable_with": [
+    "WH_THERMOSTAT",
+    "WH_SCALE_BUILDUP",
+    "WH_ELCB_TRIPS",
+    "WH_INSTANT_NO_HOT"
+   ],
+   "summary_vi": "Thanh đốt là sợi điện trở nhúng trong nước, và nó là thứ duy nhất làm nóng nước trong bình. Khi nó đứt, bình vẫn lên đèn, vẫn có điện, nhưng nước không nóng chút nào. Đây là bệnh phổ biến nhất của máy nước nóng, và trong phần lớn ca thì nó không nguy hiểm: một thanh đốt đứt sợi thì đơn giản là không đun nữa."
+  },
+  "WH_INSTANT_NO_HOT": {
+   "signs_vi": [
+    "máy nước nóng trực tiếp không nóng",
+    "bật đèn đỏ mà nước lạnh",
+    "nước yếu nên máy không kích",
+    "mở nhỏ thì nóng mở lớn thì lạnh",
+    "đang nóng bỗng lạnh khi có người mở vòi khác",
+    "máy không ăn",
+    "máy không kích"
+   ],
+   "rule_out_vi": [
+    "Không kết luận khi máy là loại bình gián tiếp.",
+    "Không kết luận khi thiết bị chống giật đã ngắt.",
+    "Không kết luận khi mở nhỏ thì nóng.",
+    "Không kết luận khi nước lạnh trong nhà cũng yếu."
+   ],
+   "ask_vi": "mở vòi nhỏ thì nóng hay phải mở to mới nóng, và vòi nước lạnh trong nhà có chảy mạnh không.",
+   "versus_vi": {
+    "WH_HEATING_ELEMENT": "Hai nhánh hoàn toàn khác nhau và câu hỏi đầu tiên phải tách chúng.",
+    "WH_LOW_PRESSURE": "Không phải bệnh của máy, và không phải bệnh nước nóng ra yếu.",
+    "WH_ELCB_TRIPS": "Nếu thiết bị chống giật đã ngắt, thì vừa là lý do máy không nóng vừa là bằng chứng có dòng rò."
+   },
+   "confusable_with": [
+    "WH_HEATING_ELEMENT",
+    "WH_LOW_PRESSURE",
+    "WH_ELCB_TRIPS"
+   ],
+   "summary_vi": "Máy nước nóng trực tiếp không có bình chứa. Nước chảy qua một buồng đun và được làm nóng tức thì, nên bật là có nước nóng ngay. Đổi lại, nó chỉ đun khi có nước thật sự chảy qua. Bên trong có một cảm biến lưu lượng: đủ nước chảy thì nó cho điện vào điện trở, không đủ thì nó không cho."
+  },
+  "WH_LOW_PRESSURE": {
+   "signs_vi": [
+    "nước nóng ra yếu",
+    "sen nước nóng rất nhỏ",
+    "nước lạnh mạnh mà nóng yếu",
+    "chỗ này được chỗ kia không",
+    "bình không ra nước",
+    "củ sen"
+   ],
+   "rule_out_vi": [
+    "Không kết luận khi nước lạnh cũng yếu.",
+    "Không kết luận khi nước nóng mạnh lúc đầu rồi yếu dần và nguội đi sau vài phút.",
+    "Không kết luận với máy trực tiếp.",
+    "Không kết luận khi nhà đang mở nhiều vòi cùng lúc."
+   ],
+   "ask_vi": "Vòi nước lạnh có chảy mạnh bình thường không.",
+   "versus_vi": {
+    "WH_INSTANT_NO_HOT": "Các vòi khác trong nhà cũng yếu.",
+    "WH_SCALE_BUILDUP": "Nước yếu chỉ là triệu chứng phụ.",
+    "WH_TANK_LEAK": "Nếu có dấu hiệu rò thì ca đó được ưu tiên, vì nó gây thiệt hại chứ không chỉ gây bất tiện."
+   },
+   "confusable_with": [
+    "WH_SCALE_BUILDUP",
+    "WH_INSTANT_NO_HOT",
+    "WH_TANK_LEAK"
+   ],
+   "summary_vi": "Nước nóng ra nhỏ giọt hoặc yếu hẳn, trong khi nước lạnh vẫn chảy bình thường. Đó là câu mô tả quan trọng nhất của bệnh này, vì nó chỉ thẳng vào đường đi riêng của nước nóng: van cấp vào bình, lưới lọc, bản thân bình, và đường ống ra."
+  },
+  "WH_SCALE_BUILDUP": {
+   "signs_vi": [
+    "lâu nóng hơn trước",
+    "tốn điện",
+    "nghe tiếng lục bục khi đun",
+    "nước ra có cặn",
+    "nước đục",
+    "nước ra có mùi tanh",
+    "tiếng lục bục",
+    "nước có mùi tanh"
+   ],
+   "rule_out_vi": [
+    "Không kết luận khi nước hoàn toàn không nóng.",
+    "Không kết luận khi nước quá nóng.",
+    "Không kết luận khi bình mới lắp hoặc mới vệ sinh gần đây.",
+    "Không kết luận khi nước lạnh vào bình đã lạnh hơn bình thường, ví dụ mùa đông miền Bắc."
+   ],
+   "ask_vi": "nước vẫn nóng được nhưng lâu hơn trước, hay hoàn toàn không nóng.",
+   "versus_vi": {
+    "WH_HEATING_ELEMENT": "Đóng cặn: nước vẫn nóng được, chỉ lâu hơn.",
+    "WH_THERMOSTAT": "Đóng cặn: bình vẫn ngắt được, chỉ lâu nóng.",
+    "WH_LOW_PRESSURE": "Nhưng nước yếu cũng có nguyên nhân khác: van chưa mở hết, áp lực nước của nhà, đường ống nghẹt.",
+    "WH_TANK_LEAK": "Đóng cặn không gây rò nước."
+   },
+   "confusable_with": [
+    "WH_HEATING_ELEMENT",
+    "WH_THERMOSTAT",
+    "WH_LOW_PRESSURE",
+    "WH_TANK_LEAK"
+   ],
+   "summary_vi": "Nước máy và nước giếng đều có khoáng chất hòa tan. Khi nước được đun nóng, một phần khoáng chất đó kết tủa và bám lại thành cặn trắng cứng. Nó bám lên thanh đốt và lắng xuống đáy bình. Đây không phải hỏng hóc. Đây là hệ quả tự nhiên của việc đun nước, và mọi bình nóng lạnh đều tới lúc này."
+  },
+  "WH_TANK_LEAK": {
+   "signs_vi": [
+    "chảy nước từ bình",
+    "ướt tường dưới bình",
+    "nhỏ nước liên tục",
+    "nước rỉ ở đáy bình",
+    "trần nhà tắm bị thấm",
+    "khoá van rồi vẫn nhỏ nước",
+    "trần tầng dưới thấm",
+    "ruột bình bị thủng"
+   ],
+   "rule_out_vi": [
+    "Không kết luận khi nước ra từ đầu ống hoặc từ mối nối.",
+    "Không kết luận khi nước ra từ van an toàn trong lúc bình đang đun.",
+    "Không kết luận khi nước ra quanh nắp tròn ở đáy.",
+    "Không kết luận khi vỏ bình chỉ đọng hơi nước vào ngày ẩm, và khô ráo khi trời khô."
+   ],
+   "ask_vi": "nước ra từ chỗ nào, từ đầu ống nối, từ cái van nhỏ dưới bình, từ quanh nắp tròn ở đáy, hay từ chính thân bình.",
+   "versus_vi": {
+    "WH_THERMOSTAT": "Nếu khách kể vừa rò nước vừa tê tay hoặc vừa nhảy chống giật, thì đây là ca nặng nhất của nhóm máy nước nóng, và cả hai lời khuyên đều áp dụng: ngắt điện, khoá van,…"
+   },
+   "confusable_with": [
+    "WH_ELCB_TRIPS",
+    "WH_SCALE_BUILDUP",
+    "WH_THERMOSTAT"
+   ],
+   "summary_vi": "Bình chứa bên trong máy nước nóng thường bằng thép tráng men. Lớp men bảo vệ thép khỏi nước, và một thanh kim loại gọi là thanh magie được đặt trong bình để nó bị ăn mòn thay cho thép. Khi thanh magie mòn hết mà không ai thay, ăn mòn chuyển sang tấn công thép ở những chỗ men bị rạn."
+  },
+  "WH_THERMOSTAT": {
+   "signs_vi": [
+    "nước quá nóng",
+    "không tự ngắt",
+    "nóng lạnh thất thường",
+    "nước sôi bốc hơi",
+    "lúc nóng lúc lạnh",
+    "van xì nước liên tục khi đun",
+    "phải nhấn nút mới chạy lại",
+    "phải nhấn nút đỏ"
+   ],
+   "rule_out_vi": [
+    "Không kết luận khi nước nóng hơn khách quen nhưng chưa tới mức bốc hơi, và núm đang để ở mức cao.",
+    "Không kết luận khi nước nóng bất thường chỉ vào mùa hè, khi nước cấp vào đã ấm sẵn.",
+    "Không kết luận khi khách mới đổi máy và chưa quen mức nóng của máy mới.",
+    "Không kết luận khi vấn đề là nước không nóng."
+   ],
+   "ask_vi": "bình có bao giờ tự ngắt không, hay đèn đỏ sáng suốt và đun mãi.",
+   "versus_vi": {
+    "WH_HEATING_ELEMENT": "Thanh đốt đứt: nước không nóng chút nào.",
+    "WH_SCALE_BUILDUP": "Đóng cặn: nước lâu nóng hơn trước, tốn điện, có tiếng lục bục, nhưng vẫn ngắt được và không quá nóng.",
+    "WH_ELCB_TRIPS": "Nếu có kèm nhảy chống giật hoặc tê tay, nhánh an toàn điện được ưu tiên và xử lý trước, vì hậu quả nặng hơn và tức thì hơn."
+   },
+   "confusable_with": [
+    "WH_HEATING_ELEMENT",
+    "WH_SCALE_BUILDUP",
+    "WH_ELCB_TRIPS"
+   ],
+   "summary_vi": "Bình nóng lạnh có một bộ khống chế nhiệt độ, thợ gọi là rơ le nhiệt. Nó theo dõi nhiệt độ nước và cắt điện cho thanh đốt khi nước đạt mức cài, rồi đóng lại khi nước nguội bớt. Đó là lý do bình chạy theo chu kỳ chứ không đun liên tục. Khi rơ le hỏng, có hai kiểu, và chúng ngược nhau hoàn toàn."
+  },
+  "WM_BEARING_NOISE": {
+   "signs_vi": [
+    "kêu to khi vắt",
+    "rung lắc mạnh",
+    "kêu ù ù",
+    "máy chạy ầm ầm",
+    "kêu như máy bay",
+    "lồng bị rơ",
+    "ồn kinh khủng khi vắt",
+    "vệt rỉ nâu"
+   ],
+   "rule_out_vi": [
+    "Không kết luận khi máy mới mua và chưa tháo bu lông vận chuyển.",
+    "Không kết luận khi máy kê không cân hoặc kê trên nền mềm.",
+    "Không kết luận khi tiếng là kim loại va, lạch cạch.",
+    "Không kết luận khi tiếng xuất hiện đột ngột chỉ ở một mẻ giặt rồi mẻ sau bình thường."
+   ],
+   "ask_vi": "tiếng chỉ to lúc vắt hay to cả lúc giặt, và tiếng xuất hiện đột ngột hay to dần theo tháng.",
+   "versus_vi": {
+    "WM_NO_SPIN": "Chỉ xảy ra với một số mẻ nhất định.",
+    "WM_MOTOR_FAULT": "Mô tơ hỏng: lồng không quay hoặc quay yếu, có thể kèm mùi khét.",
+    "WM_DOOR_SEAL_LEAK": "Không ai phát hiện."
+   },
+   "confusable_with": [
+    "WM_NO_SPIN",
+    "WM_MOTOR_FAULT",
+    "WM_DRAIN_PUMP",
+    "WM_DOOR_SEAL_LEAK"
+   ],
+   "summary_vi": "Lồng giặt quay trên một trục, và trục đó tựa vào bạc đạn, còn gọi là vòng bi. Giữa bạc đạn và phần chứa nước có một cái phớt chặn nước, nhiệm vụ là không cho nước lọt vào bạc. Khi phớt mòn, nước và bột giặt rỉ vào bạc đạn. Mỡ bôi trơn bị rửa trôi, bi rỉ sét, rơ dần, và lồng bắt đầu rung và kêu."
+  },
+  "WM_DOOR_LOCK": {
+   "signs_vi": [
+    "không mở được cửa",
+    "cửa không đóng được",
+    "báo lỗi cửa",
+    "cửa kẹt không bung",
+    "máy không chạy vì báo chưa đóng cửa",
+    "trong lồng còn nước",
+    "phải đẩy rất mạnh mới đóng ăn",
+    "dây kéo dưới góc máy"
+   ],
+   "rule_out_vi": [
+    "Không kết luận khi trong lồng còn nước.",
+    "Không kết luận khi máy vừa kết thúc chu trình chưa được vài phút.",
+    "Không kết luận khi máy đang chạy.",
+    "Không kết luận khi có quần áo, mép gioăng, hoặc vật gì kẹt ở mép cửa làm cửa không đóng khít."
+   ],
+   "ask_vi": "cửa không mở được sau khi giặt xong, hay máy không chịu chạy vì báo cửa chưa đóng.",
+   "versus_vi": {
+    "WM_DRAIN_PUMP": "Nghẹt xả: trong lồng còn nước, và vì còn nước nên cửa không mở.",
+    "WM_PCB_FAULT": "Bo hỏng: thường kèm biểu hiện thất thường khác như không nhận nút, tự dừng, báo mã lỗi lạ, hoặc máy không lên nguồn.",
+    "WM_DOOR_SEAL_LEAK": "Gioăng cửa và khoá cửa là hai chi tiết cạnh nhau và triệu chứng có thể lẫn.",
+    "WM_NO_WATER_INLET": "Còn nước trong lồng."
+   },
+   "confusable_with": [
+    "WM_DRAIN_PUMP",
+    "WM_PCB_FAULT",
+    "WM_NO_WATER_INLET",
+    "WM_DOOR_SEAL_LEAK"
+   ],
+   "summary_vi": "Máy giặt cửa ngang chứa nước ở mức nằm dưới miệng cửa. Nếu cửa mở ra giữa chừng thì mấy chục lít nước đổ thẳng ra sàn. Vì vậy máy khoá cửa bằng một chốt điện suốt chu trình, và chỉ nhả khi máy đã dừng và nước đã rút hết. Hai triệu chứng thuộc bệnh này. Máy không chạy vì báo cửa chưa đóng, dù cửa nhìn đã đóng."
+  },
+  "WM_DOOR_SEAL_LEAK": {
+   "signs_vi": [
+    "chảy nước ra sàn",
+    "ướt quanh chân máy",
+    "nước rỉ ở cửa",
+    "gioăng cao su bị rách",
+    "nước tràn khi giặt",
+    "ẩm sàn chỗ để máy giặt",
+    "chảy trong lúc máy quay",
+    "kéo gioăng ra thấy nứt"
+   ],
+   "rule_out_vi": [
+    "Không kết luận khi máy là loại cửa trên.",
+    "Không kết luận khi nước ở phía sau máy.",
+    "Không kết luận khi nước ở góc dưới quanh nắp lưới lọc.",
+    "Không kết luận khi nước ở đáy giữa máy và có màu gỉ nâu, kèm tiếng ù to khi vắt."
+   ],
+   "ask_vi": "máy cửa trên hay cửa ngang, và nước xuất hiện ở phía nào của máy.",
+   "versus_vi": {
+    "WM_BEARING_NOISE": "Đây là phân biệt quan trọng nhất về chi phí.",
+    "WM_OVERFLOW": "Ống cấp rò: nước ở phía sau, và nó chảy cả khi máy không chạy nếu van nước đang mở."
+   },
+   "confusable_with": [
+    "WM_DRAIN_PUMP",
+    "WM_BEARING_NOISE",
+    "WM_OVERFLOW",
+    "WM_SMELL_MOLD",
+    "WM_DOOR_LOCK"
+   ],
+   "summary_vi": "Máy giặt cửa ngang có một vòng cao su lớn nối giữa miệng cửa và thùng chứa nước. Nó vừa làm kín để nước không ra ngoài, vừa là đường dẫn cho quần áo vào lồng. Nó là chi tiết cao su chịu nước nóng, chịu hóa chất bột giặt, và bị gấp đi gấp lại mỗi lần lồng quay. Nên nó là một trong những bộ phận xuống trước của máy."
+  },
+  "WM_DRAIN_PUMP": {
+   "signs_vi": [
+    "không xả nước",
+    "nước đọng trong lồng",
+    "báo lỗi xả",
+    "xả rất chậm",
+    "máy đứng ở bước xả",
+    "nước không rút",
+    "còn nước trong lồng sau khi giặt",
+    "bơm kêu to khi xả"
+   ],
+   "rule_out_vi": [
+    "Không kết luận khi trong lồng không còn nước mà chỉ quần áo ướt.",
+    "Không kết luận khi nước dâng cao hơn bình thường.",
+    "Không kết luận khi máy hoàn toàn không chạy từ đầu.",
+    "Không kết luận khi máy đang ở chế độ ngâm hoặc chế độ có giữ nước ở bước cuối."
+   ],
+   "ask_vi": "máy cửa trên hay cửa ngang, và ở bước xả có nghe tiếng bơm chạy không.",
+   "versus_vi": {
+    "WM_OVERFLOW": "Nghẹt xả: mở máy ra trong lồng còn nước.",
+    "WM_PCB_FAULT": "Nghẹt thật: có nước trong lồng, bơm chạy hoặc không chạy, và sau khi thông thì nước rút.",
+    "WM_DOOR_LOCK": "Máy cửa ngang không mở được cửa khi trong lồng còn nước là thiết kế đúng, không phải hỏng khoá."
+   },
+   "confusable_with": [
+    "WM_NO_SPIN",
+    "WM_PCB_FAULT",
+    "WM_DOOR_LOCK",
+    "WM_OVERFLOW"
+   ],
+   "summary_vi": "Cuối mỗi bước giặt và mỗi lần giũ, một cái bơm nhỏ ở góc dưới máy đẩy nước ra ngoài qua ống xả. Trước bơm có một cái lưới lọc để giữ lại những thứ không nên vào bơm: tóc, xơ vải, đồng xu, ghim, hạt cúc. Khi nước không rút được, phần lớn ca không phải là bơm hỏng."
+  },
+  "WM_MOTOR_FAULT": {
+   "signs_vi": [
+    "lồng không quay",
+    "kêu ù mà không quay",
+    "có mùi khét khi giặt",
+    "quay được một chiều",
+    "máy nóng bất thường"
+   ],
+   "rule_out_vi": [
+    "Không kết luận khi lồng quay bình thường ở bước giặt mà chỉ không vắt.",
+    "Không kết luận khi có tiếng mô tơ chạy mà lồng đứng im.",
+    "Không kết luận khi máy hoàn toàn không lên nguồn.",
+    "Không kết luận khi máy báo lỗi cửa."
+   ],
+   "ask_vi": "lồng có quay ở bước giặt không, và có nghe tiếng mô tơ chạy ở đáy máy không.",
+   "versus_vi": {
+    "WM_NO_SPIN": "Đây là phân biệt quan trọng nhất về chi phí, và nó tách được chỉ bằng nghe.",
+    "WM_PCB_FAULT": "Bo không ra lệnh: mô tơ hoàn toàn im, và thường kèm biểu hiện thất thường khác như không nhận nút, tự dừng, báo mã lỗi lạ.",
+    "WM_BEARING_NOISE": "Mô tơ hỏng: lồng không quay."
+   },
+   "confusable_with": [
+    "WM_NO_SPIN",
+    "WM_PCB_FAULT",
+    "WM_BEARING_NOISE",
+    "WM_DOOR_LOCK"
+   ],
+   "summary_vi": "Mô tơ là thứ quay lồng giặt. Trên máy đời cũ nó nằm dưới đáy và kéo lồng qua một dây curoa. Trên nhiều máy đời mới nó gắn thẳng vào trục lồng, gọi là truyền động trực tiếp, không có dây curoa. Khi mô tơ hỏng, lồng không quay ở bất kỳ bước nào. Máy vẫn lên nguồn, vẫn cấp nước, vẫn xả, nhưng quần áo không được đảo."
+  },
+  "WM_NO_SPIN": {
+   "signs_vi": [
+    "không vắt",
+    "quần áo còn ướt sũng",
+    "lồng quay yếu",
+    "kêu trượt",
+    "vắt xong vẫn ướt",
+    "lồng không quay khi vắt",
+    "máy rung mạnh rồi dừng",
+    "trong lồng còn nước"
+   ],
+   "rule_out_vi": [
+    "Không kết luận khi trong lồng còn nước.",
+    "Không kết luận khi máy báo lỗi cửa hoặc không đóng được cửa.",
+    "Không kết luận khi máy hoàn toàn không chạy từ đầu.",
+    "Không kết luận khi mẻ giặt có chăn, thảm, rèm, áo khoác dày, hoặc chỉ có một hai món."
+   ],
+   "ask_vi": "trong lồng còn nước không, và mẻ vừa rồi có chăn, thảm, rèm, hay rất ít đồ không.",
+   "versus_vi": {
+    "WM_DRAIN_PUMP": "Bơm xả: trong lồng còn nước khi mở ra.",
+    "WM_MOTOR_FAULT": "Mô tơ hỏng: lồng không quay cả ở bước giặt, không chỉ ở bước vắt.",
+    "WM_DOOR_LOCK": "Khoá cửa không báo đóng: máy thường không chạy từ đầu hoặc báo lỗi cửa.",
+    "WM_BEARING_NOISE": "Máy có thể vắt được nhưng ồn kinh khủng, hoặc không đạt tốc độ."
+   },
+   "confusable_with": [
+    "WM_DRAIN_PUMP",
+    "WM_MOTOR_FAULT",
+    "WM_DOOR_LOCK",
+    "WM_BEARING_NOISE",
+    "WM_PCB_FAULT"
+   ],
+   "summary_vi": "Giặt xong mở ra, quần áo vẫn ướt sũng như vừa ngâm nước. Máy đã chạy hết chu trình, đèn báo xong, nhưng bước vắt thì hoặc không chạy, hoặc chạy yếu, hoặc chạy được một lúc rồi dừng. Điều quan trọng nhất cần nói với khách ngay: phần lớn ca không vắt không phải là máy hỏng."
+  },
+  "WM_NO_WATER_INLET": {
+   "signs_vi": [
+    "không vào nước",
+    "vào nước rất chậm",
+    "báo lỗi cấp nước",
+    "máy đứng ở bước cấp nước",
+    "nước vào nhỏ giọt",
+    "chờ nước mãi không đầy",
+    "vòi nước khác vẫn chảy bình thường",
+    "vào được một ít rồi dừng"
+   ],
+   "rule_out_vi": [
+    "Không kết luận khi cả nhà đang mất nước hoặc yếu nước.",
+    "Không kết luận khi van khoá chưa mở.",
+    "Không kết luận khi máy báo lỗi cửa hoặc chưa đóng cửa.",
+    "Không kết luận khi máy hoàn toàn không lên nguồn."
+   ],
+   "ask_vi": "van nước cho máy giặt có đang mở không, ống cấp phía sau có bị gập không, và vòi nước khác trong nhà có chảy bình thường…",
+   "versus_vi": {
+    "WM_OVERFLOW": "Không cấp nước: nước không vào.",
+    "WM_DOOR_LOCK": "Nhiều máy không cấp nước cho tới khi khoá cửa báo đã khoá xong.",
+    "WM_PCB_FAULT": "Bo không ra lệnh: van hoàn toàn im, không tiếng ù."
+   },
+   "confusable_with": [
+    "WM_OVERFLOW",
+    "WM_PCB_FAULT",
+    "WM_DOOR_LOCK"
+   ],
+   "summary_vi": "Máy giặt lấy nước qua một van điện gắn ở phía sau, nơi ống nước nối vào. Bo ra lệnh mở van, nước vào, và một cảm biến báo khi nào đủ để đóng lại. Khi nước không vào hoặc vào rất chậm, máy đứng lại ở bước cấp nước và thường báo lỗi sau một khoảng thời gian chờ."
+  },
+  "WM_OVERFLOW": {
+   "signs_vi": [
+    "nước vào hoài không dừng",
+    "tràn nước ra ngoài",
+    "nước đầy tới miệng lồng",
+    "rút điện rồi nước vẫn vào",
+    "chảy xuống nhà dưới",
+    "máy giặt chảy nước ra sàn",
+    "cái phao hỏng nên nước vào hoài"
+   ],
+   "rule_out_vi": [
+    "Không kết luận khi nước ở mức bình thường mà chỉ không xả được.",
+    "Không kết luận khi nước chảy ra sàn mà mức nước trong lồng vẫn bình thường.",
+    "Không kết luận khi bọt xà phòng tràn ra chứ không phải nước.",
+    "Không kết luận khi khách chọn chế độ có mức nước cao hoặc chế độ ngâm, và nước chỉ cao hơn thường lệ chứ không tràn."
+   ],
+   "ask_vi": "Cảnh báo trước, hỏi sau.",
+   "versus_vi": {
+    "WM_DRAIN_PUMP": "Nghẹt xả: nước ở mức bình thường nhưng không rút ra được.",
+    "WM_DOOR_SEAL_LEAK": "Câu hỏi tách: mở máy ra mức nước trong lồng thế nào."
+   },
+   "confusable_with": [
+    "WM_NO_WATER_INLET",
+    "WM_DRAIN_PUMP",
+    "WM_PCB_FAULT",
+    "WM_DOOR_SEAL_LEAK"
+   ],
+   "summary_vi": "Máy giặt lấy nước qua một van điện, và một cảm biến báo cho máy biết khi nào đã đủ nước để đóng van lại. Khi van kẹt mở, hoặc khi cảm biến không báo được, nước cứ vào mãi cho tới khi tràn ra khỏi thùng."
+  },
+  "WM_PCB_FAULT": {
+   "signs_vi": [
+    "nhấn nút không ăn",
+    "báo lỗi lạ",
+    "tự dừng giữa chừng",
+    "đèn nháy liên tục",
+    "hiện mã lỗi",
+    "không chọn được chế độ",
+    "máy treo giữa chừng",
+    "lúc được lúc không"
+   ],
+   "rule_out_vi": [
+    "Không kết luận khi chưa thử rút điện cắm lại.",
+    "Không kết luận khi máy luôn dừng ở đúng một bước.",
+    "Không kết luận khi máy hoàn toàn không lên nguồn mà chưa kiểm tra phích cắm, ổ cắm và aptomat.",
+    "Không kết luận khi máy báo lỗi cửa."
+   ],
+   "ask_vi": "đã thử rút điện mười phút rồi cắm lại chưa, và máy dừng hoặc treo ở bước nào.",
+   "versus_vi": {
+    "WM_DOOR_LOCK": "Khoá cửa: máy không chạy và báo lỗi liên quan tới cửa, hoặc không mở được cửa.",
+    "WM_DRAIN_PUMP": "Bơm xả: máy luôn treo ở đúng bước xả, và trong lồng còn nước.",
+    "WM_OVERFLOW": "Van cấp và áp lực: máy luôn treo ở đúng bước cấp nước, và nước không vào hoặc vào rất chậm.",
+    "WM_MOTOR_FAULT": "Mô tơ và curoa: lồng không quay, nhưng các bước khác bình thường."
+   },
+   "confusable_with": [
+    "WM_DOOR_LOCK",
+    "WM_MOTOR_FAULT",
+    "WM_DRAIN_PUMP",
+    "WM_NO_WATER_INLET",
+    "WM_OVERFLOW"
+   ],
+   "summary_vi": "Bo mạch là phần điều khiển của máy giặt. Nó nhận lệnh từ bảng điều khiển, đọc các cảm biến, ra lệnh cho van cấp nước, cho bơm xả, cho khoá cửa, cho mô tơ, và quyết định từng bước của chu trình."
+  },
+  "WM_SMELL_MOLD": {
+   "signs_vi": [
+    "quần áo có mùi hôi",
+    "lồng giặt bẩn",
+    "có cặn đen bám vào áo",
+    "mùi ẩm mốc",
+    "giặt xong vẫn hôi",
+    "có rong rêu trong lồng",
+    "thơm lúc ướt nhưng hôi khi khô",
+    "vệt đen bám vào đồ"
+   ],
+   "rule_out_vi": [
+    "Không kết luận khi mùi là mùi khét hoặc nhựa cháy.",
+    "Không kết luận khi trong lồng còn đọng nước sau khi giặt xong.",
+    "Không kết luận khi mùi là mùi cống, mùi hôi thối nồng, và nó xuất hiện cả khi máy không chạy.",
+    "Không kết luận khi mùi chỉ xuất hiện sau khi đổi loại bột giặt hoặc nước xả vải."
+   ],
+   "ask_vi": "mùi là mùi ẩm mốc hay mùi khét.",
+   "versus_vi": {
+    "WM_DOOR_SEAL_LEAK": "Nếu gioăng chỉ bẩn và có mốc đen nhưng còn nguyên vẹn: thuộc bệnh này, và lau sạch là được.",
+    "WM_DRAIN_PUMP": "Câu hỏi tách: sau khi giặt xong trong lồng có còn nước không."
+   },
+   "confusable_with": [
+    "WM_DOOR_SEAL_LEAK",
+    "WM_DRAIN_PUMP"
+   ],
+   "summary_vi": "Lồng giặt có hai lớp: lồng trong đục lỗ chứa quần áo, và thùng ngoài chứa nước. Khoảng giữa hai lớp đó là chỗ khách không bao giờ nhìn thấy và không bao giờ lau được. Theo thời gian, cặn bột giặt, nước xả vải, xơ vải, dầu mỡ từ quần áo và cặn từ nước tích lại ở khoảng giữa đó thành một lớp nhầy."
+  }
+ }
+}
