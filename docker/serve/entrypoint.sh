@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Start Qwen, wait until it can actually answer, then start the API.
+# Start the chat model, wait until it can actually answer, then start the API.
 #
 # The order matters and so does the waiting. The API degrades a failed model
 # call into "ask the customer a question", which is right when the model is
@@ -7,16 +7,23 @@
 # come back as a clarification, the service would look healthy, and nobody
 # would know the difference.
 #
-# Both share one GPU, so vLLM is told to leave room. At 0.85 of a 12GB card it
-# takes 9.9GB and the detector has 1.6GB to live in, which is where CUDA runs
-# out partway through a request rather than at startup.
+# Both share one GPU, so vLLM is told to leave room. The chat model is
+# Qwen3.5-9B quantised to FP8 at load (about 10GB of weights), served text only:
+# the detector reads the photographs and the model never sees one. That needs
+# a 16GB card; at 0.80 vLLM takes 12.8GB and the detector keeps 3.2GB. The
+# 12GB plan of the 3B vision model no longer fits.
 
 set -euo pipefail
 
 VLM_PORT="${VLM_PORT:-8001}"
 API_PORT="${API_PORT:-8000}"
-MODEL="${VLM_MODEL_NAME:-Qwen/Qwen2.5-VL-3B-Instruct-AWQ}"
-GPU_FRACTION="${GPU_FRACTION:-0.70}"
+MODEL="${VLM_MODEL_NAME:-Qwen/Qwen3.5-9B}"
+GPU_FRACTION="${GPU_FRACTION:-0.80}"
+# FP8 weights computed at load, and no image or video inputs: the vision tower
+# is never loaded and its memory goes to the KV cache.
+read -r -a MODEL_ARGS <<< "${VLM_EXTRA_ARGS:---quantization fp8}"
+MODEL_ARGS+=(--limit-mm-per-prompt '{"image":0,"video":0}')
+export AI_ENGINE="${AI_ENGINE:-chat2}"
 MAX_LEN="${MAX_LEN:-8192}"
 WEIGHTS_DIR="${WEIGHTS_DIR:-/workspace/weights}"
 # The fault-choosing adapter (docker/lora), by run name in HF_WEIGHTS_REPO.
@@ -105,7 +112,7 @@ start_vllm() {
     --host 127.0.0.1 \
     --port "${VLM_PORT}" \
     --gpu-memory-utilization "${GPU_FRACTION}" \
-    --max-model-len "${MAX_LEN}"     "${LORA_ARGS[@]}" &
+    --max-model-len "${MAX_LEN}" "${MODEL_ARGS[@]}" "${LORA_ARGS[@]}" &
   VLM_PID=$!
   trap 'kill ${VLM_PID} 2>/dev/null || true' EXIT
 }
@@ -134,6 +141,7 @@ start_api() {
   log "  detector: ${YOLO_WEIGHTS_PATH:-stub}"
   log "  vlm:      ${VLM_BASE_URL}"
   log "  adapter:  ${VLM_FAULT_MODEL:-none}"
+  log "  engine:   ${AI_ENGINE}"
   exec python3 -m uvicorn app.main:app --host 0.0.0.0 --port "${API_PORT}"
 }
 

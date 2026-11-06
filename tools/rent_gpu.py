@@ -667,8 +667,12 @@ Nothing outside has any business talking to the model directly, and a rented
 box publishes its ports to the open internet.
 """
 
-SERVE_LORA_RUN = "lora-fault-v1c"
-"""The fault adapter a serving box attaches unless told otherwise.
+SERVE_LORA_RUN = ""
+"""The fault adapter a serving box attaches unless told otherwise: none.
+
+lora-fault-v1c was trained on Qwen2.5-VL-3B and cannot load onto the chat model
+that replaced it on 06/11/2026 (Qwen3.5-9B, app/services/chat2). Kept below
+for the record of what it bought the old pipeline:
 
 Measured 28/10/2026 on the real model against a box with the same code and no
 adapter, on the held-out halves: understanding first fault 30.7 to 43.5
@@ -997,8 +1001,8 @@ def main() -> None:
     offers.add_argument(
         "--min-vram",
         type=int,
-        default=12,
-        help="GB of VRAM; 12 is what the deployment was planned around",
+        default=16,
+        help="GB of VRAM; the chat model (Qwen3.5-9B FP8) and the detector need 16",
     )
     offers.add_argument("--min-download", type=int, default=200, help="Mbps")
     offers.add_argument(
@@ -1086,8 +1090,8 @@ def main() -> None:
     serve.add_argument(
         "--gpu-fraction",
         type=float,
-        default=0.70,
-        help="share of VRAM for Qwen; the rest is the detector's",
+        default=0.80,
+        help="share of VRAM for the chat model; the rest is the detector's (16GB card)",
     )
     serve.add_argument(
         "--weights-run",

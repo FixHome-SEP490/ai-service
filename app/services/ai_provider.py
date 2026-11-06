@@ -134,6 +134,11 @@ class LocalPipelineProvider(AIProvider):
 @lru_cache(maxsize=1)
 def get_ai_provider() -> AIProvider:
     """Cached so model handles and the knowledge base load once per process."""
-    if settings.AI_ENGINE.lower() == "mock":
+    engine = settings.AI_ENGINE.lower()
+    if engine == "mock":
         return MockAIProvider()
+    if engine == "chat2":
+        from app.services.chat2.provider import Chat2Provider
+
+        return Chat2Provider()
     return LocalPipelineProvider()

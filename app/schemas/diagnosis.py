@@ -224,6 +224,8 @@ class Clarification(BaseModel):
 
     questions_vi: List[str] = Field(default_factory=list)
     service_group_codes: List[str] = Field(default_factory=list)
+    answer_options_vi: List[str] = Field(default_factory=list, max_length=4)
+    """Short answers to the first question, for the client's quick-reply buttons."""
 
     model_config = ConfigDict(alias_generator=to_camel, populate_by_name=True)
 

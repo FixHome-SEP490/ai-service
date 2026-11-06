@@ -1,0 +1,481 @@
+"""One chat turn: read the whole conversation, then either ask one question or conclude.
+
+The previous design chose the fault by matching the customer's words against
+symptom lists and let a 3B vision model rephrase the result. Anything said in
+words the lists did not contain went to whichever fault shared a token: a
+dropped air conditioner became a blocked drain, a foul smell became a burnt
+one. Here the language model does the understanding and code keeps the rules:
+
+- the model reads the conversation against the appliance's fault cards
+  (fault_cards.json) and says three things: what the customer needs, what kind
+  of need it is, and which fault and service fit. It decodes under a JSON
+  schema whose enums are exactly that appliance's codes;
+- code decides whether to ask or conclude from the kind of need, because a
+  rule the model is only told to follow it follows some of the time: the
+  customer who described anything gets a conclusion, the one who described
+  nothing gets one question, and nobody gets more than MAX_QUESTIONS;
+- the reply is at most two short sentences; price, safety step, service name
+  and a manufacturer's error-code meaning are added by code, never generated.
+
+The model never sees the photograph. The detector names the appliance and
+that name is passed in as text; when the words name a different appliance the
+words win.
+"""
+
+from __future__ import annotations
+
+import asyncio
+import json
+import re
+import time
+import unicodedata
+from dataclasses import dataclass, field
+from typing import Any, Dict, List, Optional, Sequence, Tuple
+
+import httpx
+
+from app.services.chat2.menu import (
+    URGENT,
+    DeviceMenu,
+    ServiceItem,
+    confusable,
+    device_aliases,
+    devices,
+    fault_cards,
+    menu_for,
+    price_text,
+)
+from app.services.pipeline import error_codes
+
+MAX_QUESTIONS = 2
+MAX_DEVICES = 3
+REPLY_MAX = 240
+NEED_MAX = 100
+OPTION_MAX = 28
+
+UNKNOWN = "unknown"
+NONE = "NONE"
+
+# What the customer's need is. The model classifies; `_decide` acts on it.
+SYMPTOM, DAMAGE, REQUEST, UNCLEAR = "hong_hoc", "hu_hai", "xin_viec", "chua_ro"
+
+
+@dataclass
+class Turn:
+    role: str  # "user" | "assistant"
+    text: str
+
+
+@dataclass
+class Verdict:
+    device_type: Optional[str]
+    intent: str  # repair | service | question | greeting | offtopic
+    decision: str  # ask | conclude | not_repair
+    fault_code: Optional[str]
+    service_code: Optional[str]
+    reply_vi: str
+    question_vi: Optional[str] = None
+    options_vi: List[str] = field(default_factory=list)
+    confidence: float = 0.0
+    latency_s: float = 0.0
+    need_vi: str = ""
+    need_kind: str = UNCLEAR
+    code_note_vi: Optional[str] = None
+    booking_vi: Optional[str] = None
+    """The service and its reference price, for the booking bar, not the sentence."""
+    others: List["Verdict"] = field(default_factory=list)
+    """Further appliances named in the same message, each concluded on its own."""
+    raw: Dict[str, Any] = field(default_factory=dict)
+
+
+ROUTER_SYSTEM = """Bạn đọc tin nhắn của khách hàng FixHome (dịch vụ sửa chữa, vệ sinh, lắp đặt đồ gia dụng tại nhà) và xác định:
+- devices: các thiết bị khách đang nói tới, theo thứ tự khách nhắc, chọn trong danh sách mã; danh sách rỗng nếu khách chưa nói tới thiết bị nào. Tên thiết bị khách gõ ra luôn được tính, kể cả gõ không dấu, gõ tắt, gọi theo hãng.
+- intent: "repair" nếu khách kể thiết bị hỏng, có hiện tượng lạ, bị rơi, vỡ, có mùi; "service" nếu khách xin một việc như vệ sinh, bảo dưỡng, lắp, tháo, di dời; "question" nếu khách hỏi giá, chính sách, cách dùng; "greeting" nếu chỉ chào hỏi, alo, ok, cảm ơn; "offtopic" nếu không liên quan đồ gia dụng trong nhà, kể cả đồ điện tử FixHome không sửa như laptop, máy tính, điện thoại, máy in, xe máy, ô tô, và câu hỏi đời thường như thời tiết, giờ giấc, bóng đá.
+
+Danh sách thiết bị (mã: tên):
+{devices}"""
+
+SYSTEM = """Bạn là trợ lý của FixHome, đang nhắn tin riêng với một khách hàng về chiếc {device_name} của họ. Xưng "em", gọi khách là "anh/chị".{focus}
+
+Mỗi lượt, đọc toàn bộ cuộc trò chuyện rồi điền:
+- need: chép ngắn điều khách cần trong cả cuộc trò chuyện: hiện tượng khách đã kể, hư hại máy gặp phải, hoặc việc khách xin làm. Để trống "" nếu chưa có gì.
+- need_kind:
+  "hong_hoc" khi khách kể hiện tượng của máy (dù chỉ vài chữ, kể gián tiếp, kể bằng hậu quả, bằng số đo hay bằng mã lỗi);
+  "hu_hai" khi máy bị rơi, va đập, bung khỏi tường, vỡ, ngấm nước, cháy nổ;
+  "xin_viec" khi khách xin một việc: vệ sinh, bảo dưỡng, súc rửa, lắp mới, thay, tháo, di dời, treo;
+  "chua_ro" khi khách chưa kể hiện tượng nào và chưa xin việc gì, ví dụ "máy bị hư", "máy có vấn đề", "đây ạ".
+- fault_code: khi need_kind là "hong_hoc", luôn chọn lỗi khớp nhất trong danh sách bên dưới, kể cả khi chưa chắc: thợ sẽ kiểm tra lại tại nhà. "NONE" chỉ dùng cho "hu_hai", "chua_ro", và "xin_viec" không kèm hiện tượng hỏng.
+- decision: "conclude" khi đã chốt được; "ask" khi need_kind là "chua_ro"; "not_repair" khi khách hỏi chuyện không liên quan sửa chữa, vệ sinh, lắp đặt đồ trong nhà.
+- service_code: dịch vụ nên đặt.
+- reply: câu nói với khách.
+- options: khi hỏi, 2 đến 4 lựa chọn trả lời ngắn; khi chốt, danh sách rỗng.
+
+Cách chọn lỗi:
+- So hiện tượng với "Khách hay tả", "Không phải lỗi này nếu" và "Phân biệt" của từng lỗi; chọn lỗi khớp nhất kể cả khi khách dùng chữ khác.
+- Khách tự đoán bệnh ("hết gas rồi", "chắc hư bo") thì không tin lời đoán đó: chọn lỗi theo hiện tượng khách tả.
+- Mùi hôi, tanh, ẩm mốc, máy bẩn là chuyện vệ sinh. Mùi khét, mùi cháy, tia lửa là chuyện chập điện.
+- Khách báo mã lỗi và có "Mã lỗi theo hãng" bên dưới thì chọn theo nghĩa của mã đó. Mã không có trong bảng của hãng thì bỏ qua con mã, chọn lỗi theo hiện tượng khách tả.
+- Hư hại do rơi, va đập, vỡ: fault_code "NONE", nói thợ cần tới kiểm tra hư hại.
+
+Khi phải hỏi: hỏi đúng MỘT câu về điều khách tự nhìn, nghe, ngửi được; không hỏi điều khách đã nói; không hỏi khách thuộc loại máy gì.
+
+Cách viết reply:
+- Tối đa hai câu ngắn, dưới 40 chữ. Nói thẳng lỗi khả năng cao nhất và mời khách bấm "Đặt thợ". Không liệt kê nhiều lỗi, không giải thích dài, không xin lỗi, không hứa điều gì về giá hay bảo hành.
+- Em không tự đặt lịch hay cử thợ được: không viết "em đặt", "em cử thợ", "em sẽ gửi thợ".
+- Không ghi giá, không ghi con số. Giá do hệ thống tự thêm.
+- Khi hỏi thì reply chính là câu hỏi.
+
+Danh sách lỗi của {device_name}:
+{faults}
+
+Dịch vụ đang mở cho {device_name} (mã: tên):
+{services}
+
+Câu hỏi phân biệt nên dùng khi cần:
+{questions}{codes}"""
+
+
+def _router_schema() -> dict:
+    return {
+        "type": "object",
+        "properties": {
+            "devices": {
+                "type": "array",
+                "items": {"type": "string", "enum": list(devices().keys())},
+                "maxItems": MAX_DEVICES,
+            },
+            "intent": {"type": "string", "enum": ["repair", "service", "question", "greeting", "offtopic"]},
+        },
+        "required": ["devices", "intent"],
+        "additionalProperties": False,
+    }
+
+
+def _turn_schema(menu: DeviceMenu) -> dict:
+    # Property order is generation order: the need is written down before
+    # anything is chosen from it.
+    return {
+        "type": "object",
+        "properties": {
+            "need": {"type": "string", "maxLength": NEED_MAX},
+            "need_kind": {"type": "string", "enum": [SYMPTOM, DAMAGE, REQUEST, UNCLEAR]},
+            "fault_code": {"type": "string", "enum": [*(f.code for f in menu.faults), NONE]},
+            "decision": {"type": "string", "enum": ["conclude", "ask", "not_repair"]},
+            "service_code": {"type": "string", "enum": [s.code for s in menu.services] or [NONE]},
+            "reply": {"type": "string", "maxLength": REPLY_MAX},
+            "options": {"type": "array", "items": {"type": "string", "maxLength": OPTION_MAX}, "maxItems": 4},
+            "confidence": {"type": "number", "minimum": 0, "maximum": 1},
+        },
+        "required": ["need", "need_kind", "fault_code", "decision", "service_code", "reply", "options", "confidence"],
+        "additionalProperties": False,
+    }
+
+
+def _parse(content: str) -> dict:
+    """The model's JSON, closed if the stop sequence cut it just before its last brace."""
+    text = content.strip()
+    try:
+        return json.loads(text)
+    except json.JSONDecodeError:
+        return json.loads(text.rstrip(",") + "}")
+
+
+def _fault_line(fault, cards: Optional[Dict[str, dict]]) -> str:
+    card = (cards or {}).get(fault.code) or {}
+    urgency = {"HIGH": "nguy hiểm", "MEDIUM": "trung bình", "LOW": "nhẹ"}.get(fault.urgency, "trung bình")
+    lines = [f"- {fault.code}: {fault.name_vi} (mức độ: {urgency})"]
+    lines.append("  Khách hay tả: " + "; ".join((card.get("signs_vi") or list(fault.symptoms_vi))[:8]))
+    if card.get("rule_out_vi"):
+        # Written in the documents as "Không kết luận khi ...", which reads to a
+        # model as "ask instead". What it means is "it is another fault then".
+        rules = [re.sub(r"^Không (kết luận|xếp vào đây)( [^ ]+){0,4}? khi ", "", r) for r in card["rule_out_vi"][:3]]
+        lines.append("  Không phải lỗi này nếu: " + " ".join(rules))
+    versus = card.get("versus_vi") or {}
+    if versus:
+        lines.append("  Phân biệt: " + " ".join(f"với {code}: {text}" for code, text in list(versus.items())[:3]))
+    if card.get("ask_vi"):
+        lines.append("  Câu hỏi quyết định: " + card["ask_vi"].strip('"'))
+    return "\n".join(lines)
+
+
+def _fold(text: str) -> str:
+    text = unicodedata.normalize("NFD", text.lower()).replace("đ", "d")
+    return " " + re.sub(r"[^a-z0-9]+", " ", "".join(c for c in text if unicodedata.category(c) != "Mn")) + " "
+
+
+_LIKENESS = ("nhu", "giong", "kieu", "nhu la", "y nhu")
+
+
+def names_appliance(text: str, device_type: str) -> bool:
+    """Whether the words call the appliance by its name or a catalogue alias.
+
+    A likeness does not count: "rung y như cái máy giặt vắt lệch đồ" is about
+    a ceiling fan, "nóng như cái lò nướng" about a tumble dryer."""
+    folded = _fold(text)
+    for name in (devices().get(device_type, ""), *device_aliases().get(device_type, ())):
+        needle = _fold(name)
+        if len(needle.strip()) <= 2:
+            continue
+        start = folded.find(needle)
+        while start >= 0:
+            before = folded[:start].split()[-3:]
+            if not any(w in _LIKENESS for w in before):
+                return True
+            start = folded.find(needle, start + 1)
+    return False
+
+
+def _customer_text(history: Sequence[Turn]) -> str:
+    return " ".join(t.text for t in history if t.role == "user")
+
+
+def code_reading(history: Sequence[Turn], device_type: str) -> Tuple[Optional[str], Optional[str]]:
+    """(context line for the model, sentence for the customer) about an error code the customer reported."""
+    book = error_codes.get_error_code_book()
+    said = _customer_text(history)
+    reading = book.read(said, book.brand_in(said), device_type)
+    if reading is None:
+        return None, None
+    if reading.entry is not None:
+        faults = ", ".join(reading.entry.faults)
+        context = f"Máy {reading.table.brand_vi} báo mã {reading.token}: {reading.entry.meaning_vi}" + (
+            f" (lỗi tương ứng: {faults})" if faults else ""
+        )
+        return context, error_codes.reply_vi(reading, urgent=False)
+    if reading.table is None:
+        # The brand is not known yet: what the code means for each brand we hold a table for.
+        meanings = [
+            f"theo {t.brand_vi}: {t.find(reading.token).meaning_vi}" + (f" ({', '.join(t.find(reading.token).faults)})" if t.find(reading.token).faults else "")
+            for t in book.tables
+            if t.device_type == device_type and t.find(reading.token)
+        ]
+        return f"Khách báo mã {reading.token}, chưa rõ hãng; " + "; ".join(meanings), None
+    return f"Khách báo mã {reading.token}, mã này không có trong bảng của {reading.table.brand_vi}", error_codes.reply_vi(reading, urgent=False)
+
+
+def _system_prompt(
+    menu: DeviceMenu,
+    cards: Optional[Dict[str, dict]] = None,
+    code_context: Optional[str] = None,
+    focus: Optional[str] = None,
+) -> str:
+    return SYSTEM.format(
+        device_name=menu.name_vi.lower(),
+        focus=f"\nKhách nhắc nhiều thiết bị; lượt này chỉ xét {focus}." if focus else "",
+        faults="\n".join(_fault_line(f, cards) for f in menu.faults) or "- (không có lỗi nào trong danh mục, chỉ chọn dịch vụ)",
+        services="\n".join(f"- {s.code}: {s.name_vi}" for s in menu.services) or "- (chưa mở dịch vụ nào)",
+        questions="\n".join(f"- {q.text_vi}" for q in menu.questions[:6]) or "- (không có)",
+        codes=f"\n\nMã lỗi theo hãng: {code_context}" if code_context else "",
+    )
+
+
+def questions_asked(history: Sequence[Turn]) -> int:
+    return sum(1 for t in history if t.role == "assistant" and t.text.rstrip().endswith("?"))
+
+
+class ChatBrain:
+    def __init__(
+        self,
+        base_url: str,
+        model: str,
+        api_key: str = "EMPTY",
+        timeout_s: float = 20.0,
+        extra_body: Optional[dict] = None,
+        with_cards: bool = True,
+    ) -> None:
+        self._url = base_url.rstrip("/") + "/chat/completions"
+        self._model = model
+        self._headers = {"Authorization": f"Bearer {api_key}"}
+        self._timeout = timeout_s
+        self._extra = extra_body or {}
+        self._cards = fault_cards() if with_cards else None
+
+    async def _call(self, client: httpx.AsyncClient, messages: List[dict], schema: dict, max_tokens: int) -> dict:
+        body = {
+            "model": self._model,
+            "messages": messages,
+            "temperature": 0.0,
+            "max_tokens": max_tokens,
+            # The schema as a grammar, in the layout the model writes JSON in.
+            # Forcing compact JSON (a regex with no whitespace) was tried and
+            # made Qwen3-14B route "vệ sinh tủ lạnh" to the gas stove: pushed
+            # off its own token path, it chose worse. The grammar does let it
+            # emit newlines after the last field until max_tokens; a JSON
+            # string cannot hold a raw newline, so three in a row are always
+            # outside one, and stopping there loses at most the closing brace.
+            "structured_outputs": {"json": schema},
+            "stop": ["\n\n\n"],
+            **self._extra,
+        }
+        r = await client.post(self._url, json=body, headers=self._headers, timeout=self._timeout)
+        r.raise_for_status()
+        return _parse(r.json()["choices"][0]["message"]["content"])
+
+    async def route(self, client: httpx.AsyncClient, history: Sequence[Turn]) -> dict:
+        names = "\n".join(f"- {k}: {v}" for k, v in devices().items())
+        transcript = "\n".join(f"{'Khách' if t.role == 'user' else 'Trợ lý'}: {t.text}" for t in history)
+        return await self._call(
+            client,
+            [{"role": "system", "content": ROUTER_SYSTEM.format(devices=names)}, {"role": "user", "content": transcript}],
+            _router_schema(),
+            80,
+        )
+
+    async def turn(
+        self,
+        client: httpx.AsyncClient,
+        history: Sequence[Turn],
+        device_type: Optional[str] = None,
+        also: Sequence[str] = (),
+    ) -> Verdict:
+        """`device_type` is what the first photograph showed, `also` what further photographs showed."""
+        started = time.perf_counter()
+        routed = await self.route(client, history)
+        intent = routed.get("intent", "repair")
+        named = [d for d in routed.get("devices") or [] if d in devices()][:MAX_DEVICES]
+        # With a photograph of an appliance the router may not decline: a story
+        # told by its consequences ("cả dãy trọ cúp điện") reads to it as small
+        # talk. The diagnosis, which sees the appliance, decides that instead.
+        if not device_type and (intent == "offtopic" or (intent == "greeting" and not named)):
+            return _without_device(intent, None, time.perf_counter() - started, routed)
+        # The words win over the photograph, but only words that name the
+        # appliance: "lò nướng" under a photo read as a microwave is an oven.
+        # The router also guesses an appliance from a bare symptom ("tụ ở dàn
+        # nóng"), and a guess must not outvote what the detector saw.
+        if device_type:
+            text = _customer_text(history)
+            said = [d for d in named if d != device_type and names_appliance(text, d)]
+            # The photograph is overruled only between look-alikes the detector
+            # confuses (oven and microwave, washer and dryer); anything else the
+            # words name is a further appliance, not a correction.
+            correction = next((d for d in said if d in confusable(device_type)), None)
+            primary = correction or device_type
+            order = list(dict.fromkeys([primary, *also, *[d for d in said if d != correction]]))
+        else:
+            order = list(dict.fromkeys(named))
+        order = order[:MAX_DEVICES]
+        if not order:
+            return _without_device(intent, None, time.perf_counter() - started, routed)
+        focus = len(order) > 1
+        verdicts = await asyncio.gather(
+            *(self._diagnose(client, history, d, intent, devices()[d].lower() if focus else None) for d in order)
+        )
+        first = verdicts[0]
+        first.others = list(verdicts[1:])
+        first.latency_s = time.perf_counter() - started
+        return first
+
+    async def _diagnose(
+        self, client: httpx.AsyncClient, history: Sequence[Turn], device_type: str, intent: str, focus: Optional[str]
+    ) -> Verdict:
+        menu = menu_for(device_type)
+        code_context, code_sentence = code_reading(history, device_type)
+        messages = [{"role": "system", "content": _system_prompt(menu, self._cards, code_context, focus)}]
+        messages += [{"role": t.role, "content": t.text} for t in history]
+        raw = await self._call(client, messages, _turn_schema(menu), 320)
+        verdict = _compose(menu, intent, raw, questions_asked(history), code_sentence)
+        verdict.code_note_vi = code_context
+        return verdict
+
+
+def _without_device(intent: str, device_type: Optional[str], latency: float, raw: dict) -> Verdict:
+    if intent == "offtopic":
+        text = "Dạ em chỉ hỗ trợ được việc sửa chữa, vệ sinh, lắp đặt đồ dùng trong nhà ạ."
+        decision = "not_repair"
+    else:
+        text = "Dạ anh/chị đang cần hỗ trợ thiết bị nào ạ? Anh/chị gửi ảnh hoặc nói tên máy giúp em nhé."
+        decision = "ask"
+    return Verdict(device_type, intent, decision, None, None, text, raw=raw, latency_s=latency)
+
+
+# Words that say something is wrong without saying what. A need made of
+# these and the appliance's own name describes nothing, whatever the model
+# filed it under: "máy lạnh có vấn đề" must get a question, not a guess.
+_VAGUE = frozenset(
+    """may bi hu hong loi van de truc trac sao roi co khong on xem giup kiem tra sua nha em minh
+    toi a oi cai con chiec dang hoi lam gi the nao the nay vay khach can ho tro nhu cu nua""".split()
+)
+
+
+def describes_nothing(need: str, menu: DeviceMenu) -> bool:
+    words = set(_fold(need).split())
+    words -= set(_fold(" ".join((menu.name_vi, *device_aliases().get(menu.device_type, ())))).split())
+    return not (words - _VAGUE)
+
+
+def _decide(menu: DeviceMenu, raw: dict, asked: int) -> Tuple[str, Optional[Any], Optional[ServiceItem]]:
+    """(decision, fault, service) from what the model classified. The rules live here, not in the prompt."""
+    kind = raw.get("need_kind", UNCLEAR)
+    if kind == SYMPTOM and describes_nothing(raw.get("need") or "", menu):
+        kind = raw["need_kind"] = UNCLEAR
+    fault = menu.fault(raw.get("fault_code"))
+    service = menu.service(raw.get("service_code"))
+    if raw.get("decision") == "not_repair":
+        return "not_repair", None, None
+    if kind == DAMAGE:
+        # A dropped, cracked or flooded unit is not a catalogue fault: the
+        # repair service, so a technician sees the damage.
+        return "conclude", None, menu.repair_service or service
+    if fault and fault.service_code:
+        # A named fault books the service the catalogue maps it to.
+        service = menu.service(fault.service_code) or service
+    if kind == REQUEST:
+        return "conclude", fault, service or menu.repair_service
+    if kind == SYMPTOM and fault is not None:
+        return "conclude", fault, service or menu.repair_service
+    # Nothing described yet, or a symptom matching no fault: the model may ask,
+    # until the question budget is spent.
+    if (raw.get("decision") == "ask" or kind == UNCLEAR) and asked < MAX_QUESTIONS:
+        return "ask", fault, service or menu.repair_service
+    return "conclude", fault, service or menu.repair_service
+
+
+def _concluding_sentence(menu: DeviceMenu, kind: str, fault, service: Optional[ServiceItem]) -> str:
+    """Used when the model wrote a question but the rules concluded."""
+    name = menu.name_vi.lower()
+    if kind == DAMAGE:
+        return f"Dạ {name} bị va đập nên cần thợ tới kiểm tra hư hại trước khi dùng lại ạ."
+    if fault is not None:
+        return f"Dạ {name} của anh/chị khả năng cao bị {fault.name_vi.lower()} ạ."
+    if kind == REQUEST and service is not None:
+        return f"Dạ anh/chị bấm Đặt thợ để đặt {service.name_vi.lower()} nhé."
+    return f"Dạ thợ sẽ tới kiểm tra {name} tận nơi để tìm đúng chỗ hỏng ạ."
+
+
+def _compose(menu: DeviceMenu, intent: str, raw: dict, asked: int, code_sentence: Optional[str] = None) -> Verdict:
+    decision, fault, service = _decide(menu, raw, asked)
+    kind = raw.get("need_kind", UNCLEAR)
+    reply = " ".join((raw.get("reply") or "").split())[:REPLY_MAX]
+    options = [o.strip() for o in raw.get("options") or [] if o.strip()][:4]
+    common = dict(
+        device_type=menu.device_type, intent=intent, confidence=float(raw.get("confidence") or 0),
+        need_vi=(raw.get("need") or "")[:NEED_MAX], need_kind=kind, raw=raw,
+    )
+    if decision == "not_repair":
+        return Verdict(decision=decision, fault_code=None, service_code=None,
+                       reply_vi="Dạ em chỉ hỗ trợ được việc sửa chữa, vệ sinh, lắp đặt đồ dùng trong nhà ạ.", **common)
+    if decision == "ask":
+        if not reply.endswith("?"):
+            reply = reply.rstrip(".") + "?"
+        return Verdict(decision="ask", fault_code=fault.code if fault else None,
+                       service_code=service.code if service else None, reply_vi=reply,
+                       question_vi=reply, options_vi=options, **common)
+    if not reply or reply.endswith("?"):
+        reply = _concluding_sentence(menu, kind, fault, service)
+    parts: List[str] = []
+    if fault and fault.urgency == URGENT and fault.actions_vi:
+        action = fault.actions_vi[0]
+        parts.append("Trước tiên anh/chị " + action[0].lower() + action[1:].rstrip(".") + ".")
+    if code_sentence:
+        parts.append(code_sentence)
+    parts.append(reply)
+    # The service and its price are not repeated in the sentence: the client
+    # shows them on the booking bar beside it, and a reply that says them too
+    # is the long answer customers stop reading.
+    booking = None
+    if service:
+        price = price_text(service)
+        booking = f"{service.name_vi}" + (f", tham khảo {price}" if price else "")
+    return Verdict(decision="conclude", fault_code=fault.code if fault else None,
+                   service_code=service.code if service else None, reply_vi=" ".join(parts),
+                   booking_vi=booking, **common)
