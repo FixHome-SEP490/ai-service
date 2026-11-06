@@ -16,6 +16,7 @@ from app.services.chat2.brain import (
     _parse,
     _turn_schema,
     code_reading,
+    describes_nothing,
     questions_asked,
 )
 from app.services.chat2.menu import devices, menu_for
@@ -163,10 +164,47 @@ async def test_question_limit_forces_a_conclusion():
 async def test_damage_books_the_repair_service_whatever_the_model_picked():
     v, _ = await _run(
         [_route("air_conditioner"),
-         _turn(need="rơi khỏi tường", need_kind=DAMAGE, service_code="AC-04", reply="Dạ em đặt tháo máy cho anh/chị.")],
+         _turn(need="rơi khỏi tường", need_kind=DAMAGE, service_code="AC-04", reply="Dạ em đặt tháo máy cho anh/chị."),
+         {"fault_code": "NONE"}],
         [Turn("user", "cục lạnh bung khỏi tường rớt xuống sàn")],
     )
     assert v.decision == "conclude" and v.fault_code is None and v.service_code == "AC-01"
+
+
+@pytest.mark.asyncio
+async def test_damage_the_catalogue_names_is_that_fault():
+    """06/11: 51 of 87 misses on clear descriptions were named damage (cracked hob glass) filed as no fault."""
+    v, calls = await _run(
+        [_route("induction_hob"),
+         _turn(need="mặt kính nứt", need_kind=DAMAGE, fault_code="HOB_GLASS_CRACKED", service_code="KT-01",
+               reply="Dạ mặt kính bếp từ bị nứt ạ.")],
+        [Turn("user", "làm rơi cái nồi, mặt kính bếp từ nứt một đường")], device="induction_hob",
+    )
+    assert v.decision == "conclude" and v.fault_code == "HOB_GLASS_CRACKED" and len(calls) == 2
+
+
+@pytest.mark.asyncio
+async def test_a_symptom_left_without_a_fault_gets_a_second_narrower_pass():
+    v, calls = await _run(
+        [_route("air_conditioner"),
+         _turn(need="cục ngoài kêu è è, quạt không quay", fault_code="NONE", reply="Dạ thợ sẽ kiểm tra ạ."),
+         {"fault_code": "AC_CAPACITOR"}],
+        [Turn("user", "cục ngoài kêu è è mà cánh quạt nằm im")],
+    )
+    assert v.fault_code == "AC_CAPACITOR" and v.service_code == "AC-01"
+    pick = calls[2]
+    enum = pick["structured_outputs"]["json"]["properties"]["fault_code"]["enum"]
+    assert "NONE" not in enum and "AC_CAPACITOR" in enum
+    assert "cục ngoài kêu è è" in pick["messages"][-1]["content"]
+
+
+@pytest.mark.asyncio
+async def test_a_vague_need_gets_no_second_pass():
+    v, calls = await _run(
+        [_route("air_conditioner"), _turn(need="máy lạnh có vấn đề", need_kind=UNCLEAR, decision="ask", reply="Dạ máy bị sao ạ?")],
+        [Turn("user", "máy lạnh có vấn đề")],
+    )
+    assert v.decision == "ask" and len(calls) == 2
 
 
 @pytest.mark.asyncio
@@ -397,3 +435,66 @@ async def test_unclear_with_a_named_fault_and_a_specific_message_concludes():
         device="refrigerator",
     )
     assert v.decision == "conclude" and v.fault_code == "FRIDGE_FAN_FAULT"
+
+
+def test_a_fault_named_after_the_appliance_is_not_said_twice():
+    from app.services.chat2.brain import fault_phrase
+
+    menu = menu_for("refrigerator")
+    dirty = next(f for f in menu.faults if f.name_vi.lower().startswith("tủ lạnh"))
+    assert not fault_phrase(menu, dirty).startswith("tủ lạnh")
+    drain = menu_for("air_conditioner").fault("AC_DRAIN_BLOCKED")
+    assert fault_phrase(menu_for("air_conditioner"), drain) == drain.name_vi[:1].lower() + drain.name_vi[1:]
+
+
+@pytest.mark.parametrize("text", ["dạo này nấu cứ sao sao ấy", "chạy thấy không được bình thường lắm", "dạo này chạy thấy không ổn lắm", "có chuyện rồi, nhờ thợ qua coi giúp"])
+def test_using_the_appliance_with_a_vague_verdict_describes_nothing(text):
+    assert describes_nothing(text, menu_for("gas_stove"))
+
+
+@pytest.mark.parametrize("text", ["không chạy", "máy lạnh chảy nước là sao vậy em", "chạy kêu sao sao", "nấu không lên lửa"])
+def test_a_usage_verb_with_a_symptom_still_describes_something(text):
+    assert not describes_nothing(text, menu_for("air_conditioner"))
+
+
+@pytest.mark.asyncio
+async def test_the_customers_own_words_decide_vagueness_not_the_models_paraphrase():
+    """06/11: "mấy bữa nay hơi kỳ kỳ" came back concluded on a symptom the model wrote itself."""
+    v, _ = await _run(
+        [_route("light_bulb"),
+         _turn(need="đèn chớp tắt", fault_code="LIGHT_FLICKERING", service_code="LF-01", reply="Dạ đèn bị chớp ạ.")],
+        [Turn("user", "mấy bữa nay hơi kỳ kỳ")], device="light_bulb",
+    )
+    assert v.decision == "ask"
+
+
+@pytest.mark.asyncio
+async def test_a_short_answer_to_the_assistants_question_is_not_vague():
+    history = [Turn("user", "máy giặt bị sao á"), Turn("assistant", "Dạ máy có vào nước không ạ?"), Turn("user", "Không")]
+    v, _ = await _run(
+        [_route("washing_machine"),
+         _turn(need="không vào nước", fault_code="WM_NO_WATER_INLET", service_code="WM-01", reply="Dạ khả năng máy không cấp nước ạ.")],
+        history, device="washing_machine",
+    )
+    assert v.decision == "conclude" and v.fault_code == "WM_NO_WATER_INLET"
+
+
+@pytest.mark.asyncio
+async def test_a_typed_appliance_beats_the_routers_guess():
+    """06/11: "lắp đèn trần" was routed to the ceiling fan and booked a fan service."""
+    v, calls = await _run(
+        [_route("ceiling_fan", intent="service"),
+         _turn(need="lắp đèn trần", need_kind=REQUEST, service_code="LF-01", reply="Dạ anh/chị bấm Đặt thợ để lắp đèn nhé.")],
+        [Turn("user", "lắp đèn trần phòng khách")], device=None,
+    )
+    assert v.device_type == "light_bulb" and v.service_code == "LF-01" and len(calls) == 2
+
+
+@pytest.mark.asyncio
+async def test_a_named_appliance_is_never_declined_as_off_topic():
+    v, _ = await _run(
+        [_route(intent="offtopic"),
+         _turn(need="lắp khóa vân tay", need_kind=REQUEST, service_code="LK-03", reply="Dạ anh/chị bấm Đặt thợ để lắp khóa nhé.")],
+        [Turn("user", "lap khoa van tay")], device=None,
+    )
+    assert v.decision == "conclude" and v.service_code == "LK-03"

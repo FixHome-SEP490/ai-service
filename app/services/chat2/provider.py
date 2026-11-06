@@ -51,7 +51,9 @@ from app.services.chat2.brain import (
     Turn,
     Verdict,
     asks_price,
+    asks_for_the_verdict,
     describes_nothing,
+    fault_phrase,
     mentions,
     named_in,
 )
@@ -213,6 +215,12 @@ class Chat2Provider(AIProvider):
                     menu = menu_for(said[0])
                     if menu and describes_nothing(latest, menu):
                         routed["intent"] = "repair"
+                current_menu = menu_for(session.device) if session.device else None
+                if concluded and not new_appliance and current_menu and asks_for_the_verdict(latest, current_menu):
+                    # The question tier has to pick a document, and for these it
+                    # picked a price table and a list of fault groups (live,
+                    # 07/11). The answer is the conclusion itself.
+                    return "answer", _recap(session, current_menu)
                 if routed.get("intent") == "book" and session.services:
                     return "answer", _booking_nudge(session)
                 if routed.get("intent") == "greeting" and session.device and not routed.get("devices"):
@@ -307,7 +315,7 @@ class Chat2Provider(AIProvider):
 def _trace(kind: str, result) -> TraceStage:
     """Which branch answered and what it chose, for the operator (includeTrace)."""
     if kind == "answer":
-        detail = {"branch": "answer", "passages": [p.id for p in result.passages], "grounded": result.grounded}
+        detail = {"branch": result.kind, "passages": [p.id for p in result.passages], "grounded": result.grounded}
         summary = "trả lời từ " + (", ".join(p.section_vi for p in result.passages) or "không có tài liệu")
     else:
         detail = {
@@ -317,6 +325,16 @@ def _trace(kind: str, result) -> TraceStage:
         }
         summary = f"{result.decision} {result.device_type or ''} {result.fault_code or ''}".strip()
     return TraceStage(name="chat2", ms=int(result.latency_s * 1000), ok=True, summary_vi=summary, detail=detail)
+
+
+def _recap(session: Session, menu) -> Answer:
+    """The conclusion again, for a customer who asks what it was or answers yes or no to nothing."""
+    fault = menu.fault(session.fault) if session.fault else None
+    if fault is not None:
+        head = f"Dạ theo những gì anh/chị kể, {menu.name_vi.lower()} khả năng cao bị {fault_phrase(menu, fault)} ạ."
+    else:
+        head = "Dạ anh/chị cần " + ", ".join(s.name_vi.lower() for s in session.services) + " ạ."
+    return Answer(head + ' Anh/chị bấm "Đặt thợ ngay" để thợ tới kiểm tra và báo giá chính xác nhé.', [], True, kind="recap")
 
 
 def _booking_nudge(session: Session) -> Answer:

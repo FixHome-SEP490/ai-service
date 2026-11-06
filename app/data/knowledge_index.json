@@ -450,6 +450,13 @@
    "text_vi": "Ảnh khách gửi được một mô hình nhận diện đọc để biết đó là thiết bị gì, rồi gửi kèm đơn cho thợ xem trước. Phần trò chuyện của trợ lý không nhìn ảnh để đoán bệnh; bệnh được đoán từ lời khách kể, nên khách kể hiện tượng càng rõ thì kết luận càng sát."
   },
   {
+   "id": "system:cau-hoi-thuong-gap:8",
+   "scope": "platform",
+   "doc_vi": "Câu hỏi thường gặp về thợ, đơn và trợ lý",
+   "section_vi": "Trợ lý đoán bệnh có chính xác không",
+   "text_vi": "Trợ lý chỉ gợi ý sơ bộ bệnh khả năng cao nhất từ lời khách kể, để khách hiểu vấn đề sớm hơn và đặt đúng dịch vụ. Kết luận chính thức là của thợ sau khi kiểm tra tận nơi, và giá chính thức là báo giá thợ gửi để khách duyệt. Trợ lý không có quyền báo giá chính thức, phân công thợ hay đổi trạng thái đơn. Khi trợ lý gặp sự cố, khách vẫn đặt lịch bình thường."
+  },
+  {
    "id": "persona:giong-noi:0",
    "scope": "platform",
    "doc_vi": "Giọng nói của trợ lý FixHome",

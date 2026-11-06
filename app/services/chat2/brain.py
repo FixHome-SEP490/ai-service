@@ -115,7 +115,7 @@ Mỗi lượt, đọc toàn bộ cuộc trò chuyện rồi điền:
   "hu_hai" khi máy bị rơi, va đập, bung khỏi tường, vỡ, ngấm nước, cháy nổ;
   "xin_viec" khi khách xin một việc: vệ sinh, bảo dưỡng, súc rửa, lắp mới, thay, tháo, di dời, treo;
   "chua_ro" khi khách chưa kể hiện tượng nào và chưa xin việc gì, ví dụ "máy bị hư", "máy có vấn đề", "đây ạ".
-- fault_code: khi need_kind là "hong_hoc", luôn chọn lỗi khớp nhất trong danh sách bên dưới, kể cả khi chưa chắc: thợ sẽ kiểm tra lại tại nhà. "NONE" chỉ dùng cho "hu_hai", "chua_ro", và "xin_viec" không kèm hiện tượng hỏng.
+- fault_code: khi need_kind là "hong_hoc", luôn chọn lỗi khớp nhất trong danh sách bên dưới, kể cả khi chưa chắc: thợ sẽ kiểm tra lại tại nhà. Khi need_kind là "hu_hai", danh sách có đúng hư hại đó (kính nứt, nắp gãy, móc treo lỏng, chân đế gãy, bình rò) thì chọn lỗi đó. "NONE" chỉ dùng cho "chua_ro", "xin_viec" không kèm hiện tượng hỏng, và "hu_hai" không khớp lỗi nào (máy rơi, va đập chung chung).
 - decision: "conclude" khi đã chốt được; "ask" khi need_kind là "chua_ro"; "not_repair" khi khách hỏi chuyện không liên quan sửa chữa, vệ sinh, lắp đặt đồ trong nhà.
 - service_code: dịch vụ nên đặt.
 - reply: câu nói với khách.
@@ -126,7 +126,7 @@ Cách chọn lỗi:
 - Khách tự đoán bệnh ("hết gas rồi", "chắc hư bo") thì không tin lời đoán đó: chọn lỗi theo hiện tượng khách tả.
 - Mùi hôi, tanh, ẩm mốc, máy bẩn là chuyện vệ sinh. Mùi khét, mùi cháy, tia lửa là chuyện chập điện.
 - Khách báo mã lỗi và có "Mã lỗi theo hãng" bên dưới thì chọn theo nghĩa của mã đó. Mã không có trong bảng của hãng thì bỏ qua con mã, chọn lỗi theo hiện tượng khách tả.
-- Hư hại do rơi, va đập, vỡ: fault_code "NONE", nói thợ cần tới kiểm tra hư hại.
+- Máy rơi, va đập mà danh sách không có đúng hư hại đó: fault_code "NONE", nói thợ cần tới kiểm tra hư hại.
 
 Khi phải hỏi: hỏi đúng MỘT câu về điều khách tự nhìn, nghe, ngửi được; không hỏi điều khách đã nói; không hỏi khách thuộc loại máy gì.
 
@@ -283,6 +283,25 @@ DOMAIN_WORDS = ("fixhome", "tho", "don", "dat lich", "hinh anh", "anh gui", "anh
                 "thanh toan", "bao hanh", "bao gia", "huy", "danh gia", "tro ly")
 
 
+# After a conclusion: a bare reply, or a request for the verdict itself. Kept
+# out of the router on purpose: a "followup" intent there (07/11) pulled in
+# "sửa có lâu không", "bảo hành bao lâu", "có nguy hiểm không", which are
+# questions about the fault and belong to the answer tier.
+BARE_REPLIES = frozenset({
+    "khong", "co", "u", "uh", "um", "vang", "da", "dung", "dung roi", "dung vay", "chuan", "phai",
+    "khong phai", "khong co", "co a", "khong a", "vang a", "da vang", "da khong", "da co", "roi", "chua",
+})
+VERDICT_WORDS = ("thay sao", "bi gi", "bi sao", "la sao", "the nao roi", "ket luan", "gio sao", "vay sao", "chan doan")
+
+
+def asks_for_the_verdict(text: str, menu: DeviceMenu) -> bool:
+    """"Không.", "đúng rồi", "vậy giờ em thấy sao?": nothing to answer but the conclusion."""
+    folded = _fold(text).strip()
+    if folded in BARE_REPLIES:
+        return True
+    return mentions(text, VERDICT_WORDS) and describes_nothing(text, menu)
+
+
 def mentions(text: str, words) -> bool:
     folded = _fold(text)
     return any(f" {w} " in folded for w in words)
@@ -413,6 +432,19 @@ class ChatBrain:
         routed = routed or await self.route(client, history)
         intent = routed.get("intent", "repair")
         named = [d for d in routed.get("devices") or [] if d in devices()][:MAX_DEVICES]
+        newest = next((t.text for t in reversed(history) if t.role == "user"), "")
+        typed = named_in(newest)
+        if typed:
+            # An appliance the customer typed by name or catalogue alias beats
+            # the router's guess: "lắp đèn trần" is a light, not a ceiling fan,
+            # "lắp đặt bếp điện" a hob, not an electric fan (06/11, service
+            # suite). The router's other appliances stay only if the customer
+            # named them somewhere. A named household appliance is never off
+            # topic ("lap khoa van tay" was declined).
+            everything = _customer_text(history)
+            named = list(dict.fromkeys([*typed, *[d for d in named if names_appliance(everything, d)]]))[:MAX_DEVICES]
+            if intent == "offtopic":
+                intent = "repair"
         # With a photograph of an appliance the router may not decline: a story
         # told by its consequences ("cả dãy trọ cúp điện") reads to it as small
         # talk. The diagnosis, which sees the appliance, decides that instead.
@@ -461,6 +493,23 @@ class ChatBrain:
         first.latency_s = time.perf_counter() - started
         return first
 
+    async def _pick_fault(
+        self, client: httpx.AsyncClient, system: dict, history: Sequence[Turn], menu: DeviceMenu, raw: dict
+    ) -> str:
+        damage = raw.get("need_kind") == DAMAGE
+        latest = next((t.text for t in reversed(history) if t.role == "user"), "")
+        need = (raw.get("need") or "").strip() or latest
+        note = " Máy rơi, va đập mà không lỗi nào là đúng hư hại đó thì chọn NONE." if damage else ""
+        transcript = "\n".join(f"{'Khách' if t.role == 'user' else 'Trợ lý'}: {t.text}" for t in history)
+        prompt = PICK_FAULT.format(need=need, damage=note)
+        messages = [system, {"role": "user", "content": transcript + "\n\n" + prompt}]
+        try:
+            picked = await self._call(client, messages, _pick_schema(menu, damage), 40)
+        except (httpx.HTTPError, ValueError, KeyError):
+            # The first answer stands; the second pass only ever adds.
+            return raw.get("fault_code") or "NONE"
+        return picked.get("fault_code") or "NONE"
+
     async def _diagnose(
         self, client: httpx.AsyncClient, history: Sequence[Turn], device_type: str, intent: str, focus: Optional[str]
     ) -> Verdict:
@@ -470,9 +519,46 @@ class ChatBrain:
         messages += [{"role": t.role, "content": t.text} for t in history]
         raw = await self._call(client, messages, _turn_schema(menu), 320)
         latest = next((t.text for t in reversed(history) if t.role == "user"), "")
-        verdict = _compose(menu, intent, raw, questions_asked(history), code_sentence, latest)
+        if needs_fault(menu, raw, latest):
+            raw["fault_code"] = await self._pick_fault(client, messages[0], history, menu, raw)
+        asked = questions_asked(history)
+        # Before the assistant has asked anything, each message is judged on
+        # its own words. After a question, "Không" answers it and says plenty.
+        said = [t.text for t in history if t.role == "user"] if asked == 0 else []
+        verdict = _compose(menu, intent, raw, asked, code_sentence, latest, said)
         verdict.code_note_vi = code_context
         return verdict
+
+
+def needs_fault(menu: DeviceMenu, raw: dict, latest: str) -> bool:
+    """A symptom or damage described, yet no fault chosen: worth a second, narrower pass.
+
+    One JSON object asks the model for a need, its kind, a fault, a service
+    and a reply at once; having written "hong_hoc", it still writes NONE
+    often enough to matter. A second call that has only the fault left to
+    choose, from the appliance's own codes, is the cheap fix (one short
+    completion, only on these turns)."""
+    if not menu.faults or menu.fault(raw.get("fault_code")) is not None:
+        return False
+    kind = raw.get("need_kind")
+    need = (raw.get("need") or "").strip() or latest
+    return kind in (SYMPTOM, DAMAGE) and not describes_nothing(need, menu)
+
+
+PICK_FAULT = (
+    "Khách đã kể: \"{need}\". Chỉ còn việc chọn mã lỗi trong danh sách ở trên khớp nhất với điều khách kể, "
+    "kể cả khi chưa chắc: thợ sẽ kiểm tra lại tại nhà.{damage}"
+)
+
+
+def _pick_schema(menu: DeviceMenu, allow_none: bool) -> dict:
+    codes = [f.code for f in menu.faults] + (["NONE"] if allow_none else [])
+    return {
+        "type": "object",
+        "properties": {"fault_code": {"type": "string", "enum": codes}},
+        "required": ["fault_code"],
+        "additionalProperties": False,
+    }
 
 
 def _without_device(intent: str, device_type: Optional[str], latency: float, raw: dict) -> Verdict:
@@ -499,8 +585,13 @@ _VAGUE = frozenset(
     thay dung xai duoc ma ay ro biet ta noi chut chac hinh nhu ve kieu tam yen thuong
     no ho gium muon moi chua khac ngon ung y gio lau ranh bua cho he tho nho""".split()
 )
+# Verbs of using the appliance. With a word of vague judgement and nothing
+# else they describe nothing ("dạo này nấu cứ sao sao ấy", "chạy thấy không
+# ổn lắm"); without one they can be the symptom ("không chạy").
+_USAGE = frozenset("chay nau nuong giat tam xem rua say bat mo dun nuoc".split())
+_VERDICT_MARKS = frozenset("on sao ky khac ung yen".split())
 # Whole phrases of "nothing specific", removed before the words are looked at.
-_VAGUE_PHRASES = ("binh thuong", "nhu truoc", "nhu cu", "truc trac", "van de", "on dinh", "xem giup", "kiem tra giup")
+_VAGUE_PHRASES = ("binh thuong", "nhu truoc", "nhu cu", "truc trac", "van de", "co chuyen", "on dinh", "xem giup", "kiem tra giup")
 
 
 def describes_nothing(need: str, menu: DeviceMenu) -> bool:
@@ -512,7 +603,9 @@ def describes_nothing(need: str, menu: DeviceMenu) -> bool:
     stood turned "ngăn mát không lạnh, ngăn đá vẫn lạnh" and "khóa vân tay
     không nhận vân" into nothing but "không"."""
     text = _fold(need).replace(_fold(menu.name_vi), " ")
+    judged = bool(set(text.split()) & _VERDICT_MARKS)
     for phrase in _VAGUE_PHRASES:
+        judged = judged or f" {phrase} " in text
         text = text.replace(f" {phrase} ", " ")
     aliases = sorted({_fold(n) for n in device_aliases().get(menu.device_type, ()) if n.strip()}, key=len, reverse=True)
     words = text.split()
@@ -523,11 +616,13 @@ def describes_nothing(need: str, menu: DeviceMenu) -> bool:
         if lead.startswith(alias):
             lead = " " + lead[len(alias):]
             break
-    return not (set(lead.split()) - _VAGUE)
+    left = set(lead.split()) - _VAGUE
+    # One verb only: "chảy nước" folds to "chay nuoc", two of these words, and is a symptom.
+    return not left or (judged and len(left) == 1 and left <= _USAGE)
 
 
 def _decide(
-    menu: DeviceMenu, raw: dict, asked: int, allow_decline: bool = True, latest: str = ""
+    menu: DeviceMenu, raw: dict, asked: int, allow_decline: bool = True, latest: str = "", said: Sequence[str] = ()
 ) -> Tuple[str, Optional[Any], Optional[ServiceItem]]:
     """(decision, fault, service) from what the model classified. The rules live here, not in the prompt."""
     # The label the model gives the need is advisory; what the customer said
@@ -546,9 +641,13 @@ def _decide(
     # with something specific in it, has described a symptom and hesitated;
     # a "symptom" made of nothing but "có vấn đề" is unclear. Overruling the
     # model outright on the words turned 86% of vague messages into guesses.
-    if kind == UNCLEAR and fault is not None and not describes_nothing(need, menu):
+    # What the customer typed is the evidence; the need is the model's
+    # paraphrase of it, and for "mấy bữa nay hơi kỳ kỳ" it wrote a symptom
+    # the customer never gave (06/11, 10 of 66 vague messages concluded).
+    nothing_said = bool(said) and all(describes_nothing(m, menu) for m in said)
+    if kind == UNCLEAR and fault is not None and not describes_nothing(need, menu) and not nothing_said:
         kind = SYMPTOM
-    elif kind == SYMPTOM and describes_nothing(need, menu):
+    elif kind == SYMPTOM and (describes_nothing(need, menu) or nothing_said):
         kind = UNCLEAR
     raw["need_kind"] = kind
     service = menu.service(raw.get("service_code"))
@@ -559,8 +658,13 @@ def _decide(
     elif raw.get("decision") == "not_repair":
         return "not_repair", None, None
     if kind == DAMAGE:
-        # A dropped, cracked or flooded unit is not a catalogue fault: the
-        # repair service, so a technician sees the damage.
+        # A dropped or flooded unit is not a catalogue fault: the repair
+        # service, so a technician sees the damage. Damage the catalogue does
+        # name (cracked hob glass, a loose ceiling mount, a broken toilet seat)
+        # is that fault: returning None here, with a prompt saying "NONE for
+        # damage", was 51 of the 87 misses on clear descriptions (06/11).
+        if fault is not None:
+            return "conclude", fault, menu.service(fault.service_code) or menu.repair_service or service
         return "conclude", None, menu.repair_service or service
     if fault and fault.service_code:
         # A named fault books the service the catalogue maps it to.
@@ -576,22 +680,39 @@ def _decide(
     return "conclude", fault, service or menu.repair_service
 
 
+def fault_phrase(menu: DeviceMenu, fault) -> str:
+    """The fault's name as it reads after "khả năng cao bị", without the appliance named twice.
+
+    "Tủ lạnh bẩn, có mùi hôi" came out as "tủ lạnh khả năng cao bị tủ lạnh bẩn"
+    (07/11): many fault names start with the appliance."""
+    name = fault.name_vi.strip()
+    names = sorted({menu.name_vi, *device_aliases().get(menu.device_type, ())}, key=len, reverse=True)
+    for lead in names:
+        if lead and _fold(name).startswith(_fold(lead)) and len(name) > len(lead):
+            name = name[len(lead):].lstrip(" ,:-")
+            break
+    return name[:1].lower() + name[1:]
+
+
 def _concluding_sentence(menu: DeviceMenu, kind: str, fault, service: Optional[ServiceItem]) -> str:
     """Used when the model wrote a question but the rules concluded."""
     name = menu.name_vi.lower()
-    if kind == DAMAGE:
+    if kind == DAMAGE and fault is None:
         return f"Dạ {name} bị va đập nên cần thợ tới kiểm tra hư hại trước khi dùng lại ạ."
     if fault is not None:
-        return f"Dạ {name} của anh/chị khả năng cao bị {fault.name_vi.lower()} ạ."
+        return f"Dạ {name} của anh/chị khả năng cao bị {fault_phrase(menu, fault)} ạ."
     if kind == REQUEST and service is not None:
         return f"Dạ anh/chị bấm Đặt thợ để đặt {service.name_vi.lower()} nhé."
     return f"Dạ thợ sẽ tới kiểm tra {name} tận nơi để tìm đúng chỗ hỏng ạ."
 
 
 def _compose(
-    menu: DeviceMenu, intent: str, raw: dict, asked: int, code_sentence: Optional[str] = None, latest: str = ""
+    menu: DeviceMenu, intent: str, raw: dict, asked: int, code_sentence: Optional[str] = None, latest: str = "",
+    said: Sequence[str] = (),
 ) -> Verdict:
-    decision, fault, service = _decide(menu, raw, asked, allow_decline=intent in ("offtopic", "greeting"), latest=latest)
+    decision, fault, service = _decide(
+        menu, raw, asked, allow_decline=intent in ("offtopic", "greeting"), latest=latest, said=said
+    )
     kind = raw.get("need_kind", UNCLEAR)
     reply = " ".join((raw.get("reply") or "").split())[:REPLY_MAX]
     options = [o.strip() for o in raw.get("options") or [] if o.strip()][:4]

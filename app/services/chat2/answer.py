@@ -82,6 +82,8 @@ class Answer:
     passages: List[Passage] = field(default_factory=list)
     grounded: bool = False
     latency_s: float = 0.0
+    # "answer" from the documents, "recap" for the conclusion said again, for the trace.
+    kind: str = "answer"
 
 
 def _trim(text: str) -> str:

@@ -10,7 +10,7 @@ it, then another appliance, then back, then "đặt luôn". Each turn states wha
 a good answer must do, and every reply is printed for a person to read.
 
 Expectations per turn (all optional):
-    branch   answer | ask | conclude | not_repair | book, or a tuple of them
+    branch   answer | ask | conclude | not_repair | book | recap, or a tuple of them
     device   the appliance the reply must be about
     service  booked service codes, any one of them is right
     has      words of which at least one must appear (accents ignored)
@@ -208,6 +208,8 @@ class FixedDetector:
 def _branch(reply: dict) -> str:
     trace = (reply.get("trace") or [{}])[0].get("detail") or {}
     branch = trace.get("branch") or "?"
+    if branch == "recap":
+        return "recap"
     if branch == "answer" and "Đặt thợ ngay" in (reply.get("messageVi") or ""):
         return "book"
     return branch
@@ -314,6 +316,7 @@ def main() -> None:
     p.add_argument("--only", help="regex on conversation ids")
     p.add_argument("--holdout", action="store_true", help="run tools/probe_holdout.py instead")
     p.add_argument("--holdout2", action="store_true", help="run tools/probe_holdout2.py, written after the first held-out set was tuned on")
+    p.add_argument("--holdout3", action="store_true", help="run tools/probe_holdout3.py (follow-ups after a conclusion, 07/11)")
     p.add_argument("--out")
     p.add_argument("--md")
     args = p.parse_args()
@@ -330,6 +333,11 @@ def main() -> None:
         from probe_holdout2 import HOLDOUT2
 
         CONVERSATIONS = HOLDOUT2
+    if args.holdout3:
+        sys.path.insert(0, str(ROOT / "tools"))
+        from probe_holdout3 import HOLDOUT3
+
+        CONVERSATIONS = HOLDOUT3
     if args.only:
         CONVERSATIONS = [c for c in CONVERSATIONS if re.search(args.only, c[0])]
     report = asyncio.run(run(args))

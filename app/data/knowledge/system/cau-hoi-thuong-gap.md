@@ -6,7 +6,7 @@ last_reviewed: 2026-11-06
 
 # Câu hỏi thường gặp về thợ, đơn và trợ lý
 
-Các mục dưới đây trả lời những câu khách hay hỏi mà các tài liệu khác chưa nói thẳng. Nguồn là các quy tắc đã chốt trong tài liệu nghiệp vụ của FixHome (mục 8.2, 8.6, 8.10, 8.15, 8.20, 8.22).
+Các mục dưới đây trả lời những câu khách hay hỏi mà các tài liệu khác chưa nói thẳng. Nguồn là các quy tắc đã chốt trong tài liệu nghiệp vụ của FixHome (mục 8.2, 8.6, 8.10, 8.15, 8.20, 8.22) và phần vai trò của AI.
 
 ## Thợ của FixHome có được kiểm tra không
 
@@ -41,3 +41,7 @@ Mỗi đơn đã làm có lịch sử sửa chữa: các mốc thời gian, dị
 ## Trợ lý dùng ảnh khách gửi để làm gì
 
 Ảnh khách gửi được một mô hình nhận diện đọc để biết đó là thiết bị gì, rồi gửi kèm đơn cho thợ xem trước. Phần trò chuyện của trợ lý không nhìn ảnh để đoán bệnh; bệnh được đoán từ lời khách kể, nên khách kể hiện tượng càng rõ thì kết luận càng sát.
+
+## Trợ lý đoán bệnh có chính xác không
+
+Trợ lý chỉ gợi ý sơ bộ bệnh khả năng cao nhất từ lời khách kể, để khách hiểu vấn đề sớm hơn và đặt đúng dịch vụ. Kết luận chính thức là của thợ sau khi kiểm tra tận nơi, và giá chính thức là báo giá thợ gửi để khách duyệt. Trợ lý không có quyền báo giá chính thức, phân công thợ hay đổi trạng thái đơn. Khi trợ lý gặp sự cố, khách vẫn đặt lịch bình thường.

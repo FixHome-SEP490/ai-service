@@ -15,7 +15,12 @@ Pipeline cũ chọn lỗi bằng cách khớp chữ câu khách với danh sách
 - Mã lỗi theo hãng (`error_codes.json`): nghĩa chính thức đưa vào ngữ cảnh; câu nói với khách lấy nguyên văn mẫu của `error_codes.reply_vi`.
 - Router xếp mỗi tin vào một ý định: `repair`, `service`, `question`, `book`, `greeting`, `offtopic`. Khách kể máy mình hỏng, kể cả dưới dạng câu hỏi ("máy lạnh chảy nước là sao vậy em"), là `repair`; hỏi thông tin mà không kể máy mình hỏng là `question`.
 - `question` đi tầng hỏi đáp (`answer.py`, xem dưới), dùng được cả khi đang giữa một cuộc chẩn đoán: thanh đặt lịch giữ nguyên dịch vụ đã chốt, câu hỏi tiếp ("sửa có lâu không", "tự làm được không") được hỏi về đúng bệnh vừa chốt.
+- Hỏi lại kết luận (07/11): đã chốt mà khách chỉ đáp cụt ("Không.", "đúng rồi") hoặc hỏi chính kết luận không kèm gì cụ thể ("vậy giờ em thấy sao", "vậy là bị gì") thì code (`asks_for_the_verdict`) nhắc lại đúng bệnh đã chốt kèm lời mời bấm "Đặt thợ ngay". Chạy live 07/11, tầng hỏi đáp trả bảng giá cho "Vậy giờ em thấy sao?" và danh sách nhóm lỗi cho "Không.", vì nó buộc phải chọn một mục tài liệu. Thử thêm ý định `followup` vào router trước: probe 81 cuộc tụt từ 38/38 xuống 34/38 ở nhóm ngữ cảnh, vì model gộp luôn "sửa có lâu không", "bảo hành bao lâu", "có nguy hiểm không" vào đó; nên việc này nằm ở code với tập câu hẹp, router giữ nguyên.
+- Lỗi có tên mà là hư hại (kính bếp từ nứt, móc quạt trần lỏng, nắp bồn cầu gãy, bình nóng lạnh rò): là đúng lỗi đó, không phải "hư hại chung". Đo 06/11, luật cũ "hư hại thì NONE" là 51 trong 87 ca sai ở bộ `clear`. NONE chỉ còn cho rơi, va đập chung chung.
+- Lượt chọn lỗi thứ hai (`needs_fault`, `_pick_fault`): khách đã kể hiện tượng hoặc hư hại mà model vẫn để NONE thì gọi thêm một lần ngắn, chỉ còn trường `fault_code`, enum là mã lỗi của đúng thiết bị (không có NONE với hiện tượng; có NONE với hư hại). Một JSON phải điền cùng lúc nhu cầu, loại, lỗi, dịch vụ và câu trả lời; tách riêng việc chọn lỗi khi lần đầu bỏ trống là sửa rẻ, chỉ tốn thêm ở các lượt đó.
 - `book` sau khi đã chốt: một câu mời bấm "Đặt thợ ngay" cho đúng dịch vụ đó, không chẩn đoán lại.
+- Tên máy khách gõ đích danh (tên hoặc alias catalog, `named_in`) thắng máy router đoán, ngay trong `brain.turn` chứ không chỉ ở provider: "lắp đèn trần" là bóng đèn chứ không phải quạt trần, "lắp đặt bếp điện" là bếp từ chứ không phải quạt điện (07/11, bộ `service`). Máy router đoán chỉ được giữ nếu khách có gọi tên ở đâu đó trong cuộc chat. Máy đã được gọi tên thì không bao giờ là "lạc đề" ("lap khoa van tay" từng bị từ chối).
+- Câu mơ hồ xét trên chính lời khách, không chỉ trên `need` model chép lại: "mấy bữa nay hơi kỳ kỳ" từng được chốt theo một hiện tượng model tự viết ra. Trước khi trợ lý hỏi câu nào, mỗi tin của khách được xét riêng; sau một câu hỏi thì "Không" là câu trả lời có nghĩa, không xét nữa. Động từ dùng máy (chạy, nấu, nướng...) đi với một chữ đánh giá chung chung ("không ổn", "sao sao") cũng là chưa kể gì, nhưng chỉ khi còn đúng một động từ: bỏ dấu thì "chảy nước" thành "chay nuoc", là hiện tượng.
 - Đổi chủ đề: chỉ tin mới nhất đổi được máy đang nói. Tin gọi tên máy khác thì chuyển hẳn sang máy đó; gọi cả máy cũ lẫn máy mới thì xét cả hai; không gọi tên máy nào thì ở lại máy đang nói.
 
 Câu khách đọc: bước an toàn (lỗi HIGH) + nghĩa mã lỗi (nếu có) + 1-2 câu của model. Tên dịch vụ và giá không nhắc lại trong câu, vì web hiện trên thanh đặt lịch. Lượt hỏi: `messageVi` để trống, câu hỏi nằm ở `clarification.questionsVi[0]`, nút ở `clarification.answerOptionsVi`.
@@ -79,7 +84,25 @@ Sau lượt đo này đã thêm các luật ở mục trên (câu chỉ có ch�
 | Probe 81 cuộc / holdout 34 / holdout2 25 | 93,8% / 91,2% / 100% | 97,5% / 100% / 100% (sau sửa) |
 | Trễ p50 / p95 | 5,8 / 7,5 s (6 luồng) | |
 
-Probe FP8 có 3 lượt lỗi mạng của máy thuê, tính là sai. Bản AWQ chạy được card rẻ hơn nhưng chọn sai lỗi nhiều hơn khoảng 6 điểm ở câu mô tả rõ, nên mặc định thuê card 24GB (`rent_gpu.py offers --min-vram 24`).
+Probe FP8 có 3 lượt lỗi mạng của máy thuê, tính là sai.
+
+Chạy live 07/11 bằng chính image serve trên RTX 3090 (tự chọn FP8), qua `/api/v1/diagnosis/analyze` như Backend gọi: `tools/live_chat2.py` 8/8 cuộc đúng dịch vụ, trễ p50 2,8 s. `tools/load_test.py --mix` (một nửa khách nói 2-3 máy, có ảnh): 10 khách cùng lúc 0 lỗi, p95 8,9 s; 30 khách 0 lỗi, p95 21,9 s; 50 khách 10/50 quá hạn 25 s, p95 32,9 s. Một card phục vụ khoảng 30 cuộc chat cùng lúc, khoảng 40 cuộc mỗi phút; lượt quá hạn Backend chuyển sang luồng đặt tay, không chặn đặt lịch. Bản AWQ chạy được card rẻ hơn nhưng chọn sai lỗi nhiều hơn khoảng 6 điểm ở câu mô tả rõ, nên mặc định thuê card 24GB (`rent_gpu.py offers --min-vram 24`).
+
+Vòng 07/11 (RTX 3090, FP8, vLLM gốc, code chạy trên máy dev; mỗi dòng là một lần chạy đủ bộ):
+
+| | v2 | v3: thêm lượt tự kiểm | v4 (đang dùng) |
+|---|---|---|---|
+| Clear (515): đúng / sai mà chắc | 89,9% / 8,9% | 82,5% / 16,7% | 89,5% / 9,5% |
+| Vague hỏi lại (66) | 84,8% | 84,8% | 98,5% |
+| Service (60) | 91,7% | 95% | 98,3% |
+| Scripted (17), offtopic (49) | 17/17, 95,9% | 17/17, 95,9% | 17/17, 95,9% |
+| Probe 81 / holdout 34 / holdout2 25 / holdout3 23 | 97,5% / 100% / 100% / 100% | 96,3% / 100% / 100% / 100% | 97,5% / 100% / 100% / 100% |
+| Tự do (90 cuộc) | 95,6% | 94,4% | 100% |
+| Trễ p50 bộ 707 ca | 3,9 s | 5,3 s | 3,9 s |
+
+v2 là các sửa ở trên (hư hại có tên, lượt chọn lỗi thứ hai, nhắc lại kết luận), từ 83,1% lên 89,9% ở `clear`. v3 thử một lượt tự kiểm: đưa lỗi đã chọn cùng 3-4 lỗi dễ nhầm và hỏi lời khách có trúng điều "Không phải lỗi này nếu" nào không, chỉ đổi khi model chép được điều đó. Kết quả tệ hơn rõ: model chép ra một điều không trúng rồi đổi khỏi lỗi đúng, sai mà chắc gần gấp đôi, nên đã bỏ. v4 là hai luật tên máy và câu mơ hồ ở trên. Holdout3 (23 cuộc, viết 07/11 trước khi đo) lần đầu 20/23, ba ca hỏng là do bộ chấm đòi nhánh `answer` ở chỗ nhắc lại kết luận mới đúng.
+
+Còn sai ở `clear` sau v4 phần lớn là nhầm giữa hai lỗi giống nhau với câu kể rất gián tiếp ("con mèo không dám nằm trên cục nóng nữa"), cùng một vài nhãn còn bàn được (rung lắc khi vắt ra mòn bạc đạn: kho chưa có lỗi giảm xóc).
 
 Giới hạn còn biết: khách tự chẩn đoán sai ("hết gas rồi, chảy nước tong tong") đôi khi được tin theo; `clear` là câu đội viết, chưa phải câu khách thật; khách giả lập là chính model đang đo nên có thể dễ tính hơn khách thật.
 

@@ -198,6 +198,69 @@ def test_asking_for_a_technician_after_a_conclusion_points_to_the_button(client_
     assert len(model.calls) == 3
 
 
+@pytest.mark.parametrize("latest,intent", [("Vậy giờ em thấy sao?", "question"), ("Không.", "question"), ("đúng rồi", "greeting")])
+def test_asking_for_the_verdict_again_restates_it(client_with, latest, intent):
+    """Live 07/11: these went to the question tier, which answered with a price table."""
+    client, model = client_with(
+        {"devices": ["air_conditioner"], "intent": "repair"},
+        _turn(need="chảy nước", fault_code="AC_DRAIN_BLOCKED", service_code="AC-02", reply="Dạ khả năng nghẹt ống thoát nước ạ."),
+        {"devices": [], "intent": intent},
+    )
+    first = client.post("/api/v1/diagnosis/analyze", json={"description": "máy lạnh chảy nước"}).json()
+    d = client.post("/api/v1/diagnosis/analyze", json={"description": latest, "sessionId": first["sessionId"]}).json()
+    assert d["messageVi"].startswith("Dạ theo những gì anh/chị kể, máy lạnh khả năng cao bị nghẹt")
+    assert "Đặt thợ ngay" in d["messageVi"] and "000" not in d["messageVi"]
+    assert [s["serviceCode"] for s in d["recommendedServices"]] == ["AC-02"]
+    assert len(model.calls) == 3
+
+
+def test_a_follow_up_with_something_specific_is_answered_as_a_question(client_with):
+    client, model = client_with(
+        {"devices": ["air_conditioner"], "intent": "repair"},
+        _turn(need="chảy nước", fault_code="AC_DRAIN_BLOCKED", service_code="AC-02", reply="Dạ khả năng nghẹt ống thoát nước ạ."),
+        {"devices": [], "intent": "question"},
+        {"passages": ["fault:AC_DRAIN_BLOCKED:0"]},
+        {"quote": "không phải do gas", "grounded": True, "reply": "Dạ chảy nước thường không phải do thiếu gas ạ."},
+    )
+    first = client.post("/api/v1/diagnosis/analyze", json={"description": "máy lạnh chảy nước"}).json()
+    d = client.post("/api/v1/diagnosis/analyze", json={"description": "vậy có phải hết gas không em", "sessionId": first["sessionId"]}).json()
+    assert d["messageVi"].startswith("Dạ chảy nước thường không phải")
+    assert len(model.calls) == 5
+
+
+@pytest.mark.parametrize("latest", ["sửa có lâu không em", "thế bảo hành bao lâu", "cái đó có nguy hiểm không em"])
+def test_a_question_about_the_fault_is_not_mistaken_for_asking_the_verdict(latest):
+    from app.services.chat2.brain import asks_for_the_verdict
+    from app.services.chat2.menu import menu_for
+
+    assert not asks_for_the_verdict(latest, menu_for("air_conditioner"))
+
+
+def test_a_new_symptom_after_a_conclusion_is_diagnosed_again(client_with):
+    client, model = client_with(
+        {"devices": ["air_conditioner"], "intent": "repair"},
+        _turn(need="chảy nước", fault_code="AC_DRAIN_BLOCKED", service_code="AC-02", reply="Dạ khả năng nghẹt ống thoát nước ạ."),
+        {"devices": [], "own_problem": True, "intent": "repair"},
+        _turn(need="chảy nước, kêu to", fault_code="AC_DRAIN_BLOCKED", service_code="AC-02", reply="Dạ vẫn khả năng nghẹt ống thoát nước ạ."),
+    )
+    first = client.post("/api/v1/diagnosis/analyze", json={"description": "máy lạnh chảy nước"}).json()
+    d = client.post("/api/v1/diagnosis/analyze", json={"description": "à mà nó còn kêu to nữa", "sessionId": first["sessionId"]}).json()
+    assert d["messageVi"].startswith("Dạ vẫn khả năng") and len(model.calls) == 4
+
+
+def test_a_short_reply_before_any_conclusion_goes_back_to_the_diagnosis(client_with):
+    client, model = client_with(
+        {"devices": ["washing_machine"], "intent": "repair"},
+        _turn(need_kind=UNCLEAR, decision="ask", service_code="WM-01", reply="Dạ máy có vào nước không ạ?", options=["Có", "Không"]),
+        {"devices": [], "intent": "repair"},
+        _turn(need="không vào nước", fault_code="WM_NO_WATER_INLET", service_code="WM-01", reply="Dạ khả năng máy không cấp nước ạ."),
+        device="washing_machine",
+    )
+    first = client.post("/api/v1/diagnosis/analyze", json={"description": "máy giặt bị sao á"}).json()
+    d = client.post("/api/v1/diagnosis/analyze", json={"description": "Không", "sessionId": first["sessionId"]}).json()
+    assert d["status"] == "ok" and d["suspectedFaults"][0]["faultCode"] == "WM_NO_WATER_INLET"
+
+
 def test_an_appliance_question_on_ask_goes_through_the_diagnosis(client_with):
     client, _ = client_with(
         {"devices": ["air_conditioner"], "intent": "repair"},
