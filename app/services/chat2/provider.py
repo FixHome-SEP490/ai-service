@@ -38,9 +38,12 @@ from app.schemas.diagnosis import (
     PhotoReading,
     RecommendedService,
     SuspectedFault,
+    TraceStage,
     UrgencyLevel,
 )
 from app.services.ai_provider import AIProvider
+from app.services.chat2.answer import Answer
+from app.services.chat2.answer import answer as answer_question
 from app.services.chat2.brain import ChatBrain, Turn, Verdict
 from app.services.chat2.menu import devices, menu_for
 from app.services.pipeline import pricing
@@ -61,6 +64,10 @@ class Session:
     photo_confidence: float = 0.0
     device: Optional[str] = None
     """The appliance the conversation settled on, by photograph or by name."""
+    fault: Optional[str] = None
+    """The fault last concluded, so "sửa có lâu không" is asked about it."""
+    services: List[RecommendedService] = field(default_factory=list)
+    """What the last conclusion offered to book; a question in between keeps it on the bar."""
     version: int = 0
     seen: float = field(default_factory=time.time)
 
@@ -71,6 +78,8 @@ class Session:
             "photo_device": self.photo_device,
             "photo_confidence": self.photo_confidence,
             "device": self.device,
+            "fault": self.fault,
+            "services": [x.model_dump(by_alias=True) for x in self.services],
             # Backend keeps a state only over an older version, so the count
             # must survive a restart or every later state is thrown away.
             "version": self.version,
@@ -99,6 +108,8 @@ class Sessions:
                 session.version = int(state.get("version") or len(session.turns))
                 known = state.get("device")
                 session.device = known if known in devices() else session.photo_device
+                session.fault = state.get("fault")
+                session.services = [RecommendedService.model_validate(x) for x in state.get("services") or []]
             elif history:
                 session.turns = [Turn("user", h) for h in history if h.strip()]
         session.seen = now
@@ -106,12 +117,6 @@ class Sessions:
         while len(self._items) > MAX_SESSIONS:
             self._items.popitem(last=False)
         return session
-
-
-ANSWER_SYSTEM = """Bạn là trợ lý của FixHome (dịch vụ sửa chữa, vệ sinh, lắp đặt đồ gia dụng tại nhà). Xưng "em", gọi khách là "anh/chị".
-Trả lời câu hỏi của khách CHỈ dựa vào các đoạn chính sách dưới đây, tối đa hai câu ngắn. Không có trong các đoạn thì nói em chưa có thông tin đó và mời khách nhắn tổng đài. Không bịa số tiền, thời hạn hay điều khoản.
-
-{passages}"""
 
 
 def _base_url() -> str:
@@ -129,7 +134,6 @@ class Chat2Provider(AIProvider):
     def __init__(self, detector=None, brain: Optional[ChatBrain] = None, transport=None) -> None:
         from app.services.pipeline.detector import StubDetector, YoloDetector
         from app.services.pipeline.knowledge_base import get_knowledge_base
-        from app.services.pipeline.retriever import Retriever
 
         self._kb = get_knowledge_base()
         self._detector = detector or (
@@ -148,7 +152,6 @@ class Chat2Provider(AIProvider):
             timeout_s=settings.CHAT_TIMEOUT_SECONDS,
             extra_body=_extra_body(),
         )
-        self._retriever = Retriever(self._kb)
         self._sessions = Sessions()
         self._transport = transport
 
@@ -169,19 +172,40 @@ class Chat2Provider(AIProvider):
             readings.append((top.device_type if top else None, top.confidence if top else 0.0, bool(top and top.uncertain)))
         return readings
 
-    async def _think(self, session: Session, also: List[str]) -> Verdict:
+    async def _respond(self, session: Session, also: List[str], photo_now: Optional[str] = None):
+        """("answer", Answer) for a question, ("verdict", Verdict) for anything about an appliance."""
         try:
             async with self._client() as client:
+                routed = await self._brain.route(client, session.turns)
+                if routed.get("intent") == "book" and session.services:
+                    return "answer", _booking_nudge(session)
+                if routed.get("intent") == "question":
+                    named = [d for d in routed.get("devices") or [] if d in devices()]
+                    device = named[0] if named else session.device
+                    menu = menu_for(device) if device else None
+                    fault = menu.fault(session.fault) if menu and device == session.device and session.fault else None
+                    found = await answer_question(
+                        self._brain, client, session.turns, device,
+                        fault.code if fault else None, fault.name_vi if fault else None,
+                    )
+                    if device:
+                        session.device = device
+                    return "answer", found
                 # A reply like "Chảy nước" names no appliance; the one already
-                # settled stands in for the photograph it may have come from.
-                verdict = await self._brain.turn(client, session.turns, session.photo_device or session.device, also)
+                # settled carries on, unless the newest message names another.
+                verdict = await self._brain.turn(
+                    client, session.turns, photo_now, also, routed=routed, current=session.device
+                )
         except httpx.TimeoutException as exc:
             raise AITimeoutException(str(exc)) from exc
         except (httpx.HTTPError, ValueError, KeyError) as exc:
             raise VlmException(f"{type(exc).__name__}: {exc}") from exc
         if verdict.device_type:
             session.device = verdict.device_type
-        return verdict
+        if verdict.decision == "conclude":
+            session.fault = verdict.fault_code
+            session.services = _services(verdict)
+        return "verdict", verdict
 
     async def diagnose(self, request: DiagnosisRequest) -> DiagnosisResponse:
         session = self._sessions.get(request.session_id, request.diagnostic_state, list(request.history or []))
@@ -191,80 +215,110 @@ class Chat2Provider(AIProvider):
             session.photo_device, session.photo_confidence = seen[0][0], seen[0][1]
             session.device = seen[0][0]
         session.turns.append(Turn("user", request.description))
-        verdict = await self._think(session, [r[0] for r in seen[1:]])
-        session.turns.append(Turn("assistant", verdict.reply_vi))
+        kind, result = await self._respond(session, [r[0] for r in seen[1:]], seen[0][0] if seen else None)
+        session.turns.append(Turn("assistant", result.reply_vi))
         session.version += 1
-        response = _diagnosis_response(request.request_id, session, verdict)
+        if kind == "answer":
+            response = _answer_as_diagnosis(request.request_id, session, result)
+        else:
+            response = _diagnosis_response(request.request_id, session, result)
         photos = [
             PhotoReading(index=i, device_type=d, name_vi=devices().get(d) if d else None, uncertain=u)
             for i, (d, _, u) in enumerate(readings)
         ]
-        return response.model_copy(update={"photos": photos})
+        update = {"photos": photos}
+        if request.include_trace:
+            update["trace"] = [_trace(kind, result)]
+        return response.model_copy(update=update)
 
     async def answer(self, request: ChatRequest) -> ChatResponse:
         session = self._sessions.get(request.session_id, None, list(request.history or []))
         if request.device_type in devices() and not session.device:
             session.device = request.device_type
         session.turns.append(Turn("user", request.question))
-        async with self._client() as client:
-            try:
-                routed = await self._brain.route(client, session.turns[-1:])
-            except httpx.HTTPError as exc:
-                raise VlmException(str(exc)) from exc
-            if routed.get("intent") == "question" and not routed.get("devices"):
-                reply = await self._policy_answer(client, request.question)
-                session.turns.append(Turn("assistant", reply.answer_vi))
-                return reply.model_copy(update={"request_id": request.request_id, "session_id": session.session_id})
-        verdict = await self._think(session, [])
-        session.turns.append(Turn("assistant", verdict.reply_vi))
-        status = AnswerStatus.OUT_OF_SCOPE if verdict.decision == "not_repair" else AnswerStatus.OK
+        kind, result = await self._respond(session, [])
+        session.turns.append(Turn("assistant", result.reply_vi))
+        session.version += 1
+        if kind == "answer":
+            return ChatResponse(
+                request_id=request.request_id,
+                session_id=session.session_id,
+                status=AnswerStatus.OK if result.grounded else AnswerStatus.NO_GROUNDING,
+                answer_vi=result.reply_vi,
+                citations=_citations(result),
+                confidence=0.9 if result.grounded else 0.3,
+                recommended_services=session.services,
+                disclaimer_vi=settings.AI_DISCLAIMER_VI,
+            )
+        status = AnswerStatus.OUT_OF_SCOPE if result.decision == "not_repair" else AnswerStatus.OK
         return ChatResponse(
             request_id=request.request_id,
             session_id=session.session_id,
             status=status,
-            answer_vi=verdict.reply_vi,
-            confidence=min(max(verdict.confidence, 0.0), 1.0),
-            recommended_services=_services(verdict),
-            notes_vi=_notes(verdict),
+            answer_vi=result.reply_vi,
+            confidence=min(max(result.confidence, 0.0), 1.0),
+            recommended_services=_services(result),
+            notes_vi=_notes(result),
             disclaimer_vi=settings.AI_DISCLAIMER_VI,
         )
 
-    async def _policy_answer(self, client: httpx.AsyncClient, question: str) -> ChatResponse:
-        found = self._retriever.policy_passages(question, top_k=3)
-        if not found:
-            return ChatResponse(
-                status=AnswerStatus.NO_GROUNDING,
-                answer_vi="Dạ câu này em chưa có thông tin chính xác, anh/chị nhắn tổng đài FixHome giúp em nhé.",
-                disclaimer_vi=settings.AI_DISCLAIMER_VI,
-            )
-        passages = "\n\n".join(f"[{p.policy.title_vi}]\n{p.policy.content_vi}" for p in found)
-        body = {
-            "model": settings.VLM_MODEL_NAME,
-            "messages": [
-                {"role": "system", "content": ANSWER_SYSTEM.format(passages=passages)},
-                {"role": "user", "content": question},
-            ],
-            "temperature": 0.0,
-            "max_tokens": 160,
-            **_extra_body(),
+
+def _trace(kind: str, result) -> TraceStage:
+    """Which branch answered and what it chose, for the operator (includeTrace)."""
+    if kind == "answer":
+        detail = {"branch": "answer", "passages": [p.id for p in result.passages], "grounded": result.grounded}
+        summary = "trả lời từ " + (", ".join(p.section_vi for p in result.passages) or "không có tài liệu")
+    else:
+        detail = {
+            "branch": result.decision, "device": result.device_type, "fault": result.fault_code,
+            "service": result.service_code, "need": result.need_vi, "kind": result.need_kind,
+            "others": [o.device_type for o in result.others],
         }
-        try:
-            r = await client.post(
-                _base_url() + "/chat/completions", json=body,
-                headers={"Authorization": f"Bearer {settings.VLM_API_KEY or 'EMPTY'}"},
-                timeout=settings.CHAT_TIMEOUT_SECONDS,
-            )
-            r.raise_for_status()
-            text = " ".join(r.json()["choices"][0]["message"]["content"].split())
-        except httpx.HTTPError as exc:
-            raise VlmException(str(exc)) from exc
-        return ChatResponse(
-            status=AnswerStatus.OK,
-            answer_vi=text[:400],
-            citations=[Citation(doc_id=p.policy.doc_id, title_vi=p.policy.title_vi, score=min(p.score, 1.0)) for p in found],
-            confidence=min(found[0].score, 1.0),
-            disclaimer_vi=settings.AI_DISCLAIMER_VI,
+        summary = f"{result.decision} {result.device_type or ''} {result.fault_code or ''}".strip()
+    return TraceStage(name="chat2", ms=int(result.latency_s * 1000), ok=True, summary_vi=summary, detail=detail)
+
+
+def _booking_nudge(session: Session) -> Answer:
+    """The customer wants a technician and a service is already concluded: say how, nothing else.
+
+    The assistant cannot book; the button can, and the description the
+    customer gave is carried into the booking form already."""
+    names = ", ".join(s.name_vi.lower() for s in session.services)
+    return Answer(
+        f"Dạ anh/chị bấm \"Đặt thợ ngay\" để đặt {names} nhé, những gì anh/chị đã kể em gửi kèm cho thợ rồi ạ.",
+        [], True,
+    )
+
+
+def _citations(found: Answer) -> List[Citation]:
+    return [Citation(doc_id=p.id, title_vi=f"{p.doc_vi} › {p.section_vi}", score=1.0) for p in found.passages]
+
+
+def _answer_as_diagnosis(request_id: Optional[str], session: Session, found: Answer) -> DiagnosisResponse:
+    """A question asked on the diagnosis route: the answer, with the booking the conversation already has."""
+    device = None
+    if session.device:
+        from_photo = session.device == session.photo_device
+        device = DetectedDevice(
+            device_type=session.device,
+            name_vi=devices()[session.device],
+            confidence=session.photo_confidence if from_photo else 0.9,
+            source=EvidenceSource.IMAGE if from_photo else EvidenceSource.DESCRIPTION,
         )
+    return DiagnosisResponse(
+        request_id=request_id,
+        session_id=session.session_id,
+        status=DiagnosisStatus.OK,
+        device=device,
+        recommended_services=session.services,
+        confidence=0.9 if found.grounded else 0.3,
+        message_vi=found.reply_vi,
+        model_info=ModelInfo(detector="yolo11s" if settings.YOLO_WEIGHTS_PATH else "stub", vlm=settings.VLM_MODEL_NAME),
+        notes_vi=[f"Nguồn: {p.doc_vi} › {p.section_vi}" for p in found.passages],
+        diagnostic_state=session.export(),
+        state_version=session.version,
+        disclaimer_vi=settings.AI_DISCLAIMER_VI,
+    )
 
 
 def _urgency(verdict: Verdict) -> UrgencyLevel:

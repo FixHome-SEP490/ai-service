@@ -13,7 +13,10 @@ Pipeline cũ chọn lỗi bằng cách khớp chữ câu khách với danh sách
 - Code (`brain._decide`): quyết hỏi hay chốt. Khách đã kể hiện tượng, hư hại hay xin việc là chốt; chưa kể gì (`chua_ro`, hoặc `need` chỉ có chữ chung chung như "hư", "có vấn đề") mới hỏi đúng một câu kèm 2-4 nút; tối đa 2 câu hỏi một cuộc. Hư hại (rơi, vỡ, ngấm nước) luôn ra dịch vụ sửa. Lỗi có tên luôn ra dịch vụ catalog ánh xạ cho lỗi đó.
 - Router: mỗi lượt xác định thiết bị khách nhắc (tối đa 3) và ý định. Chữ gọi đích danh tên máy (tên hoặc alias trong `device_catalog.json`, bỏ qua "như cái X") chỉ thắng ảnh giữa các cặp detector hay nhầm (`confusable_with`); máy khác chữ nhắc tới thành thiết bị thêm, mỗi máy chẩn đoán riêng (`Verdict.others`). Có ảnh thì router không được tự từ chối "lạc đề".
 - Mã lỗi theo hãng (`error_codes.json`): nghĩa chính thức đưa vào ngữ cảnh; câu nói với khách lấy nguyên văn mẫu của `error_codes.reply_vi`.
-- Câu chính sách (giá, bảo hành, cách FixHome làm việc) không nhắc thiết bị: trả lời từ đoạn chính sách (`Retriever.policy_passages`), tối đa hai câu, kèm trích dẫn.
+- Router xếp mỗi tin vào một ý định: `repair`, `service`, `question`, `book`, `greeting`, `offtopic`. Khách kể máy mình hỏng, kể cả dưới dạng câu hỏi ("máy lạnh chảy nước là sao vậy em"), là `repair`; hỏi thông tin mà không kể máy mình hỏng là `question`.
+- `question` đi tầng hỏi đáp (`answer.py`, xem dưới), dùng được cả khi đang giữa một cuộc chẩn đoán: thanh đặt lịch giữ nguyên dịch vụ đã chốt, câu hỏi tiếp ("sửa có lâu không", "tự làm được không") được hỏi về đúng bệnh vừa chốt.
+- `book` sau khi đã chốt: một câu mời bấm "Đặt thợ ngay" cho đúng dịch vụ đó, không chẩn đoán lại.
+- Đổi chủ đề: chỉ tin mới nhất đổi được máy đang nói. Tin gọi tên máy khác thì chuyển hẳn sang máy đó; gọi cả máy cũ lẫn máy mới thì xét cả hai; không gọi tên máy nào thì ở lại máy đang nói.
 
 Câu khách đọc: bước an toàn (lỗi HIGH) + nghĩa mã lỗi (nếu có) + 1-2 câu của model. Tên dịch vụ và giá không nhắc lại trong câu, vì web hiện trên thanh đặt lịch. Lượt hỏi: `messageVi` để trống, câu hỏi nằm ở `clarification.questionsVi[0]`, nút ở `clarification.answerOptionsVi`.
 
@@ -29,6 +32,14 @@ Kho cũ cắt 166 tài liệu theo heading thành 3.319 đoạn và truy hồi t
 
 Sửa tài liệu thì chạy lại `python tools/build_fault_cards.py`; `tests/test_chat2.py` báo khi thẻ cũ hơn tài liệu.
 
+## Hỏi đáp (RAG cho câu không phải chẩn đoán)
+
+Kho: `app/data/knowledge_index.json`, sinh bằng `tools/build_knowledge_index.py`. Đơn vị chia là một mục `##` của tài liệu, vì README của kho bắt mỗi mục đọc một mình vẫn hiểu. Lấy: 7 tài liệu hệ thống (FixHome là gì, vai trò AI, quy trình đặt lịch, giá, bảo hành, khu vực, câu hỏi thường gặp), mục "Em là ai" của persona, 22 tài liệu thiết bị, và các mục khách hỏi sau chẩn đoán của tài liệu lỗi (nói ngắn gọn, để lâu thì sao, tự kiểm tra, thợ làm gì, chi phí, giữ cho bệnh không tái...). Bỏ: mục viết cho trợ lý chứ không phải cho khách (kịch bản mẫu, nguồn, câu cấm nói, chờ thợ xác nhận, cách khách gõ sai) và mục đọc ảnh (model chat không xem ảnh). Thêm hai loại sinh từ catalog: "FixHome đang nhận những dịch vụ gì" và bảng giá từng thiết bị, để giá và danh sách dịch vụ không bao giờ là câu ai đó gõ tay rồi quên sửa. 985 đoạn: 66 nền tảng, 392 thiết bị, 527 theo lỗi.
+
+Mỗi đoạn có phạm vi: `platform` luôn được dùng, `device:<loại>` khi cuộc chat đang nói máy đó, `fault:<mã>` khi bệnh đó vừa được chốt. Truy hồi đọc mục lục thay vì khớp chữ: model xem tên các mục trong phạm vi (khoảng 110 dòng với máy lạnh), chọn tối đa 3 mục theo schema có enum là đúng các mã mục đó, rồi trả lời tối đa ba câu chỉ từ các mục đã chọn, có trích dẫn. Không mục nào phù hợp thì nói chưa có thông tin, không đoán.
+
+`app/data/knowledge/system/cau-hoi-thuong-gap.md` (06/11) bổ sung các câu khách hay hỏi mà tài liệu khác chưa nói thẳng (thợ có được kiểm tra không, chọn thợ được không, nhắn tin với thợ, thợ huỷ, khi nào đơn xong, đánh giá, ảnh dùng làm gì), lấy từ các mục đã chốt của `docs/SEP490- tổng.md`.
+
 ## Hai bài học hạ tầng
 
 - Ép JSON viết liền bằng regex làm model chọn sai ("vệ sinh tủ lạnh" ra bếp gas): ép model ra khỏi chuỗi token nó quen viết. Dùng JSON schema thường.
@@ -39,6 +50,7 @@ Sửa tài liệu thì chạy lại `python tools/build_fault_cards.py`; `tests/
 Hai bộ, cùng server, chạy được với mọi model OpenAI-compatible:
 
 - `tools/eval_chat2.py`: 707 ca cố định. `scripted` (ca PO, BUG 52/54, `tools/chat2_cases.py`), `clear` (nửa test `understanding_bank.json`, có ảnh), `vague`, `service` (`service_understanding_cases.py`), `offtopic`.
+- `tools/probe_chat2.py`: test sâu qua chính `Chat2Provider` (router, hỏi đáp, chẩn đoán, đổi chủ đề, đặt lịch, phiên nhiều lượt), 60 cuộc chat viết tay theo nhóm nền tảng, kiến thức, chẩn đoán, ngữ cảnh, ca biên; in từng câu trả lời để người đọc. CHƯA CHẠY trên model thật (số dư GPU hết 06/11).
 - `tools/sim_chat2.py`: test tự do. 45 kịch bản do người kiểm thử viết (`tools/chat2_freestyle.py`), không lấy từ ngân hàng câu; mỗi kịch bản giấu sự thật, khách giả lập (chính model đó) chỉ trả lời theo `facts`. Mỗi cuộc chấm đúng/sai và xếp lỗi theo tầng: `routing`, `reasoning`, `service`, `dialogue`, `scope`, `safety`, `style`, `detail`.
 
 Số đo 06/11/2026, RTX 3090 thuê, vLLM v0.33.0, cùng thiết kế, cùng prompt:

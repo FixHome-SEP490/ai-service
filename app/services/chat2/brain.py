@@ -90,7 +90,13 @@ class Verdict:
 
 ROUTER_SYSTEM = """Bạn đọc tin nhắn của khách hàng FixHome (dịch vụ sửa chữa, vệ sinh, lắp đặt đồ gia dụng tại nhà) và xác định:
 - devices: các thiết bị khách đang nói tới, theo thứ tự khách nhắc, chọn trong danh sách mã; danh sách rỗng nếu khách chưa nói tới thiết bị nào. Tên thiết bị khách gõ ra luôn được tính, kể cả gõ không dấu, gõ tắt, gọi theo hãng.
-- intent: "repair" nếu khách kể thiết bị hỏng, có hiện tượng lạ, bị rơi, vỡ, có mùi; "service" nếu khách xin một việc như vệ sinh, bảo dưỡng, lắp, tháo, di dời; "question" nếu khách hỏi giá, chính sách, cách dùng; "greeting" nếu chỉ chào hỏi, alo, ok, cảm ơn; "offtopic" nếu không liên quan đồ gia dụng trong nhà, kể cả đồ điện tử FixHome không sửa như laptop, máy tính, điện thoại, máy in, xe máy, ô tô, và câu hỏi đời thường như thời tiết, giờ giấc, bóng đá.
+- intent:
+  "repair" khi khách kể máy của mình đang hỏng, có hiện tượng lạ, bị rơi, vỡ, có mùi (kể cả khi kể dưới dạng câu hỏi, ví dụ "máy lạnh chảy nước là sao vậy em");
+  "service" khi khách xin một việc: vệ sinh, bảo dưỡng, lắp, tháo, di dời, treo;
+  "question" khi khách hỏi thông tin mà không kể máy mình đang hỏng: FixHome là gì, em là ai, giá, thanh toán, bảo hành, huỷ đơn, khu vực phục vụ, quy trình đặt thợ, kiến thức về thiết bị (bao lâu vệ sinh, có nên sửa hay thay, inverter là gì), hoặc hỏi tiếp về bệnh vừa được chốt (sửa có lâu không, tự làm được không, có nguy hiểm không);
+  "book" khi khách muốn đặt thợ, chốt lịch, gọi thợ tới ("ok đặt luôn", "cho thợ qua đi", "đặt giúp anh") mà không kể thêm hiện tượng mới;
+  "greeting" khi chỉ chào hỏi, alo, ok, cảm ơn;
+  "offtopic" khi không liên quan đồ gia dụng trong nhà, kể cả đồ điện tử FixHome không sửa như laptop, máy tính, điện thoại, máy in, xe máy, ô tô, và câu hỏi đời thường như thời tiết, giờ giấc, bóng đá.
 
 Danh sách thiết bị (mã: tên):
 {devices}"""
@@ -144,7 +150,7 @@ def _router_schema() -> dict:
                 "items": {"type": "string", "enum": list(devices().keys())},
                 "maxItems": MAX_DEVICES,
             },
-            "intent": {"type": "string", "enum": ["repair", "service", "question", "greeting", "offtopic"]},
+            "intent": {"type": "string", "enum": ["repair", "service", "question", "book", "greeting", "offtopic"]},
         },
         "required": ["devices", "intent"],
         "additionalProperties": False,
@@ -327,16 +333,19 @@ class ChatBrain:
         history: Sequence[Turn],
         device_type: Optional[str] = None,
         also: Sequence[str] = (),
+        routed: Optional[dict] = None,
+        current: Optional[str] = None,
     ) -> Verdict:
-        """`device_type` is what the first photograph showed, `also` what further photographs showed."""
+        """`device_type` is what this message's first photograph showed, `also` what further
+        photographs showed; `current` the appliance the conversation was about before it."""
         started = time.perf_counter()
-        routed = await self.route(client, history)
+        routed = routed or await self.route(client, history)
         intent = routed.get("intent", "repair")
         named = [d for d in routed.get("devices") or [] if d in devices()][:MAX_DEVICES]
         # With a photograph of an appliance the router may not decline: a story
         # told by its consequences ("cả dãy trọ cúp điện") reads to it as small
         # talk. The diagnosis, which sees the appliance, decides that instead.
-        if not device_type and (intent == "offtopic" or (intent == "greeting" and not named)):
+        if not (device_type or current) and (intent == "offtopic" or (intent == "greeting" and not named)):
             return _without_device(intent, None, time.perf_counter() - started, routed)
         # The words win over the photograph, but only words that name the
         # appliance: "lò nướng" under a photo read as a microwave is an oven.
@@ -351,12 +360,23 @@ class ChatBrain:
             correction = next((d for d in said if d in confusable(device_type)), None)
             primary = correction or device_type
             order = list(dict.fromkeys([primary, *also, *[d for d in said if d != correction]]))
+            switched = False
+        elif current:
+            # Only the newest message can change the subject. "Còn cái tủ lạnh
+            # nhà em kêu to" after a talk about the air conditioner is about
+            # the fridge now; "cả máy lạnh lẫn tủ lạnh" is about both; a reply
+            # that names nothing stays where the conversation was.
+            latest = next((t.text for t in reversed(history) if t.role == "user"), "")
+            newly = [d for d in named if names_appliance(latest, d)]
+            switched = bool(newly) and current not in newly
+            order = newly if switched else list(dict.fromkeys([current, *newly]))
         else:
             order = list(dict.fromkeys(named))
+            switched = False
         order = order[:MAX_DEVICES]
         if not order:
             return _without_device(intent, None, time.perf_counter() - started, routed)
-        focus = len(order) > 1
+        focus = len(order) > 1 or switched
         verdicts = await asyncio.gather(
             *(self._diagnose(client, history, d, intent, devices()[d].lower() if focus else None) for d in order)
         )
@@ -383,7 +403,10 @@ def _without_device(intent: str, device_type: Optional[str], latency: float, raw
         text = "Dạ em chỉ hỗ trợ được việc sửa chữa, vệ sinh, lắp đặt đồ dùng trong nhà ạ."
         decision = "not_repair"
     else:
-        text = "Dạ anh/chị đang cần hỗ trợ thiết bị nào ạ? Anh/chị gửi ảnh hoặc nói tên máy giúp em nhé."
+        text = (
+            "Dạ em là trợ lý của FixHome, em giúp anh/chị tìm bệnh của đồ gia dụng và đặt thợ tới nhà. "
+            "Anh/chị đang cần hỗ trợ thiết bị nào ạ? Gửi ảnh hoặc nói tên máy giúp em nhé."
+        ) if intent == "greeting" else "Dạ anh/chị đang cần hỗ trợ thiết bị nào ạ? Anh/chị gửi ảnh hoặc nói tên máy giúp em nhé."
         decision = "ask"
     return Verdict(device_type, intent, decision, None, None, text, raw=raw, latency_s=latency)
 

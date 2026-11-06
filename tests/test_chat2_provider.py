@@ -144,22 +144,63 @@ def test_two_appliances_come_back_as_devices(client_with):
     assert d["devices"][0]["isPrimary"] is True
 
 
-def test_a_policy_question_is_answered_from_policy_passages(client_with):
+def test_a_platform_question_is_answered_from_the_knowledge_index(client_with):
     client, model = client_with(
         {"devices": [], "intent": "question"},
-        "Dạ FixHome bảo hành theo từng dịch vụ, thợ sẽ ghi rõ khi hoàn tất ạ.",
+        {"passages": ["system:tong-quan-fixhome:2", "catalog:services"]},
+        {"grounded": True, "reply": "Dạ FixHome là nền tảng kết nối anh/chị với thợ sửa đồ gia dụng tại nhà ạ."},
         device=None,
     )
-    d = client.post("/api/v1/chat/ask", json={"question": "bảo hành bao lâu vậy em"}).json()
-    assert d["status"] in ("ok", "no_grounding")
-    if d["status"] == "ok":
-        assert d["citations"] and "bảo hành" in model.calls[1]["messages"][0]["content"].lower()
+    d = client.post("/api/v1/chat/ask", json={"question": "fixhome là gì vậy em"}).json()
+    assert d["status"] == "ok" and d["answerVi"].startswith("Dạ FixHome")
+    assert [c["docId"] for c in d["citations"]] == ["system:tong-quan-fixhome:2", "catalog:services"]
+    toc = model.calls[1]["messages"][0]["content"]
+    assert "catalog:services" in toc and "device:air_conditioner" not in toc
+    passages = model.calls[2]["messages"][0]["content"]
+    assert "FixHome đang nhận các dịch vụ sau" in passages
+
+
+def test_nothing_picked_says_so_instead_of_guessing(client_with):
+    client, model = client_with({"devices": [], "intent": "question"}, {"passages": []}, device=None)
+    d = client.post("/api/v1/chat/ask", json={"question": "fixhome có cho vay trả góp không"}).json()
+    assert d["status"] == "no_grounding" and "chưa có thông tin" in d["answerVi"]
+    assert len(model.calls) == 2
+
+
+def test_a_follow_up_question_is_asked_about_the_fault_just_concluded(client_with):
+    client, model = client_with(
+        {"devices": ["air_conditioner"], "intent": "repair"},
+        _turn(need="chảy nước", fault_code="AC_DRAIN_BLOCKED", service_code="AC-02", reply="Dạ khả năng nghẹt ống thoát nước ạ."),
+        {"devices": [], "intent": "question"},
+        {"passages": ["fault:AC_DRAIN_BLOCKED:0"]},
+        {"grounded": True, "reply": "Dạ thông ống thoát nước thường làm xong trong một buổi ạ."},
+    )
+    first = client.post("/api/v1/diagnosis/analyze", json={"description": "máy lạnh chảy nước"}).json()
+    d = client.post("/api/v1/diagnosis/analyze", json={"description": "sửa có lâu không em", "sessionId": first["sessionId"]}).json()
+    assert d["status"] == "ok" and d["messageVi"].startswith("Dạ thông ống")
+    # The booking bar keeps the service already offered.
+    assert [s["serviceCode"] for s in d["recommendedServices"]] == ["AC-02"]
+    toc = model.calls[3]["messages"][0]["content"]
+    assert "fault:AC_DRAIN_BLOCKED" in toc and "device:air_conditioner" in toc
+    assert "nghẹt đường thoát nước" in model.calls[4]["messages"][0]["content"]
+
+
+def test_asking_for_a_technician_after_a_conclusion_points_to_the_button(client_with):
+    client, model = client_with(
+        {"devices": ["air_conditioner"], "intent": "repair"},
+        _turn(need="chảy nước", fault_code="AC_DRAIN_BLOCKED", service_code="AC-02", reply="Dạ khả năng nghẹt ống thoát nước ạ."),
+        {"devices": [], "intent": "book"},
+    )
+    first = client.post("/api/v1/diagnosis/analyze", json={"description": "máy lạnh chảy nước"}).json()
+    d = client.post("/api/v1/diagnosis/analyze", json={"description": "ok đặt thợ luôn em", "sessionId": first["sessionId"]}).json()
+    assert "Đặt thợ ngay" in d["messageVi"] and "vệ sinh điều hòa" in d["messageVi"]
+    assert [s["serviceCode"] for s in d["recommendedServices"]] == ["AC-02"]
+    assert len(model.calls) == 3
 
 
 def test_an_appliance_question_on_ask_goes_through_the_diagnosis(client_with):
     client, _ = client_with(
-        {"devices": ["air_conditioner"], "intent": "question"},
-        {"devices": ["air_conditioner"], "intent": "question"},
+        {"devices": ["air_conditioner"], "intent": "repair"},
         _turn(need="chảy nước", fault_code="AC_DRAIN_BLOCKED", service_code="AC-02", reply="Dạ khả năng nghẹt ống thoát nước ạ."),
         device=None,
     )

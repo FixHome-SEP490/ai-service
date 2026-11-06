@@ -243,6 +243,32 @@ async def test_a_named_appliance_that_is_no_look_alike_is_added_not_swapped():
 
 
 @pytest.mark.asyncio
+async def test_the_newest_message_can_change_the_subject():
+    transport, calls = _server([
+        _route("air_conditioner", "refrigerator"),
+        _turn(need="tủ lạnh kêu to", fault_code="FRIDGE_NOISY", service_code="FR-01"),
+    ])
+    history = [
+        Turn("user", "máy lạnh chảy nước"),
+        Turn("assistant", "Dạ khả năng nghẹt ống thoát nước ạ."),
+        Turn("user", "à mà cái tủ lạnh nhà em đêm nào cũng kêu to"),
+    ]
+    async with httpx.AsyncClient(transport=transport) as client:
+        v = await ChatBrain("http://fake/v1", "m").turn(client, history, None, current="air_conditioner")
+    assert v.device_type == "refrigerator" and v.others == []
+    assert "chỉ xét tủ lạnh" in calls[1]["messages"][0]["content"]
+
+
+@pytest.mark.asyncio
+async def test_a_reply_naming_nothing_stays_on_the_appliance():
+    transport, _ = _server([_route(), _turn(need="chảy nước", fault_code="AC_DRAIN_BLOCKED", service_code="AC-02")])
+    history = [Turn("user", "máy lạnh bị sao á"), Turn("assistant", "Dạ máy đang bị gì ạ?"), Turn("user", "chảy nước")]
+    async with httpx.AsyncClient(transport=transport) as client:
+        v = await ChatBrain("http://fake/v1", "m").turn(client, history, None, current="air_conditioner")
+    assert v.device_type == "air_conditioner"
+
+
+@pytest.mark.asyncio
 async def test_two_appliances_are_each_concluded():
     v, calls = await _run(
         [_route("washing_machine", "air_conditioner"),
@@ -284,3 +310,28 @@ def test_fault_cards_are_rebuilt_from_the_documents():
     assert (root / "app" / "data" / "fault_cards.json").read_text(encoding="utf-8") == built, (
         "fault_cards.json is stale: run python tools/build_fault_cards.py"
     )
+
+
+def test_knowledge_index_is_rebuilt_from_the_documents():
+    import importlib.util
+    from pathlib import Path
+
+    root = Path(__file__).resolve().parents[1]
+    spec = importlib.util.spec_from_file_location("build_knowledge_index", root / "tools" / "build_knowledge_index.py")
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    built = json.dumps(module.build(), ensure_ascii=False, indent=1) + "\n"
+    assert (root / "app" / "data" / "knowledge_index.json").read_text(encoding="utf-8") == built, (
+        "knowledge_index.json is stale: run python tools/build_knowledge_index.py"
+    )
+
+
+def test_every_platform_question_has_somewhere_to_be_answered_from():
+    from app.services.chat2.answer import candidates
+
+    platform = {p.section_vi for p in candidates(None, None)}
+    for needed in ("Khách hỏi FixHome là gì, FixHome làm gì", "Em là ai trong cuộc trò chuyện này",
+                   "Hai cách thanh toán", "Hai thành phố, hai mươi chín quận", "FixHome đang nhận những dịch vụ gì",
+                   "Thợ của FixHome có được kiểm tra không"):
+        assert needed in platform, needed
+    assert not [p for p in candidates("air_conditioner", None) if "ảnh" in p.section_vi.lower() and "đọc" in p.section_vi.lower()]
