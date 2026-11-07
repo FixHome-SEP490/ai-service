@@ -347,6 +347,48 @@ kỳ cụ thể theo khuyến cáo của hãng và theo chất lượng nước 
 Nhà dùng nước cứng, nước giếng khoan, hoặc nước nhiều cặn thì chu kỳ phải dày hơn
 đáng kể.
 
+## Vệ sinh định kỳ bao lâu một lần
+
+Với bình nóng lạnh gián tiếp, việc định kỳ gồm xả cặn, vệ sinh lòng bình và
+thanh đốt, kiểm tra và thay thanh magie. Đây là việc của thợ, vì phải ngắt điện,
+xả hết nước và tháo mặt bích.
+
+Sách hướng dẫn của Ariston cho nhiều dòng bình ghi kiểm tra thanh magie và xả cặn
+mỗi năm một lần; có dòng ghi thay thanh magie khoảng hai năm một lần, và kiểm tra
+mỗi năm khi nước nhiều clo hoặc nước có tính ăn mòn. Một số hãng gắn điều kiện bảo
+hành ruột bình với việc thay thanh magie đúng hạn. Nhà dùng nước giếng khoan, nước
+nhiễm phèn hoặc nhiễm mặn thì nên theo mốc mỗi năm hoặc dày hơn. Mốc chính xác
+theo sách của model và theo phiếu bảo hành.
+
+Phần khách tự làm định kỳ: nhấn nút thử trên cục chống giật hoặc aptomat chống
+dòng rò, nhiều hãng thiết bị điện khuyên mỗi tháng một lần. Nhấn mà không ngắt
+thì thiết bị đã hỏng, ngừng dùng bình và gọi thợ.
+
+Máy nước nóng trực tiếp không có thanh magie, nhưng lưới lọc đầu nước vào và bát
+sen vẫn đóng cặn, nên rửa khi nước ra yếu.
+
+Dấu hiệu bình nóng lạnh tới hạn sớm: lâu nóng hơn trước, có tiếng lục bục khi đun,
+nước nóng đục hoặc có mùi, có cặn trắng ở vòi sen.
+
+## Dùng đúng cách cho bền và an toàn
+
+Bình nóng lạnh không cần bật cả ngày. Thói quen an toàn và tiết kiệm là bật trước
+khi tắm khoảng mười lăm hai mươi phút, rồi tắt điện trước khi vào tắm. Bình đã ngắt
+điện thì không có nguồn cho dòng rò, và nước nóng sẵn trong bình vẫn đủ dùng.
+
+Chỉ cấp điện khi bình đã đầy nước. Lần đầu lắp, sau khi xả bình, hoặc sau đợt cúp
+nước dài, mở vòi nước nóng cho nước chảy đều rồi mới bật điện, vì thanh đốt chạy
+khi bình cạn sẽ hỏng.
+
+Không cài nhiệt quá cao, nhất là nhà có trẻ nhỏ và người già. Đi vắng dài ngày thì
+ngắt aptomat của bình.
+
+Bình phải có nối đất, chống dòng rò và aptomat riêng. Không lắp ở chỗ nước tạt
+thẳng vào, không tự mở bình ra sửa.
+
+Tê tay khi chạm vòi hoặc nước, chống giật nhảy, mùi khét, nước nóng bất thường
+không tự ngắt: ngắt điện, không tắm, gọi thợ.
+
 ## An toàn điện: ba lớp bảo vệ
 
 Phần này nên được nói với mọi khách có máy nước nóng, kể cả khi họ hỏi chuyện
@@ -565,6 +607,16 @@ thực tế.
 Phần ảnh hưởng của nước cứng và nước giếng khoan tới cặn và ăn mòn: kiến thức xử
 lý nước và hướng dẫn bảo dưỡng của các hãng.
 
+Phần mốc bảo dưỡng: hướng dẫn sử dụng và bảo dưỡng của Ariston cho các dòng bình
+điện (THERserie: xả nước, tẩy cặn, kiểm tra thanh magie mỗi năm; Andris Lux ECO:
+thay thanh magie khoảng hai năm, kiểm tra mỗi năm với nước ăn mòn; Pro1: kiểm tra
+mỗi năm với nước nhiều clo), đọc qua các trang lưu trữ sách hướng dẫn. Phần điều
+kiện bảo hành gắn với thay thanh magie: trang hướng dẫn bảo hành Ariston của
+meta.vn, nguồn bán lẻ, cần đối chiếu phiếu bảo hành thật. Phần chỉ cấp điện khi
+bình đầy nước và ngắt điện trước khi xả bình: cảnh báo trong cùng bộ sách hướng
+dẫn. Phần nhấn nút thử chống dòng rò mỗi tháng: khuyến cáo của Schneider Electric
+cho thiết bị chống dòng rò.
+
 Phần thói quen bật trước khi tắm rồi tắt, bối cảnh nhà cũ không có tiếp đất, và
 nhà trọ: quan sát thực tế trong nước, không phải trích dẫn. Cần cập nhật khi hệ
 thống chạy thật.
@@ -578,7 +630,9 @@ thống điện của nhà và cần thợ điện đánh giá theo quy chuẩn,
 Điện trở nối đất đạt yêu cầu, và cách làm tiếp địa cho nhà chưa có.
 
 Chu kỳ vệ sinh bình, súc cặn và thay thanh magie theo từng hãng và theo chất lượng
-nước khu vực.
+nước khu vực. Tài liệu đã ghi mốc của Ariston là mỗi năm kiểm tra, có dòng hai năm
+thay; các hãng khác chưa đối chiếu, và mốc cho nước giếng nhiễm phèn hay nhiễm mặn
+cần thợ chốt theo độ mòn thấy được khi tháo.
 
 Áp lực nước tối thiểu để máy trực tiếp kích được, theo từng model.
 

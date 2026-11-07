@@ -505,10 +505,35 @@ Sau khi vận chuyển, nhất là vận chuyển nằm, phải để tủ đứ
 trước khi cắm điện, để dầu trong máy nén về lại đúng chỗ. Cắm ngay có thể hỏng
 máy nén. Đây là lời khuyên rất đáng nói khi khách vừa chuyển nhà.
 
-## Dùng đúng cách
+## Vệ sinh định kỳ bao lâu một lần
 
-Không nhồi quá đầy. Hơi lạnh cần đường lưu thông, và thực phẩm chắn ngay khe gió
-là nguyên nhân thật của nhiều ca ngăn mát không lạnh.
+Tủ lạnh ít việc bảo dưỡng hơn máy lạnh vì hệ lạnh hàn kín, và gần như mọi việc
+định kỳ là khách tự làm.
+
+Bên trong tủ: lau kệ, khay và rãnh gioăng cửa khoảng mỗi tháng bằng nước ấm pha
+nước rửa chén loãng rồi lau khô. Thức ăn đổ ra thì lau ngay.
+
+Lỗ thoát nước ở đáy sau ngăn mát: kiểm tra vài tháng một lần.
+
+Phía sau và dưới đáy tủ, chỗ dàn nóng, máy nén và khay hứng nước: rút điện rồi
+phủi hoặc hút bụi mỗi một tới hai tháng, ít nhất mỗi vài tháng. Nhà nhiều bụi, có
+chó mèo, đang sửa nhà thì theo mốc dày. Tủ đời mới giấu dàn nóng trong hông tủ thì
+chỉ cần giữ khe thoáng sạch bụi.
+
+Tủ có vòi lấy nước hoặc làm đá tự động có lõi lọc nước riêng. LG và Samsung khuyên
+thay khoảng sáu tháng một lần, sớm hơn nếu nước ra chậm hoặc đèn báo thay lọc
+sáng. Dùng lõi đúng loại hãng duyệt.
+
+Tủ đóng tuyết thì rút điện xả đá khi lớp tuyết dày lên rõ.
+
+Tủ lạnh không cần thợ bảo dưỡng theo lịch. Gọi thợ khi có dấu hiệu: ngăn mát ấm
+dần, tủ chạy suốt không nghỉ với tủ không inverter, đóng tuyết bất thường, đọng
+nước dưới khay rau, hoặc kêu to hơn trước.
+
+## Dùng đúng cách cho bền và an toàn
+
+Không nhồi tủ lạnh quá đầy. Hơi lạnh cần đường lưu thông, và thực phẩm chắn ngay
+khe gió là nguyên nhân thật của nhiều ca ngăn mát không lạnh.
 
 Không để thức ăn còn nóng vào tủ. Hơi nóng và hơi ẩm làm tủ chạy nặng và làm tăng
 tuyết.
@@ -523,14 +548,11 @@ Không mở cửa lâu và không mở đi mở lại nhiều lần.
 Không để tủ trống rỗng hoàn toàn trong thời gian dài; tủ có đồ giữ lạnh ổn định
 hơn.
 
-Vệ sinh trong tủ định kỳ, và lau sạch rãnh gioăng cửa.
-
-Kiểm tra lỗ thoát nước ở đáy sau ngăn mát vài tháng một lần.
-
-Vệ sinh dàn nóng phía sau và khay hứng nước một tới hai tháng một lần, hoặc ít
-nhất mỗi vài tháng.
-
 Rút điện tủ khi đi vắng dài ngày, sau khi đã dọn sạch và để cửa hé cho khỏi mốc.
+
+Về an toàn: cắm tủ lạnh vào ổ riêng có tiếp đất, không cạy tuyết bằng dao hay vật
+nhọn vì dễ đâm thủng dàn lạnh, và không cất bình xịt hay chất dễ cháy trong tủ.
+Tê tay khi chạm vỏ, có mùi khét thì rút điện và gọi thợ.
 
 ## Điện và an toàn
 
@@ -779,6 +801,15 @@ thiết bị điện gia dụng phần yêu cầu cụ thể đối với thiế
 
 Phần lộ trình môi chất: Nghị định 06/2022/NĐ-CP và các nghị định sửa đổi bổ sung.
 
+Phần vệ sinh dàn nóng: trang hướng dẫn vệ sinh dàn ngưng của Whirlpool (nhà bình
+thường ít khi phải làm, nhà có thú nuôi, nhiều bụi hoặc đang thi công thì ba tới
+sáu tháng; có model không cần hoặc chỉ thợ được làm), đối chiếu hướng dẫn sửa chữa
+của Sears PartsDirect (ít nhất hai lần một năm). Mốc một tới hai tháng trong tài
+liệu này là mức dày cho nhà nhiều bụi. Phần lõi lọc nước khoảng sáu tháng: trang
+hỗ trợ của LG và Samsung. Phần không dùng vật nhọn để xả đá và không cất bình xịt
+dễ cháy trong tủ: cảnh báo an toàn chuẩn trong hướng dẫn sử dụng tủ lạnh dùng môi
+chất dễ cháy.
+
 Phần bối cảnh nhà bếp Việt Nam, độ ẩm, chuột và côn trùng, thói quen sử dụng, và
 cách khách mô tả: quan sát thực tế trong nước, không phải trích dẫn. Cần cập nhật
 khi hệ thống chạy thật.
@@ -797,5 +828,11 @@ Thời gian phải để tủ đứng yên sau khi vận chuyển trước khi c
 cáo khác nhau giữa các hãng.
 
 Loại môi chất và lượng nạp của từng model, đọc trên tem máy.
+
+Model nào có dàn nóng khách tự chải được và model nào chỉ thợ được mở, vì khác
+nhau theo hãng.
+
+Độ dày lớp tuyết nên xả với tủ đóng tuyết. Tài liệu chỉ mô tả dấu hiệu, chưa ghi
+con số.
 
 Chi phí. Mọi con số tiền lấy từ bảng giá của hệ thống, không lấy từ tài liệu này.

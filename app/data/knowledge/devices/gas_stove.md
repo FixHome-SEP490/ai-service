@@ -325,7 +325,7 @@ là bếp điện và toàn bộ nhóm bệnh này không áp dụng.
 
 Hỏi một câu để chắc là đáng, vì tư vấn sai loại bếp thì mọi lời khuyên đều lệch.
 
-## An toàn khi đặt bếp và bình
+## Dùng đúng cách cho bền và an toàn
 
 Bình gas đặt thẳng đứng, nơi thoáng, không đặt trong hộc kín không có lỗ thông,
 không đặt ở chỗ trũng hoặc tầng hầm.
@@ -342,8 +342,15 @@ Không để vật dễ cháy gần bếp: giẻ, giấy, chai dầu ăn, bình 
 
 Có lỗ thông gió cho bếp, nhất là bếp đặt trong phòng kín hoặc chung cư.
 
+Khi nấu bằng bếp gas: đứng gần bếp, nhất là khi nấu món nước dễ trào; không vặn
+lửa nhỏ tới mức chập chờn; dùng nồi vừa vùng lửa để lửa không liếm ra ngoài đáy
+nồi. Lửa xanh gọn là bình thường, lửa đỏ hoặc vàng là cần vệ sinh mâm chia lửa.
+
 Khoá van bình sau mỗi lần nấu, và nhất là khi đi vắng. Đây là thói quen quan trọng
 nhất và nó gần như miễn phí.
+
+Ngửi thấy mùi gas thì khoá van bình, mở hết cửa, không bật tắt công tắc điện nào và
+không đánh lửa.
 
 ## Khí hậu và bối cảnh Việt Nam
 
@@ -407,23 +414,29 @@ bệnh nhưng là rủi ro đáng nhắc.
 
 Ảnh bọt xà phòng sủi lên ở một chỗ trên dây. Bằng chứng trực tiếp của rò.
 
-## Vệ sinh và bảo dưỡng
+## Vệ sinh định kỳ bao lâu một lần
 
-Lau mặt bếp sau mỗi lần nấu, khi bếp đã nguội hẳn.
+Lau mặt bếp gas sau mỗi lần nấu, khi bếp đã nguội hẳn. Thức ăn trào ra thì lau
+ngay khi nguội, đừng để khô cứng trên họng lửa.
 
-Tháo kiềng và mâm chia lửa ra rửa định kỳ, và lắp lại đúng rãnh. Lắp lệch là nguyên
-nhân của nhiều bệnh.
+Tháo kiềng và mâm chia lửa ra rửa định kỳ, và ngay khi lửa đỏ, lửa lệch; lau khô
+rồi lắp lại đúng rãnh. Lắp lệch là nguyên nhân của nhiều bệnh.
 
 Thông lỗ họng lửa bằng vật mềm khi bị bít. Không dùng vật cứng làm rộng lỗ.
 
 Lau đầu cảm ứng nhiệt và kim đánh lửa bằng khăn mềm khô. Hai chi tiết này bẩn là
 sinh chuyện, và lau thì miễn phí.
 
-Kiểm tra dây dẫn và các mối nối bằng nước xà phòng định kỳ.
+Kiểm tra dây dẫn và các mối nối bằng nước xà phòng định kỳ, và luôn làm sau mỗi lần
+thay bình.
 
 Thay pin bộ đánh lửa khi đánh lửa yếu.
 
-Thay dây dẫn và van điều áp theo chu kỳ.
+Thay dây dẫn và van điều áp theo chu kỳ. Một số bài viết an toàn gas trong nước nêu
+mốc khoảng ba tới năm năm cho bộ dây và van, có nguồn ngắn hơn, và Việt Nam chưa có
+tiêu chuẩn riêng cho hai chi tiết này, nên mốc cụ thể chốt với đại lý gas hoặc thợ
+theo loại dây đang dùng. Dây đã khô, nứt, cứng, phồng hoặc có vết chuột cắn thì
+thay ngay, không chờ tới mốc.
 
 Khoá van bình sau mỗi lần nấu.
 
@@ -517,6 +530,11 @@ dụng khí của ngành công thương. Chu kỳ cụ thể để thợ hoặc 
 
 Phần lửa đỏ do thiếu không khí trộn và hệ quả về khí độc: nguyên lý cháy.
 
+Phần mốc khoảng ba tới năm năm cho bộ dây và van điều áp, và việc Việt Nam chưa có
+tiêu chuẩn riêng cho dây dẫn và van bình gas gia đình: bài "Bình gas nổ do dây, van
+thiếu an toàn" trên VnExpress. Một bài của FPT Shop nêu mốc thay dây ngắn hơn
+nhiều, nên tài liệu không chọn một con số chung.
+
 Phần bối cảnh bếp chật, chung cư, nhà trọ, thói quen nấu nhiều món nước: quan sát
 thực tế trong nước, không phải trích dẫn. Cần cập nhật khi hệ thống chạy thật.
 
@@ -525,6 +543,9 @@ thực tế trong nước, không phải trích dẫn. Cần cập nhật khi h�
 Chu kỳ thay dây dẫn gas và van điều áp. Có nguồn nêu con số theo năm nhưng khác nhau
 giữa các nguồn và theo loại dây, nên để đại lý gas hoặc thợ xác nhận thay vì đưa một
 con số chung.
+
+Tần suất nên thử rò bằng nước xà phòng ngoài lần thay bình. Tài liệu chỉ ghi
+"định kỳ".
 
 Áp suất làm việc của van điều áp phù hợp với từng loại bếp, vì bếp dân dụng và bếp
 công nghiệp khác nhau.

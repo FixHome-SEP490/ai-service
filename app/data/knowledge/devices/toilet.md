@@ -334,6 +334,49 @@ Với nghẹt do vật rắn thì hoá chất hoàn toàn vô tác dụng, và �
 
 Nói ba điều đó ngắn gọn là đủ để khách không làm.
 
+## Vệ sinh định kỳ bao lâu một lần
+
+Bồn cầu không cần thợ bảo dưỡng theo lịch. Việc định kỳ là của khách, và mốc đi
+theo mức dùng cùng độ cứng của nước.
+
+Lòng bồn và vành xả: cọ rửa thường xuyên bằng chất tẩy dùng cho bồn cầu. Nhà nước
+cứng thì định kỳ làm sạch lỗ vành bằng giấm hoặc dung dịch tẩy cặn vôi, vì cặn bít
+lỗ vành làm xả yếu.
+
+Két nước: thỉnh thoảng mở nắp két nhìn mực nước, phao và van xả, nhất là khi nghe
+tiếng nước chảy rỉ rả hoặc két đầy chậm. Không thả viên tẩy hay đổ thuốc tẩy có clo
+vào két. TOTO ghi rằng clo nồng độ cao có thể làm hỏng phụ kiện trong két và hãng
+không chịu trách nhiệm cho hỏng hóc do viên tẩy đặt trong két; Kohler ghi việc này
+làm mất bảo hành, trừ dòng thiết kế riêng cho việc đó.
+
+Nắp và bệ ngồi: lau bằng khăn ẩm và chất tẩy nhẹ, siết lại ốc khi nắp lỏng.
+
+Bể phốt: hút theo dung tích và số người dùng. Tài liệu chưa có mốc chung, nhưng
+nghẹt lặp lại dù đã thông, nước rút chậm ở nhiều thiết bị cùng lúc, hoặc mùi hôi
+quanh nhà là dấu hiệu nên hút.
+
+Dấu hiệu gọi thợ: nước chảy liên tục xuống lòng bồn, rò ở chân bồn, bồn lung lay,
+nghẹt lặp lại.
+
+## Dùng đúng cách cho bền và an toàn
+
+Chỉ xả giấy vệ sinh xuống bồn cầu. Khăn ướt, băng vệ sinh, tã, bông, tóc, thức ăn
+thừa bỏ vào thùng rác, kể cả khăn ướt có ghi là xả được, vì nó không tan như giấy.
+
+Không dùng hoá chất thông cống mạnh cho bồn cầu, vì chúng sinh nhiệt có thể làm nứt
+sứ và ăn mòn gioăng. Đã lỡ đổ thì phải báo cho thợ.
+
+Không đứng lên bệ, không ngồi mạnh lên nắp, không đặt vật nặng lên nắp két. Bồn cầu
+treo tường càng phải tránh dồn sức nặng lên mép.
+
+Biết van cấp nước ở chân tường nằm đâu. Nước tràn hoặc chảy không ngừng thì khoá
+van đó trước.
+
+Bồn cầu thông minh có điện: phải có ổ hoặc nguồn có tiếp đất, không xịt nước lên
+phần điện, tê tay thì ngắt điện.
+
+Nhà có trẻ nhỏ thì đậy nắp và cất chất tẩy bồn cầu xa tầm tay.
+
 ## Khi nào sửa, khi nào thay
 
 Phần lớn bệnh của bồn cầu là bệnh của phụ kiện chứ không phải của thân sứ, và phụ kiện
@@ -420,6 +463,11 @@ tham chiếu TCVN 4513 về cấp nước bên trong và TCVN 4474 về thoát n
 Cảnh báo về hoá chất thông cống sinh nhiệt gây nứt sứ và ăn mòn gioăng: khuyến cáo trong
 hướng dẫn sử dụng của nhà sản xuất thiết bị vệ sinh, đối chiếu nhiều nguồn.
 
+Phần không đặt viên tẩy hay thuốc tẩy có clo trong két: hướng dẫn sản phẩm của TOTO
+(clo nồng độ cao làm hỏng phụ kiện két, hãng không chịu trách nhiệm cho hỏng hóc do
+viên tẩy trong két) và tài liệu bảo hành của Kohler. Phần mốc vệ sinh và dùng đúng
+cách còn lại: viết từ các mục bệnh trong tài liệu này và kinh nghiệm nghề.
+
 Bối cảnh nước cứng, áp lực nước thay đổi theo tầng và theo giờ, đường ống thoát chung theo
 trục ở chung cư, và tần suất tăng của nghẹt do khăn ướt: quan sát thực tế trong nước,
 không phải trích dẫn. Cần cập nhật khi hệ thống chạy thật.
@@ -436,5 +484,10 @@ Nguyên nhân nghẹt nằm ở bồn, ở đường ống của căn hộ, hay 
 Bể phốt có đầy không, nếu nghẹt lặp lại nhiều lần.
 
 Gioăng chân bồn và mặt bích thoát có còn kín không.
+
+Chu kỳ hút bể phốt theo dung tích và số người. Tài liệu chưa ghi con số.
+
+Chất tẩy dùng cho lòng bồn có hại men sứ hay gioăng của model đang dùng không, theo
+sách của hãng.
 
 Chi phí. Mọi con số tiền lấy từ bảng giá của hệ thống, không lấy từ tài liệu này.

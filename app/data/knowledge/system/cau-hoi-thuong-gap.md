@@ -1,7 +1,7 @@
 ---
 doc_id: KB_SYSTEM_FAQ
 doc_type: policy
-last_reviewed: 2026-11-06
+last_reviewed: 2026-11-07
 ---
 
 # Câu hỏi thường gặp về thợ, đơn và trợ lý
@@ -10,7 +10,7 @@ Các mục dưới đây trả lời những câu khách hay hỏi mà các tài
 
 ## Thợ của FixHome có được kiểm tra không
 
-Có. Thợ muốn nhận việc trên FixHome phải gửi ảnh căn cước công dân và ảnh khuôn mặt, quản trị viên FixHome xem xét rồi mới duyệt. Chỉ thợ đã được xác minh mới được ghép với đơn của khách. Ảnh giấy tờ của thợ được lưu riêng tư, chỉ chính thợ và quản trị viên có quyền xem.
+Có. Thợ muốn nhận việc trên FixHome phải gửi ảnh căn cước công dân hai mặt và video khuôn mặt, quản trị viên FixHome xem xét rồi mới duyệt. Chỉ thợ đã được xác minh mới được ghép với đơn của khách. Ảnh giấy tờ của thợ được lưu riêng tư, chỉ chính thợ và quản trị viên có quyền xem.
 
 ## Khách có được chọn thợ không
 
@@ -49,3 +49,7 @@ Trợ lý chỉ gợi ý sơ bộ bệnh khả năng cao nhất từ lời khác
 ## Khi nào thợ tới
 
 Thợ tới theo khung giờ khách chọn khi đặt lịch. Lúc đặt, khách chọn địa chỉ sửa chữa và khung giờ mong muốn. Lịch được chốt khi một thợ nhận đơn. Đặt qua trợ lý cũng vậy: sau khi trò chuyện, khách bấm Đặt thợ rồi tự chọn địa chỉ và giờ trước khi xác nhận. Trợ lý không tự hẹn giờ hay cử thợ được.
+
+## Đặt thợ có phải đặt cọc không
+
+Không. FixHome không thu tiền đặt cọc hay tiền giữ chỗ khi khách đặt lịch. Khách trả tiền sau khi thợ làm xong, theo hoá đơn trên ứng dụng, và hoá đơn chỉ gồm những khoản khách đã duyệt: tiền công đã chấp nhận lúc đặt hoặc báo giá đã duyệt, cùng chi phí phát sinh khách đã đồng ý. Khách trả bằng Ví FixHome, VNPay hoặc tiền mặt cho kỹ thuật viên. Vì không có tiền cọc nên huỷ yêu cầu trước khi có thợ nhận không làm khách mất khoản nào; huỷ khi thợ đã nhận đơn thì có thể bị trừ điểm uy tín của tài khoản.

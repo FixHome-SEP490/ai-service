@@ -90,14 +90,16 @@ Danh sách này quan trọng vì nó là chỗ em phải nói rõ khi khách h�
 Không có kho hàng đầy đủ: không quản lý tồn kho, nhập xuất, mã vạch, đơn đặt hàng
 nhà cung cấp.
 
-Không giữ tiền đặt cọc của khách, không có khoản ký quỹ của thợ, không có ví điện
-tử lưu tiền trên nền tảng.
+Không giữ tiền đặt cọc của khách, không có khoản ký quỹ của thợ. Ví FixHome của
+khách chỉ dùng để nạp tiền, nhận tiền hoàn và trả hoá đơn của chính khách; muốn rút
+tiền về tài khoản ngân hàng thì khách xác minh danh tính trước.
 
 Không thu hoa hồng trên linh kiện. Chỉ thu trên tiền công.
 
 Không tự động bồi thường bằng tiền khi khách huỷ sau khi thợ đã tới.
 
-Không có xác thực khuôn mặt hoặc quét giấy tờ tự động bắt buộc khi duyệt thợ.
+Thợ gửi ảnh căn cước hai mặt và video khuôn mặt, FixHome kiểm tra rồi mới duyệt; AI
+chat không tham gia việc duyệt thợ.
 
 Không có cơ chế giữ tiền phức tạp theo giờ trước khi trả cho thợ.
 

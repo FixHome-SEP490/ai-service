@@ -119,7 +119,7 @@ nhôm nhún bị ép sát tường là ca rất hay gặp ở căn hộ.
 Ảnh bảng điều khiển đang hiện mã lỗi, nếu có, và nhờ khách đọc đúng mã chứ đừng
 đoán ý nghĩa vì mỗi hãng đánh khác nhau.
 
-## An toàn
+## Dùng đúng cách cho bền và an toàn
 
 Mùi khét ở máy sấy là dấu hiệu phải ngừng dùng ngay và rút điện, không phải dấu
 hiệu để theo dõi thêm vài hôm. Xơ vải tích tụ cháy rất nhanh.
@@ -132,18 +132,31 @@ Không chặn khe thoát khí phía sau hoặc phía dưới máy bằng đồ �
 Máy đặt trong phòng tắm kín hoặc ban công quây kín là tình huống cần thông gió,
 nhất là máy thông hơi.
 
-## Vệ sinh và bảo dưỡng
+Dùng hằng ngày: vắt kỹ đồ trước khi sấy, không nhồi đầy lồng, sấy đồ cùng loại vải
+với chế độ hợp nhiệt. Máy giặt sấy chỉ sấy được khoảng nửa khối lượng giặt.
+Không sấy len, lụa, đồ đệm mút, áo ngực có gọng.
 
-Lưới lọc xơ: làm sạch sau mỗi lần sấy. Đây là việc quan trọng nhất và mất mười
-giây.
+Không để máy sấy chạy khi cả nhà ra ngoài hoặc đã đi ngủ, theo khuyến cáo phòng
+cháy cho máy sấy. Cắm máy sấy vào ổ riêng, không dùng ổ chia hay dây nối dài.
 
-Dàn ngưng, với máy ngưng tụ và bơm nhiệt: vệ sinh vài tháng một lần theo hướng
-dẫn của máy. Đây là việc thợ làm trong gói vệ sinh máy sấy.
+## Vệ sinh định kỳ bao lâu một lần
+
+Lưới lọc xơ máy sấy: làm sạch sau mỗi lần sấy. Đây là việc quan trọng nhất và mất
+mười giây. Lưới có lớp màng mờ do nước xả vải thì rửa bằng nước rồi phơi khô.
+
+Dàn ngưng, với máy ngưng tụ và bơm nhiệt: vệ sinh vài tháng một lần theo hướng dẫn
+của máy, hoặc khi đèn nhắc vệ sinh dàn ngưng sáng. Mốc của hãng khác nhau: sách của
+Miele ghi khoảng sáu tháng hoặc khoảng một trăm lần sấy với máy dùng nhiều, tư vấn
+bán lẻ ở châu Âu ghi hai tới ba tháng. Máy đặt cạnh nhà tắm cần làm dày hơn. Đây là
+việc thợ làm trong gói vệ sinh máy sấy.
 
 Khay nước: đổ sau mỗi lần sấy, hoặc nối ống xả cố định cho khỏi phải nhớ.
 
 Ống thông hơi, với máy thông hơi: kiểm tra và hút xơ mỗi năm, và bảo đảm ống
 không bị gập khi đẩy máy sát tường.
+
+Dấu hiệu tới hạn sớm: sấy lâu khô hơn trước, vỏ máy nóng hơn, máy tự ngắt giữa
+chừng, quần áo ra vẫn ẩm.
 
 ## Khi nào nên sửa, khi nào nên thay
 
@@ -188,10 +201,20 @@ dụng phổ thông và khuyến cáo an toàn của các cơ quan phòng cháy.
 sấy hai trong một và phần ống thông hơi bị ép sát tường dựa trên ghi nhận của thợ
 điện lạnh tại các chung cư ở Việt Nam.
 
+Phần lưới lọc xơ sau mỗi lần sấy, ống thông hơi ít nhất mỗi năm, không để máy chạy
+khi ra khỏi nhà hay đi ngủ: hướng dẫn an toàn máy sấy của cơ quan phòng cháy bang
+Massachusetts và các sở cứu hoả địa phương ở Mỹ, dẫn khuyến cáo của Cơ quan Phòng
+cháy Hoa Kỳ. Phần mốc dàn ngưng: sách hướng dẫn máy sấy Miele (khoảng sáu tháng,
+hoặc khoảng một trăm lần với máy dùng nhiều), tư vấn của nhà bán lẻ Coolblue (hai
+tới ba tháng với máy bơm nhiệt), và trang hỗ trợ của AEG (máy đặt cạnh nhà tắm phải
+làm dày hơn). Electrolux không nêu con số, chỉ dặn không chạy máy khi dàn ngưng bị
+xơ bít.
+
 ## Chỗ cần thợ xác nhận
 
 Tỉ lệ máy bơm nhiệt so với máy thông hơi trong số ca gọi tại Việt Nam, vì lời
 khuyên đầu tiên khác nhau giữa hai loại.
 
 Chu kỳ vệ sinh dàn ngưng nên khuyến nghị cho khí hậu ẩm, vì con số của nhà sản
-xuất tính cho khí hậu khô hơn.
+xuất tính cho khí hậu khô hơn. Tài liệu đang ghi khoảng hai tới sáu tháng theo các
+nguồn châu Âu, thợ chốt lại theo lượng xơ thấy ở lần vệ sinh trước.

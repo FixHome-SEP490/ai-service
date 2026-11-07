@@ -58,6 +58,7 @@ from app.services.chat2.brain import (
     mentions,
     named_in,
 )
+from app.services.chat2 import catalog as live_catalog
 from app.services.chat2.menu import devices, menu_for
 from app.services.pipeline import pricing
 
@@ -413,6 +414,9 @@ def _services(verdict: Verdict) -> List[RecommendedService]:
     for v in [verdict, *verdict.others]:
         menu = menu_for(v.device_type) if v.device_type else None
         service = menu.service(v.service_code) if menu else None
+        if service is None and not v.device_type and v.service_code:
+            # An appliance outside the menus that Backend sells a service for.
+            service = live_catalog.current().services.get(v.service_code)
         if service and v.decision == "conclude" and service.code not in {o.service_code for o in out}:
             out.append(RecommendedService(service_code=service.code, name_vi=service.name_vi, device_type=v.device_type))
     return out

@@ -46,7 +46,7 @@ TEXT_MAX = 1200
 # Platform documents. thiet-bi-de-nhin-nham.md is dialogue rules, not knowledge.
 PLATFORM_DOCS = (
     "tong-quan-fixhome", "vai-tro-cua-ai", "quy-trinh-dat-lich", "gia-va-cach-tinh-tien", "bao-hanh", "khu-vuc-phuc-vu",
-    "cau-hoi-thuong-gap",
+    "cau-hoi-thuong-gap", "uy-tin-fixhome", "huong-dan-su-dung-app",
 )
 # From the persona documents only the one that says who the assistant is.
 PERSONA_SECTIONS = ("em la ai",)
@@ -100,31 +100,15 @@ def _passage(pid: str, scope: str, doc: str, section: str, text: str) -> Dict[st
 
 
 def _catalog() -> List[Dict[str, str]]:
-    services = [s for s in json.loads((DATA / "service_catalog.json").read_text(encoding="utf-8"))["services"] if s.get("active")]
-    names = {d["device_type"]: d["name_vi"] for d in json.loads((DATA / "device_catalog.json").read_text(encoding="utf-8"))["devices"]}
-    by_category: Dict[str, List[str]] = defaultdict(list)
-    by_device: Dict[str, List[str]] = defaultdict(list)
-    for s in services:
-        by_category[s["category_vi"]].append(s["name_vi"])
-        price = s.get("price_min_vnd")
-        top = s.get("price_max_vnd")
-        money = (f"{price:,}đ" + (f" đến {top:,}đ" if top and top != price else "")).replace(",", ".") if price else "báo giá sau khi kiểm tra"
-        kind = "giá tham khảo, thợ báo giá chính xác sau khi kiểm tra" if s.get("pricing") == "inspection" else "giá cố định theo loại máy"
-        for device in s.get("device_types") or []:
-            by_device[device].append(f"- {s['name_vi']}: {money} ({kind})")
-    out = [
-        _passage(
-            "catalog:services", "platform", "Danh mục dịch vụ FixHome", "FixHome đang nhận những dịch vụ gì",
-            "FixHome đang nhận các dịch vụ sau, theo nhóm:\n" + "\n".join(f"- {c}: {', '.join(v)}" for c, v in by_category.items())
-            + "\nFixHome không nhận sửa laptop, máy tính, điện thoại, máy in, xe máy, ô tô.",
-        )
-    ]
-    for device, lines in by_device.items():
-        out.append(_passage(
-            f"catalog:{device}", f"device:{device}", "Bảng giá dịch vụ", f"Giá dịch vụ {names.get(device, device).lower()}",
-            f"Dịch vụ {names.get(device, device).lower()} trên FixHome, giá là tiền công, chưa gồm linh kiện:\n" + "\n".join(lines),
-        ))
-    return out
+    """Written from the snapshot by the same code the running service uses on
+    Backend's live catalogue (`app.services.chat2.catalog.passages`), which
+    replaces these at run time."""
+    sys.path.insert(0, str(ROOT))
+    from app.services.chat2 import catalog
+    from app.services.chat2.menu import all_names, devices, not_aliases
+    from app.services.pipeline import service_catalog
+
+    return catalog.passages(service_catalog.snapshot(), devices(), all_names(), not_aliases())
 
 
 def build() -> Dict[str, object]:

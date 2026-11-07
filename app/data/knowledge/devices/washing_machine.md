@@ -418,7 +418,30 @@ Cảnh báo tê tay đáng được nhấn mạnh riêng với máy giặt, vì 
 chân trần trên sàn ướt khi chạm vào máy, và đó là điều kiện xấu nhất cho một cú
 giật.
 
-## Dùng đúng cách
+## Vệ sinh định kỳ bao lâu một lần
+
+Máy giặt có ba mốc việc khách tự làm và một việc của thợ.
+
+Sau mỗi lần giặt: với máy cửa ngang, lau khô gioăng cửa, rồi để hé cửa và khay
+bột giặt cho khô thoáng. Nước đọng trong nếp gioăng là nơi sinh mốc đen.
+
+Khoảng mỗi tháng: chạy chu trình vệ sinh lồng, hoặc một mẻ không tải với nước
+nóng nếu máy không có chu trình đó. Samsung khuyên mỗi tháng, đèn nhắc sáng sau
+khoảng hai mươi mẻ ở máy cửa trên và bốn mươi mẻ ở máy cửa ngang; LG nhắc khoảng
+ba mươi mẻ. Rửa khay bột giặt cùng lúc.
+
+Lưới lọc bơm xả, với máy có lưới ở chân trước: Samsung khuyên mỗi tháng hoặc
+khoảng bốn mươi mẻ, LG Úc ghi sáu tháng. Nhà hay giặt đồ nhiều xơ, đồ trẻ em,
+thì theo mốc dày. Lưới lọc ở đầu van cấp nước thì rửa khi nước vào chậm, sớm hơn
+ở nhà dùng nước giếng hoặc nước nhiều cặn.
+
+Thợ vệ sinh lồng giặt bằng cách tháo lồng khi chu trình vệ sinh không còn hết
+mùi, khi quần áo giặt xong có vụn đen, hoặc lồng có mảng cặn nhìn thấy được.
+
+Dấu hiệu tới hạn sớm: máy có mùi hôi, xả nước chậm, báo lỗi xả, hoặc gioăng cửa
+có đốm đen.
+
+## Dùng đúng cách cho bền và an toàn
 
 Không giặt quá tải. Nhồi đầy lồng làm máy giặt không sạch, gây lệch tải, và hại
 bạc đạn.
@@ -435,16 +458,13 @@ Dùng đúng loại và đúng lượng bột giặt. Máy cửa ngang cần lo�
 loại hoặc đổ quá nhiều sinh bọt tràn và để lại cặn.
 
 Mở cửa và mở khay bột giặt sau khi giặt xong cho khô thoáng. Đây là cách đơn giản
-nhất để tránh hôi lồng.
-
-Lau khô gioăng cửa sau mỗi lần giặt, với máy cửa ngang. Nước đọng trong nếp gioăng
-là nơi sinh mốc đen.
-
-Vệ sinh lưới lọc bơm định kỳ.
-
-Chạy chu trình vệ sinh lồng định kỳ, hoặc chạy một mẻ không tải với nước nóng.
+nhất để tránh hôi lồng, cùng với chạy chu trình vệ sinh lồng khoảng mỗi tháng.
 
 Khoá van cấp nước khi đi vắng dài ngày.
+
+Về an toàn: cắm máy giặt vào ổ có tiếp đất đặt cao và khô, không chạm máy khi
+chân ướt, đóng khoá trẻ em nếu nhà có trẻ nhỏ. Tê tay, mùi khét, nước lan tới ổ
+điện thì ngắt aptomat trước rồi mới xử lý.
 
 ## Khí hậu và bối cảnh Việt Nam
 
@@ -661,6 +681,13 @@ chiếu chéo nhiều nguồn.
 Phần lắp đặt gồm tháo bu lông vận chuyển, kê cân bằng và độ cao ống xả: hướng dẫn
 lắp đặt của các hãng.
 
+Phần mốc vệ sinh định kỳ: trang hỗ trợ của Samsung Mỹ và Canada (vệ sinh lồng mỗi
+tháng, đèn nhắc sau hai mươi mẻ ở máy cửa trên và bốn mươi mẻ ở máy cửa ngang,
+lưới lọc bơm mỗi tháng hoặc bốn mươi mẻ), trang bảo dưỡng máy cửa ngang của LG Mỹ
+(vệ sinh lồng hằng tháng kèm lưới lọc, khay bột giặt, lưới van cấp, gioăng cửa) và
+hướng dẫn bảo dưỡng của LG Úc (lưới lọc bơm và lưới van cấp sáu tháng). Mốc ba
+mươi mẻ của LG lấy từ một trang hướng dẫn sửa chữa, cần đối chiếu sách của model.
+
 Phần an toàn điện, nối đất bảo vệ, thiết bị chống dòng rò: tham chiếu QCVN
 12:2014/BXD về hệ thống điện của nhà ở và nhà công cộng, và tiêu chuẩn an toàn
 thiết bị điện gia dụng.
@@ -684,5 +711,10 @@ Vị trí và số lượng bu lông vận chuyển theo từng model.
 Áp lực nước tối thiểu để van cấp làm việc đúng.
 
 Tuổi thọ tính bằng năm của từng bộ phận.
+
+Mốc vệ sinh lưới lọc bơm xả, vì hai trang của cùng hãng LG ghi hằng tháng và sáu
+tháng. Theo sách của model.
+
+Chu kỳ thợ tháo lồng vệ sinh. Tài liệu chỉ mô tả dấu hiệu, chưa ghi con số.
 
 Chi phí. Mọi con số tiền lấy từ bảng giá của hệ thống, không lấy từ tài liệu này.

@@ -79,10 +79,10 @@ Hệ thống lọc cứng trước: thợ phải đủ điều kiện làm dịc
 Rồi xếp hạng theo tiêu chí thông thường, và có thể có một bước xếp lại nhẹ bằng AI.
 Bước đó chỉ gợi ý, không quyết định.
 
-Khách chọn tối đa năm thợ vào danh sách rút gọn.
+Khách chọn một hoặc hai thợ theo thứ tự ưu tiên.
 
-Hệ thống mời lần lượt từng người theo thứ tự, và kiểm tra lại điều kiện trước mỗi
-lần mời.
+Thợ thứ nhất được mời ngay. Thợ thứ hai chờ, chỉ được mời khi thợ thứ nhất từ chối
+hoặc hết hạn trả lời. Hệ thống kiểm tra lại điều kiện trước mỗi lần mời.
 
 Khi một thợ bấm nhận, hệ thống tạo đơn dịch vụ ở trạng thái đã nhận, và gán thợ đó
 vào đơn.
@@ -168,7 +168,7 @@ Bao giờ có thợ. Câu trả lời trung thực: sau khi tạo đặt lịch,
 các thợ trong danh sách rút gọn, và có đơn khi một người nhận. Không hứa thời gian
 cụ thể thay mặt thợ.
 
-Có được chọn thợ không. Có. Khách chọn tối đa năm người vào danh sách.
+Có được chọn thợ không. Có. Khách chọn một hoặc hai thợ theo thứ tự ưu tiên.
 
 Giá cuối là bao nhiêu. Với dịch vụ giá cố định thì giá theo loại máy đã biết ngay
 khi đặt. Với dịch vụ sửa thì giá cuối do thợ báo sau khi tới xem.

@@ -746,6 +746,49 @@ Khách không nên tự tháo vỏ cục nóng khi máy còn điện.
 Khách không nên dùng bình xịt vệ sinh dàn lạnh bán sẵn rồi bỏ qua việc thông
 máng nước, vì chất bẩn bong ra sẽ dồn xuống máng và làm nghẹt nặng hơn.
 
+## Vệ sinh định kỳ bao lâu một lần
+
+Máy lạnh có hai mốc vệ sinh: một mốc khách tự làm và một mốc cho thợ.
+
+Lưới lọc ở cục lạnh là phần khách tự rửa. Hướng dẫn sử dụng của Daikin, và
+khuyến cáo của Panasonic, Toshiba tại Việt Nam, đều lấy mốc khoảng hai tuần một
+lần khi máy dùng thường xuyên, dày hơn ở nhà nhiều bụi. Máy chỉ bật vài tối mỗi
+tuần thì giãn ra được, nhưng vẫn nên mở xem mỗi tháng.
+
+Vệ sinh toàn bộ máy lạnh, gồm xịt rửa dàn lạnh, quạt lồng sóc, máng và ống thoát
+nước, dàn nóng, là việc của thợ. Mốc tham chiếu cho nhà ở Việt Nam là ba tới sáu
+tháng một lần: ba tháng với máy chạy gần cả ngày, nhà gần đường lớn, công trình
+hoặc bếp; sáu tháng với máy chỉ chạy buổi tối. Daikin ở châu Âu khuyên thợ bảo
+dưỡng ít nhất mỗi năm một lần và hai lần với máy chạy quanh năm, nhưng máy lạnh
+ở Việt Nam chạy nặng hơn nhiều.
+
+Nhà ven biển nên cho thợ kiểm tra dàn nóng dày hơn, vì hơi muối ăn mòn cánh nhôm
+và ống đồng.
+
+Dấu hiệu máy lạnh đã tới hạn dù chưa tới mốc: gió ra yếu hơn trước, có mùi ẩm
+mốc, nước nhỏ giọt từ cục lạnh, lâu lạnh hoặc tiền điện tăng, hoặc đèn nhắc vệ
+sinh lọc trên một số model sáng lên.
+
+## Dùng đúng cách cho bền và an toàn
+
+Đặt máy lạnh ở mức vừa phải, thường quanh hai mươi sáu độ kèm quạt nhẹ, thay vì
+hạ xuống thấp nhất cho mau lạnh. Hạ thấp không làm máy lạnh nhanh hơn, chỉ làm
+máy chạy lâu hơn và tốn điện.
+
+Đóng cửa phòng, kéo rèm khi nắng chiếu vào. Ra ngoài một lát thì cứ để máy chạy,
+đừng bật tắt liên tục, vì mỗi lần máy nén khởi động lại là một lần kéo dòng lớn.
+
+Cục nóng cần thoáng: không đóng hộp kín, không chất đồ quanh, muốn che thì chỉ
+làm mái hắt phía trên. Phía trên cục lạnh không để đồ chắn đường hút gió.
+
+Máy lạnh nên có aptomat riêng, chống dòng rò và nối đất vỏ cục nóng. Khu vực hay
+tụt áp thì cân nhắc ổn áp. Đi vắng dài ngày thì ngắt aptomat của máy.
+
+Ngắt aptomat, không bật lại và gọi thợ khi chạm vỏ thấy tê tay, bật lên là nhảy
+aptomat, có mùi khét, khói hoặc tia lửa. Khách không tự trèo ra ban công xem cục
+nóng, không tự xịt nước vào dàn lạnh, và không nạp gas mỗi lần kém lạnh mà không
+tìm chỗ xì.
+
 ## Khi máy hỏng ngay sau một lần vệ sinh
 
 Đây là tình huống rất hay gặp và rất dễ làm khách mất niềm tin, nên đáng có mục
@@ -1132,6 +1175,18 @@ Phần lộ trình môi chất R22: theo Nghị định 06/2022/NĐ-CP và các 
 Phần mã lỗi: chỉ ghi những mã đã đối chiếu được. Mã không đối chiếu được thì
 không ghi.
 
+Phần mốc rửa lưới lọc khoảng hai tuần một lần: hướng dẫn sử dụng máy treo tường
+Daikin các dòng FTKD, FTKM, FTXF, trang hỏi đáp bảo dưỡng của Daikin Ấn Độ và
+Daikin Úc, và bài trên Báo Văn Hoá dẫn khuyến cáo của Panasonic Việt Nam và
+Toshiba Lifestyle Việt Nam. Phần thợ bảo dưỡng ít nhất mỗi năm một lần, hai lần
+với máy chạy quanh năm, và kiểm tra dày hơn ở vùng bụi hoặc ven biển: bài hướng
+dẫn bảo dưỡng của Daikin Anh và Daikin Tây Ban Nha. Mốc ba tới sáu tháng cho nhà
+ở Việt Nam là thực hành phổ biến trong nước, không phải con số của hãng.
+
+Phần dùng đúng cách, gồm ngắt aptomat khi không dùng lâu ngày: hướng dẫn sử dụng
+của các hãng, viết lại cùng nội dung các mục an toàn và thói quen trong tài liệu
+này.
+
 Phần cách khách mô tả, cách gọi tên bộ phận theo dân gian, bối cảnh nhà ở, thói
 quen sử dụng, và những điều khách hay tin nhầm: quan sát thực tế trong nước,
 không phải trích dẫn. Phần này cần được cập nhật khi hệ thống chạy thật và thu
@@ -1151,6 +1206,12 @@ khoảng ước lượng theo công suất chứ không phải thông số đo.
 
 Các mốc áp suất và thông số đo đạc, nằm ở tài liệu của từng bệnh và để thợ chốt
 tại chỗ.
+
+Chu kỳ vệ sinh dàn nóng cho nhà ven biển. Hãng chỉ nói kiểm tra dày hơn, chưa có
+con số cho điều kiện Việt Nam.
+
+Mốc ba tới sáu tháng cho vệ sinh toàn bộ máy là thực hành trong nước; thợ chốt
+lại theo mức bẩn thấy được ở lần vệ sinh trước.
 
 Chi phí. Mọi con số tiền gửi cho khách lấy từ bảng giá của hệ thống, không lấy
 từ tài liệu này.
