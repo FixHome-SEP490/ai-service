@@ -534,6 +534,7 @@
     {
       "device_type": "clothes_dryer",
       "name_vi": "Máy sấy quần áo",
+      "not_aliases_vi": ["máy sấy tóc", "may say toc"],
       "service_group": "SVG_APPLIANCE",
       "detector_class": true,
       "open_images_class": null,

@@ -88,6 +88,12 @@ def devices() -> Dict[str, str]:
 
 
 @lru_cache(maxsize=1)
+def not_aliases() -> Dict[str, Tuple[str, ...]]:
+    """Names that hold an alias of the appliance yet are another thing: "máy sấy tóc" for the tumble dryer."""
+    return {d["device_type"]: tuple(d.get("not_aliases_vi") or ()) for d in _load("device_catalog.json")["devices"]}
+
+
+@lru_cache(maxsize=1)
 def device_aliases() -> Dict[str, Tuple[str, ...]]:
     return {d["device_type"]: tuple(d.get("aliases_vi") or ()) for d in _load("device_catalog.json")["devices"]}
 

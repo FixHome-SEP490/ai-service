@@ -81,6 +81,8 @@ class Session:
     """The fault last concluded, so "sửa có lâu không" is asked about it."""
     services: List[RecommendedService] = field(default_factory=list)
     """What the last conclusion offered to book; a question in between keeps it on the bar."""
+    recalled: List[str] = field(default_factory=list)
+    """Appliances whose earlier booking the customer was already reminded of."""
     version: int = 0
     seen: float = field(default_factory=time.time)
 
@@ -93,6 +95,7 @@ class Session:
             "device": self.device,
             "fault": self.fault,
             "services": [x.model_dump(by_alias=True) for x in self.services],
+            "recalled": list(self.recalled),
             # Backend keeps a state only over an older version, so the count
             # must survive a restart or every later state is thrown away.
             "version": self.version,
@@ -123,6 +126,7 @@ class Sessions:
                 session.device = known if known in devices() else session.photo_device
                 session.fault = state.get("fault")
                 session.services = [RecommendedService.model_validate(x) for x in state.get("services") or []]
+                session.recalled = [d for d in state.get("recalled") or [] if d in devices()]
             elif history:
                 session.turns = [Turn("user", h) for h in history if h.strip()]
         session.seen = now
@@ -164,6 +168,7 @@ class Chat2Provider(AIProvider):
             settings.VLM_API_KEY or "EMPTY",
             timeout_s=settings.CHAT_TIMEOUT_SECONDS,
             extra_body=_extra_body(),
+            turn_model=settings.CHAT_TURN_MODEL or None,
         )
         self._sessions = Sessions()
         self._transport = transport
@@ -272,6 +277,8 @@ class Chat2Provider(AIProvider):
             session.device = seen[0][0]
         session.turns.append(Turn("user", request.description))
         kind, result = await self._respond(session, [r[0] for r in seen[1:]], seen[0][0] if seen else None)
+        if kind == "verdict":
+            _recall(session, result, list(request.past_jobs or []))
         session.turns.append(Turn("assistant", result.reply_vi))
         session.version += 1
         if kind == "answer":
@@ -420,7 +427,52 @@ def _notes(verdict: Verdict) -> List[str]:
             notes.append(f"{name}: khách cho biết {v.need_vi}".strip(": "))
         if v.code_note_vi:
             notes.append(v.code_note_vi)
+        if v.past_job_vi:
+            notes.append(v.past_job_vi)
     return notes
+
+
+def _day_vi(iso_day: str) -> str:
+    """2026-08-03 -> 03/08/2026, the way a Vietnamese customer writes a date."""
+    parts = (iso_day or "").split("-")
+    return f"{parts[2]}/{parts[1]}/{parts[0]}" if len(parts) == 3 else iso_day
+
+
+def _recall(session: Session, verdict: Verdict, jobs) -> None:
+    """Once per appliance, on a conclusion: the customer's earlier booking of it.
+
+    Nothing is concluded from it; whether it is the same fault is for the
+    technician, who gets the booking in the notes. Not while something is
+    dangerous, where the safety step must stand alone. PO 01/11/2026 (BUG 53):
+    a job only accepted, its day still ahead, was told back as done; the
+    wording follows the booking's status. chat2 had dropped the reminder.
+    """
+    device = verdict.device_type
+    if verdict.decision != "conclude" or not device or device in session.recalled:
+        return
+    if _urgency(verdict) == UrgencyLevel.HIGH or verdict.reply_vi.startswith("Trước tiên"):
+        return
+    job = next((j for j in jobs if device in named_in(f"{j.device_vi or ''} {j.service_vi}")), None)
+    if job is None:
+        return
+    session.recalled.append(device)
+    day, service = _day_vi(job.date), job.service_vi.strip()
+    if job.status == "SCHEDULED":
+        said = (f'Em thấy anh/chị đang có lịch "{service}" ngày {day}. '
+                "Nếu là cùng thiết bị này, anh/chị cứ kể thêm với thợ khi thợ tới ạ.")
+        note = f'Khách đang có lịch "{service}" ngày {day}.'
+    elif job.status == "COMPLETED":
+        said = (f'Em thấy ngày {day} thợ FixHome đã sửa "{service}" cho anh/chị. '
+                "Nếu là lỗi cũ quay lại, anh/chị cứ kể với thợ để thợ xem lại lần sửa trước ạ.")
+        note = f'Khách từng sửa "{service}" ngày {day}.'
+    else:
+        said = (f'Em thấy anh/chị đã đặt lịch "{service}" ngày {day}. '
+                "Nếu là lỗi cũ quay lại, anh/chị cứ kể với thợ để thợ xem lại lần sửa trước ạ.")
+        note = f'Khách từng đặt "{service}" ngày {day}.'
+    if job.fault_vi:
+        note = note[:-1] + f", khi đó trợ lý nghi {job.fault_vi.strip().lower()}."
+    verdict.reply_vi = f"{verdict.reply_vi} {said}"
+    verdict.past_job_vi = note
 
 
 def _device_entry(v: Verdict, primary: bool, session: Session) -> DeviceSuggestion:

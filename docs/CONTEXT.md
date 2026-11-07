@@ -1,6 +1,6 @@
 # Context repo ai-service — FixHome
 
-> Cập nhật lần cuối: 2026-11-07 03:23 (UTC+7) · Người cập nhật (git): ToanAltF4 · Nhánh: fix/chat2-concluded-asks
+> Cập nhật lần cuối: 2026-11-07 16:37 (UTC+7) · Người cập nhật (git): ToanAltF4 · Nhánh: fix/chat2-freestyle
 
 ## 0. Quy tắc cập nhật file này (bắt buộc)
 
@@ -165,13 +165,14 @@ Ngoài ra có `POST /api/v1/diagnosis/analyze-upload` (multipart), `GET /api/v1/
 
 ### Biến môi trường (chỉ tên, xem `.env.example`)
 
-`AI_ENGINE` (`chat2`, `local` hoặc `mock`), `YOLO_WEIGHTS_PATH`, `DETECTOR_CONFIDENCE_THRESHOLD`, `VLM_BASE_URL`, `VLM_MODEL_NAME`, `VLM_TIMEOUT_SECONDS`, `VLM_API_KEY`, `VLM_FAULT_MODEL`, `VLM_FAULT_CANDIDATES`, `RETRIEVAL_TOP_K`, `RETRIEVAL_WRITTEN_WEIGHT`, `RETRIEVAL_LEARNED_WEIGHT`, `RETRIEVAL_EVIDENCE_GATE`, `RETRIEVAL_EVIDENCE_GATE_FLOOR`, `RETRIEVAL_EVIDENCE_ONLY_CAP`, `RETRIEVAL_WRITTEN_CAP`, `RETRIEVAL_WRITTEN_FLOOR`, `BACKEND_CATALOG_URL`, `CATALOG_REFRESH_SECONDS`, `CATALOG_TIMEOUT_SECONDS`, `AI_CONFIDENCE_THRESHOLD`, `IMAGE_MAX_BYTES`, `CORS_ORIGINS`, `CHAT_TIMEOUT_SECONDS`, `CHAT_DISABLE_THINKING`. `tools/rent_gpu.py serve` chuyển `BACKEND_CATALOG_URL` (hoặc `--catalog-url`) vào máy thuê. Biến chỉ cho công cụ: `ROBOFLOW_API_KEY`, `SERPER_API_KEY`, `HF_TOKEN`, `HF_DATASET_REPO`, `HF_WEIGHTS_REPO`, `DOCKERHUB_USERNAME`, `DOCKERHUB_TOKEN`.
+`AI_ENGINE` (`chat2`, `local` hoặc `mock`), `YOLO_WEIGHTS_PATH`, `DETECTOR_CONFIDENCE_THRESHOLD`, `VLM_BASE_URL`, `VLM_MODEL_NAME`, `VLM_TIMEOUT_SECONDS`, `VLM_API_KEY`, `VLM_FAULT_MODEL`, `VLM_FAULT_CANDIDATES`, `RETRIEVAL_TOP_K`, `RETRIEVAL_WRITTEN_WEIGHT`, `RETRIEVAL_LEARNED_WEIGHT`, `RETRIEVAL_EVIDENCE_GATE`, `RETRIEVAL_EVIDENCE_GATE_FLOOR`, `RETRIEVAL_EVIDENCE_ONLY_CAP`, `RETRIEVAL_WRITTEN_CAP`, `RETRIEVAL_WRITTEN_FLOOR`, `BACKEND_CATALOG_URL`, `CATALOG_REFRESH_SECONDS`, `CATALOG_TIMEOUT_SECONDS`, `AI_CONFIDENCE_THRESHOLD`, `IMAGE_MAX_BYTES`, `CORS_ORIGINS`, `CHAT_TIMEOUT_SECONDS`, `CHAT_DISABLE_THINKING`, `CHAT_TURN_MODEL` (tên adapter vLLM chỉ cho lượt chẩn đoán của chat2, rỗng là model gốc; entrypoint đặt khi `LORA_RUN` có và đang chạy bản FP8). `tools/rent_gpu.py serve` chuyển `BACKEND_CATALOG_URL` (hoặc `--catalog-url`) vào máy thuê. Biến chỉ cho công cụ: `ROBOFLOW_API_KEY`, `SERPER_API_KEY`, `HF_TOKEN`, `HF_DATASET_REPO`, `HF_WEIGHTS_REPO`, `DOCKERHUB_USERNAME`, `DOCKERHUB_TOKEN`.
 
 ## 6. Chạy, kiểm thử và cổng chất lượng
 
 - Python 3.11 cho CI và ruff (`.python-version`). Cài `requirements.txt` và `requirements-dev.txt`, chạy `uvicorn app.main:app`. Không có GPU thì để trống `YOLO_WEIGHTS_PATH` và `VLM_BASE_URL`: detector và VLM chạy bản giả, còn truy hồi, kho tri thức và hội thoại chạy thật.
 - Chạy với GPU: `python tools/rent_gpu.py offers` rồi `serve --offer <id>`, lấy địa chỉ bằng `address`. Máy tính tiền theo giờ: chỉ thuê khi PO cho phép, xong việc phải `destroy` ngay và báo lại.
-- Train lại adapter: `python tools/build_lora_data.py` (đẩy `lora/<tên>` lên HF dataset), `python tools/rent_gpu.py lora --offer <id 24 GB> --data-run <tên> --run-name <run mới> --image-tag <nhánh>`. Máy ghi `<run>/DONE` chỉ khi adapter và `results.json` đã lên HF; `PUSH_FAILED` thì đọc `rent_gpu.py logs` trước rồi mới `destroy`. Xong máy đứng chờ chứ không thoát, vì vast.ai chạy lại container là train lại từ đầu. So `results.json` (adapter, truy hồi, mô hình gốc theo từng loại) trên nửa test, rồi đo thật hai máy serve cùng code (`--lora-run ""` và có adapter) trước khi đổi `SERVE_LORA_RUN`.
+- Adapter chat2 (07/11, `chat2-pick-v2`, mặc định `SERVE_LORA_RUN`): LoRA r16 trên Qwen3.5-9B, chỉ cho lượt chẩn đoán. Train lại bằng `tools/chat2_lora/` (gen_teacher.py, gen_neg.py sinh dữ liệu từ model đang chạy, train_lora.py 1 epoch), đo bằng `eval_chat2.py --turn-model` và `probe_chat2.py --turn-model` so với model gốc cùng code trước khi đổi run. Số và cách làm: `docs/CHAT-BRAIN-V2.md`.
+- Train lại adapter cũ (Qwen2.5-VL, pipeline local): `python tools/build_lora_data.py` (đẩy `lora/<tên>` lên HF dataset), `python tools/rent_gpu.py lora --offer <id 24 GB> --data-run <tên> --run-name <run mới> --image-tag <nhánh>`. Máy ghi `<run>/DONE` chỉ khi adapter và `results.json` đã lên HF; `PUSH_FAILED` thì đọc `rent_gpu.py logs` trước rồi mới `destroy`. Xong máy đứng chờ chứ không thoát, vì vast.ai chạy lại container là train lại từ đầu. So `results.json` (adapter, truy hồi, mô hình gốc theo từng loại) trên nửa test, rồi đo thật hai máy serve cùng code (`--lora-run ""` và có adapter) trước khi đổi `SERVE_LORA_RUN`.
 - Gate trước mỗi commit: `ruff check app tests`, `pytest`, `python -m compileall -q app tests`, kiểm import, và khởi động thử rồi gọi `/health` nếu đụng `app/`.
 - CI `ci.yml` chạy các gate trên khi push hoặc PR vào `main`. `serving-image.yml` và `trainer-image.yml` build và đẩy image khi `main` đổi; chưa có workflow triển khai.
 - Repo chỉ có nhánh `main`: tách nhánh từ `main`, PR vào `main`, CI xanh mới merge.
@@ -205,6 +206,7 @@ Ngoài ra có `POST /api/v1/diagnosis/analyze-upload` (multipart), `GET /api/v1/
 
 ## 9. Nhật ký cập nhật context
 
+- 2026-11-07 16:37 (UTC+7) | ToanAltF4 | fix/chat2-freestyle | chat2: kiểm câu trả lời hỏi đáp với tài liệu, máy ngoài danh mục, mùi gas, dây hở lõi, nhắc đơn cũ theo trạng thái (BUG 53), adapter chọn lỗi chat2-pick-v2 chỉ cho lượt chẩn đoán (CHAT_TURN_MODEL)
 - 2026-11-07 03:23 (UTC+7) | ToanAltF4 | fix/chat2-concluded-asks | chat2: lượt đã chốt mà câu vẫn xin thêm thông tin (không có dấu hỏi) thì code thay bằng câu kết luận
 - 2026-11-07 02:54 (UTC+7) | ToanAltF4 | fix/chat2-followups | chat2: máy mới chỉ đọc tin của nó, câu trích phải chứa từ của câu hỏi, mục của bệnh vừa chốt luôn có trong mục lục, câu bảo hành khi máy đã sửa trước, bước an toàn khi giật điện, đáp cụt cho câu hỏi chẩn đoán về chẩn đoán; FAQ khi nào thợ tới; probe_live
 - 2026-11-07 01:35 (UTC+7) | ToanAltF4 | feat/chat-brain-v2 | chat2 vòng 07/11: nhắc lại kết luận bằng code, hư hại có tên giữ lỗi, lượt chọn lỗi thứ hai, tên máy gõ đích danh thắng router, câu mơ hồ xét trên lời khách; FAQ độ chính xác của trợ lý; probe_holdout3

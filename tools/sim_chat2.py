@@ -137,7 +137,7 @@ async def run_one(client, brain: ChatBrain, args, s: Dict[str, Any]) -> Dict[str
 
 async def main_async(args) -> Dict[str, Any]:
     brain = ChatBrain(args.base_url, args.model, args.api_key, timeout_s=90,
-                      extra_body=json.loads(args.extra) if args.extra else None)
+                      extra_body=json.loads(args.extra) if args.extra else None, turn_model=args.turn_model or None)
     sem = asyncio.Semaphore(args.concurrency)
     async with httpx.AsyncClient() as client:
         async def guarded(s):
@@ -183,6 +183,7 @@ def main() -> None:
     p.add_argument("--base-url", required=True)
     p.add_argument("--model", required=True)
     p.add_argument("--api-key", default="EMPTY")
+    p.add_argument("--turn-model", default="", help="served name of the fault-choice adapter, for the diagnosis call only")
     p.add_argument("--extra", default="")
     p.add_argument("--concurrency", type=int, default=12)
     p.add_argument("--repeat", type=int, default=1, help="run every scenario this many times (the customer varies)")

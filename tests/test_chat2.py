@@ -591,3 +591,123 @@ async def test_a_concluded_drop_never_reads_as_a_question():
     )
     assert v.decision == "conclude" and v.service_code == "AC-01"
     assert "cho em biết" not in v.reply_vi and "kiểm tra hư hại" in v.reply_vi
+
+
+def test_what_follows_the_appliances_name_is_never_read_as_its_alias():
+    """07/11: "mùi gas" is an alias of the gas stove; "bếp gas có mùi gas" was asked whether it smelled of gas."""
+    stove = menu_for("gas_stove")
+    assert not describes_nothing("bếp gas có mùi gas", stove)
+    assert not describes_nothing("bếp gas nhà em có mùi gas", stove)
+    assert describes_nothing("bếp gas có vấn đề", stove)
+
+
+def test_unsupported_keeps_only_the_admission():
+    from app.services.chat2.answer import NO_INFO, unsupported
+
+    assert unsupported("Có, anh/chị chọn được thợ. Em chưa có thông tin cụ thể về thợ nữ.") == "Em chưa có thông tin cụ thể về thợ nữ."
+    assert unsupported("Cần mua thêm ống đồng. Máy thường kèm hai ống.") == NO_INFO
+    assert unsupported("Dạ không, em chưa có thông tin về trả góp ạ.") == "Em chưa có thông tin về trả góp ạ."
+
+
+@pytest.mark.asyncio
+async def test_damage_with_no_fault_is_not_called_an_impact_and_an_exposed_cord_comes_with_a_safety_step():
+    """07/11: a cord chewed to the copper was told "tủ lạnh bị va đập"."""
+    v, _ = await _run(
+        [_route("refrigerator"),
+         _turn(need="dây điện bị chuột cắn, hở lõi", need_kind=DAMAGE, service_code="FR-01",
+               reply="Anh/chị cho em biết tủ còn chạy không?"),
+         {"fault_code": "NONE"}],
+        [Turn("user", "dây điện tủ lạnh bị chuột cắn đứt vỏ, thấy cả lõi đồng")], device="refrigerator",
+    )
+    assert v.decision == "conclude" and "va đập" not in v.reply_vi
+    assert v.reply_vi.startswith("Trước tiên anh/chị rút phích cắm")
+
+
+def test_two_appliances_named_side_by_side_are_both_read():
+    """07/11: "vòi nước bồn rửa chén nhỏ giọt" lost the faucet to the sink on a shared space."""
+    from app.services.chat2.brain import named_in
+
+    assert named_in("vòi nước bồn rửa chén nhỏ giọt cả đêm") == ["faucet", "sink"]
+    assert named_in("cái quạt trần nhà em") == ["ceiling_fan"]
+
+
+def test_an_unlisted_name_that_is_a_catalogue_name_is_ignored():
+    from app.services.chat2.brain import unlisted
+
+    assert unlisted({"other_appliance": "máy lạnh"}) == ""
+    assert unlisted({"other_appliance": "máy sấy tóc"}) == "máy sấy tóc"
+    assert unlisted({"other_appliance": ""}) == ""
+
+
+@pytest.mark.asyncio
+async def test_a_concluded_reply_never_claims_to_book_for_the_customer():
+    """07/11: "Anh chị bấm 'Đặt thợ' để em chuyển thông tin nhé" for a TV mount."""
+    v, _ = await _run(
+        [_route("television"),
+         _turn(need="treo tivi", need_kind="xin_viec", service_code="TV-01",
+               reply="Em hỗ trợ đặt thợ lắp treo tivi ạ. Anh chị bấm 'Đặt thợ' để em chuyển thông tin nhé.")],
+        [Turn("user", "anh muốn treo tivi lên tường")], device="television",
+    )
+    assert v.decision == "conclude" and "em chuyển" not in v.reply_vi.lower()
+
+
+@pytest.mark.asyncio
+async def test_a_dropped_unit_is_not_concluded_on_a_fault_the_customer_never_described():
+    """07/11: "máy lạnh tôi bị rơt xuống đất" (the PO's case, typo kept) concluded on the control board."""
+    v, _ = await _run(
+        [_route("air_conditioner"),
+         _turn(need="máy bị rơi xuống đất", need_kind=DAMAGE, fault_code="AC_PCB_FAULT", service_code="AC-01",
+               reply="Máy bị rơi cần thợ kiểm tra.")],
+        [Turn("user", "máy lạnh tôi bị rơt xuống đất")],
+    )
+    assert v.decision == "conclude" and v.fault_code is None and v.service_code == "AC-01"
+
+
+@pytest.mark.asyncio
+async def test_a_drop_that_names_its_damage_keeps_that_fault():
+    v, _ = await _run(
+        [_route("induction_hob"),
+         _turn(need="làm rơi nồi, kính nứt", need_kind=DAMAGE, fault_code="HOB_GLASS_CRACKED", service_code="KT-01",
+               reply="Dạ mặt kính bếp từ bị nứt ạ.")],
+        [Turn("user", "làm rơi nồi xuống bếp từ, mặt kính nứt một đường")], device="induction_hob",
+    )
+    assert v.fault_code == "HOB_GLASS_CRACKED"
+
+
+def test_an_appliances_name_is_not_read_across_a_comma():
+    """07/11: "bếp từ, mặt kính nứt" held the fridge's alias "tủ mát" across the comma."""
+    from app.services.chat2.brain import named_in
+
+    assert named_in("làm rơi nồi xuống bếp từ, mặt kính nứt một đường") == ["induction_hob"]
+
+
+def test_a_name_that_is_another_thing_does_not_name_the_appliance():
+    """07/11: "máy sấy tóc" held the tumble dryer's "máy sấy"; "lõi lọc nước RO" must stay the water purifier."""
+    from app.services.chat2.brain import named_in
+
+    assert named_in("máy sấy tóc bị cháy") == []
+    assert named_in("máy sấy quần áo không nóng") == ["clothes_dryer"]
+    assert named_in("lõi lọc nước RO bao lâu thay một lần") == ["water_purifier"]
+
+
+def test_an_answer_never_asks_the_customer_back():
+    from app.services.chat2.answer import no_questions_back
+
+    said = no_questions_back("Anh vui lòng cho em biết ngân sách dự kiến để em tư vấn thêm nhé.")
+    assert said == ""
+    assert no_questions_back("Dạ có. Anh/chị cần gì thêm không?") == "Dạ có."
+
+
+def test_promises_to_act_are_caught_in_any_tense():
+    from app.services.chat2.brain import SELF_ACTS
+
+    assert SELF_ACTS.search("em sẽ cử thợ kiểm tra")
+    assert SELF_ACTS.search("Em sẽ chuyển thông tin để thợ liên hệ")
+    assert not SELF_ACTS.search("anh/chị bấm Đặt thợ để thợ kiểm tra")
+
+
+def test_a_price_asked_by_its_first_word_is_a_price_question():
+    from app.services.chat2.brain import asks_price
+
+    assert asks_price("giá vệ sinh máy lạnh treo tường")
+    assert not asks_price("máy lạnh chảy nước")

@@ -667,8 +667,16 @@ Nothing outside has any business talking to the model directly, and a rented
 box publishes its ports to the open internet.
 """
 
-SERVE_LORA_RUN = ""
-"""The fault adapter a serving box attaches unless told otherwise: none.
+SERVE_LORA_RUN = "chat2-pick-v2"
+"""The fault adapter a serving box attaches unless told otherwise.
+
+chat2-pick-v2 (07/11/2026, tools/chat2_lora): LoRA r16 on Qwen3.5-9B, served on
+the FP8 build for the diagnosis call only (CHAT_TURN_MODEL; the entrypoint
+skips it on the 4-bit build, where it is unmeasured). Measured on an RTX A6000
+against the same code and the base model, held-out test half of
+understanding_bank: clear 89.5 to 91.1 percent, confidently wrong 9.5 to 8.5,
+vague 98.5 to 100, service 98.3 to 100; scripted, offtopic, holdouts, live and
+free no worse; latency p50 about 0.1 s more.
 
 lora-fault-v1c was trained on Qwen2.5-VL-3B and cannot load onto the chat model
 that replaced it on 06/11/2026 (Qwen3.5-9B, app/services/chat2). Kept below

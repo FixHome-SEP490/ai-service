@@ -149,6 +149,7 @@ def test_a_platform_question_is_answered_from_the_knowledge_index(client_with):
         {"devices": [], "intent": "question"},
         {"passages": ["system:tong-quan-fixhome:2", "catalog:services"]},
         {"quote": "FixHome là nền tảng kết nối", "grounded": True, "reply": "Dạ FixHome là nền tảng kết nối anh/chị với thợ sửa đồ gia dụng tại nhà ạ."},
+        {"supported": True},
         device=None,
     )
     d = client.post("/api/v1/chat/ask", json={"question": "fixhome là gì vậy em"}).json()
@@ -174,6 +175,7 @@ def test_a_follow_up_question_is_asked_about_the_fault_just_concluded(client_wit
         {"devices": [], "intent": "question"},
         {"passages": ["fault:AC_DRAIN_BLOCKED:0"]},
         {"quote": "thông ống trong một buổi", "grounded": True, "reply": "Dạ thông ống thoát nước thường làm xong trong một buổi ạ."},
+        {"supported": True},
     )
     first = client.post("/api/v1/diagnosis/analyze", json={"description": "máy lạnh chảy nước"}).json()
     d = client.post("/api/v1/diagnosis/analyze", json={"description": "sửa có lâu không em", "sessionId": first["sessionId"]}).json()
@@ -221,11 +223,39 @@ def test_a_follow_up_with_something_specific_is_answered_as_a_question(client_wi
         {"devices": [], "intent": "question"},
         {"passages": ["fault:AC_DRAIN_BLOCKED:0"]},
         {"quote": "không phải do gas", "grounded": True, "reply": "Dạ chảy nước thường không phải do thiếu gas ạ."},
+        {"supported": True},
     )
     first = client.post("/api/v1/diagnosis/analyze", json={"description": "máy lạnh chảy nước"}).json()
     d = client.post("/api/v1/diagnosis/analyze", json={"description": "vậy có phải hết gas không em", "sessionId": first["sessionId"]}).json()
     assert d["messageVi"].startswith("Dạ chảy nước thường không phải")
-    assert len(model.calls) == 5
+    assert len(model.calls) == 6
+
+
+def test_an_answer_its_quote_does_not_support_says_only_what_is_known(client_with):
+    """07/11: "có thợ nữ không" came back "Có, ..." from a sentence about choosing technicians."""
+    client, model = client_with(
+        {"devices": [], "intent": "question"},
+        {"passages": ["system:cau-hoi-thuong-gap:0"]},
+        {"quote": "Khách xem được danh sách thợ phù hợp rồi chọn những thợ mình ưu tiên.", "grounded": True,
+         "reply": "Có, anh/chị chọn được thợ nữ trong danh sách. Em chưa có thông tin cụ thể về thợ nữ ạ."},
+        {"supported": False},
+    )
+    d = client.post("/api/v1/diagnosis/analyze", json={"description": "có thợ nữ không em"}).json()
+    assert d["messageVi"] == "Em chưa có thông tin cụ thể về thợ nữ ạ."
+    # The reply is checked against the passages shown, not against the quote alone.
+    verify = model.calls[3]["messages"]
+    assert "chọn được thợ nữ" in verify[1]["content"] and "Đoạn tài liệu" in verify[0]["content"]
+
+
+def test_an_unsupported_answer_with_no_admission_says_there_is_no_information(client_with):
+    client, _ = client_with(
+        {"devices": [], "intent": "question"},
+        {"passages": ["system:cau-hoi-thuong-gap:0"]},
+        {"quote": "", "grounded": False, "reply": "Thợ sẽ mang đầy đủ đồ nghề và linh kiện cần thiết."},
+        {"supported": False},
+    )
+    d = client.post("/api/v1/diagnosis/analyze", json={"description": "thợ có mang đồ nghề không"}).json()
+    assert d["messageVi"] == "Dạ câu này em chưa có thông tin chính xác ạ."
 
 
 @pytest.mark.parametrize("latest", ["sửa có lâu không em", "thế bảo hành bao lâu", "cái đó có nguy hiểm không em"])
@@ -293,3 +323,69 @@ def test_a_bare_no_to_the_assistants_own_question_goes_back_to_the_diagnosis(cli
     first = client.post("/api/v1/diagnosis/analyze", json={"description": "tủ lạnh hư rồi em ơi"}).json()
     d = client.post("/api/v1/diagnosis/analyze", json={"description": "Không", "sessionId": first["sessionId"]}).json()
     assert d["status"] == "needs_clarification" and len(model.calls) == 4
+
+
+def test_an_appliance_outside_the_catalogue_is_declined_by_name(client_with):
+    """07/11: "nồi cơm điện nấu cơm bị sống" was asked which appliance it meant."""
+    client, model = client_with(
+        {"devices": [], "own_problem": True, "intent": "repair", "other_appliance": "nồi cơm điện"},
+        device=None,
+    )
+    d = client.post("/api/v1/diagnosis/analyze", json={"description": "nồi cơm điện nấu cơm bị sống"}).json()
+    assert d["messageVi"].startswith("Dạ hiện FixHome chưa nhận nồi cơm điện")
+    assert len(model.calls) == 1
+
+
+def test_a_catalogue_alias_inside_an_unlisted_name_does_not_count(client_with):
+    """07/11: "máy sấy tóc" held the tumble dryer's alias "máy sấy" and was booked as one."""
+    client, model = client_with(
+        {"devices": [], "own_problem": True, "intent": "repair", "other_appliance": "máy sấy tóc"},
+        device=None,
+    )
+    d = client.post("/api/v1/diagnosis/analyze", json={"description": "máy sấy tóc bị cháy"}).json()
+    assert d["messageVi"].startswith("Dạ hiện FixHome chưa nhận máy sấy tóc")
+    assert len(model.calls) == 1
+
+
+@pytest.mark.parametrize("status,said,note", [
+    ("COMPLETED", 'Em thấy ngày 03/10/2026 thợ FixHome đã sửa "Sửa điều hòa"', 'Khách từng sửa "Sửa điều hòa" ngày 03/10/2026'),
+    ("SCHEDULED", 'Em thấy anh/chị đang có lịch "Sửa điều hòa" ngày 03/10/2026', 'Khách đang có lịch "Sửa điều hòa" ngày 03/10/2026'),
+])
+def test_an_earlier_booking_of_the_appliance_is_told_by_its_status_once(client_with, status, said, note):
+    """BUG 53 (PO 01/11): a job not yet done was told back as if it had been."""
+    client, _ = client_with(
+        {"devices": ["air_conditioner"], "intent": "repair"},
+        _turn(need="chảy nước", fault_code="AC_DRAIN_BLOCKED", service_code="AC-02", reply="Dạ khả năng nghẹt ống thoát nước ạ."),
+        {"devices": ["air_conditioner"], "intent": "repair"},
+        _turn(need="chảy nước nhiều", fault_code="AC_DRAIN_BLOCKED", service_code="AC-02", reply="Dạ khả năng nghẹt ống thoát nước ạ."),
+    )
+    jobs = [{"serviceVi": "Sửa điều hòa", "deviceVi": "Máy lạnh", "date": "2026-10-03", "status": status}]
+    first = client.post("/api/v1/diagnosis/analyze", json={"description": "máy lạnh chảy nước", "pastJobs": jobs}).json()
+    assert said in first["messageVi"]
+    assert any(note in n for n in first["notesVi"])
+    again = client.post("/api/v1/diagnosis/analyze", json={"description": "chảy nhiều lắm", "sessionId": first["sessionId"],
+                                                            "pastJobs": jobs}).json()
+    assert "Em thấy" not in again["messageVi"]
+
+
+def test_no_reminder_of_an_earlier_booking_beside_a_safety_step(client_with):
+    client, _ = client_with(
+        {"devices": ["power_outlet"], "intent": "repair"},
+        _turn(need="ổ cắm có tia lửa", fault_code="OUTLET_SHORT_CIRCUIT", service_code="EL-01", reply="Dạ ổ cắm bị chập ạ."),
+        device="power_outlet",
+    )
+    jobs = [{"serviceVi": "Sửa ổ cắm", "deviceVi": "Ổ cắm điện", "date": "2026-10-03", "status": "COMPLETED"}]
+    d = client.post("/api/v1/diagnosis/analyze", json={"description": "ổ cắm có tia lửa", "pastJobs": jobs}).json()
+    assert d["messageVi"].startswith("Trước tiên") and "Em thấy" not in d["messageVi"]
+
+
+def test_an_unlisted_phrase_holding_an_appliance_the_router_chose_is_still_that_appliance(client_with):
+    """07/11: "lap khoa van tay" came back with other_appliance "lap khoa van tay" and was declined."""
+    client, model = client_with(
+        {"devices": ["smart_lock"], "own_problem": False, "intent": "service", "other_appliance": "lap khoa van tay"},
+        _turn(need="lắp khóa vân tay", need_kind="xin_viec", service_code="LK-03", reply="Dạ anh/chị bấm Đặt thợ để lắp khoá nhé."),
+        device=None,
+    )
+    d = client.post("/api/v1/diagnosis/analyze", json={"description": "lap khoa van tay"}).json()
+    assert "chưa nhận" not in d["messageVi"]
+    assert [s["serviceCode"] for s in d["recommendedServices"]] == ["LK-03"]

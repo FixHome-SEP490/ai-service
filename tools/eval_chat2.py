@@ -100,7 +100,8 @@ def judge(case: Dict[str, Any], v) -> Dict[str, Any]:
 
 async def run(args) -> Dict[str, Any]:
     extra = json.loads(args.extra) if args.extra else {}
-    brain = ChatBrain(args.base_url, args.model, args.api_key, timeout_s=args.timeout, extra_body=extra, with_cards=not args.no_cards)
+    brain = ChatBrain(args.base_url, args.model, args.api_key, timeout_s=args.timeout, extra_body=extra, with_cards=not args.no_cards,
+                      turn_model=args.turn_model or None)
     cases = build(args.suites.split(","), args.split)
     sem = asyncio.Semaphore(args.concurrency)
     results: List[Dict[str, Any]] = []
@@ -148,6 +149,7 @@ def main() -> None:
     p.add_argument("--base-url", required=True)
     p.add_argument("--model", required=True)
     p.add_argument("--api-key", default="EMPTY")
+    p.add_argument("--turn-model", default="", help="served name of the fault-choice adapter, for the diagnosis call only")
     p.add_argument("--suites", default="scripted,clear,vague,service,offtopic")
     p.add_argument("--split", default="test", choices=["dev", "test"])
     p.add_argument("--concurrency", type=int, default=16)
