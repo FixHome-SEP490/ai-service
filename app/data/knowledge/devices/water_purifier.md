@@ -126,7 +126,7 @@ nhựa cắm nhanh bị rò thì thay đoạn ống là xong.
 Ảnh tem ghi ngày thay lõi dán trên thân máy, nếu thợ lần trước có dán, trả lời
 luôn câu quan trọng nhất.
 
-## An toàn
+## Dùng đúng cách cho bền và an toàn
 
 Rò nước ở máy lọc gần như luôn ở gần ổ điện, vì máy hay đặt dưới chậu rửa cạnh ổ
 cắm. Ngắt điện trước, khoá van cấp sau, lau sau cùng.
@@ -137,17 +137,38 @@ Bơm chạy khô là hỏng bơm, nên ca "bơm chạy mãi không nghỉ" phả
 Không uống nước từ máy đã quá hạn lõi lâu, đun sôi cũng không xử lý được phần lớn
 thứ lõi lẽ ra phải giữ lại.
 
-## Bảo dưỡng theo chu kỳ
+Đặt máy lọc nước RO nơi khô, không nắng chiếu thẳng, ổ cắm đặt cao hơn chỗ nước có
+thể đọng. Ống thải không gập, đầu ống đưa đúng vào đường thoát.
+
+Cúp nước lâu thì rút điện máy cho chắc, dù nhiều máy có van áp thấp tự ngắt bơm.
+Đi vắng dài ngày thì khoá van cấp, rút điện; lúc dùng lại xả bỏ nước đầu vài phút.
+
+Máy có chức năng nước nóng thì để xa tầm tay trẻ nhỏ và bật khoá nóng nếu có.
+
+Ghi ngày thay lõi lên thân máy hoặc theo dõi đèn báo thay lõi để không quá hạn.
+
+## Vệ sinh định kỳ bao lâu một lần
+
+Với máy lọc nước RO, việc định kỳ chính là thay lõi theo cấp, và mốc phụ thuộc chất
+lượng nước vào.
 
 Ba lõi thô thay theo chu kỳ ngắn nhất, thường ba tới sáu tháng tuỳ chất lượng
-nước vào.
+nước vào. Lõi số 1 là lõi hết sớm nhất; sách của một số dòng Karofi, Kangaroo cho
+lõi số 2 và 3 mốc dài hơn, khoảng sáu tới mười hai tháng. Nhà dùng nước giếng khoan
+hoặc nước nhiều cặn thì lấy mốc ngắn.
 
-Màng RO lâu hơn nhiều, thường hai tới ba năm, và là linh kiện đắt nhất.
+Màng RO lâu hơn nhiều, thường hai tới ba năm, và là linh kiện đắt nhất. Kangaroo ghi
+hai tới ba năm hoặc khoảng chín mươi nghìn lít tuỳ nước vào.
 
 Các lõi chức năng sau bình áp thường một tới hai năm.
 
 Sau mỗi lần thay lõi phải xả bỏ vài lít nước đầu và kiểm tra lại các cốc lọc
 xem có rò không, vì rò sau khi thay lõi là ca thường gặp nhất.
+
+Thay đúng hạn các lõi trước màng, vì lõi thô quá hạn làm màng RO tắc sớm.
+
+Dấu hiệu tới hạn sớm: nước ra chậm hơn, nước có mùi hoặc vị lạ, đèn báo thay lõi
+sáng, bơm chạy lâu hơn mới đầy bình áp.
 
 ## Kịch bản hội thoại mẫu
 
@@ -180,6 +201,14 @@ Cấu tạo RO nhiều cấp và vai trò bình áp theo tài liệu kỹ thuậ
 lọc dân dụng bán tại Việt Nam. Phần chu kỳ thay lõi và phần rò sau khi thay lõi
 dựa trên ghi nhận của thợ bảo dưỡng máy lọc tại các đô thị lớn.
 
+Mốc thay lõi đối chiếu thêm: thông số thay lõi của các dòng máy Kangaroo đăng trên
+Điện Máy Xanh (lõi PP 5 micron ba tới sáu tháng, lõi PP 1 micron khoảng mười hai
+tháng, màng RO hai tới ba năm hoặc khoảng chín mươi nghìn lít), trang bộ lõi Karofi
+Livotec trên META (lõi 1 sáu tới chín tháng, lõi 2 sáu tới mười hai tháng, lõi 3 chín
+tới mười hai tháng), cùng các sách hướng dẫn Karofi đăng trên trang của hãng. Phần lõi
+thô quá hạn làm màng RO quá tải: bài hướng dẫn thay lõi Karofi của Hoàng Hà Mobile.
+Phần dùng đúng cách: viết từ các mục bệnh trong tài liệu này và kinh nghiệm nghề.
+
 ## Chỗ cần thợ xác nhận
 
 Chu kỳ thay từng cấp lõi theo chất lượng nước máy từng khu vực, vì con số ba tới
@@ -187,3 +216,6 @@ sáu tháng hiện đang là khoảng rất rộng.
 
 Loại lõi phổ biến nhất thợ nên mang sẵn khi đi bảo dưỡng, để khách không phải chờ
 thêm một lượt.
+
+Mốc riêng cho lõi số 2 và 3 theo từng hãng. Các nguồn đang lệch nhau, từ sáu tới mười
+hai tháng, và lệch cả với mốc ba tới sáu tháng chung cho ba lõi thô.

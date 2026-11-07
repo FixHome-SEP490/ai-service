@@ -343,6 +343,50 @@ Việc khách không nên tự làm: thay thanh nhiệt; mở vỏ lò; tháo c�
 Lý do: lò nướng có điện áp lưới ở các đầu nối thanh nhiệt, và thanh nhiệt thì gắn ngay trong
 khoang mà người ta thò tay vào.
 
+## Vệ sinh định kỳ bao lâu một lần
+
+Lò nướng không có lịch bảo dưỡng của thợ. Việc định kỳ là giữ khoang lò sạch, và
+khách tự làm được.
+
+Sau mỗi lần nướng có mỡ bắn hoặc nước sốt trào: chờ lò nguội hẳn, rút điện, lau
+khoang, khay và mặt trong cửa bằng khăn ẩm với nước rửa chén pha loãng. Mỡ để lại
+sẽ cháy thành muội ở lần nướng sau.
+
+Định kỳ, và mỗi khi thấy muội bám: rửa khay, vỉ nướng, lau kỹ thanh nhiệt bằng khăn
+ẩm khi đã nguội, không cạo bằng vật kim loại sắc. Lau gioăng cửa nhẹ tay và kiểm tra
+gioăng còn ép kín không bằng phép kẹp tờ giấy.
+
+Lò có chế độ tự làm sạch bằng hơi nước hay bằng nhiệt cao thì làm theo sách của lò,
+và lấy hết khay, vỉ ra trước khi chạy.
+
+Không dùng chất tẩy có hạt, miếng cọ kim loại lên kính cửa và lớp men khoang.
+
+Dấu hiệu cần gọi thợ: thanh nhiệt có chỗ phồng, nứt, đỏ không đều; lò không đúng
+nhiệt; kính cửa nứt; vỏ lò nóng hơn hẳn trước đây.
+
+## Dùng đúng cách cho bền và an toàn
+
+Kê lò nướng chừa khe thoáng quanh vỏ theo sách của lò, không nhét kín vào hốc tủ
+và không đặt đồ lên nóc. Cắm lò vào ổ riêng, không dùng chung ổ chia với thiết bị
+nặng khác.
+
+Sấy nóng lò trước khi cho món vào. Nướng ở nhiệt độ món cần thay vì luôn để nhiệt
+cao nhất, vì thói quen đó làm thanh nhiệt mau đứt và mỡ cháy nhiều.
+
+Không lót giấy bạc kín đáy khoang lò và không đặt khay, nồi trực tiếp lên đáy. Sách
+của Electrolux và AEG cảnh báo nhiệt tích lại sẽ làm hỏng lớp men, và ở một số lò
+còn chặn đường gió.
+
+Dùng găng chịu nhiệt khi lấy khay. Mở cửa lò từ từ và đứng lệch sang bên, vì hơi
+nóng phả ra mạnh.
+
+Để quạt làm mát chạy hết sau khi tắt lò, đừng rút điện ngay.
+
+Không để trẻ nhỏ chơi gần cửa lò đang nóng. Kính cửa nứt thì ngừng dùng.
+
+Mùi khét, khói không phải từ món ăn, nhảy aptomat: tắt lò, rút điện, giữ cửa đóng
+nếu có lửa trong khoang, gọi thợ.
+
 ## Khi nào sửa, khi nào thay
 
 Lò nướng đắt hơn ấm siêu tốc nhiều, nên phép tính khác hẳn cụm đó.
@@ -434,6 +478,11 @@ nguyên nhân: nội dung mô đun thực hành thiết bị gia dụng.
 Yêu cầu an toàn với thiết bị nấu nướng dùng trong gia đình: tham chiếu TCVN 5699-1 về an
 toàn thiết bị điện gia dụng, và phần riêng cho thiết bị nấu nướng.
 
+Phần không lót giấy bạc dưới đáy khoang và không đặt khay lên đáy: hướng dẫn sử dụng
+lò Electrolux (bản cho thị trường Thái Lan và Canada) và AEG-Electrolux. Phần vệ sinh
+khi lò đã nguội, không dùng chất tẩy có hạt và miếng cọ kim loại, và chế độ tự làm
+sạch theo sách của lò: hướng dẫn sử dụng chung của các hãng lò nướng.
+
 Bối cảnh lò kê sát tường trong bếp chật, mỡ bắn lên thanh nhiệt, và lò âm tủ ngày càng phổ
 biến: quan sát thực tế trong nước, không phải trích dẫn. Cần cập nhật khi hệ thống chạy thật.
 
@@ -450,5 +499,8 @@ Bo điều khiển có đáng sửa không, với lò điện tử.
 Kính cửa thay thế có đúng loại chịu nhiệt không.
 
 Lò có đủ khe thoáng theo yêu cầu lắp đặt không, với lò âm tủ.
+
+Mốc vệ sinh kỹ khoang lò. Tài liệu chỉ ghi sau mỗi lần mỡ bắn và khi thấy muội,
+chưa có con số của hãng.
 
 Chi phí. Mọi con số tiền lấy từ bảng giá của hệ thống, không lấy từ tài liệu này.

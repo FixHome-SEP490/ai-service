@@ -178,10 +178,15 @@ phích đổi hẳn kết luận từ sửa bếp sang sửa điện.
 Ảnh chụp chéo cả tủ bếp ít giá trị chẩn đoán nhưng cho biết bếp âm hay dương, và
 điều đó quyết định lời cảnh báo an toàn nói thế nào.
 
-## An toàn khi đặt và dùng
+## Dùng đúng cách cho bền và an toàn
 
 Bếp từ không sinh lửa nên nhiều người coi nó tuyệt đối an toàn. Hai chỗ cần
 cẩn thận là điện và kính.
+
+Dùng hằng ngày: nồi đáy nhiễm từ, phẳng, vừa vùng nấu; đặt nồi rồi mới bật, nhấc
+nồi ra thì tắt vùng nấu; không đun nồi rỗng; không kéo lê nồi trên kính. Không đặt
+dao, thìa kim loại hay giấy bạc lên mặt bếp đang chạy, vì chúng nóng lên. Bếp âm
+phải giữ khe thoát nhiệt dưới hộc tủ thông thoáng.
 
 Điện: bếp nên có đường riêng và aptomat riêng, đừng cắm chung ổ với thiết bị công
 suất lớn khác. Nhà có trẻ nhỏ nên dùng khoá trẻ em của bếp.
@@ -193,14 +198,23 @@ ngoài vùng khoét của tủ.
 Người mang máy trợ tim nên đứng cách bếp đang chạy một khoảng, theo khuyến cáo
 chung của nhà sản xuất.
 
-## Vệ sinh và bảo dưỡng
+## Vệ sinh định kỳ bao lâu một lần
 
-Lau mặt kính khi đã nguội bằng khăn mềm và dung dịch chuyên dụng. Không dùng
-miếng cọ kim loại, vết xước là chỗ bắt đầu của vết nứt sau này.
+Mặt kính bếp từ: lau sau mỗi lần nấu, khi đã nguội, bằng khăn mềm và dung dịch
+chuyên dụng. Không dùng miếng cọ kim loại, vết xước là chỗ bắt đầu của vết nứt sau
+này. Cặn bám cứng thì dùng dao cạo kính chuyên dụng, cầm nghiêng, cạo nhẹ.
 
-Việc bảo dưỡng quan trọng nhất lại không nằm trên mặt bếp mà ở khe thoát nhiệt
-phía dưới: hút bụi định kỳ, và nếu bếp lắp âm thì kiểm tra hộc tủ có bịt khe
-không. Đây là nguyên nhân nền của phần lớn ca bếp tự ngắt và đứt cầu chì nhiệt.
+Riêng đường, siro, sữa trào ra: hướng dẫn của Bosch và Siemens cho cạo khỏi vùng
+nấu ngay khi còn nóng, vì để nguội thì bám chặt và có thể để lại vết trên kính. Tắt bếp, nhấc nồi
+ra, dùng dao cạo chứ không dùng tay hay khăn.
+
+Khe hút gió và thoát nhiệt phía dưới: hút bụi định kỳ, sớm hơn khi quạt kêu to hơn
+hoặc bếp hay tự ngắt. Bếp lắp âm thì kiểm tra hộc tủ có bịt khe không. Đây là việc
+bảo dưỡng quan trọng nhất và là nguyên nhân nền của phần lớn ca bếp tự ngắt, đứt
+cầu chì nhiệt.
+
+Bếp từ không có lịch bảo dưỡng của thợ. Gọi thợ khi quạt kêu lạch cạch, bếp tự
+ngắt lặp lại dù khe thoáng sạch, hoặc báo mã lỗi.
 
 ## Khi nào nên sửa, khi nào nên thay
 
@@ -246,6 +260,11 @@ thông. Phần bếp âm, khe thoát nhiệt và hàng nội địa Nhật dựa
 thợ sửa bếp và thợ lắp tủ bếp tại các đô thị lớn ở Việt Nam. Phần tải điện dựa
 trên công suất ghi trên nhãn bếp đang bán phổ biến trong nước.
 
+Phần cạo đường, siro, sữa trào khi mặt bếp còn nóng, và cách dùng dao cạo kính:
+trang hỗ trợ vệ sinh bếp từ của Bosch và trang hỏi đáp về bếp của Siemens thuộc
+cùng tập đoàn BSH. Phần không để vật kim loại lên mặt bếp đang chạy và không đun
+nồi rỗng: cảnh báo chung trong hướng dẫn sử dụng bếp từ.
+
 ## Chỗ cần thợ xác nhận
 
 Tỉ lệ thật của bếp nhập khẩu nội địa trong số ca gọi sửa, để biết có nên hỏi về
@@ -255,3 +274,6 @@ Hãng nào bán mặt kính rời tại Việt Nam, vì đây là câu khách h�
 kính và hiện tài liệu chưa trả lời được.
 
 Mức công suất biến áp tối thiểu nên khuyến nghị cho bếp đôi nội địa Nhật.
+
+Chu kỳ hút bụi khe gió và khoảng hở thoát nhiệt tối thiểu dưới bếp âm theo từng
+hãng. Tài liệu chỉ mô tả dấu hiệu, chưa ghi con số.

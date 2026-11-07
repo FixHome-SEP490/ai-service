@@ -6,6 +6,9 @@ faults and four services, and picks codes from that list; the JSON schema it
 decodes under enumerates exactly those codes, so an invented code cannot be
 produced at all. Names, prices and safety steps shown to the customer are
 looked up here afterwards, never taken from the model's text.
+
+The services are Backend's open ones as last fetched (`catalog`), so a
+service the admin opens, closes or reprices reaches the chat within minutes.
 """
 
 from __future__ import annotations
@@ -15,6 +18,8 @@ from dataclasses import dataclass, field
 from functools import lru_cache
 from pathlib import Path
 from typing import Dict, List, Optional, Tuple
+
+from app.services.chat2 import catalog as live
 
 DATA_DIR = Path(__file__).resolve().parents[2] / "data"
 
@@ -114,31 +119,76 @@ def fault_cards() -> Dict[str, dict]:
     return json.loads(path.read_text(encoding="utf-8"))["cards"] if path.exists() else {}
 
 
-@lru_cache(maxsize=None)
+def all_names() -> Dict[str, Tuple[str, ...]]:
+    """Every name an appliance goes by: its own, then its aliases."""
+    aliases = device_aliases()
+    return {d: (name, *aliases.get(d, ())) for d, name in devices().items()}
+
+
+# Menus of the catalogue they were built from; a new fetch builds new ones.
+_MENUS: Tuple[object, Dict[str, Optional[DeviceMenu]]] = (None, {})
+
+
 def menu_for(device_type: str) -> Optional[DeviceMenu]:
+    global _MENUS
+    catalog = live.current()
+    if _MENUS[0] is not catalog:
+        _MENUS = (catalog, {})
+    menus = _MENUS[1]
+    if device_type not in menus:
+        menus[device_type] = _build(device_type, catalog)
+    return menus[device_type]
+
+
+@lru_cache(maxsize=1)
+def _mappings() -> Tuple[Tuple[str, Tuple[str, ...]], ...]:
+    """fault_code -> its services in order of preference (service_mapping.json)."""
+    return tuple(
+        (row["fault_code"], tuple(s["service_code"] for s in row.get("services") or () if s.get("active")))
+        for row in _load("service_mapping.json")["mappings"]
+    )
+
+
+@lru_cache(maxsize=1)
+def _kb() -> dict:
+    return _load("fault_knowledge_base.json")
+
+
+def _build(device_type: str, catalog) -> Optional[DeviceMenu]:
     names = devices()
     if device_type not in names:
         return None
     services = [
         ServiceItem(
-            code=s["code"],
-            name_vi=s["name_vi"],
-            kind=s["kind"],
-            price_min=s.get("price_min_vnd"),
-            price_max=s.get("price_max_vnd"),
+            code=s.code,
+            name_vi=s.name_vi,
+            kind=s.kind or live.kind_of(s.name_vi),
+            price_min=s.base_price,
+            price_max=s.price_max,
         )
-        for s in _load("service_catalog.json")["services"]
-        if s.get("active")
-        and (device_type in (s.get("device_types") or []) or s["code"] in EXTRA_DEVICES.get(device_type, ("", ()))[1])
+        for s in live.services_for(device_type, catalog, all_names(), not_aliases(), EXTRA_DEVICES.get(device_type, ("", ()))[1])
     ]
     open_codes = {s.code for s in services}
     mapped: Dict[str, str] = {}
-    for row in _load("service_mapping.json")["mappings"]:
-        for svc in row.get("services") or []:
-            if svc.get("active") and svc["service_code"] in open_codes:
-                mapped.setdefault(row["fault_code"], svc["service_code"])
+    for fault_code, codes in _mappings():
+        for code in codes:
+            if code in open_codes:
+                mapped.setdefault(fault_code, code)
                 break
-    kb = _load("fault_knowledge_base.json")
+    known = {code for _, codes in _mappings() for code in codes}
+    added = [catalog.services[s.code] for s in services if s.code not in known]
+    device_words = {w for n in all_names().get(device_type, ()) for w in live.fold(n).split()}
+    kb = _kb()
+    general = next((s.code for s in services if s.kind == "repair"), None)
+    for f in kb["faults"]:
+        # Only a fault that books the appliance's general repair is open to a
+        # more specific one; a mapping to a specific service stands.
+        if f["device_type"] != device_type or mapped.get(f["fault_code"], general) != general:
+            continue
+        # A repair the admin added since the mapping was written, for this fault.
+        fit = next((s for s in added if live.fits_fault(s, f["name_vi"], device_words)), None)
+        if fit is not None:
+            mapped[f["fault_code"]] = fit.code
     faults = [
         FaultItem(
             code=f["fault_code"],

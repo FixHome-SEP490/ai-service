@@ -62,6 +62,8 @@ class LiveService:
     price_max: Optional[int] = None
     kind: str = ""
     device_types: tuple = ()
+    """The appliances it is for, from the snapshot. Empty for an appliance the
+    knowledge base does not know (range hoods)."""
     price_kind: str = ""
     """Backend's priceSummary.kind: "fixed_range" (a fixed price per variant,
     shown on the booking form as "min – max") or "inspection_reference"
@@ -69,8 +71,8 @@ class LiveService:
     variant_prices: tuple = ()
     """(variant code, fixed labour price) of a fixed-price service, from the
     snapshot; Backend's list does not carry them."""
-    """The appliances it is for, from the snapshot. Empty for an appliance the
-    knowledge base does not know (range hoods)."""
+    category_vi: str = ""
+    """The catalogue group it is listed under ("Điều hòa", "Thiết bị nhà bếp")."""
 
 
 def _fold(text: str) -> str:
@@ -197,6 +199,7 @@ class LiveCatalog:
                     price_max=service.price_max if service.price_max is not None else seen.price_max,
                     price_kind=service.price_kind or seen.price_kind,
                     variant_prices=service.variant_prices or seen.variant_prices,
+                    category_vi=service.category_vi or seen.category_vi,
                 )
             self.services[service.code] = service
         self.loaded_at = loaded_at
@@ -370,6 +373,7 @@ def snapshot() -> LiveCatalog:
                 variant_prices=tuple(
                     (v["code"], int(v["price_vnd"])) for v in r.get("variants") or () if v.get("price_vnd")
                 ),
+                category_vi=r.get("category_vi") or "",
             )
             for r in rows
             if r.get("active")
@@ -430,13 +434,16 @@ def parse(payload) -> List[LiveService]:
         if isinstance(row.get("services"), list):
             if row.get("isActive") is False:
                 continue
-            flat.extend(row["services"])
+            flat.extend({**s, "category": s.get("category") or {"name": row.get("name")}} for s in row["services"])
         else:
             flat.append(row)
     out: List[LiveService] = []
     for row in flat:
         code = (row.get("code") or "").strip()
         if not code or row.get("isActive") is False or code == "DICH_VU_KHAC":
+            continue
+        category = row.get("category") if isinstance(row.get("category"), dict) else {}
+        if category.get("isActive") is False:
             continue
         summary = row.get("priceSummary") or {}
         low = _price(summary.get("minLaborVnd")) or _price(summary.get("suggestedLaborVnd"))
@@ -448,6 +455,7 @@ def parse(payload) -> List[LiveService]:
                 base_price=low or _price(row.get("basePrice")),
                 price_max=_price(summary.get("maxLaborVnd")),
                 price_kind=str(summary.get("kind") or ""),
+                category_vi=str(category.get("name") or "").strip(),
             )
         )
     return out

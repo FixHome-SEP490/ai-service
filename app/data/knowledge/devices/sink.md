@@ -331,6 +331,51 @@ này.
 Thay thế: nước nóng già với nhiều nước rửa chén, hoặc baking soda với giấm, hoặc đơn giản
 nhất là tháo bẫy ra rửa.
 
+## Vệ sinh định kỳ bao lâu một lần
+
+Bồn rửa không có lịch bảo dưỡng của hãng mà tài liệu đối chiếu được, nên mốc dưới
+đây theo mức dùng và theo dấu hiệu.
+
+Lưới chắn rác ở miệng thoát: đổ rác sau mỗi lần rửa bát. Đây là việc rẻ nhất phòng
+được nhiều nhất.
+
+Bồn rửa bát: định kỳ dội nước nóng già pha nhiều nước rửa chén để đẩy lớp mỡ mỏng
+trong ống, không dùng nước sôi với ống nhựa. Nhà nấu nhiều dầu mỡ thì làm thường
+xuyên hơn.
+
+Bẫy nước dưới bồn rửa bát: tháo ra rửa khi nước bắt đầu rút chậm hoặc có mùi, đừng
+chờ nghẹt hẳn. Bẫy nhựa tháo bằng tay, đặt chậu hứng bên dưới.
+
+Lavabo: lấy tóc ở nắp thoát và rửa lỗ chống tràn bằng nước pha giấm khi thấy rút
+chậm hoặc có mùi. Lavabo ít dùng thì thỉnh thoảng mở nước vài giây cho bẫy không cạn.
+
+Mở cánh tủ dưới bồn nhìn đáy tủ và các mối nối mỗi lần dọn tủ, nhất là chỗ ống xả
+máy lọc nước nối vào bẫy.
+
+Dấu hiệu gọi thợ: nghẹt lại ngay sau khi đã tháo rửa bẫy, nhiều thiết bị trong nhà
+cùng rút chậm, đáy tủ ẩm hoặc phồng, giỏ thoát rỉ mục.
+
+## Dùng đúng cách cho bền và an toàn
+
+Không đổ dầu mỡ, nước canh nhiều mỡ, cơm, bã trà, bã cà phê xuống bồn rửa. Mỡ đông
+lại trong ống và giữ mọi thứ đi qua. Dầu mỡ thừa để nguội, gom vào túi hoặc chai rồi
+bỏ vào rác.
+
+Lau sạch mỡ trên chảo, nồi bằng giấy trước khi rửa.
+
+Luôn có lưới chắn ở miệng thoát bồn rửa bát và nắp chặn tóc ở lavabo.
+
+Không đổ hoá chất thông cống mạnh, vì chúng ăn gioăng bẫy nước và nguy hiểm cho
+người tháo bẫy sau đó. Đã lỡ đổ thì phải báo cho thợ biết.
+
+Không ngồi, tì mạnh hay đặt vật nặng lên mép lavabo treo tường.
+
+Tủ dưới bồn rửa không chất đồ đè vào bẫy và ống xả. Nên lót khay hứng dưới đáy tủ
+để thấy rò sớm.
+
+Ổ điện của máy lọc nước, máy rửa bát dưới bồn phải đặt cao, tránh chỗ nước rò. Rò
+nước gần ổ điện thì ngắt điện trước rồi mới lau.
+
 ## Khi nào sửa, khi nào thay
 
 Cụm này rẻ, và phần lớn ca là thay chi tiết nhựa.
@@ -417,6 +462,10 @@ khuyến cáo trong hướng dẫn sử dụng, đối chiếu nhiều nguồn.
 Cơ chế hư hỏng không phục hồi của gỗ công nghiệp khi thấm nước: kiến thức vật liệu phổ
 thông.
 
+Phần mốc vệ sinh định kỳ và dùng đúng cách: viết từ các mục bệnh trong tài liệu này và
+kinh nghiệm nghề cấp thoát nước. Chưa đối chiếu được lịch bảo dưỡng của hãng thiết bị
+vệ sinh nào.
+
 Bối cảnh nấu nhiều dầu mỡ, tủ bếp gỗ công nghiệp khoang kín, và nhà tự lắp bồn rửa không có
 bẫy nước: quan sát thực tế trong nước, không phải trích dẫn. Cần cập nhật khi hệ thống chạy
 thật.
@@ -432,5 +481,8 @@ Giỏ thoát thay thế có đúng đường kính lỗ thoát của chậu khô
 Nghẹt nằm ở bẫy hay ở đường ống phía sau.
 
 Phần gỗ đáy tủ đã hỏng tới đâu, nếu đã rò lâu.
+
+Mốc tháo rửa bẫy nước cho bồn rửa bát nhà nấu nhiều dầu mỡ. Tài liệu chỉ ghi theo
+dấu hiệu, chưa có con số.
 
 Chi phí. Mọi con số tiền lấy từ bảng giá của hệ thống, không lấy từ tài liệu này.

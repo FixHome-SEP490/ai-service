@@ -319,6 +319,46 @@ Nắn lại lồng quạt bị móp.
 Việc khách không nên tự làm: thay tụ, thay dây nguồn, tháo mô tơ, sửa công tắc. Không
 phải vì khó, mà vì đều là phần có điện và phần cần đúng linh kiện.
 
+## Vệ sinh định kỳ bao lâu một lần
+
+Quạt điện không có lịch bảo dưỡng của hãng mà tài liệu đối chiếu được, nên mốc dưới
+đây là theo thực tế dùng.
+
+Vệ sinh cánh và lồng quạt ít nhất mỗi đầu mùa nóng, và mỗi khi thấy lớp bụi bám rõ
+trên cánh. Quạt nhà mặt đường, quạt đặt gần bếp, quạt chạy quanh năm ở miền Nam thì
+làm thường xuyên hơn nhiều, vì bụi trộn dầu mỡ thành lớp keo. Cách làm: rút điện,
+tháo lồng, rửa cánh bằng nước ấm pha nước rửa chén, lau khô hẳn rồi lắp lại.
+
+Quạt lấy ra dùng sau một mùa cất kho: lau bụi, xoay thử cánh bằng tay khi chưa cắm
+điện. Cánh quay nặng thì tra vài giọt dầu máy khâu vào lỗ tra dầu ở hai đầu mô tơ,
+nếu quạt có lỗ đó, không dùng dầu ăn.
+
+Siết lại ốc cánh, ốc lồng khi thấy quạt rung.
+
+Dấu hiệu cần vệ sinh hoặc gọi thợ sớm: quạt rung lắc, gió yếu hơn trước, kêu rè rè,
+phải lấy tay đẩy cánh mới quay, thân mô tơ nóng hơn thường. Mùi khét thì rút điện
+ngay.
+
+## Dùng đúng cách cho bền và an toàn
+
+Đặt quạt điện trên mặt phẳng vững, xa rèm và vật dễ đổ vào cánh. Không để trẻ nhỏ
+thò tay qua lồng.
+
+Khi di chuyển quạt, nhấc thân quạt chứ không kéo lê bằng dây nguồn, vì đó là nguyên
+nhân hàng đầu của hỏng dây ở chỗ sát phích. Không đè dây dưới thảm hay chân bàn.
+
+Không trùm khăn, quần áo lên quạt đang chạy, và không để quạt sát vật cản làm bí gió
+thổi qua mô tơ.
+
+Quạt chạy suốt đêm hoặc khi đi vắng chỉ nên là quạt đang khoẻ. Quạt đã có mùi khét,
+nóng bất thường, dây nứt vỏ hoặc phải đẩy cánh mới quay thì không để chạy khi không
+có người.
+
+Cất quạt qua mùa lạnh: lau sạch, bọc kín, để chỗ khô, xa chuột.
+
+Rút điện trước khi lau, tháo lồng hay tra dầu. Tê tay khi chạm quạt thì rút điện và
+ngừng dùng.
+
 ## Khi nào sửa, khi nào thay
 
 Nghiêng về sửa khi bệnh là tụ điện, bạc khô, cánh cong, ốc lỏng, hoặc lồng móp. Tất
@@ -401,10 +441,15 @@ Yêu cầu an toàn với thiết bị điện gia dụng và dây dẫn: tham c
 toàn thiết bị điện gia dụng, phần quy định chung.
 
 Bối cảnh quạt chạy nhiều giờ trong đêm, bụi và dầu mỡ bám cánh, và thói quen cất quạt
-qua mùa lạnh: quan sát thực tế trong nước, không phải trích dẫn. Cần cập nhật khi hệ
+qua mùa lạnh: quan sát thực tế trong nước, không phải trích dẫn. Phần mốc vệ sinh và
+cách dùng đúng cách cũng thuộc nhóm này, viết từ các mục bệnh trong tài liệu chứ
+không từ lịch của hãng. Cần cập nhật khi hệ
 thống chạy thật.
 
 ## Chỗ cần thợ xác nhận
+
+Mốc vệ sinh và tra dầu quạt theo năm hoặc theo giờ chạy. Tài liệu chưa đối chiếu
+được hướng dẫn của hãng nào, nên chỉ ghi đầu mùa nóng và dấu hiệu.
 
 Trị số tụ điện đúng cho từng model quạt. Lắp sai trị số thì quạt chạy yếu hoặc nóng,
 và con số này in trên thân tụ cũ chứ không suy ra được.

@@ -25,7 +25,8 @@ from typing import Dict, List, Optional, Sequence
 
 import httpx
 
-from app.services.chat2.menu import DATA_DIR, devices
+from app.services.chat2 import catalog as live
+from app.services.chat2.menu import DATA_DIR, all_names, devices, not_aliases
 
 
 def asks_price(text: str) -> bool:
@@ -98,10 +99,36 @@ def _trim(text: str) -> str:
 
 
 @lru_cache(maxsize=1)
-def index() -> Dict[str, Passage]:
+def _written() -> Dict[str, Passage]:
+    """The passages cut from the documents (tools/build_knowledge_index.py)."""
     path = DATA_DIR / "knowledge_index.json"
     raw = json.loads(path.read_text(encoding="utf-8"))["passages"] if path.exists() else []
-    return {p["id"]: Passage(**p) for p in raw}
+    return {p["id"]: Passage(**p) for p in raw if not p["id"].startswith("catalog:")}
+
+
+# The index of the catalogue it was built from, and its word counts.
+_INDEX: tuple = (None, {}, {})
+
+
+def _current() -> tuple:
+    """The written passages plus the service list and price tables of
+    Backend's catalogue as last fetched: a service the admin opens is quoted
+    without a rebuild (07/11)."""
+    global _INDEX
+    catalog = live.current()
+    if _INDEX[0] is not catalog:
+        made = {p["id"]: Passage(**p) for p in live.passages(catalog, devices(), all_names(), not_aliases())}
+        passages = {**_written(), **made}
+        df: Dict[str, int] = {}
+        for p in passages.values():
+            for w in set(_fold(p.text_vi)):
+                df[w] = df.get(w, 0) + 1
+        _INDEX = (catalog, passages, df)
+    return _INDEX
+
+
+def index() -> Dict[str, Passage]:
+    return _current()[1]
 
 
 def candidates(device_type: Optional[str], fault_code: Optional[str]) -> List[Passage]:
@@ -142,13 +169,8 @@ def _snippet(text: str, question: str, width: int = 120) -> str:
     return _opening(text)
 
 
-@lru_cache(maxsize=1)
 def _document_frequency() -> Dict[str, int]:
-    df: Dict[str, int] = {}
-    for p in index().values():
-        for w in set(_fold(p.text_vi)):
-            df[w] = df.get(w, 0) + 1
-    return df
+    return _current()[2]
 
 
 _LABEL_LINE = re.compile(r"^[^.:]{1,30}:\s")

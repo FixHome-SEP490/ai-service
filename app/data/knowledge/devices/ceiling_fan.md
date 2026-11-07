@@ -304,6 +304,43 @@ con vít đang bám vào thạch cao đã nứt thì nó chỉ giữ thêm đư�
 Không nên: tháo cánh ra lau rồi lắp lại nếu không đánh dấu vị trí. Cánh quạt trần được
 cân theo bộ, và đổi chỗ các cánh cho nhau cũng đủ gây rung.
 
+## Vệ sinh định kỳ bao lâu một lần
+
+Quạt trần có hai việc định kỳ khác nhau: lau cánh và kiểm tra bộ treo.
+
+Lau cánh quạt trần ít nhất mỗi năm một lần, lau cả mặt trên của cánh vì đó là chỗ
+bụi bám dày nhất. Nhà mặt đường, nhà nhiều bụi hoặc quạt gần bếp thì dày hơn. Tắt
+quạt, ngắt aptomat, chờ cánh dừng hẳn, đứng trên thang chắc chắn có người giữ, lau
+bằng khăn ẩm vắt kỹ, không đè mạnh làm cong cánh. Ngại trèo cao thì để thợ làm.
+
+Kiểm tra và siết lại vít cánh, vít bộ treo, ty treo và chốt an toàn là việc của thợ.
+Sách hướng dẫn của nhiều hãng quạt trần nêu mốc một tới hai lần mỗi năm, vì rung
+động tự nhiên làm các mối ghép lỏng dần theo thời gian.
+
+Dấu hiệu cần gọi thợ sớm, không chờ mốc: quạt rung tăng dần, có tiếng lộc cộc hoặc
+lạch cạch khi quay, chụp trên trần xê dịch, quạt nghiêng, quay chậm hơn trước dù để
+số cao, hoặc hộp số trên tường nóng, có mùi.
+
+## Dùng đúng cách cho bền và an toàn
+
+Quạt trần phải treo vào phần chịu lực của trần, có chốt hoặc cáp an toàn, và việc
+lắp hay tháo là việc của thợ.
+
+Khi đang dùng: chỉnh tốc độ từ thấp lên; quạt bắt đầu rung thì hạ số và tắt, không
+để chạy số cao. Không treo đồ, không ném vật lên cánh, không để đồ cao như tủ, giá
+treo đồ chạm vùng quay của cánh.
+
+Phòng có trẻ nhỏ thì không để giường tầng hoặc đồ leo trèo gần vùng cánh quay.
+
+Bật quạt trần cùng máy lạnh giúp hơi lạnh xuống đều và cho phép để máy lạnh ở mức
+cao hơn.
+
+Trước khi lau hay kiểm tra, ngắt aptomat chứ không chỉ tắt ở hộp số, vì hộp số có
+thể chỉ cắt một dây.
+
+Rung mạnh, mùi khét, khói, nhảy aptomat: tắt quạt, ngắt aptomat, không ngồi hay đứng
+ngay dưới quạt, gọi thợ.
+
 ## Khi nào sửa, khi nào thay
 
 Quạt trần đắt hơn quạt cây nhưng vẫn không đắt, và phần lớn chi phí sửa nằm ở công
@@ -386,6 +423,11 @@ thuật quốc gia về hệ thống điện của nhà ở QCVN 12:2014/BXD.
 Cơ chế vít bắt trần bị nới dần do rung động kéo dài, và vòng lặp giữa rung và lỏng:
 kiến thức cơ khí phổ thông.
 
+Mốc kiểm tra và siết lại vít cánh, giá treo, ty treo một tới hai lần mỗi năm: sách
+hướng dẫn quạt trần của các hãng bán ở Mỹ (Honeywell, Quorum và một số hãng khác,
+đọc qua các trang lưu trữ sách hướng dẫn). Chưa đối chiếu được sách của KDK hay
+Panasonic. Mốc lau cánh mỗi năm là ghi nhận thực tế đã có trong tài liệu.
+
 Bối cảnh quạt trần nằm ở vùng nóng nhất phòng, cánh gần như không được lau, và việc lắp
 vào trần thạch cao không đúng phần chịu lực: quan sát thực tế trong nước, không phải
 trích dẫn. Cần cập nhật khi hệ thống chạy thật.
@@ -402,5 +444,8 @@ Bạc trục còn dùng được sau khi tra dầu hay đã mòn.
 Chốt an toàn hoặc cáp phụ có được lắp không, và còn nguyên không.
 
 Loại bộ chỉnh tốc độ đang dùng, vì hai loại đi hai hướng chẩn đoán khác nhau.
+
+Mốc kiểm tra bộ treo cho quạt trần bán phổ biến ở Việt Nam. Con số một tới hai lần
+mỗi năm lấy từ sách của hãng nước ngoài.
 
 Chi phí. Mọi con số tiền lấy từ bảng giá của hệ thống, không lấy từ tài liệu này.

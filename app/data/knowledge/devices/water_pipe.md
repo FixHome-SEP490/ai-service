@@ -304,6 +304,45 @@ Xả vòi vài phút sau khi mất nước rồi có lại, để đẩy cặn r
 Việc không nên tự làm: đục tường tìm ống; tự nối ống chịu áp; tháo van tổng; tự xử lý khi
 nước đang phun mà chưa khoá van.
 
+## Vệ sinh định kỳ bao lâu một lần
+
+Đường ống nước trong tường không có việc vệ sinh định kỳ, nhưng có ba việc theo mốc.
+
+Bồn chứa nước trên mái hoặc bể ngầm: các hướng dẫn trong nước thường nêu khoảng sáu
+tháng một lần với nước máy, và khoảng ba tháng một lần với nước giếng nhiều phèn, cặn.
+Đây là mốc của bài tư vấn, chưa phải quy chuẩn. Việc này nên để thợ làm, vì phải xả
+cạn, leo cao hoặc xuống bể kín. Dùng chất tẩy hợp với vật liệu bồn và xả sạch trước
+khi dùng lại.
+
+Phép thử đồng hồ nước: làm khi hoá đơn nước tăng bất thường hoặc có vết ẩm lạ, và nên
+làm thêm định kỳ với nhà có đường ống cũ.
+
+Nhìn các ống mềm nối vào thiết bị, van chặn, mối nối lộ ra ngoài mỗi lần dọn nhà: có
+vết rỉ, vết ẩm, ống phồng thì xử lý sớm.
+
+Dấu hiệu gọi thợ: nước đục vàng kéo dài dù đã xả, áp lực yếu dần ở nhiều vòi, vết ẩm
+loang trên tường hoặc trần, kim đồng hồ nước vẫn quay khi đã khoá hết vòi.
+
+## Dùng đúng cách cho bền và an toàn
+
+Với đường ống nước trong nhà, việc quan trọng nhất là biết van tổng ở đâu và thử
+khoá được không trước khi cần tới. Ống vỡ thì khoá van tổng trước, rồi mới lau dọn.
+
+Không đóng mở van, vòi đột ngột liên tục, vì dễ gây búa nước làm rung và nới mối nối.
+
+Không treo đồ nặng lên ống lộ thiên, không đóng đinh, khoan tường khi chưa biết đường
+ống đi đâu.
+
+Nhà có bơm tăng áp: không để bơm chạy khi bể cạn, và chỉnh áp vừa đủ, vì áp quá cao
+làm mối nối và ống mềm mau hỏng.
+
+Đi vắng dài ngày thì khoá van tổng.
+
+Nước rò gần ổ điện, bảng điện hay đèn trần: ngắt điện khu vực đó trước khi lại gần.
+
+Ống thép tráng kẽm đời cũ ra nước vàng thì xả vài phút trước khi dùng, và không dùng
+nước đầu vòi để nấu ăn sau những lần mất nước.
+
 ## Khi nào sửa từng chỗ, khi nào làm lại cả tuyến
 
 Câu hỏi thật của nhà cũ, và nó đáng trả lời thẳng.
@@ -390,6 +429,11 @@ lý phổ thông.
 
 Cơ chế rỉ sét thu hẹp lòng ống thép tráng kẽm theo thời gian: kiến thức ăn mòn kim loại.
 
+Mốc vệ sinh bồn chứa khoảng sáu tháng với nước máy và ba tháng với nước giếng nhiều phèn:
+bài hướng dẫn vệ sinh bồn nước của Điện Máy Xanh, đối chiếu bài về bồn nước inox trên
+CafeF. Đây là nguồn tư vấn tiêu dùng, chưa tìm được quy chuẩn nhà nước về tần suất này.
+Phần dùng đúng cách: viết từ các mục bệnh trong tài liệu này và kinh nghiệm nghề.
+
 Bối cảnh áp lực nước không ổn định, nhà có bể chứa và bơm, nhà cải tạo nhiều lần không có
 bản vẽ, và chung cư có trục chung: quan sát thực tế trong nước, không phải trích dẫn. Cần
 cập nhật khi hệ thống chạy thật.
@@ -407,5 +451,10 @@ Vị trí chính xác của chỗ rò. Cần dò bằng thiết bị.
 Lòng ống có bị hẹp do rỉ hoặc do cặn không.
 
 Sự cố thuộc phần của căn hộ hay phần chung của toà nhà, với chung cư.
+
+Chu kỳ vệ sinh bồn chứa và bể ngầm. Mốc sáu tháng và ba tháng lấy từ bài tư vấn, chưa
+có quy chuẩn đối chiếu.
+
+Áp đặt cho bơm tăng áp phù hợp với đường ống và thiết bị trong nhà.
 
 Chi phí. Mọi con số tiền lấy từ bảng giá của hệ thống, không lấy từ tài liệu này.

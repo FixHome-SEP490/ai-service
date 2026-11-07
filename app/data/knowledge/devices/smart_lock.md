@@ -159,6 +159,45 @@ khẩn cấp trực 24/7 và đó là câu trả lời.
 
 Không hứa thời gian thợ tới. Trợ lý không biết thợ đang ở đâu.
 
+## Vệ sinh định kỳ bao lâu một lần
+
+Khoá vân tay có hai việc định kỳ: thay pin và giữ cảm biến sạch.
+
+Thay pin: tuỳ số lần mở, thường sáu tháng tới một năm. Hướng dẫn của Yale Helios S
+ghi bốn pin kiềm AA dùng khoảng một năm khi mở khoảng mười lần mỗi ngày; khoá dùng
+Wi-Fi, mở nhiều lần, hoặc mô tơ phải đẩy chốt qua chỗ cấn thì hết nhanh hơn nhiều.
+Khoá luôn báo trước bằng tiếng bíp kéo dài hoặc đèn đỏ, và nên thay trong vài ngày
+kể từ lúc nghe báo, không chờ khoá chết hẳn.
+
+Cảm biến vân tay và bàn phím: lau khi bẩn, ẩm hoặc khi tỉ lệ nhận vân giảm, bằng
+khăn mềm, khô hoặc hơi ẩm. Không dùng chất tẩy có hạt, cồn đậm đặc, xăng, và không
+xịt nước thẳng vào khoá. Trời nồm thì lau khô cảm biến trước khi đặt tay.
+
+Thợ kiểm tra khoá không theo lịch mà khi có dấu hiệu: phải đẩy hoặc nhấc cánh cửa
+mới khoá ăn, mô tơ kêu mà chốt không rút, chốt ra vào chậm hơn trước, pin mới mà
+vẫn hết nhanh.
+
+Định kỳ kiểm tra lại chìa cơ dự phòng còn mở được ổ khoá, và thẻ từ dự phòng còn
+nhận.
+
+## Dùng đúng cách cho bền và an toàn
+
+Dùng pin kiềm AA đúng loại sách của khoá ghi, thay cả bộ cùng lúc, cùng hãng, không
+trộn pin cũ với pin mới, không dùng pin sạc nếu sách của khoá không cho phép.
+
+Cất chìa cơ dự phòng ở chỗ lấy được khi đang đứng ngoài cửa, như ví hay nhà người
+thân, không cất trong nhà. Biết vị trí cổng sạc khẩn cấp ở cạnh dưới khoá.
+
+Đăng ký ít nhất hai ngón tay cho mỗi người, đăng ký lúc tay khô và sạch.
+
+Đổi mã số mặc định sau khi lắp. Khi nhập mã nơi có người nhìn, dùng chức năng thêm
+số ảo nếu khoá có. Xoá vân tay, mã và thẻ của người không còn ở cùng.
+
+Không dùng vật cứng cạy mặt khoá, không treo đồ lên tay nắm.
+
+Cửa xệ làm chốt cấn khung thì gọi thợ chỉnh cửa sớm, vì mô tơ phải đẩy chốt qua chỗ
+cấn sẽ mau hỏng và hao pin.
+
 ## Kịch bản hội thoại mẫu
 
 Khách: "em đang đứng ngoài cửa không vào nhà được, khoá vân tay không lên gì cả"
@@ -190,6 +229,13 @@ Cấu tạo và các cách mở theo tài liệu lắp đặt của các dòng k
 đang bán phổ biến tại Việt Nam. Phần cửa xệ bản lề và ảnh hưởng của trời nồm dựa
 trên ghi nhận của thợ lắp khoá và thợ mộc tại Hà Nội và Thành phố Hồ Chí Minh.
 
+Phần thời lượng pin: hướng dẫn sử dụng khoá Yale Helios S (bốn pin kiềm AA khoảng một
+năm với khoảng mười lần mở mỗi ngày, thay cả bốn viên khi có báo pin yếu), đối chiếu
+nhận xét của người dùng Yale Assure Lock 2 về pin hao nhanh khi bật Wi-Fi. Phần dùng
+pin kiềm, thay cả bộ, không trộn pin cũ mới, không dùng pin sạc: hướng dẫn xử lý sự
+cố khoá vân tay của Veise và sách khoá Samsung tính thời lượng pin theo pin kiềm.
+Phần lau cảm biến không dùng chất tẩy có hạt: hướng dẫn vệ sinh khoá Schlage Sense.
+
 ## Chỗ cần thợ xác nhận
 
 Hãng nào còn giữ ổ khoá cơ dự phòng và hãng nào đã bỏ hẳn, vì lời khuyên "tìm nắp
@@ -197,3 +243,11 @@ nhựa che ổ cơ" chỉ đúng với nhóm thứ nhất.
 
 Thời gian trung bình thợ mở được một khoá bị kẹt chốt, để nói trước cho khách
 đang đứng ngoài cửa thay vì để họ chờ không biết bao lâu.
+
+Khoá nào cho phép pin sạc và khoá nào chỉ dùng pin kiềm, theo sách của từng hãng.
+
+Cách lau cảm biến vân tay theo từng hãng, khô hay hơi ẩm, vì các nguồn chưa thống
+nhất.
+
+Thời gian còn dùng được kể từ lúc khoá báo pin yếu. Tài liệu chỉ khuyên thay trong
+vài ngày.

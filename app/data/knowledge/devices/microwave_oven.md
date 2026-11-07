@@ -312,6 +312,48 @@ Kéo lò ra khỏi tường để khe thoáng thông.
 Việc khách không được làm: mở vỏ lò. Lý do là tụ cao áp, và nó đã được nói ở đầu tài
 liệu.
 
+## Vệ sinh định kỳ bao lâu một lần
+
+Lò vi sóng không có lịch bảo dưỡng của thợ. Việc định kỳ là giữ lò sạch, và khách
+tự làm được.
+
+Sau mỗi lần thức ăn bắn ra: lau khoang lò, mâm xoay và tấm mica khi lò đã nguội.
+Vết bẩn khô lâu trên tấm mica là nguyên nhân nền của phóng tia.
+
+Định kỳ, và mỗi khi thấy bẩn: lau kỹ toàn bộ khoang, mặt trong cửa, gioăng và khung
+cửa bằng khăn ẩm với nước rửa chén pha loãng. Sách hướng dẫn của các hãng nhắc riêng
+phần gioăng và khung cửa, vì cặn bám ở đó làm cửa không khép kín. Rửa mâm xoay và
+vòng lăn, lau khô rồi đặt lại đúng khớp.
+
+Vết bẩn cứng thì đun một bát nước có vài lát chanh vài phút cho hơi nước làm mềm rồi
+lau. Không dùng miếng cọ kim loại, chất tẩy có hạt hay dao cạo, vì chúng làm xước
+khoang và kính cửa.
+
+Rút điện trước khi lau. Không xịt nước vào khe thông gió.
+
+Dấu hiệu cần gọi thợ: tia lửa trong lò, cửa xệ, khép không kín, lưới chắn trên cửa
+móp, lò chạy mà không nóng.
+
+## Dùng đúng cách cho bền và an toàn
+
+Không chạy lò vi sóng khi trống. Sách của các hãng cảnh báo sóng không có gì hấp thụ
+sẽ dội lại và có thể làm hỏng lò.
+
+Không cho kim loại, giấy bạc, đĩa viền kim nhũ vào lò. Chỉ dùng hộp ghi rõ dùng được
+cho lò vi sóng, không dùng hộp nhựa dùng một lần hay túi ni lông.
+
+Đậy hờ thức ăn khi hâm. Không hâm trứng nguyên vỏ hay hộp kín, vì chúng có thể nổ.
+Chất lỏng hâm lâu có thể sôi trào đột ngột khi nhấc ra, nên khuấy và chờ một lát.
+
+Kê lò chừa khe thoáng quanh vỏ theo sách của lò, không nhét kín vào hốc tủ, không
+đặt đồ lên nóc che khe gió.
+
+Lò có cửa xệ, gioăng rách, lưới móp thì ngừng dùng, không đứng xa ra mà dùng tiếp.
+
+Khách không mở vỏ lò, vì tụ cao áp giữ điện cả khi đã rút phích.
+
+Lửa bén trong lò thì giữ cửa đóng, tắt lò và rút điện để lửa tự tắt.
+
 ## Khi nào sửa, khi nào thay
 
 Lò vi sóng là thiết bị rẻ, nên ranh giới này tới sớm, và có một chi tiết chia đôi mọi
@@ -404,6 +446,13 @@ chiếu TCVN 5699-2-25 về an toàn lò vi sóng dùng trong gia đình, tươn
 Cảnh báo không chạy lò rỗng vì sóng phản xạ ngược về sò: hướng dẫn sử dụng của nhà sản
 xuất, đối chiếu nhiều nguồn.
 
+Phần vệ sinh và dùng đúng cách: hướng dẫn sử dụng lò vi sóng của GE, LG, Frigidaire,
+Maytag (không chạy lò rỗng, giữ gioăng và khung cửa sạch vì cặn làm cửa không khép
+kín, không dùng chất tẩy có hạt hay miếng cọ kim loại, không hâm trứng nguyên vỏ và
+hộp kín, chất lỏng có thể sôi trào đột ngột, khi có lửa trong lò thì giữ cửa đóng và
+ngắt điện), đối chiếu trang an toàn dùng lò vi sóng của Đại học Delaware. Mẹo đun
+bát nước chanh để làm mềm vết bẩn là mẹo phổ thông, không phải hướng dẫn của hãng.
+
 Bối cảnh lò kê sát tường, thói quen hâm không đậy nắp, và đĩa có hoa văn kim nhũ: quan
 sát thực tế trong nước, không phải trích dẫn. Cần cập nhật khi hệ thống chạy thật.
 
@@ -420,5 +469,8 @@ Cầu chì đứt vì lý do gì. Cầu chì đứt là hậu quả chứ không
 mà không tìm gốc thì nó đứt tiếp.
 
 Lò có còn hạn bảo hành không.
+
+Khoảng hở thông gió quanh vỏ lò theo từng model, nhất là lò đặt trong hốc tủ. Tài
+liệu chỉ nói theo sách của lò.
 
 Chi phí. Mọi con số tiền lấy từ bảng giá của hệ thống, không lấy từ tài liệu này.

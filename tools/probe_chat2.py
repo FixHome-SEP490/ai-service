@@ -206,6 +206,8 @@ class FixedDetector:
 
 
 def _branch(reply: dict) -> str:
+    if "_branch" in reply:
+        return reply["_branch"]
     trace = (reply.get("trace") or [{}])[0].get("detail") or {}
     branch = trace.get("branch") or "?"
     if branch == "recap":
@@ -222,7 +224,8 @@ def judge(turn: Dict[str, Any], reply: dict) -> List[str]:
     want = turn.get("branch")
     if want and branch not in (want if isinstance(want, tuple) else (want,)):
         problems.append(f"branch {branch}, wanted {want}")
-    if turn.get("device") and (reply.get("device") or {}).get("deviceType") != turn["device"]:
+    # The old pipeline's /ai/chat reply carries no appliance at all; not a wrong one.
+    if turn.get("device") and "answerVi" not in reply and (reply.get("device") or {}).get("deviceType") != turn["device"]:
         problems.append(f"device {(reply.get('device') or {}).get('deviceType')}, wanted {turn['device']}")
     services = [s["serviceCode"] for s in reply.get("recommendedServices") or []]
     if turn.get("service") and not set(services) & set(turn["service"]):
@@ -237,28 +240,75 @@ def judge(turn: Dict[str, Any], reply: dict) -> List[str]:
     return problems
 
 
-async def run(args) -> Dict[str, Any]:
-    from app.services.chat2.provider import Chat2Provider
+def _local_branch(reply: dict) -> str:
+    """What the old pipeline did, read from its response (it has no chat2 trace)."""
+    if reply.get("status") == "needs_clarification":
+        return "ask"
+    if reply.get("recommendedServices"):
+        return "conclude"
+    return "not_repair"
 
+
+async def _local_turn(provider, turn: Dict[str, Any], session, image) -> dict:
+    """One turn through the pipeline the chat ran before 06/11 (AI_ENGINE=local).
+
+    The web sent what it took for a question to `/ai/chat` and the rest to
+    `/ai/diagnoses`; here a turn the suite expects an answer for goes to the
+    first, which spares the old pipeline the router it never had."""
+    from app.schemas.chat import ChatRequest
+
+    want = turn.get("branch")
+    wants = want if isinstance(want, tuple) else (want,)
+    if not image and wants and all(w in ("answer", "book", "recap") for w in wants):
+        out = (await provider.answer(ChatRequest(question=turn["text"], session_id=session))).model_dump(by_alias=True)
+        return {**out, "messageVi": out.get("answerVi") or "", "_branch": "answer"}
+    request = DiagnosisRequest(description=turn["text"], session_id=session, include_trace=True, images=[image] if image else [])
+    out = (await provider.diagnose(request)).model_dump(by_alias=True)
+    return {**out, "_branch": _local_branch(out)}
+
+
+def _local_provider(args, photo):
+    from app.services.pipeline.knowledge_base import get_knowledge_base
+    from app.services.pipeline.local_pipeline import LocalPipeline
+    from app.services.pipeline.retriever import Retriever
+    from app.services.pipeline.vlm import QwenVlm
+
+    kb = get_knowledge_base()
+    vlm = QwenVlm(base_url=args.base_url, model_name=args.model, timeout_seconds=args.timeout, api_key=args.api_key)
+    return LocalPipeline(detector=FixedDetector(photo), vlm=vlm, retriever=Retriever(kb), kb=kb)
+
+
+async def run(args) -> Dict[str, Any]:
     settings.VLM_BASE_URL = args.base_url
     settings.VLM_MODEL_NAME = args.model
-    settings.CHAT_TURN_MODEL = args.turn_model
+    if hasattr(settings, "CHAT_TURN_MODEL"):  # absent before 07/11, for --engine local on old code
+        settings.CHAT_TURN_MODEL = args.turn_model
     settings.VLM_API_KEY = args.api_key
     sem = asyncio.Semaphore(args.concurrency)
 
     async def one(conv):
         cid, tag, photo, turns = conv
-        provider = Chat2Provider(detector=FixedDetector(photo))
+        local = args.engine == "local"
+        if local:
+            provider = _local_provider(args, photo)
+        else:
+            from app.services.chat2.provider import Chat2Provider
+
+            provider = Chat2Provider(detector=FixedDetector(photo))
         rows, session = [], None
         async with sem:
             for i, turn in enumerate(turns):
                 started = time.perf_counter()
                 try:
-                    request = DiagnosisRequest(
-                        description=turn["text"], session_id=session, include_trace=True,
-                        images=[PNG] if (photo and i == 0) else [],
-                    )
-                    reply = (await provider.diagnose(request)).model_dump(by_alias=True)
+                    image = PNG if (photo and i == 0) else None
+                    if local:
+                        reply = await _local_turn(provider, turn, session, image)
+                    else:
+                        request = DiagnosisRequest(
+                            description=turn["text"], session_id=session, include_trace=True,
+                            images=[image] if image else [],
+                        )
+                        reply = (await provider.diagnose(request)).model_dump(by_alias=True)
                     session = reply.get("sessionId")
                     problems = judge(turn, reply)
                 except Exception as exc:  # scored, not raised: one broken turn must not stop the run
@@ -315,12 +365,16 @@ def main() -> None:
     p.add_argument("--model", default="m")
     p.add_argument("--turn-model", default="", help="served name of the fault-choice adapter, for the diagnosis call only")
     p.add_argument("--concurrency", type=int, default=8)
+    p.add_argument("--engine", choices=("chat2", "local"), default="chat2",
+                   help="local: the pipeline before 06/11 (Qwen2.5-VL-3B), for a before/after on the same suite")
+    p.add_argument("--timeout", type=float, default=60.0, help="per model call, --engine local")
     p.add_argument("--only", help="regex on conversation ids")
     p.add_argument("--holdout", action="store_true", help="run tools/probe_holdout.py instead")
     p.add_argument("--holdout2", action="store_true", help="run tools/probe_holdout2.py, written after the first held-out set was tuned on")
     p.add_argument("--holdout3", action="store_true", help="run tools/probe_holdout3.py (follow-ups after a conclusion, 07/11)")
     p.add_argument("--live", action="store_true", help="run tools/probe_live.py (regression set from the live run of 07/11)")
     p.add_argument("--free", action="store_true", help="run tools/probe_free.py (unruly conversations of 07/11 afternoon)")
+    p.add_argument("--guides", action="store_true", help="run tools/probe_guides.py (trust, app how-to, care intervals, 07/11 evening)")
     p.add_argument("--out")
     p.add_argument("--md")
     args = p.parse_args()
@@ -352,6 +406,11 @@ def main() -> None:
         from probe_free import FREE
 
         CONVERSATIONS = FREE
+    if args.guides:
+        sys.path.insert(0, str(ROOT / "tools"))
+        from probe_guides import GUIDES
+
+        CONVERSATIONS = GUIDES
     if args.only:
         CONVERSATIONS = [c for c in CONVERSATIONS if re.search(args.only, c[0])]
     report = asyncio.run(run(args))

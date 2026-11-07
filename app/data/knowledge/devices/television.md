@@ -292,6 +292,46 @@ Việc khách không nên tự làm: mở nắp sau máy. Trong tivi có tụ ca
 rút nguồn, và tấm nền thì nứt chỉ vì cầm sai chỗ. Đây là thiết bị mà việc tự mở ra gần
 như luôn làm tình hình tệ hơn.
 
+## Vệ sinh định kỳ bao lâu một lần
+
+Tivi không có lịch bảo dưỡng của thợ. Việc định kỳ là lau bụi, và khách tự làm.
+
+Màn hình và viền tivi: lau khi thấy bụi hoặc vết tay, bằng khăn mềm, sạch, khô,
+không xơ. Vết bẩn khó thì xịt một chút dung dịch lau màn hình lên khăn, không bao
+giờ xịt thẳng lên màn hình, và lau nhẹ không đè. Samsung và LG đều dặn rút điện
+trước khi lau và chờ màn hình khô hẳn mới cắm lại. Không dùng cồn, chất tẩy mạnh
+hay giấy ăn thô.
+
+Khe thoáng ở lưng và cạnh tivi: phủi bụi định kỳ bằng chổi mềm khi đã rút điện,
+không thổi bụi vào trong. Nhà mặt đường hoặc nhiều bụi thì làm thường xuyên hơn,
+vì lớp bụi bên trong vừa giữ nhiệt vừa hút ẩm.
+
+Remote: lau, và thay pin khi bấm phải gần mới ăn.
+
+Dấu hiệu cần gọi thợ: tivi nóng bất thường ở lưng, tự tắt, có tiếng lách tách,
+mùi khét, hình có sọc hoặc tối một vùng.
+
+## Dùng đúng cách cho bền và an toàn
+
+Chừa khoảng thoáng quanh tivi. Sách của Samsung ghi tối thiểu khoảng mười phân
+giữa tivi với tường và vách tủ, vì thiếu thoáng làm nhiệt trong máy tăng và có thể
+gây cháy.
+
+Không đặt tivi chỗ nắng chiếu, cạnh bếp, hay chỗ hơi ẩm và nước có thể tới.
+Không đặt cốc nước, chậu cây lên trên hay sát tivi.
+
+Tivi treo tường phải bắt giá vào phần chịu lực. Tivi đặt kệ phải đứng vững, không
+để trẻ nhỏ leo kéo, vì tivi đổ là tai nạn thật.
+
+Khi có giông sét, hoặc đi vắng lâu ngày, rút phích điện, và rút cả dây cáp truyền
+hình hoặc dây mạng vì sét hay vào theo đường đó. Khu vực điện chập chờn thì nên
+dùng ổ có chống sét lan truyền hoặc ổn áp.
+
+Tắt tivi bằng remote là bình thường. Không di chuyển tivi khi đang bật, và khi
+khiêng thì giữ ở khung, không bóp vào tấm nền.
+
+Mùi khét, khói, tiếng nổ: rút điện ngay và không bật lại.
+
 ## Khi nào sửa, khi nào thay
 
 Câu hỏi thật của cụm này, và nên trả lời thẳng.
@@ -385,6 +425,12 @@ thống chạy thật.
 Tỷ trọng giá tấm nền so với giá cả máy, và tốc độ rơi giá của tivi theo năm: quan sát
 thị trường, cần cập nhật định kỳ.
 
+Phần lau màn hình bằng khăn khô mềm, xịt dung dịch lên khăn chứ không lên màn hình,
+rút điện trước khi lau và chờ khô mới cắm: trang hỗ trợ vệ sinh màn hình của Samsung
+và hướng dẫn vệ sinh tivi của LG Úc. Phần khoảng thoáng tối thiểu khoảng mười phân:
+hướng dẫn sử dụng tivi Samsung. Phần rút điện khi đi vắng lâu để tránh sét và xung
+điện: hướng dẫn sử dụng tivi LG.
+
 ## Chỗ cần thợ xác nhận
 
 Tấm nền có thay rời được cho model đó không, và có còn hàng không. Với nhiều model đời
@@ -398,5 +444,8 @@ Máy còn hạn bảo hành không. Nếu còn thì mọi phép tính sửa hay 
 
 Giá treo tường có bắt đúng phần chịu lực không, nếu khách nhắc tới tivi nghiêng hoặc
 giá lỏng.
+
+Khoảng thoáng tối thiểu của hãng khác ngoài Samsung, và mốc phủi bụi khe thoáng.
+Tài liệu chỉ ghi định kỳ và dấu hiệu.
 
 Chi phí. Mọi con số tiền lấy từ bảng giá của hệ thống, không lấy từ tài liệu này.

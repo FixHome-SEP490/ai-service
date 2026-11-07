@@ -355,6 +355,44 @@ hay xảy ra, vì tủ aptomat ở nhà dân hiếm khi được ghi nhãn.
 Điểm thứ ba đáng nhấn vì trong cụm này, **rủi ro ngã thực tế cao hơn rủi ro điện giật**, và
 ít ai nghĩ tới nó.
 
+## Vệ sinh định kỳ bao lâu một lần
+
+Đèn chiếu sáng không có lịch bảo dưỡng của thợ, và không có mốc của hãng mà tài
+liệu đối chiếu được. Việc định kỳ là giữ chụp đèn và máng đèn sạch.
+
+Chụp đèn, máng đèn: lau khi thấy bụi bám hoặc có xác côn trùng bên trong, và nên
+làm mỗi lần tổng vệ sinh nhà. Đèn ở bếp bám dầu mỡ, đèn ngoài hiên nhiều côn trùng
+nên bẩn nhanh hơn. Chụp bẩn vừa làm đèn sáng yếu đi vừa làm đèn nóng hơn.
+
+Cách làm: ngắt aptomat của nhánh đèn, chờ đèn nguội, đứng trên thang chắc chắn,
+tháo chụp xuống rửa bằng nước rửa chén pha loãng, lau khô hẳn rồi mới lắp lại.
+Bóng và máng chỉ lau bằng khăn khô hoặc hơi ẩm vắt kỹ, không để nước vào đui.
+
+Đèn âm trần trong trần thạch cao: không có việc khách cần làm phía trên trần.
+
+Dấu hiệu cần gọi thợ: đèn chớp nháy dù đã thay bóng, đui hoặc máng ố đen, nước đọng
+trong chụp, nhiều đèn cùng nhánh hỏng liên tiếp, tiếng rè ở máng đèn.
+
+## Dùng đúng cách cho bền và an toàn
+
+Ngắt aptomat của nhánh đèn trước khi thay bóng hay lau, không chỉ tắt công tắc,
+vì công tắc thường chỉ cắt một dây.
+
+Lắp bóng đúng loại đui và không vượt công suất tối đa ghi trên chụp hoặc máng đèn.
+Đèn nhà tắm, ngoài trời dùng loại có cấp chống ẩm phù hợp.
+
+Không trùm vải, giấy hay đồ dễ cháy lên đèn, và không để đèn halogen, đèn sợi đốt
+sát rèm. Đèn âm trần cần khoang trần thoáng để driver không chạy nóng.
+
+Đèn led bật tắt theo nhu cầu là được. Đèn huỳnh quang bật tắt liên tục mau hỏng hơn.
+
+Bóng huỳnh quang và bóng compact có chứa thuỷ ngân. Lỡ làm vỡ thì cho trẻ nhỏ ra
+khỏi phòng, mở cửa cho thoáng, gom mảnh bằng giấy cứng và băng dính, không dùng máy
+hút bụi, cho vào túi kín.
+
+Mùi khét, khói ở đèn hay công tắc, nước rỉ từ trần vào máng đèn: ngắt aptomat và
+gọi thợ.
+
 ## Mua đúng bóng thay thế
 
 Bốn thứ cần đúng, và sai một thứ là không lắp được hoặc không đúng ý.
@@ -474,6 +512,11 @@ an toàn thiết bị điện gia dụng và các yêu cầu về cấp bảo v�
 
 Hiện tượng sụt áp trên nhánh khi tải lớn khởi động, gây chớp đèn: kiến thức điện phổ thông.
 
+Cách xử lý bóng huỳnh quang compact bị vỡ, gồm cho người ra khỏi phòng, mở thoáng,
+gom mảnh bằng giấy cứng và băng dính, không dùng máy hút bụi, đựng trong túi kín:
+hướng dẫn dọn bóng compact vỡ của Cơ quan Bảo vệ Môi trường Hoa Kỳ (EPA). Phần không
+vượt công suất tối đa ghi trên chụp đèn: nhãn và hướng dẫn lắp của các hãng đèn.
+
 Bối cảnh đèn led giá rẻ phổ biến, côn trùng trong chụp đèn, và khoang trần thạch cao không
 thoáng: quan sát thực tế trong nước, không phải trích dẫn. Cần cập nhật khi hệ thống chạy
 thật.
@@ -491,5 +534,7 @@ Nguồn nước ở đâu, nếu đèn bị thấm.
 Đèn ở khu vực ẩm có đúng cấp bảo vệ không.
 
 Tiết diện dây có đủ không, nếu đèn sáng yếu ở cuối dãy dài.
+
+Mốc lau chụp đèn và máng đèn. Tài liệu chỉ ghi theo dấu hiệu, chưa có con số.
 
 Chi phí. Mọi con số tiền lấy từ bảng giá của hệ thống, không lấy từ tài liệu này.

@@ -358,6 +358,49 @@ vật liệu khác; dùng kìm kẹp trực tiếp lên phần mạ crôm của 
 Điểm cuối đáng nhắc: kìm kẹp trực tiếp làm xước và bong lớp mạ, và chỗ bong thì rỉ. Luôn
 lót một miếng vải hoặc dùng cờ lê đúng cỡ.
 
+## Vệ sinh định kỳ bao lâu một lần
+
+Mốc vệ sinh vòi nước đi theo độ cứng của nước. Hansgrohe và Duravit không đưa một con
+số cố định mà khuyên làm dày hơn ở vùng nước nhiều khoáng và làm ngay khi thấy cặn
+đầu tiên.
+
+Đầu lọc ở miệng vòi: tháo ra rửa và ngâm giấm hoặc dung dịch axit citric nhẹ. Nhà
+dùng nước cứng, nước giếng, ống thép cũ thì nên làm vài tháng một lần; nước mềm thì
+làm khi tia nước toé, lệch hoặc yếu đi. Bát sen tắm làm cùng lúc.
+
+Mặt ngoài vòi: lau thường xuyên bằng khăn mềm cho khỏi đóng vết nước.
+Hansgrohe dặn không dùng chất tẩy có hạt, axit mạnh hay miếng cọ cứng lên bề mặt
+mạ; lau giấm thì rửa lại bằng nước sạch rồi lau khô.
+
+Ống mềm cấp nước dưới chậu: nhìn mỗi lần mở tủ, thấy phồng, rỉ ở đầu bấm, lưới bện
+bung sợi thì thay ngay. Đây là chi tiết có tuổi thọ và nên thay định kỳ.
+
+Van chặn dưới chậu: thỉnh thoảng vặn đóng mở một lần để van không kẹt cứng.
+
+Dấu hiệu gọi thợ: vòi nhỏ giọt khi đã khoá, vặn nặng, rò ở chân vòi, nước đọng trong
+tủ chậu.
+
+## Dùng đúng cách cho bền và an toàn
+
+Khoá vòi vừa tay, không vặn thật chặt cho chắc. Vặn quá tay là nguyên nhân làm mòn
+gioăng và lõi vòi nhanh gấp nhiều lần.
+
+Vòi gạt một tay: gạt nhẹ, không giật mạnh hay treo đồ lên cần gạt. Không đóng mở
+đột ngột liên tục, vì dễ gây búa nước trong ống.
+
+Không kéo vòi hoặc đầu vòi rút để làm tay vịn, không treo túi nặng lên vòi.
+
+Ống mềm cấp nước không được gập, xoắn hay căng thẳng. Tủ chậu không chất đồ đè lên
+ống và van.
+
+Nhà có trẻ nhỏ và người già: chỉnh vòi nóng lạnh về phía lạnh trước khi mở, và kiểm
+tra nhiệt độ nước trước khi dùng, nhất là khi vòi nối với bình nóng lạnh.
+
+Biết van chặn dưới chậu và van tổng của nhà ở đâu. Vòi bung hoặc ống mềm bung thì
+khoá van trước, lau sau.
+
+Đi vắng dài ngày thì khoá van tổng hoặc van chặn của từng thiết bị.
+
 ## Khi nào sửa, khi nào thay cả vòi
 
 Phần lớn bệnh của vòi sửa được, và linh kiện thì rẻ. Nhưng có ranh giới.
@@ -455,6 +498,13 @@ hạn: tài liệu kỹ thuật của vật tư ngành nước.
 
 Yêu cầu về cấp nước bên trong nhà: tham chiếu TCVN 4513 về cấp nước bên trong.
 
+Phần vệ sinh theo độ cứng nước, ngâm đầu lọc trong dung dịch axit citric nhẹ, và không
+dùng chất tẩy có hạt, axit mạnh lên bề mặt mạ: trang hướng dẫn chăm sóc vòi của
+hansgrohe và bài tẩy cặn vòi của Duravit. Mốc vài tháng một lần với nước cứng lấy từ
+các bài hướng dẫn vệ sinh không phải của hãng, khoảng một tới ba tháng. Phần đóng mở
+van chặn thỉnh thoảng cho khỏi kẹt và kiểm tra nhiệt độ nước cho trẻ nhỏ, người già:
+kinh nghiệm nghề cấp thoát nước.
+
 Việc lõi vòi không có chuẩn chung giữa các hãng, và thói quen vặn chặt làm mòn gioăng
 nhanh: kinh nghiệm nghề của thợ cấp thoát nước trong nước. Cần cập nhật khi hệ thống chạy
 thật.
@@ -471,5 +521,8 @@ Ren ở thân vòi có còn tốt không.
 Ống mềm cấp còn dùng được bao lâu.
 
 Van chặn có còn đóng kín được không, nếu van đã kẹt hoặc đã cũ.
+
+Mốc vệ sinh đầu lọc theo nước máy từng khu vực. Hãng không cho con số; mốc vài tháng
+trong tài liệu lấy từ nguồn không phải của hãng.
 
 Chi phí. Mọi con số tiền lấy từ bảng giá của hệ thống, không lấy từ tài liệu này.

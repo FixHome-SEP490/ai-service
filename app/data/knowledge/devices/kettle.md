@@ -326,6 +326,45 @@ và việc lắp lại đúng độ kín thì không kiểm chứng được t�
 
 Đó là lý do chính vì sao cụm này nghiêng về thay hơn sửa.
 
+## Vệ sinh định kỳ bao lâu một lần
+
+Việc định kỳ duy nhất của ấm siêu tốc là tẩy cặn vôi, và khách tự làm được.
+
+Mốc theo độ cứng của nước. Sách hướng dẫn ấm Philips ghi khoảng mỗi tháng một lần
+ở vùng nước cứng và khoảng ba tháng một lần ở vùng nước mềm, với mức dùng bình
+thường; đun nhiều lần mỗi ngày như ở văn phòng, nhà trọ thì dày hơn. Nhà dùng nước
+giếng khoan hoặc nước có cặn nên lấy mốc mỗi tháng.
+
+Cách làm: đổ giấm trắng pha nước hoặc dung dịch axit citric vào ấm, đun sôi, để
+ngấm rồi đổ đi, đun và đổ nước sạch vài lần cho hết mùi. Lưới lọc ở vòi rót, nếu
+có, tháo ra ngâm và rửa cùng lúc. Cách pha và thời gian ngâm theo sách của ấm.
+
+Lau vỏ ngoài và đế cắm bằng khăn khô hoặc hơi ẩm khi đã rút điện. Không nhúng ấm
+hay đế vào nước.
+
+Ấm siêu tốc không có việc bảo dưỡng của thợ. Dấu hiệu cần tẩy cặn sớm: thấy lớp
+trắng ở đáy, đun lâu sôi hơn, ấm tắt trước khi sôi, hoặc nước có vảy trắng.
+
+## Dùng đúng cách cho bền và an toàn
+
+Đổ nước trong khoảng vạch tối thiểu và tối đa. Đun quá ít làm rơ le chống cạn cắt
+sớm và mâm nhiệt già nhanh; đổ quá đầy thì nước sôi trào ra đế điện.
+
+Đóng kín nắp khi đun, vì ấm tự tắt nhờ hơi nước đi đúng đường dẫn.
+
+Chỉ đun nước sạch trong ấm siêu tốc, không nấu mì, trứng hay sữa trừ khi sách của
+ấm cho phép.
+
+Đặt ấm và đế trên mặt phẳng khô, xa mép bàn và xa tầm với của trẻ, dây nguồn không
+thả lơ lửng ngoài mép. Nhấc ấm ra khỏi đế khi rót, và lau khô đáy ấm nếu bị ướt
+trước khi đặt lại.
+
+Cắm ấm vào ổ riêng, không cắm chung ổ chia với thiết bị sinh nhiệt khác. Rút điện
+khi không dùng.
+
+Tê tay khi chạm ấm, có mùi khét, nhựa ố vàng quanh công tắc, hoặc ấm rò nước ra
+đế: ngừng dùng và thay ấm, không sửa tạm.
+
 ## Vì sao phép tính nghiêng về thay
 
 Đáng nói thẳng vì nó là câu hỏi thật của khách, và vì câu trả lời trung thực khác với các
@@ -446,6 +485,12 @@ truyền nhiệt phổ thông.
 
 Tác dụng của axit yếu trong giấm và trong nước chanh với cặn vôi: hoá học phổ thông.
 
+Mốc tẩy cặn mỗi tháng ở vùng nước cứng và ba tháng ở vùng nước mềm, với mức dùng
+tới khoảng năm lần mỗi ngày, cùng việc dùng giấm trắng hoặc chất tẩy gốc axit
+citric: hướng dẫn sử dụng ấm đun nước Philips và trang hỗ trợ tẩy cặn của Philips.
+Philips lấy ngưỡng nước cứng theo độ cứng Đức, chưa quy đổi cho nước máy ở từng
+tỉnh.
+
 Yêu cầu an toàn với thiết bị đun nước dùng trong gia đình, gồm cách điện giữa phần mang điện
 và phần chứa nước: tham chiếu TCVN 5699-1 về an toàn thiết bị điện gia dụng, và phần riêng
 cho thiết bị đun nước.
@@ -466,5 +511,8 @@ Cụm tiếp điểm ở đế có bị cháy không.
 Có rò điện ra vỏ không, nếu khách đã thấy tê tay. Cần đo.
 
 Nhà có aptomat chống dòng rò không, nếu đã có hiện tượng tê tay.
+
+Nước máy ở khu vực của khách thuộc loại cứng hay mềm, để chọn mốc tẩy cặn mỗi tháng
+hay ba tháng.
 
 Chi phí. Mọi con số tiền lấy từ bảng giá của hệ thống, không lấy từ tài liệu này.

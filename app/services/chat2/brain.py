@@ -513,7 +513,7 @@ class ChatBrain:
         # told by its consequences ("cả dãy trọ cúp điện") reads to it as small
         # talk. The diagnosis, which sees the appliance, decides that instead.
         if not (device_type or current) and (intent == "offtopic" or (intent == "greeting" and not named)):
-            return _without_device(intent, None, time.perf_counter() - started, routed)
+            return _without_device(intent, None, time.perf_counter() - started, routed, newest)
         # The words win over the photograph, but only words that name the
         # appliance: "lò nướng" under a photo read as a microwave is an oven.
         # The router also guesses an appliance from a bare symptom ("tụ ở dàn
@@ -542,7 +542,7 @@ class ChatBrain:
             switched = False
         order = order[:MAX_DEVICES]
         if not order:
-            return _without_device(intent, None, time.perf_counter() - started, routed)
+            return _without_device(intent, None, time.perf_counter() - started, routed, newest)
         focus = len(order) > 1 or switched
         verdicts = await asyncio.gather(
             *(self._diagnose(client, _scope(history, d, current, device_type), d, intent, devices()[d].lower() if focus else None)
@@ -662,8 +662,31 @@ def unlisted(routed: dict) -> str:
     return other
 
 
-def _without_device(intent: str, device_type: Optional[str], latency: float, raw: dict) -> Verdict:
+def unlisted_offer(text: str, other: str = ""):
+    """A service Backend sells for an appliance the chat has no menu for,
+    named in the message ("máy hút bụi" and an admin-added "Sửa máy hút bụi")."""
+    from app.services.chat2 import catalog as live
+    from app.services.chat2.menu import all_names, not_aliases
+
+    for said in (other, text):
+        if said:
+            found = live.unknown_appliance_service(said, live.current(), all_names(), not_aliases())
+            if found is not None:
+                return found
+    return None
+
+
+def _without_device(intent: str, device_type: Optional[str], latency: float, raw: dict, text: str = "") -> Verdict:
     other = unlisted(raw)
+    offer = unlisted_offer(text, other) if intent in ("repair", "service", "offtopic", "question") else None
+    if offer is not None:
+        # Nothing to diagnose it from, but something to book (07/11): the old
+        # pipeline did this; the chat declined "máy hút mùi" while the app sold it.
+        thing = (other[:1].lower() + other[1:]) if other else "thiết bị này"
+        text = (f"Dạ em chưa có dữ liệu để chẩn đoán {thing}, nhưng FixHome có dịch vụ \"{offer.name_vi}\". "
+                "Anh/chị bấm 'Đặt thợ' để thợ tới kiểm tra và báo giá tại chỗ ạ.")
+        return Verdict(device_type, intent, "conclude", None, offer.code, text, raw=raw, latency_s=latency,
+                       booking_vi=offer.name_vi)
     if other and intent in ("repair", "service", "offtopic", "question"):
         text = (f"Dạ hiện FixHome chưa nhận {other[:1].lower() + other[1:]} ạ. FixHome nhận sửa chữa, vệ sinh, lắp đặt "
                 "máy lạnh, tủ lạnh, máy giặt, bếp, bình nóng lạnh, điện nước và các đồ gia dụng khác trong danh mục.")

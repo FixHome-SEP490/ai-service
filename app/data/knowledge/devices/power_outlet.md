@@ -288,6 +288,44 @@ Nếu khách vẫn muốn tự thay ổ, đừng cản gắt nhưng nhắc đủ
 công tắc, thử lại bằng bút thử điện sau khi ngắt, chụp lại cách đấu dây trước khi tháo,
 và siết vít bắt dây thật chặt vì vít lỏng là nguyên nhân cháy số một.
 
+## Vệ sinh định kỳ bao lâu một lần
+
+Ổ cắm điện không cần lau rửa, nhưng có hai việc kiểm tra định kỳ mà khách tự làm
+được, không cần mở gì.
+
+Nhấn nút thử trên aptomat chống dòng rò, thường ghi chữ T hoặc TEST. Schneider
+Electric khuyên nhấn thử mỗi tháng một lần nếu không có quy định khác; quy định ở
+Anh ghi sáu tháng. Nhấn mà aptomat không nhảy thì nó đã mất tác dụng, gọi thợ thay.
+Nhấn xong thì gạt lên lại.
+
+Nhìn và sờ các ổ cắm hay dùng: mặt ổ có ố vàng, vết đen quanh lỗ cắm không, phích
+cắm vào có lỏng lẻo không, ổ có ấm lên khi đang cắm thiết bị nặng không. Lau bụi mặt
+ổ bằng khăn khô, không dùng khăn ướt hay xịt nước.
+
+Thợ kiểm tra toàn bộ nhánh điện không theo lịch cố định mà khi có dấu hiệu: ổ nóng,
+mùi khét, aptomat hay nhảy, tê tay khi chạm thiết bị, hoặc khi nhà cũ sắp lắp thêm
+máy lạnh, bình nóng lạnh, bếp từ. Nhà cũ, nhà trọ, nhà ẩm ven biển nên cho thợ xem
+sớm hơn.
+
+## Dùng đúng cách cho bền và an toàn
+
+Thiết bị sinh nhiệt như ấm siêu tốc, bình nóng lạnh, lò vi sóng, lò nướng, bàn ủi,
+bếp từ nên có ổ riêng, không cắm chung một ổ chia.
+
+Không cắm ổ chia chồng lên ổ chia, không dùng dây nối dài thay cho đường dây cố định,
+và không cuộn tròn dây nối dài khi đang cắm thiết bị nặng.
+
+Cắm phích vào hết chân, rút phích bằng cách cầm thân phích chứ không giật dây. Phích
+cắm vào thấy lỏng thì thôi dùng ổ đó.
+
+Ổ cắm trong nhà tắm, gần bồn rửa phải là loại dùng cho nơi ẩm và đặt xa chỗ nước tạt.
+Không chạm ổ khi tay ướt.
+
+Nhà có trẻ nhỏ dùng ổ có màn che an toàn hoặc nắp đậy.
+
+Ổ nóng, có mùi khét, có tia lửa, mặt ổ vỡ, tê tay: ngắt aptomat của nhánh đó, không
+ngắt được nhánh thì ngắt aptomat tổng, rồi gọi thợ. Tắt công tắc trên tường không đủ.
+
 ## Khi nào sửa, khi nào làm lại cả nhánh
 
 Ổ cắm là thứ rẻ nhất trong nhà, nên câu hỏi không phải là sửa hay thay cái ổ. Nó gần như
@@ -381,6 +419,11 @@ một dây: nội dung mô đun điện dân dụng, đối chiếu quy chuẩn 
 Yêu cầu an toàn với ổ cắm và phích cắm dùng trong gia đình: tham chiếu bộ TCVN về ổ cắm
 và phích cắm dùng trong gia đình và các mục đích tương tự.
 
+Mốc nhấn nút thử chống dòng rò mỗi tháng: trang hỏi đáp của Schneider Electric Anh và
+Canada, và hướng dẫn lắp aptomat chống dòng rò iC60 của Schneider; cùng trang đó ghi
+quy định đi dây BS 7671 của Anh lấy mốc sáu tháng. Nút thử chỉ kiểm tra cơ cấu ngắt,
+không đo được dòng và thời gian cắt, phần đó là việc của thợ có máy đo.
+
 Bối cảnh nhà cũ ít ổ cắm, dây nhánh nhỏ hơn tải hiện tại, ổ ba lỗ không nối đất thật, và
 nhà trọ đi dây tạm bợ: quan sát thực tế trong nước, không phải trích dẫn. Cần cập nhật
 khi hệ thống chạy thật.
@@ -398,5 +441,10 @@ Nguyên nhân gốc nằm ở ổ cắm hay ở nhánh dây. Quyết định vi�
 Đường dây trong tường có bị lão hoá hoặc bị chuột cắn không.
 
 Vị trí ổ cắm ở khu vực ẩm có đúng quy định không.
+
+Chu kỳ thợ kiểm tra hệ điện nhà ở. Tài liệu không ghi con số, chỉ ghi dấu hiệu và
+nhóm nhà nên xem sớm.
+
+Dòng và thời gian cắt thật của aptomat chống dòng rò. Nút thử không đo được.
 
 Chi phí. Mọi con số tiền lấy từ bảng giá của hệ thống, không lấy từ tài liệu này.

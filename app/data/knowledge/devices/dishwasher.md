@@ -128,10 +128,13 @@ Tràn nước ra sàn gỗ thì lau ngay, nhưng vẫn ngắt điện máy trư�
 Không bảo khách tự tháo bơm xả. Nó nằm dưới đáy khoang, ngập nước, cạnh đầu nối
 điện.
 
-## Vệ sinh và bảo dưỡng
+## Vệ sinh định kỳ bao lâu một lần
 
-Lưới lọc đáy: tháo ra rửa mỗi tuần hoặc hai tuần. Đây là việc quan trọng nhất và
-mất ba phút.
+Lưới lọc đáy máy rửa bát: tháo ra rửa mỗi tuần hoặc hai tuần với bếp nấu nhiều dầu
+mỡ. Đây là việc quan trọng nhất và mất ba phút. Sách của Bosch cho mốc thưa hơn ở
+nhà dùng nhẹ, khoảng ba tới sáu lần mỗi năm, tám tới mười hai lần khi dùng nhiều,
+mỗi tháng khi nước cứng, và luôn rửa sau mẻ nhiều cặn hay nhiều tinh bột. Bếp Việt
+nhiều dầu mỡ nên lấy mốc dày.
 
 Gioăng cửa: lau bằng khăn ẩm mỗi tháng, vì cặn thức ăn đọng ở mép gioăng là
 nguyên nhân số một của mùi hôi.
@@ -140,6 +143,33 @@ Tay phun: tháo ra xem lỗ phun có bị cặn bít không, mỗi vài tháng.
 
 Chạy một chu trình rỗng ở nhiệt cao với chất tẩy chuyên dụng mỗi vài tháng, để
 xử lý dầu mỡ bám trong đường ống.
+
+Muối làm mềm nước và chất trợ xả: châm khi đèn báo trên bảng điều khiển sáng,
+không theo lịch cố định. Mức dùng muối chỉnh theo độ cứng nước trong sách của máy.
+
+Dấu hiệu tới hạn sớm: máy có mùi, nước đọng dưới đáy sau chu trình, bát ra còn
+cặn hoặc có vệt trắng.
+
+## Dùng đúng cách cho bền và an toàn
+
+Gạt bỏ thức ăn thừa, xương, vỏ trước khi xếp vào máy rửa bát, không cần tráng sạch.
+Xếp bát úp, nồi to ở giá dưới, không để đồ chặn tay phun và không che hộp viên rửa.
+
+Chỉ dùng viên, bột hoặc gel cho máy rửa bát. Nước rửa chén rửa tay tạo nhiều bọt,
+tràn ra cửa và làm máy báo lỗi. Muối cho ngăn làm mềm nước là muối chuyên dụng,
+không dùng muối ăn.
+
+Không cho đồ gỗ, dao thép carbon, nồi nhôm mỏng, đồ dát vàng vào máy. Dao sắc xếp
+mũi xuống hoặc nằm trong khay dao.
+
+Máy độc lập đặt trên nền phẳng, ống xả không gập. Máy âm tủ đấu điện và nước chắc
+chắn, không để nước rò vào chân tủ.
+
+Chất tẩy rửa máy rửa bát có tính ăn da, cất xa tầm tay trẻ em. Đóng cửa máy sau
+khi xếp bát để trẻ không với tới dao và chất tẩy.
+
+Khoá van cấp nước khi đi vắng dài ngày. Rò nước gần ổ điện thì ngắt điện trước,
+với máy âm tủ là ngắt aptomat nhánh bếp.
 
 ## Khi nào nên sửa, khi nào nên thay
 
@@ -184,6 +214,12 @@ Nguyên lý chu trình và vai trò của muối làm mềm nước theo tài li
 dụng của các dòng máy dân dụng bán tại Việt Nam. Phần dùng sai và phần máy âm tủ
 dựa trên ghi nhận của thợ điện lạnh và thợ lắp tủ bếp tại các đô thị lớn.
 
+Phần mốc rửa lưới lọc theo mức dùng và độ cứng nước: hướng dẫn sử dụng máy rửa bát
+Bosch các dòng SHP, SHSM, SHX. Phần châm muối và chất trợ xả theo đèn báo: cùng bộ
+sách hướng dẫn. Mốc một hai tuần cho bếp nhiều dầu mỡ là ghi nhận thực tế trong
+nước, dày hơn mốc của hãng. Phần không dùng nước rửa chén rửa tay, không dùng muối
+ăn, và cất chất tẩy xa trẻ em: cảnh báo chung trong hướng dẫn sử dụng máy rửa bát.
+
 ## Chỗ cần thợ xác nhận
 
 Loại muối và chất trợ xả phù hợp với độ cứng nước máy ở Hà Nội và Thành phố Hồ
@@ -191,3 +227,6 @@ Chí Minh, để tư vấn cụ thể thay vì nói chung chung.
 
 Máy nhập khẩu 110V chiếm bao nhiêu trong số ca gọi, để biết có nên hỏi ngay từ
 đầu hay không.
+
+Mốc rửa lưới lọc phù hợp với bếp Việt. Hãng châu Âu cho mốc thưa hơn nhiều so với
+mốc một hai tuần trong tài liệu này.

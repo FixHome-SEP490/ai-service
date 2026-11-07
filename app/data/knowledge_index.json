@@ -34,7 +34,7 @@
    "scope": "platform",
    "doc_vi": "FixHome là gì",
    "section_vi": "FixHome không làm những gì",
-   "text_vi": "Danh sách này quan trọng vì nó là chỗ em phải nói rõ khi khách hỏi tới.\n\nKhông có kho hàng đầy đủ: không quản lý tồn kho, nhập xuất, mã vạch, đơn đặt hàng nhà cung cấp.\n\nKhông giữ tiền đặt cọc của khách, không có khoản ký quỹ của thợ, không có ví điện tử lưu tiền trên nền tảng.\n\nKhông thu hoa hồng trên linh kiện. Chỉ thu trên tiền công.\n\nKhông tự động bồi thường bằng tiền khi khách huỷ sau khi thợ đã tới.\n\nKhông có xác thực khuôn mặt hoặc quét giấy tờ tự động bắt buộc khi duyệt thợ.\n\nKhông có cơ chế giữ tiền phức tạp theo giờ trước khi trả cho thợ.\n\nKhông có việc AI tự phân công thợ. AI chỉ tư vấn."
+   "text_vi": "Danh sách này quan trọng vì nó là chỗ em phải nói rõ khi khách hỏi tới.\n\nKhông có kho hàng đầy đủ: không quản lý tồn kho, nhập xuất, mã vạch, đơn đặt hàng nhà cung cấp.\n\nKhông giữ tiền đặt cọc của khách, không có khoản ký quỹ của thợ. Ví FixHome của khách chỉ dùng để nạp tiền, nhận tiền hoàn và trả hoá đơn của chính khách; muốn rút tiền về tài khoản ngân hàng thì khách xác minh danh tính trước.\n\nKhông thu hoa hồng trên linh kiện. Chỉ thu trên tiền công.\n\nKhông tự động bồi thường bằng tiền khi khách huỷ sau khi thợ đã tới.\n\nThợ gửi ảnh căn cước hai mặt và video khuôn mặt, FixHome kiểm tra rồi mới duyệt; AI chat không tham gia việc duyệt thợ.\n\nKhông có cơ chế giữ tiền phức tạp theo giờ trước khi trả cho thợ.\n\nKhông có việc AI tự phân công thợ. AI chỉ tư vấn."
   },
   {
    "id": "system:tong-quan-fixhome:5",
@@ -167,7 +167,7 @@
    "scope": "platform",
    "doc_vi": "Quy trình từ lúc khách hỏi tới lúc xong việc",
    "section_vi": "Đặt nhiều thiết bị trong một lượt",
-   "text_vi": "Khách đặt được tối đa ba thiết bị trong một lượt, ví dụ máy lạnh, máy giặt và tủ lạnh, mỗi thiết bị một dịch vụ riêng. Cả lượt dùng chung một địa chỉ và một khung giờ, và một thợ có đủ kỹ năng cho mọi thiết bị nhận cả lượt.\n\nKhách trả tiền một lần cho cả lượt, sau khi mọi thiết bị đã có kết quả, và chỉ trả cho thiết bị sửa được. Thiết bị thợ báo không sửa được, hoặc khách không duyệt báo giá, thì không tính tiền.\n\nKhông huỷ, dời lịch hay ghép thợ riêng cho một thiết bị trong lượt: cả lượt đi cùng nhau.\n\nNhiều hơn ba thiết bị thì khách gửi yêu cầu tư vấn, và quản lý dịch vụ liên hệ lại.\n\nKhi khách kể hoặc chụp ảnh nhiều thiết bị, em gợi ý dịch vụ cho từng thiết bị, tối đa ba, và khách có thể đặt chung một lượt. Em vẫn xem từng thiết bị một, thiết bị đang nói tới trước, khách nhắn \"xem tiếp\" để sang thiết bị sau.\n\nHệ thống lọc cứng trước: thợ phải đủ điều kiện làm dịch vụ đó và đang hoạt động.\n\nRồi xếp hạng theo tiêu chí thông thường, và có thể có một bước xếp lại nhẹ bằng AI. Bước đó chỉ gợi ý, không quyết định.\n\nKhách chọn tối đa năm thợ vào danh sách rút gọn.\n\nHệ thống mời lần lượt từng người theo thứ tự, và kiểm tra lại điều kiện trước mỗi lần mời."
+   "text_vi": "Khách đặt được tối đa ba thiết bị trong một lượt, ví dụ máy lạnh, máy giặt và tủ lạnh, mỗi thiết bị một dịch vụ riêng. Cả lượt dùng chung một địa chỉ và một khung giờ, và một thợ có đủ kỹ năng cho mọi thiết bị nhận cả lượt.\n\nKhách trả tiền một lần cho cả lượt, sau khi mọi thiết bị đã có kết quả, và chỉ trả cho thiết bị sửa được. Thiết bị thợ báo không sửa được, hoặc khách không duyệt báo giá, thì không tính tiền.\n\nKhông huỷ, dời lịch hay ghép thợ riêng cho một thiết bị trong lượt: cả lượt đi cùng nhau.\n\nNhiều hơn ba thiết bị thì khách gửi yêu cầu tư vấn, và quản lý dịch vụ liên hệ lại.\n\nKhi khách kể hoặc chụp ảnh nhiều thiết bị, em gợi ý dịch vụ cho từng thiết bị, tối đa ba, và khách có thể đặt chung một lượt. Em vẫn xem từng thiết bị một, thiết bị đang nói tới trước, khách nhắn \"xem tiếp\" để sang thiết bị sau.\n\nHệ thống lọc cứng trước: thợ phải đủ điều kiện làm dịch vụ đó và đang hoạt động.\n\nRồi xếp hạng theo tiêu chí thông thường, và có thể có một bước xếp lại nhẹ bằng AI. Bước đó chỉ gợi ý, không quyết định.\n\nKhách chọn một hoặc hai thợ theo thứ tự ưu tiên.\n\nThợ thứ nhất được mời ngay. Thợ thứ hai chờ, chỉ được mời khi thợ thứ nhất từ chối hoặc hết hạn trả lời."
   },
   {
    "id": "system:quy-trinh-dat-lich:4",
@@ -202,7 +202,7 @@
    "scope": "platform",
    "doc_vi": "Quy trình từ lúc khách hỏi tới lúc xong việc",
    "section_vi": "Điều em hay phải nói ở chặng một",
-   "text_vi": "Khách ở chặng một thường hỏi bốn câu, và cả bốn đều trả lời được.\n\nBao giờ có thợ. Câu trả lời trung thực: sau khi tạo đặt lịch, hệ thống mời lần lượt các thợ trong danh sách rút gọn, và có đơn khi một người nhận. Không hứa thời gian cụ thể thay mặt thợ.\n\nCó được chọn thợ không. Có. Khách chọn tối đa năm người vào danh sách.\n\nGiá cuối là bao nhiêu. Với dịch vụ giá cố định thì giá theo loại máy đã biết ngay khi đặt. Với dịch vụ sửa thì giá cuối do thợ báo sau khi tới xem.\n\nKhông duyệt báo giá thì sao. Thì không sửa, và đơn đóng lại. Khách không bị ép trả cho việc không đồng ý."
+   "text_vi": "Khách ở chặng một thường hỏi bốn câu, và cả bốn đều trả lời được.\n\nBao giờ có thợ. Câu trả lời trung thực: sau khi tạo đặt lịch, hệ thống mời lần lượt các thợ trong danh sách rút gọn, và có đơn khi một người nhận. Không hứa thời gian cụ thể thay mặt thợ.\n\nCó được chọn thợ không. Có. Khách chọn một hoặc hai thợ theo thứ tự ưu tiên.\n\nGiá cuối là bao nhiêu. Với dịch vụ giá cố định thì giá theo loại máy đã biết ngay khi đặt. Với dịch vụ sửa thì giá cuối do thợ báo sau khi tới xem.\n\nKhông duyệt báo giá thì sao. Thì không sửa, và đơn đóng lại. Khách không bị ép trả cho việc không đồng ý."
   },
   {
    "id": "system:quy-trinh-dat-lich:9",
@@ -398,7 +398,7 @@
    "scope": "platform",
    "doc_vi": "Câu hỏi thường gặp về thợ, đơn và trợ lý",
    "section_vi": "Thợ của FixHome có được kiểm tra không",
-   "text_vi": "Có. Thợ muốn nhận việc trên FixHome phải gửi ảnh căn cước công dân và ảnh khuôn mặt, quản trị viên FixHome xem xét rồi mới duyệt. Chỉ thợ đã được xác minh mới được ghép với đơn của khách. Ảnh giấy tờ của thợ được lưu riêng tư, chỉ chính thợ và quản trị viên có quyền xem."
+   "text_vi": "Có. Thợ muốn nhận việc trên FixHome phải gửi ảnh căn cước công dân hai mặt và video khuôn mặt, quản trị viên FixHome xem xét rồi mới duyệt. Chỉ thợ đã được xác minh mới được ghép với đơn của khách. Ảnh giấy tờ của thợ được lưu riêng tư, chỉ chính thợ và quản trị viên có quyền xem."
   },
   {
    "id": "system:cau-hoi-thuong-gap:1",
@@ -462,6 +462,216 @@
    "doc_vi": "Câu hỏi thường gặp về thợ, đơn và trợ lý",
    "section_vi": "Khi nào thợ tới",
    "text_vi": "Thợ tới theo khung giờ khách chọn khi đặt lịch. Lúc đặt, khách chọn địa chỉ sửa chữa và khung giờ mong muốn. Lịch được chốt khi một thợ nhận đơn. Đặt qua trợ lý cũng vậy: sau khi trò chuyện, khách bấm Đặt thợ rồi tự chọn địa chỉ và giờ trước khi xác nhận. Trợ lý không tự hẹn giờ hay cử thợ được."
+  },
+  {
+   "id": "system:cau-hoi-thuong-gap:10",
+   "scope": "platform",
+   "doc_vi": "Câu hỏi thường gặp về thợ, đơn và trợ lý",
+   "section_vi": "Đặt thợ có phải đặt cọc không",
+   "text_vi": "Không. FixHome không thu tiền đặt cọc hay tiền giữ chỗ khi khách đặt lịch. Khách trả tiền sau khi thợ làm xong, theo hoá đơn trên ứng dụng, và hoá đơn chỉ gồm những khoản khách đã duyệt: tiền công đã chấp nhận lúc đặt hoặc báo giá đã duyệt, cùng chi phí phát sinh khách đã đồng ý. Khách trả bằng Ví FixHome, VNPay hoặc tiền mặt cho kỹ thuật viên. Vì không có tiền cọc nên huỷ yêu cầu trước khi có thợ nhận không làm khách mất khoản nào; huỷ khi thợ đã nhận đơn thì có thể bị trừ điểm uy tín của tài khoản."
+  },
+  {
+   "id": "system:uy-tin-fixhome:0",
+   "scope": "platform",
+   "doc_vi": "Uy tín và an toàn khi đặt thợ trên FixHome",
+   "section_vi": "FixHome có uy tín không",
+   "text_vi": "FixHome là nền tảng trung gian nối khách hàng với kỹ thuật viên sửa chữa gia dụng. FixHome không trực tiếp đi sửa và thợ không phải nhân viên của FixHome: người tới nhà là kỹ thuật viên độc lập đã đăng ký và được FixHome duyệt trên nền tảng.\n\nVì vậy uy tín của FixHome không dựa vào lời hứa mà dựa vào các cơ chế kiểm soát cụ thể trên ứng dụng. Thợ phải xác minh danh tính và chỉ nhận việc đúng kỹ năng đã được duyệt. Giá công được niêm yết trước, báo giá tách riêng tiền công và linh kiện, khách duyệt trên ứng dụng thì thợ mới làm. Thợ chụp ảnh trước và sau khi sửa. Tiền được ghi nhận trong ứng dụng, có đối soát khi trả tiền mặt. Chỉ khách có đơn đã hoàn tất mới được đánh giá thợ. Đơn hoàn tất có bảo hành điện tử, và khách gửi được khiếu nại để quản lý dịch vụ của FixHome xử lý.\n\nMuốn biết cụ thể từng cơ chế bảo vệ khách thế nào, xem các mục về an toàn khi thợ vào nhà, đòi thêm tiền, bảo hành và khiếu nại."
+  },
+  {
+   "id": "system:uy-tin-fixhome:1",
+   "scope": "platform",
+   "doc_vi": "Uy tín và an toàn khi đặt thợ trên FixHome",
+   "section_vi": "Thợ lạ vào nhà có an toàn không",
+   "text_vi": "Thợ muốn nhận việc trên FixHome phải gửi ảnh căn cước công dân hai mặt và hình khuôn mặt. FixHome xem xét hồ sơ rồi mới duyệt, và chỉ thợ đã được xác minh mới được ghép với đơn của khách. Thợ cũng chỉ nhận việc thuộc kỹ năng đã được duyệt.\n\nTrước khi chọn, khách xem được hồ sơ từng thợ: nhãn Đã xác thực, điểm đánh giá của khách trước, số năm kinh nghiệm và khoảng cách. Khách tự chọn thợ mình tin, không bị gán một người lạ.\n\nKhi tới nơi, thợ phải check-in trên ứng dụng: hệ thống ghi vị trí, so với địa chỉ sửa chữa, và thợ chụp ảnh khuôn mặt lúc check-in. Khách xem ảnh check-in này trong mục Ảnh sửa chữa của đơn, ở bộ lọc Tất cả, để biết đúng người đã nhận đơn tới nhà. Trong đơn còn có nút Xem vị trí kỹ thuật viên khi thợ đang tới.\n\nNếu thợ có thái độ hay hành vi không đúng, hoặc làm hư hại, mất tài sản, khách gửi khiếu nại ngay trong đơn và chọn đúng loại vấn đề đó để quản lý dịch vụ xử lý."
+  },
+  {
+   "id": "system:uy-tin-fixhome:2",
+   "scope": "platform",
+   "doc_vi": "Uy tín và an toàn khi đặt thợ trên FixHome",
+   "section_vi": "Bị thợ đòi thêm tiền thì sao",
+   "text_vi": "Trên FixHome, thợ không tự đặt ra khoản tiền mới được. Mọi khoản khách trả phải đi qua một lần duyệt của chính khách trên ứng dụng.\n\nVới dịch vụ giá cố định như vệ sinh, bảo dưỡng, lắp đặt, khách thấy và chấp nhận tiền công ngay lúc đặt, thợ không được tự đổi. Với dịch vụ sửa, thợ kiểm tra tại nhà rồi gửi báo giá ghi rõ từng dòng tiền công và linh kiện, khách bấm Duyệt báo giá thì thợ mới làm.\n\nNếu trong lúc sửa thấy cần làm thêm, thợ phải gửi yêu cầu chi phí phát sinh kèm lý do và ảnh. Khách bấm Đồng ý chi phí hoặc Từ chối. Chỉ phần đã đồng ý mới được làm và mới được tính tiền. Từ chối mà phần việc ban đầu vẫn làm được thì thợ làm tiếp theo báo giá đã duyệt; khách không bị ép trả khoản phát sinh.\n\nHoá đơn cuối phải khớp với báo giá và phát sinh đã duyệt. Nếu không khớp, ứng dụng khoá thanh toán cho tới khi FixHome đối chiếu xong. Thợ đòi khoản nào không có trên ứng dụng thì khách gửi khiếu nại trong đơn, chọn loại Tranh chấp về chi phí."
+  },
+  {
+   "id": "system:uy-tin-fixhome:3",
+   "scope": "platform",
+   "doc_vi": "Uy tín và an toàn khi đặt thợ trên FixHome",
+   "section_vi": "Trả tiền mặt mà số tiền không khớp thì sao",
+   "text_vi": "Khi khách trả tiền mặt, thợ khai trên ứng dụng số tiền đã nhận. Khách thấy số thợ khai ngay trong đơn, ở phần Xác nhận tiền mặt, và tự nhập số tiền mình đã thực trả.\n\nNếu hai số khớp, khách bấm Xác nhận số tiền và thanh toán, đơn được ghi nhận đã trả. Nếu không khớp, khách ghi lý do vào ô Vì sao số tiền khác, và ứng dụng gửi trường hợp đó cho FixHome đối soát. Hệ thống không bao giờ tự xác nhận tiền mặt thay khách.\n\nKhi một bên chưa xác nhận sau một thời gian, hệ thống nhắc. Nếu vẫn không phản hồi hoặc hai bên tranh chấp, quản lý dịch vụ xem lại báo giá đã duyệt, số tiền hai bên khai, bằng chứng và mốc thời gian rồi quyết định.\n\nVì vậy khi trả tiền mặt, khách nên đối chiếu số tiền với hoá đơn trên ứng dụng trước khi đưa tiền và nhập đúng số mình đã đưa."
+  },
+  {
+   "id": "system:uy-tin-fixhome:4",
+   "scope": "platform",
+   "doc_vi": "Uy tín và an toàn khi đặt thợ trên FixHome",
+   "section_vi": "FixHome cam kết gì với khách",
+   "text_vi": "Các cam kết dưới đây là quy tắc của nền tảng, áp dụng cho mọi đơn, không phải lời hứa riêng của một thợ.\n\nVề giá, FixHome có cam kết ba không. Không gộp giá: báo giá luôn tách riêng tiền công và linh kiện, không có báo giá trọn gói mập mờ. Không tự ý phát sinh: chi phí phát sinh phải có yêu cầu riêng và khách bấm đồng ý. Không ép giá: giá niêm yết và giá tham khảo của dịch vụ được công khai trong danh mục.\n\nVề người làm, chỉ thợ đã xác minh danh tính và đúng kỹ năng mới được nhận đơn.\n\nVề bằng chứng, thợ chụp ảnh trước và sau khi sửa, và mọi báo giá, phát sinh, khoản tiền đều được lưu trong lịch sử đơn, không bị sửa đè sau khi đã duyệt.\n\nVề sau sửa chữa, đơn hoàn tất có bảo hành điện tử, và khách gửi được khiếu nại để quản lý dịch vụ xử lý.\n\nFixHome không cam kết thay thợ về thời gian tới hay kết quả kỹ thuật trước khi thợ kiểm tra. Bảo hành áp dụng là mức ghi trong báo giá đã duyệt, không phải con số tham khảo trên hồ sơ thợ."
+  },
+  {
+   "id": "system:uy-tin-fixhome:5",
+   "scope": "platform",
+   "doc_vi": "Uy tín và an toàn khi đặt thợ trên FixHome",
+   "section_vi": "Sửa xong hỏng lại thì sao",
+   "text_vi": "Đơn hoàn tất và đã thanh toán thì phiếu bảo hành điện tử được kích hoạt. Khách xem tất cả bảo hành của mình ở mục Bảo hành, mỗi đơn có các hạng mục bảo hành, thời hạn và trạng thái Còn hạn hay Hết hạn.\n\nNếu chỗ đã sửa hỏng lại trong thời hạn, khách bấm Yêu cầu bảo hành, chọn hạng mục, mô tả lỗi lặp lại và gửi kèm ảnh nếu có. Kỹ thuật viên phụ trách sẽ liên hệ để khắc phục. Khi thợ báo đã xử lý xong, khách bấm Đã khắc phục hoặc Vẫn còn lỗi; nếu còn lỗi, quản lý dịch vụ xem tiếp.\n\nBảo hành chỉ áp dụng cho đúng lỗi, đúng phần việc và đúng linh kiện đã được ghi khi duyệt báo giá. Nếu thiết bị hỏng chỗ khác, không liên quan lần sửa trước, thì đó là việc mới: thợ báo giá riêng, khách duyệt thì mới sửa. Thợ cần xem lại mới biết là lỗi cũ hay lỗi mới.\n\nHạng mục đã hết hạn bảo hành thì khách vẫn gửi yêu cầu được, quản lý dịch vụ FixHome sẽ xem xét và phản hồi hướng hỗ trợ."
+  },
+  {
+   "id": "system:uy-tin-fixhome:6",
+   "scope": "platform",
+   "doc_vi": "Uy tín và an toàn khi đặt thợ trên FixHome",
+   "section_vi": "Không hài lòng thì khiếu nại ở đâu",
+   "text_vi": "Mỗi đơn sửa chữa có phần Khiếu nại về đơn này ở cuối trang chi tiết đơn. Khách bấm Gửi khiếu nại, chọn loại vấn đề, mô tả điều đã xảy ra và đính kèm ảnh nếu có. Khiếu nại được chuyển tới quản lý dịch vụ của FixHome, người xử lý ngoại lệ và tranh chấp.\n\nLoại vấn đề đổi theo giai đoạn của đơn. Khi thợ đã nhận hoặc đang tới: thợ không đến hoặc đến trễ, thái độ của thợ. Khi đang sửa: công việc bị gián đoạn, tranh chấp về linh kiện hay chi phí, hư hại hoặc mất tài sản, chất lượng sửa chữa. Khi đã hoàn thành: chất lượng chưa đạt, tranh chấp chi phí, số tiền mặt không khớp. Đơn đã huỷ: tranh chấp về việc huỷ.\n\nKhi đơn đang được thực hiện, khách đánh dấu được ô cần quản lý dịch vụ hỗ trợ ngay. Trong khiếu nại có hiện thời điểm quản lý dịch vụ dự kiến phản hồi và kết quả xử lý.\n\nĐơn đã hoàn thành chỉ nhận khiếu nại trong 7 ngày sau khi hoàn thành. Quá thời gian đó mà chỗ sửa còn bảo hành thì khách gửi yêu cầu bảo hành."
+  },
+  {
+   "id": "system:uy-tin-fixhome:7",
+   "scope": "platform",
+   "doc_vi": "Uy tín và an toàn khi đặt thợ trên FixHome",
+   "section_vi": "Thông tin cá nhân có bị lộ không",
+   "text_vi": "Ảnh giấy tờ tuỳ thân dùng để xác minh danh tính được lưu riêng tư, không để ở đường dẫn công khai. Chỉ chính chủ và quản trị viên được phép mới xem được.\n\nThông tin của một đơn chỉ những người liên quan tới đơn đó mới xem được: khách, thợ được gửi đơn và nhân viên FixHome có quyền. Địa chỉ sửa chữa, mô tả sự cố và ảnh khách gửi được chuyển cho thợ để thợ chuẩn bị và tới đúng nơi.\n\nTin nhắn với thợ luôn gắn với một đơn đặt lịch, không có cuộc trò chuyện tự do ngoài đơn. Khi một thợ đã nhận đơn, cuộc trò chuyện với các thợ khác của cùng đơn đóng lại.\n\nNội dung trò chuyện với trợ lý và ảnh khách gửi được lưu để phục vụ việc sửa chữa và đối chiếu sau này.\n\nThanh toán trực tuyến đi qua cổng thanh toán VNPay; FixHome chỉ ghi nhận đã trả khi có xác nhận từ cổng thanh toán, không dựa vào màn hình báo thành công ở phía khách."
+  },
+  {
+   "id": "system:uy-tin-fixhome:8",
+   "scope": "platform",
+   "doc_vi": "Uy tín và an toàn khi đặt thợ trên FixHome",
+   "section_vi": "Huỷ đơn có bị phạt tiền không",
+   "text_vi": "FixHome không thu tiền đặt cọc khi đặt lịch, nên huỷ đơn không làm khách mất khoản cọc nào. Trên trang giới thiệu, FixHome ghi rõ nguyên tắc duyệt trước, trả sau.\n\nHuỷ trước khi có thợ nhận thì khách huỷ yêu cầu đặt lịch bình thường và có thể đặt lại sau bất kỳ lúc nào.\n\nHuỷ khi thợ đã nhận đơn thì có thể bị trừ điểm uy tín của tài khoản khách. Điểm uy tín xuống thấp thì tài khoản bị tạm khoá đặt lịch một thời gian. Khách xem điểm, mức trừ và lịch sử điểm của mình ở thẻ Điểm uy tín trong trang hồ sơ.\n\nNếu khách huỷ hoặc vắng mặt sau khi thợ đã xác nhận tới nơi, quản lý dịch vụ xem xét trường hợp đó trước khi quyết định có tính vi phạm hay không. FixHome không có khoản bồi thường bằng tiền tự động trong trường hợp này.\n\nThợ huỷ sau khi nhận đơn thì hệ thống mời thợ kế tiếp trong danh sách khách đã chọn nếu còn người, hoặc khách chọn thợ khác; giá và lịch hẹn giữ nguyên."
+  },
+  {
+   "id": "system:uy-tin-fixhome:9",
+   "scope": "platform",
+   "doc_vi": "Uy tín và an toàn khi đặt thợ trên FixHome",
+   "section_vi": "Thanh toán trên FixHome có an toàn không",
+   "text_vi": "Khách trả tiền sau khi thợ đã làm xong, theo hoá đơn trên ứng dụng. Hoá đơn chỉ gồm những khoản khách đã duyệt: báo giá, chi phí phát sinh đã đồng ý, và phí bảo hành trả phí cho linh kiện của thợ nếu khách đã chọn.\n\nKhách chọn một trong ba cách: Ví FixHome, VNPay (thẻ ATM, thẻ quốc tế hoặc mã QR), hoặc tiền mặt trả trực tiếp cho kỹ thuật viên.\n\nVới VNPay, hệ thống chỉ ghi nhận đã trả khi cổng thanh toán xác nhận, nên màn hình báo thành công không đủ để coi là đã trả, và một giao dịch không bị ghi hai lần. Với tiền mặt, cả thợ và khách đều phải xác nhận số tiền, lệch thì FixHome đối soát.\n\nNếu hoá đơn không khớp với báo giá đã duyệt, ứng dụng khoá nút thanh toán và báo khách liên hệ FixHome để đối chiếu trước. Mọi khoản tiền đã duyệt được lưu lại và không bị sửa đè."
+  },
+  {
+   "id": "system:huong-dan-su-dung-app:0",
+   "scope": "platform",
+   "doc_vi": "Hướng dẫn khách hàng dùng FixHome",
+   "section_vi": "Tạo tài khoản FixHome thế nào",
+   "text_vi": "Trên trang đăng nhập, bấm Đăng ký miễn phí để mở trang Tạo tài khoản mới. Chọn Khách hàng, rồi điền Họ và tên, Số điện thoại, Email, Mật khẩu và Xác nhận mật khẩu.\n\nMật khẩu cần từ 8 ký tự, có cả chữ hoa và chữ thường, có số và ký tự đặc biệt như @ hoặc #. Điền xong bấm Đăng ký tài khoản.\n\nFixHome gửi một mã OTP gồm 6 chữ số tới email vừa đăng ký. Nhập mã đó ở trang Xác thực tài khoản rồi bấm Xác thực và Kích hoạt tài khoản. Không thấy email thì kiểm tra hộp thư Rác (Spam), hoặc bấm Gửi lại mã OTP khi hết thời gian chờ.\n\nNếu trên trang có nút đăng nhập bằng Google, khách có thể dùng tài khoản Google để đăng ký; cách này không cần nhập mã OTP vì Google đã xác minh email.\n\nĐăng ký tài khoản khách hàng không mất phí."
+  },
+  {
+   "id": "system:huong-dan-su-dung-app:1",
+   "scope": "platform",
+   "doc_vi": "Hướng dẫn khách hàng dùng FixHome",
+   "section_vi": "Đăng nhập và lấy lại mật khẩu",
+   "text_vi": "Ở trang đăng nhập, nhập Email hoặc Số điện thoại cùng Mật khẩu rồi bấm Đăng nhập. Đánh dấu Ghi nhớ đăng nhập nếu dùng máy của riêng mình.\n\nQuên mật khẩu thì bấm Quên mật khẩu? ngay dưới ô mật khẩu. Việc lấy lại gồm ba bước: nhập email đã đăng ký và bấm Gửi mã xác thực OTP; nhập mã 6 chữ số được gửi tới email rồi bấm Tiếp tục đặt mật khẩu; đặt mật khẩu mới, nhập lại lần nữa và bấm Cập nhật mật khẩu mới. Xong thì đăng nhập lại bằng mật khẩu mới.\n\nĐang đăng nhập mà muốn đổi mật khẩu thì vào trang hồ sơ cá nhân, dùng phần Đổi mật khẩu.\n\nMuốn thoát tài khoản, mở menu tài khoản ở góc trên và bấm Đăng xuất."
+  },
+  {
+   "id": "system:huong-dan-su-dung-app:2",
+   "scope": "platform",
+   "doc_vi": "Hướng dẫn khách hàng dùng FixHome",
+   "section_vi": "Nhờ trợ lý chẩn đoán trước khi đặt thợ",
+   "text_vi": "Chưa rõ máy hỏng gì thì bấm Chẩn đoán bằng AI ở thanh trên cùng, hoặc mở ô Hỏi trợ lý AI ở góc màn hình. Cách đặt này gồm bốn bước: Mô tả sự cố, Trò chuyện với AI, Địa chỉ và Giờ, Xác nhận.\n\nỞ bước đầu, khách kể tình trạng thiết bị và có thể gửi tối đa 5 ảnh hiện trạng, rồi bấm Phân tích cùng AI. Trợ lý có thể hỏi thêm một vài câu; khách trả lời, gửi thêm ảnh hoặc nhờ đổi dịch vụ ngay trong cuộc trò chuyện. Trợ lý gợi ý dịch vụ phù hợp, khách bấm Đặt thợ ngay để sang bước chọn địa chỉ và giờ.\n\nTrợ lý nhớ cuộc trò chuyện trong một phiên và quên sau một thời gian không dùng. Muốn hỏi chuyện khác từ đầu thì bấm Bắt đầu phiên mới.\n\nKết quả của trợ lý chỉ để tham khảo; thợ kiểm tra tại nhà mới kết luận và báo giá chính thức. Trợ lý gặp sự cố thì khách vẫn đặt thợ bình thường bằng nút Đặt thợ ngay."
+  },
+  {
+   "id": "system:huong-dan-su-dung-app:3",
+   "scope": "platform",
+   "doc_vi": "Hướng dẫn khách hàng dùng FixHome",
+   "section_vi": "Đặt thợ trên FixHome thế nào",
+   "text_vi": "Bấm Đặt thợ ngay ở thanh trên cùng. Ở mục Bạn cần sửa gì?, gõ tên thiết bị hoặc chọn nhóm dịch vụ rồi chọn dịch vụ: sửa, vệ sinh và bảo dưỡng, hoặc lắp đặt.\n\nDịch vụ giá cố định thì chọn đúng loại máy và số lượng, tiền công hiện ngay. Dịch vụ sửa thì điền Tình trạng máy và bấm Thêm ảnh, tối đa 5 ảnh; ảnh giúp thợ chuẩn bị đúng đồ nghề.\n\nBước Địa chỉ và Giờ: chọn địa chỉ trong sổ địa chỉ hoặc bấm Thêm địa chỉ mới. Ở phần Thời gian, chọn Hẹn lịch rồi chọn ngày và buổi Sáng, Chiều hoặc Tối, hoặc chọn Tới ngay để mời thợ gần đang rảnh. Có thể bấm thêm Ghi chú cho thợ.\n\nBước cuối là Kiểm tra lần cuối. Xem lại dịch vụ, địa chỉ, giờ và tiền công rồi bấm Xác nhận đơn. Sau đó khách chọn kỹ thuật viên ở trang tiếp theo.\n\nMỗi lần đặt là một dịch vụ chính. Dịch vụ giá cố định cho chọn số lượng khi có nhiều máy cùng loại. Muốn sửa vài thiết bị khác nhau cùng buổi thì dùng cách đặt nhiều thiết bị."
+  },
+  {
+   "id": "system:huong-dan-su-dung-app:4",
+   "scope": "platform",
+   "doc_vi": "Hướng dẫn khách hàng dùng FixHome",
+   "section_vi": "Chọn kỹ thuật viên sau khi đặt",
+   "text_vi": "Sau khi bấm Xác nhận đơn, trang Kỹ thuật viên gần bạn hiện những thợ có kỹ năng phù hợp và còn trống lịch trong buổi đã chọn. Mỗi thợ có nhãn Đã xác thực, điểm đánh giá, độ tin cậy, số năm kinh nghiệm, khoảng cách, giá công tham khảo và số ngày bảo hành thợ thường áp dụng. Bấm Xem hồ sơ để xem kỹ hơn.\n\nKhách chọn 1 hoặc 2 kỹ thuật viên theo thứ tự ưu tiên. Chọn một người thì người đó được mời ngay. Chọn hai người thì người số 1 được mời trước; người số 2 là dự phòng, chỉ được mời khi người số 1 từ chối hoặc hết hạn phản hồi. Chọn xong bấm Gửi lời mời.\n\nNếu trang báo chưa có kỹ thuật viên nhận được giờ hẹn này, bấm Đổi giờ hẹn để chọn buổi khác rồi tìm lại.\n\nGiá công và bảo hành trên hồ sơ thợ là để so sánh. Giá chính thức của dịch vụ sửa là báo giá thợ gửi sau khi kiểm tra, và bảo hành áp dụng là mức ghi khi khách duyệt báo giá."
+  },
+  {
+   "id": "system:huong-dan-su-dung-app:5",
+   "scope": "platform",
+   "doc_vi": "Hướng dẫn khách hàng dùng FixHome",
+   "section_vi": "Đặt xong bao giờ có thợ",
+   "text_vi": "Gửi lời mời xong, yêu cầu đặt lịch nằm ở Đơn của tôi, mục Yêu cầu đặt lịch, với trạng thái Đang tìm thợ phù hợp hoặc Đang chờ thợ xác nhận. Lúc này chưa có đơn sửa chữa nào; đơn sửa chữa chỉ được tạo khi một kỹ thuật viên bấm nhận.\n\nKhi thợ nhận, trang yêu cầu báo Kỹ thuật viên đã nhận đơn và hiện nút Mở đơn sửa chữa để theo dõi tiếp. Khách không phải xác nhận lại thợ lần nữa.\n\nNếu lời mời sắp hết hạn mà thợ chưa trả lời, khách bấm Gia hạn chờ thợ để thêm thời gian; mỗi yêu cầu chỉ gia hạn được một lần. Nếu thợ từ chối hoặc hết hạn, trạng thái chuyển sang Thợ đã từ chối hoặc hết hạn, và khách bấm Chọn lại kỹ thuật viên để mời người khác.\n\nFixHome không hẹn trước thời điểm chính xác thợ trả lời. Mọi thay đổi được báo trong Thông báo của ứng dụng."
+  },
+  {
+   "id": "system:huong-dan-su-dung-app:6",
+   "scope": "platform",
+   "doc_vi": "Hướng dẫn khách hàng dùng FixHome",
+   "section_vi": "Đặt nhiều thiết bị một lần",
+   "text_vi": "Ở trang đặt lịch, bấm Đặt nhiều thiết bị. Điền dịch vụ, mô tả và ảnh cho từng máy rồi bấm Thêm thiết bị này vào lượt. Mỗi lượt tối đa 3 thiết bị, ví dụ máy lạnh, máy giặt và tủ lạnh.\n\nCả lượt dùng chung một địa chỉ và một buổi hẹn, và một kỹ thuật viên có đủ kỹ năng nhận cả lượt. Mỗi máy có báo giá riêng để khách duyệt. Khách thanh toán một lần cho cả lượt ở mục Thanh toán cả lượt, chỉ cho máy sửa được; máy thợ báo không sửa được hoặc khách không duyệt báo giá thì không tính tiền.\n\nĐổi lịch hay huỷ thì làm cho cả lượt, bằng nút Đổi lịch hẹn hoặc Huỷ lượt sửa trên trang lượt sửa. Các lượt nằm ở Đơn của tôi, mục Lượt sửa nhiều thiết bị.\n\nMuốn sửa hơn 3 máy, bấm Liên hệ FixHome hỗ trợ để gửi yêu cầu tới quản lý dịch vụ; thao tác này không tự đặt lịch.\n\nKhi trò chuyện với trợ lý mà kể nhiều thiết bị, trợ lý có thể gợi ý đặt chung một lượt."
+  },
+  {
+   "id": "system:huong-dan-su-dung-app:7",
+   "scope": "platform",
+   "doc_vi": "Hướng dẫn khách hàng dùng FixHome",
+   "section_vi": "Theo dõi đơn đang sửa ở đâu",
+   "text_vi": "Mở Đơn của tôi (trên máy tính là Đơn sửa chữa). Trang có ba mục: Đơn sửa chữa, Yêu cầu đặt lịch và Lượt sửa nhiều thiết bị, có bộ lọc Đang xử lý, Hoàn tất, Đã huỷ và ô tìm theo mã đơn.\n\nĐơn sửa chữa có các trạng thái Đã nhận đơn, Đang di chuyển, Đang sửa chữa, Hoàn thành và Đã huỷ. Những mốc như thợ đã tới, đang chờ duyệt báo giá hay chờ thanh toán hiện trong phần Tiến trình của đơn.\n\nTrong trang chi tiết đơn, khách xem lịch hẹn, địa chỉ, thông tin thợ, phần Tiến trình, Ảnh sửa chữa (lọc Trước, Sau, Phát sinh), báo giá và hoá đơn. Khi thợ đang tới, bấm Xem vị trí kỹ thuật viên để xem vị trí thợ trên bản đồ.\n\nMọi cập nhật quan trọng như thợ nhận đơn, có báo giá mới hay chi phí phát sinh chờ duyệt đều có ở chuông thông báo và trang Thông báo."
+  },
+  {
+   "id": "system:huong-dan-su-dung-app:8",
+   "scope": "platform",
+   "doc_vi": "Hướng dẫn khách hàng dùng FixHome",
+   "section_vi": "Nhắn tin và gọi cho thợ",
+   "text_vi": "Khách nhắn tin với thợ được sau khi đã gửi yêu cầu đặt lịch, không nhắn được trước đó. Từ lúc gửi, khách và thợ được mời đều nhắn qua lại được về lỗi, hình ảnh và thời gian.\n\nCác cuộc trò chuyện nằm ở mục Tin nhắn. Trong trang chi tiết đơn còn có nút Nhắn tin, và nút Gọi kỹ thuật viên để gọi số điện thoại của thợ. Trong khung trò chuyện có nút Gọi thoại để gọi ngay trên ứng dụng khi kết nối ổn định.\n\nKhi một thợ đã nhận đơn, cuộc trò chuyện với thợ đó tiếp tục trong suốt đơn; cuộc trò chuyện với các thợ khác của cùng yêu cầu thì đóng lại.\n\nTin nhắn không thay đổi chính thức giá, báo giá, lịch hẹn hay trạng thái đơn. Muốn đổi giờ thì dùng nút Đổi lịch hẹn, muốn đồng ý giá thì duyệt báo giá trong đơn."
+  },
+  {
+   "id": "system:huong-dan-su-dung-app:9",
+   "scope": "platform",
+   "doc_vi": "Hướng dẫn khách hàng dùng FixHome",
+   "section_vi": "Duyệt báo giá và chi phí phát sinh",
+   "text_vi": "Với dịch vụ sửa, thợ kiểm tra tại nhà rồi gửi báo giá. Trong trang đơn hiện phần Báo giá chờ bạn duyệt, liệt kê riêng Tiền công và Linh kiện, số lượng, đơn giá và số ngày bảo hành từng dòng nếu có. Khách bấm Duyệt báo giá để thợ bắt đầu sửa, hoặc Từ chối báo giá. Không duyệt thì thợ không sửa và đơn đóng lại, khách không phải trả cho việc mình không đồng ý.\n\nNếu trong lúc sửa cần làm thêm, đơn hiện phần Chi phí phát sinh chờ bạn duyệt, kèm lý do, ảnh và từng dòng chi phí. Khách bấm Đồng ý chi phí hoặc Từ chối.\n\nDòng có nhãn Linh kiện ngoài là linh kiện thợ mua ngoài, không do FixHome cung cấp và không được FixHome bảo hành. Muốn đồng ý, khách phải đánh dấu ô Tôi đã hiểu và đồng ý dùng linh kiện ngoài trước. Dòng Linh kiện FixHome thì có bảo hành theo chính sách của FixHome.\n\nBáo giá hay phát sinh đã duyệt không bị sửa đè; có thay đổi thì thợ gửi bản mới để khách duyệt lại."
+  },
+  {
+   "id": "system:huong-dan-su-dung-app:10",
+   "scope": "platform",
+   "doc_vi": "Hướng dẫn khách hàng dùng FixHome",
+   "section_vi": "Thợ báo sửa xong thì làm gì",
+   "text_vi": "Khi thợ làm xong, thợ chụp ảnh sau khi sửa, ghi chú hoàn thành và đơn hiện dòng Kỹ thuật viên đã hoàn thành, mời bạn thanh toán.\n\nTrước khi trả tiền, khách nên kiểm tra máy đã chạy đúng chưa, xem ảnh trong mục Ảnh sửa chữa và đối chiếu hoá đơn cuối với báo giá đã duyệt.\n\nĐơn được coi là hoàn thành khi phần sửa đã xong, thợ đã đưa ảnh hoặc ghi chú sau khi sửa, không còn khoản nào chờ khách duyệt, và khoản thanh toán đã được ghi nhận: trả qua ví hoặc VNPay thành công, hoặc khách đã xác nhận số tiền mặt. Hoá đơn không phát sinh phí thì khách bấm Hoàn tất miễn phí.\n\nSau khi đơn hoàn tất và đã thanh toán, phiếu bảo hành điện tử được kích hoạt và khách đánh giá được thợ.\n\nChưa hài lòng với kết quả thì gửi khiếu nại ở cuối trang đơn, trong phần Khiếu nại về đơn này."
+  },
+  {
+   "id": "system:huong-dan-su-dung-app:11",
+   "scope": "platform",
+   "doc_vi": "Hướng dẫn khách hàng dùng FixHome",
+   "section_vi": "Thanh toán thế nào",
+   "text_vi": "Khi đơn hiện Kỹ thuật viên đã hoàn thành, mời bạn thanh toán, khách bấm Thanh toán ngay (với lượt nhiều thiết bị là Thanh toán cả lượt). Cửa sổ Thanh toán đơn cho chọn một trong ba cách.\n\nVí FixHome: trả từ số dư ví, bấm Trả bằng ví. Ví không đủ thì nạp thêm hoặc chọn cách khác.\n\nVNPay: trả bằng thẻ ATM, thẻ quốc tế hoặc mã QR, bấm Thanh toán qua VNPay để mở cổng thanh toán. Đơn chỉ được ghi nhận đã trả khi VNPay xác nhận về hệ thống.\n\nTiền mặt: đưa tiền trực tiếp cho kỹ thuật viên. Thợ khai số tiền đã nhận, khách xem ở phần Xác nhận tiền mặt, nhập số tiền mình đã trả rồi bấm Xác nhận số tiền và thanh toán. Số không khớp thì ghi lý do, FixHome sẽ đối soát.\n\nKhách có ưu đãi trong Ví ưu đãi thì chọn được khi thanh toán. Hoá đơn không khớp với báo giá đã duyệt thì ứng dụng khoá thanh toán cho tới khi FixHome đối chiếu xong."
+  },
+  {
+   "id": "system:huong-dan-su-dung-app:12",
+   "scope": "platform",
+   "doc_vi": "Hướng dẫn khách hàng dùng FixHome",
+   "section_vi": "Đánh giá thợ ở đâu",
+   "text_vi": "Khách đánh giá được kỹ thuật viên sau khi đơn của chính mình đã hoàn tất. Trong trang chi tiết đơn hoàn tất có dòng Bạn thấy kỹ thuật viên làm thế nào? và nút Đánh giá kỹ thuật viên.\n\nTrong cửa sổ đánh giá, khách chọn từ 1 tới 5 sao, có thể chọn nhanh vài thẻ nhận xét như đúng giờ, tay nghề, giá cả minh bạch hay dọn dẹp sạch sẽ, và viết thêm nhận xét chi tiết nếu muốn. Bấm Gửi đánh giá để gửi, hoặc Để sau nếu chưa muốn đánh giá.\n\nMỗi đánh giá gắn với một đơn và một thợ. Đánh giá giúp khách sau chọn thợ, được dùng khi xếp hạng thợ và có thể cộng điểm uy tín cho thợ. Đánh giá đã gửi hiện lại trong trang đơn, ở phần Đánh giá của bạn."
+  },
+  {
+   "id": "system:huong-dan-su-dung-app:13",
+   "scope": "platform",
+   "doc_vi": "Hướng dẫn khách hàng dùng FixHome",
+   "section_vi": "Yêu cầu bảo hành thế nào",
+   "text_vi": "Mở mục Bảo hành (trên điện thoại nằm trong menu tài khoản). Trang này liệt kê các đơn đã hoàn tất và thanh toán, lọc theo Còn hiệu lực, Đang xử lý hoặc Đã hết hạn, kèm ngày kích hoạt, hạn bảo hành muộn nhất và từng hạng mục bảo hành.\n\nBấm Yêu cầu bảo hành ở đơn cần bảo hành; trong trang chi tiết đơn, nút này nằm trong menu Thao tác khác ở góc trên. Chọn hạng mục cần bảo hành, mô tả cụ thể lỗi lặp lại (ít nhất 10 ký tự), đính kèm ảnh nếu có rồi bấm Gửi yêu cầu bảo hành. Kỹ thuật viên phụ trách sẽ liên hệ để khắc phục.\n\nKhi thợ báo đã xử lý xong, khách trả lời Đã khắc phục hoặc Vẫn còn lỗi và ghi lỗi còn lại. Quản lý dịch vụ xác nhận và đóng yêu cầu.\n\nHạng mục đã hết hạn thì vẫn gửi được, quản lý dịch vụ sẽ xem xét. Lỗi mới không liên quan lần sửa trước không thuộc bảo hành; thợ báo giá riêng để khách duyệt."
+  },
+  {
+   "id": "system:huong-dan-su-dung-app:14",
+   "scope": "platform",
+   "doc_vi": "Hướng dẫn khách hàng dùng FixHome",
+   "section_vi": "Huỷ đơn ở đâu",
+   "text_vi": "Chỗ huỷ tuỳ đơn đã có thợ nhận hay chưa.\n\nChưa có thợ nhận: mở yêu cầu trong Đơn của tôi, mục Yêu cầu đặt lịch, bấm Huỷ yêu cầu đặt lịch, nhập lý do huỷ rồi bấm Huỷ yêu cầu. Lời mời đang chờ bị huỷ theo, và khách có thể đặt lại sau bất kỳ lúc nào.\n\nĐã có thợ nhận, thợ chưa bắt đầu sửa (trạng thái Đã nhận đơn hoặc Đang di chuyển): trong trang chi tiết đơn, mở menu Thao tác khác ở góc trên và bấm Huỷ đơn, rồi xác nhận Huỷ đơn sửa chữa. Huỷ lúc này có thể bị trừ điểm uy tín của khách.\n\nLượt nhiều thiết bị thì huỷ cả lượt bằng nút Huỷ lượt sửa trên trang lượt sửa.\n\nKhi đơn đã ở trạng thái Đang sửa chữa thì không còn nút huỷ. Không đồng ý giá thì khách từ chối báo giá hoặc chi phí phát sinh; có vấn đề khác thì gửi khiếu nại trong đơn."
+  },
+  {
+   "id": "system:huong-dan-su-dung-app:15",
+   "scope": "platform",
+   "doc_vi": "Hướng dẫn khách hàng dùng FixHome",
+   "section_vi": "Đổi lịch hẹn thế nào",
+   "text_vi": "Chưa có thợ nhận: mở yêu cầu đặt lịch, bấm Đổi buổi hẹn và chọn buổi mới, rồi bấm Lưu thay đổi. Đổi buổi lúc này thì lượt mời cũ bị huỷ, khách chọn lại thợ cho buổi mới.\n\nĐã có thợ nhận và đơn đang ở trạng thái Đã nhận đơn: trong trang chi tiết đơn, bấm Đổi lịch hẹn để mở trang yêu cầu đặt lịch, bấm Đổi buổi hẹn và chọn buổi mới. Ứng dụng chỉ cho chọn những buổi mà kỹ thuật viên của đơn còn trống lịch. Chọn xong bấm Đổi lịch, thợ được báo ngay.\n\nMỗi đơn chỉ đổi lịch hẹn được một lần. Khi thợ đã bắt đầu di chuyển hay đang sửa thì không đổi lịch trên ứng dụng được nữa.\n\nVới lượt nhiều thiết bị, đổi lịch áp dụng cho cả lượt, bằng nút Đổi lịch hẹn trên trang lượt sửa.\n\nNhắn tin hẹn giờ với thợ không thay cho việc đổi lịch; lịch hẹn chỉ đổi chính thức qua nút đổi lịch."
+  },
+  {
+   "id": "system:huong-dan-su-dung-app:16",
+   "scope": "platform",
+   "doc_vi": "Hướng dẫn khách hàng dùng FixHome",
+   "section_vi": "Xem lại lịch sử sửa chữa",
+   "text_vi": "Mở menu tài khoản ở góc trên và chọn Lịch sử sửa chữa. Trang này có hai mục: Đơn sửa chữa và Lượt sửa nhiều thiết bị, lọc theo Hoàn thành hoặc Đã huỷ, và ô tìm theo mã đơn, dịch vụ hoặc thiết bị.\n\nMỗi đơn trong lịch sử ghi dịch vụ, ngày hoàn thành hoặc ngày huỷ, tiền công, linh kiện và tổng chi phí. Mở đơn để xem lại các mốc thời gian, thợ đã làm, phần chi phí đã duyệt, ảnh trước và sau khi sửa, tình trạng bảo hành và đánh giá. Lịch sử giữ đúng như lúc làm, kể cả khi sau này thợ đổi hồ sơ hay dịch vụ đổi giá.\n\nMuốn gọi lại thợ cho đơn đã hoàn thành hoặc đã huỷ, bấm Đặt lại thợ trong trang đơn, chọn ngày và buổi rồi bấm Đặt lại. Nếu thợ cũ rảnh buổi đó thì thợ cũ nhận lời mời trước."
+  },
+  {
+   "id": "system:huong-dan-su-dung-app:17",
+   "scope": "platform",
+   "doc_vi": "Hướng dẫn khách hàng dùng FixHome",
+   "section_vi": "Sửa hồ sơ và sổ địa chỉ",
+   "text_vi": "Mở Tài khoản (trên máy tính là Hồ sơ cá nhân trong menu tài khoản) để vào trang Hồ sơ và Sổ địa chỉ.\n\nỞ phần Thông tin cá nhân, bấm Sửa để đổi họ tên hoặc số điện thoại rồi bấm Lưu thay đổi. Họ tên đã xác minh theo căn cước công dân thì không đổi được. Bấm vào ảnh đại diện để đổi ảnh.\n\nỞ phần Sổ địa chỉ, bấm Thêm địa chỉ, đặt tên nhãn gợi nhớ như Nhà riêng hay Văn phòng, tìm địa chỉ và chọn đúng vị trí trên bản đồ, hoặc bấm Dùng vị trí hiện tại khi đang ở địa chỉ này. Vị trí trên bản đồ cần đúng vì nó dùng để đặt lịch và xác nhận thợ đã tới. Đánh dấu Đặt làm địa chỉ mặc định khi tạo đơn nếu muốn, rồi bấm Lưu địa chỉ.\n\nSửa hoặc xoá địa chỉ bằng các nút bên cạnh từng địa chỉ. Sửa địa chỉ đã lưu không làm thay đổi địa chỉ của các đơn đã tạo trước đó.\n\nTrang hồ sơ cũng có thẻ Điểm uy tín và phần Đổi mật khẩu."
+  },
+  {
+   "id": "system:huong-dan-su-dung-app:18",
+   "scope": "platform",
+   "doc_vi": "Hướng dẫn khách hàng dùng FixHome",
+   "section_vi": "Ví FixHome dùng để làm gì",
+   "text_vi": "Ví FixHome nằm ở mục Ví của tôi trong menu tài khoản. Số dư trong ví dùng để trả đơn sửa chữa hoặc rút về tài khoản ngân hàng của khách. Tiền hoàn cho linh kiện cũng được ghi vào ví.\n\nNạp tiền: chọn Nạp tiền, chọn nhanh hoặc nhập số tiền rồi bấm Nạp qua VNPay. Số dư được cập nhật khi VNPay xác nhận. Giao dịch nạp chưa thành công thì tiền chưa bị trừ và khách thử lại được.\n\nRút tiền: chọn Rút tiền để rút về tài khoản ngân hàng đứng tên mình. Lần rút đầu tiên cần xác minh danh tính một lần ở trang Xác minh danh tính: điền họ tên, ngày sinh, giới tính, số căn cước công dân, nơi thường trú và gửi ảnh hai mặt căn cước rồi bấm Gửi hồ sơ xác minh. FixHome duyệt xong sẽ báo trong thông báo. Sau khi duyệt, họ tên và ngày sinh không đổi được nữa.\n\nPhần Lịch sử giao dịch ghi lại mọi khoản nạp, rút, thanh toán và hoàn tiền cùng số dư sau mỗi lần."
   },
   {
    "id": "persona:giong-noi:0",
@@ -691,74 +901,88 @@
    "id": "device:air_conditioner:34",
    "scope": "device:air_conditioner",
    "doc_vi": "Máy lạnh",
+   "section_vi": "Vệ sinh định kỳ bao lâu một lần",
+   "text_vi": "Máy lạnh có hai mốc vệ sinh: một mốc khách tự làm và một mốc cho thợ.\n\nLưới lọc ở cục lạnh là phần khách tự rửa. Hướng dẫn sử dụng của Daikin, và khuyến cáo của Panasonic, Toshiba tại Việt Nam, đều lấy mốc khoảng hai tuần một lần khi máy dùng thường xuyên, dày hơn ở nhà nhiều bụi. Máy chỉ bật vài tối mỗi tuần thì giãn ra được, nhưng vẫn nên mở xem mỗi tháng.\n\nVệ sinh toàn bộ máy lạnh, gồm xịt rửa dàn lạnh, quạt lồng sóc, máng và ống thoát nước, dàn nóng, là việc của thợ. Mốc tham chiếu cho nhà ở Việt Nam là ba tới sáu tháng một lần: ba tháng với máy chạy gần cả ngày, nhà gần đường lớn, công trình hoặc bếp; sáu tháng với máy chỉ chạy buổi tối. Daikin ở châu Âu khuyên thợ bảo dưỡng ít nhất mỗi năm một lần và hai lần với máy chạy quanh năm, nhưng máy lạnh ở Việt Nam chạy nặng hơn nhiều.\n\nNhà ven biển nên cho thợ kiểm tra dàn nóng dày hơn, vì hơi muối ăn mòn cánh nhôm và ống đồng.\n\nDấu hiệu máy lạnh đã tới hạn dù chưa tới mốc: gió ra yếu hơn trước, có mùi ẩm mốc, nước nhỏ giọt từ cục lạnh, lâu lạnh hoặc tiền điện tăng, hoặc đèn nhắc vệ sinh lọc trên một số model sáng lên."
+  },
+  {
+   "id": "device:air_conditioner:35",
+   "scope": "device:air_conditioner",
+   "doc_vi": "Máy lạnh",
+   "section_vi": "Dùng đúng cách cho bền và an toàn",
+   "text_vi": "Đặt máy lạnh ở mức vừa phải, thường quanh hai mươi sáu độ kèm quạt nhẹ, thay vì hạ xuống thấp nhất cho mau lạnh. Hạ thấp không làm máy lạnh nhanh hơn, chỉ làm máy chạy lâu hơn và tốn điện.\n\nĐóng cửa phòng, kéo rèm khi nắng chiếu vào. Ra ngoài một lát thì cứ để máy chạy, đừng bật tắt liên tục, vì mỗi lần máy nén khởi động lại là một lần kéo dòng lớn.\n\nCục nóng cần thoáng: không đóng hộp kín, không chất đồ quanh, muốn che thì chỉ làm mái hắt phía trên. Phía trên cục lạnh không để đồ chắn đường hút gió.\n\nMáy lạnh nên có aptomat riêng, chống dòng rò và nối đất vỏ cục nóng. Khu vực hay tụt áp thì cân nhắc ổn áp. Đi vắng dài ngày thì ngắt aptomat của máy.\n\nNgắt aptomat, không bật lại và gọi thợ khi chạm vỏ thấy tê tay, bật lên là nhảy aptomat, có mùi khét, khói hoặc tia lửa. Khách không tự trèo ra ban công xem cục nóng, không tự xịt nước vào dàn lạnh, và không nạp gas mỗi lần kém lạnh mà không tìm chỗ xì."
+  },
+  {
+   "id": "device:air_conditioner:36",
+   "scope": "device:air_conditioner",
+   "doc_vi": "Máy lạnh",
    "section_vi": "Khi máy hỏng ngay sau một lần vệ sinh",
    "text_vi": "Đây là tình huống rất hay gặp và rất dễ làm khách mất niềm tin, nên đáng có mục riêng.\n\nNếu máy đang bình thường, vừa vệ sinh xong thì sinh chuyện, thì nguyên nhân gần như luôn nằm ở thao tác vệ sinh chứ không phải trùng hợp.\n\nChảy nước sau vệ sinh: chất bẩn bong ra dồn xuống làm nghẹt máng và ống thoát, hoặc máng lắp lại lệch, hoặc dàn lạnh treo lại không cân.\n\nKhông lạnh sau vệ sinh: cảm biến nhiệt độ bị tuột rắc cắm hoặc gãy chân, nên máy hiểu sai nhiệt độ phòng và ngắt máy nén sớm.\n\nKêu và rung sau vệ sinh: quạt lồng sóc lắp lệch, vỏ chưa khít, ốc chưa siết.\n\nKhông lên nguồn sau vệ sinh: nước vào bo, hoặc rắc cắm nguồn chưa cắm chặt.\n\nGió yếu hơn trước: cánh nhôm bị xịt mạnh làm móp, cản gió.\n\nCách xử lý đúng với khách: nói rõ đây là nhóm sự cố thường gặp sau vệ sinh, phần lớn xử lý nhanh, và nếu bên vệ sinh là cùng một dịch vụ thì đây thuộc phạm vi bảo hành công việc đã làm. Không đổ lỗi cho khách và không nói là máy tự nhiên hỏng."
   },
   {
-   "id": "device:air_conditioner:35",
+   "id": "device:air_conditioner:37",
    "scope": "device:air_conditioner",
    "doc_vi": "Máy lạnh",
    "section_vi": "Khí hậu và điện lưới Việt Nam ảnh hưởng thế nào",
    "text_vi": "Máy lạnh ở Việt Nam làm việc nặng hơn máy cùng loại ở xứ ôn đới, và hỏng theo những kiểu riêng.\n\nNắng nóng kéo dài nhiều tháng khiến cục nóng phải thải nhiệt ra một môi trường vốn đã rất nóng, nên máy chạy gần hết công suất trong thời gian dài. Cục nóng đặt hứng nắng trực tiếp làm chuyện này tệ thêm.\n\nĐộ ẩm cao làm dàn lạnh ngưng nhiều nước hơn, nên đường thoát nước ngưng ở Việt Nam nghẹt thường xuyên hơn hẳn, và ẩm đọng cũng nuôi nấm mốc trong dàn.\n\nVùng ven biển và vùng gần nước mặn có hơi muối ăn mòn cánh nhôm và ống đồng của cục nóng nhanh hơn hẳn. Máy lắp ở đó xuống cấp sớm hơn và nên được kiểm tra dày hơn.\n\nMùa mưa bão: nước tạt vào cục nóng, sét lan truyền qua đường điện, và ngập ở những nơi cục nóng đặt thấp. Sau mỗi đợt bão thường có một đợt ca hỏng bo.\n\nĐiện áp chập chờn và sự cố lưới ở một số khu vực là nguyên nhân thật của không ít ca cháy bo. Nhà hay bị tụt áp nên cân nhắc ổn áp, và aptomat riêng cho máy lạnh là việc nên làm.\n\nBụi xây dựng ở khu đang đô thị hóa làm dàn bẩn rất nhanh.\n\nCôn trùng, thạch sùng và chuột chui vào cục nóng gây chập là chuyện gặp đủ nhiều để đáng nhắc khi khách kể máy đang chạy bình thường thì đột ngột chết."
   },
   {
-   "id": "device:air_conditioner:36",
+   "id": "device:air_conditioner:38",
    "scope": "device:air_conditioner",
    "doc_vi": "Máy lạnh",
    "section_vi": "An toàn điện quanh máy lạnh",
    "text_vi": "Máy lạnh là thiết bị công suất lớn, nên phần điện cấp cho nó cần được làm tử tế. Hệ thống điện nhà ở và nhà công cộng tại Việt Nam có quy chuẩn kỹ thuật quốc gia riêng, trong đó quy định về bảo vệ chống điện giật, bảo vệ quá tải và ngắn mạch, và nối đất bảo vệ. Bản thân máy điều hòa cũng có tiêu chuẩn an toàn riêng cho thiết bị điện gia dụng nhóm bơm nhiệt, máy điều hòa không khí và máy hút ẩm.\n\nBa điều đáng nói với khách bằng ngôn ngữ thường. Máy lạnh nên có aptomat riêng đúng dòng, không dùng chung nhánh với nhiều thiết bị nặng khác. Nên có thiết bị chống dòng rò để ngắt điện khi có rò ra vỏ. Và vỏ kim loại của cục nóng nên được nối đất.\n\nBốn tình huống phải cảnh báo ngay, không hỏi vòng vo trước. Sờ vào vỏ máy thấy tê tay. Bật máy lên là nhảy aptomat. Có mùi khét hoặc thấy khói. Thấy tia lửa hoặc nghe tiếng nổ nhỏ. Với cả bốn, hướng xử lý là ngắt aptomat cấp cho máy, không bật lại, không tự mở máy, và gọi thợ."
   },
   {
-   "id": "device:air_conditioner:37",
+   "id": "device:air_conditioner:39",
    "scope": "device:air_conditioner",
    "doc_vi": "Máy lạnh",
    "section_vi": "An toàn khi làm việc trên cao",
    "text_vi": "Đáng nhắc vì nó ảnh hưởng tới cả giá lẫn việc khách tự làm.\n\nCục nóng thường treo ngoài tường, ngoài ban công, trên mái, hoặc trong hộp kỹ thuật chung cư. Việc tiếp cận những chỗ đó cần thang, dây an toàn, có khi giàn giáo, và ở chung cư còn cần xin phép ban quản lý.\n\nĐây là lý do thật khiến cùng một bệnh mà giá khác nhau giữa hai nhà, và nên giải thích cho khách theo hướng đó thay vì để khách nghĩ bị tính thêm tùy tiện.\n\nKhách tuyệt đối không nên tự trèo ra ngoài ban công để xem cục nóng. Việc nhìn từ trong nhìn ra là đủ cho mọi thứ mà khách cần quan sát."
   },
   {
-   "id": "device:air_conditioner:38",
+   "id": "device:air_conditioner:40",
    "scope": "device:air_conditioner",
    "doc_vi": "Máy lạnh",
    "section_vi": "Những thói quen làm máy hỏng sớm",
    "text_vi": "Che chắn hoặc đóng hộp kín cục nóng để tránh mưa nắng. Ý tốt nhưng chặn mất đường thải nhiệt, làm máy vừa yếu vừa nóng máy nén. Nếu muốn che thì phải che kiểu mái hắt phía trên, chừa thoáng ba mặt.\n\nBật tắt liên tục vì nghĩ tắt đi là tiết kiệm. Mỗi lần máy nén khởi động lại là một lần kéo dòng lớn. Với quãng nghỉ ngắn, để máy chạy ở nhiệt độ hợp lý tiết kiệm hơn.\n\nHạ xuống mức thấp nhất để phòng mau lạnh. Máy không vì thế mà làm lạnh nhanh hơn; nó chỉ chạy lâu hơn trước khi đạt ngưỡng, và quãng chạy thừa đó là điện đổ đi.\n\nKhông vệ sinh cho tới khi máy hỏng. Thói quen phổ biến nhất và là gốc của phần lớn ca kém lạnh.\n\nMở cửa phòng hoặc để nắng chiếu thẳng vào trong khi máy chạy.\n\nNhờ thợ nạp gas mỗi khi thấy kém lạnh mà không ai tìm chỗ xì. Vòng lặp vừa tốn tiền vừa không giải quyết gì.\n\nTháo lắp di dời máy nhiều lần. Mỗi lần là một lần rủi ro cho mối nối và cho lượng môi chất.\n\nĐể đồ đạc sát cục lạnh, chắn đường hút gió phía trên máy.\n\nDùng máy suốt nhiều năm mà chưa từng thay lưới lọc đã rách."
   },
   {
-   "id": "device:air_conditioner:39",
+   "id": "device:air_conditioner:41",
    "scope": "device:air_conditioner",
    "doc_vi": "Máy lạnh",
    "section_vi": "Những điều khách hay tin nhầm",
    "text_vi": "Máy lạnh phải nạp gas định kỳ hàng năm. Không đúng. Máy lạnh không tiêu hao môi chất. Phải nạp thường xuyên nghĩa là đang xì.\n\nTắt máy mỗi khi ra khỏi phòng thì tiết kiệm. Chỉ đúng khi đi lâu. Đi mười lăm hai mươi phút rồi bật lại thì tốn hơn là để nguyên.\n\nĐể mười sáu độ thì phòng lạnh nhanh hơn. Không. Tốc độ làm lạnh do công suất máy quyết định, không do con số cài.\n\nChế độ khô lúc nào cũng tiết kiệm điện hơn. Không hẳn. Chế độ khô ưu tiên hút ẩm nên máy nén chạy ít hơn trong điều kiện ẩm cao, và cảm giác dễ chịu hơn ở những ngày nồm. Nhưng ở ngày nắng gắt nó không làm mát đủ, và khách sẽ để lâu hơn.\n\nMáy inverter luôn tiết kiệm hơn trong mọi hoàn cảnh. Chỉ đúng khi chạy dài. Bật một tiếng rồi tắt thì phần tiết kiệm không kịp thể hiện.\n\nĐặt chậu nước trong phòng để chống khô da. Tác dụng rất nhỏ so với lượng ẩm máy hút ra. Nếu khô quá thì dùng máy tạo ẩm hoặc nâng nhiệt độ cài.\n\nMáy càng nhiều ngựa càng tốt. Thừa công suất làm máy ngắt liên tục, hút ẩm kém, phòng lạnh mà bí, và tốn tiền mua.\n\nMáy nội địa Nhật bao giờ cũng bền hơn. Có thể bền, nhưng phải chạy qua biến áp, mã lỗi khó tra, và linh kiện thay thế rất khó kiếm ở Việt Nam."
   },
   {
-   "id": "device:air_conditioner:40",
+   "id": "device:air_conditioner:42",
    "scope": "device:air_conditioner",
    "doc_vi": "Máy lạnh",
    "section_vi": "Bối cảnh nơi lắp, ảnh hưởng tới chẩn đoán và tới giá",
    "text_vi": "Chung cư. Cục nóng thường nằm trong hộp kỹ thuật hoặc lô gia có lam che, bí gió, làm máy kém lạnh ngay cả khi đủ môi chất. Thi công bị hạn chế giờ giấc và phải xin ban quản lý. Ống đồng thường đi âm tường, nên nếu xì ở đoạn âm thì chi phí xử lý cao hẳn. Nhiều tòa có quy định riêng về việc khoan và về đơn vị được vào thi công.\n\nNhà phố. Cục nóng hay treo ở mặt tiền hoặc giếng trời. Chỗ treo cao cần thang hoặc dây an toàn.\n\nNhà trọ và phòng cho thuê. Máy thường cũ, nhiều đời người dùng, ít khi được bảo dưỡng. Có chuyện ai trả tiền sửa giữa chủ trọ và người thuê, nên nên hỏi rõ người nhắn tin là chủ nhà hay người thuê, vì nó quyết định ai duyệt chi phí.\n\nQuán ăn, quán cà phê, cửa hàng. Máy chạy nhiều giờ liên tục, cửa mở ra vào liên tục, khói bếp và dầu mỡ bám dàn. Máy ở đây bẩn nhanh hơn nhiều và hỏng sớm hơn. Khách nhóm này cần sửa ngoài giờ bán hàng, và đó là yếu tố phải hỏi.\n\nNhà mới xây hoặc mới sửa. Bụi xi măng và sơn bám dàn rất nhanh, và có rủi ro ống đồng bị khoan trúng hoặc bị đè.\n\nNhà ven biển. Ăn mòn cục nóng nhanh, tỉ lệ xì ở dàn nóng cao hơn mặt bằng chung."
   },
   {
-   "id": "device:air_conditioner:41",
+   "id": "device:air_conditioner:43",
    "scope": "device:air_conditioner",
    "doc_vi": "Máy lạnh",
    "section_vi": "Bảo hành: ai chịu phần nào",
    "text_vi": "Đây là chỗ khách hay hiểu nhầm và dễ sinh tranh cãi, nên nói rõ ngay từ đầu.\n\nBảo hành của hãng phủ phần máy: máy nén, bo, dàn, thường có thời hạn riêng cho máy nén dài hơn phần còn lại. Điều kiện thường là máy còn tem, còn phiếu, và không bị can thiệp bởi bên thứ ba.\n\nBảo hành lắp đặt là của nơi lắp, phủ phần thi công: mối nối, đường ống, treo giá, thoát nước. Phần lớn ca xì gas trong năm đầu thuộc nhóm này.\n\nVệ sinh và sửa chữa do dịch vụ thực hiện thì dịch vụ bảo hành phần việc đã làm, không bảo hành cả cái máy.\n\nVật tư tiêu hao và hư hỏng do sử dụng sai thường không thuộc bảo hành nào.\n\nĐiều nên nói với khách khi máy còn mới mà hỏng: kiểm tra bảo hành trước khi trả tiền sửa. Nói điều này làm mất một đơn hàng trước mắt nhưng giữ được khách lâu dài, và nó cũng là điều đúng."
   },
   {
-   "id": "device:air_conditioner:42",
+   "id": "device:air_conditioner:44",
    "scope": "device:air_conditioner",
    "doc_vi": "Máy lạnh",
    "section_vi": "Khi nào nên sửa, khi nào nên thay",
    "text_vi": "Không có công thức, nhưng có vài hướng nghĩ dùng được khi tư vấn.\n\nNghiêng về sửa khi máy còn dưới khoảng bảy tám năm, bệnh nằm ở nhóm linh kiện thay được như tụ, quạt, bo, đường thoát nước, và chi phí sửa nhỏ so với giá máy mới cùng công suất.\n\nNghiêng về thay khi máy đã cũ và hỏng đúng vào nhóm đắt nhất là máy nén hoặc dàn trao đổi nhiệt, hoặc khi máy đã sửa nhiều lần trong thời gian ngắn, hoặc khi máy dùng R22 và đang xì nặng, hoặc khi linh kiện của model đó không còn kiếm được.\n\nCó một yếu tố nữa đáng đưa vào: máy đời cũ ăn điện hơn máy mới đáng kể. Với hộ chạy máy nhiều giờ mỗi ngày, phần chênh tiền điện trong vài năm có thể bù được một phần tiền máy mới. Nói điều này theo hướng ước lượng, đừng đưa con số chắc nịch.\n\nKhi tư vấn, nói cả hai phương án kèm lý do, chứ đừng chốt thay máy giúp khách. Quyết định đó là của khách, và một tư vấn nghiêng về bán hàng sẽ làm mất niềm tin nhanh hơn bất cứ điều gì khác."
   },
   {
-   "id": "device:air_conditioner:45",
+   "id": "device:air_conditioner:47",
    "scope": "device:air_conditioner",
    "doc_vi": "Máy lạnh",
    "section_vi": "Khi thiếu thông tin thì ước lượng thế nào",
    "text_vi": "Hệ thống bị giới hạn hai lần hỏi lại, nên sẽ có ca phải trả lời khi chưa đủ dữ kiện. Cách làm đúng trong trường hợp đó.\n\nNói rõ đây là chẩn đoán sơ bộ dựa trên mô tả, và thợ cần kiểm tra tại chỗ mới chốt được. Không giả vờ chắc chắn.\n\nĐưa ra bệnh khả dĩ nhất theo cả dấu hiệu lẫn tần suất, và nếu có hai bệnh ngang nhau thì nói cả hai kèm cách phân biệt, để khách tự nhìn được.\n\nĐưa khoảng chi phí từ bảng giá, và nói rõ khoảng đó phụ thuộc vào cái gì.\n\nGợi ý một việc khách tự kiểm tra được ngay và an toàn, vì nó vừa có thể giải quyết luôn vấn đề, vừa cho thêm dữ kiện cho lần sau.\n\nKhông bao giờ kết luận một bệnh đắt tiền như hỏng máy nén hay cháy bo từ một mô tả mơ hồ. Đoán nhầm về phía đắt làm khách hoảng và làm mất khách."
   },
   {
-   "id": "device:air_conditioner:46",
+   "id": "device:air_conditioner:48",
    "scope": "device:air_conditioner",
    "doc_vi": "Máy lạnh",
    "section_vi": "Khách hay hỏi thêm",
@@ -859,11 +1083,25 @@
    "id": "device:ceiling_fan:15",
    "scope": "device:ceiling_fan",
    "doc_vi": "Quạt trần",
+   "section_vi": "Vệ sinh định kỳ bao lâu một lần",
+   "text_vi": "Quạt trần có hai việc định kỳ khác nhau: lau cánh và kiểm tra bộ treo.\n\nLau cánh quạt trần ít nhất mỗi năm một lần, lau cả mặt trên của cánh vì đó là chỗ bụi bám dày nhất. Nhà mặt đường, nhà nhiều bụi hoặc quạt gần bếp thì dày hơn. Tắt quạt, ngắt aptomat, chờ cánh dừng hẳn, đứng trên thang chắc chắn có người giữ, lau bằng khăn ẩm vắt kỹ, không đè mạnh làm cong cánh. Ngại trèo cao thì để thợ làm.\n\nKiểm tra và siết lại vít cánh, vít bộ treo, ty treo và chốt an toàn là việc của thợ. Sách hướng dẫn của nhiều hãng quạt trần nêu mốc một tới hai lần mỗi năm, vì rung động tự nhiên làm các mối ghép lỏng dần theo thời gian.\n\nDấu hiệu cần gọi thợ sớm, không chờ mốc: quạt rung tăng dần, có tiếng lộc cộc hoặc lạch cạch khi quay, chụp trên trần xê dịch, quạt nghiêng, quay chậm hơn trước dù để số cao, hoặc hộp số trên tường nóng, có mùi."
+  },
+  {
+   "id": "device:ceiling_fan:16",
+   "scope": "device:ceiling_fan",
+   "doc_vi": "Quạt trần",
+   "section_vi": "Dùng đúng cách cho bền và an toàn",
+   "text_vi": "Quạt trần phải treo vào phần chịu lực của trần, có chốt hoặc cáp an toàn, và việc lắp hay tháo là việc của thợ.\n\nKhi đang dùng: chỉnh tốc độ từ thấp lên; quạt bắt đầu rung thì hạ số và tắt, không để chạy số cao. Không treo đồ, không ném vật lên cánh, không để đồ cao như tủ, giá treo đồ chạm vùng quay của cánh.\n\nPhòng có trẻ nhỏ thì không để giường tầng hoặc đồ leo trèo gần vùng cánh quay.\n\nBật quạt trần cùng máy lạnh giúp hơi lạnh xuống đều và cho phép để máy lạnh ở mức cao hơn.\n\nTrước khi lau hay kiểm tra, ngắt aptomat chứ không chỉ tắt ở hộp số, vì hộp số có thể chỉ cắt một dây.\n\nRung mạnh, mùi khét, khói, nhảy aptomat: tắt quạt, ngắt aptomat, không ngồi hay đứng ngay dưới quạt, gọi thợ."
+  },
+  {
+   "id": "device:ceiling_fan:17",
+   "scope": "device:ceiling_fan",
+   "doc_vi": "Quạt trần",
    "section_vi": "Khi nào sửa, khi nào thay",
    "text_vi": "Quạt trần đắt hơn quạt cây nhưng vẫn không đắt, và phần lớn chi phí sửa nằm ở công tháo lắp trên cao.\n\nNghiêng về sửa khi bệnh là tụ, là hộp số, hoặc là bạc. Cả ba đều thay linh kiện và quạt dùng lại bình thường.\n\nNghiêng về xử lý ngay, không tính toán, khi bệnh là bộ treo. Đây không phải chỗ để cân nhắc kinh tế.\n\nNghiêng về thay khi cháy mô tơ, vì quấn lại mô tơ quạt trần cộng công tháo lắp thường không còn đáng. Cũng nghiêng về thay khi quạt đã rất cũ và nhiều bộ phận cùng xuống.\n\nCó một điểm nên nói khi khách chọn thay: việc tháo quạt cũ và lắp quạt mới vẫn là việc của thợ, vì phần treo là phần quyết định an toàn. Khách mua quạt mới rồi tự lắp là chỗ nhiều sự cố bắt đầu."
   },
   {
-   "id": "device:ceiling_fan:17",
+   "id": "device:ceiling_fan:19",
    "scope": "device:ceiling_fan",
    "doc_vi": "Quạt trần",
    "section_vi": "Khách hay hỏi thêm",
@@ -915,15 +1153,15 @@
    "id": "device:clothes_dryer:7",
    "scope": "device:clothes_dryer",
    "doc_vi": "Máy sấy quần áo",
-   "section_vi": "An toàn",
-   "text_vi": "Mùi khét ở máy sấy là dấu hiệu phải ngừng dùng ngay và rút điện, không phải dấu hiệu để theo dõi thêm vài hôm. Xơ vải tích tụ cháy rất nhanh.\n\nKhông sấy đồ dính dầu ăn, dầu máy, xăng, hay dung môi, kể cả đã giặt. Nhiệt dư trong đống vải sau chu trình đủ để tự bốc cháy.\n\nKhông chặn khe thoát khí phía sau hoặc phía dưới máy bằng đồ đạc.\n\nMáy đặt trong phòng tắm kín hoặc ban công quây kín là tình huống cần thông gió, nhất là máy thông hơi."
+   "section_vi": "Dùng đúng cách cho bền và an toàn",
+   "text_vi": "Mùi khét ở máy sấy là dấu hiệu phải ngừng dùng ngay và rút điện, không phải dấu hiệu để theo dõi thêm vài hôm. Xơ vải tích tụ cháy rất nhanh.\n\nKhông sấy đồ dính dầu ăn, dầu máy, xăng, hay dung môi, kể cả đã giặt. Nhiệt dư trong đống vải sau chu trình đủ để tự bốc cháy.\n\nKhông chặn khe thoát khí phía sau hoặc phía dưới máy bằng đồ đạc.\n\nMáy đặt trong phòng tắm kín hoặc ban công quây kín là tình huống cần thông gió, nhất là máy thông hơi.\n\nDùng hằng ngày: vắt kỹ đồ trước khi sấy, không nhồi đầy lồng, sấy đồ cùng loại vải với chế độ hợp nhiệt. Máy giặt sấy chỉ sấy được khoảng nửa khối lượng giặt. Không sấy len, lụa, đồ đệm mút, áo ngực có gọng.\n\nKhông để máy sấy chạy khi cả nhà ra ngoài hoặc đã đi ngủ, theo khuyến cáo phòng cháy cho máy sấy. Cắm máy sấy vào ổ riêng, không dùng ổ chia hay dây nối dài."
   },
   {
    "id": "device:clothes_dryer:8",
    "scope": "device:clothes_dryer",
    "doc_vi": "Máy sấy quần áo",
-   "section_vi": "Vệ sinh và bảo dưỡng",
-   "text_vi": "Lưới lọc xơ: làm sạch sau mỗi lần sấy. Đây là việc quan trọng nhất và mất mười giây.\n\nDàn ngưng, với máy ngưng tụ và bơm nhiệt: vệ sinh vài tháng một lần theo hướng dẫn của máy. Đây là việc thợ làm trong gói vệ sinh máy sấy.\n\nKhay nước: đổ sau mỗi lần sấy, hoặc nối ống xả cố định cho khỏi phải nhớ.\n\nỐng thông hơi, với máy thông hơi: kiểm tra và hút xơ mỗi năm, và bảo đảm ống không bị gập khi đẩy máy sát tường."
+   "section_vi": "Vệ sinh định kỳ bao lâu một lần",
+   "text_vi": "Lưới lọc xơ máy sấy: làm sạch sau mỗi lần sấy. Đây là việc quan trọng nhất và mất mười giây. Lưới có lớp màng mờ do nước xả vải thì rửa bằng nước rồi phơi khô.\n\nDàn ngưng, với máy ngưng tụ và bơm nhiệt: vệ sinh vài tháng một lần theo hướng dẫn của máy, hoặc khi đèn nhắc vệ sinh dàn ngưng sáng. Mốc của hãng khác nhau: sách của Miele ghi khoảng sáu tháng hoặc khoảng một trăm lần sấy với máy dùng nhiều, tư vấn bán lẻ ở châu Âu ghi hai tới ba tháng. Máy đặt cạnh nhà tắm cần làm dày hơn. Đây là việc thợ làm trong gói vệ sinh máy sấy.\n\nKhay nước: đổ sau mỗi lần sấy, hoặc nối ống xả cố định cho khỏi phải nhớ.\n\nỐng thông hơi, với máy thông hơi: kiểm tra và hút xơ mỗi năm, và bảo đảm ống không bị gập khi đẩy máy sát tường.\n\nDấu hiệu tới hạn sớm: sấy lâu khô hơn trước, vỏ máy nóng hơn, máy tự ngắt giữa chừng, quần áo ra vẫn ẩm."
   },
   {
    "id": "device:clothes_dryer:9",
@@ -985,18 +1223,25 @@
    "id": "device:dishwasher:8",
    "scope": "device:dishwasher",
    "doc_vi": "Máy rửa bát",
-   "section_vi": "Vệ sinh và bảo dưỡng",
-   "text_vi": "Lưới lọc đáy: tháo ra rửa mỗi tuần hoặc hai tuần. Đây là việc quan trọng nhất và mất ba phút.\n\nGioăng cửa: lau bằng khăn ẩm mỗi tháng, vì cặn thức ăn đọng ở mép gioăng là nguyên nhân số một của mùi hôi.\n\nTay phun: tháo ra xem lỗ phun có bị cặn bít không, mỗi vài tháng.\n\nChạy một chu trình rỗng ở nhiệt cao với chất tẩy chuyên dụng mỗi vài tháng, để xử lý dầu mỡ bám trong đường ống."
+   "section_vi": "Vệ sinh định kỳ bao lâu một lần",
+   "text_vi": "Lưới lọc đáy máy rửa bát: tháo ra rửa mỗi tuần hoặc hai tuần với bếp nấu nhiều dầu mỡ. Đây là việc quan trọng nhất và mất ba phút. Sách của Bosch cho mốc thưa hơn ở nhà dùng nhẹ, khoảng ba tới sáu lần mỗi năm, tám tới mười hai lần khi dùng nhiều, mỗi tháng khi nước cứng, và luôn rửa sau mẻ nhiều cặn hay nhiều tinh bột. Bếp Việt nhiều dầu mỡ nên lấy mốc dày.\n\nGioăng cửa: lau bằng khăn ẩm mỗi tháng, vì cặn thức ăn đọng ở mép gioăng là nguyên nhân số một của mùi hôi.\n\nTay phun: tháo ra xem lỗ phun có bị cặn bít không, mỗi vài tháng.\n\nChạy một chu trình rỗng ở nhiệt cao với chất tẩy chuyên dụng mỗi vài tháng, để xử lý dầu mỡ bám trong đường ống.\n\nMuối làm mềm nước và chất trợ xả: châm khi đèn báo trên bảng điều khiển sáng, không theo lịch cố định. Mức dùng muối chỉnh theo độ cứng nước trong sách của máy.\n\nDấu hiệu tới hạn sớm: máy có mùi, nước đọng dưới đáy sau chu trình, bát ra còn cặn hoặc có vệt trắng."
   },
   {
    "id": "device:dishwasher:9",
+   "scope": "device:dishwasher",
+   "doc_vi": "Máy rửa bát",
+   "section_vi": "Dùng đúng cách cho bền và an toàn",
+   "text_vi": "Gạt bỏ thức ăn thừa, xương, vỏ trước khi xếp vào máy rửa bát, không cần tráng sạch. Xếp bát úp, nồi to ở giá dưới, không để đồ chặn tay phun và không che hộp viên rửa.\n\nChỉ dùng viên, bột hoặc gel cho máy rửa bát. Nước rửa chén rửa tay tạo nhiều bọt, tràn ra cửa và làm máy báo lỗi. Muối cho ngăn làm mềm nước là muối chuyên dụng, không dùng muối ăn.\n\nKhông cho đồ gỗ, dao thép carbon, nồi nhôm mỏng, đồ dát vàng vào máy. Dao sắc xếp mũi xuống hoặc nằm trong khay dao.\n\nMáy độc lập đặt trên nền phẳng, ống xả không gập. Máy âm tủ đấu điện và nước chắc chắn, không để nước rò vào chân tủ.\n\nChất tẩy rửa máy rửa bát có tính ăn da, cất xa tầm tay trẻ em. Đóng cửa máy sau khi xếp bát để trẻ không với tới dao và chất tẩy.\n\nKhoá van cấp nước khi đi vắng dài ngày. Rò nước gần ổ điện thì ngắt điện trước, với máy âm tủ là ngắt aptomat nhánh bếp."
+  },
+  {
+   "id": "device:dishwasher:10",
    "scope": "device:dishwasher",
    "doc_vi": "Máy rửa bát",
    "section_vi": "Khi nào nên sửa, khi nào nên thay",
    "text_vi": "Bơm xả, van cấp, công tắc cửa, gioăng cửa đều là linh kiện thay được và sửa thường đáng tiền, nhất là với máy âm tủ vì thay máy kéo theo sửa tủ.\n\nBo điều khiển hỏng trên máy đã dùng nhiều năm thì cần cân nhắc, và thợ nhìn model rồi báo chứ đừng đoán qua tin nhắn.\n\nMáy nhập khẩu 110V dùng qua biến áp hay có vấn đề riêng, và linh kiện khó kiếm hơn. Hỏi khách máy mua trong nước hay hàng nhập."
   },
   {
-   "id": "device:dishwasher:11",
+   "id": "device:dishwasher:12",
    "scope": "device:dishwasher",
    "doc_vi": "Máy rửa bát",
    "section_vi": "Khách hay hỏi thêm",
@@ -1097,11 +1342,25 @@
    "id": "device:electric_fan:15",
    "scope": "device:electric_fan",
    "doc_vi": "Quạt điện",
+   "section_vi": "Vệ sinh định kỳ bao lâu một lần",
+   "text_vi": "Quạt điện không có lịch bảo dưỡng của hãng mà tài liệu đối chiếu được, nên mốc dưới đây là theo thực tế dùng.\n\nVệ sinh cánh và lồng quạt ít nhất mỗi đầu mùa nóng, và mỗi khi thấy lớp bụi bám rõ trên cánh. Quạt nhà mặt đường, quạt đặt gần bếp, quạt chạy quanh năm ở miền Nam thì làm thường xuyên hơn nhiều, vì bụi trộn dầu mỡ thành lớp keo. Cách làm: rút điện, tháo lồng, rửa cánh bằng nước ấm pha nước rửa chén, lau khô hẳn rồi lắp lại.\n\nQuạt lấy ra dùng sau một mùa cất kho: lau bụi, xoay thử cánh bằng tay khi chưa cắm điện. Cánh quay nặng thì tra vài giọt dầu máy khâu vào lỗ tra dầu ở hai đầu mô tơ, nếu quạt có lỗ đó, không dùng dầu ăn.\n\nSiết lại ốc cánh, ốc lồng khi thấy quạt rung.\n\nDấu hiệu cần vệ sinh hoặc gọi thợ sớm: quạt rung lắc, gió yếu hơn trước, kêu rè rè, phải lấy tay đẩy cánh mới quay, thân mô tơ nóng hơn thường. Mùi khét thì rút điện ngay."
+  },
+  {
+   "id": "device:electric_fan:16",
+   "scope": "device:electric_fan",
+   "doc_vi": "Quạt điện",
+   "section_vi": "Dùng đúng cách cho bền và an toàn",
+   "text_vi": "Đặt quạt điện trên mặt phẳng vững, xa rèm và vật dễ đổ vào cánh. Không để trẻ nhỏ thò tay qua lồng.\n\nKhi di chuyển quạt, nhấc thân quạt chứ không kéo lê bằng dây nguồn, vì đó là nguyên nhân hàng đầu của hỏng dây ở chỗ sát phích. Không đè dây dưới thảm hay chân bàn.\n\nKhông trùm khăn, quần áo lên quạt đang chạy, và không để quạt sát vật cản làm bí gió thổi qua mô tơ.\n\nQuạt chạy suốt đêm hoặc khi đi vắng chỉ nên là quạt đang khoẻ. Quạt đã có mùi khét, nóng bất thường, dây nứt vỏ hoặc phải đẩy cánh mới quay thì không để chạy khi không có người.\n\nCất quạt qua mùa lạnh: lau sạch, bọc kín, để chỗ khô, xa chuột.\n\nRút điện trước khi lau, tháo lồng hay tra dầu. Tê tay khi chạm quạt thì rút điện và ngừng dùng."
+  },
+  {
+   "id": "device:electric_fan:17",
+   "scope": "device:electric_fan",
+   "doc_vi": "Quạt điện",
    "section_vi": "Khi nào sửa, khi nào thay",
    "text_vi": "Nghiêng về sửa khi bệnh là tụ điện, bạc khô, cánh cong, ốc lỏng, hoặc lồng móp. Tất cả đều rẻ và đều làm quạt như mới.\n\nCân nhắc khi bệnh là công tắc, tuốc năng, hoặc dây nguồn. Sửa được, nhưng nếu quạt đã cũ và nhiều thứ cùng xuống thì cộng lại không còn đáng.\n\nNghiêng về thay khi cháy cuộn dây mô tơ. Quấn lại mô tơ cho một cái quạt gia dụng hiếm khi đáng, và quạt quấn lại thường không còn êm như cũ. Đây là bệnh mà câu trả lời trung thực nhất là khuyên thay.\n\nCũng nghiêng về thay khi thân quạt đã nứt, khi bạc mòn tới mức trục lắc rõ, hoặc khi quạt đã qua nhiều lần sửa.\n\nNói cả hai vế và để khách quyết. Và khi khuyên thay, nói rõ lý do là phép tính chứ không phải là không sửa được."
   },
   {
-   "id": "device:electric_fan:17",
+   "id": "device:electric_fan:19",
    "scope": "device:electric_fan",
    "doc_vi": "Quạt điện",
    "section_vi": "Khách hay hỏi thêm",
@@ -1209,11 +1468,25 @@
    "id": "device:faucet:16",
    "scope": "device:faucet",
    "doc_vi": "Vòi nước",
+   "section_vi": "Vệ sinh định kỳ bao lâu một lần",
+   "text_vi": "Mốc vệ sinh vòi nước đi theo độ cứng của nước. Hansgrohe và Duravit không đưa một con số cố định mà khuyên làm dày hơn ở vùng nước nhiều khoáng và làm ngay khi thấy cặn đầu tiên.\n\nĐầu lọc ở miệng vòi: tháo ra rửa và ngâm giấm hoặc dung dịch axit citric nhẹ. Nhà dùng nước cứng, nước giếng, ống thép cũ thì nên làm vài tháng một lần; nước mềm thì làm khi tia nước toé, lệch hoặc yếu đi. Bát sen tắm làm cùng lúc.\n\nMặt ngoài vòi: lau thường xuyên bằng khăn mềm cho khỏi đóng vết nước. Hansgrohe dặn không dùng chất tẩy có hạt, axit mạnh hay miếng cọ cứng lên bề mặt mạ; lau giấm thì rửa lại bằng nước sạch rồi lau khô.\n\nỐng mềm cấp nước dưới chậu: nhìn mỗi lần mở tủ, thấy phồng, rỉ ở đầu bấm, lưới bện bung sợi thì thay ngay. Đây là chi tiết có tuổi thọ và nên thay định kỳ.\n\nVan chặn dưới chậu: thỉnh thoảng vặn đóng mở một lần để van không kẹt cứng.\n\nDấu hiệu gọi thợ: vòi nhỏ giọt khi đã khoá, vặn nặng, rò ở chân vòi, nước đọng trong tủ chậu."
+  },
+  {
+   "id": "device:faucet:17",
+   "scope": "device:faucet",
+   "doc_vi": "Vòi nước",
+   "section_vi": "Dùng đúng cách cho bền và an toàn",
+   "text_vi": "Khoá vòi vừa tay, không vặn thật chặt cho chắc. Vặn quá tay là nguyên nhân làm mòn gioăng và lõi vòi nhanh gấp nhiều lần.\n\nVòi gạt một tay: gạt nhẹ, không giật mạnh hay treo đồ lên cần gạt. Không đóng mở đột ngột liên tục, vì dễ gây búa nước trong ống.\n\nKhông kéo vòi hoặc đầu vòi rút để làm tay vịn, không treo túi nặng lên vòi.\n\nỐng mềm cấp nước không được gập, xoắn hay căng thẳng. Tủ chậu không chất đồ đè lên ống và van.\n\nNhà có trẻ nhỏ và người già: chỉnh vòi nóng lạnh về phía lạnh trước khi mở, và kiểm tra nhiệt độ nước trước khi dùng, nhất là khi vòi nối với bình nóng lạnh.\n\nBiết van chặn dưới chậu và van tổng của nhà ở đâu. Vòi bung hoặc ống mềm bung thì khoá van trước, lau sau.\n\nĐi vắng dài ngày thì khoá van tổng hoặc van chặn của từng thiết bị."
+  },
+  {
+   "id": "device:faucet:18",
+   "scope": "device:faucet",
+   "doc_vi": "Vòi nước",
    "section_vi": "Khi nào sửa, khi nào thay cả vòi",
    "text_vi": "Phần lớn bệnh của vòi sửa được, và linh kiện thì rẻ. Nhưng có ranh giới.\n\nGần như luôn đáng sửa: đầu lọc bít, gioăng mòn, lõi vòi mòn, ống mềm rò, đai ốc lỏng.\n\nCân nhắc thay cả vòi khi:\n\nLõi vòi đúng loại không còn hàng. Phổ biến với vòi rẻ và vòi đời cũ, vì mỗi hãng một kiểu lõi và không có chuẩn chung.\n\nThân vòi đã bong mạ, rỗ, hoặc có vết nứt.\n\nBệ tựa bên trong đã mòn, ở vòi hai tay. Thay gioăng mới cũng không kín được.\n\nVòi đã sửa nhiều lần trong thời gian ngắn.\n\nRen ở thân vòi đã trờn.\n\nĐiểm cần nói trước khi khách quyết sửa: lõi vòi không có chuẩn chung. Phải đúng hãng hoặc đúng kiểu, và khác biệt vài milimet là không lắp được.\n\nVì vậy nên tháo lõi cũ ra mang đi mua, hoặc chụp ảnh cả lõi có thước bên cạnh.\n\nNếu tìm không ra lõi đúng thì thay cả vòi, và với vòi phổ thông thì phép tính đó thường hợp lý."
   },
   {
-   "id": "device:faucet:18",
+   "id": "device:faucet:20",
    "scope": "device:faucet",
    "doc_vi": "Vòi nước",
    "section_vi": "Khách hay hỏi thêm",
@@ -1335,8 +1608,8 @@
    "id": "device:gas_stove:18",
    "scope": "device:gas_stove",
    "doc_vi": "Bếp gas",
-   "section_vi": "An toàn khi đặt bếp và bình",
-   "text_vi": "Bình gas đặt thẳng đứng, nơi thoáng, không đặt trong hộc kín không có lỗ thông, không đặt ở chỗ trũng hoặc tầng hầm.\n\nBình đặt cách xa nguồn nhiệt và cách xa bếp một khoảng, không đặt ngay dưới bếp đang cháy.\n\nDây dẫn không bị gấp, không bị đè, không đi qua chỗ nóng, không luồn qua khe kim loại sắc.\n\nBếp đặt nơi thoáng, tránh gió lùa thẳng làm tắt lửa.\n\nKhông để vật dễ cháy gần bếp: giẻ, giấy, chai dầu ăn, bình xịt.\n\nCó lỗ thông gió cho bếp, nhất là bếp đặt trong phòng kín hoặc chung cư.\n\nKhoá van bình sau mỗi lần nấu, và nhất là khi đi vắng. Đây là thói quen quan trọng nhất và nó gần như miễn phí."
+   "section_vi": "Dùng đúng cách cho bền và an toàn",
+   "text_vi": "Bình gas đặt thẳng đứng, nơi thoáng, không đặt trong hộc kín không có lỗ thông, không đặt ở chỗ trũng hoặc tầng hầm.\n\nBình đặt cách xa nguồn nhiệt và cách xa bếp một khoảng, không đặt ngay dưới bếp đang cháy.\n\nDây dẫn không bị gấp, không bị đè, không đi qua chỗ nóng, không luồn qua khe kim loại sắc.\n\nBếp đặt nơi thoáng, tránh gió lùa thẳng làm tắt lửa.\n\nKhông để vật dễ cháy gần bếp: giẻ, giấy, chai dầu ăn, bình xịt.\n\nCó lỗ thông gió cho bếp, nhất là bếp đặt trong phòng kín hoặc chung cư.\n\nKhi nấu bằng bếp gas: đứng gần bếp, nhất là khi nấu món nước dễ trào; không vặn lửa nhỏ tới mức chập chờn; dùng nồi vừa vùng lửa để lửa không liếm ra ngoài đáy nồi. Lửa xanh gọn là bình thường, lửa đỏ hoặc vàng là cần vệ sinh mâm chia lửa.\n\nKhoá van bình sau mỗi lần nấu, và nhất là khi đi vắng. Đây là thói quen quan trọng nhất và nó gần như miễn phí.\n\nNgửi thấy mùi gas thì khoá van bình, mở hết cửa, không bật tắt công tắc điện nào và không đánh lửa."
   },
   {
    "id": "device:gas_stove:19",
@@ -1356,8 +1629,8 @@
    "id": "device:gas_stove:22",
    "scope": "device:gas_stove",
    "doc_vi": "Bếp gas",
-   "section_vi": "Vệ sinh và bảo dưỡng",
-   "text_vi": "Lau mặt bếp sau mỗi lần nấu, khi bếp đã nguội hẳn.\n\nTháo kiềng và mâm chia lửa ra rửa định kỳ, và lắp lại đúng rãnh. Lắp lệch là nguyên nhân của nhiều bệnh.\n\nThông lỗ họng lửa bằng vật mềm khi bị bít. Không dùng vật cứng làm rộng lỗ.\n\nLau đầu cảm ứng nhiệt và kim đánh lửa bằng khăn mềm khô. Hai chi tiết này bẩn là sinh chuyện, và lau thì miễn phí.\n\nKiểm tra dây dẫn và các mối nối bằng nước xà phòng định kỳ.\n\nThay pin bộ đánh lửa khi đánh lửa yếu.\n\nThay dây dẫn và van điều áp theo chu kỳ.\n\nKhoá van bình sau mỗi lần nấu."
+   "section_vi": "Vệ sinh định kỳ bao lâu một lần",
+   "text_vi": "Lau mặt bếp gas sau mỗi lần nấu, khi bếp đã nguội hẳn. Thức ăn trào ra thì lau ngay khi nguội, đừng để khô cứng trên họng lửa.\n\nTháo kiềng và mâm chia lửa ra rửa định kỳ, và ngay khi lửa đỏ, lửa lệch; lau khô rồi lắp lại đúng rãnh. Lắp lệch là nguyên nhân của nhiều bệnh.\n\nThông lỗ họng lửa bằng vật mềm khi bị bít. Không dùng vật cứng làm rộng lỗ.\n\nLau đầu cảm ứng nhiệt và kim đánh lửa bằng khăn mềm khô. Hai chi tiết này bẩn là sinh chuyện, và lau thì miễn phí.\n\nKiểm tra dây dẫn và các mối nối bằng nước xà phòng định kỳ, và luôn làm sau mỗi lần thay bình.\n\nThay pin bộ đánh lửa khi đánh lửa yếu.\n\nThay dây dẫn và van điều áp theo chu kỳ. Một số bài viết an toàn gas trong nước nêu mốc khoảng ba tới năm năm cho bộ dây và van, có nguồn ngắn hơn, và Việt Nam chưa có tiêu chuẩn riêng cho hai chi tiết này, nên mốc cụ thể chốt với đại lý gas hoặc thợ theo loại dây đang dùng. Dây đã khô, nứt, cứng, phồng hoặc có vết chuột cắn thì thay ngay, không chờ tới mốc.\n\nKhoá van bình sau mỗi lần nấu."
   },
   {
    "id": "device:gas_stove:23",
@@ -1433,15 +1706,15 @@
    "id": "device:induction_hob:11",
    "scope": "device:induction_hob",
    "doc_vi": "Bếp từ",
-   "section_vi": "An toàn khi đặt và dùng",
-   "text_vi": "Bếp từ không sinh lửa nên nhiều người coi nó tuyệt đối an toàn. Hai chỗ cần cẩn thận là điện và kính.\n\nĐiện: bếp nên có đường riêng và aptomat riêng, đừng cắm chung ổ với thiết bị công suất lớn khác. Nhà có trẻ nhỏ nên dùng khoá trẻ em của bếp.\n\nKính: kính nứt là phải ngừng dùng ngay, không có mức nứt nào là dùng tạm được. Không đổ nước lạnh lên mặt đang nóng, và không kê nồi nặng lên phần kính nhô ra ngoài vùng khoét của tủ.\n\nNgười mang máy trợ tim nên đứng cách bếp đang chạy một khoảng, theo khuyến cáo chung của nhà sản xuất."
+   "section_vi": "Dùng đúng cách cho bền và an toàn",
+   "text_vi": "Bếp từ không sinh lửa nên nhiều người coi nó tuyệt đối an toàn. Hai chỗ cần cẩn thận là điện và kính.\n\nDùng hằng ngày: nồi đáy nhiễm từ, phẳng, vừa vùng nấu; đặt nồi rồi mới bật, nhấc nồi ra thì tắt vùng nấu; không đun nồi rỗng; không kéo lê nồi trên kính. Không đặt dao, thìa kim loại hay giấy bạc lên mặt bếp đang chạy, vì chúng nóng lên. Bếp âm phải giữ khe thoát nhiệt dưới hộc tủ thông thoáng.\n\nĐiện: bếp nên có đường riêng và aptomat riêng, đừng cắm chung ổ với thiết bị công suất lớn khác. Nhà có trẻ nhỏ nên dùng khoá trẻ em của bếp.\n\nKính: kính nứt là phải ngừng dùng ngay, không có mức nứt nào là dùng tạm được. Không đổ nước lạnh lên mặt đang nóng, và không kê nồi nặng lên phần kính nhô ra ngoài vùng khoét của tủ.\n\nNgười mang máy trợ tim nên đứng cách bếp đang chạy một khoảng, theo khuyến cáo chung của nhà sản xuất."
   },
   {
    "id": "device:induction_hob:12",
    "scope": "device:induction_hob",
    "doc_vi": "Bếp từ",
-   "section_vi": "Vệ sinh và bảo dưỡng",
-   "text_vi": "Lau mặt kính khi đã nguội bằng khăn mềm và dung dịch chuyên dụng. Không dùng miếng cọ kim loại, vết xước là chỗ bắt đầu của vết nứt sau này.\n\nViệc bảo dưỡng quan trọng nhất lại không nằm trên mặt bếp mà ở khe thoát nhiệt phía dưới: hút bụi định kỳ, và nếu bếp lắp âm thì kiểm tra hộc tủ có bịt khe không. Đây là nguyên nhân nền của phần lớn ca bếp tự ngắt và đứt cầu chì nhiệt."
+   "section_vi": "Vệ sinh định kỳ bao lâu một lần",
+   "text_vi": "Mặt kính bếp từ: lau sau mỗi lần nấu, khi đã nguội, bằng khăn mềm và dung dịch chuyên dụng. Không dùng miếng cọ kim loại, vết xước là chỗ bắt đầu của vết nứt sau này. Cặn bám cứng thì dùng dao cạo kính chuyên dụng, cầm nghiêng, cạo nhẹ.\n\nRiêng đường, siro, sữa trào ra: hướng dẫn của Bosch và Siemens cho cạo khỏi vùng nấu ngay khi còn nóng, vì để nguội thì bám chặt và có thể để lại vết trên kính. Tắt bếp, nhấc nồi ra, dùng dao cạo chứ không dùng tay hay khăn.\n\nKhe hút gió và thoát nhiệt phía dưới: hút bụi định kỳ, sớm hơn khi quạt kêu to hơn hoặc bếp hay tự ngắt. Bếp lắp âm thì kiểm tra hộc tủ có bịt khe không. Đây là việc bảo dưỡng quan trọng nhất và là nguyên nhân nền của phần lớn ca bếp tự ngắt, đứt cầu chì nhiệt.\n\nBếp từ không có lịch bảo dưỡng của thợ. Gọi thợ khi quạt kêu lạch cạch, bếp tự ngắt lặp lại dù khe thoáng sạch, hoặc báo mã lỗi."
   },
   {
    "id": "device:induction_hob:13",
@@ -1552,18 +1825,32 @@
    "id": "device:kettle:15",
    "scope": "device:kettle",
    "doc_vi": "Ấm siêu tốc",
+   "section_vi": "Vệ sinh định kỳ bao lâu một lần",
+   "text_vi": "Việc định kỳ duy nhất của ấm siêu tốc là tẩy cặn vôi, và khách tự làm được.\n\nMốc theo độ cứng của nước. Sách hướng dẫn ấm Philips ghi khoảng mỗi tháng một lần ở vùng nước cứng và khoảng ba tháng một lần ở vùng nước mềm, với mức dùng bình thường; đun nhiều lần mỗi ngày như ở văn phòng, nhà trọ thì dày hơn. Nhà dùng nước giếng khoan hoặc nước có cặn nên lấy mốc mỗi tháng.\n\nCách làm: đổ giấm trắng pha nước hoặc dung dịch axit citric vào ấm, đun sôi, để ngấm rồi đổ đi, đun và đổ nước sạch vài lần cho hết mùi. Lưới lọc ở vòi rót, nếu có, tháo ra ngâm và rửa cùng lúc. Cách pha và thời gian ngâm theo sách của ấm.\n\nLau vỏ ngoài và đế cắm bằng khăn khô hoặc hơi ẩm khi đã rút điện. Không nhúng ấm hay đế vào nước.\n\nẤm siêu tốc không có việc bảo dưỡng của thợ. Dấu hiệu cần tẩy cặn sớm: thấy lớp trắng ở đáy, đun lâu sôi hơn, ấm tắt trước khi sôi, hoặc nước có vảy trắng."
+  },
+  {
+   "id": "device:kettle:16",
+   "scope": "device:kettle",
+   "doc_vi": "Ấm siêu tốc",
+   "section_vi": "Dùng đúng cách cho bền và an toàn",
+   "text_vi": "Đổ nước trong khoảng vạch tối thiểu và tối đa. Đun quá ít làm rơ le chống cạn cắt sớm và mâm nhiệt già nhanh; đổ quá đầy thì nước sôi trào ra đế điện.\n\nĐóng kín nắp khi đun, vì ấm tự tắt nhờ hơi nước đi đúng đường dẫn.\n\nChỉ đun nước sạch trong ấm siêu tốc, không nấu mì, trứng hay sữa trừ khi sách của ấm cho phép.\n\nĐặt ấm và đế trên mặt phẳng khô, xa mép bàn và xa tầm với của trẻ, dây nguồn không thả lơ lửng ngoài mép. Nhấc ấm ra khỏi đế khi rót, và lau khô đáy ấm nếu bị ướt trước khi đặt lại.\n\nCắm ấm vào ổ riêng, không cắm chung ổ chia với thiết bị sinh nhiệt khác. Rút điện khi không dùng.\n\nTê tay khi chạm ấm, có mùi khét, nhựa ố vàng quanh công tắc, hoặc ấm rò nước ra đế: ngừng dùng và thay ấm, không sửa tạm."
+  },
+  {
+   "id": "device:kettle:17",
+   "scope": "device:kettle",
+   "doc_vi": "Ấm siêu tốc",
    "section_vi": "Vì sao phép tính nghiêng về thay",
    "text_vi": "Đáng nói thẳng vì nó là câu hỏi thật của khách, và vì câu trả lời trung thực khác với các cụm khác.\n\nẤm siêu tốc rẻ. Công thợ cộng linh kiện cho một ca sửa thường tiệm cận giá một cái ấm mới cùng loại.\n\nVà có một lý do thứ hai quan trọng hơn tiền: với các nhánh liên quan tới độ kín giữa nước và điện, việc sửa khó kiểm chứng được.\n\nThợ có thể thay gioăng mâm nhiệt và nó hết rò hôm nay. Nhưng không có cách nào tại chỗ để biết nó còn kín sau một trăm chu kỳ nóng nguội nữa hay không.\n\nVới một thiết bị rẻ mà người ta cầm bằng tay ướt, đó là đánh đổi không đáng.\n\nVì vậy nguyên tắc của cụm này:\n\nNhánh không phải hỏng thì tự xử lý: cặn vôi, nắp không kín, mực nước sai, ổ cắm.\n\nNhánh rò nước hoặc rò điện thì thay ấm, không sửa.\n\nNhánh dây nguồn hoặc đế cắm thì tuỳ, nhưng vẫn nên cân nhắc giá.\n\nNói thẳng điều này sớm là có ích, vì nó tránh cho khách một lần hẹn thợ chỉ để nghe cùng kết luận."
   },
   {
-   "id": "device:kettle:16",
+   "id": "device:kettle:18",
    "scope": "device:kettle",
    "doc_vi": "Ấm siêu tốc",
    "section_vi": "Khi nào nên thay ngay, không cân nhắc",
    "text_vi": "Sáu tình huống, và cả sáu đều liên quan tới an toàn chứ không tới tiền.\n\nRò nước ở đáy ấm.\n\nChạm vào ấm thấy tê tay.\n\nNhựa quanh công tắc hoặc quanh đế đã ố vàng, biến dạng, hoặc chảy.\n\nTiếp điểm ở đế có vết cháy đen.\n\nDây nguồn nứt, hở lõi, hoặc chân phích cháy xém.\n\nẤm đã bị đun cạn và có mùi khét, kể cả khi nó vẫn chạy.\n\nNhánh cuối đáng nói riêng: rơ le chống cạn có cắt, nhưng nếu nó cắt muộn hoặc nếu mâm đã kịp quá nóng thì lớp nhựa và gioăng quanh mâm đã bị ảnh hưởng. Nó có thể vẫn chạy và rò vài tháng sau.\n\nVới sáu tình huống trên, nói dứt khoát là nên thay, và nói lý do. Đừng để khách hỏi có sửa được không rồi mới trả lời."
   },
   {
-   "id": "device:kettle:18",
+   "id": "device:kettle:20",
    "scope": "device:kettle",
    "doc_vi": "Ấm siêu tốc",
    "section_vi": "Khách hay hỏi thêm",
@@ -1671,18 +1958,32 @@
    "id": "device:light_bulb:16",
    "scope": "device:light_bulb",
    "doc_vi": "Đèn chiếu sáng",
+   "section_vi": "Vệ sinh định kỳ bao lâu một lần",
+   "text_vi": "Đèn chiếu sáng không có lịch bảo dưỡng của thợ, và không có mốc của hãng mà tài liệu đối chiếu được. Việc định kỳ là giữ chụp đèn và máng đèn sạch.\n\nChụp đèn, máng đèn: lau khi thấy bụi bám hoặc có xác côn trùng bên trong, và nên làm mỗi lần tổng vệ sinh nhà. Đèn ở bếp bám dầu mỡ, đèn ngoài hiên nhiều côn trùng nên bẩn nhanh hơn. Chụp bẩn vừa làm đèn sáng yếu đi vừa làm đèn nóng hơn.\n\nCách làm: ngắt aptomat của nhánh đèn, chờ đèn nguội, đứng trên thang chắc chắn, tháo chụp xuống rửa bằng nước rửa chén pha loãng, lau khô hẳn rồi mới lắp lại. Bóng và máng chỉ lau bằng khăn khô hoặc hơi ẩm vắt kỹ, không để nước vào đui.\n\nĐèn âm trần trong trần thạch cao: không có việc khách cần làm phía trên trần.\n\nDấu hiệu cần gọi thợ: đèn chớp nháy dù đã thay bóng, đui hoặc máng ố đen, nước đọng trong chụp, nhiều đèn cùng nhánh hỏng liên tiếp, tiếng rè ở máng đèn."
+  },
+  {
+   "id": "device:light_bulb:17",
+   "scope": "device:light_bulb",
+   "doc_vi": "Đèn chiếu sáng",
+   "section_vi": "Dùng đúng cách cho bền và an toàn",
+   "text_vi": "Ngắt aptomat của nhánh đèn trước khi thay bóng hay lau, không chỉ tắt công tắc, vì công tắc thường chỉ cắt một dây.\n\nLắp bóng đúng loại đui và không vượt công suất tối đa ghi trên chụp hoặc máng đèn. Đèn nhà tắm, ngoài trời dùng loại có cấp chống ẩm phù hợp.\n\nKhông trùm vải, giấy hay đồ dễ cháy lên đèn, và không để đèn halogen, đèn sợi đốt sát rèm. Đèn âm trần cần khoang trần thoáng để driver không chạy nóng.\n\nĐèn led bật tắt theo nhu cầu là được. Đèn huỳnh quang bật tắt liên tục mau hỏng hơn.\n\nBóng huỳnh quang và bóng compact có chứa thuỷ ngân. Lỡ làm vỡ thì cho trẻ nhỏ ra khỏi phòng, mở cửa cho thoáng, gom mảnh bằng giấy cứng và băng dính, không dùng máy hút bụi, cho vào túi kín.\n\nMùi khét, khói ở đèn hay công tắc, nước rỉ từ trần vào máng đèn: ngắt aptomat và gọi thợ."
+  },
+  {
+   "id": "device:light_bulb:18",
+   "scope": "device:light_bulb",
+   "doc_vi": "Đèn chiếu sáng",
    "section_vi": "Mua đúng bóng thay thế",
    "text_vi": "Bốn thứ cần đúng, và sai một thứ là không lắp được hoặc không đúng ý.\n\nLoại đui. Có kiểu xoáy nhiều cỡ, kiểu cắm hai chân, kiểu ngạnh. Mang bóng cũ đi là chắc nhất.\n\nCông suất. Với led thì số oát thấp hơn nhiều so với bóng cũ cùng độ sáng. Nếu khách thay bóng sợi đốt bằng led thì đừng chọn theo số oát cũ.\n\nĐộ sáng. Đây mới là con số nên so, không phải công suất.\n\nMàu ánh sáng. Trắng, trung tính, hay vàng. Đây là chuyện sở thích nhưng nó hay bị mua nhầm, và một cái bóng trắng lạnh trong phòng ngủ thì khách sẽ không thích.\n\nCó một điều đáng nói khi khách hỏi mua loại nào: đèn led rẻ và đèn led tốt khác nhau chủ yếu ở driver, không ở chip led.\n\nĐó là lý do hai cái bóng trông giống hệt nhau lại có tuổi thọ chênh nhau nhiều lần.\n\nVới đèn ở chỗ khó thay, như đèn trần cao hoặc đèn âm trần, chênh lệch giá đó đáng trả."
   },
   {
-   "id": "device:light_bulb:17",
+   "id": "device:light_bulb:19",
    "scope": "device:light_bulb",
    "doc_vi": "Đèn chiếu sáng",
    "section_vi": "Khi nào sửa, khi nào thay",
    "text_vi": "Cụm này gần như không có nhánh sửa.\n\nBóng cháy: thay bóng.\n\nỐng tuýp đen hai đầu: thay ống.\n\nDriver liền thân bóng hỏng: thay cả bóng.\n\nDriver rời hỏng: thay driver. Rẻ hơn thay cả bộ đèn, và đây là nhánh đáng hỏi.\n\nChấn lưu hoặc tăng phô hỏng: thay chi tiết đó. Rẻ.\n\nĐui đèn rỉ hoặc cháy: thay đui. Rẻ, nhưng cần thợ vì phải đấu dây.\n\nCông tắc hỏng: thay công tắc. Rẻ, và cần thợ.\n\nMáng đèn thấm nước: thay máng, và xử lý nguồn nước. Phần thứ hai mới là phần chính.\n\nDây trong trần đứt: cần thợ.\n\nĐiểm cần nói: với đèn âm trần trong trần thạch cao, công tháo lắp có thể lớn hơn giá cái đèn. Đáng cân nhắc thay cả bộ thay vì sửa, và đáng chọn đèn tốt ngay từ đầu."
   },
   {
-   "id": "device:light_bulb:19",
+   "id": "device:light_bulb:21",
    "scope": "device:light_bulb",
    "doc_vi": "Đèn chiếu sáng",
    "section_vi": "Khách hay hỏi thêm",
@@ -1776,11 +2077,25 @@
    "id": "device:microwave_oven:14",
    "scope": "device:microwave_oven",
    "doc_vi": "Lò vi sóng",
+   "section_vi": "Vệ sinh định kỳ bao lâu một lần",
+   "text_vi": "Lò vi sóng không có lịch bảo dưỡng của thợ. Việc định kỳ là giữ lò sạch, và khách tự làm được.\n\nSau mỗi lần thức ăn bắn ra: lau khoang lò, mâm xoay và tấm mica khi lò đã nguội. Vết bẩn khô lâu trên tấm mica là nguyên nhân nền của phóng tia.\n\nĐịnh kỳ, và mỗi khi thấy bẩn: lau kỹ toàn bộ khoang, mặt trong cửa, gioăng và khung cửa bằng khăn ẩm với nước rửa chén pha loãng. Sách hướng dẫn của các hãng nhắc riêng phần gioăng và khung cửa, vì cặn bám ở đó làm cửa không khép kín. Rửa mâm xoay và vòng lăn, lau khô rồi đặt lại đúng khớp.\n\nVết bẩn cứng thì đun một bát nước có vài lát chanh vài phút cho hơi nước làm mềm rồi lau. Không dùng miếng cọ kim loại, chất tẩy có hạt hay dao cạo, vì chúng làm xước khoang và kính cửa.\n\nRút điện trước khi lau. Không xịt nước vào khe thông gió.\n\nDấu hiệu cần gọi thợ: tia lửa trong lò, cửa xệ, khép không kín, lưới chắn trên cửa móp, lò chạy mà không nóng."
+  },
+  {
+   "id": "device:microwave_oven:15",
+   "scope": "device:microwave_oven",
+   "doc_vi": "Lò vi sóng",
+   "section_vi": "Dùng đúng cách cho bền và an toàn",
+   "text_vi": "Không chạy lò vi sóng khi trống. Sách của các hãng cảnh báo sóng không có gì hấp thụ sẽ dội lại và có thể làm hỏng lò.\n\nKhông cho kim loại, giấy bạc, đĩa viền kim nhũ vào lò. Chỉ dùng hộp ghi rõ dùng được cho lò vi sóng, không dùng hộp nhựa dùng một lần hay túi ni lông.\n\nĐậy hờ thức ăn khi hâm. Không hâm trứng nguyên vỏ hay hộp kín, vì chúng có thể nổ. Chất lỏng hâm lâu có thể sôi trào đột ngột khi nhấc ra, nên khuấy và chờ một lát.\n\nKê lò chừa khe thoáng quanh vỏ theo sách của lò, không nhét kín vào hốc tủ, không đặt đồ lên nóc che khe gió.\n\nLò có cửa xệ, gioăng rách, lưới móp thì ngừng dùng, không đứng xa ra mà dùng tiếp.\n\nKhách không mở vỏ lò, vì tụ cao áp giữ điện cả khi đã rút phích.\n\nLửa bén trong lò thì giữ cửa đóng, tắt lò và rút điện để lửa tự tắt."
+  },
+  {
+   "id": "device:microwave_oven:16",
+   "scope": "device:microwave_oven",
+   "doc_vi": "Lò vi sóng",
    "section_vi": "Khi nào sửa, khi nào thay",
    "text_vi": "Lò vi sóng là thiết bị rẻ, nên ranh giới này tới sớm, và có một chi tiết chia đôi mọi thứ.\n\nGần như luôn đáng sửa: cầu chì, công tắc cửa, mô tơ mâm xoay, vòng lăn, tấm mica, quạt tản nhiệt, dây nguồn. Tất cả đều rẻ.\n\nThường không đáng: thay sò cao tần. Sò là chi tiết đắt nhất của lò, và cộng công thì tổng tiệm cận giá một lò mới cùng loại. Với lò đã dùng nhiều năm thì phép tính gần như luôn nghiêng về thay.\n\nKhông nên sửa, nên thay: lò có vách trong rỉ thủng, lò có lưới chắn cửa hỏng, lò có cửa xệ không đóng khít. Ba thứ này liên quan tới việc giữ sóng trong lò, và với một thiết bị rẻ như vậy thì sửa chữa chắp vá không đáng để đánh đổi.\n\nĐiểm cuối nên nói thẳng chứ không vòng vo, và nói kèm lý do."
   },
   {
-   "id": "device:microwave_oven:16",
+   "id": "device:microwave_oven:18",
    "scope": "device:microwave_oven",
    "doc_vi": "Lò vi sóng",
    "section_vi": "Khách hay hỏi thêm",
@@ -1881,11 +2196,25 @@
    "id": "device:oven:15",
    "scope": "device:oven",
    "doc_vi": "Lò nướng",
+   "section_vi": "Vệ sinh định kỳ bao lâu một lần",
+   "text_vi": "Lò nướng không có lịch bảo dưỡng của thợ. Việc định kỳ là giữ khoang lò sạch, và khách tự làm được.\n\nSau mỗi lần nướng có mỡ bắn hoặc nước sốt trào: chờ lò nguội hẳn, rút điện, lau khoang, khay và mặt trong cửa bằng khăn ẩm với nước rửa chén pha loãng. Mỡ để lại sẽ cháy thành muội ở lần nướng sau.\n\nĐịnh kỳ, và mỗi khi thấy muội bám: rửa khay, vỉ nướng, lau kỹ thanh nhiệt bằng khăn ẩm khi đã nguội, không cạo bằng vật kim loại sắc. Lau gioăng cửa nhẹ tay và kiểm tra gioăng còn ép kín không bằng phép kẹp tờ giấy.\n\nLò có chế độ tự làm sạch bằng hơi nước hay bằng nhiệt cao thì làm theo sách của lò, và lấy hết khay, vỉ ra trước khi chạy.\n\nKhông dùng chất tẩy có hạt, miếng cọ kim loại lên kính cửa và lớp men khoang.\n\nDấu hiệu cần gọi thợ: thanh nhiệt có chỗ phồng, nứt, đỏ không đều; lò không đúng nhiệt; kính cửa nứt; vỏ lò nóng hơn hẳn trước đây."
+  },
+  {
+   "id": "device:oven:16",
+   "scope": "device:oven",
+   "doc_vi": "Lò nướng",
+   "section_vi": "Dùng đúng cách cho bền và an toàn",
+   "text_vi": "Kê lò nướng chừa khe thoáng quanh vỏ theo sách của lò, không nhét kín vào hốc tủ và không đặt đồ lên nóc. Cắm lò vào ổ riêng, không dùng chung ổ chia với thiết bị nặng khác.\n\nSấy nóng lò trước khi cho món vào. Nướng ở nhiệt độ món cần thay vì luôn để nhiệt cao nhất, vì thói quen đó làm thanh nhiệt mau đứt và mỡ cháy nhiều.\n\nKhông lót giấy bạc kín đáy khoang lò và không đặt khay, nồi trực tiếp lên đáy. Sách của Electrolux và AEG cảnh báo nhiệt tích lại sẽ làm hỏng lớp men, và ở một số lò còn chặn đường gió.\n\nDùng găng chịu nhiệt khi lấy khay. Mở cửa lò từ từ và đứng lệch sang bên, vì hơi nóng phả ra mạnh.\n\nĐể quạt làm mát chạy hết sau khi tắt lò, đừng rút điện ngay.\n\nKhông để trẻ nhỏ chơi gần cửa lò đang nóng. Kính cửa nứt thì ngừng dùng.\n\nMùi khét, khói không phải từ món ăn, nhảy aptomat: tắt lò, rút điện, giữ cửa đóng nếu có lửa trong khoang, gọi thợ."
+  },
+  {
+   "id": "device:oven:17",
+   "scope": "device:oven",
+   "doc_vi": "Lò nướng",
    "section_vi": "Khi nào sửa, khi nào thay",
    "text_vi": "Lò nướng đắt hơn ấm siêu tốc nhiều, nên phép tính khác hẳn cụm đó.\n\nGần như luôn đáng sửa: thanh nhiệt đứt, rơ le nhiệt, quạt đối lưu, gioăng cửa, bản lề, đèn trong lò.\n\nĐây là các chi tiết rời và thay được, và với lò cỡ vừa trở lên thì chúng rẻ so với giá lò.\n\nCân nhắc: bo điều khiển điện tử. Đắt hơn, và với lò rẻ đã dùng nhiều năm thì tổng có thể không đáng.\n\nNên ngừng dùng cho tới khi sửa: kính cửa nứt.\n\nNghiêng về thay lò: khi vỏ đã rỉ mục, khi nhiều bộ phận cùng hỏng, hoặc khi lò rẻ và đã dùng rất lâu.\n\nCó một điểm về lò âm tủ cần nói trước: công tháo lắp cao hơn nhiều so với lò để bàn, vì phải tháo lò ra khỏi hốc tủ.\n\nVì vậy với lò âm tủ, đáng làm gọn một lần: khi thợ đã tháo ra, kiểm luôn các thứ khác thay vì quay lại lần nữa."
   },
   {
-   "id": "device:oven:17",
+   "id": "device:oven:19",
    "scope": "device:oven",
    "doc_vi": "Lò nướng",
    "section_vi": "Khách hay hỏi thêm",
@@ -1979,11 +2308,25 @@
    "id": "device:power_outlet:13",
    "scope": "device:power_outlet",
    "doc_vi": "Ổ cắm điện",
+   "section_vi": "Vệ sinh định kỳ bao lâu một lần",
+   "text_vi": "Ổ cắm điện không cần lau rửa, nhưng có hai việc kiểm tra định kỳ mà khách tự làm được, không cần mở gì.\n\nNhấn nút thử trên aptomat chống dòng rò, thường ghi chữ T hoặc TEST. Schneider Electric khuyên nhấn thử mỗi tháng một lần nếu không có quy định khác; quy định ở Anh ghi sáu tháng. Nhấn mà aptomat không nhảy thì nó đã mất tác dụng, gọi thợ thay. Nhấn xong thì gạt lên lại.\n\nNhìn và sờ các ổ cắm hay dùng: mặt ổ có ố vàng, vết đen quanh lỗ cắm không, phích cắm vào có lỏng lẻo không, ổ có ấm lên khi đang cắm thiết bị nặng không. Lau bụi mặt ổ bằng khăn khô, không dùng khăn ướt hay xịt nước.\n\nThợ kiểm tra toàn bộ nhánh điện không theo lịch cố định mà khi có dấu hiệu: ổ nóng, mùi khét, aptomat hay nhảy, tê tay khi chạm thiết bị, hoặc khi nhà cũ sắp lắp thêm máy lạnh, bình nóng lạnh, bếp từ. Nhà cũ, nhà trọ, nhà ẩm ven biển nên cho thợ xem sớm hơn."
+  },
+  {
+   "id": "device:power_outlet:14",
+   "scope": "device:power_outlet",
+   "doc_vi": "Ổ cắm điện",
+   "section_vi": "Dùng đúng cách cho bền và an toàn",
+   "text_vi": "Thiết bị sinh nhiệt như ấm siêu tốc, bình nóng lạnh, lò vi sóng, lò nướng, bàn ủi, bếp từ nên có ổ riêng, không cắm chung một ổ chia.\n\nKhông cắm ổ chia chồng lên ổ chia, không dùng dây nối dài thay cho đường dây cố định, và không cuộn tròn dây nối dài khi đang cắm thiết bị nặng.\n\nCắm phích vào hết chân, rút phích bằng cách cầm thân phích chứ không giật dây. Phích cắm vào thấy lỏng thì thôi dùng ổ đó.\n\nỔ cắm trong nhà tắm, gần bồn rửa phải là loại dùng cho nơi ẩm và đặt xa chỗ nước tạt. Không chạm ổ khi tay ướt.\n\nNhà có trẻ nhỏ dùng ổ có màn che an toàn hoặc nắp đậy.\n\nỔ nóng, có mùi khét, có tia lửa, mặt ổ vỡ, tê tay: ngắt aptomat của nhánh đó, không ngắt được nhánh thì ngắt aptomat tổng, rồi gọi thợ. Tắt công tắc trên tường không đủ."
+  },
+  {
+   "id": "device:power_outlet:15",
+   "scope": "device:power_outlet",
+   "doc_vi": "Ổ cắm điện",
    "section_vi": "Khi nào sửa, khi nào làm lại cả nhánh",
    "text_vi": "Ổ cắm là thứ rẻ nhất trong nhà, nên câu hỏi không phải là sửa hay thay cái ổ. Nó gần như luôn là thay.\n\nCâu hỏi thật là: có phải chỉ cái ổ không.\n\nThay ổ là đủ khi nguyên nhân nằm trong chính cái ổ: lá tiếp xúc mòn, mặt nhựa vỡ, ổ đã cũ.\n\nCần làm nhiều hơn khi nguyên nhân nằm ở nhánh: dây quá nhỏ so với tải, dây đã lão hoá hoặc bị chuột cắn, aptomat không đúng dòng, hoặc nhánh đang gánh quá nhiều thiết bị.\n\nTrường hợp thứ hai quan trọng vì thay ổ mới mà không xử lý gốc thì ổ mới cũng sẽ nóng và cháy như ổ cũ. Khách sẽ nghĩ là ổ kém chất lượng, trong khi vấn đề nằm trong tường.\n\nVì vậy với mọi ca có dấu hiệu nhiệt, nên nói trước rằng thợ sẽ kiểm tra cả nhánh chứ không chỉ thay cái ổ, và đó là lý do chứ không phải cách tính thêm tiền."
   },
   {
-   "id": "device:power_outlet:15",
+   "id": "device:power_outlet:17",
    "scope": "device:power_outlet",
    "doc_vi": "Ổ cắm điện",
    "section_vi": "Khách hay hỏi thêm",
@@ -2147,60 +2490,67 @@
    "id": "device:refrigerator:23",
    "scope": "device:refrigerator",
    "doc_vi": "Tủ lạnh",
-   "section_vi": "Dùng đúng cách",
-   "text_vi": "Không nhồi quá đầy. Hơi lạnh cần đường lưu thông, và thực phẩm chắn ngay khe gió là nguyên nhân thật của nhiều ca ngăn mát không lạnh.\n\nKhông để thức ăn còn nóng vào tủ. Hơi nóng và hơi ẩm làm tủ chạy nặng và làm tăng tuyết.\n\nĐậy kín thức ăn. Vừa đỡ mùi vừa giảm hơi ẩm, mà hơi ẩm là gốc của cả tuyết lẫn nước đọng.\n\nĐể rau ráo nước trước khi cất.\n\nKhông mở cửa lâu và không mở đi mở lại nhiều lần.\n\nKhông để tủ trống rỗng hoàn toàn trong thời gian dài; tủ có đồ giữ lạnh ổn định hơn.\n\nVệ sinh trong tủ định kỳ, và lau sạch rãnh gioăng cửa.\n\nKiểm tra lỗ thoát nước ở đáy sau ngăn mát vài tháng một lần.\n\nVệ sinh dàn nóng phía sau và khay hứng nước một tới hai tháng một lần, hoặc ít nhất mỗi vài tháng.\n\nRút điện tủ khi đi vắng dài ngày, sau khi đã dọn sạch và để cửa hé cho khỏi mốc."
+   "section_vi": "Vệ sinh định kỳ bao lâu một lần",
+   "text_vi": "Tủ lạnh ít việc bảo dưỡng hơn máy lạnh vì hệ lạnh hàn kín, và gần như mọi việc định kỳ là khách tự làm.\n\nBên trong tủ: lau kệ, khay và rãnh gioăng cửa khoảng mỗi tháng bằng nước ấm pha nước rửa chén loãng rồi lau khô. Thức ăn đổ ra thì lau ngay.\n\nLỗ thoát nước ở đáy sau ngăn mát: kiểm tra vài tháng một lần.\n\nPhía sau và dưới đáy tủ, chỗ dàn nóng, máy nén và khay hứng nước: rút điện rồi phủi hoặc hút bụi mỗi một tới hai tháng, ít nhất mỗi vài tháng. Nhà nhiều bụi, có chó mèo, đang sửa nhà thì theo mốc dày. Tủ đời mới giấu dàn nóng trong hông tủ thì chỉ cần giữ khe thoáng sạch bụi.\n\nTủ có vòi lấy nước hoặc làm đá tự động có lõi lọc nước riêng. LG và Samsung khuyên thay khoảng sáu tháng một lần, sớm hơn nếu nước ra chậm hoặc đèn báo thay lọc sáng. Dùng lõi đúng loại hãng duyệt.\n\nTủ đóng tuyết thì rút điện xả đá khi lớp tuyết dày lên rõ.\n\nTủ lạnh không cần thợ bảo dưỡng theo lịch. Gọi thợ khi có dấu hiệu: ngăn mát ấm dần, tủ chạy suốt không nghỉ với tủ không inverter, đóng tuyết bất thường, đọng nước dưới khay rau, hoặc kêu to hơn trước."
   },
   {
    "id": "device:refrigerator:24",
+   "scope": "device:refrigerator",
+   "doc_vi": "Tủ lạnh",
+   "section_vi": "Dùng đúng cách cho bền và an toàn",
+   "text_vi": "Không nhồi tủ lạnh quá đầy. Hơi lạnh cần đường lưu thông, và thực phẩm chắn ngay khe gió là nguyên nhân thật của nhiều ca ngăn mát không lạnh.\n\nKhông để thức ăn còn nóng vào tủ. Hơi nóng và hơi ẩm làm tủ chạy nặng và làm tăng tuyết.\n\nĐậy kín thức ăn. Vừa đỡ mùi vừa giảm hơi ẩm, mà hơi ẩm là gốc của cả tuyết lẫn nước đọng.\n\nĐể rau ráo nước trước khi cất.\n\nKhông mở cửa lâu và không mở đi mở lại nhiều lần.\n\nKhông để tủ trống rỗng hoàn toàn trong thời gian dài; tủ có đồ giữ lạnh ổn định hơn.\n\nRút điện tủ khi đi vắng dài ngày, sau khi đã dọn sạch và để cửa hé cho khỏi mốc.\n\nVề an toàn: cắm tủ lạnh vào ổ riêng có tiếp đất, không cạy tuyết bằng dao hay vật nhọn vì dễ đâm thủng dàn lạnh, và không cất bình xịt hay chất dễ cháy trong tủ. Tê tay khi chạm vỏ, có mùi khét thì rút điện và gọi thợ."
+  },
+  {
+   "id": "device:refrigerator:25",
    "scope": "device:refrigerator",
    "doc_vi": "Tủ lạnh",
    "section_vi": "Điện và an toàn",
    "text_vi": "Tủ lạnh chạy liên tục nên phần điện cấp cho nó cần ổn định. Hệ thống điện nhà ở tại Việt Nam có quy chuẩn kỹ thuật quốc gia riêng quy định về bảo vệ chống điện giật, bảo vệ quá tải và ngắn mạch, và nối đất bảo vệ. Bản thân tủ lạnh cũng có tiêu chuẩn an toàn riêng cho thiết bị điện gia dụng nhóm thiết bị làm lạnh.\n\nBa điều đáng nói với khách bằng ngôn ngữ thường. Cắm tủ vào ổ riêng, không dùng chung ổ chia với nhiều thiết bị nặng. Nên có thiết bị chống dòng rò trên nhánh điện đó. Và vỏ kim loại của tủ nên được nối đất.\n\nBốn tình huống phải cảnh báo ngay, không hỏi vòng vo trước. Sờ vào vỏ tủ thấy tê tay. Cắm điện vào là nhảy aptomat. Có mùi khét hoặc thấy khói. Ngửi thấy mùi gas quanh khu vực tủ.\n\nVới ba tình huống đầu, hướng xử lý là ngắt điện, không cắm lại, không tự mở tủ, gọi thợ. Với tình huống thứ tư, xử lý như sự cố gas: không thao tác công tắc điện, không có lửa, mở thông thoáng, gọi thợ.\n\nKhu vực điện hay tụt áp nên cân nhắc ổn áp, vì tủ lạnh khởi động ở điện áp thấp rất hại máy nén và rơ le."
   },
   {
-   "id": "device:refrigerator:25",
+   "id": "device:refrigerator:26",
    "scope": "device:refrigerator",
    "doc_vi": "Tủ lạnh",
    "section_vi": "Khí hậu Việt Nam ảnh hưởng thế nào",
    "text_vi": "Độ ẩm cao là yếu tố lớn nhất. Mỗi lần mở cửa, hơi ẩm lọt vào và ngưng tụ thành tuyết trên dàn lạnh. Tủ ở Việt Nam tích tuyết nhanh hơn tủ cùng loại ở xứ khô, nên hệ thống xả đá làm việc nặng hơn và các ca đóng tuyết phổ biến hơn.\n\nNhiệt độ môi trường cao vào mùa hè làm tủ chạy nhiều hơn, và tủ đặt trong bếp nóng thì càng nặng.\n\nĐiện áp chập chờn ở một số khu vực là nguyên nhân thật của hỏng rơ le và hỏng bo.\n\nCôn trùng và chuột. Chuột cắn dây nguồn và dây cảm biến ở khoang sau tủ là chuyện gặp đủ nhiều để đáng nhắc khi khách kể tủ đang chạy bình thường thì đột ngột chết.\n\nGián làm tổ trong khoang máy nén và trong khay hứng nước, gây mùi và đôi khi gây chập.\n\nNhà ven biển: ăn mòn dàn nóng và vỏ tủ nhanh hơn."
   },
   {
-   "id": "device:refrigerator:26",
+   "id": "device:refrigerator:27",
    "scope": "device:refrigerator",
    "doc_vi": "Tủ lạnh",
    "section_vi": "Bối cảnh nơi đặt",
    "text_vi": "Nhà bếp chật, tủ kẹp giữa tủ bếp hoặc sát tường. Không thải được nhiệt, chạy liên tục, kém lạnh. Đây là nguyên nhân thật và miễn phí để sửa.\n\nNhà trọ, phòng cho thuê. Tủ thường cũ, nhiều đời người dùng, ít khi vệ sinh dàn nóng, và có chuyện ai trả tiền sửa giữa chủ trọ và người thuê.\n\nQuán ăn, quán nước. Tủ mở cửa liên tục, nhồi đầy, chạy suốt, và môi trường nhiều dầu mỡ. Tủ ở đây hỏng sớm hơn hẳn, và khách nhóm này cần sửa ngoài giờ bán hàng.\n\nNhà mới chuyển tới, tủ vừa vận chuyển. Nếu tủ vừa chuyển mà cắm điện ngay thì đáng hỏi, vì đó có thể là nguyên nhân.\n\nChung cư bếp mở liền phòng khách. Tủ chạy ồn ảnh hưởng nhiều hơn, nên ca ồn được ưu tiên cao hơn so với nhà có bếp riêng."
   },
   {
-   "id": "device:refrigerator:27",
+   "id": "device:refrigerator:28",
    "scope": "device:refrigerator",
    "doc_vi": "Tủ lạnh",
    "section_vi": "Bảo hành: ai chịu phần nào",
    "text_vi": "Bảo hành của hãng phủ phần máy, thường có thời hạn riêng cho máy nén dài hơn phần còn lại. Điều kiện thường là còn tem, còn phiếu, và không bị can thiệp bởi bên thứ ba.\n\nSửa chữa do dịch vụ thực hiện thì dịch vụ bảo hành phần việc đã làm, không bảo hành cả cái tủ.\n\nHư hỏng do sử dụng sai, do cạy đá bằng vật nhọn làm thủng dàn, hoặc do vận chuyển sai cách thường không thuộc bảo hành nào.\n\nĐiều nên nói với khách khi tủ còn mới mà hỏng: kiểm tra bảo hành trước khi trả tiền sửa. Nói điều này làm mất một đơn hàng trước mắt nhưng giữ được khách lâu dài, và nó cũng là điều đúng."
   },
   {
-   "id": "device:refrigerator:28",
+   "id": "device:refrigerator:29",
    "scope": "device:refrigerator",
    "doc_vi": "Tủ lạnh",
    "section_vi": "Khi nào nên sửa, khi nào nên thay",
    "text_vi": "Nghiêng về sửa khi tủ còn dưới khoảng tám năm, bệnh nằm ở nhóm linh kiện thay được như quạt gió, bộ xả đá, rơ le, gioăng, lỗ thoát nước, và chi phí sửa nhỏ so với giá tủ mới cùng dung tích.\n\nNghiêng về thay khi tủ đã cũ và hỏng đúng vào nhóm đắt nhất là máy nén hoặc dàn lạnh, hoặc khi tủ đã sửa nhiều lần trong thời gian ngắn, hoặc khi linh kiện của model đó không còn kiếm được, hoặc khi là tủ nội địa xách tay khó kiếm linh kiện.\n\nYếu tố thứ ba đáng đưa vào: tủ đời cũ ăn điện hơn tủ mới đáng kể, và tủ chạy hai mươi bốn giờ quanh năm nên phần chênh tích lũy nhanh hơn nhiều so với máy lạnh. Nói theo hướng ước lượng, đừng đưa con số chắc nịch.\n\nKhi tư vấn, nói cả hai phương án kèm lý do, chứ đừng chốt thay tủ giúp khách."
   },
   {
-   "id": "device:refrigerator:31",
+   "id": "device:refrigerator:32",
    "scope": "device:refrigerator",
    "doc_vi": "Tủ lạnh",
    "section_vi": "Khi thiếu thông tin thì ước lượng thế nào",
    "text_vi": "Nói rõ đây là chẩn đoán sơ bộ dựa trên mô tả, và thợ cần kiểm tra tại chỗ.\n\nĐưa bệnh khả dĩ nhất theo cả dấu hiệu lẫn tần suất. Với tủ lạnh, tần suất nghiêng mạnh về nhóm đường gió chứ không về môi chất.\n\nNếu có hai bệnh ngang nhau thì nói cả hai kèm cách phân biệt, để khách tự nhìn được.\n\nGợi ý một việc khách tự kiểm tra được ngay và an toàn: xem ngăn đá còn đông không, xem khe gió có bị chắn không, xem lỗ thoát nước có nghẹt không, xem tủ có kê sát tường không.\n\nKhông bao giờ kết luận một bệnh đắt tiền như hỏng máy nén từ một mô tả mơ hồ."
   },
   {
-   "id": "device:refrigerator:32",
+   "id": "device:refrigerator:33",
    "scope": "device:refrigerator",
    "doc_vi": "Tủ lạnh",
    "section_vi": "Khách hay hỏi thêm",
    "text_vi": "Tủ lạnh mới mua bao lâu thì lạnh. Thường vài tiếng mới đạt nhiệt độ ổn định, và nên để tủ chạy trống một thời gian trước khi cho nhiều thực phẩm vào.\n\nNên để tủ ở mức mấy. Mức giữa là hợp lý cho phần lớn nhà. Để mức lạnh nhất không làm tủ lạnh nhanh hơn, chỉ tốn điện và có thể làm đồ ngăn mát bị đông đá.\n\nHông tủ nóng có sao không. Không. Đó là dàn nóng đang thải nhiệt, và trên tủ đời mới dàn nóng thường nằm trong hông tủ.\n\nTủ chạy suốt không nghỉ có sao không. Với tủ inverter là bình thường. Với tủ thường thì đáng xem: gioăng hở, tủ sát tường, đặt nhiệt độ quá thấp, hoặc thiếu môi chất.\n\nCó nên rút điện tủ lạnh ban đêm để tiết kiệm không. Không nên. Tủ mất lạnh rồi phải kéo lại từ đầu, tốn hơn, và thực phẩm không an toàn.\n\nBao lâu vệ sinh tủ một lần. Bên trong thì hàng tháng. Dàn nóng phía sau và khay hứng nước thì mỗi vài tháng.\n\nTủ lạnh có cần bảo dưỡng như máy lạnh không. Ít hơn nhiều, vì hệ hàn kín. Nhưng vệ sinh dàn nóng, khay hứng nước và lỗ thoát nước thì nên làm định kỳ.\n\nMất điện bao lâu thì đồ trong tủ hỏng. Tủ đóng kín giữ lạnh được vài tiếng. Càng mở cửa càng mất nhanh. Với ngăn đá đầy thì lâu hơn ngăn đá vơi.\n\nChuyển nhà thì tủ lạnh có cần lưu ý gì. Có."
   },
   {
-   "id": "device:refrigerator:33",
+   "id": "device:refrigerator:34",
    "scope": "device:refrigerator",
    "doc_vi": "Tủ lạnh",
    "section_vi": "Nhiệt độ nên cài cho tủ lạnh",
@@ -2301,11 +2651,25 @@
    "id": "device:sink:15",
    "scope": "device:sink",
    "doc_vi": "Bồn rửa",
+   "section_vi": "Vệ sinh định kỳ bao lâu một lần",
+   "text_vi": "Bồn rửa không có lịch bảo dưỡng của hãng mà tài liệu đối chiếu được, nên mốc dưới đây theo mức dùng và theo dấu hiệu.\n\nLưới chắn rác ở miệng thoát: đổ rác sau mỗi lần rửa bát. Đây là việc rẻ nhất phòng được nhiều nhất.\n\nBồn rửa bát: định kỳ dội nước nóng già pha nhiều nước rửa chén để đẩy lớp mỡ mỏng trong ống, không dùng nước sôi với ống nhựa. Nhà nấu nhiều dầu mỡ thì làm thường xuyên hơn.\n\nBẫy nước dưới bồn rửa bát: tháo ra rửa khi nước bắt đầu rút chậm hoặc có mùi, đừng chờ nghẹt hẳn. Bẫy nhựa tháo bằng tay, đặt chậu hứng bên dưới.\n\nLavabo: lấy tóc ở nắp thoát và rửa lỗ chống tràn bằng nước pha giấm khi thấy rút chậm hoặc có mùi. Lavabo ít dùng thì thỉnh thoảng mở nước vài giây cho bẫy không cạn.\n\nMở cánh tủ dưới bồn nhìn đáy tủ và các mối nối mỗi lần dọn tủ, nhất là chỗ ống xả máy lọc nước nối vào bẫy.\n\nDấu hiệu gọi thợ: nghẹt lại ngay sau khi đã tháo rửa bẫy, nhiều thiết bị trong nhà cùng rút chậm, đáy tủ ẩm hoặc phồng, giỏ thoát rỉ mục."
+  },
+  {
+   "id": "device:sink:16",
+   "scope": "device:sink",
+   "doc_vi": "Bồn rửa",
+   "section_vi": "Dùng đúng cách cho bền và an toàn",
+   "text_vi": "Không đổ dầu mỡ, nước canh nhiều mỡ, cơm, bã trà, bã cà phê xuống bồn rửa. Mỡ đông lại trong ống và giữ mọi thứ đi qua. Dầu mỡ thừa để nguội, gom vào túi hoặc chai rồi bỏ vào rác.\n\nLau sạch mỡ trên chảo, nồi bằng giấy trước khi rửa.\n\nLuôn có lưới chắn ở miệng thoát bồn rửa bát và nắp chặn tóc ở lavabo.\n\nKhông đổ hoá chất thông cống mạnh, vì chúng ăn gioăng bẫy nước và nguy hiểm cho người tháo bẫy sau đó. Đã lỡ đổ thì phải báo cho thợ biết.\n\nKhông ngồi, tì mạnh hay đặt vật nặng lên mép lavabo treo tường.\n\nTủ dưới bồn rửa không chất đồ đè vào bẫy và ống xả. Nên lót khay hứng dưới đáy tủ để thấy rò sớm.\n\nỔ điện của máy lọc nước, máy rửa bát dưới bồn phải đặt cao, tránh chỗ nước rò. Rò nước gần ổ điện thì ngắt điện trước rồi mới lau."
+  },
+  {
+   "id": "device:sink:17",
+   "scope": "device:sink",
+   "doc_vi": "Bồn rửa",
    "section_vi": "Khi nào sửa, khi nào thay",
    "text_vi": "Cụm này rẻ, và phần lớn ca là thay chi tiết nhựa.\n\nGần như luôn đáng sửa: nghẹt, gioăng mòn, đai ốc lỏng, bẫy nứt, giỏ thoát rỉ. Tất cả đều là chi tiết rời và rẻ.\n\nThay cả bộ thoát khi nhiều chi tiết cùng cũ. Bộ bẫy nước nhựa không đắt, và thay cả bộ thì đỡ phải quay lại.\n\nThay giỏ thoát khi ren đã mục. Cần đúng đường kính lỗ thoát của chậu.\n\nThay cả chậu chỉ khi chậu đã thủng, đã nứt, hoặc lớp men sứ đã vỡ. Hiếm.\n\nPhần đắt của cụm này không nằm ở bộ thoát mà ở tủ gỗ đã hỏng vì rò. Nếu đáy tủ đã mủn thì cần thay tấm đáy, và đó là việc của thợ mộc.\n\nNói rõ có hai phần việc khi khách gửi ảnh đáy tủ đã hỏng."
   },
   {
-   "id": "device:sink:17",
+   "id": "device:sink:19",
    "scope": "device:sink",
    "doc_vi": "Bồn rửa",
    "section_vi": "Khách hay hỏi thêm",
@@ -2368,7 +2732,21 @@
    "text_vi": "Không bao giờ hướng dẫn khách cạy, phá, hay dùng vật cứng tác động vào khoá. Vừa hỏng cả bộ vừa là việc nhìn từ ngoài đường không phân biệt được với trộm.\n\nKhông hướng dẫn cách mở khoá của người khác, và không trả lời các câu hỏi mở khoá mà người hỏi không phải chủ nhà. Thợ mở khoá khẩn cấp của FixHome xác minh chủ quyền trước khi làm, và trợ lý không có cách nào xác minh qua tin nhắn.\n\nKhông nói \"anh chị gọi thợ khoá gần nhà cho nhanh\". Bên mình có dịch vụ mở khoá khẩn cấp trực 24/7 và đó là câu trả lời.\n\nKhông hứa thời gian thợ tới. Trợ lý không biết thợ đang ở đâu."
   },
   {
+   "id": "device:smart_lock:10",
+   "scope": "device:smart_lock",
+   "doc_vi": "Khóa cửa thông minh",
+   "section_vi": "Vệ sinh định kỳ bao lâu một lần",
+   "text_vi": "Khoá vân tay có hai việc định kỳ: thay pin và giữ cảm biến sạch.\n\nThay pin: tuỳ số lần mở, thường sáu tháng tới một năm. Hướng dẫn của Yale Helios S ghi bốn pin kiềm AA dùng khoảng một năm khi mở khoảng mười lần mỗi ngày; khoá dùng Wi-Fi, mở nhiều lần, hoặc mô tơ phải đẩy chốt qua chỗ cấn thì hết nhanh hơn nhiều. Khoá luôn báo trước bằng tiếng bíp kéo dài hoặc đèn đỏ, và nên thay trong vài ngày kể từ lúc nghe báo, không chờ khoá chết hẳn.\n\nCảm biến vân tay và bàn phím: lau khi bẩn, ẩm hoặc khi tỉ lệ nhận vân giảm, bằng khăn mềm, khô hoặc hơi ẩm. Không dùng chất tẩy có hạt, cồn đậm đặc, xăng, và không xịt nước thẳng vào khoá. Trời nồm thì lau khô cảm biến trước khi đặt tay.\n\nThợ kiểm tra khoá không theo lịch mà khi có dấu hiệu: phải đẩy hoặc nhấc cánh cửa mới khoá ăn, mô tơ kêu mà chốt không rút, chốt ra vào chậm hơn trước, pin mới mà vẫn hết nhanh.\n\nĐịnh kỳ kiểm tra lại chìa cơ dự phòng còn mở được ổ khoá, và thẻ từ dự phòng còn nhận."
+  },
+  {
    "id": "device:smart_lock:11",
+   "scope": "device:smart_lock",
+   "doc_vi": "Khóa cửa thông minh",
+   "section_vi": "Dùng đúng cách cho bền và an toàn",
+   "text_vi": "Dùng pin kiềm AA đúng loại sách của khoá ghi, thay cả bộ cùng lúc, cùng hãng, không trộn pin cũ với pin mới, không dùng pin sạc nếu sách của khoá không cho phép.\n\nCất chìa cơ dự phòng ở chỗ lấy được khi đang đứng ngoài cửa, như ví hay nhà người thân, không cất trong nhà. Biết vị trí cổng sạc khẩn cấp ở cạnh dưới khoá.\n\nĐăng ký ít nhất hai ngón tay cho mỗi người, đăng ký lúc tay khô và sạch.\n\nĐổi mã số mặc định sau khi lắp. Khi nhập mã nơi có người nhìn, dùng chức năng thêm số ảo nếu khoá có. Xoá vân tay, mã và thẻ của người không còn ở cùng.\n\nKhông dùng vật cứng cạy mặt khoá, không treo đồ lên tay nắm.\n\nCửa xệ làm chốt cấn khung thì gọi thợ chỉnh cửa sớm, vì mô tơ phải đẩy chốt qua chỗ cấn sẽ mau hỏng và hao pin."
+  },
+  {
+   "id": "device:smart_lock:13",
    "scope": "device:smart_lock",
    "doc_vi": "Khóa cửa thông minh",
    "section_vi": "Khách hay hỏi thêm",
@@ -2455,11 +2833,25 @@
    "id": "device:television:13",
    "scope": "device:television",
    "doc_vi": "Tivi",
+   "section_vi": "Vệ sinh định kỳ bao lâu một lần",
+   "text_vi": "Tivi không có lịch bảo dưỡng của thợ. Việc định kỳ là lau bụi, và khách tự làm.\n\nMàn hình và viền tivi: lau khi thấy bụi hoặc vết tay, bằng khăn mềm, sạch, khô, không xơ. Vết bẩn khó thì xịt một chút dung dịch lau màn hình lên khăn, không bao giờ xịt thẳng lên màn hình, và lau nhẹ không đè. Samsung và LG đều dặn rút điện trước khi lau và chờ màn hình khô hẳn mới cắm lại. Không dùng cồn, chất tẩy mạnh hay giấy ăn thô.\n\nKhe thoáng ở lưng và cạnh tivi: phủi bụi định kỳ bằng chổi mềm khi đã rút điện, không thổi bụi vào trong. Nhà mặt đường hoặc nhiều bụi thì làm thường xuyên hơn, vì lớp bụi bên trong vừa giữ nhiệt vừa hút ẩm.\n\nRemote: lau, và thay pin khi bấm phải gần mới ăn.\n\nDấu hiệu cần gọi thợ: tivi nóng bất thường ở lưng, tự tắt, có tiếng lách tách, mùi khét, hình có sọc hoặc tối một vùng."
+  },
+  {
+   "id": "device:television:14",
+   "scope": "device:television",
+   "doc_vi": "Tivi",
+   "section_vi": "Dùng đúng cách cho bền và an toàn",
+   "text_vi": "Chừa khoảng thoáng quanh tivi. Sách của Samsung ghi tối thiểu khoảng mười phân giữa tivi với tường và vách tủ, vì thiếu thoáng làm nhiệt trong máy tăng và có thể gây cháy.\n\nKhông đặt tivi chỗ nắng chiếu, cạnh bếp, hay chỗ hơi ẩm và nước có thể tới. Không đặt cốc nước, chậu cây lên trên hay sát tivi.\n\nTivi treo tường phải bắt giá vào phần chịu lực. Tivi đặt kệ phải đứng vững, không để trẻ nhỏ leo kéo, vì tivi đổ là tai nạn thật.\n\nKhi có giông sét, hoặc đi vắng lâu ngày, rút phích điện, và rút cả dây cáp truyền hình hoặc dây mạng vì sét hay vào theo đường đó. Khu vực điện chập chờn thì nên dùng ổ có chống sét lan truyền hoặc ổn áp.\n\nTắt tivi bằng remote là bình thường. Không di chuyển tivi khi đang bật, và khi khiêng thì giữ ở khung, không bóp vào tấm nền.\n\nMùi khét, khói, tiếng nổ: rút điện ngay và không bật lại."
+  },
+  {
+   "id": "device:television:15",
+   "scope": "device:television",
+   "doc_vi": "Tivi",
    "section_vi": "Khi nào sửa, khi nào thay",
    "text_vi": "Câu hỏi thật của cụm này, và nên trả lời thẳng.\n\nGần như luôn đáng sửa: bo nguồn, dải đèn nền, mạch âm thanh, mắt nhận, điều khiển. Đây là các chi tiết rẻ so với giá máy, và sửa xong máy dùng lại bình thường nhiều năm.\n\nTuỳ tuổi máy: bo xử lý tín hiệu. Với máy còn mới thì đáng; với máy đã nhiều năm thì nên cân nhắc.\n\nThường không đáng: thay tấm nền. Tấm nền chiếm phần lớn giá trị của máy, và giá máy mới thì đã rơi. Với tivi cỡ lớn và đời cũ thì phép tính gần như luôn nghiêng về thay.\n\nCó hai ngoại lệ nên nhắc. Tivi còn trong hạn bảo hành thì mọi tính toán trên đều không áp dụng, và việc đầu tiên là liên hệ hãng. Và tivi cỡ rất lớn hoặc loại cao cấp thì đôi khi thay tấm nền vẫn đáng, vì máy mới tương đương cũng rất đắt.\n\nKhi khuyên thay, nói rõ đó là phép tính chứ không phải là không sửa được. Và đừng nói câu đó trước khi đã đủ thông tin để chắc."
   },
   {
-   "id": "device:television:15",
+   "id": "device:television:17",
    "scope": "device:television",
    "doc_vi": "Tivi",
    "section_vi": "Khách hay hỏi thêm",
@@ -2567,11 +2959,25 @@
    "id": "device:toilet:16",
    "scope": "device:toilet",
    "doc_vi": "Bồn cầu",
+   "section_vi": "Vệ sinh định kỳ bao lâu một lần",
+   "text_vi": "Bồn cầu không cần thợ bảo dưỡng theo lịch. Việc định kỳ là của khách, và mốc đi theo mức dùng cùng độ cứng của nước.\n\nLòng bồn và vành xả: cọ rửa thường xuyên bằng chất tẩy dùng cho bồn cầu. Nhà nước cứng thì định kỳ làm sạch lỗ vành bằng giấm hoặc dung dịch tẩy cặn vôi, vì cặn bít lỗ vành làm xả yếu.\n\nKét nước: thỉnh thoảng mở nắp két nhìn mực nước, phao và van xả, nhất là khi nghe tiếng nước chảy rỉ rả hoặc két đầy chậm. Không thả viên tẩy hay đổ thuốc tẩy có clo vào két. TOTO ghi rằng clo nồng độ cao có thể làm hỏng phụ kiện trong két và hãng không chịu trách nhiệm cho hỏng hóc do viên tẩy đặt trong két; Kohler ghi việc này làm mất bảo hành, trừ dòng thiết kế riêng cho việc đó.\n\nNắp và bệ ngồi: lau bằng khăn ẩm và chất tẩy nhẹ, siết lại ốc khi nắp lỏng.\n\nBể phốt: hút theo dung tích và số người dùng. Tài liệu chưa có mốc chung, nhưng nghẹt lặp lại dù đã thông, nước rút chậm ở nhiều thiết bị cùng lúc, hoặc mùi hôi quanh nhà là dấu hiệu nên hút.\n\nDấu hiệu gọi thợ: nước chảy liên tục xuống lòng bồn, rò ở chân bồn, bồn lung lay, nghẹt lặp lại."
+  },
+  {
+   "id": "device:toilet:17",
+   "scope": "device:toilet",
+   "doc_vi": "Bồn cầu",
+   "section_vi": "Dùng đúng cách cho bền và an toàn",
+   "text_vi": "Chỉ xả giấy vệ sinh xuống bồn cầu. Khăn ướt, băng vệ sinh, tã, bông, tóc, thức ăn thừa bỏ vào thùng rác, kể cả khăn ướt có ghi là xả được, vì nó không tan như giấy.\n\nKhông dùng hoá chất thông cống mạnh cho bồn cầu, vì chúng sinh nhiệt có thể làm nứt sứ và ăn mòn gioăng. Đã lỡ đổ thì phải báo cho thợ.\n\nKhông đứng lên bệ, không ngồi mạnh lên nắp, không đặt vật nặng lên nắp két. Bồn cầu treo tường càng phải tránh dồn sức nặng lên mép.\n\nBiết van cấp nước ở chân tường nằm đâu. Nước tràn hoặc chảy không ngừng thì khoá van đó trước.\n\nBồn cầu thông minh có điện: phải có ổ hoặc nguồn có tiếp đất, không xịt nước lên phần điện, tê tay thì ngắt điện.\n\nNhà có trẻ nhỏ thì đậy nắp và cất chất tẩy bồn cầu xa tầm tay."
+  },
+  {
+   "id": "device:toilet:18",
+   "scope": "device:toilet",
+   "doc_vi": "Bồn cầu",
    "section_vi": "Khi nào sửa, khi nào thay",
    "text_vi": "Phần lớn bệnh của bồn cầu là bệnh của phụ kiện chứ không phải của thân sứ, và phụ kiện thì rẻ.\n\nGần như luôn đáng sửa: van cấp, van xả, phao, nắp bồn, gioăng chân, nghẹt, lỗ vành đóng cặn.\n\nCần cân nhắc: bồn cầu đời cũ mà phụ kiện thay thế không còn đúng kiểu. Khi đó có thể phải thay cả bộ phụ kiện trong két.\n\nNên thay cả bồn: thân sứ nứt. Sứ nứt thì không hàn được, không trám được, và vết nứt lan tiếp. Nếu nứt ở phần chứa nước thì nó rò dần vào sàn.\n\nNứt sứ nhiều khi rất khó thấy và chỉ lộ ra khi sàn cứ ẩm mãi mà không tìm ra nguồn.\n\nCũng nên thay khi bồn quá cũ và men đã rỗ khắp, vì men rỗ thì bám bẩn và không làm sạch được nữa."
   },
   {
-   "id": "device:toilet:18",
+   "id": "device:toilet:20",
    "scope": "device:toilet",
    "doc_vi": "Bồn cầu",
    "section_vi": "Khách hay hỏi thêm",
@@ -2700,53 +3106,60 @@
    "id": "device:washing_machine:20",
    "scope": "device:washing_machine",
    "doc_vi": "Máy giặt",
-   "section_vi": "Dùng đúng cách",
-   "text_vi": "Không giặt quá tải. Nhồi đầy lồng làm máy giặt không sạch, gây lệch tải, và hại bạc đạn.\n\nKhông giặt quá ít. Một hai món trong lồng lớn cũng gây lệch tải khi vắt.\n\nKiểm tra túi quần áo trước khi giặt. Đồng xu, chìa khoá, ghim, bút là nguyên nhân thật của nghẹt bơm và của vật lạ lọt vào khe lồng.\n\nDùng túi giặt cho áo lót có gọng. Gọng bung ra là vật lạ nguy hiểm nhất cho lồng và bơm.\n\nDùng đúng loại và đúng lượng bột giặt. Máy cửa ngang cần loại ít bọt; dùng sai loại hoặc đổ quá nhiều sinh bọt tràn và để lại cặn.\n\nMở cửa và mở khay bột giặt sau khi giặt xong cho khô thoáng. Đây là cách đơn giản nhất để tránh hôi lồng.\n\nLau khô gioăng cửa sau mỗi lần giặt, với máy cửa ngang. Nước đọng trong nếp gioăng là nơi sinh mốc đen.\n\nVệ sinh lưới lọc bơm định kỳ.\n\nChạy chu trình vệ sinh lồng định kỳ, hoặc chạy một mẻ không tải với nước nóng.\n\nKhoá van cấp nước khi đi vắng dài ngày."
+   "section_vi": "Vệ sinh định kỳ bao lâu một lần",
+   "text_vi": "Máy giặt có ba mốc việc khách tự làm và một việc của thợ.\n\nSau mỗi lần giặt: với máy cửa ngang, lau khô gioăng cửa, rồi để hé cửa và khay bột giặt cho khô thoáng. Nước đọng trong nếp gioăng là nơi sinh mốc đen.\n\nKhoảng mỗi tháng: chạy chu trình vệ sinh lồng, hoặc một mẻ không tải với nước nóng nếu máy không có chu trình đó. Samsung khuyên mỗi tháng, đèn nhắc sáng sau khoảng hai mươi mẻ ở máy cửa trên và bốn mươi mẻ ở máy cửa ngang; LG nhắc khoảng ba mươi mẻ. Rửa khay bột giặt cùng lúc.\n\nLưới lọc bơm xả, với máy có lưới ở chân trước: Samsung khuyên mỗi tháng hoặc khoảng bốn mươi mẻ, LG Úc ghi sáu tháng. Nhà hay giặt đồ nhiều xơ, đồ trẻ em, thì theo mốc dày. Lưới lọc ở đầu van cấp nước thì rửa khi nước vào chậm, sớm hơn ở nhà dùng nước giếng hoặc nước nhiều cặn.\n\nThợ vệ sinh lồng giặt bằng cách tháo lồng khi chu trình vệ sinh không còn hết mùi, khi quần áo giặt xong có vụn đen, hoặc lồng có mảng cặn nhìn thấy được.\n\nDấu hiệu tới hạn sớm: máy có mùi hôi, xả nước chậm, báo lỗi xả, hoặc gioăng cửa có đốm đen."
   },
   {
    "id": "device:washing_machine:21",
+   "scope": "device:washing_machine",
+   "doc_vi": "Máy giặt",
+   "section_vi": "Dùng đúng cách cho bền và an toàn",
+   "text_vi": "Không giặt quá tải. Nhồi đầy lồng làm máy giặt không sạch, gây lệch tải, và hại bạc đạn.\n\nKhông giặt quá ít. Một hai món trong lồng lớn cũng gây lệch tải khi vắt.\n\nKiểm tra túi quần áo trước khi giặt. Đồng xu, chìa khoá, ghim, bút là nguyên nhân thật của nghẹt bơm và của vật lạ lọt vào khe lồng.\n\nDùng túi giặt cho áo lót có gọng. Gọng bung ra là vật lạ nguy hiểm nhất cho lồng và bơm.\n\nDùng đúng loại và đúng lượng bột giặt. Máy cửa ngang cần loại ít bọt; dùng sai loại hoặc đổ quá nhiều sinh bọt tràn và để lại cặn.\n\nMở cửa và mở khay bột giặt sau khi giặt xong cho khô thoáng. Đây là cách đơn giản nhất để tránh hôi lồng, cùng với chạy chu trình vệ sinh lồng khoảng mỗi tháng.\n\nKhoá van cấp nước khi đi vắng dài ngày.\n\nVề an toàn: cắm máy giặt vào ổ có tiếp đất đặt cao và khô, không chạm máy khi chân ướt, đóng khoá trẻ em nếu nhà có trẻ nhỏ. Tê tay, mùi khét, nước lan tới ổ điện thì ngắt aptomat trước rồi mới xử lý."
+  },
+  {
+   "id": "device:washing_machine:22",
    "scope": "device:washing_machine",
    "doc_vi": "Máy giặt",
    "section_vi": "Khí hậu và bối cảnh Việt Nam",
    "text_vi": "Máy giặt ở Việt Nam thường đặt ngoài ban công, ngoài hiên, hoặc trong nhà tắm chật. Ba bối cảnh đó đều ẩm, và ẩm là kẻ thù của phần điện.\n\nMáy đặt ngoài ban công hứng mưa tạt và nắng chiếu: vỏ và bo xuống cấp nhanh hơn, và rủi ro rò điện cao hơn. Nếu buộc phải đặt ngoài thì nên có mái che và có bệ kê cao.\n\nĐộ ẩm cao quanh năm làm lồng giặt sinh mốc nhanh hơn, nên ca hôi lồng ở Việt Nam phổ biến hơn xứ khô.\n\nNước cứng và nước có nhiều cặn, nhất là nước giếng khoan và nước bồn chứa lâu ngày, làm bịt lưới lọc đầu van cấp và để lại cặn trong lồng.\n\nÁp lực nước yếu ở nhiều khu vực và nhà dùng bồn trên mái: máy cấp nước chậm, và đây không phải hỏng máy.\n\nĐiện áp chập chờn làm hỏng bo.\n\nChuột và gián chui vào khoang máy, cắn dây, và làm tổ trong buồng áp lực của cảm biến mực nước."
   },
   {
-   "id": "device:washing_machine:22",
+   "id": "device:washing_machine:23",
    "scope": "device:washing_machine",
    "doc_vi": "Máy giặt",
    "section_vi": "Bối cảnh nơi đặt",
    "text_vi": "Chung cư. Nước tràn chảy xuống nhà dưới là chuyện nghiêm trọng hơn nhiều so với nhà đất, nên ca tràn nước và ca rò nước nên được ưu tiên cao hơn. Máy đặt trong nhà tắm chật cũng khó tháo lắp và ảnh hưởng tới công.\n\nNhà phố, máy đặt ngoài ban công hoặc sau bếp. Hứng mưa nắng.\n\nNhà trọ. Máy thường cũ, nhiều đời người dùng, kê tạm bợ, và có chuyện ai trả tiền sửa giữa chủ trọ và người thuê.\n\nTiệm giặt và hộ kinh doanh. Máy chạy liên tục nhiều mẻ mỗi ngày, tích lũy giờ chạy rất nhanh, và bạc đạn cùng bơm xuống sớm hơn hẳn. Khách nhóm này cần sửa nhanh vì mất doanh thu theo ngày.\n\nNhà có trẻ nhỏ. Máy cửa ngang có cửa kính trẻ hay nghịch, và chuyện trẻ chui vào lồng là rủi ro thật ở nước ngoài đã có ghi nhận. Khoá trẻ em trên máy là có lý do."
   },
   {
-   "id": "device:washing_machine:23",
+   "id": "device:washing_machine:24",
    "scope": "device:washing_machine",
    "doc_vi": "Máy giặt",
    "section_vi": "Các hãng phổ biến ở Việt Nam",
    "text_vi": "Nhóm Nhật và Hàn: Panasonic, Toshiba, Sharp, Hitachi, LG, Samsung.\n\nNhóm châu Âu: Electrolux, Bosch, Beko.\n\nNhóm phổ thông: Aqua, Casper, Midea, Whirlpool, Candy, Funiki.\n\nÝ nghĩa với việc sửa chữa: hãng phổ biến thì linh kiện dễ kiếm và rẻ hơn, thợ quen tay hơn. Hãng ít gặp hoặc máy nội địa xách tay thì phải đặt linh kiện và chờ.\n\nMáy nội địa Nhật xách tay đáng lưu ý riêng: chạy điện một trăm vôn nên phải dùng qua biến áp, bảng điều khiển tiếng Nhật, mã lỗi tra khó, và bo gần như phải tìm hàng tháo máy. Khi khách kể máy chạy qua cục biến áp hoặc bảng điều khiển toàn chữ Nhật, phải nhận ra ngay và báo trước rằng ca này phức tạp hơn."
   },
   {
-   "id": "device:washing_machine:24",
+   "id": "device:washing_machine:25",
    "scope": "device:washing_machine",
    "doc_vi": "Máy giặt",
    "section_vi": "Mã lỗi: nguyên tắc đọc",
    "text_vi": "Máy giặt đời mới hiện mã lỗi trên màn hình hoặc báo bằng đèn nháy và tiếng bíp.\n\nTài liệu này hiện chưa có mã lỗi máy giặt nào được đối chiếu đủ tin cậy để ghi. Đây là chỗ nên mở rộng dần bằng tài liệu chính hãng.\n\nBa nguyên tắc bắt buộc. Mã khác nhau giữa các hãng và giữa các dòng của cùng một hãng, nên không được đoán. Khi khách đưa mã, hỏi hãng và model, nói rõ rằng mã cần tra theo đúng model, rồi chuyển sang hỏi triệu chứng thực tế. Và mã lỗi cho biết máy tự thấy cái gì bất thường, không cho biết nguyên nhân gốc: một mã báo lỗi xả có thể do bơm hỏng, do lưới lọc bịt, do ống xả gập, hoặc do cảm biến đọc sai.\n\nMột bảng mã bịa ra trông rất đáng tin và sẽ được lặp lại với mọi khách."
   },
   {
-   "id": "device:washing_machine:26",
+   "id": "device:washing_machine:27",
    "scope": "device:washing_machine",
    "doc_vi": "Máy giặt",
    "section_vi": "Khi nào nên sửa, khi nào nên thay",
    "text_vi": "Nghiêng về sửa khi máy còn dưới khoảng bảy tám năm, bệnh nằm ở nhóm linh kiện thay được như bơm xả, van cấp, dây curoa, gioăng cửa, khoá cửa, và chi phí sửa nhỏ so với giá máy mới cùng khối lượng.\n\nNghiêng về thay khi máy đã cũ và hỏng đúng vào nhóm đắt nhất là mô tơ, bạc đạn trên máy cửa ngang, hoặc lồng; hoặc khi máy đã sửa nhiều lần trong thời gian ngắn; hoặc khi linh kiện của model đó không còn kiếm được; hoặc khi là máy nội địa xách tay khó kiếm linh kiện.\n\nBạc đạn trên máy cửa ngang là ranh giới đáng nói riêng: nó đòi tháo gần hết máy nên công cao, và với máy đã nhiều năm thì chi phí có thể chạm ngưỡng đáng cân nhắc thay máy. Nhưng để lâu không thay thì trục lồng mòn theo và chi phí đội lên nhiều lần, nên đây là hạng mục không nên hoãn một khi đã xác định.\n\nKhi tư vấn, nói cả hai phương án kèm lý do rồi để khách quyết."
   },
   {
-   "id": "device:washing_machine:28",
+   "id": "device:washing_machine:29",
    "scope": "device:washing_machine",
    "doc_vi": "Máy giặt",
    "section_vi": "Khi thiếu thông tin thì ước lượng thế nào",
    "text_vi": "Nói rõ đây là chẩn đoán sơ bộ, và thợ cần kiểm tra tại chỗ.\n\nVới máy giặt, hai thông tin đáng đổi một câu hỏi hơn cả là loại cửa và máy đứng ở bước nào.\n\nĐưa bệnh khả dĩ nhất theo cả dấu hiệu lẫn tần suất. Với máy giặt, tần suất nghiêng mạnh về nhóm không phải hỏng máy: lệch tải, lưới lọc bịt, ống xả gập, bu lông vận chuyển chưa tháo, áp lực nước yếu.\n\nGợi ý một việc khách tự kiểm tra được ngay và an toàn. Với máy giặt thì có rất nhiều việc như vậy, và đó là điểm khác biệt của nhóm này so với máy lạnh và tủ lạnh.\n\nKhông bao giờ kết luận một bệnh đắt như mô tơ hoặc bạc đạn từ một mô tả mơ hồ."
   },
   {
-   "id": "device:washing_machine:29",
+   "id": "device:washing_machine:30",
    "scope": "device:washing_machine",
    "doc_vi": "Máy giặt",
    "section_vi": "Khách hay hỏi thêm",
@@ -2875,46 +3288,60 @@
    "id": "device:water_heater:19",
    "scope": "device:water_heater",
    "doc_vi": "Máy nước nóng",
+   "section_vi": "Vệ sinh định kỳ bao lâu một lần",
+   "text_vi": "Với bình nóng lạnh gián tiếp, việc định kỳ gồm xả cặn, vệ sinh lòng bình và thanh đốt, kiểm tra và thay thanh magie. Đây là việc của thợ, vì phải ngắt điện, xả hết nước và tháo mặt bích.\n\nSách hướng dẫn của Ariston cho nhiều dòng bình ghi kiểm tra thanh magie và xả cặn mỗi năm một lần; có dòng ghi thay thanh magie khoảng hai năm một lần, và kiểm tra mỗi năm khi nước nhiều clo hoặc nước có tính ăn mòn. Một số hãng gắn điều kiện bảo hành ruột bình với việc thay thanh magie đúng hạn. Nhà dùng nước giếng khoan, nước nhiễm phèn hoặc nhiễm mặn thì nên theo mốc mỗi năm hoặc dày hơn. Mốc chính xác theo sách của model và theo phiếu bảo hành.\n\nPhần khách tự làm định kỳ: nhấn nút thử trên cục chống giật hoặc aptomat chống dòng rò, nhiều hãng thiết bị điện khuyên mỗi tháng một lần. Nhấn mà không ngắt thì thiết bị đã hỏng, ngừng dùng bình và gọi thợ.\n\nMáy nước nóng trực tiếp không có thanh magie, nhưng lưới lọc đầu nước vào và bát sen vẫn đóng cặn, nên rửa khi nước ra yếu.\n\nDấu hiệu bình nóng lạnh tới hạn sớm: lâu nóng hơn trước, có tiếng lục bục khi đun, nước nóng đục hoặc có mùi, có cặn trắng ở vòi sen."
+  },
+  {
+   "id": "device:water_heater:20",
+   "scope": "device:water_heater",
+   "doc_vi": "Máy nước nóng",
+   "section_vi": "Dùng đúng cách cho bền và an toàn",
+   "text_vi": "Bình nóng lạnh không cần bật cả ngày. Thói quen an toàn và tiết kiệm là bật trước khi tắm khoảng mười lăm hai mươi phút, rồi tắt điện trước khi vào tắm. Bình đã ngắt điện thì không có nguồn cho dòng rò, và nước nóng sẵn trong bình vẫn đủ dùng.\n\nChỉ cấp điện khi bình đã đầy nước. Lần đầu lắp, sau khi xả bình, hoặc sau đợt cúp nước dài, mở vòi nước nóng cho nước chảy đều rồi mới bật điện, vì thanh đốt chạy khi bình cạn sẽ hỏng.\n\nKhông cài nhiệt quá cao, nhất là nhà có trẻ nhỏ và người già. Đi vắng dài ngày thì ngắt aptomat của bình.\n\nBình phải có nối đất, chống dòng rò và aptomat riêng. Không lắp ở chỗ nước tạt thẳng vào, không tự mở bình ra sửa.\n\nTê tay khi chạm vòi hoặc nước, chống giật nhảy, mùi khét, nước nóng bất thường không tự ngắt: ngắt điện, không tắm, gọi thợ."
+  },
+  {
+   "id": "device:water_heater:21",
+   "scope": "device:water_heater",
+   "doc_vi": "Máy nước nóng",
    "section_vi": "An toàn điện: ba lớp bảo vệ",
    "text_vi": "Phần này nên được nói với mọi khách có máy nước nóng, kể cả khi họ hỏi chuyện khác.\n\nNối đất. Vỏ máy phải được nối đất. Hệ thống điện nhà ở tại Việt Nam có quy chuẩn kỹ thuật quốc gia quy định về bảo vệ chống điện giật và nối đất bảo vệ, và máy nước nóng là thiết bị điển hình cần điều đó. Nếu nhà chỉ có ổ hai chấu không có dây tiếp đất thì lớp bảo vệ này đang thiếu.\n\nThiết bị chống giật. Phần lớn máy nước nóng bán ra có sẵn một cục trên dây nguồn. Nó cần được kiểm tra định kỳ bằng nút thử trên thân nó. Nhấn nút thử mà nó không ngắt thì nó đã hỏng và phải thay.\n\nAptomat riêng đúng dòng, và dây dẫn đủ tiết diện cho công suất máy. Máy trực tiếp có công suất rất lớn và không được dùng chung nhánh với thiết bị khác.\n\nNgoài ba lớp đó còn ba thói quen: tắt điện trước khi tắm, không lắp máy ở vị trí nước có thể tạt thẳng vào, và không tự mở máy ra sửa."
   },
   {
-   "id": "device:water_heater:20",
+   "id": "device:water_heater:22",
    "scope": "device:water_heater",
    "doc_vi": "Máy nước nóng",
    "section_vi": "Vì sao không được tự sửa máy nước nóng",
    "text_vi": "Tài liệu của các thiết bị khác nói khách tự làm được nhiều việc. Nhóm này thì ngược lại, và lý do đáng nói rõ.\n\nBên trong bình có nước dưới áp lực và có điện cùng lúc.\n\nTháo thanh đốt đòi hỏi xả hết nước trong bình trước, và bình treo trên cao chứa hai ba chục lít.\n\nLắp lại mặt bích thanh đốt sai thì rò nước, và nước rò vào phần điện là ca nặng hơn nhiều.\n\nĐấu lại dây mà bỏ dây tiếp đất là gỡ mất lớp bảo vệ quan trọng nhất.\n\nVì vậy với nhóm này, danh sách việc khách tự làm rất ngắn: kiểm tra nguồn, kiểm tra chống giật, chỉnh nhiệt độ, quan sát, và ngắt điện. Mọi thứ khác là của thợ."
   },
   {
-   "id": "device:water_heater:21",
+   "id": "device:water_heater:23",
    "scope": "device:water_heater",
    "doc_vi": "Máy nước nóng",
    "section_vi": "Khí hậu và nước ở Việt Nam ảnh hưởng thế nào",
    "text_vi": "Chất lượng nước là yếu tố lớn nhất. Nước cứng, nước giếng khoan, nước bồn chứa lâu ngày đều để lại cặn canxi và cặn sắt. Cặn bám lên thanh đốt làm nó nóng cục bộ và chết sớm, làm bình lâu nóng và tốn điện, và tích ở đáy bình.\n\nNước nhiễm phèn và nhiễm mặn ở một số vùng ăn mòn bình nhanh hơn nhiều, và ở đó thanh magie hết rất nhanh.\n\nĐộ ẩm nhà tắm cao quanh năm. Hộp điện, ổ cắm, và các mối nối trong nhà tắm oxy hóa nhanh.\n\nĐiện áp chập chờn làm hỏng bo trên máy đời mới.\n\nNhà tắm chật, máy lắp thấp hoặc lắp ngay trên chỗ đứng tắm, làm nước tạt vào máy và làm người đứng ngay dưới một vật nặng treo tường.\n\nChung cư tầng cao và nhà dùng bồn trên mái thấp thì áp lực nước yếu, và máy trực tiếp không kích được."
   },
   {
-   "id": "device:water_heater:22",
+   "id": "device:water_heater:24",
    "scope": "device:water_heater",
    "doc_vi": "Máy nước nóng",
    "section_vi": "Bối cảnh nơi lắp",
    "text_vi": "Nhà tắm chật. Máy lắp gần chỗ tắm, nước tạt vào, và khó thao tác khi sửa.\n\nNhà cũ không có dây tiếp đất. Đây là bối cảnh rủi ro nhất và rất phổ biến. Nếu khách kể ổ cắm chỉ có hai chấu thì nên nói rõ rằng lớp bảo vệ quan trọng nhất đang thiếu.\n\nNhà trọ. Máy cũ, nhiều đời người dùng, đấu điện tạm bợ, và ít khi được bảo dưỡng. Đây là nhóm có rủi ro cao nhất.\n\nChung cư tầng cao, áp lực nước yếu. Máy trực tiếp không kích.\n\nNhà dùng nước giếng khoan. Cặn nhiều, bình xuống sớm.\n\nNhà có trẻ nhỏ và người già. Rủi ro bỏng từ nước quá nóng nghiêm trọng hơn, và đó là lý do chính đáng để ưu tiên ca rơ le nhiệt.\n\nBình treo trên trần nhà tắm hoặc trên trần thạch cao. Rò nước gây thấm trần và nguy cơ sập."
   },
   {
-   "id": "device:water_heater:24",
+   "id": "device:water_heater:26",
    "scope": "device:water_heater",
    "doc_vi": "Máy nước nóng",
    "section_vi": "Khi nào nên sửa, khi nào nên thay",
    "text_vi": "Nghiêng về sửa khi bình còn tương đối mới và bệnh nằm ở thanh đốt, rơ le nhiệt, chống giật, hoặc van. Đó là các linh kiện thay được.\n\nNghiêng về thay máy khi bình chứa đã thủng. Bình thủng thì không vá được một cách đáng tin, và một cái bình treo trên đầu người, chứa nước nóng, có điện, thì không phải chỗ để tiết kiệm.\n\nCũng nghiêng về thay khi máy đã rất cũ và thanh magie chưa từng được thay, vì khả năng bình đang bị ăn mòn từ bên trong là cao.\n\nVà nghiêng về thay khi máy cũ không có thiết bị chống giật, hoặc thiết kế không cho lắp. Máy đời mới có nhiều lớp bảo vệ hơn hẳn.\n\nKhi tư vấn, nói cả hai phương án kèm lý do. Nhưng với bình thủng thì nói thẳng rằng đây là ca mà lời khuyên nghiêng hẳn về thay, và giải thích vì sao."
   },
   {
-   "id": "device:water_heater:26",
+   "id": "device:water_heater:28",
    "scope": "device:water_heater",
    "doc_vi": "Máy nước nóng",
    "section_vi": "Khi thiếu thông tin thì ước lượng thế nào",
    "text_vi": "Với nhóm này, nguyên tắc khác các nhóm khác: khi chưa chắc mà có bất kỳ dấu hiệu nào của rò điện, của nước quá nóng, hoặc của rò nước, thì đưa cảnh báo an toàn trước rồi mới chẩn đoán. Cảnh báo thừa chỉ tốn của khách một buổi không tắm nước nóng; bỏ sót thì không có cách sửa lại.\n\nNgoài ra thì như các nhóm khác: nói rõ là chẩn đoán sơ bộ, đưa bệnh khả dĩ nhất theo cả dấu hiệu lẫn tần suất, và gợi ý việc khách tự kiểm tra được an toàn.\n\nHai thông tin đáng đổi một câu hỏi hơn cả là loại máy và có nghi rò điện không."
   },
   {
-   "id": "device:water_heater:27",
+   "id": "device:water_heater:29",
    "scope": "device:water_heater",
    "doc_vi": "Máy nước nóng",
    "section_vi": "Khách hay hỏi thêm",
@@ -3008,11 +3435,25 @@
    "id": "device:water_pipe:13",
    "scope": "device:water_pipe",
    "doc_vi": "Đường ống nước",
+   "section_vi": "Vệ sinh định kỳ bao lâu một lần",
+   "text_vi": "Đường ống nước trong tường không có việc vệ sinh định kỳ, nhưng có ba việc theo mốc.\n\nBồn chứa nước trên mái hoặc bể ngầm: các hướng dẫn trong nước thường nêu khoảng sáu tháng một lần với nước máy, và khoảng ba tháng một lần với nước giếng nhiều phèn, cặn. Đây là mốc của bài tư vấn, chưa phải quy chuẩn. Việc này nên để thợ làm, vì phải xả cạn, leo cao hoặc xuống bể kín. Dùng chất tẩy hợp với vật liệu bồn và xả sạch trước khi dùng lại.\n\nPhép thử đồng hồ nước: làm khi hoá đơn nước tăng bất thường hoặc có vết ẩm lạ, và nên làm thêm định kỳ với nhà có đường ống cũ.\n\nNhìn các ống mềm nối vào thiết bị, van chặn, mối nối lộ ra ngoài mỗi lần dọn nhà: có vết rỉ, vết ẩm, ống phồng thì xử lý sớm.\n\nDấu hiệu gọi thợ: nước đục vàng kéo dài dù đã xả, áp lực yếu dần ở nhiều vòi, vết ẩm loang trên tường hoặc trần, kim đồng hồ nước vẫn quay khi đã khoá hết vòi."
+  },
+  {
+   "id": "device:water_pipe:14",
+   "scope": "device:water_pipe",
+   "doc_vi": "Đường ống nước",
+   "section_vi": "Dùng đúng cách cho bền và an toàn",
+   "text_vi": "Với đường ống nước trong nhà, việc quan trọng nhất là biết van tổng ở đâu và thử khoá được không trước khi cần tới. Ống vỡ thì khoá van tổng trước, rồi mới lau dọn.\n\nKhông đóng mở van, vòi đột ngột liên tục, vì dễ gây búa nước làm rung và nới mối nối.\n\nKhông treo đồ nặng lên ống lộ thiên, không đóng đinh, khoan tường khi chưa biết đường ống đi đâu.\n\nNhà có bơm tăng áp: không để bơm chạy khi bể cạn, và chỉnh áp vừa đủ, vì áp quá cao làm mối nối và ống mềm mau hỏng.\n\nĐi vắng dài ngày thì khoá van tổng.\n\nNước rò gần ổ điện, bảng điện hay đèn trần: ngắt điện khu vực đó trước khi lại gần.\n\nỐng thép tráng kẽm đời cũ ra nước vàng thì xả vài phút trước khi dùng, và không dùng nước đầu vòi để nấu ăn sau những lần mất nước."
+  },
+  {
+   "id": "device:water_pipe:15",
+   "scope": "device:water_pipe",
+   "doc_vi": "Đường ống nước",
    "section_vi": "Khi nào sửa từng chỗ, khi nào làm lại cả tuyến",
    "text_vi": "Câu hỏi thật của nhà cũ, và nó đáng trả lời thẳng.\n\nSửa từng chỗ là hợp lý khi: hệ thống còn tương đối mới, ống bằng nhựa còn tốt, và chỗ hỏng là một điểm cụ thể do va đập hoặc do mối nối.\n\nNên cân nhắc làm lại cả tuyến khi: nhà dùng ống thép tráng kẽm đã nhiều năm; đã sửa rò nhiều lần ở nhiều chỗ khác nhau trong thời gian ngắn; hoặc áp lực yếu dần do lòng ống hẹp.\n\nLý do của trường hợp thứ hai đáng nói rõ: khi ống đã lão hoá thì mọi đoạn đều cùng tuổi. Sửa chỗ này hôm nay thì chỗ khác đứt trong vài tháng, và cộng lại các lần sửa lẻ cùng với các lần đục tường thì đắt hơn làm lại một lần.\n\nCó một lựa chọn trung gian nên nêu: kéo tuyến ống mới đi nổi hoặc đi trong hộp kỹ thuật, bỏ tuyến cũ trong tường thay vì đục ra. Rẻ hơn, nhanh hơn, và sau này dễ sửa hơn.\n\nNhiều khách không biết là có cách đó, và nêu ra là có ích."
   },
   {
-   "id": "device:water_pipe:15",
+   "id": "device:water_pipe:17",
    "scope": "device:water_pipe",
    "doc_vi": "Đường ống nước",
    "section_vi": "Khách hay hỏi thêm",
@@ -3064,15 +3505,15 @@
    "id": "device:water_purifier:8",
    "scope": "device:water_purifier",
    "doc_vi": "Máy lọc nước",
-   "section_vi": "An toàn",
-   "text_vi": "Rò nước ở máy lọc gần như luôn ở gần ổ điện, vì máy hay đặt dưới chậu rửa cạnh ổ cắm. Ngắt điện trước, khoá van cấp sau, lau sau cùng.\n\nBơm chạy khô là hỏng bơm, nên ca \"bơm chạy mãi không nghỉ\" phải nói khách rút điện ngay chứ không để tới lúc thợ sang.\n\nKhông uống nước từ máy đã quá hạn lõi lâu, đun sôi cũng không xử lý được phần lớn thứ lõi lẽ ra phải giữ lại."
+   "section_vi": "Dùng đúng cách cho bền và an toàn",
+   "text_vi": "Rò nước ở máy lọc gần như luôn ở gần ổ điện, vì máy hay đặt dưới chậu rửa cạnh ổ cắm. Ngắt điện trước, khoá van cấp sau, lau sau cùng.\n\nBơm chạy khô là hỏng bơm, nên ca \"bơm chạy mãi không nghỉ\" phải nói khách rút điện ngay chứ không để tới lúc thợ sang.\n\nKhông uống nước từ máy đã quá hạn lõi lâu, đun sôi cũng không xử lý được phần lớn thứ lõi lẽ ra phải giữ lại.\n\nĐặt máy lọc nước RO nơi khô, không nắng chiếu thẳng, ổ cắm đặt cao hơn chỗ nước có thể đọng. Ống thải không gập, đầu ống đưa đúng vào đường thoát.\n\nCúp nước lâu thì rút điện máy cho chắc, dù nhiều máy có van áp thấp tự ngắt bơm. Đi vắng dài ngày thì khoá van cấp, rút điện; lúc dùng lại xả bỏ nước đầu vài phút.\n\nMáy có chức năng nước nóng thì để xa tầm tay trẻ nhỏ và bật khoá nóng nếu có.\n\nGhi ngày thay lõi lên thân máy hoặc theo dõi đèn báo thay lõi để không quá hạn."
   },
   {
    "id": "device:water_purifier:9",
    "scope": "device:water_purifier",
    "doc_vi": "Máy lọc nước",
-   "section_vi": "Bảo dưỡng theo chu kỳ",
-   "text_vi": "Ba lõi thô thay theo chu kỳ ngắn nhất, thường ba tới sáu tháng tuỳ chất lượng nước vào.\n\nMàng RO lâu hơn nhiều, thường hai tới ba năm, và là linh kiện đắt nhất.\n\nCác lõi chức năng sau bình áp thường một tới hai năm.\n\nSau mỗi lần thay lõi phải xả bỏ vài lít nước đầu và kiểm tra lại các cốc lọc xem có rò không, vì rò sau khi thay lõi là ca thường gặp nhất."
+   "section_vi": "Vệ sinh định kỳ bao lâu một lần",
+   "text_vi": "Với máy lọc nước RO, việc định kỳ chính là thay lõi theo cấp, và mốc phụ thuộc chất lượng nước vào.\n\nBa lõi thô thay theo chu kỳ ngắn nhất, thường ba tới sáu tháng tuỳ chất lượng nước vào. Lõi số 1 là lõi hết sớm nhất; sách của một số dòng Karofi, Kangaroo cho lõi số 2 và 3 mốc dài hơn, khoảng sáu tới mười hai tháng. Nhà dùng nước giếng khoan hoặc nước nhiều cặn thì lấy mốc ngắn.\n\nMàng RO lâu hơn nhiều, thường hai tới ba năm, và là linh kiện đắt nhất. Kangaroo ghi hai tới ba năm hoặc khoảng chín mươi nghìn lít tuỳ nước vào.\n\nCác lõi chức năng sau bình áp thường một tới hai năm.\n\nSau mỗi lần thay lõi phải xả bỏ vài lít nước đầu và kiểm tra lại các cốc lọc xem có rò không, vì rò sau khi thay lõi là ca thường gặp nhất.\n\nThay đúng hạn các lõi trước màng, vì lõi thô quá hạn làm màng RO tắc sớm.\n\nDấu hiệu tới hạn sớm: nước ra chậm hơn, nước có mùi hoặc vị lạ, đèn báo thay lõi sáng, bơm chạy lâu hơn mới đầy bình áp."
   },
   {
    "id": "device:water_purifier:11",
@@ -6775,7 +7216,7 @@
    "scope": "platform",
    "doc_vi": "Danh mục dịch vụ FixHome",
    "section_vi": "FixHome đang nhận những dịch vụ gì",
-   "text_vi": "FixHome đang nhận các dịch vụ sau, theo nhóm:\n- Điều hòa: Sửa điều hòa, Vệ sinh điều hòa, Lắp đặt điều hòa, Tháo hoặc di dời điều hòa\n- Điện dân dụng: Sửa sự cố điện dân dụng, Lắp hoặc thay thiết bị điện\n- Tủ lạnh: Sửa tủ lạnh, Vệ sinh, bảo dưỡng tủ lạnh\n- Thiết bị nhà bếp: Sửa bếp từ, Vệ sinh máy hút mùi, Sửa máy hút mùi, Lắp bếp từ, bếp điện âm, Sửa bếp gas, Sửa lò nướng, Sửa ấm siêu tốc, bình thủy điện\n- Đèn & quạt: Lắp hoặc thay đèn, Lắp quạt trần hoặc quạt treo, Sửa quạt điện\n- Khóa cửa: Sửa khóa cửa/khóa thông minh, Lắp khóa thông minh\n- Đường ống nước: Sửa rò rỉ hoặc sự cố đường ống nước\n- Máy lọc nước: Sửa máy lọc nước, Thay lõi và bảo dưỡng máy lọc nước, Lắp đặt máy lọc nước\n- Thiết bị vệ sinh & thông tắc: Sửa thiết bị vệ sinh, Lắp hoặc thay thiết bị vệ sinh, Thông tắc bồn cầu/chậu/thoát sàn\n- Tivi & màn hình: Lắp TV/giá treo\n- Bình nóng lạnh: Vệ sinh bình nóng lạnh, Sửa bình/máy nước nóng, Lắp đặt hoặc thay bình nóng lạnh\n- Máy giặt & máy sấy: Sửa máy giặt, Vệ sinh máy giặt, Lắp đặt máy giặt, Sửa máy sấy, Vệ sinh máy sấy, Lắp đặt máy sấy FixHome không nhận sửa laptop, máy tính, điện thoại, máy in, xe máy, ô tô."
+   "text_vi": "FixHome đang nhận các dịch vụ sau, theo nhóm:\n- Điều hòa: Sửa điều hòa, Vệ sinh điều hòa, Lắp đặt điều hòa, Tháo hoặc di dời điều hòa\n- Điện dân dụng: Sửa sự cố điện dân dụng, Lắp hoặc thay thiết bị điện\n- Tủ lạnh: Sửa tủ lạnh, Vệ sinh, bảo dưỡng tủ lạnh\n- Thiết bị nhà bếp: Sửa bếp từ, Vệ sinh máy hút mùi, Sửa máy hút mùi, Lắp bếp từ, bếp điện âm, Sửa bếp gas, Sửa lò nướng, Sửa ấm siêu tốc, bình thủy điện\n- Đèn & quạt: Lắp hoặc thay đèn, Lắp quạt trần hoặc quạt treo, Sửa quạt điện\n- Khóa cửa: Sửa khóa cửa/khóa thông minh, Lắp khóa thông minh\n- Đường ống nước: Sửa rò rỉ hoặc sự cố đường ống nước\n- Máy lọc nước: Sửa máy lọc nước, Thay lõi và bảo dưỡng máy lọc nước, Lắp đặt máy lọc nước\n- Thiết bị vệ sinh & thông tắc: Sửa thiết bị vệ sinh, Lắp hoặc thay thiết bị vệ sinh, Thông tắc bồn cầu/chậu/thoát sàn\n- Tivi & màn hình: Lắp TV/giá treo\n- Bình nóng lạnh: Vệ sinh bình nóng lạnh, Sửa bình/máy nước nóng, Lắp đặt hoặc thay bình nóng lạnh\n- Máy giặt & máy sấy: Sửa máy giặt, Vệ sinh máy giặt, Lắp đặt máy giặt, Sửa máy sấy, Vệ sinh máy sấy, Lắp đặt máy sấy\n\nFixHome không nhận sửa laptop, máy tính, điện thoại, máy in, xe máy, ô tô."
   },
   {
    "id": "catalog:air_conditioner",
@@ -6783,55 +7224,6 @@
    "doc_vi": "Bảng giá dịch vụ",
    "section_vi": "Giá dịch vụ máy lạnh",
    "text_vi": "Dịch vụ máy lạnh trên FixHome, giá là tiền công, chưa gồm linh kiện:\n- Sửa điều hòa: 249.000đ đến 449.000đ (giá tham khảo, thợ báo giá chính xác sau khi kiểm tra)\n- Vệ sinh điều hòa: 199.000đ đến 449.000đ (giá cố định theo loại máy)\n- Lắp đặt điều hòa: 449.000đ (giá cố định theo loại máy)\n- Tháo hoặc di dời điều hòa: 699.000đ (giá tham khảo, thợ báo giá chính xác sau khi kiểm tra)"
-  },
-  {
-   "id": "catalog:power_outlet",
-   "scope": "device:power_outlet",
-   "doc_vi": "Bảng giá dịch vụ",
-   "section_vi": "Giá dịch vụ ổ cắm điện",
-   "text_vi": "Dịch vụ ổ cắm điện trên FixHome, giá là tiền công, chưa gồm linh kiện:\n- Sửa sự cố điện dân dụng: 249.000đ (giá tham khảo, thợ báo giá chính xác sau khi kiểm tra)\n- Lắp hoặc thay thiết bị điện: 119.000đ (giá cố định theo loại máy)"
-  },
-  {
-   "id": "catalog:light_bulb",
-   "scope": "device:light_bulb",
-   "doc_vi": "Bảng giá dịch vụ",
-   "section_vi": "Giá dịch vụ bóng đèn",
-   "text_vi": "Dịch vụ bóng đèn trên FixHome, giá là tiền công, chưa gồm linh kiện:\n- Sửa sự cố điện dân dụng: 249.000đ (giá tham khảo, thợ báo giá chính xác sau khi kiểm tra)\n- Lắp hoặc thay đèn: 119.000đ (giá cố định theo loại máy)"
-  },
-  {
-   "id": "catalog:refrigerator",
-   "scope": "device:refrigerator",
-   "doc_vi": "Bảng giá dịch vụ",
-   "section_vi": "Giá dịch vụ tủ lạnh",
-   "text_vi": "Dịch vụ tủ lạnh trên FixHome, giá là tiền công, chưa gồm linh kiện:\n- Sửa tủ lạnh: 199.000đ đến 399.000đ (giá tham khảo, thợ báo giá chính xác sau khi kiểm tra)\n- Vệ sinh, bảo dưỡng tủ lạnh: 249.000đ đến 499.000đ (giá cố định theo loại máy)"
-  },
-  {
-   "id": "catalog:induction_hob",
-   "scope": "device:induction_hob",
-   "doc_vi": "Bảng giá dịch vụ",
-   "section_vi": "Giá dịch vụ bếp từ",
-   "text_vi": "Dịch vụ bếp từ trên FixHome, giá là tiền công, chưa gồm linh kiện:\n- Sửa bếp từ: 249.000đ đến 349.000đ (giá tham khảo, thợ báo giá chính xác sau khi kiểm tra)\n- Lắp bếp từ, bếp điện âm: 249.000đ (giá cố định theo loại máy)"
-  },
-  {
-   "id": "catalog:gas_stove",
-   "scope": "device:gas_stove",
-   "doc_vi": "Bảng giá dịch vụ",
-   "section_vi": "Giá dịch vụ bếp gas",
-   "text_vi": "Dịch vụ bếp gas trên FixHome, giá là tiền công, chưa gồm linh kiện:\n- Sửa bếp gas: 199.000đ đến 299.000đ (giá tham khảo, thợ báo giá chính xác sau khi kiểm tra)"
-  },
-  {
-   "id": "catalog:oven",
-   "scope": "device:oven",
-   "doc_vi": "Bảng giá dịch vụ",
-   "section_vi": "Giá dịch vụ lò nướng",
-   "text_vi": "Dịch vụ lò nướng trên FixHome, giá là tiền công, chưa gồm linh kiện:\n- Sửa lò nướng: 199.000đ đến 349.000đ (giá tham khảo, thợ báo giá chính xác sau khi kiểm tra)"
-  },
-  {
-   "id": "catalog:kettle",
-   "scope": "device:kettle",
-   "doc_vi": "Bảng giá dịch vụ",
-   "section_vi": "Giá dịch vụ ấm đun nước",
-   "text_vi": "Dịch vụ ấm đun nước trên FixHome, giá là tiền công, chưa gồm linh kiện:\n- Sửa ấm siêu tốc, bình thủy điện: 149.000đ (giá tham khảo, thợ báo giá chính xác sau khi kiểm tra)"
   },
   {
    "id": "catalog:ceiling_fan",
@@ -6848,25 +7240,46 @@
    "text_vi": "Dịch vụ quạt điện trên FixHome, giá là tiền công, chưa gồm linh kiện:\n- Lắp quạt trần hoặc quạt treo: 199.000đ đến 299.000đ (giá cố định theo loại máy)\n- Sửa quạt điện: 149.000đ đến 299.000đ (giá tham khảo, thợ báo giá chính xác sau khi kiểm tra)"
   },
   {
-   "id": "catalog:smart_lock",
-   "scope": "device:smart_lock",
+   "id": "catalog:washing_machine",
+   "scope": "device:washing_machine",
    "doc_vi": "Bảng giá dịch vụ",
-   "section_vi": "Giá dịch vụ khóa cửa thông minh",
-   "text_vi": "Dịch vụ khóa cửa thông minh trên FixHome, giá là tiền công, chưa gồm linh kiện:\n- Sửa khóa cửa/khóa thông minh: 199.000đ (giá tham khảo, thợ báo giá chính xác sau khi kiểm tra)\n- Lắp khóa thông minh: 399.000đ (giá cố định theo loại máy)"
+   "section_vi": "Giá dịch vụ máy giặt",
+   "text_vi": "Dịch vụ máy giặt trên FixHome, giá là tiền công, chưa gồm linh kiện:\n- Sửa máy giặt: 249.000đ đến 299.000đ (giá tham khảo, thợ báo giá chính xác sau khi kiểm tra)\n- Vệ sinh máy giặt: 399.000đ đến 749.000đ (giá cố định theo loại máy)\n- Lắp đặt máy giặt: 299.000đ (giá cố định theo loại máy)"
   },
   {
-   "id": "catalog:water_pipe",
-   "scope": "device:water_pipe",
+   "id": "catalog:refrigerator",
+   "scope": "device:refrigerator",
    "doc_vi": "Bảng giá dịch vụ",
-   "section_vi": "Giá dịch vụ đường ống nước",
-   "text_vi": "Dịch vụ đường ống nước trên FixHome, giá là tiền công, chưa gồm linh kiện:\n- Sửa rò rỉ hoặc sự cố đường ống nước: 199.000đ đến 499.000đ (giá tham khảo, thợ báo giá chính xác sau khi kiểm tra)\n- Thông tắc bồn cầu/chậu/thoát sàn: 299.000đ đến 549.000đ (giá cố định theo loại máy)"
+   "section_vi": "Giá dịch vụ tủ lạnh",
+   "text_vi": "Dịch vụ tủ lạnh trên FixHome, giá là tiền công, chưa gồm linh kiện:\n- Sửa tủ lạnh: 199.000đ đến 399.000đ (giá tham khảo, thợ báo giá chính xác sau khi kiểm tra)\n- Vệ sinh, bảo dưỡng tủ lạnh: 249.000đ đến 499.000đ (giá cố định theo loại máy)"
   },
   {
-   "id": "catalog:water_purifier",
-   "scope": "device:water_purifier",
+   "id": "catalog:oven",
+   "scope": "device:oven",
    "doc_vi": "Bảng giá dịch vụ",
-   "section_vi": "Giá dịch vụ máy lọc nước",
-   "text_vi": "Dịch vụ máy lọc nước trên FixHome, giá là tiền công, chưa gồm linh kiện:\n- Sửa máy lọc nước: 199.000đ (giá tham khảo, thợ báo giá chính xác sau khi kiểm tra)\n- Thay lõi và bảo dưỡng máy lọc nước: 149.000đ (giá cố định theo loại máy)\n- Lắp đặt máy lọc nước: 249.000đ (giá cố định theo loại máy)"
+   "section_vi": "Giá dịch vụ lò nướng",
+   "text_vi": "Dịch vụ lò nướng trên FixHome, giá là tiền công, chưa gồm linh kiện:\n- Sửa lò nướng: 199.000đ đến 349.000đ (giá tham khảo, thợ báo giá chính xác sau khi kiểm tra)"
+  },
+  {
+   "id": "catalog:gas_stove",
+   "scope": "device:gas_stove",
+   "doc_vi": "Bảng giá dịch vụ",
+   "section_vi": "Giá dịch vụ bếp gas",
+   "text_vi": "Dịch vụ bếp gas trên FixHome, giá là tiền công, chưa gồm linh kiện:\n- Sửa bếp gas: 199.000đ đến 299.000đ (giá tham khảo, thợ báo giá chính xác sau khi kiểm tra)"
+  },
+  {
+   "id": "catalog:kettle",
+   "scope": "device:kettle",
+   "doc_vi": "Bảng giá dịch vụ",
+   "section_vi": "Giá dịch vụ ấm đun nước",
+   "text_vi": "Dịch vụ ấm đun nước trên FixHome, giá là tiền công, chưa gồm linh kiện:\n- Sửa ấm siêu tốc, bình thủy điện: 149.000đ (giá tham khảo, thợ báo giá chính xác sau khi kiểm tra)"
+  },
+  {
+   "id": "catalog:television",
+   "scope": "device:television",
+   "doc_vi": "Bảng giá dịch vụ",
+   "section_vi": "Giá dịch vụ tivi",
+   "text_vi": "Dịch vụ tivi trên FixHome, giá là tiền công, chưa gồm linh kiện:\n- Lắp TV/giá treo: 299.000đ đến 499.000đ (giá cố định theo loại máy)"
   },
   {
    "id": "catalog:sink",
@@ -6890,11 +7303,25 @@
    "text_vi": "Dịch vụ bồn cầu trên FixHome, giá là tiền công, chưa gồm linh kiện:\n- Sửa thiết bị vệ sinh: 199.000đ đến 249.000đ (giá tham khảo, thợ báo giá chính xác sau khi kiểm tra)\n- Lắp hoặc thay thiết bị vệ sinh: 149.000đ đến 549.000đ (giá cố định theo loại máy)\n- Thông tắc bồn cầu/chậu/thoát sàn: 299.000đ đến 549.000đ (giá cố định theo loại máy)"
   },
   {
-   "id": "catalog:television",
-   "scope": "device:television",
+   "id": "catalog:power_outlet",
+   "scope": "device:power_outlet",
    "doc_vi": "Bảng giá dịch vụ",
-   "section_vi": "Giá dịch vụ tivi",
-   "text_vi": "Dịch vụ tivi trên FixHome, giá là tiền công, chưa gồm linh kiện:\n- Lắp TV/giá treo: 299.000đ đến 499.000đ (giá cố định theo loại máy)"
+   "section_vi": "Giá dịch vụ ổ cắm điện",
+   "text_vi": "Dịch vụ ổ cắm điện trên FixHome, giá là tiền công, chưa gồm linh kiện:\n- Sửa sự cố điện dân dụng: 249.000đ (giá tham khảo, thợ báo giá chính xác sau khi kiểm tra)\n- Lắp hoặc thay thiết bị điện: 119.000đ (giá cố định theo loại máy)"
+  },
+  {
+   "id": "catalog:light_bulb",
+   "scope": "device:light_bulb",
+   "doc_vi": "Bảng giá dịch vụ",
+   "section_vi": "Giá dịch vụ bóng đèn",
+   "text_vi": "Dịch vụ bóng đèn trên FixHome, giá là tiền công, chưa gồm linh kiện:\n- Sửa sự cố điện dân dụng: 249.000đ (giá tham khảo, thợ báo giá chính xác sau khi kiểm tra)\n- Lắp hoặc thay đèn: 119.000đ (giá cố định theo loại máy)"
+  },
+  {
+   "id": "catalog:water_pipe",
+   "scope": "device:water_pipe",
+   "doc_vi": "Bảng giá dịch vụ",
+   "section_vi": "Giá dịch vụ đường ống nước",
+   "text_vi": "Dịch vụ đường ống nước trên FixHome, giá là tiền công, chưa gồm linh kiện:\n- Sửa rò rỉ hoặc sự cố đường ống nước: 199.000đ đến 499.000đ (giá tham khảo, thợ báo giá chính xác sau khi kiểm tra)\n- Thông tắc bồn cầu/chậu/thoát sàn: 299.000đ đến 549.000đ (giá cố định theo loại máy)"
   },
   {
    "id": "catalog:water_heater",
@@ -6904,11 +7331,11 @@
    "text_vi": "Dịch vụ máy nước nóng trên FixHome, giá là tiền công, chưa gồm linh kiện:\n- Vệ sinh bình nóng lạnh: 349.000đ (giá cố định theo loại máy)\n- Sửa bình/máy nước nóng: 249.000đ (giá tham khảo, thợ báo giá chính xác sau khi kiểm tra)\n- Lắp đặt hoặc thay bình nóng lạnh: 299.000đ đến 349.000đ (giá cố định theo loại máy)"
   },
   {
-   "id": "catalog:washing_machine",
-   "scope": "device:washing_machine",
+   "id": "catalog:induction_hob",
+   "scope": "device:induction_hob",
    "doc_vi": "Bảng giá dịch vụ",
-   "section_vi": "Giá dịch vụ máy giặt",
-   "text_vi": "Dịch vụ máy giặt trên FixHome, giá là tiền công, chưa gồm linh kiện:\n- Sửa máy giặt: 249.000đ đến 299.000đ (giá tham khảo, thợ báo giá chính xác sau khi kiểm tra)\n- Vệ sinh máy giặt: 399.000đ đến 749.000đ (giá cố định theo loại máy)\n- Lắp đặt máy giặt: 299.000đ (giá cố định theo loại máy)"
+   "section_vi": "Giá dịch vụ bếp từ",
+   "text_vi": "Dịch vụ bếp từ trên FixHome, giá là tiền công, chưa gồm linh kiện:\n- Sửa bếp từ: 249.000đ đến 349.000đ (giá tham khảo, thợ báo giá chính xác sau khi kiểm tra)\n- Lắp bếp từ, bếp điện âm: 249.000đ (giá cố định theo loại máy)"
   },
   {
    "id": "catalog:clothes_dryer",
@@ -6916,6 +7343,27 @@
    "doc_vi": "Bảng giá dịch vụ",
    "section_vi": "Giá dịch vụ máy sấy quần áo",
    "text_vi": "Dịch vụ máy sấy quần áo trên FixHome, giá là tiền công, chưa gồm linh kiện:\n- Sửa máy sấy: 199.000đ đến 349.000đ (giá tham khảo, thợ báo giá chính xác sau khi kiểm tra)\n- Vệ sinh máy sấy: 399.000đ đến 599.000đ (giá cố định theo loại máy)\n- Lắp đặt máy sấy: 199.000đ đến 399.000đ (giá cố định theo loại máy)"
+  },
+  {
+   "id": "catalog:water_purifier",
+   "scope": "device:water_purifier",
+   "doc_vi": "Bảng giá dịch vụ",
+   "section_vi": "Giá dịch vụ máy lọc nước",
+   "text_vi": "Dịch vụ máy lọc nước trên FixHome, giá là tiền công, chưa gồm linh kiện:\n- Sửa máy lọc nước: 199.000đ (giá tham khảo, thợ báo giá chính xác sau khi kiểm tra)\n- Thay lõi và bảo dưỡng máy lọc nước: 149.000đ (giá cố định theo loại máy)\n- Lắp đặt máy lọc nước: 249.000đ (giá cố định theo loại máy)"
+  },
+  {
+   "id": "catalog:smart_lock",
+   "scope": "device:smart_lock",
+   "doc_vi": "Bảng giá dịch vụ",
+   "section_vi": "Giá dịch vụ khóa cửa thông minh",
+   "text_vi": "Dịch vụ khóa cửa thông minh trên FixHome, giá là tiền công, chưa gồm linh kiện:\n- Sửa khóa cửa/khóa thông minh: 199.000đ (giá tham khảo, thợ báo giá chính xác sau khi kiểm tra)\n- Lắp khóa thông minh: 399.000đ (giá cố định theo loại máy)"
+  },
+  {
+   "id": "catalog:range_hood",
+   "scope": "device:range_hood",
+   "doc_vi": "Bảng giá dịch vụ",
+   "section_vi": "Giá dịch vụ máy hút mùi",
+   "text_vi": "Dịch vụ máy hút mùi trên FixHome, giá là tiền công, chưa gồm linh kiện:\n- Vệ sinh máy hút mùi: 349.000đ (giá cố định theo loại máy)\n- Sửa máy hút mùi: 199.000đ (giá tham khảo, thợ báo giá chính xác sau khi kiểm tra)"
   }
  ]
 }
