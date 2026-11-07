@@ -112,4 +112,37 @@ Còn sai ở `clear` sau v4 phần lớn là nhầm giữa hai lỗi giống nha
 
 Giới hạn còn biết: khách tự chẩn đoán sai ("hết gas rồi, chảy nước tong tong") đôi khi được tin theo; `clear` là câu đội viết, chưa phải câu khách thật; khách giả lập là chính model đang đo nên có thể dễ tính hơn khách thật.
 
-Lặp lại số đo: `python tools/eval_chat2.py --base-url http://<máy>/v1 --model <tên> --api-key <key> --extra '{"chat_template_kwargs":{"enable_thinking":false}}'` và `python tools/sim_chat2.py ... --repeat 2 --md sim.md`.
+## Vòng 07/11 chiều: hỏi tự do và adapter chọn lỗi
+
+PO yêu cầu hỏi nhiều câu không theo nguyên tắc nào. 50 cuộc (`scratchpad free2`, không dấu, teencode, emoji, tiếng Anh, chửi, kể lan man, chen lệnh lạ, nhiều máy một câu, máy ngoài danh mục) chạy qua `/api/v1/diagnosis/analyze` y như Backend gọi, gửi lại `diagnosticState` mỗi lượt. Những cuộc hỏng được giữ thành `tools/probe_free.py` (`--free`). Sửa theo tầng:
+
+- Hỏi đáp: câu trả lời được kiểm lại với các đoạn tài liệu bằng một lượt riêng chỉ trả có hay không (`answer._verified`). Không có căn cứ thì khách chỉ nhận câu "em chưa có thông tin" của chính model, câu khẳng định tự nghĩ bị bỏ (`answer.unsupported`). Trước đó "có thợ nữ không" ra "Có, anh/chị chọn được thợ nữ", "lắp máy lạnh có cần mua ống đồng không" ra "Cần mua thêm", "thợ có mang đồ nghề không" ra một câu không có trong tài liệu nào. Kiểm câu trích có trả lời câu hỏi không thì quá chặt ("có nổ không" được trả lời bởi "không nguy hiểm tức thì" bị loại), nên kiểm điều câu trả lời khẳng định. Prompt thêm: chỉ nói có hay không khi tài liệu nói đúng điều đó; danh sách khu vực, thiết bị, dịch vụ là đầy đủ; không hỏi lại, không hứa tư vấn thêm.
+- Tên gọi khác của máy chỉ được cắt ở đầu câu khi khách chưa gọi đúng tên máy (`describes_nothing`): "bếp gas có mùi gas" mất chữ "mùi gas" (một alias của bếp gas) và bị hỏi lại "có ngửi thấy mùi gas không".
+- `named_in`: tên đã gập có khoảng trắng hai đầu, hai tên đứng sát nhau ("vòi nước bồn rửa chén") bị coi là chồng nhau, vòi nước bị bỏ và vòi nhỏ giọt thành rò ống thoát bồn rửa.
+- Máy ngoài danh mục: router điền `other_appliance` (máy sấy tóc, nồi cơm điện, máy lọc không khí, robot hút bụi) và code nói thẳng FixHome chưa nhận, thay vì hỏi "thiết bị nào" hay ép về máy gần giống (máy sấy tóc thành máy sấy quần áo vì alias "máy sấy"). Tên có chứa alias mà là thứ khác thì ghi trong danh mục (`not_aliases_vi`: "máy sấy tóc" không phải máy sấy quần áo); tên lạ router điền chỉ dùng để từ chối khi khách không gọi máy nào trong danh mục. Dò alias bên trong tên lạ đã được thử và bỏ: nó gạt mất máy lọc nước khỏi "lõi lọc nước RO bao lâu thay".
+- Tên máy không được đọc vắt qua dấu câu (`_fold_names`): "bếp từ, mặt kính nứt" gập thành "bep tu mat kinh" và chứa alias "tủ mát" của tủ lạnh.
+- Khách kể rơi, ngã, đổ, va đập mà không nói hư hại nào có trong tên lỗi model chọn thì không gắn lỗi, đặt dịch vụ sửa để thợ kiểm tra (`IMPACT_WORDS`): ca máy lạnh rơi của PO ("bị rơt xuống đất") từng ra hỏng bo mạch với adapter; "làm rơi nồi, mặt kính nứt" vẫn giữ lỗi nứt kính.
+- Câu hỏi giá bắt đầu bằng "giá vệ sinh, giá sửa, giá lắp…" là câu hỏi giá; tầng hỏi đáp không hỏi ngược khách (`no_questions_back`); câu trích dạng nhãn ("Đã nhận: …") chỉ thay câu trả lời khi chứa từ hiếm của câu hỏi.
+- Hư hại không gắn lỗi không còn bị gọi là "va đập" (dây bị chuột cắn); dây điện hở lõi có bước rút phích trước (`WIRE_STEP`). Câu chốt không được nói "em chuyển, em đặt, em cử" (`SELF_ACTS`). Câu từ chối viết lại cho hợp cả "laptop không lên nguồn" lẫn "hôm nay trời đẹp nhỉ".
+- Nhắc đơn cũ (BUG 53): chat2 trước đây bỏ hẳn `pastJobs`. Nay mỗi máy nhắc một lần khi chốt, theo trạng thái đơn ("đã sửa ngày…" với COMPLETED, "đang có lịch ngày…" với SCHEDULED, chữ PO duyệt 01/11), không nhắc cạnh bước an toàn, và ghi cho thợ trong `notesVi`.
+
+Adapter chọn lỗi (LoRA r16 trên các phép chiếu attention và MLP của Qwen3.5-9B bf16, phục vụ trên nền FP8 bằng `--lora-modules`): dữ liệu là nửa dev của `understanding_bank` (1.225 câu), mỗi câu cho model gốc chạy đúng prompt chẩn đoán nhưng schema ghim `fault_code` đúng nhãn, để phần còn lại của JSON do chính model viết quanh đáp án đúng. Model gốc tự đúng 89% số câu này. Bản đầu dùng cho mọi lượt gọi thì hỏng router ("máy in kẹt giấy" thành lò vi sóng) và, vì chỉ học câu có lỗi, chốt cả ca máy lạnh rơi của PO thành hỏng bo mạch. Sửa: adapter chỉ dùng cho lượt chẩn đoán (`CHAT_TURN_MODEL`), router và hỏi đáp vẫn là model gốc; thêm 299 câu mơ hồ và hư hại chung chung tự viết (không lấy từ bộ chấm) với đáp án hỏi lại hoặc không gắn lỗi.
+
+Lượt kiểm căn cứ được đo hai kiểu. Cho xem cả câu hỏi thì nó loại cả câu đúng (tổng giá hai máy, so sánh vệ sinh với sửa, giải thích vì sao tốn điện), probe 98,8% xuống 95,1%, mà vẫn cho qua "Cần mua thêm ống đồng"; nên chỉ kiểm câu trả lời với tài liệu, và không kiểm câu hỏi giá (giá đọc từ bảng của danh mục). Model 9B tự kiểm chính nó vẫn là bộ lọc thô: ca ống đồng còn lọt.
+
+Số cuối (RTX A6000, FP8, cùng code, adapter chỉ cho lượt chẩn đoán; mỗi ô một lần chạy):
+
+| | Model gốc | Adapter chat2-pick-v2 |
+|---|---|---|
+| Clear (515): đúng / sai mà chắc | 89,5% / 9,5% | 91,1% / 8,5% |
+| Vague (66) / service (60) | 98,5% / 98,3% | 100% / 100% |
+| Scripted (17) / offtopic (49) | 17/17, 95,9% | 17/17, 95,9% |
+| Probe 81 / holdout 34 / holdout2 / holdout3 / live / free | 95,1% / 91,2% / 100% / 95,7% / 100% / 15 của 17 (trước hai sửa cuối) | 98,8% / 94,1% / 100% / 100% / 100% / 17/17 |
+| Giả lập khách (90) | | 89/90 |
+| Trễ p50 bộ 707 ca | 4,3 s | 4,4 s |
+
+Adapter sửa được ca PO biết từ trước ("ngăn mát không lạnh mà ngăn đá vẫn lạnh" ra thiếu gas ở model gốc) và "tủ chạy êm mà tiền điện tăng gấp đôi" (gioăng cửa thay vì thiếu gas). Image serve tải nó từ `HF_WEIGHTS_REPO/chat2-pick-v2` (`LORA_RUN`, mặc định trong `rent_gpu.SERVE_LORA_RUN`), chỉ trên bản FP8. Huấn luyện lại: `tools/chat2_lora/` (sinh dữ liệu bằng model đang chạy, train 1 epoch khoảng 50 phút trên A6000).
+
+Còn biết: "sửa có lâu không" sau khi chốt nghẹt thoát nước đôi khi trả lời chung chung dù thẻ lỗi có thời gian; "lắp máy lạnh có cần mua ống đồng không" vẫn có lúc được trả lời "Cần" (tài liệu không có câu nào về việc này); câu hỏi kiểu "em có yêu anh không" ra lời chào thay vì từ chối.
+
+Lặp lại số đo: `python tools/eval_chat2.py --base-url http://<máy>/v1 --model <tên> [--turn-model <adapter>] --api-key <key> --extra '{"chat_template_kwargs":{"enable_thinking":false}}'` và `python tools/sim_chat2.py ... --repeat 2 --md sim.md`.

@@ -107,6 +107,12 @@ PY
 
 fetch_adapter() {
   [[ -n "${LORA_RUN}" ]] || return 0
+  # Trained and measured on the FP8 build (07/11); on the 4-bit build it is
+  # unmeasured, so the 16 GB card serves the base model as before.
+  if [[ "${MODEL}" == "${AWQ_MODEL}" && "${LORA_ON_AWQ:-0}" != "1" ]]; then
+    log "Adapter ${LORA_RUN} skipped: measured on ${FP8_MODEL} only"
+    return 0
+  fi
   log "Downloading adapter ${HF_WEIGHTS_REPO}/${LORA_RUN}"
   python3 - "$HF_WEIGHTS_REPO" "$LORA_RUN" "$WEIGHTS_DIR" <<'PY'
 import sys
@@ -127,6 +133,8 @@ PY
   fi
   LORA_ARGS=(--enable-lora --max-lora-rank "${LORA_RANK:-16}" --lora-modules "${LORA_NAME}=${dir}")
   export VLM_FAULT_MODEL="${LORA_NAME}"
+  # chat2 sends only its diagnosis call to the adapter; routing and answers stay on the base.
+  export CHAT_TURN_MODEL="${LORA_NAME}"
   log "Adapter ${LORA_RUN} served as ${LORA_NAME}"
 }
 

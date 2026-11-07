@@ -53,8 +53,10 @@ Mục lục (mã | tài liệu › mục — câu mở đầu):
 
 ANSWER_SYSTEM = """Bạn là trợ lý của FixHome, nhắn tin riêng với khách. Xưng "em", gọi khách là "anh/chị".
 Trả lời câu hỏi cuối của khách CHỈ bằng thông tin trong các đoạn tài liệu dưới đây.
-Trước hết chép vào "quote" nguyên văn câu trong đoạn tài liệu chứa ý trả lời (đọc kỹ cả danh sách, tên quận, tên thiết bị). Câu có cùng ý là đủ, không cần trùng chữ với câu hỏi: "nhắn tin với thợ trước khi đặt" được trả lời bởi câu nói khách nhắn được sau khi gửi đơn; "khiếu nại thợ" được trả lời bởi câu nói quản lý dịch vụ xử lý tranh chấp. Chỉ để "" khi không đoạn nào có ý đó. Rồi viết "reply" dựa trên câu đã chép.
-- Trả lời thẳng vào điều khách hỏi ngay câu đầu, tối đa hai câu ngắn, dưới 50 chữ, không chào hỏi, không xin lỗi, không lan man. Câu hỏi có hay không ("có nguy hiểm không", "tự làm được không") thì câu đầu nói rõ có hay không; riêng khi đoạn tài liệu nói phải chờ thợ xem mới biết (như có được bảo hành không) thì nói đúng điều kiện đó, không nói chắc.
+Trước hết chép vào "quote" nguyên văn câu trong đoạn tài liệu chứa ý trả lời (đọc kỹ cả danh sách, tên quận, tên thiết bị). Câu có cùng ý là đủ, không cần trùng chữ với câu hỏi: "nhắn tin với thợ trước khi đặt", "xin số điện thoại thợ" được trả lời bởi câu nói khách nhắn được với thợ sau khi gửi đơn; "khiếu nại thợ" được trả lời bởi câu nói quản lý dịch vụ xử lý tranh chấp. Chỉ để "" khi không đoạn nào có ý đó. Rồi viết "reply" dựa trên câu đã chép.
+- Trả lời thẳng vào điều khách hỏi ngay câu đầu, tối đa hai câu ngắn, dưới 50 chữ, không chào hỏi, không xin lỗi, không lan man. Câu hỏi có hay không ("có nguy hiểm không", "tự làm được không") thì câu đầu nói rõ có hay không, nhưng chỉ khi đoạn tài liệu nói đúng điều đó; đoạn tài liệu chỉ nói chuyện gần đó thì không mở đầu bằng "Có" hay "Không". Khi đoạn tài liệu nói phải chờ thợ xem mới biết (như có được bảo hành không) thì nói đúng điều kiện đó, không nói chắc.
+- Danh sách trong tài liệu (quận, thành phố, thiết bị, dịch vụ, cách thanh toán) là đầy đủ: nơi hay thứ khách hỏi không có trong danh sách thì nói thẳng FixHome chưa nhận, kèm điều danh sách có.
+- Không hỏi lại khách, không hứa tư vấn thêm.
 - Không viết "theo tài liệu", không nhắc hotline, tổng đài, số điện thoại.
 - Khách hỏi giá thì nói đúng khoảng giá có trong đoạn tài liệu.
 - Số tiền, thời hạn, địa danh, điều khoản: chỉ nói khi có trong đoạn tài liệu, chép đúng.
@@ -147,6 +149,15 @@ def _document_frequency() -> Dict[str, int]:
         for w in set(_fold(p.text_vi)):
             df[w] = df.get(w, 0) + 1
     return df
+
+
+_LABEL_LINE = re.compile(r"^[^.:]{1,30}:\s")
+
+
+def _rare_word_in(question: str, quote: str) -> bool:
+    rarity = _document_frequency()
+    rare = {w for w in _fold(question) if len(w) > 1 and rarity.get(w, 0) <= max(1, len(index()) // 20)}
+    return bool(rare & set(_fold(quote)))
 
 
 def quote_holds_the_question(question: str, quote: str) -> bool:
@@ -290,10 +301,111 @@ async def answer(
     quote = (raw.get("quote") or "").strip()
     # A quote the model itself does not call grounded proves nothing: "có trả
     # góp không" came back as "Không có khoản ký quỹ của thợ" (07/11).
-    grounded = bool(raw.get("grounded")) and bool(quote) and quote_holds_the_question(latest, quote)
-    reply = _trim(_tidy(" ".join((raw.get("reply") or "").split()), about_appliance=bool(device_type),
-                        answered=grounded, quote=quote))
-    return Answer(reply, chosen, bool(raw.get("grounded")) and bool((raw.get("quote") or "").strip()), time.perf_counter() - started)
+    reply = no_questions_back(" ".join((raw.get("reply") or "").split()))
+    # Nothing left once the questions back are gone: there was nothing to say.
+    # A price is read off the catalogue's tables, which a total for two
+    # appliances does not repeat word for word: checked, "tổng hết bao nhiêu"
+    # came back "em chưa có thông tin" (07/11).
+    supported = bool(reply) and (asks_price(latest) or await _verified(brain, client, passages, reply))
+    if not supported:
+        reply = unsupported(reply)
+    # A quote stands in for the answer only when it is on the question's own words.
+    answered = supported and bool(raw.get("grounded")) and bool(quote) and quote_holds_the_question(latest, quote)
+    if answered and _LABEL_LINE.match(quote) and not _rare_word_in(latest, quote):
+        # A glossary line ("Đã nhận: thợ vừa bấm nhận") shares "nhận đơn" with
+        # "đặt rồi mà chưa thấy thợ nhận đơn" and answers nothing (07/11).
+        answered = False
+    reply = _trim(_tidy(reply, about_appliance=bool(device_type), answered=answered, quote=quote))
+    return Answer(reply, chosen, supported and bool(quote), time.perf_counter() - started)
+
+
+VERIFY_SYSTEM = """Bạn kiểm tra câu trả lời của trợ lý FixHome có đúng với tài liệu không.
+Đọc các đoạn tài liệu và câu trả lời, rồi điền "supported":
+- true khi mọi điều câu trả lời khẳng định đều có trong các đoạn tài liệu, kể cả khi nói bằng chữ khác hay suy ra trực tiếp (danh sách đầy đủ các quận nhận đơn không có tên một nơi nghĩa là chưa nhận ở đó; cộng các mức giá có trong bảng giá thành một tổng). Câu "em chưa có thông tin" và lời mời bấm "Đặt thợ" không tính là khẳng định.
+- false khi câu trả lời khẳng định điều tài liệu không nói: một con số, một chính sách, một việc thợ sẽ làm, hay nói "có", "được" cho điều tài liệu không nhắc tới.
+
+Đoạn tài liệu:
+{passages}"""
+
+VERIFY_SCHEMA = {
+    "type": "object",
+    "properties": {"supported": {"type": "boolean"}},
+    "required": ["supported"],
+    "additionalProperties": False,
+}
+
+NO_INFO = "Dạ câu này em chưa có thông tin chính xác ạ."
+
+
+def _claims(reply: str) -> bool:
+    """Whether the reply says anything beyond "no information" and the booking button."""
+    for x in re.split(r"(?<=[.!?])\s+", reply):
+        low = x.lower().strip()
+        if low and "chưa có thông tin" not in low and not ("bấm" in low and "đặt thợ" in low):
+            return True
+    return False
+
+
+async def _verified(brain, client: httpx.AsyncClient, passages: str, reply: str) -> bool:
+    """Whether what the reply asserts is in the passages, judged by a short second call.
+
+    The answer call marks its quote grounded whenever the quote is on the
+    subject: "có thợ nữ không" was answered "Có, anh/chị chọn thợ" from a
+    sentence about choosing technicians, "lắp máy lạnh có cần mua ống đồng
+    không" from a sentence describing the pipes, and "thợ có mang đồ nghề
+    không" from nothing at all (07/11). Checking whether the quote answered
+    the question was too strict: "có nổ không" answered by "không nguy hiểm
+    tức thì" failed it. What matters is that nothing said is made up, so
+    the reply itself is checked against the passages, by a call that writes
+    nothing but a yes or a no."""
+    if not _claims(reply):
+        return True
+    try:
+        out = await brain._call(
+            client,
+            [{"role": "system", "content": VERIFY_SYSTEM.format(passages=passages)},
+             # The reply alone. Shown the question as well (07/11) the check turned
+             # down grounded explanations and comparisons, probe 98.8% to 95.1%,
+             # and still let "Cần mua thêm ống đồng" through.
+             {"role": "user", "content": f"Câu trả lời: {reply}"}],
+            VERIFY_SCHEMA,
+            20,
+        )
+    except (httpx.HTTPError, ValueError, KeyError):
+        return False
+    return bool(out.get("supported"))
+
+
+_VERDICT_OPENING = re.compile(r"^(Dạ\s+)?(có|không)\s*[,.]\s*", re.IGNORECASE)
+
+
+# The answer tier cannot use what it asks for: the next message goes back to the router.
+_ASKS_BACK = ("cho em biết", "cho em hỏi", "vui lòng cho em", "để em tư vấn", "em tư vấn thêm")
+
+
+def no_questions_back(reply: str) -> str:
+    """The reply without the sentences that ask the customer something.
+
+    "Tư vấn mua máy lạnh hãng nào" came back "Anh vui lòng cho em biết ngân
+    sách và khu vực để em tư vấn thêm" (07/11), a promise nothing keeps."""
+    kept = [x for x in re.split(r"(?<=[.!?])\s+", reply)
+            if x.strip() and not x.rstrip().endswith("?") and not any(m in x.lower() for m in _ASKS_BACK)]
+    return " ".join(kept)
+
+
+def unsupported(reply: str) -> str:
+    """What may be said when the documents do not answer: only the model's own "no information" sentences.
+
+    The rest of an unsupported reply is the model's knowledge, unchecked;
+    "Thợ sẽ mang đầy đủ đồ nghề" was said with nothing behind it (07/11).
+    An admission does not open on a verdict: "Có, ... em chưa có thông tin
+    về thợ nữ" said yes and no at once."""
+    kept = []
+    for x in re.split(r"(?<=[.!?])\s+", reply):
+        if "chưa có thông tin" in x.lower():
+            x = _VERDICT_OPENING.sub("", x.strip())
+            kept.append(x[:1].upper() + x[1:])
+    return " ".join(kept) or NO_INFO
 
 
 FILLER = ("bấm", "mô tả", "kể chi tiết", "kể thêm", "hỗ trợ thêm", "em hỗ trợ")

@@ -16,6 +16,9 @@ class Settings(BaseSettings):
     CHAT_TIMEOUT_SECONDS: float = 25.0
     # Qwen3.x writes its reasoning before the answer unless told not to.
     CHAT_DISABLE_THINKING: bool = True
+    CHAT_TURN_MODEL: str = ""
+    """Served name of the fault-choice adapter (vLLM --lora-modules), used for the
+    diagnosis call only. Empty: the base model (VLM_MODEL_NAME) for every call."""
 
     # Detector stage (YOLO11s). Empty weights path falls back to the stub.
     YOLO_WEIGHTS_PATH: str = ""

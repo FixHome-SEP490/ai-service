@@ -43,6 +43,7 @@ from app.services.chat2.menu import (
     devices,
     fault_cards,
     menu_for,
+    not_aliases,
     price_text,
 )
 from app.services.pipeline import error_codes
@@ -52,11 +53,12 @@ MAX_DEVICES = 3
 REPLY_MAX = 240
 NEED_MAX = 100
 OPTION_MAX = 28
+OTHER_MAX = 40
 
 UNKNOWN = "unknown"
 DECLINE = (
-    "Dạ việc này FixHome không nhận ạ. Em hỗ trợ sửa chữa, vệ sinh, lắp đặt đồ gia dụng trong nhà "
-    "như máy lạnh, tủ lạnh, máy giặt, bếp, bình nóng lạnh, điện nước."
+    "Dạ FixHome chỉ nhận sửa chữa, vệ sinh, lắp đặt đồ gia dụng trong nhà như máy lạnh, tủ lạnh, "
+    "máy giặt, bếp, bình nóng lạnh, điện nước. Anh/chị cần xem máy nào thì nhắn em nhé."
 )
 NONE = "NONE"
 
@@ -85,6 +87,8 @@ class Verdict:
     need_vi: str = ""
     need_kind: str = UNCLEAR
     code_note_vi: Optional[str] = None
+    past_job_vi: Optional[str] = None
+    """The customer's earlier booking of this appliance, for the technician."""
     booking_vi: Optional[str] = None
     """The service and its reference price, for the booking bar, not the sentence."""
     others: List["Verdict"] = field(default_factory=list)
@@ -102,6 +106,7 @@ ROUTER_SYSTEM = """Bạn đọc tin nhắn của khách hàng FixHome (dịch v�
   "book" khi khách muốn đặt thợ, chốt lịch, gọi thợ tới ("ok đặt luôn", "cho thợ qua đi", "đặt giúp anh") mà không kể thêm hiện tượng mới;
   "greeting" khi chỉ chào hỏi, alo, ok, cảm ơn;
   "offtopic" khi không liên quan đồ gia dụng trong nhà, kể cả đồ điện tử FixHome không sửa như laptop, máy tính, điện thoại, máy in, xe máy, ô tô, và câu hỏi đời thường như thời tiết, giờ giấc, bóng đá.
+- other_appliance: tên đồ vật khách nhắc mà KHÔNG có trong danh sách thiết bị bên dưới, chép đúng chữ khách gõ (ví dụ máy sấy tóc, nồi cơm điện, máy hút bụi, cửa cuốn, laptop); để "" nếu không có. Đồ vật không có trong danh sách thì không chọn mã của thiết bị gần giống nó.
 
 Danh sách thiết bị (mã: tên):
 {devices}"""
@@ -159,8 +164,9 @@ def _router_schema() -> dict:
             },
             "own_problem": {"type": "boolean"},
             "intent": {"type": "string", "enum": ["repair", "service", "question", "book", "greeting", "offtopic"]},
+            "other_appliance": {"type": "string", "maxLength": OTHER_MAX},
         },
-        "required": ["devices", "own_problem", "intent"],
+        "required": ["devices", "own_problem", "intent", "other_appliance"],
         "additionalProperties": False,
     }
 
@@ -234,12 +240,20 @@ def _fold(text: str) -> str:
 _LIKENESS = ("nhu", "giong", "kieu", "nhu la", "y nhu")
 
 
+def _fold_names(text: str) -> str:
+    """`_fold` clause by clause, so an appliance's name is never read across a comma:
+    "bếp từ, mặt kính nứt" folded to "bep tu mat kinh" and held the fridge's "tủ mát" (07/11)."""
+    return "|".join(_fold(part) for part in re.split(r"[.,;:!?\n]+", text))
+
+
 def names_appliance(text: str, device_type: str) -> bool:
     """Whether the words call the appliance by its name or a catalogue alias.
 
     A likeness does not count: "rung y như cái máy giặt vắt lệch đồ" is about
     a ceiling fan, "nóng như cái lò nướng" about a tumble dryer."""
-    folded = _fold(text)
+    folded = _fold_names(text)
+    for other in not_aliases().get(device_type, ()):
+        folded = folded.replace(_fold(other), " " * len(_fold(other)))
     for name in (devices().get(device_type, ""), *device_aliases().get(device_type, ())):
         needle = _fold(name)
         if len(needle.strip()) <= 2:
@@ -259,14 +273,19 @@ def named_in(text: str) -> List[str]:
     Where two names overlap the longer one is meant: "cái quạt trần" holds the
     electric fan's alias "cái quạt" and the ceiling fan's "quạt trần", and it
     is one ceiling fan."""
-    folded = _fold(text)
     spans = []
     for d in devices():
         if not names_appliance(text, d):
             continue
+        folded = _fold_names(text)
+        for other in not_aliases().get(d, ()):
+            folded = folded.replace(_fold(other), " " * len(_fold(other)))
         hits = [(folded.find(_fold(n)), len(_fold(n))) for n in (devices()[d], *device_aliases().get(d, ())) if _fold(n) in folded]
         start, length = max(hits, key=lambda h: (h[1], -h[0]))
-        spans.append((start, start + length, d))
+        # Folded names carry a space at each end: "vòi nước bồn rửa chén" put
+        # the faucet and the sink on one shared space, and the faucet was
+        # dropped as overlapping (07/11).
+        spans.append((start + 1, start + length - 1, d))
     kept = []
     for start, end, d in sorted(spans, key=lambda x: x[0] - x[1]):
         if all(end <= s0 or start >= e0 for s0, e0, _ in kept):
@@ -333,6 +352,9 @@ def warranty_note(history: Sequence[Turn]) -> Optional[str]:
 # appliance, do not switch it back on, do not touch it with wet feet.
 SHOCK_WORDS = ("giat dien", "bi giat", "dien giat", "te tay", "ro dien", "chich dien", "giat te")
 SHOCK_STEP = "Trước tiên anh/chị ngắt aptomat cấp điện cho máy, không bật lại và không chạm vào máy khi chân đang ướt."
+# A cord chewed or split to the copper is a shock waiting to happen, whatever the appliance.
+WIRE_WORDS = ("ho loi", "loi dong", "chuot can", "ho day", "dut day", "tuot vo", "boc vo", "rach vo", "dut vo")
+WIRE_STEP = "Trước tiên anh/chị rút phích cắm, không dùng máy và không chạm vào chỗ dây hở cho tới khi thợ thay dây."
 
 
 def mentions(text: str, words) -> bool:
@@ -340,7 +362,8 @@ def mentions(text: str, words) -> bool:
     return any(f" {w} " in folded for w in words)
 
 
-PRICE_WORDS = ("bao nhieu tien", "gia bao nhieu", "bao nhieu", "gia ca", "bang gia", "chi phi", "het bao nhieu", "may tien")
+PRICE_WORDS = ("bao nhieu tien", "gia bao nhieu", "bao nhieu", "gia ca", "bang gia", "chi phi", "het bao nhieu", "may tien",
+               "gia ve sinh", "gia sua", "gia lap", "gia thay", "gia thao", "gia di doi", "gia bao duong")
 
 
 def asks_price(text: str) -> bool:
@@ -411,17 +434,25 @@ class ChatBrain:
         timeout_s: float = 20.0,
         extra_body: Optional[dict] = None,
         with_cards: bool = True,
+        turn_model: Optional[str] = None,
     ) -> None:
         self._url = base_url.rstrip("/") + "/chat/completions"
         self._model = model
+        # The diagnosis call (and its second pass) may use a fine-tuned adapter
+        # served beside the base model; routing and answers stay on the base,
+        # which the adapter was never trained for (07/11: an adapter used for
+        # every call routed "máy in kẹt giấy" to the microwave).
+        self._turn_model = turn_model or model
         self._headers = {"Authorization": f"Bearer {api_key}"}
         self._timeout = timeout_s
         self._extra = extra_body or {}
         self._cards = fault_cards() if with_cards else None
 
-    async def _call(self, client: httpx.AsyncClient, messages: List[dict], schema: dict, max_tokens: int) -> dict:
+    async def _call(
+        self, client: httpx.AsyncClient, messages: List[dict], schema: dict, max_tokens: int, model: Optional[str] = None
+    ) -> dict:
         body = {
-            "model": self._model,
+            "model": model or self._model,
             "messages": messages,
             "temperature": 0.0,
             "max_tokens": max_tokens,
@@ -541,7 +572,7 @@ class ChatBrain:
         prompt = PICK_FAULT.format(need=need, damage=note)
         messages = [system, {"role": "user", "content": transcript + "\n\n" + prompt}]
         try:
-            picked = await self._call(client, messages, _pick_schema(menu, damage), 40)
+            picked = await self._call(client, messages, _pick_schema(menu, damage), 40, model=self._turn_model)
         except (httpx.HTTPError, ValueError, KeyError):
             # The first answer stands; the second pass only ever adds.
             return raw.get("fault_code") or "NONE"
@@ -554,7 +585,7 @@ class ChatBrain:
         code_context, code_sentence = code_reading(history, device_type)
         messages = [{"role": "system", "content": _system_prompt(menu, self._cards, code_context, focus)}]
         messages += [{"role": t.role, "content": t.text} for t in history]
-        raw = await self._call(client, messages, _turn_schema(menu), 320)
+        raw = await self._call(client, messages, _turn_schema(menu), 320, model=self._turn_model)
         latest = next((t.text for t in reversed(history) if t.role == "user"), "")
         if needs_fault(menu, raw, latest):
             raw["fault_code"] = await self._pick_fault(client, messages[0], history, menu, raw)
@@ -615,7 +646,28 @@ def _scope(history: Sequence[Turn], device: str, current: Optional[str], photo: 
     return list(history[last:])
 
 
+def unlisted(routed: dict) -> str:
+    """The appliance the customer named that the catalogue does not hold, or "".
+
+    "Nồi cơm điện nấu cơm bị sống" was asked which appliance it was about,
+    and "máy lọc không khí kêu to" diagnosed as an air conditioner (07/11).
+    A name the router copies that is itself a catalogue name is not one."""
+    other = " ".join(str(routed.get("other_appliance") or "").split())[:OTHER_MAX]
+    if len(other) < 3:
+        return ""
+    folded = _fold(other)
+    for d, name in devices().items():
+        if folded in {_fold(n) for n in (name, *device_aliases().get(d, ()))}:
+            return ""
+    return other
+
+
 def _without_device(intent: str, device_type: Optional[str], latency: float, raw: dict) -> Verdict:
+    other = unlisted(raw)
+    if other and intent in ("repair", "service", "offtopic", "question"):
+        text = (f"Dạ hiện FixHome chưa nhận {other[:1].lower() + other[1:]} ạ. FixHome nhận sửa chữa, vệ sinh, lắp đặt "
+                "máy lạnh, tủ lạnh, máy giặt, bếp, bình nóng lạnh, điện nước và các đồ gia dụng khác trong danh mục.")
+        return Verdict(device_type, intent, "not_repair", None, None, text, raw=raw, latency_s=latency)
     if intent == "offtopic":
         text = DECLINE
         decision = "not_repair"
@@ -656,7 +708,9 @@ def describes_nothing(need: str, menu: DeviceMenu) -> bool:
     features ("ngăn đá", "nhận vân tay"), and taking those out wherever they
     stood turned "ngăn mát không lạnh, ngăn đá vẫn lạnh" and "khóa vân tay
     không nhận vân" into nothing but "không"."""
-    text = _fold(need).replace(_fold(menu.name_vi), " ")
+    folded = _fold(need)
+    named = _fold(menu.name_vi) in folded
+    text = folded.replace(_fold(menu.name_vi), " ")
     judged = bool(set(text.split()) & _VERDICT_MARKS)
     for phrase in _VAGUE_PHRASES:
         judged = judged or f" {phrase} " in text
@@ -666,13 +720,27 @@ def describes_nothing(need: str, menu: DeviceMenu) -> bool:
     while words and words[0] in _VAGUE:
         words.pop(0)
     lead = " " + " ".join(words) + " "
-    for alias in aliases:
+    # Once the appliance is named, what follows is what it does: "bếp gas có
+    # mùi gas" lost "mùi gas", an alias of the gas stove, and asked whether
+    # it smelled of gas (07/11). An alias stands in for the name only.
+    for alias in [] if named else aliases:
         if lead.startswith(alias):
             lead = " " + lead[len(alias):]
             break
     left = set(lead.split()) - _VAGUE
     # One verb only: "chảy nước" folds to "chay nuoc", two of these words, and is a symptom.
     return not left or (judged and len(left) == 1 and left <= _USAGE)
+
+
+IMPACT_WORDS = ("roi xuong", "rot xuong", "bi roi", "bi rot", "lam roi", "lam rot", "nga xuong", "bi nga",
+                "do xuong", "bi do", "xo nga", "va dap", "va manh", "bi dap", "dap vao", "dap manh")
+_NAME_FILLER = frozenset("hong loi bi may va cua hoac khong bo nhe nang cac".split())
+
+
+def _names_the_damage(fault, text: str) -> bool:
+    """Whether the customer's words hold a word of the fault's own name: "nứt" for "Nứt vỡ mặt kính bếp từ"."""
+    named = {w for w in _fold(fault.name_vi).split() if len(w) > 1 and w not in _NAME_FILLER}
+    return bool(named & set(_fold(text).split()))
 
 
 def _decide(
@@ -711,6 +779,11 @@ def _decide(
         kind = raw["need_kind"] = REQUEST if kind == UNCLEAR else kind
     elif raw.get("decision") == "not_repair":
         return "not_repair", None, None
+    if kind == DAMAGE and fault is not None and mentions(" ".join([latest, *said]), IMPACT_WORDS)             and not _names_the_damage(fault, " ".join([latest, *said])):
+        # Dropped or knocked over, and the customer named no damage the fault
+        # is about: "máy lạnh tôi bị rơt xuống đất" was concluded on the
+        # control board (07/11). The technician inspects for damage instead.
+        fault = None
     if kind == DAMAGE:
         # A dropped or flooded unit is not a catalogue fault: the repair
         # service, so a technician sees the damage. Damage the catalogue does
@@ -751,6 +824,8 @@ def fault_phrase(menu: DeviceMenu, fault) -> str:
 # A concluded turn whose sentence still asks: "Anh/chị vui lòng cho em biết cụ
 # thể máy bị rơi như thế nào ... nhé." has no question mark and booked the
 # repair all the same (live, 07/11, the PO's dropped air conditioner).
+# The assistant cannot book, dispatch or pass anything on; the customer presses Đặt thợ.
+SELF_ACTS = re.compile(r"\bem (sẽ |xin |đã |có thể )?(chuyển|đặt|cử|sắp xếp|gửi thợ|liên hệ thợ|gọi thợ)", re.IGNORECASE)
 ASKING = ("hỏi thêm", "cho em biết", "cho em hỏi", "kể thêm", "mô tả thêm", "mô tả cụ thể", "nói rõ hơn", "cụ thể hơn")
 
 
@@ -758,7 +833,8 @@ def _concluding_sentence(menu: DeviceMenu, kind: str, fault, service: Optional[S
     """Used when the model wrote a question but the rules concluded."""
     name = menu.name_vi.lower()
     if kind == DAMAGE and fault is None:
-        return f"Dạ {name} bị va đập nên cần thợ tới kiểm tra hư hại trước khi dùng lại ạ."
+        # Not "va đập": the damage may be a chewed cord or a flooded unit (07/11).
+        return f"Dạ {name} cần thợ tới kiểm tra hư hại trước khi dùng lại ạ."
     if fault is not None:
         return f"Dạ {name} của anh/chị khả năng cao bị {fault_phrase(menu, fault)} ạ."
     if kind == REQUEST and service is not None:
@@ -783,17 +859,22 @@ def _compose(
     if decision == "not_repair":
         return Verdict(decision=decision, fault_code=None, service_code=None, reply_vi=DECLINE, **common)
     if decision == "ask":
+        # "Em sẽ chuyển thông tin để thợ liên hệ ạ?" is no question about the appliance (07/11).
+        kept = [x for x in re.split(r"(?<=[.!?])\s+", reply) if x.strip() and not SELF_ACTS.search(x)]
+        reply = " ".join(kept) or f"Anh/chị cho em biết {menu.name_vi.lower()} đang gặp hiện tượng gì ạ?"
         if not reply.endswith("?"):
             reply = reply.rstrip(".") + "?"
         return Verdict(decision="ask", fault_code=fault.code if fault else None,
                        service_code=service.code if service else None, reply_vi=reply,
                        question_vi=reply, options_vi=options, **common)
-    if not reply or "?" in reply or any(m in reply.lower() for m in ASKING):
+    if not reply or "?" in reply or any(m in reply.lower() for m in ASKING) or SELF_ACTS.search(reply):
         reply = _concluding_sentence(menu, kind, fault, service)
     parts: List[str] = []
     if fault and fault.urgency == URGENT and fault.actions_vi:
         action = fault.actions_vi[0]
         parts.append("Trước tiên anh/chị " + action[0].lower() + action[1:].rstrip(".") + ".")
+    elif mentions(" ".join([latest, *said]), WIRE_WORDS):
+        parts.append(WIRE_STEP)
     elif mentions(" ".join([latest, *said]), SHOCK_WORDS):
         # No fault of the appliance says "electric shock" (the washing machine
         # has none), so "bị giật điện nhẹ khi chạm" concluded on the control
