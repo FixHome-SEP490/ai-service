@@ -15,6 +15,7 @@ tell a question from a report ("máy lạnh chảy nước là sao vậy?").
 from __future__ import annotations
 
 import logging
+import re
 import time
 import uuid
 from collections import OrderedDict
@@ -83,6 +84,10 @@ class Session:
     """What the last conclusion offered to book; a question in between keeps it on the bar."""
     recalled: List[str] = field(default_factory=list)
     """Appliances whose earlier booking the customer was already reminded of."""
+    basket: List[dict] = field(default_factory=list)
+    """Every appliance concluded in this chat, to book in one visit (PO 08/11):
+    "còn máy lạnh cũng hư" after the fridge adds the air conditioner, it does
+    not replace the fridge. Each: device_type, fault_code, service_code, need_vi, reply_vi."""
     version: int = 0
     seen: float = field(default_factory=time.time)
 
@@ -96,6 +101,7 @@ class Session:
             "fault": self.fault,
             "services": [x.model_dump(by_alias=True) for x in self.services],
             "recalled": list(self.recalled),
+            "basket": list(self.basket),
             # Backend keeps a state only over an older version, so the count
             # must survive a restart or every later state is thrown away.
             "version": self.version,
@@ -127,6 +133,7 @@ class Sessions:
                 session.fault = state.get("fault")
                 session.services = [RecommendedService.model_validate(x) for x in state.get("services") or []]
                 session.recalled = [d for d in state.get("recalled") or [] if d in devices()]
+                session.basket = [b for b in state.get("basket") or [] if isinstance(b, dict) and b.get("device_type") in devices()]
             elif history:
                 session.turns = [Turn("user", h) for h in history if h.strip()]
         session.seen = now
@@ -265,7 +272,8 @@ class Chat2Provider(AIProvider):
             session.device = verdict.device_type
         if verdict.decision == "conclude":
             session.fault = verdict.fault_code
-            session.services = _services(verdict)
+            _fill_basket(session, verdict, latest_text(session))
+            session.services = _services(verdict, session)
         return "verdict", verdict
 
     async def diagnose(self, request: DiagnosisRequest) -> DiagnosisResponse:
@@ -388,6 +396,10 @@ def _answer_as_diagnosis(request_id: Optional[str], session: Session, found: Ans
         message_vi=found.reply_vi,
         model_info=ModelInfo(detector="yolo11s" if settings.YOLO_WEIGHTS_PATH else "stub", vlm=settings.VLM_MODEL_NAME),
         notes_vi=[f"Nguồn: {p.doc_vi} › {p.section_vi}" for p in found.passages],
+        # A question in between keeps the visit on the bar: an empty list would
+        # tell the client the other appliances are gone.
+        devices=[_device_entry(_from_basket(e), i == 0, session) for i, e in enumerate(session.basket)][:3]
+        if len(session.basket) > 1 else [],
         diagnostic_state=session.export(),
         state_version=session.version,
         disclaimer_vi=settings.AI_DISCLAIMER_VI,
@@ -408,9 +420,65 @@ def _faults(verdict: Verdict) -> List[SuspectedFault]:
     return [SuspectedFault(fault_code=fault.code, name_vi=fault.name_vi, confidence=min(max(verdict.confidence, 0.0), 1.0))]
 
 
-def _services(verdict: Verdict) -> List[RecommendedService]:
+# The customer means "instead", not "as well": "đổi sang", "không phải máy
+# lạnh", "nhầm", "thôi khỏi", "để sau". Anything else that concludes another
+# appliance adds it to the visit.
+REPLACE_WORDS = (
+    "doi sang", "doi qua", "doi lai", "doi dich vu", "doi thanh", "thay vi", "khong phai", "nham", "thoi khoi",
+    "thoi khong", "khong can nua", "khong sua nua", "bo cai", "bo may", "de sau", "chi dat", "chi sua", "chi can",
+    "huy cai", "khong dat",
+)
+
+
+def latest_text(session: Session) -> str:
+    return next((t.text for t in reversed(session.turns) if t.role == "user"), "")
+
+
+def wants_instead(text: str) -> bool:
+    folded = " " + " ".join(re.sub(r"[^a-z0-9]+", " ", _fold(text)).split()) + " "
+    return any(f" {w} " in folded for w in REPLACE_WORDS)
+
+
+def _fold(text: str) -> str:
+    import unicodedata
+
+    text = unicodedata.normalize("NFD", text.lower()).replace("đ", "d")
+    return "".join(c for c in text if unicodedata.category(c) != "Mn")
+
+
+def _fill_basket(session: Session, verdict: Verdict, said: str) -> None:
+    concluded = [v for v in [verdict, *verdict.others] if v.decision == "conclude" and v.device_type and v.service_code]
+    if not concluded:
+        return
+    fresh = [
+        {"device_type": v.device_type, "fault_code": v.fault_code, "service_code": v.service_code,
+         "need_vi": v.need_vi, "reply_vi": v.reply_vi}
+        for v in concluded
+    ]
+    kept = [] if wants_instead(said) else [b for b in session.basket if b["device_type"] not in {f["device_type"] for f in fresh}]
+    session.basket = (kept + fresh)[-MAX_BASKET:]
+
+
+MAX_BASKET = 3
+
+
+def _from_basket(entry: dict) -> Verdict:
+    return Verdict(entry["device_type"], "repair", "conclude", entry.get("fault_code"), entry.get("service_code"),
+                   entry.get("reply_vi") or "", need_vi=entry.get("need_vi") or "")
+
+
+def _visit(verdict: Verdict, session: Optional[Session]) -> List[Verdict]:
+    """This turn's appliances first, then the others concluded earlier in the chat."""
+    now = [verdict, *verdict.others]
+    if session is None or verdict.decision != "conclude":
+        return now
+    here = {v.device_type for v in now}
+    return now + [_from_basket(b) for b in session.basket if b["device_type"] not in here]
+
+
+def _services(verdict: Verdict, session: Optional[Session] = None) -> List[RecommendedService]:
     out: List[RecommendedService] = []
-    for v in [verdict, *verdict.others]:
+    for v in _visit(verdict, session):
         menu = menu_for(v.device_type) if v.device_type else None
         service = menu.service(v.service_code) if menu else None
         if service and v.decision == "conclude" and service.code not in {o.service_code for o in out}:
@@ -512,14 +580,15 @@ def _diagnosis_response(request_id: Optional[str], session: Session, verdict: Ve
         if verdict.service_code and not asking
         else None
     )
-    several = [verdict, *verdict.others] if verdict.others else []
+    visit = _visit(verdict, session)
+    several = visit if len(visit) > 1 else []
     return DiagnosisResponse(
         request_id=request_id,
         session_id=session.session_id,
         status=DiagnosisStatus.NEEDS_CLARIFICATION if asking else DiagnosisStatus.OK,
         device=device,
         suspected_faults=_faults(verdict),
-        recommended_services=[] if asking else _services(verdict),
+        recommended_services=[] if asking else _services(verdict, session),
         # Not sent: the client lists them under the reply, and the one that
         # matters (the safe step for a dangerous fault) already opens it.
         suggested_actions_vi=[],

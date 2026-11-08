@@ -1,6 +1,6 @@
 # Context repo ai-service — FixHome
 
-> Cập nhật lần cuối: 2026-11-07 16:37 (UTC+7) · Người cập nhật (git): ToanAltF4 · Nhánh: fix/chat2-freestyle
+> Cập nhật lần cuối: 2026-11-08 14:37 (UTC+7) · Người cập nhật (git): ToanAltF4 · Nhánh: fix/chat2-device-basket
 
 ## 0. Quy tắc cập nhật file này (bắt buộc)
 
@@ -206,6 +206,7 @@ Ngoài ra có `POST /api/v1/diagnosis/analyze-upload` (multipart), `GET /api/v1/
 
 ## 9. Nhật ký cập nhật context
 
+- 2026-11-08 14:37 (UTC+7) | ToanAltF4 | fix/chat2-device-basket | chat2: giỏ thiết bị trong cuộc chat (máy mới thêm vào lượt đặt, chỉ thay khi khách nói đổi/nhầm/thôi), nhiều ảnh mà máy chưa kể triệu chứng thì đặt sửa để thợ kiểm tra
 - 2026-11-07 16:37 (UTC+7) | ToanAltF4 | fix/chat2-freestyle | chat2: kiểm câu trả lời hỏi đáp với tài liệu, máy ngoài danh mục, mùi gas, dây hở lõi, nhắc đơn cũ theo trạng thái (BUG 53), adapter chọn lỗi chat2-pick-v2 chỉ cho lượt chẩn đoán (CHAT_TURN_MODEL)
 - 2026-11-07 03:23 (UTC+7) | ToanAltF4 | fix/chat2-concluded-asks | chat2: lượt đã chốt mà câu vẫn xin thêm thông tin (không có dấu hỏi) thì code thay bằng câu kết luận
 - 2026-11-07 02:54 (UTC+7) | ToanAltF4 | fix/chat2-followups | chat2: máy mới chỉ đọc tin của nó, câu trích phải chứa từ của câu hỏi, mục của bệnh vừa chốt luôn có trong mục lục, câu bảo hành khi máy đã sửa trước, bước an toàn khi giật điện, đáp cụt cho câu hỏi chẩn đoán về chẩn đoán; FAQ khi nào thợ tới; probe_live

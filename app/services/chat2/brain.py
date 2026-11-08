@@ -551,6 +551,16 @@ class ChatBrain:
         # A photograph of the television with "tiện hỏi luôn tủ lạnh chảy nước":
         # the fridge is the conversation, the television said nothing. Keep
         # what concluded, lead with it, drop the appliances left with nothing.
+        if len(verdicts) > 1 and intent in ("repair", "service"):
+            # "Cả hai cái đều hư" with two photographs (PO 08/11): one question per
+            # appliance is no conversation, and dropping the vague one booked only
+            # the other. An appliance the customer said is broken without saying
+            # how is booked for its repair, for the technician to inspect.
+            # Only one the customer meant: named, or "cả hai", "đều"; the television
+            # in the photo of "tiện hỏi luôn tủ lạnh chảy nước" said nothing.
+            both = any(w in _fold(newest) for w in BOTH_WORDS)
+            verdicts = [_inspect(v) if v.decision == "ask" and (both or names_appliance(newest, v.device_type)) else v
+                        for v in verdicts]
         concluded = [v for v in verdicts if v.decision == "conclude"]
         lead = verdicts[0] if verdicts[0].decision == "conclude" or not concluded else concluded[0]
         first = lead
@@ -644,6 +654,24 @@ def _scope(history: Sequence[Turn], device: str, current: Optional[str], photo: 
     if names_appliance(earlier, device):
         return history
     return list(history[last:])
+
+
+BOTH_WORDS = (" ca hai ", " ca 2 ", " deu ", " hai cai ", " 2 cai ", " hai may ", " 2 may ", " may cai ", " tat ca ", " ca ba ", " ca 3 ")
+
+
+def _inspect(verdict: Verdict) -> Verdict:
+    """An appliance named among several without a symptom: its repair, no fault."""
+    menu = menu_for(verdict.device_type)
+    service = menu.repair_service if menu else None
+    if service is None:
+        return verdict
+    verdict.decision = "conclude"
+    verdict.fault_code = None
+    verdict.service_code = service.code
+    verdict.reply_vi = f"Dạ {menu.name_vi.lower()} em đặt dịch vụ sửa để thợ tới kiểm tra và báo giá tại chỗ ạ."
+    verdict.question_vi = None
+    verdict.options_vi = []
+    return verdict
 
 
 def unlisted(routed: dict) -> str:
