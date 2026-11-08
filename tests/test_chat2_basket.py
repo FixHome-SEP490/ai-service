@@ -64,3 +64,25 @@ def test_a_question_alone_keeps_the_last_reply():
     session = Session("s")
     asking = Verdict("refrigerator", "repair", "ask", None, None, "Tủ lạnh bị sao ạ?")
     assert [v.device_type for v in _visit(asking, session)] == ["refrigerator"]
+
+
+def test_one_message_about_several_appliances_is_answered_for_all(monkeypatch):
+    import asyncio
+
+    from app.services.chat2.brain import ChatBrain, Turn
+
+    async def diagnose(self, client, history, device, intent, focus):
+        if device == "washing_machine":
+            return Verdict(device, intent, "ask", None, None, "Máy giặt bị sao ạ?", question_vi="Máy giặt đang gặp hiện tượng gì ạ?",
+                           options_vi=["Không vắt", "Khác"])
+        return Verdict(device, intent, "conclude", "X", "AC-01" if device == "air_conditioner" else "FR-01", f"lỗi của {device}.")
+
+    monkeypatch.setattr(ChatBrain, "_diagnose", diagnose)
+    brain = ChatBrain("http://x", "m")
+    routed = {"intent": "repair", "devices": ["air_conditioner", "refrigerator", "washing_machine"], "own_problem": True}
+    text = "máy lạnh chảy nước, tủ lạnh không lạnh, máy giặt cũng hư"
+    v = asyncio.run(brain.turn(None, [Turn("user", text)], routed=routed))
+    assert v.decision == "conclude" and [o.device_type for o in v.others] == ["refrigerator"]
+    assert "Máy lạnh: lỗi của air_conditioner." in v.reply_vi and "Tủ lạnh: lỗi của refrigerator." in v.reply_vi
+    assert "Còn máy giặt: Máy giặt đang gặp hiện tượng gì ạ?" in v.reply_vi
+    assert v.pending_device == "washing_machine" and v.options_vi == ["Không vắt", "Khác"]

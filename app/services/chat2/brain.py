@@ -91,6 +91,8 @@ class Verdict:
     """The customer's earlier booking of this appliance, for the technician."""
     booking_vi: Optional[str] = None
     """The service and its reference price, for the booking bar, not the sentence."""
+    pending_device: Optional[str] = None
+    """An appliance of the same message still to be asked about; the next reply is about it."""
     others: List["Verdict"] = field(default_factory=list)
     """Further appliances named in the same message, each concluded on its own."""
     raw: Dict[str, Any] = field(default_factory=dict)
@@ -551,20 +553,24 @@ class ChatBrain:
         # A photograph of the television with "tiện hỏi luôn tủ lạnh chảy nước":
         # the fridge is the conversation, the television said nothing. Keep
         # what concluded, lead with it, drop the appliances left with nothing.
-        if len(verdicts) > 1 and intent in ("repair", "service"):
-            # "Cả hai cái đều hư" with two photographs (PO 08/11): one question per
-            # appliance is no conversation, and dropping the vague one booked only
-            # the other. An appliance the customer said is broken without saying
-            # how is booked for its repair, for the technician to inspect.
-            # Only one the customer meant: named, or "cả hai", "đều"; the television
-            # in the photo of "tiện hỏi luôn tủ lạnh chảy nước" said nothing.
-            both = any(w in _fold(newest) for w in BOTH_WORDS)
-            verdicts = [_inspect(v) if v.decision == "ask" and (both or names_appliance(newest, v.device_type)) else v
-                        for v in verdicts]
         concluded = [v for v in verdicts if v.decision == "conclude"]
         lead = verdicts[0] if verdicts[0].decision == "conclude" or not concluded else concluded[0]
         first = lead
         first.others = [v for v in concluded if v is not lead]
+        if len(verdicts) > 1 and concluded:
+            # Several appliances in one message (PO 08/11, as the old pipeline
+            # did): every clear one is answered in this reply and offered for
+            # booking; an unclear one the customer meant (named, "cả hai", "đều")
+            # gets its own question; the television in the photo of "tiện hỏi
+            # luôn tủ lạnh chảy nước" said nothing and is left out.
+            both = any(w in _fold(newest) for w in BOTH_WORDS)
+            unclear = [v for v in verdicts if v.decision == "ask" and (both or names_appliance(newest, v.device_type))]
+            parts = [f"{devices()[v.device_type]}: {v.reply_vi}" for v in [first, *first.others]]
+            parts += [f"Còn {devices()[v.device_type].lower()}: {v.question_vi or v.reply_vi}" for v in unclear[:1]]
+            first.reply_vi = "\n".join(parts)
+            first.pending_device = unclear[0].device_type if unclear else None
+            if unclear:
+                first.options_vi = unclear[0].options_vi
         note = warranty_note(history)
         if note and first.decision == "conclude":
             first.reply_vi = f"{first.reply_vi} {note}".strip()
