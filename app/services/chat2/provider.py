@@ -269,7 +269,7 @@ class Chat2Provider(AIProvider):
         except (httpx.HTTPError, ValueError, KeyError) as exc:
             raise VlmException(f"{type(exc).__name__}: {exc}") from exc
         if verdict.device_type:
-            session.device = verdict.device_type
+            session.device = verdict.pending_device or verdict.device_type
         if verdict.decision == "conclude":
             session.fault = verdict.fault_code
             _fill_basket(session, verdict, latest_text(session))
