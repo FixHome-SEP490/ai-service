@@ -3,365 +3,204 @@
 > Ngữ cảnh hiện hành của repo (luồng, hợp đồng, quyết định, việc đang dở) nằm ở [`docs/CONTEXT.md`](docs/CONTEXT.md); khi file này lệch với code hoặc với CONTEXT.md, CONTEXT.md và code là chuẩn.
 
 <p align="center">
-  <strong>Chẩn đoán sơ bộ thiết bị gia dụng từ ảnh và mô tả của khách</strong><br>
-  <em>Tự host hoàn toàn. Không gọi API của bên thứ ba nào.</em>
+  <strong>Chẩn đoán sơ bộ thiết bị gia dụng từ ảnh và lời kể của khách, và trả lời câu hỏi về FixHome</strong><br>
+  <em>Tự host hoàn toàn. Không gọi API AI của bên thứ ba nào. Chỉ gợi ý, không quyết định nghiệp vụ.</em>
 </p>
 
 <p align="center">
   <code>YOLO11s · 22 thiết bị</code> ·
-  <code>Qwen2.5-VL-3B-AWQ trên vLLM</code> ·
-  <code>RAG từ vựng, 3.319 đoạn</code> ·
-  <code>một card 12GB</code>
+  <code>Qwen3.5-9B chỉ chữ trên vLLM 0.33</code> ·
+  <code>135 thẻ lỗi · 988 đoạn hỏi đáp</code> ·
+  <code>một card 24GB (FP8) hoặc 16GB (AWQ)</code>
 </p>
 
 ---
 
-## Bốn tầng, mỗi tầng một câu hỏi
+## Hai engine, một API
 
-| Tầng | Câu hỏi | Cái gì làm | Chạy ở đâu |
-|---|---|---|---|
-| Hội thoại | Đã biết gì rồi? | nhớ phiên, gom triệu chứng, nhận ý định đặt lịch | CPU |
-| Thị giác | Đây là thiết bị gì? | YOLO11s, 22 lớp | GPU |
-| Tri thức | Bệnh nào khả nghi? | 166 tài liệu → 3.319 đoạn, 134 mã bệnh | **CPU, 0 MB VRAM** |
-| Ngôn ngữ | Nói bằng tiếng Việt thế nào? | Qwen2.5-VL-3B-AWQ | GPU |
+Engine chọn bằng `AI_ENGINE`; engine nào cũng nằm sau `app/services/ai_provider.py` nên Backend không thấy khác biệt.
 
-Luồng: `phiên → ảnh → detector → loại thiết bị → truy hồi → danh sách bệnh kèm
-trích dẫn → mô hình ngôn ngữ → lớp kiểm duyệt → phản hồi`
+| `AI_ENGINE` | Là gì | Dùng khi |
+|---|---|---|
+| `chat2` | **đường chính từ 06/11/2026** (PO chốt): YOLO11s nhận thiết bị, Qwen3.5-9B đọc cả cuộc trò chuyện cùng thẻ lỗi của đúng thiết bị, code quyết hỏi hay chốt | mặc định trong image serve |
+| `local` | pipeline cũ dẫn bằng truy hồi chữ (`app/services/pipeline/`), Qwen2.5-VL-3B viết lời | giữ lại để so sánh, không còn là đường chính |
+| `mock` | câu trả lời cố định | test giao diện, CI |
 
-Mỗi tầng **bị cấm** trả lời câu của tầng khác, và điều đó được ghim bằng test chứ
-không bằng lời nhắc: detector không được đặt tên bệnh, truy hồi không được viết
-câu, mô hình ngôn ngữ **không được đóng góp sự thật**, tầng hội thoại không được
-chẩn đoán.
+Chi tiết thiết kế, prompt, schema và toàn bộ số đo của chat2: [docs/CHAT-BRAIN-V2.md](docs/CHAT-BRAIN-V2.md).
 
-**Mọi con số và mọi lời khuyên an toàn khách đọc đều đến từ một đoạn văn bản đã
-truy hồi ra, và đoạn đó được trả về làm trích dẫn.** Sai một câu là truy được về
-đúng tài liệu gây ra nó. Ngoại lệ duy nhất là trạng thái `general_knowledge` của
-`/chat/ask`: không truy hồi được gì nhưng câu hỏi nằm trong nghề, mô hình trả lời
-bằng hiểu biết chung, **không có trích dẫn**, và câu trả lời nào nêu tiền thì bị bỏ.
+## chat2: mỗi phần làm đúng một việc
 
-## Vì sao chia việc như vậy — đã đo, không phải phỏng đoán
+| Phần | Làm gì | Không được làm |
+|---|---|---|
+| YOLO11s (`detector-v2-yolo11s`) | đọc ảnh, ra loại thiết bị | đặt tên bệnh |
+| Router (`brain.py`) | mỗi tin: thiết bị khách nhắc (tối đa 3) và ý định `repair`, `service`, `question`, `book`, `greeting`, `offtopic` | chẩn đoán |
+| Qwen3.5-9B (tắt ảnh, tắt suy nghĩ) | đọc cả cuộc chat cùng thẻ lỗi, điền nhu cầu, loại nhu cầu, mã lỗi, mã dịch vụ theo **JSON schema của vLLM** (enum đúng các mã của thiết bị đó) | xem ảnh, tự nghĩ ra mã, giá, tên dịch vụ |
+| Code (`brain._decide`, `provider.py`) | quyết hỏi hay chốt: khách đã kể hiện tượng, hư hại hay xin việc thì chốt; chưa kể gì mới hỏi **một** câu kèm 2–4 nút (`clarification.answerOptionsVi`), tối đa 2 câu mỗi cuộc | |
+| Hỏi đáp (`answer.py`) | câu không phải chẩn đoán: chọn mục trong 988 đoạn của `knowledge_index.json` theo mục lục, chép câu bằng chứng rồi mới trả lời, kiểm lại câu trả lời với tài liệu | khẳng định điều tài liệu không có |
+| Câu bác (`pushback.py`, 12/11/2026) | "sai rồi", "không phải bệnh đó", "...chứ không phải" được đọc **bằng code**: lỗi bị bác ra khỏi danh sách chọn cho cả cuộc chat, lời khách nói sau câu bác dẫn lượt chọn kế tiếp, trả `customerDisagreed` kèm `restVi` (lời khách bỏ câu bác, Backend dùng làm mô tả cho thợ) | coi "không dùng được nữa", "chưa dùng lần nào" là câu bác |
 
-**Qwen không phân biệt được thiết bị.** Nó gọi ảnh máy lạnh là "đèn sưởi", và khi
-bắt phân biệt lò vi sóng với lò nướng trên 12 ảnh thì trả lời **giống hệt nhau cả
-12 lần**, đảo thứ tự lựa chọn cũng không đổi. YOLO làm việc đó tốt hơn hẳn.
+Tên tiếng Việt, mã dịch vụ, giá và mức khẩn cấp lấy từ `app/data/` và danh mục của Backend (`BACKEND_CATALOG_URL`), không lấy từ chữ tự do của mô hình. Giá ước tính: thấp là giá dịch vụ đúng như form đặt lịch hiện, cao là giá dịch vụ cộng linh kiện lỗi đó hay phải thay theo giá bán FixHome (`GET /api/v1/parts/prices` của Backend). Câu trả lời 1–2 câu; tên dịch vụ và giá không nhắc lại trong câu vì web hiện trên thanh đặt lịch.
 
-**Qwen cũng không nên chọn mã bệnh.** Đo trên 464 ca chẩn đoán với mô hình thật:
+### Thẻ lỗi thay cho truy hồi khi chẩn đoán
 
-| | |
-|---|---|
-| mã bệnh đúng, truy hồi xếp **hạng nhất** | 429/464 = **92,5%** |
-| mã bệnh đúng, trong **top-3** của truy hồi | 464/464 = **100%** |
-| mã bệnh đúng, **Qwen tự chọn** | 340/464 = **73,3%** |
+Một thiết bị có tối đa 12 lỗi nên mô hình được xem **đủ** các lỗi của thiết bị đó, không phải một danh sách rút gọn bằng chữ trùng. Mỗi lỗi là một thẻ trong `app/data/fault_cards.json` (135 thẻ), sinh từ 168 tài liệu ở `app/data/knowledge/` bằng `tools/build_fault_cards.py`: khách hay tả thế nào, khi nào **không** phải lỗi này, câu hỏi quyết định, cách tách với lỗi dễ nhầm. Sửa tài liệu thì chạy lại công cụ; `tests/test_chat2.py` báo khi thẻ cũ hơn tài liệu.
 
-Mô hình **kém 19 điểm** so với việc chỉ lấy kết quả đầu của truy hồi, và cái giá
-không chỉ là tên: chọn sai mã thì map sang sai dịch vụ. Nên **khi không có ảnh,
-truy hồi dẫn đầu**. Còn **có ảnh thì mô hình vẫn quyết** — nó thấy được vết nứt,
-vết cháy, nước đọng dưới máy, những thứ không nằm trong câu chữ của khách. Nửa
-có-ảnh đó **chưa ai đo được**, vì bộ ca chỉ gửi chữ.
+### Luật an toàn và câu chữ do code viết
 
-**Ngược lại YOLO không đọc được chữ.** Nó không hiểu "máy chạy cả ngày không mát",
-và càng không hiểu "dù mới vệ sinh" — câu loại trừ mà chỉ mô hình ngôn ngữ đọc
-được. Ba mô hình bù cho nhau đúng chỗ mỗi cái yếu.
+- Lỗi rủi ro cao (rò gas, chập điện...) có bước an toàn đặt **lên đầu** câu trả lời. Giật điện, tê tay luôn có bước ngắt aptomat; dây điện hở lõi, chuột cắn luôn có bước rút phích và không đoán bệnh máy.
+- Câu khách cố lái trợ lý ("bỏ qua mọi hướng dẫn"...) nhận câu cố định, không hỏi mô hình.
+- Câu chốt không được nói "em cử thợ", "em chuyển thông tin" vì trợ lý không đặt lịch thay khách. Câu mô hình nói ngược lời khách ("không mát" khi khách nói "vẫn mát") được code viết lại.
+- Máy ngoài danh mục (máy sấy tóc, nồi cơm điện, máy lọc không khí...) được nói thẳng là FixHome chưa nhận.
+- Đơn cũ của khách (`pastJobs`): đơn đã xong nói "đã sửa ngày…", đơn chưa làm nói "đang có lịch ngày…".
 
-## Khi không chắc thì hỏi, không đoán
+## Số đo hiện tại
 
-Có những cặp thiết bị mà **một tấm ảnh về nguyên tắc không tách được**, và ma trận
-nhầm lẫn của chính detector chỉ ra chúng:
+**Chat2, 707 ca cố định** (`tools/eval_chat2.py`), RTX A6000, FP8, adapter `chat2-pick-v2` chỉ cho lượt chẩn đoán, mỗi ô một lần chạy:
 
-| Cặp | Hỏi gì |
-|---|---|
-| máy giặt / máy sấy quần áo / máy rửa bát | máy dùng để làm gì (ba lựa chọn) |
-| lò vi sóng / lò nướng | bên trong có đĩa thuỷ tinh xoay không |
-| bếp gas / bếp từ | bếp có dùng bình gas không |
-| quạt trần / quạt điện | quạt gắn ở đâu |
-| chậu rửa / vòi, ổ cắm / bóng đèn | chỗ hỏng là cái nào |
+| | Model gốc | Có adapter `chat2-pick-v2` |
+|---|---|---|
+| Clear (515): đúng / sai mà chắc | 89,5% / 9,5% | 91,1% / 8,5% |
+| Vague hỏi lại (66) / service (60) | 98,5% / 98,3% | 100% / 100% |
+| Scripted (17) / offtopic (49) | 17/17, 95,9% | 17/17, 95,9% |
+| Khách giả lập (90 cuộc) | | 89/90 |
+| Trễ p50 bộ 707 ca | 4,3 s | 4,4 s |
 
-Hỏi về **thứ khách nhìn thấy được**, không hỏi khách chọn nhãn — ai phân biệt được
-lò vi sóng với lò nướng thì đã không cần gửi ảnh. Hỏi **đúng một lần**. Đọc được
-**phủ định**: "không phải trần" là câu trả lời *quạt điện*. Và "không rõ" **không
-phải** là "không".
+`clear` là câu đội viết, chưa phải câu khách thật; khách giả lập là chính model đang đo. Cách đo và các vòng trước: [docs/CHAT-BRAIN-V2.md](docs/CHAT-BRAIN-V2.md).
 
-Hỏi cũng có giới hạn. Khi đã biết thiết bị, khách tả đủ ý và điểm truy hồi đạt
-ngưỡng quyết định (`RETRIEVAL_DECISIVE_SCORE`), dịch vụ trả lời luôn dù độ tin cậy
-dưới ngưỡng. Và sau `MAX_CLARIFYING_TURNS` = 2 lượt hỏi, nó trả lời theo thứ hạng
-truy hồi thay vì hỏi tiếp, để độ tin cậy nói mức chắc chắn.
+**Kiểm thật trên fixhome.sbs** (12/11/2026, GPU RTX 3090 thuê, bấm thật trên web bằng Playwright): 45/46 ca, gồm các lỗi BUG DETECTOR 19–23, 52–54, 63–66, 74 và các ca tương tự gõ có dấu, không dấu.
 
-Điều này quan trọng hơn cái tên, vì **lời khuyên an toàn của hai thiết bị trong
-một cặp có thể trái ngược nhau**: bếp từ được tư vấn như bếp gas sẽ được dặn khoá
-van bình gas — vô nghĩa cho thiết bị cắm điện, và tệ hơn là làm khách tin rằng vấn
-đề đã được hiểu đúng.
+**Tải** (07/11, RTX 3090 FP8, `tools/load_test.py --mix`): 10 khách cùng lúc 0 lỗi, p95 8,9 s; 30 khách 0 lỗi, p95 21,9 s; 50 khách có 10/50 lượt quá 25 s. Một card phục vụ khoảng 30 cuộc chat cùng lúc.
 
-## An toàn đi trước chẩn đoán
+**Detector-v2**: yolo11s, 22 lớp, 23.678 ảnh, 70 epoch trên RTX 3090 (3 giờ 20 phút, $0,72); gọi đúng tên thiết bị 85,7%, mAP50 / mAP50-95 (val) 0,820 / 0,715. Từng lớp, gồm ba lớp tụt: [docs/DETECTOR-V2.md](docs/DETECTOR-V2.md).
 
-Một số mã bệnh có rủi ro tính mạng: rò gas, mùi khét ở ổ cắm, máy sấy tắc xơ vải.
-Với những mã đó **cảnh báo được ghim lên trước** và đi trong **trường riêng**, không
-trộn vào phần tài liệu tham khảo — trộn vào thì mô hình tóm tắt nó mất.
-
-Ghim theo **mã bệnh xếp hạng nhất**, không theo cả danh sách. Hệ quả cho người bảo
-trì: **bất kỳ thay đổi thứ hạng nào cũng có thể lấy mất một cảnh báo**, kể cả thay
-đổi không làm đổi điểm mà chỉ đổi thứ tự khi hoà. Vì vậy **số cảnh báo ghim đúng là
-một cổng chặn phát hành**, đo lại sau *mọi* thay đổi truy hồi. Ba lần sửa thuật
-toán đã bị revert vì nó.
+**Test**: `pytest` → **2.823 test** trong 57 file.
 
 ## Chạy tại máy, không cần GPU
 
-Không có GPU thì detector và Qwen không nạp, nhưng **truy hồi, tri thức, hội thoại
-và toàn bộ luật nghiệp vụ vẫn chạy** — đủ để phát triển và để chạy 2.112 test.
+Không có GPU thì detector và mô hình ngôn ngữ chạy bản giả, còn luật hỏi/chốt, câu bác, hỏi đáp chọn mục, giá và toàn bộ test vẫn chạy.
 
-CI và ruff nhắm **Python 3.11** (`.python-version`); máy local chạy được trên 3.13
-như lệnh dưới.
+CI và ruff nhắm **Python 3.11** (`.python-version`); máy local chạy được trên 3.13.
 
 ```bash
 py -3.13 -m venv .venv
-.venv/Scripts/pip install -r requirements.txt
+.venv/Scripts/pip install -r requirements.txt -r requirements-dev.txt
 .venv/Scripts/python -m uvicorn app.main:app --port 8000
 ```
 
-Mở `http://127.0.0.1:8000/chat` để chat, `http://127.0.0.1:8000/health` để kiểm.
+Mở `http://127.0.0.1:8000/chat` để chat thử, `http://127.0.0.1:8000/health` để kiểm. Biến môi trường chỉ ghi tên ở `.env.example` và mục 5 của `docs/CONTEXT.md`.
 
-Dịch vụ **từ chối khởi động nếu kho tri thức nạp về ít hơn 1.000 đoạn** (kiểm ở
-`app/main.py` lúc import), nên một lần triển khai thiếu dữ liệu không thể lặng lẽ
-chạy với bộ não rỗng. `/health` chỉ báo số đoạn ở `knowledge.chunks`.
+Dịch vụ **từ chối khởi động nếu kho tri thức nạp về ít hơn 1.000 đoạn** (`app/main.py`), nên một lần triển khai thiếu dữ liệu không lặng lẽ chạy với bộ não rỗng.
+
+Gate trước mỗi commit (giống CI):
+
+```bash
+ruff check app tests
+pytest -q
+python -m compileall -q app tests
+```
 
 ## Chạy đầy đủ mô hình trên GPU thuê
 
-Đây là phần dùng nhiều nhất. Đọc **[docs/RENTING-A-GPU.md](docs/RENTING-A-GPU.md)**
-để biết máy nào và năm cách nó hỏng; dưới đây là quy trình.
+Đọc **[docs/RENTING-A-GPU.md](docs/RENTING-A-GPU.md)** để biết máy nào và các cách máy thuê hỏng. Máy tính tiền theo giờ: **chỉ thuê khi PO cho phép, xong việc huỷ ngay và kiểm không còn máy nào**.
 
-### 1. Image được build ở CI, không build ở máy
+### 1. Image được build ở CI
 
-Hai image, build bằng GitHub Actions khi merge vào `main`:
-
-| Image | Build khi đổi | Nội dung |
+| Image | Build khi | Nội dung |
 |---|---|---|
-| `ghcr.io/fixhome-sep490/fixhome-serve` | `app/**`, `docker/serve/**`, `requirements.txt` | cả dịch vụ: vLLM + Qwen + YOLO + RAG + API |
-| `ghcr.io/fixhome-sep490/fixhome-trainer` | `docker/train/**`, `requirements-*.txt` | môi trường train YOLO |
+| `ghcr.io/fixhome-sep490/fixhome-serve` | merge vào `main` đổi `app/**`, `docker/serve/**`, `requirements.txt`; hoặc chạy tay theo nhánh | vLLM 0.33 + Qwen3.5-9B + YOLO + API trong một container |
+| `ghcr.io/fixhome-sep490/fixhome-trainer` | đổi `docker/train/**`, `requirements-*.txt` | môi trường train YOLO |
 
-Build ở CI vì image serve **8,74 GB** — đẩy từ máy nhà chậm hơn build, và bản ở CI
-luôn dựng từ checkout sạch. Image serve dựa trên `vllm/vllm-openai:v0.29.0` nên
-CUDA, torch và vLLM đã khớp sẵn.
+Image của `main` có tag `latest`. Muốn thử một nhánh chưa merge thì build image theo nhánh: `gh workflow run serving-image.yml --ref <nhánh>` (tag = tên nhánh, `/` thành `-`), chờ workflow xanh rồi mới thuê máy với tag đó; không thì máy chạy đúng code cũ. Chưa có workflow triển khai: dựng máy làm bằng công cụ ở bước 2.
 
-> **Sửa code mà chưa merge thì máy thuê không có bản sửa đó.** Chờ workflow
-> `Serving image` xong (~13 phút) rồi mới dựng máy, nếu không là test đúng code cũ.
-
-Muốn build tay: `gh workflow run "Serving image"`.
-
-Hai workflow này chỉ build và đẩy image; **chưa có workflow triển khai**. Dựng máy
-vẫn làm tay bằng `tools/rent_gpu.py` như các bước dưới.
-
-### 2. Thuê máy — đã chốt một con
-
-```bash
-# máy đã chạy thông từ đầu đến cuối: RTX A4000 16GB, CUDA 13.0, 6.8 Gb/s
-python tools/rent_gpu.py offers --machine 27076
-python tools/rent_gpu.py serve --offer <id vừa liệt kê>
-```
-
-Máy đó bận thì lọc theo **độ tin cậy trước, giá sau**:
+### 2. Thuê và theo dõi
 
 ```bash
 python tools/rent_gpu.py offers --min-cuda 13.0 --min-download 3000
-```
-
-`serve` **tự từ chối** máy không đạt, trước khi tiêu đồng nào:
-
-- **CUDA < 13.0** → vLLM chết với `Error 803: unsupported display driver` *sau khi*
-  đã kéo 9 GB.
-- **băng thông < 3 Gb/s** → image có **một tầng 5,12 GB không resume được**, nên
-  link chậm không phải tải lâu mà là **không bao giờ xong**. Đo thật: 545 Mbps và
-  1,4 Gb/s đều bỏ cuộc sau 33 và 19 phút; 6,8 Gb/s xong trong ~3 phút.
-
-Điều kiện thứ ba **máy không kiểm được**: một host đạt cả hai, container khoẻ, mà
-**cổng không vào được từ ngoài**. Đó là lý do phải chốt một host đã làm được việc.
-
-### 3. Máy tự kéo image và weights, mình không đẩy gì lên
-
-Container khi khởi động tự làm:
-
-1. kéo image từ GHCR (cần login, `serve` truyền sẵn credential)
-2. tải weights detector từ Hugging Face theo `--weights-run`
-3. tải Qwen2.5-VL-3B-AWQ từ Hugging Face
-4. chạy vLLM ở loopback, rồi mở API ở cổng 8000
-
-```bash
+python tools/rent_gpu.py serve --offer <id> [--image-tag <nhánh>]
 python tools/rent_gpu.py address --instance <id>   # in ra AI_SERVICE_URL
+python tools/watch_instance.py <id>                 # trạng thái vast.ai khi máy kẹt
 python tools/rent_gpu.py logs --instance <id> --tail 80
 python tools/rent_gpu.py status
 ```
 
-Máy lên khi `/health` trả `"attached": true` cho **cả** `vlm` và `detector`.
-Giao diện chat ở **`<địa chỉ>/chat`**.
+- Card **từ 24GB** chạy `RedHatAI/Qwen3.5-9B-FP8-dynamic` và gắn adapter `chat2-pick-v2`; card **16GB** chạy `cyankiwi/Qwen3.5-9B-AWQ-4bit` (không adapter). Entrypoint tự chọn theo VRAM; đặt `VLM_MODEL_NAME` để ép một bản. FP8 đúng hơn rõ ở câu khách tả rõ (83,1% so với 75,9% ở lượt đo cùng code 06/11), nên ưu tiên card 24GB.
+- `serve` tự từ chối máy CUDA dưới 13.0 (vLLM chết sau khi đã kéo image) và máy mạng dưới 3 Gb/s (image có một tầng lớn không resume được).
+- Container tự kéo image, tải weights detector, Qwen và adapter từ Hugging Face, chạy vLLM ở loopback rồi mở API ở cổng 8000. Máy lên khi `/health` báo mô hình và detector đã gắn.
+- Giá tham chiếu tháng 11/2026: RTX 3090 24GB khoảng $0,34–0,38/giờ; thường sẵn sàng sau 5–25 phút.
 
-### 4. Đo, rồi huỷ
+### 3. Đo, rồi huỷ
 
 ```bash
-AI_SERVICE_URL=<địa chỉ> python tools/eval_chat_suite.py --out docs/chat-suite-results.json
+python tools/eval_chat2.py --base-url http://<máy>/v1 --model <tên> [--turn-model fixhome-fault] \
+    --extra '{"chat_template_kwargs":{"enable_thinking":false}}'
 python tools/rent_gpu.py destroy --instance <id>
+python tools/rent_gpu.py status   # phải thấy: Nothing rented. No charges accruing.
 ```
 
-> **Máy serve KHÔNG tự huỷ** — nó phải sống để test và demo. `status` ở đầu và cuối
-> mỗi phiên, và cuối phiên phải thấy `Nothing rented. No charges accruing.`
-> `destroy` **hỏi lại danh sách đang thuê để kiểm chứng**, không tin câu trả lời của
-> API.
+> **Máy serve không tự huỷ** và không nên trông vào hẹn giờ tự tắt. Đo xong là `destroy`, rồi `status` để chắc không còn máy nào tính tiền.
 
-Giá tham chiếu: serve **$0.08–0.13/giờ**, train 3090 **~$0.22/giờ**.
+## Train lại
 
-## Train lại detector
-
-```bash
-python tools/rent_gpu.py offers --gpu RTX_3090 --min-vram 24
-python tools/rent_gpu.py train --offer <id> --epochs 70 --batch 48 \
-    --model yolo11s.pt --run-name detector-v3
-```
-
-Máy train **tự huỷ khi xong**: entrypoint đẩy weights lên Hugging Face **trước khi**
-in `Done. Results in`, nên huỷ sau mốc đó không mất gì. Nó cũng ghi một marker để
-chính sách restart-on-exit của vast.ai không lặng lẽ train lại và ghi đè weights đã
-publish — chuyện đã xảy ra một lần, phát hiện ở epoch thứ hai.
-
-Train thêm vòng từ weights đã có, không làm lại từ đầu:
-
-```bash
-python tools/rent_gpu.py train --offer <id> --epochs 30 \
-    --resume-from detector-v2-yolo11s/weights/best.pt --run-name detector-v2-more
-```
-
-Lấy weights về máy: `python tools/hub.py pull-weights --repo <repo> --run <tên run>`
-
-## Số đo hiện tại
-
-**detector-v2** — yolo11s, 22 lớp, 23.678 ảnh (18.091 / 2.808 / 2.779), 70 epoch,
-RTX 3090, 3 giờ 20 phút, **$0,72**. Tập test tách bằng băm nội dung.
-
-| | |
-|---|---|
-| gọi đúng tên thiết bị, 22 lớp | **85,7%** |
-| 17 lớp mà detector-v1 cũng biết | 83,9% → **86,2%** |
-| 5 lớp mới thêm | **82,8%** |
-| mAP50 / mAP50-95 (tập val) | 0,820 / 0,715 |
-
-Chi tiết từng lớp, gồm cả ba lớp **tụt**, ở [docs/DETECTOR-V2.md](docs/DETECTOR-V2.md).
-
-**Hội thoại** — 564 ca với mô hình thật: hành vi đúng loại **93,8%**, nghiệp vụ
-33/33, từ chối ngoài phạm vi 15/15, ý định đặt lịch **38/38** và **11/11 ra nút**.
-
-**Truy hồi, đo ngoại tuyến** — `python tools/eval_retrieval.py`:
-
-```
-shortlist   472/472  100%      pin          10/10  100%
-corpus       19/19   100%      im lặng      15/15  100%
-business      9/9    100%
-```
-
-**Gate** — `ruff check app tests tools && pytest -q` → **2.112 test** trong 28 file
-(CI chạy `ruff check app tests`).
+- **Detector**: `python tools/rent_gpu.py train --offer <id 24GB> --epochs 70 --batch 48 --model yolo11s.pt --run-name <run>`. Máy train đẩy weights lên Hugging Face trước khi báo xong rồi tự huỷ; train tiếp từ weights cũ bằng `--resume-from`. Lấy weights về: `python tools/hub.py pull-weights --repo <repo> --run <run>`.
+- **Adapter chat2**: `tools/chat2_lora/` (sinh dữ liệu bằng chính model đang chạy, train 1 epoch khoảng 50 phút trên A6000). So với model gốc cùng code bằng `eval_chat2.py --turn-model` trước khi đổi `SERVE_LORA_RUN`.
 
 ## API
 
-Sáu endpoint, chỉ Backend gọi, client không gọi trực tiếp:
+Sáu endpoint, **chỉ Backend gọi**; web và mobile không gọi thẳng.
 
 | | |
 |---|---|
-| `POST /api/v1/diagnosis/analyze` | ảnh base64 + mô tả → chẩn đoán |
+| `POST /api/v1/diagnosis/analyze` | lời kể + tối đa 3 ảnh base64 → chẩn đoán, `devices[]` (tối đa 3 máy), `recommendedServices`, `diagnosticState` |
 | `POST /api/v1/diagnosis/analyze-upload` | như trên, multipart |
-| `POST /api/v1/chat/ask` | câu hỏi tự do → trả lời có trích dẫn |
+| `POST /api/v1/chat/ask` | câu hỏi tự do → trả lời có căn cứ, `ok` / `out_of_scope` / `general_knowledge` / `no_grounding` |
 | `GET /api/v1/chat/acknowledgements` | câu chờ cho client hiện |
 | `GET /api/v1/meta/catalog` | danh mục thiết bị và dịch vụ |
-| `GET /health` | sống chưa, và mô hình đã nạp chưa |
+| `GET /health` | sống chưa, mô hình và detector đã gắn chưa |
 
-Ngoài ra `GET /chat` là trang chat demo, không phải API.
+Ngoài ra `GET /chat` là trang chat thử, không phải API. Tên trường camelCase, schema `extra="forbid"`. Giới hạn từng trường và các trường `diagnosticState`, `pastJobs`, `customerDisagreed`, `notesVi`: mục 5 của [docs/CONTEXT.md](docs/CONTEXT.md).
 
-Phản hồi dùng camelCase cho client TypeScript của Backend; trường form của
-`analyze-upload` cũng camelCase (`requestId`, `sessionId`, `categoryHint`,
-`includeTrace`).
-
-`/chat/ask` trả trạng thái `ok | out_of_scope | general_knowledge | no_grounding`
-và cũng trả `recommendedServices` như chẩn đoán; `diagnosis/analyze` nhận ra ý định
-đặt lịch và trả dịch vụ để client hiện nút đặt.
-
-**Phiên chat:** id do **server phát**, không nhận id client tự đặt — trường này nhận
-chuỗi bất kỳ nên hai client cùng gửi `"guest"` sẽ dùng chung hội thoại, tức thiết bị
-và triệu chứng của người này hiện sang người kia. Client gửi rỗng lần đầu, rồi echo
-lại id trong phản hồi.
+**Phiên chat**: id do server phát, client gửi rỗng lần đầu rồi gửi lại id trong phản hồi. Phiên giữ trong bộ nhớ tiến trình làm bộ đệm; bản chuẩn là `diagnosticState` Backend lưu và gửi lại mỗi lượt, nên restart không mất cuộc chat.
 
 ## Khi hỏng thì suy giảm, không chặn
 
-Luật nghiệp vụ: **AI hỏng không được chặn luồng đặt lịch**. Được thi hành bằng cấu
-trúc, không bằng `try/except`:
+Luật nghiệp vụ: **AI hỏng không được chặn luồng đặt lịch**.
 
-- Mô hình ngôn ngữ quá **8 giây** → trả lời bằng chính các đoạn đã truy hồi. Văn
-  phong tệ hơn, nội dung vẫn đúng và vẫn có trích dẫn, và **không bao giờ là trang
-  lỗi**.
-- Detector không nhận ra gì → hội thoại hỏi lại.
-- Không có mã bệnh nào → mời gói kiểm tra tại nhà.
-- **Mọi đường thất bại đều kết thúc bằng một dịch vụ đặt được.**
-
-Mô hình 3B **chép lại thứ nó được cho xem, kể cả câu cấm** — nên prompt chỉ nói
-điều *nên* làm, còn điều không được nói thì **chặn bằng mã sau khi mô hình trả
-lời**: chuẩn hoá đại từ, bóc lời xin lỗi mở đầu, từ chối mọi câu đẩy khách sang
-thợ ngoài FixHome, và bóc phần nhại khung prompt.
+- Mô hình quá `CHAT_TIMEOUT_SECONDS` hoặc lỗi → API trả `{ code, message, fallbackAllowed: true, suggestedActionVi }` với 503/504; Backend đổi thành câu trả lời dự phòng và khách vẫn chọn dịch vụ, đặt thợ được.
+- Ảnh không đọc được thì bỏ qua ảnh đó, lời khách vẫn tính.
+- Lỗi chưa chốt thì gợi ý dịch vụ sửa của chính thiết bị; không biết thiết bị thì hỏi.
 
 ## Bố cục
 
 ```
 app/
-  api/            6 endpoint
-  core/           cấu hình, ngưỡng, câu mặc định
+  api/v1/endpoints/  diagnosis.py, chat.py, meta.py
+  core/              cấu hình, ngưỡng
+  schemas/           Pydantic, camelCase trên dây
+  services/
+    ai_provider.py   chọn engine theo AI_ENGINE
+    chat2/           brain.py (router, prompt, schema, hỏi/chốt), provider.py (phiên, ảnh, map response),
+                     answer.py (hỏi đáp), menu.py (lỗi, dịch vụ của một thiết bị), pushback.py (câu bác)
+    pipeline/        engine local cũ: detector, truy hồi, Qwen client, hội thoại
   data/
-    knowledge/    166 tài liệu tiếng Việt → 3.319 đoạn
-    *.json        danh mục thiết bị, bảng bệnh, map dịch vụ, bảng giá
-  services/pipeline/
-    detector.py     YOLO
-    retriever.py    truy hồi từ vựng có trọng số độ hiếm
-    qwen_client.py  vLLM + lớp kiểm duyệt đầu ra
-    local_pipeline.py  điều phối
-    conversation.py    trạng thái phiên
-  web/chat.html   giao diện chat
-docker/
-  serve/          image cả dịch vụ
-  train/          image train YOLO
-tools/            rent_gpu, hub, eval_*, build_dataset, autolabel, ...
-tests/            2.112 test, 28 file
-docs/             số đo, thiết kế, hợp đồng với Backend
+    knowledge/       168 tài liệu tiếng Việt
+    fault_cards.json, knowledge_index.json, device_catalog.json, service_catalog.json, ...
+  web/chat.html      trang chat thử
+docker/serve/        image serve (entrypoint chọn FP8 hay AWQ theo VRAM)
+docker/train/        image train YOLO
+tools/               rent_gpu, watch_instance, hub, eval_chat2, probe_chat2, sim_chat2, load_test, chat2_lora, ...
+tests/               2.823 test, 57 file
+docs/                CONTEXT, CHAT-BRAIN-V2, RENTING-A-GPU, DETECTOR-V2, hợp đồng với Backend
 ```
 
-Công cụ hay dùng:
+`.venv` chạy dịch vụ và test; `.venv-tools` chỉ có `vastai` và client Hugging Face (tách vì một gói công cụ từng nâng `starlette` làm hỏng `fastapi`).
 
-| | |
-|---|---|
-| `tools/rent_gpu.py` | offers / train / serve / address / status / logs / destroy |
-| `tools/hub.py` | đẩy dữ liệu, lấy weights từ Hugging Face |
-| `tools/eval_retrieval.py` | truy hồi, ngoại tuyến, vài giây |
-| `tools/eval_chat_suite.py` | 564 ca, cần máy thuê |
-| `tools/eval_detector.py` | tỉ lệ gọi đúng tên, từng lớp |
-| `tools/compare_detectors.py` | so hai phiên bản detector |
-| `tools/review_backlog.py` | gom mục cần thợ xác nhận |
+Bộ ảnh huấn luyện không nằm trong git (giới hạn dung lượng của GitHub); dữ liệu ở Hugging Face Hub, còn `datasets/split.json` có trong git để số đo lặp lại được.
 
-## Hai môi trường ảo, và vì sao
+## Còn biết, chưa làm
 
-`.venv` chạy dịch vụ và test. `.venv-tools` chỉ chứa `vastai` và client Hugging
-Face. Tách ra vì `fiftyone` từng nâng `starlette` lên bản mà `fastapi` không chạy
-được, và làm hỏng môi trường chính.
-
-## Dữ liệu
-
-Bộ dữ liệu ảnh **không nằm trong git** — 100 MB một file là giới hạn của GitHub, và
-Git LFS cho 1 GB băng thông một tháng, một lần clone là hết. Dữ liệu ở Hugging Face
-Hub; `datasets/split.json` thì **có** trong git vì nó là thứ làm số đo lặp lại được
-giữa các máy.
-
-## Chưa làm
-
-- **821 mục** trong kho tri thức cần **thợ có nghề** xác nhận — chu kỳ bảo dưỡng và
-  khoảng giá từng dòng máy. Danh sách gom sẵn ở
-  [docs/CAN-THO-XAC-NHAN.md](docs/CAN-THO-XAC-NHAN.md).
-- **36 giá** ước lượng chờ Admin duyệt.
-- Lớp **máy sấy quần áo 69,1%** — cần ảnh chụp thật, không cần thêm epoch: đường
-  cong học đã phẳng từ epoch 60.
-- API trả `serviceCode` mà **chưa trả `serviceId`** — xem
-  [docs/CHATBOT-BOOKING-HANDOFF.md](docs/CHATBOT-BOOKING-HANDOFF.md).
-- Bộ nhớ phiên nằm trong bộ nhớ tiến trình: restart là mất hội thoại đang dở, hai
-  worker không dùng chung. Giao diện đã viết sẵn cho bản Redis.
-- **Chưa có thước đo chất lượng câu chữ** — chỉ đo được "có đúng mã bệnh không".
-
-Việc tiếp theo và cách làm: [docs/CHATBOT-NEXT.md](docs/CHATBOT-NEXT.md).
+- Khách tự chẩn đoán sai ("hết gas rồi, chảy nước tong tong") đôi khi được tin theo.
+- Câu trả lời cho máy thứ hai trong một tin nhiều máy có lần lọt chữ không phải tiếng Việt; yêu cầu vệ sinh khi khách có đơn sửa cũ cùng máy vẫn kèm câu "lỗi cũ quay lại" (BUG DETECTOR 97, 98, tìm thấy 12/11).
+- Chẩn đoán chỉ có ảnh, không có chữ, chưa chạy: schema bắt `description` ít nhất 1 ký tự.
+- Chưa có xác thực giữa Backend và service; API và trang `/chat` mở công khai trên máy GPU khi đang thuê.
+- 821 mục kho tri thức chờ thợ có nghề xác nhận, 36 giá chờ Admin duyệt: [docs/CAN-THO-XAC-NHAN.md](docs/CAN-THO-XAC-NHAN.md).
+- Một số tài liệu trong `docs/` mô tả pipeline cũ và đã cũ: `DATASET-AND-TRAINING.md`, `KB-NEXT-STEPS.md`, `LIVE-RUN.md`, `CHATBOT-NEXT.md`.
