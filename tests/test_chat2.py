@@ -711,3 +711,13 @@ def test_a_price_asked_by_its_first_word_is_a_price_question():
 
     assert asks_price("giá vệ sinh máy lạnh treo tường")
     assert not asks_price("máy lạnh chảy nước")
+
+
+def test_no_chinese_letter_reaches_any_appliance_reply():
+    """BUG 98 (12/11): the second appliance's answer said "do van止水不严"."""
+    from app.services.chat2.brain import tidy_reply
+
+    out = tidy_reply("Hiện tượng vòi nhỏ giọt thường do van止水不严 hoặc cần thay bộ phận đóng mở.")
+    assert out == "Hiện tượng vòi nhỏ giọt thường do van hoặc cần thay bộ phận đóng mở."
+    assert tidy_reply("đảm bảo máy恢复正常 hoạt động.") == "đảm bảo máy hoạt động."
+    assert tidy_reply("Máy lạnh chảy nước, em kiểm tra giúp ạ.") == "Máy lạnh chảy nước, em kiểm tra giúp ạ."

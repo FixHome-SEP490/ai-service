@@ -621,9 +621,14 @@ def _recall(session: Session, verdict: Verdict, jobs) -> None:
         said = (f'Em thấy anh/chị đã đặt lịch "{service}" ngày {day}. '
                 "Nếu là lỗi cũ quay lại, anh/chị cứ kể với thợ để thợ xem lại lần sửa trước ạ.")
         note = f'Khách từng đặt "{service}" ngày {day}.'
+    # BUG 97 (12/11): a cleaning or other service request is no fault coming back, so the
+    # customer hears nothing about an old repair; the technician still gets it in the notes.
+    if verdict.intent != "repair" and job.status != "SCHEDULED":
+        said = ""
     if job.fault_vi:
         note = note[:-1] + f", khi đó trợ lý nghi {job.fault_vi.strip().lower()}."
-    verdict.reply_vi = f"{verdict.reply_vi} {said}"
+    if said:
+        verdict.reply_vi = f"{verdict.reply_vi} {said}"
     verdict.past_job_vi = note
 
 

@@ -28,6 +28,12 @@ import httpx
 from app.services.chat2.menu import DATA_DIR, devices
 
 
+def without_foreign_script(text: str) -> str:
+    from app.services.chat2.brain import without_foreign_script as _strip
+
+    return _strip(text)
+
+
 def asks_price(text: str) -> bool:
     from app.services.chat2.brain import asks_price as _asks
 
@@ -301,7 +307,7 @@ async def answer(
     quote = (raw.get("quote") or "").strip()
     # A quote the model itself does not call grounded proves nothing: "có trả
     # góp không" came back as "Không có khoản ký quỹ của thợ" (07/11).
-    reply = no_questions_back(" ".join((raw.get("reply") or "").split()))
+    reply = without_foreign_script(no_questions_back(" ".join((raw.get("reply") or "").split())))
     # Nothing left once the questions back are gone: there was nothing to say.
     # A price is read off the catalogue's tables, which a total for two
     # appliances does not repeat word for word: checked, "tổng hết bao nhiêu"

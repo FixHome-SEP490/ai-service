@@ -1,6 +1,6 @@
 # Context repo ai-service — FixHome
 
-> Cập nhật lần cuối: 2026-11-12 18:11 (UTC+7) · Người cập nhật (git): ToanAltF4 · Nhánh: docs/readme-accurate-1211
+> Cập nhật lần cuối: 2026-11-12 23:21 (UTC+7) · Người cập nhật (git): ToanAltF4 · Nhánh: fix/ai-chat-97-98
 
 ## 0. Quy tắc cập nhật file này (bắt buộc)
 
@@ -206,6 +206,7 @@ Ngoài ra có `POST /api/v1/diagnosis/analyze-upload` (multipart), `GET /api/v1/
 
 ## 9. Nhật ký cập nhật context
 
+- 2026-11-12 23:21 (UTC+7) | ToanAltF4 | fix/ai-chat-97-98 | chat2: không nhắc lỗi cũ quay lại khi khách xin dịch vụ (vệ sinh), lọc chữ Trung/Nhật/Hàn ở mọi câu trả lời từng máy và câu hỏi đáp (BUG 97, 98)
 - 2026-11-12 18:11 (UTC+7) | ToanAltF4 | docs/readme-accurate-1211 | README viết lại theo hiện trạng: chat2 là đường chính, Qwen3.5-9B FP8/AWQ theo VRAM, adapter chat2-pick-v2, câu bác bằng code, số đo và số test hiện tại
 - 2026-11-12 13:34 (UTC+7) | ToanAltF4 | fix/chat2-rejections-1211 | chat2: khách bác kết luận thì loại lỗi đã bác, trả customerDisagreed.restVi, câu kể thêm sau khi chốt giữ lỗi, dây hở lõi gõ không dấu là hư hại, câu nói ngược lời khách do code viết lại
 - 2026-11-08 14:55 (UTC+7) | ToanAltF4 | fix/chat2-multi-device-reply | chat2: một tin nhắn nhiều máy thì trả lời đủ mọi máy đã rõ trong cùng câu, hỏi riêng máy chưa rõ, mời đặt mọi dịch vụ đã rõ
@@ -245,4 +246,3 @@ Ngoài ra có `POST /api/v1/diagnosis/analyze-upload` (multipart), `GET /api/v1/
 - 2026-10-14 17:50 (UTC+7) | ToanAltF4 | feat/dialogue-answers | Ghi việc hiểu câu trả lời có/không, tự sửa lời, sửa thiết bị và đoán tiếp sau khi bị bác
 - 2026-10-14 17:04 (UTC+7) | ToanAltF4 | feat/dialogue-coverage | Ghi việc giữ mạch hội thoại: bám thiết bị, câu xã giao, câu lạc đề, dấu hiệu nguy hiểm giữ suốt phiên
 - 2026-10-14 15:28 (UTC+7) | ToanAltF4 | feat/dialogue-context | Ghi lớp hiểu ngữ cảnh hội thoại, trường history để dựng lại phiên đã mất, truy hồi hiểu cụm phủ định và công cụ chấm hội thoại nhiều lượt
-- 2026-10-07 14:43 (UTC+7) | ToanAltF4 | docs/repo-context | Tạo file context theo bộ quy tắc chung của bốn repo, ghi hiện trạng sau đợt sửa lỗi ngày 07/10/2026
