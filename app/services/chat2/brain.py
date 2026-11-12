@@ -29,7 +29,7 @@ import json
 import re
 import time
 import unicodedata
-from dataclasses import dataclass, field
+from dataclasses import dataclass, field, replace
 from typing import Any, Dict, List, Optional, Sequence, Tuple
 
 import httpx
@@ -319,6 +319,52 @@ def is_bare_reply(text: str) -> bool:
     return _fold(text).strip() in BARE_REPLIES
 
 
+# What a question is made of, folded. "Lần nào" after "chưa" is "never", not "which time".
+QUESTION_WORDS = ("bao nhieu", "bao lau", "bao gio", "khi nao", "luc nao", "may gio", "the nao", "nhu nao", "ra sao",
+                  "tai sao", "vi sao", "lam sao", "sao vay", "o dau", "co nen", "nen khong", "duoc khong", "co phai",
+                  "phai khong", "hay khong", "cho hoi", "muon hoi", "hoi chut", "tu van", "muon biet", "giai thich")
+QUESTION_ENDS = ("khong", "ko", "k", "hong", "hok", "hem", "chua", "sao", "nao", "gi", "dau", "nhi", "ha", "hả")
+_TRAILING = frozenset("em a oi nhe nha vay the ha anh chi minh ban".split())
+
+
+def is_question(text: str) -> bool:
+    """Whether the message asks something, by its form rather than by what it is about."""
+    if "?" in text:
+        return True
+    folded = _fold(text)
+    if any(f" {w} " in folded for w in QUESTION_WORDS):
+        return True
+    raw = re.findall(r"\w+", unicodedata.normalize("NFC", text.lower()))
+    if raw and raw[-1] in ("à", "hả", "hở", "nhỉ", "nhể", "chăng"):
+        return True
+    words = folded.split()
+    while len(words) > 1 and words[-1] in _TRAILING:
+        words.pop()
+    if not words or words[-1] not in QUESTION_ENDS:
+        return False
+    if words[-1] == "nao" and len(words) > 1 and words[-2] in ("lan", "luc", "cai", "ai", "dau"):
+        # "chưa dùng lần nào", "không lúc nào": never, not "which".
+        return any(w in words[:-2] for w in ("da", "co")) and not any(w in words for w in ("chua", "khong"))
+    if words[-1] == "chua" and len(words) > 1 and words[-2] in ("van", "con", "ma"):
+        return False
+    return True
+
+
+# A message after a conclusion that adds to the account of the appliance rather than asking:
+# "chưa dùng lần nào", "mua về cất kho giờ mới lấy ra", "mới lắp hôm qua".
+ACCOUNT_WORDS = ("dung", "xai", "su dung", "mua ve", "moi mua", "vua mua", "moi lap", "vua lap", "lap xong", "cat kho",
+                 "lay ra", "bat len", "bat may", "cam dien", "cam vao", "hoat dong", "lan nao", "lau roi", "nam roi",
+                 "thang roi", "tuan roi", "hom qua", "moi bi", "tu hom", "tu luc", "chay duoc", "van chay", "van mat",
+                 "van lanh", "van nong", "van con", "lai bi", "bi lai", "khong lam gi", "chua sua", "chua ai")
+
+
+def adds_to_account(text: str, own_problem: bool = False) -> bool:
+    """A statement about the appliance, not a question, a thanks or a question about FixHome."""
+    if is_question(text) or is_bare_reply(text) or asks_price(text) or mentions(text, DOMAIN_WORDS):
+        return False
+    return own_problem or mentions(text, ACCOUNT_WORDS)
+
+
 def asks_for_the_verdict(text: str, menu: DeviceMenu) -> bool:
     """"Không.", "đúng rồi", "vậy giờ em thấy sao?": nothing to answer but the conclusion."""
     folded = _fold(text).strip()
@@ -355,13 +401,56 @@ def warranty_note(history: Sequence[Turn]) -> Optional[str]:
 SHOCK_WORDS = ("giat dien", "bi giat", "dien giat", "te tay", "ro dien", "chich dien", "giat te")
 SHOCK_STEP = "Trước tiên anh/chị ngắt aptomat cấp điện cho máy, không bật lại và không chạm vào máy khi chân đang ướt."
 # A cord chewed or split to the copper is a shock waiting to happen, whatever the appliance.
-WIRE_WORDS = ("ho loi", "loi dong", "chuot can", "ho day", "dut day", "tuot vo", "boc vo", "rach vo", "dut vo")
+WIRE_WORDS = ("ho loi", "loi dong", "lo loi", "chuot can", "chuot gam", "chuot cap")
+# These need the cord named as well: "đứt dây curoa" is the washing machine's belt.
+CORD_WORDS = ("ho day", "dut day", "tuot vo", "boc vo", "rach vo", "dut vo", "ho dien")
+CORD_CONTEXT = ("dien", "nguon", "phich", "o cam")
+# A fault that is itself about the cord, which the damage then is.
+CORD_FAULT_WORDS = ("day nguon", "dut day", "day dien", "phich")
 WIRE_STEP = "Trước tiên anh/chị rút phích cắm, không dùng máy và không chạm vào chỗ dây hở cho tới khi thợ thay dây."
 
 
 def mentions(text: str, words) -> bool:
     folded = _fold(text)
     return any(f" {w} " in folded for w in words)
+
+
+def mentions_bare_wire(text: str) -> bool:
+    """A power cord chewed, split or bared: "dây điện bị chuột cắn lộ lõi đồng", typed with accents or not."""
+    return mentions(text, WIRE_WORDS) or (mentions(text, CORD_WORDS) and mentions(text, CORD_CONTEXT))
+
+
+def cord_fault(fault) -> bool:
+    return mentions(fault.name_vi, CORD_FAULT_WORDS)
+
+
+# A sentence that says the opposite of what the customer said: the model read
+# the unaccented "may van mat ma chay nuoc" ("máy vẫn mát mà chảy nước") and
+# wrote "Máy không mát và chảy nước" (fixhome.sbs, 12/11). Each entry is
+# something the appliance still does when the customer says "vẫn X".
+STILL_WORKS = ("mat", "lanh", "chay", "nong", "dong da", "dong", "sang", "vat", "xa nuoc", "quay", "len nguon",
+               "hoat dong", "cap nuoc", "vao dien")
+_NOT = ("khong", "ko", "k", "hong", "kh", "chua", "hok", "hem")
+
+
+def contradicts(reply: str, customer: str) -> bool:
+    """Whether the reply says "không X" where the customer said "vẫn X" and never "không X"."""
+    said, wrote = _fold(customer), _fold(reply)
+    for x in STILL_WORKS:
+        still = f" van {x} " in said or f" van con {x} " in said or f" {x} binh thuong " in said
+        if not still or any(f" {n} {x} " in said for n in _NOT):
+            continue
+        if any(f" {n} {x} " in wrote for n in _NOT):
+            return True
+    return False
+
+
+_RUNS_WATER = re.compile(r"\b([Cc])hạy nước\b(?! nóng)")
+
+
+def tidy_reply(reply: str) -> str:
+    """The unaccented "chay nuoc" written back as "chạy nước": a leak is "chảy nước" (R54b, 12/11)."""
+    return _RUNS_WATER.sub(lambda m: m.group(1) + "hảy nước", reply)
 
 
 PRICE_WORDS = ("bao nhieu tien", "gia bao nhieu", "bao nhieu", "gia ca", "bang gia", "chi phi", "het bao nhieu", "may tien",
@@ -412,10 +501,11 @@ def _system_prompt(
     cards: Optional[Dict[str, dict]] = None,
     code_context: Optional[str] = None,
     focus: Optional[str] = None,
+    note: str = "",
 ) -> str:
     return SYSTEM.format(
         device_name=menu.name_vi.lower(),
-        focus=f"\nKhách nhắc nhiều thiết bị; lượt này chỉ xét {focus}." if focus else "",
+        focus=(f"\nKhách nhắc nhiều thiết bị; lượt này chỉ xét {focus}." if focus else "") + note,
         faults="\n".join(_fault_line(f, cards) for f in menu.faults) or "- (không có lỗi nào trong danh mục, chỉ chọn dịch vụ)",
         services="\n".join(f"- {s.code}: {s.name_vi}" for s in menu.services) or "- (chưa mở dịch vụ nào)",
         questions="\n".join(f"- {q.text_vi}" for q in menu.questions[:6]) or "- (không có)",
@@ -491,9 +581,18 @@ class ChatBrain:
         also: Sequence[str] = (),
         routed: Optional[dict] = None,
         current: Optional[str] = None,
+        rejected: Sequence[str] = (),
+        correction: Optional[str] = None,
+        keep_fault: Optional[str] = None,
     ) -> Verdict:
         """`device_type` is what this message's first photograph showed, `also` what further
-        photographs showed; `current` the appliance the conversation was about before it."""
+        photographs showed; `current` the appliance the conversation was about before it.
+
+        `rejected` are the faults the customer turned down in this chat and
+        `correction` what they said after this turn's "sai rồi" ("" when
+        that was all), None when this turn turns nothing down. `keep_fault`
+        is the fault concluded before a message that only adds to the account
+        ("chưa dùng lần nào"). All three are about `current` only."""
         started = time.perf_counter()
         routed = routed or await self.route(client, history)
         intent = routed.get("intent", "repair")
@@ -546,8 +645,10 @@ class ChatBrain:
         if not order:
             return _without_device(intent, None, time.perf_counter() - started, routed)
         focus = len(order) > 1 or switched
+        own = current or device_type
         verdicts = await asyncio.gather(
-            *(self._diagnose(client, _scope(history, d, current, device_type), d, intent, devices()[d].lower() if focus else None)
+            *(self._diagnose(client, _scope(history, d, current, device_type), d, intent, devices()[d].lower() if focus else None,
+                             **(dict(rejected=rejected, correction=correction, keep_fault=keep_fault) if d == own else {}))
               for d in order)
         )
         # A photograph of the television with "tiện hỏi luôn tủ lạnh chảy nước":
@@ -578,11 +679,12 @@ class ChatBrain:
         return first
 
     async def _pick_fault(
-        self, client: httpx.AsyncClient, system: dict, history: Sequence[Turn], menu: DeviceMenu, raw: dict
+        self, client: httpx.AsyncClient, system: dict, history: Sequence[Turn], menu: DeviceMenu, raw: dict,
+        need: str = "",
     ) -> str:
         damage = raw.get("need_kind") == DAMAGE
         latest = next((t.text for t in reversed(history) if t.role == "user"), "")
-        need = (raw.get("need") or "").strip() or latest
+        need = need or (raw.get("need") or "").strip() or latest
         note = " Máy rơi, va đập mà không lỗi nào là đúng hư hại đó thì chọn NONE." if damage else ""
         transcript = "\n".join(f"{'Khách' if t.role == 'user' else 'Trợ lý'}: {t.text}" for t in history)
         prompt = PICK_FAULT.format(need=need, damage=note)
@@ -595,23 +697,54 @@ class ChatBrain:
         return picked.get("fault_code") or "NONE"
 
     async def _diagnose(
-        self, client: httpx.AsyncClient, history: Sequence[Turn], device_type: str, intent: str, focus: Optional[str]
+        self, client: httpx.AsyncClient, history: Sequence[Turn], device_type: str, intent: str, focus: Optional[str],
+        rejected: Sequence[str] = (), correction: Optional[str] = None, keep_fault: Optional[str] = None,
     ) -> Verdict:
-        menu = menu_for(device_type)
+        full = menu_for(device_type)
+        # A fault the customer turned down cannot be chosen again: it leaves
+        # the schema's enum, not only the prompt. "Sai rồi" twice came back
+        # with the first verdict word for word (fixhome.sbs, 12/11).
+        menu = replace(full, faults=[f for f in full.faults if f.code not in set(rejected)]) if rejected else full
         code_context, code_sentence = code_reading(history, device_type)
-        messages = [{"role": "system", "content": _system_prompt(menu, self._cards, code_context, focus)}]
+        note = pushback_note(full, rejected, correction) if correction is not None else ""
+        messages = [{"role": "system", "content": _system_prompt(menu, self._cards, code_context, focus, note)}]
         messages += [{"role": t.role, "content": t.text} for t in history]
         raw = await self._call(client, messages, _turn_schema(menu), 320, model=self._turn_model)
         latest = next((t.text for t in reversed(history) if t.role == "user"), "")
-        if needs_fault(menu, raw, latest):
-            raw["fault_code"] = await self._pick_fault(client, messages[0], history, menu, raw)
+        said_all = [t.text for t in history if t.role == "user"]
+        by_code = False
+        if correction is not None and raw.get("need_kind") in (UNCLEAR, None) and not all(describes_nothing(m, full) for m in said_all):
+            # "Sai rồi" after a described symptom asks for the next likely
+            # fault, not for the description again.
+            raw.update(need_kind=SYMPTOM, decision="conclude")
+        kept = full.fault(keep_fault) if keep_fault and correction is None else None
+        if kept is not None and (menu.fault(raw.get("fault_code")) is None or raw.get("need_kind") in (REQUEST, UNCLEAR)
+                                 or raw.get("decision") != "conclude"):
+            # "Chưa dùng lần nào" after "máy lạnh mới lắp mà không mát" adds to
+            # the account; it is no reason to drop the fault or to quote the
+            # installation price (BUG 19, fixhome.sbs 12/11).
+            raw.update(fault_code=kept.code, need_kind=SYMPTOM, decision="conclude")
+            by_code = True
+        elif needs_fault(menu, raw, correction or latest):
+            raw["fault_code"] = await self._pick_fault(client, messages[0], history, menu, raw, need=correction or "")
         asked = questions_asked(history)
         # Before the assistant has asked anything, each message is judged on
         # its own words. After a question, "Không" answers it and says plenty.
-        said = [t.text for t in history if t.role == "user"] if asked == 0 else []
-        verdict = _compose(menu, intent, raw, asked, code_sentence, latest, said)
+        said = said_all if asked == 0 else []
+        verdict = _compose(menu, intent, raw, asked, code_sentence, latest, said,
+                           by_code=by_code, turned_down=correction is not None)
         verdict.code_note_vi = code_context
         return verdict
+
+
+def pushback_note(menu: DeviceMenu, rejected: Sequence[str], correction: str) -> str:
+    """The line the diagnosis reads on a turn where the customer said the last answer was wrong."""
+    names = [f.name_vi.lower() for f in menu.faults if f.code in set(rejected)]
+    note = "\nKhách vừa nói em đoán sai" + (f", đã loại: {'; '.join(names)}" if names else "") + "."
+    if correction:
+        # The customer's words stay in the conversation, not in the instructions.
+        return note + " Hiện tượng khách kể trong tin nhắn cuối là chính: chọn lỗi theo hiện tượng đó, lời kể trước đó chỉ để tham khảo."
+    return note + " Khách không kể thêm: chọn lỗi khớp tiếp theo với hiện tượng khách đã kể."
 
 
 def needs_fault(menu: DeviceMenu, raw: dict, latest: str) -> bool:
@@ -818,6 +951,13 @@ def _decide(
         # is about: "máy lạnh tôi bị rơt xuống đất" was concluded on the
         # control board (07/11). The technician inspects for damage instead.
         fault = None
+    if kind in (SYMPTOM, DAMAGE) and fault is not None and mentions_bare_wire(" ".join([latest, *said])) \
+            and not cord_fault(fault):
+        # A chewed cord is the damage, whatever else the model read into it:
+        # "day dien tu lanh bi chuot can lo loi dong" was concluded on the
+        # compressor, typed with its accents it was not (fixhome.sbs, 12/11).
+        kind = raw["need_kind"] = DAMAGE
+        fault = None
     if kind == DAMAGE:
         # A dropped or flooded unit is not a catalogue fault: the repair
         # service, so a technician sees the damage. Damage the catalogue does
@@ -879,12 +1019,25 @@ def _concluding_sentence(menu: DeviceMenu, kind: str, fault, service: Optional[S
 def _compose(
     menu: DeviceMenu, intent: str, raw: dict, asked: int, code_sentence: Optional[str] = None, latest: str = "",
     said: Sequence[str] = (),
+    by_code: bool = False,
+    turned_down: bool = False,
 ) -> Verdict:
+    """`by_code`: the fault was set by a rule, not by the model, so the model's
+    sentence is not about it. `turned_down`: the customer said the last answer
+    was wrong, so the sentence is written by code and names only the new fault."""
+    chosen = menu.fault(raw.get("fault_code"))
     decision, fault, service = _decide(
         menu, raw, asked, allow_decline=intent in ("offtopic", "greeting"), latest=latest, said=said
     )
     kind = raw.get("need_kind", UNCLEAR)
-    reply = " ".join((raw.get("reply") or "").split())[:REPLY_MAX]
+    reply = tidy_reply(" ".join((raw.get("reply") or "").split())[:REPLY_MAX])
+    customer = " ".join([latest, *said])
+    # The model's sentence is about the fault the model chose. When a rule put
+    # another one (or none) in its place, or the sentence contradicts what the
+    # customer said, or the customer turned the last answer down (the model
+    # then tends to repeat it), the sentence is code's.
+    by_code = by_code or (chosen is not None and fault is not chosen)
+    rewrite = by_code or turned_down or contradicts(reply, customer)
     options = [o.strip() for o in raw.get("options") or [] if o.strip()][:4]
     common = dict(
         device_type=menu.device_type, intent=intent, confidence=float(raw.get("confidence") or 0),
@@ -901,13 +1054,15 @@ def _compose(
         return Verdict(decision="ask", fault_code=fault.code if fault else None,
                        service_code=service.code if service else None, reply_vi=reply,
                        question_vi=reply, options_vi=options, **common)
-    if not reply or "?" in reply or any(m in reply.lower() for m in ASKING) or SELF_ACTS.search(reply):
+    if rewrite or not reply or "?" in reply or any(m in reply.lower() for m in ASKING) or SELF_ACTS.search(reply):
         reply = _concluding_sentence(menu, kind, fault, service)
+        if turned_down:
+            reply = reply.replace("Dạ ", "Dạ vậy ", 1)
     parts: List[str] = []
     if fault and fault.urgency == URGENT and fault.actions_vi:
         action = fault.actions_vi[0]
         parts.append("Trước tiên anh/chị " + action[0].lower() + action[1:].rstrip(".") + ".")
-    elif mentions(" ".join([latest, *said]), WIRE_WORDS):
+    elif mentions_bare_wire(" ".join([latest, *said])):
         parts.append(WIRE_STEP)
     elif mentions(" ".join([latest, *said]), SHOCK_WORDS):
         # No fault of the appliance says "electric shock" (the washing machine

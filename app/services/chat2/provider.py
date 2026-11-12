@@ -34,6 +34,7 @@ from app.schemas.diagnosis import (
     DiagnosisRequest,
     DiagnosisResponse,
     DiagnosisStatus,
+    Disagreement,
     EvidenceSource,
     ModelInfo,
     PhotoReading,
@@ -47,10 +48,12 @@ from app.services.chat2.answer import Answer
 from app.services.chat2.answer import answer as answer_question
 from app.services.chat2.brain import (
     DOMAIN_WORDS,
+    REQUEST,
     WHEN_WORDS,
     ChatBrain,
     Turn,
     Verdict,
+    adds_to_account,
     asks_price,
     asks_for_the_verdict,
     describes_nothing,
@@ -59,6 +62,7 @@ from app.services.chat2.brain import (
     mentions,
     named_in,
 )
+from app.services.chat2 import pushback
 from app.services.chat2.menu import devices, menu_for
 from app.services.pipeline import pricing
 
@@ -88,6 +92,10 @@ class Session:
     """Every appliance concluded in this chat, to book in one visit (PO 08/11):
     "còn máy lạnh cũng hư" after the fridge adds the air conditioner, it does
     not replace the fridge. Each: device_type, fault_code, service_code, need_vi, reply_vi."""
+    rejected: List[str] = field(default_factory=list)
+    """Faults the customer turned down in this chat ("sai rồi"); never concluded again."""
+    pushback: Optional[dict] = None
+    """This turn's "the last answer was wrong", for the response; not kept."""
     version: int = 0
     seen: float = field(default_factory=time.time)
 
@@ -102,6 +110,7 @@ class Session:
             "services": [x.model_dump(by_alias=True) for x in self.services],
             "recalled": list(self.recalled),
             "basket": list(self.basket),
+            "rejected": list(self.rejected),
             # Backend keeps a state only over an older version, so the count
             # must survive a restart or every later state is thrown away.
             "version": self.version,
@@ -134,6 +143,7 @@ class Sessions:
                 session.services = [RecommendedService.model_validate(x) for x in state.get("services") or []]
                 session.recalled = [d for d in state.get("recalled") or [] if d in devices()]
                 session.basket = [b for b in state.get("basket") or [] if isinstance(b, dict) and b.get("device_type") in devices()]
+                session.rejected = [str(c) for c in state.get("rejected") or [] if isinstance(c, str)][:MAX_REJECTED]
             elif history:
                 session.turns = [Turn("user", h) for h in history if h.strip()]
         session.seen = now
@@ -201,8 +211,19 @@ class Chat2Provider(AIProvider):
         """("answer", Answer) for a question, ("verdict", Verdict) for anything about an appliance."""
         try:
             async with self._client() as client:
-                routed = await self._brain.route(client, session.turns)
                 latest = session.turns[-1].text
+                correction = turned_down(session, latest, photo_now)
+                if correction is not None:
+                    # Nothing to route: the conversation is about the appliance
+                    # just concluded, and the customer says that was wrong.
+                    _note_rejection(session, latest, correction)
+                    verdict = await self._brain.turn(
+                        client, session.turns, None, also,
+                        routed={"devices": [session.device], "own_problem": True, "intent": "repair", "other_appliance": ""},
+                        current=session.device, rejected=session.rejected, correction=correction,
+                    )
+                    return _settle(session, verdict)
+                routed = await self._brain.route(client, session.turns)
                 said = named_in(latest)
                 # Appliances called by name in this message are certain; the
                 # router's list may miss one ("bao lâu nên vệ sinh máy lạnh").
@@ -234,6 +255,14 @@ class Chat2Provider(AIProvider):
                     # answers it; filed as a question it went to the documents and
                     # came back "em chưa có thông tin" (holdout3, 07/11).
                     routed["intent"] = "repair"
+                keep = None
+                if concluded and not new_appliance and routed.get("intent") == "question" \
+                        and adds_to_account(latest, bool(routed.get("own_problem"))):
+                    # "Chưa dùng lần nào" after "máy lạnh mới lắp mà không mát"
+                    # says more about the appliance; the documents answered it
+                    # with the installation price and dropped the fault (BUG 19).
+                    routed["intent"] = "repair"
+                    keep = session.fault
                 current_menu = menu_for(session.device) if session.device else None
                 if concluded and not new_appliance and current_menu and asks_for_the_verdict(latest, current_menu):
                     # The question tier has to pick a document, and for these it
@@ -262,19 +291,14 @@ class Chat2Provider(AIProvider):
                 # A reply like "Chảy nước" names no appliance; the one already
                 # settled carries on, unless the newest message names another.
                 verdict = await self._brain.turn(
-                    client, session.turns, photo_now, also, routed=routed, current=session.device
+                    client, session.turns, photo_now, also, routed=routed, current=session.device,
+                    rejected=session.rejected, keep_fault=keep,
                 )
         except httpx.TimeoutException as exc:
             raise AITimeoutException(str(exc)) from exc
         except (httpx.HTTPError, ValueError, KeyError) as exc:
             raise VlmException(f"{type(exc).__name__}: {exc}") from exc
-        if verdict.device_type:
-            session.device = verdict.pending_device or verdict.device_type
-        if verdict.decision == "conclude":
-            session.fault = verdict.fault_code
-            _fill_basket(session, verdict, latest_text(session))
-            session.services = _services(verdict, session)
-        return "verdict", verdict
+        return _settle(session, verdict)
 
     async def diagnose(self, request: DiagnosisRequest) -> DiagnosisResponse:
         session = self._sessions.get(request.session_id, request.diagnostic_state, list(request.history or []))
@@ -297,7 +321,7 @@ class Chat2Provider(AIProvider):
             PhotoReading(index=i, device_type=d, name_vi=devices().get(d) if d else None, uncertain=u)
             for i, (d, _, u) in enumerate(readings)
         ]
-        update = {"photos": photos}
+        update = {"photos": photos, "customer_disagreed": _disagreed(session)}
         if request.include_trace:
             update["trace"] = [_trace(kind, result)]
         return response.model_copy(update=update)
@@ -310,6 +334,7 @@ class Chat2Provider(AIProvider):
         kind, result = await self._respond(session, [])
         session.turns.append(Turn("assistant", result.reply_vi))
         session.version += 1
+        disagreed = _disagreed(session)
         if kind == "answer":
             return ChatResponse(
                 request_id=request.request_id,
@@ -331,7 +356,60 @@ class Chat2Provider(AIProvider):
             recommended_services=_services(result),
             notes_vi=_notes(result),
             disclaimer_vi=settings.AI_DISCLAIMER_VI,
+            customer_disagreed=disagreed,
         )
+
+
+MAX_REJECTED = 12
+
+
+def turned_down(session: Session, latest: str, photo_now: Optional[str] = None) -> Optional[str]:
+    """What the customer says after "sai rồi" to the conclusion just given, or None.
+
+    Only a conclusion can be turned down: "không phải" to the assistant's own
+    question answers it. A message naming another appliance ("không phải máy
+    lạnh, tủ lạnh") corrects the appliance, which the router and the basket
+    handle."""
+    if photo_now or not session.services or not session.device:
+        return None
+    previous = next((t.text for t in reversed(session.turns[:-1]) if t.role == "assistant"), "")
+    if previous.rstrip().endswith("?"):
+        return None
+    rest = pushback.denial(latest)
+    if rest is None or any(d != session.device for d in named_in(latest)):
+        return None
+    return rest
+
+
+def _note_rejection(session: Session, latest: str, rest: str) -> None:
+    """The fault turned down joins the chat's rejected list, and the response says so (`customerDisagreed`)."""
+    menu = menu_for(session.device)
+    now = [session.fault] if session.fault else []
+    session.rejected = list(dict.fromkeys([*session.rejected, *now]))[-MAX_REJECTED:]
+    earlier = " ".join(t.text for t in session.turns[:-1] if t.role == "user").strip()
+    session.pushback = {
+        "kind": "fault",
+        "rejected": now,
+        "rejected_vi": [f.name_vi for f in (menu.fault(c) for c in now) if f] if menu else [],
+        "said_vi": earlier[:1000] or None,
+        "correction_vi": latest[:1000],
+        "rest_vi": rest,
+    }
+
+
+def _settle(session: Session, verdict: Verdict):
+    if verdict.device_type:
+        session.device = verdict.pending_device or verdict.device_type
+    if verdict.decision == "conclude":
+        session.fault = verdict.fault_code
+        _fill_basket(session, verdict, latest_text(session))
+        session.services = _services(verdict, session)
+    return "verdict", verdict
+
+
+def _disagreed(session: Session) -> Optional[Disagreement]:
+    found, session.pushback = session.pushback, None
+    return Disagreement(**found) if found else None
 
 
 def _trace(kind: str, result) -> TraceStage:
@@ -519,6 +597,12 @@ def _recall(session: Session, verdict: Verdict, jobs) -> None:
     if verdict.decision != "conclude" or not device or device in session.recalled:
         return
     if _urgency(verdict) == UrgencyLevel.HIGH or verdict.reply_vi.startswith("Trước tiên"):
+        return
+    menu = menu_for(device)
+    service = menu.service(verdict.service_code) if menu else None
+    if verdict.need_kind == REQUEST or (verdict.fault_code is None and service is not None and service.kind != "repair"):
+        # A cleaning, an installation, a move is new work: "nếu là lỗi cũ quay
+        # lại" said under "cần vệ sinh tủ lạnh" made no sense (BUG 52, 12/11).
         return
     job = next((j for j in jobs if device in named_in(f"{j.device_vi or ''} {j.service_vi}")), None)
     if job is None:

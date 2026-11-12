@@ -405,7 +405,9 @@ def unsupported(reply: str) -> str:
         if "chưa có thông tin" in x.lower():
             x = _VERDICT_OPENING.sub("", x.strip())
             kept.append(x[:1].upper() + x[1:])
-    return " ".join(kept) or NO_INFO
+    # One admission is enough: "Em chưa có thông tin về việc nên mua máy hãng
+    # nào. Em chưa có thông tin đó." said it twice (63c, fixhome.sbs 12/11).
+    return " ".join(kept[:1]) or NO_INFO
 
 
 FILLER = ("bấm", "mô tả", "kể chi tiết", "kể thêm", "hỗ trợ thêm", "em hỗ trợ")
@@ -423,6 +425,8 @@ def _tidy(reply: str, about_appliance: bool, answered: bool = False, quote: str 
     reply = re.sub(r"\bTheo tài liệu( hiện có)?,?\s*", "", reply)
     reply = re.sub(r"(^|[.!?]\s+)Bạn\b", lambda m: m.group(1) + "Anh/chị", reply)
     sentences = [x for x in re.split(r"(?<=[.!?])\s+", reply) if x.strip()]
+    admissions = [i for i, x in enumerate(sentences) if "chưa có thông tin" in x.lower()]
+    sentences = [x for i, x in enumerate(sentences) if i not in admissions[1:]]
     if not about_appliance:
         sentences = [x for x in sentences if "hiện tượng" not in x.lower()] or sentences[:1]
     if answered:
