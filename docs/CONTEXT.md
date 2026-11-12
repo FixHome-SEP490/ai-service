@@ -1,6 +1,6 @@
 # Context repo ai-service — FixHome
 
-> Cập nhật lần cuối: 2026-11-08 14:55 (UTC+7) · Người cập nhật (git): ToanAltF4 · Nhánh: fix/chat2-multi-device-reply
+> Cập nhật lần cuối: 2026-11-12 13:34 (UTC+7) · Người cập nhật (git): ToanAltF4 · Nhánh: fix/chat2-rejections-1211
 
 ## 0. Quy tắc cập nhật file này (bắt buộc)
 
@@ -146,7 +146,7 @@ Luật nghiệp vụ gốc nằm ở tài liệu dự án (bản chính thức c
 | POST | `/api/v1/diagnosis/analyze` | JSON; `description` 1 đến 2000 ký tự (bắt buộc), `images` tối đa 3 (base64 hoặc data URI, mỗi ảnh tối đa 8 MiB, chỉ ảnh đầu được phân tích), `sessionId`, `requestId`, `categoryHint` tối đa 64, `history` tuỳ chọn (tối đa 20 chuỗi, mỗi chuỗi 1 đến 2000 ký tự, chỉ lời khách) |
 | POST | `/api/v1/chat/ask` | `question` 1 đến 1000 ký tự, `deviceType` và `sessionId` tối đa 64, `history` như trên |
 
-Từ chat2 (06/11): `clarification` có thêm `answerOptionsVi` (mảng tối đa 4 câu trả lời ngắn cho câu hỏi đầu, web hiện thành nút); lượt hỏi trả `messageVi` null vì câu hỏi đã nằm trong `clarification.questionsVi`; `suggestedActionsVi` luôn rỗng (bước an toàn đã ở đầu `messageVi`). `diagnosticState` của chat2 có `engine: "chat2.1"`, các lượt chat, thiết bị và `version`; trạng thái của pipeline cũ gửi lại thì bị bỏ qua và phiên dựng từ `history`. Chat2 không dùng `pastJobs` và `customerDisagreed` luôn null.
+Từ chat2 (06/11): `clarification` có thêm `answerOptionsVi` (mảng tối đa 4 câu trả lời ngắn cho câu hỏi đầu, web hiện thành nút); lượt hỏi trả `messageVi` null vì câu hỏi đã nằm trong `clarification.questionsVi`; `suggestedActionsVi` luôn rỗng (bước an toàn đã ở đầu `messageVi`). `diagnosticState` của chat2 có `engine: "chat2.1"`, các lượt chat, thiết bị và `version`; trạng thái của pipeline cũ gửi lại thì bị bỏ qua và phiên dựng từ `history`. Chat2 nhắc `pastJobs` một lần khi chốt lỗi (không nhắc khi khách xin vệ sinh, lắp, tháo). Từ 12/11 chat2 trả `customerDisagreed` (`kind` fault) khi khách bác kết luận vừa đưa ("sai rồi", "không phải bệnh đó", "ko phai", "khong dung,"; không tính "không dùng được nữa", "chưa dùng lần nào", "không" trả lời câu hỏi của trợ lý, câu gọi tên máy khác), `restVi` = lời khách bỏ câu bác (`app/services/chat2/pushback.py`). Lỗi bị bác vào `diagnosticState.rejected` và không bao giờ được chọn lại trong cuộc chat (bỏ khỏi enum của schema); lượt bác không gọi router, câu trả lời do code viết ("Dạ vậy ..."). Sau khi chốt, câu kể thêm không phải câu hỏi ("chưa dùng lần nào") đi lượt chẩn đoán và giữ lỗi đã chốt thay vì sang hỏi đáp. Dây điện hở lõi, chuột cắn là hư hại (bước rút phích, không đoán lỗi máy) trừ lỗi vốn là dây nguồn; câu của model nói ngược lời khách ("vẫn mát" thành "không mát") thì code viết lại. Test `tests/test_chat2_rejections.py`. CHƯA KIỂM CHỨNG trên GPU.
 
 Cả hai câu trả lời có `customerDisagreed` (null hoặc object, xem mục 3) để backend ghi lại lần khách nói trợ lý sai.
 
@@ -206,6 +206,7 @@ Ngoài ra có `POST /api/v1/diagnosis/analyze-upload` (multipart), `GET /api/v1/
 
 ## 9. Nhật ký cập nhật context
 
+- 2026-11-12 13:34 (UTC+7) | ToanAltF4 | fix/chat2-rejections-1211 | chat2: khách bác kết luận thì loại lỗi đã bác, trả customerDisagreed.restVi, câu kể thêm sau khi chốt giữ lỗi, dây hở lõi gõ không dấu là hư hại, câu nói ngược lời khách do code viết lại
 - 2026-11-08 14:55 (UTC+7) | ToanAltF4 | fix/chat2-multi-device-reply | chat2: một tin nhắn nhiều máy thì trả lời đủ mọi máy đã rõ trong cùng câu, hỏi riêng máy chưa rõ, mời đặt mọi dịch vụ đã rõ
 - 2026-11-08 14:37 (UTC+7) | ToanAltF4 | fix/chat2-device-basket | chat2: giỏ thiết bị trong cuộc chat (máy mới thêm vào lượt đặt, chỉ thay khi khách nói đổi/nhầm/thôi), nhiều ảnh mà máy chưa kể triệu chứng thì đặt sửa để thợ kiểm tra
 - 2026-11-07 16:37 (UTC+7) | ToanAltF4 | fix/chat2-freestyle | chat2: kiểm câu trả lời hỏi đáp với tài liệu, máy ngoài danh mục, mùi gas, dây hở lõi, nhắc đơn cũ theo trạng thái (BUG 53), adapter chọn lỗi chat2-pick-v2 chỉ cho lượt chẩn đoán (CHAT_TURN_MODEL)
