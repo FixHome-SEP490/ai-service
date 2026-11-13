@@ -448,9 +448,23 @@ def contradicts(reply: str, customer: str) -> bool:
 _RUNS_WATER = re.compile(r"\b([Cc])hạy nước\b(?! nóng)")
 
 
+_FOREIGN_SCRIPT = re.compile(r"\s*[぀-ヿ㐀-䶿一-鿿가-힯＀-￯]+\s*")
+"""Chinese, Japanese and Korean letters: Qwen slips into its first language (BUG 98, 12/11:
+"van止水不严" in the second appliance's answer). Vietnamese never needs them."""
+
+
+def without_foreign_script(text: str) -> str:
+    """The text with any Chinese, Japanese or Korean run taken out, spacing tidied."""
+    if not _FOREIGN_SCRIPT.search(text):
+        return text
+    text = _FOREIGN_SCRIPT.sub(" ", text)
+    return re.sub(r"\s+([,.!?])", r"\1", re.sub(r"[ \t]{2,}", " ", text)).strip()
+
+
 def tidy_reply(reply: str) -> str:
-    """The unaccented "chay nuoc" written back as "chạy nước": a leak is "chảy nước" (R54b, 12/11)."""
-    return _RUNS_WATER.sub(lambda m: m.group(1) + "hảy nước", reply)
+    """The unaccented "chay nuoc" written back as "chạy nước": a leak is "chảy nước" (R54b, 12/11).
+    Every reply of every appliance passes here, so no CJK letter reaches the customer (BUG 98)."""
+    return without_foreign_script(_RUNS_WATER.sub(lambda m: m.group(1) + "hảy nước", reply))
 
 
 PRICE_WORDS = ("bao nhieu tien", "gia bao nhieu", "bao nhieu", "gia ca", "bang gia", "chi phi", "het bao nhieu", "may tien",

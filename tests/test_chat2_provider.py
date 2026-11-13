@@ -368,6 +368,18 @@ def test_an_earlier_booking_of_the_appliance_is_told_by_its_status_once(client_w
     assert "Em thấy" not in again["messageVi"]
 
 
+def test_a_cleaning_request_is_not_told_an_old_fault_may_be_back(client_with):
+    """BUG 97 (12/11): "vệ sinh tủ lạnh" after a fridge repair still got "Nếu là lỗi cũ quay lại"."""
+    client, _ = client_with(
+        {"devices": ["air_conditioner"], "intent": "service"},
+        _turn(need="vệ sinh máy lạnh", fault_code="AC_DIRTY_FILTER", service_code="AC-01", reply="Dạ em đặt vệ sinh máy lạnh cho anh/chị ạ."),
+    )
+    jobs = [{"serviceVi": "Sửa điều hòa", "deviceVi": "Máy lạnh", "date": "2026-10-03", "status": "COMPLETED"}]
+    d = client.post("/api/v1/diagnosis/analyze", json={"description": "vệ sinh máy lạnh giúp tôi", "pastJobs": jobs}).json()
+    assert "lỗi cũ" not in d["messageVi"] and "Em thấy" not in d["messageVi"]
+    assert any('Khách từng sửa "Sửa điều hòa" ngày 03/10/2026' in n for n in d["notesVi"])
+
+
 def test_no_reminder_of_an_earlier_booking_beside_a_safety_step(client_with):
     client, _ = client_with(
         {"devices": ["power_outlet"], "intent": "repair"},
