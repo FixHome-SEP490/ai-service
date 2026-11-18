@@ -401,3 +401,33 @@ def test_rejected_faults_survive_a_restart():
     state = s.export()
     restored = Sessions().get(None, state, [])
     assert restored.rejected == ["WM_NO_SPIN"]
+
+
+# ------------------------------------------------- internal codes (fixhome.sbs 18/11)
+
+
+@pytest.mark.parametrize("reply", [
+    "Hiện tượng này thường do bo xử lý tín hiệu (TV_MAIN_BOARD) gặp vấn đề. Anh chị bấm 'Đặt thợ' để thợ kiểm tra nhé.",
+    "Dạ anh/chị đặt dịch vụ TV-02 nhé.",
+])
+def test_an_internal_code_in_the_model_reply_never_reaches_the_customer(client_with, reply):
+    client, _ = client_with(
+        _route("television"),
+        _turn(need="không vào được wifi", fault_code="TV_MAIN_BOARD", service_code="TV-02", reply=reply),
+    )
+    first = _send(client, "Smart tivi không vào được wifi, mở YouTube không được")
+    assert first["status"] == "ok"
+    assert first["suspectedFaults"][0]["faultCode"] == "TV_MAIN_BOARD"
+    text = first["messageVi"]
+    assert "TV_MAIN_BOARD" not in text and "TV-02" not in text
+    assert text.startswith("Dạ tivi của anh/chị khả năng cao bị")
+
+
+def test_a_reply_without_codes_is_kept(client_with):
+    reply = "Dạ tivi khả năng cao bị hỏng bo nguồn, anh/chị bấm Đặt thợ để thợ kiểm tra nhé."
+    client, _ = client_with(
+        _route("television"),
+        _turn(need="không lên nguồn", fault_code="TV_POWER_BOARD", service_code="TV-02", reply=reply),
+    )
+    first = _send(client, "tivi bấm nguồn không lên, đèn chờ không sáng")
+    assert reply in first["messageVi"]
