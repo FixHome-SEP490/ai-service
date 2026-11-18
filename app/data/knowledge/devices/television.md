@@ -13,7 +13,7 @@ fault_codes:
   - TV_NO_SOUND
   - TV_REMOTE_FAULT
 price_policy: Không ghi giá trong tài liệu này. Giá lấy từ bảng giá của hệ thống.
-last_reviewed: 2026-09-17
+last_reviewed: 2026-11-18
 needs_technician_review:
   - Tấm nền có thay rời được cho model đó không, và có còn hàng không
 ---
@@ -360,6 +360,71 @@ Có nên tắt tivi bằng remote hay rút điện. Tắt bằng remote là bìn
 Tivi treo tường có an toàn không. Nếu giá treo bắt đúng phần chịu lực thì có. Nếu tivi
 nghiêng hoặc giá lỏng thì nên xử lý sớm.
 
+## Tivi báo không có tín hiệu hoặc no signal
+
+Khi tivi hiện chữ không có tín hiệu, no signal hay chọn nguồn vào, phần hiển thị của
+tivi vẫn đang chạy tốt: đèn nền sáng, bo mạch chính đã khởi động và vẽ được chữ lên màn.
+Cái thiếu là hình từ thiết bị bên ngoài, thường là đầu thu truyền hình, hộp truyền hình
+mạng, đầu đĩa hay máy tính nối qua cổng HDMI hoặc AV.
+
+Thứ tự kiểm tra miễn phí cho khách: bấm nút nguồn vào (Source hoặc Input) trên remote để
+chọn đúng cổng đang cắm; xem đầu thu có đèn sáng không, vì đầu thu tắt hay treo là nguyên
+nhân phổ biến nhất; rút dây HDMI ra cắm lại chặt cả hai đầu; thử cổng HDMI khác của tivi.
+
+Nếu tivi mở ứng dụng có sẵn như YouTube vẫn lên hình bình thường thì tivi gần như không
+hỏng, lỗi nằm ở đầu thu, dây hoặc cổng. Chỉ khi mọi cổng đều không nhận dù thiết bị
+ngoài chạy tốt trên tivi khác thì mới nghĩ tới cổng hoặc bo mạch chính của tivi, nhánh
+đó cần thợ kiểm tra tại nhà.
+
+## Tivi thông minh không vào mạng, không mở được ứng dụng
+
+Tivi thông minh báo không có kết nối, YouTube hay Netflix quay mãi không vào, hoặc ứng
+dụng tự thoát, phần lớn là chuyện mạng và phần mềm chứ không phải hỏng phần cứng. Tivi
+vẫn lên hình, lên tiếng ở các nguồn khác là dấu hiệu rõ nhất.
+
+Việc khách tự làm được: kiểm tra điện thoại có vào mạng trên cùng wifi đó không; tắt
+modem và tivi, rút điện chờ một phút rồi bật lại; nhập lại mật khẩu wifi; nếu tivi đặt xa
+modem thì thử dời gần hoặc dùng dây mạng; cập nhật phần mềm tivi trong mục cài đặt.
+
+Tivi đời cũ có thể không còn được hãng cập nhật ứng dụng nên một số ứng dụng ngừng chạy
+dù máy không hỏng. Khi đó gắn thêm hộp truyền hình mạng hay thiết bị phát qua cổng HDMI
+là cách rẻ hơn sửa. Trợ lý không hứa thợ cài lại được ứng dụng đã bị hãng ngừng hỗ trợ.
+
+Nếu tivi không bật được wifi, không thấy mạng nào dù các máy khác đều thấy, mô-đun wifi
+bên trong có thể hỏng và cần thợ xác nhận.
+
+## Lắp đặt và treo tivi lên tường
+
+Khi khách cần treo tivi mới hay dời tivi sang tường khác, đây là việc lắp đặt chứ không
+phải sửa bệnh, nên trợ lý không cần chẩn đoán. Chỉ cần hỏi đủ để thợ chuẩn bị: kích thước
+màn hình, tường gạch hay vách thạch cao hay gỗ, đã có giá treo đi kèm chưa, và vị trí ổ
+điện, dây mạng, dây truyền hình có sẵn gần chỗ treo không.
+
+Tường thạch cao và vách gỗ không chịu được tivi lớn nếu chỉ bắt vào tấm vách; thợ phải
+tìm khung xương hoặc gia cố, nên khách nên nói trước loại tường. Tivi lớn treo cao cần
+hai người khiêng. Giá treo nghiêng hoặc xoay được nặng hơn giá cố định và cần bắt chắc
+hơn.
+
+Trước ngày hẹn, khách nên dọn chỗ dưới vị trí treo, chuẩn bị điều khiển và giữ lại hộp
+máy nếu còn trong hạn bảo hành của hãng. Nếu tivi đang treo mà bị nghiêng, giá lỏng hay
+có tiếng kêu ở chỗ bắt, đó là chuyện an toàn: khuyên khách không để trẻ em đứng dưới và
+đặt lịch sớm.
+
+## Tivi lúc lên lúc không, chập chờn theo thời tiết
+
+Tivi lúc bật được lúc không, hay tắt rồi khởi động lại vào buổi trưa nắng, hoặc hỏng
+ngay sau một trận giông, là những dấu hiệu phân biệt nhóm nguyên nhân. Chập chờn theo
+nhiệt độ thường do linh kiện trên bo nguồn đã yếu, chạy được khi mát và lỗi khi nóng.
+Hỏng ngay sau giông sét thường do xung điện vào qua đường điện hoặc dây cáp truyền hình.
+
+Khách nên ghi lại tivi lỗi vào giờ nào, có kèm tiếng tách hay mùi gì không, và đèn báo
+nguồn khi đó ra sao; mấy điều này giúp thợ đoán nhánh trước khi tháo máy. Sau giông, rút
+cả dây điện và dây cáp truyền hình rồi mới kiểm tra.
+
+Trợ lý không kết luận bo nào hỏng chỉ từ mô tả chập chờn, vì cùng triệu chứng đó có thể
+là ổ cắm lỏng hoặc điện chập chờn trong nhà. Hỏi thêm các thiết bị khác cắm cùng ổ có bị
+gì không trước khi gợi ý gọi thợ sửa tivi.
+
 ## Nền tri thức của tài liệu này
 
 Toàn bộ nội dung được viết lại bằng lời của dự án, không sao chép nguyên văn từ nguồn
@@ -386,6 +451,10 @@ Tỷ trọng giá tấm nền so với giá cả máy, và tốc độ rơi giá
 thị trường, cần cập nhật định kỳ.
 
 ## Chỗ cần thợ xác nhận
+
+Tivi thông minh đời nào còn được hãng cập nhật ứng dụng, và mô-đun wifi có thay rời được cho model đó không.
+
+Tường thạch cao hay vách gỗ của nhà khách chịu được tivi cỡ nào, thợ quyết định tại chỗ.
 
 Tấm nền có thay rời được cho model đó không, và có còn hàng không. Với nhiều model đời
 cũ thì không còn.
