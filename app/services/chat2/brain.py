@@ -1017,6 +1017,11 @@ SELF_ACTS = re.compile(r"\bem (sẽ |xin |đã |có thể )?(chuyển|đặt|c�
 ASKING = ("hỏi thêm", "cho em biết", "cho em hỏi", "kể thêm", "mô tả thêm", "mô tả cụ thể", "nói rõ hơn", "cụ thể hơn")
 
 
+# An internal fault or service code such as TV_MAIN_BOARD or TV-01 written into the reply
+# (fixhome.sbs 18/11, "bo xử lý tín hiệu (TV_MAIN_BOARD)"): customers never see codes.
+INTERNAL_CODE = re.compile(r"\b[A-Z]{2,}(?:_[A-Z0-9]+)+\b|\b[A-Z]{2,4}-\d{2}\b")
+
+
 def _concluding_sentence(menu: DeviceMenu, kind: str, fault, service: Optional[ServiceItem]) -> str:
     """Used when the model wrote a question but the rules concluded."""
     name = menu.name_vi.lower()
@@ -1068,7 +1073,8 @@ def _compose(
         return Verdict(decision="ask", fault_code=fault.code if fault else None,
                        service_code=service.code if service else None, reply_vi=reply,
                        question_vi=reply, options_vi=options, **common)
-    if rewrite or not reply or "?" in reply or any(m in reply.lower() for m in ASKING) or SELF_ACTS.search(reply):
+    if (rewrite or not reply or "?" in reply or any(m in reply.lower() for m in ASKING) or SELF_ACTS.search(reply)
+            or INTERNAL_CODE.search(reply)):
         reply = _concluding_sentence(menu, kind, fault, service)
         if turned_down:
             reply = reply.replace("Dạ ", "Dạ vậy ", 1)
